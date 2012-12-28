@@ -1,0 +1,10 @@
+爱存不存	1	ai cun bu cun
+控制台应用程序	1	kong zhi tai ying yong cheng xu
+原封不动	1	yuan feng bu dong
+做做词库	1	zuo zuo ci ku
+深蓝居	1	shen lan ju
+做做培训	1	zuo zuo pei xun
+做做事情	1	zuo zuo shi qing
+电子科技大学	1	dian zi ke ji da xue
+做做数据库	1	zuo zuo shu ju ku
+栋力无限	1	dong li wu xian

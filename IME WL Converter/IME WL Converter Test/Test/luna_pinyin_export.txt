@@ -1,0 +1,22 @@
+# Rime user dictionary export
+# db_name: luna_pinyin
+# user_id: 0c86b479-b278-4796-816e-a8601c2c4edb
+# commits: 73
+
+吖	a	1
+啊	a	1
+阿	a	1
+啊啊	a a	1
+啊啊啊啊	a a a a	1
+啊八卦	a ba gua	1
+啊霸王	a ba wang	1
+啊杯具	a bei ju	1
+阿扁	a bian	1
+啊饼	a bing	1
+啊不充实	a bu chong shi	1
+啊不好办	a bu hao ban	1
+啊不靠谱	a bu kao pu	1
+啊不容易	a bu rong yi	1
+啊不应该	a bu ying gai	1
+啊才	a cai	1
+做做题	zuo zuo ti	1
