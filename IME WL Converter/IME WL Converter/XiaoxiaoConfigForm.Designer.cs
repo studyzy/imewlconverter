@@ -37,12 +37,9 @@
             // 
             this.cbxCodeType.FormattingEnabled = true;
             this.cbxCodeType.Items.AddRange(new object[] {
-            "永码",
             "五笔",
             "郑码",
             "二笔",
-            "英语",
-            "内码",
             "拼音",
             "其他"});
             this.cbxCodeType.Location = new System.Drawing.Point(190, 22);

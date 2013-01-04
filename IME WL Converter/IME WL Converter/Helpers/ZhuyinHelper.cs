@@ -57,6 +57,23 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
 
         }
+        private static int GetYindiaoPinyin(char yindiao)
+        {
+            switch (yindiao)
+            {
+                case 'ˊ':
+                    return 2;
+                case 'ˇ':
+                    return 3;
+                case 'ˋ':
+                    return 4;
+                case '·':
+                    return 5;
+                default:
+                    return 1;
+            }
+
+        }
 
         private static IDictionary<string, string> ZhuyinDic
         {
@@ -90,5 +107,57 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         private static IDictionary<string, string> zhuyinDic = null;
+        /// <summary>
+        /// 根据注音获得不包含音调的拼音
+        /// </summary>
+        /// <param name="zhuyin"></param>
+        /// <returns></returns>
+        public static string GetPinyin(string zhuyin)
+        {
+            var lastChar = zhuyin[zhuyin.Length - 1];
+            var yindiao = GetYindiaoPinyin(lastChar);
+            if (yindiao != 1)
+            {
+                zhuyin = zhuyin.Substring(0,zhuyin.Length - 1);
+            }
+            if (PinyinDic.ContainsKey(zhuyin))
+            {
+                return PinyinDic[zhuyin];
+            }
+            Debug.WriteLine("can not fine the pinyin of zhuyin:"+zhuyin);
+            return null;
+        }
+        private static IDictionary<string, string> PinyinDic
+        {
+            get
+            {
+                if (pinyinDic == null)
+                {
+                    pinyinDic = new Dictionary<string, string>();
+                    foreach (
+                        var line in
+                            Dictionaries.Zhuyin.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        var arr = line.Split('\t');
+
+                        var zhuyinCode = arr[0];
+                        var pinyin = arr[1];
+
+                        if (!pinyinDic.ContainsKey(zhuyinCode))
+                        {
+                            pinyinDic.Add(zhuyinCode, pinyin);
+                        }
+                        else
+                        {
+                            Debug.WriteLine(pinyin + " mapping more than 1 pinyin");
+                        }
+                    }
+
+                }
+                return pinyinDic;
+            }
+        }
+
+        private static IDictionary<string, string> pinyinDic = null;
     }
 }

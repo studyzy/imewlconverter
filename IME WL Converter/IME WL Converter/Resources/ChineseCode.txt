@@ -6078,7 +6078,7 @@ A0FB	狖	qtpw		you4
 A0FC	狘	qtat	qtan	xue4
 A0FD	狚	qtjg		dan4
 A0FE	狛	qtrg		bo2
-A996	〇	llll		
+A996	〇	llll		ling2
 AA40	狜	qtdg		ku3
 AA41	狝	qtqi		xian3
 AA42	狟	qtgg		huan2,xuan1

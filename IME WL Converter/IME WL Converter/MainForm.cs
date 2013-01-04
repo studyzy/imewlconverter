@@ -563,6 +563,15 @@ namespace Studyzy.IMEWLConverter
             timer1.Enabled = false;
             toolStripProgressBar1.Value = toolStripProgressBar1.Maximum;
             ShowStatusMessage("转换完成", false);
+            if (e.Error != null)
+            {
+                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message);
+                if (e.Error.InnerException != null)
+                {
+                    richTextBox1.Text = (e.Error.InnerException.ToString());
+                }
+                return;
+            }
             if (streamExport && import.IsText)
             {
                 ShowStatusMessage("转换完成,词库保存到文件：" + exportPath, true);

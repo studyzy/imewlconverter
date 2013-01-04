@@ -92,7 +92,6 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -131,6 +130,7 @@
     <Compile Include="IME\CangjiePlatform.cs" />
     <Compile Include="IME\YahooKeyKey.cs" />
     <Compile Include="IME\JidianZhengma.cs" />
+    <Compile Include="Language\OfficeComponent.cs" />
     <Compile Include="RimeConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,7 +207,6 @@
     <Compile Include="IME\ZiGuangPinyin.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="Language\IChineseConverter.cs" />
-    <Compile Include="Language\MsVbComponent.cs" />
     <Compile Include="Language\SystemKernel.cs" />
     <Compile Include="MainBody.cs" />
     <Compile Include="MainForm.cs">
@@ -364,6 +363,7 @@
     <Content Include="Readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
     <None Include="Resources\Zhuyin.txt" />
     <None Include="Resources\Zhengma.txt" />
     <None Include="Resources\WordPinyin.txt" />

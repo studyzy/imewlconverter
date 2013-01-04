@@ -24,6 +24,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
         [TestCase("曾毅", "ㄗㄥ,ㄧˋ")]
         [TestCase("北京吃饭", "ㄅㄟˇ,ㄐㄧㄥ,ㄔ,ㄈㄢˋ")]
         [TestCase("煤矿", "ㄇㄟˊ,ㄎㄨㄤˋ")]
+        [TestCase("故乡", "ㄍㄨˋ,ㄒㄧㄤ")]
         public void TestGetLongWordsPinyin(string str,string py)
         {
             var result = generater.GetCodeOfString(str, " ");

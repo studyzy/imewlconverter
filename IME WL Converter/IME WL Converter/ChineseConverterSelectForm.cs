@@ -46,7 +46,7 @@ namespace Studyzy.IMEWLConverter
             else if (rbtnOffice.Checked)
             {
                 selectedConverterIndex = 1;
-                //SelectedConverter = new OfficeComponent();
+                SelectedConverter = new OfficeComponent();
             }
             if (rbtnNotTrans.Checked)
             {

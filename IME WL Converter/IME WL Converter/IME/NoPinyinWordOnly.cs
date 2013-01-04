@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -45,9 +46,11 @@ namespace Studyzy.IMEWLConverter.IME
         public virtual WordLibraryList ImportText(string str)
         {
             pinyinFactory = new PinyinGenerater();
-
+           
             var wlList = new WordLibraryList();
             string[] words = str.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            CountWord = words.Length;
+            CurrentStatus = 0;
             for (int i = 0; i < words.Length; i++)
             {
                 try
@@ -58,9 +61,11 @@ namespace Studyzy.IMEWLConverter.IME
                         wlList.AddWordLibraryList(ImportLine(word));
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
                 }
+                CurrentStatus++;
             }
             return wlList;
         }
@@ -93,7 +98,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public virtual Encoding Encoding
         {
-            get { return Encoding.Default; }
+            get { return Encoding.UTF8; }
         }
 
         #endregion
