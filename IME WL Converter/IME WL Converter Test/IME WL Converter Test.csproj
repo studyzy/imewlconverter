@@ -43,6 +43,7 @@
     <Compile Include="GeneraterTest\ZhuyinTest.cs" />
     <Compile Include="GeneraterTest\ErbiTest.cs" />
     <Compile Include="GeneraterTest\PinyinTest.cs" />
+    <Compile Include="HelperTest\FileOperationTest.cs" />
     <Compile Include="Ld2ParseTest.cs" />
     <Compile Include="RimeTest.cs" />
     <Compile Include="SougouPinyinTest.cs" />
@@ -69,6 +70,9 @@
     <Content Include="erbi.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Test\gbzy.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\nunit.core.dll" />
     <Content Include="Lib\nunit.framework.dll" />
     <Content Include="Lib\nunit.framework.xml" />
@@ -83,6 +87,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\纯汉字.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\u8nobomzy.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Test\g.ld2">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -17,10 +18,10 @@ namespace Studyzy.IMEWLConverter
         private void InitParsePattern()
         {
             SelectedParsePattern = new ParsePattern();
-            SelectedParsePattern.ContainCipin = true;
-            SelectedParsePattern.ContainPinyin = true;
-            SelectedParsePattern.PinyinSplitString = ",";
-            SelectedParsePattern.PinyinSplitType = BuildType.None;
+            SelectedParsePattern.ContainRank = true;
+            SelectedParsePattern.ContainCode = true;
+            SelectedParsePattern.CodeSplitString = ",";
+            SelectedParsePattern.CodeSplitType = BuildType.None;
             SelectedParsePattern.Sort = new List<int> {1, 2, 3};
             SelectedParsePattern.SplitString = " ";
 
@@ -34,14 +35,14 @@ namespace Studyzy.IMEWLConverter
 
         private void cbxIncludePinyin_CheckedChanged(object sender, EventArgs e)
         {
-            SelectedParsePattern.ContainPinyin = cbxIncludePinyin.Checked;
+            SelectedParsePattern.ContainCode = cbxIncludePinyin.Checked;
             numOrderPinyin.Visible = cbxIncludePinyin.Checked;
             ShowSample();
         }
 
         private void cbxIncludeCipin_CheckedChanged(object sender, EventArgs e)
         {
-            SelectedParsePattern.ContainCipin = cbxIncludeCipin.Checked;
+            SelectedParsePattern.ContainRank = cbxIncludeCipin.Checked;
             numOrderCipin.Visible = cbxIncludeCipin.Checked;
             ShowSample();
         }
@@ -70,7 +71,7 @@ namespace Studyzy.IMEWLConverter
             {
                 str = cbbxPinyinSplitString.Text;
             }
-            SelectedParsePattern.PinyinSplitString = str;
+            SelectedParsePattern.CodeSplitString = str;
             ShowSample();
         }
 
@@ -101,19 +102,19 @@ namespace Studyzy.IMEWLConverter
         {
             if (cbxPinyinSplitBefore.Checked && cbxPinyinSplitBehind.Checked)
             {
-                SelectedParsePattern.PinyinSplitType = BuildType.FullContain;
+                SelectedParsePattern.CodeSplitType = BuildType.FullContain;
             }
             else if (cbxPinyinSplitBefore.Checked)
             {
-                SelectedParsePattern.PinyinSplitType = BuildType.LeftContain;
+                SelectedParsePattern.CodeSplitType = BuildType.LeftContain;
             }
             else if (cbxPinyinSplitBehind.Checked)
             {
-                SelectedParsePattern.PinyinSplitType = BuildType.RightContain;
+                SelectedParsePattern.CodeSplitType = BuildType.RightContain;
             }
             else
             {
-                SelectedParsePattern.PinyinSplitType = BuildType.None;
+                SelectedParsePattern.CodeSplitType = BuildType.None;
             }
             ShowSample();
         }
@@ -134,6 +135,7 @@ namespace Studyzy.IMEWLConverter
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+           
             DialogResult = DialogResult.OK;
         }
 
@@ -141,5 +143,28 @@ namespace Studyzy.IMEWLConverter
         {
             DialogResult = DialogResult.Cancel;
         }
+
+        private void cbxCodeFormat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxCodeFormat.Text == "五笔格式")
+            {
+                rtbCodeFormat.Text = @"code_e2=p11+p12+p21+p22
+code_e3=p11+p21+p31+p32
+code_a4=p11+p21+p31+n11";
+            }
+            if (cbxCodeFormat.Text == "拼音格式")
+            {
+                SelectedParsePattern.IsPinyinFormat = true;
+
+            }
+            else
+            {
+
+                SelectedParsePattern.IsPinyinFormat = false;
+                SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
+            }
+            ShowSample();
+        }
+      
     }
 }

@@ -16,33 +16,90 @@ namespace Studyzy.IMEWLConverter
             sample.Count = 1234;
             sample.Word = "深蓝词库转换";
             sample.PinYin = new[] {"shen", "lan", "ci", "ku", "zhuan", "huan"};
-            Factory = new PinyinGenerater();
+            IsPinyinFormat = true;
+        }
+        //private IWordCodeGenerater pyFactory = new PinyinGenerater();
+        private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
+        private bool isPinyinFormat = true;
+
+        /// <summary>
+        /// 是否是拼音模式的一个字一个音
+        /// </summary>
+        public bool IsPinyinFormat
+        {
+            get { return isPinyinFormat; }
+            set
+            {
+                isPinyinFormat = value;
+            }
         }
 
-        public bool ContainPinyin { get; set; }
-        public bool ContainCipin { get; set; }
-        public string PinyinSplitString { get; set; }
+        /// <summary>
+        /// 对于多个字的编码的设定
+        /// </summary>
+        public string MutiWordCodeFormat { get; set; }
+        public bool ContainCode { get; set; }
+        public bool ContainRank { get; set; }
+        public string CodeSplitString { get; set; }
         public string SplitString { get; set; }
-        public BuildType PinyinSplitType { get; set; }
+        public BuildType CodeSplitType { get; set; }
         public List<int> Sort { get; set; }
-        public IWordCodeGenerater Factory { get; set; }
+        /// <summary>
+        /// 每个字对应的编码
+        /// </summary>
+        public IDictionary<char, string> MappingTable { get; set; } 
 
         public string BuildWLStringSample()
         {
-            return BuildWLString(sample);
+            var samFactory = new SelfDefiningCodeGenerater();
+           
+            samFactory.MappingDictionary = new Dictionary<char, string>()
+                {
+                    {'深', "shen"},
+                    {'蓝', "lan"},
+                    {'词', "ci"},
+                    {'库', "ku"},
+                    {'转', "zhuan"},
+                    {'换', "huan"}
+                };
+            var temp = selfFactory;
+            selfFactory = samFactory;
+            string word = "";
+            string result = "";
+            List<string> codes = new List<string>();
+            foreach (var c in sample.Word)
+            {
+                word += c;
+                codes.Add(sample.PinYin[word.Length - 1]);
+                var s = new WordLibrary();
+                s.Count = 1234;
+                s.Word = word;
+                s.PinYin = codes.ToArray();
+                result += BuildWLString(s) + "\r\n";
+            }
+            selfFactory = temp;
+            return result;
         }
 
         //没有什么思路，接下来的代码写得乱七八糟的，但是好像还是对的。zengyi20101114
+        //如果wl中提供了拼音数组，而且自定义格式也是拼音格式，那么就只转换格式即可。
         public string BuildWLString(WordLibrary wl)
         {
             string py = "", cp = "";
             var sb = new StringBuilder();
-            if (ContainPinyin)
+            if (ContainCode)
             {
-                CodingString(wl, Factory);
-                py = wl.GetPinYinString(PinyinSplitString, PinyinSplitType);
+                if (IsPinyinFormat)
+                {
+                    py = wl.GetPinYinString(CodeSplitString, CodeSplitType);
+                }
+                else
+                {
+                    selfFactory.MutiWordCodeFormat = MutiWordCodeFormat;
+                    py = selfFactory.GetCodeOfString(wl.Word)[0];
+                }
             }
-            if (ContainCipin)
+            if (ContainRank)
             {
                 cp = wl.Count.ToString();
             }
@@ -70,7 +127,7 @@ namespace Studyzy.IMEWLConverter
             var newSort = new List<int>(Sort);
             newSort.Sort();
             int index1 = Sort.FindIndex(i => i == newSort[0]); //最小的一个
-            if (index1 == 0 && ContainPinyin) //第一个是拼音
+            if (index1 == 0 && ContainCode) //第一个是拼音
             {
                 wl.PinYinString = strlist[0];
             }
@@ -78,14 +135,14 @@ namespace Studyzy.IMEWLConverter
             {
                 wl.Word = strlist[0];
             }
-            if (index1 == 2 && ContainCipin)
+            if (index1 == 2 && ContainRank)
             {
                 wl.Count = Convert.ToInt32(strlist[0]);
             }
             if (strlist.Length > 1)
             {
                 int index2 = Sort.FindIndex(i => i == newSort[1]); //中间的一个
-                if (index2 == 0 && ContainPinyin) //第一个是拼音
+                if (index2 == 0 && ContainCode) //第一个是拼音
                 {
                     wl.PinYinString = strlist[1];
                 }
@@ -93,7 +150,7 @@ namespace Studyzy.IMEWLConverter
                 {
                     wl.Word = strlist[1];
                 }
-                if (index2 == 2 && ContainCipin)
+                if (index2 == 2 && ContainRank)
                 {
                     wl.Count = Convert.ToInt32(strlist[1]);
                 }
@@ -101,7 +158,7 @@ namespace Studyzy.IMEWLConverter
             if (strlist.Length > 2)
             {
                 int index2 = Sort.FindIndex(i => i == newSort[2]); //最大的一个
-                if (index2 == 0 && ContainPinyin) //第一个是拼音
+                if (index2 == 0 && ContainCode) //第一个是拼音
                 {
                     wl.PinYinString = strlist[2];
                 }
@@ -109,25 +166,25 @@ namespace Studyzy.IMEWLConverter
                 {
                     wl.Word = strlist[2];
                 }
-                if (index2 == 2 && ContainCipin)
+                if (index2 == 2 && ContainRank)
                 {
                     wl.Count = Convert.ToInt32(strlist[2]);
                 }
             }
 
-            wl.PinYin = wl.PinYinString.Split(new[] {PinyinSplitString}, StringSplitOptions.RemoveEmptyEntries);
+            wl.PinYin = wl.PinYinString.Split(new[] {CodeSplitString}, StringSplitOptions.RemoveEmptyEntries);
             return wl;
         }
 
-        public void CodingString(WordLibrary wl, IWordCodeGenerater factory)
-        {
-            var codes = new List<string>();
-            foreach (char c in wl.Word)
-            {
-                string code = factory.GetDefaultCodeOfChar(c);
-                codes.Add(code);
-            }
-            wl.PinYin = codes.ToArray();
-        }
+        //public void CodingString(WordLibrary wl, IWordCodeGenerater factory)
+        //{
+        //    var codes = new List<string>();
+        //    foreach (char c in wl.Word)
+        //    {
+        //        string code = factory.GetDefaultCodeOfChar(c);
+        //        codes.Add(code);
+        //    }
+        //    wl.PinYin = codes.ToArray();
+        //}
     }
 }

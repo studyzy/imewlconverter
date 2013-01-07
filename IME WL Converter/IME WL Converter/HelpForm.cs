@@ -27,7 +27,8 @@ namespace Studyzy.IMEWLConverter
             helpString += "1.8版增加了自定义编码的输出，增强了命令行功能。实现了百度手机分类词库（bcd格式）、小小输入法和微软拼音输入法的词库功能，但是由于输入法的原因，MS拼音可能会导入失败。\r\n";
             helpString += "1.9版增加了微软英库拼音输入法、FIT输入法、搜狗Bin格式备份词库、中州韵（小狼毫、鼠须管）、各种常用五笔输入法的支持，增加词库文件分割功能。\r\n";
             helpString += "2.0版增加了简繁体转换功能、支持多种五笔输入法词库、百度拼音PC版、灵格斯ld2格式等。\r\n";
-            helpString +=
+            helpString += "关于各种输入法的词库转换操作方法可以参见项目网站（http://code.google.com/p/imewlconverter/）\r\n";
+                  helpString +=
                 "如果您觉得深蓝词库转换能够给您的生活带来了极大的方便，可以通过Paypal或者支付宝捐赠该软件(http://imewlconverter.googlecode.com/svn/wiki/donate.html)。\r\n";
             helpString += "有任何问题和建议请联系我：studyzy@163.com\r\n";
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
@@ -21,6 +22,7 @@ namespace Studyzy.IMEWLConverter
         private string codingFile;
         private string exportPath = "";
         private string format;
+        private Encoding wordEncoding=Encoding.UTF8, xmlEncoding;
         private CommandType type = CommandType.Null;
         private IWordLibraryExport wordLibraryExport;
         private IWordLibraryImport wordLibraryImport;
@@ -28,12 +30,12 @@ namespace Studyzy.IMEWLConverter
         public ConsoleRun(string[] args)
         {
             Args = args;
-            pattern.ContainPinyin = true;
+            pattern.ContainCode = true;
             pattern.SplitString = " ";
-            pattern.PinyinSplitString = ",";
-            pattern.PinyinSplitType = BuildType.None;
+            pattern.CodeSplitString = ",";
+            pattern.CodeSplitType = BuildType.None;
             pattern.Sort = new List<int> {2, 1, 3};
-            pattern.ContainCipin = false;
+            pattern.ContainRank = false;
             LoadImeList();
         }
 
@@ -69,6 +71,16 @@ namespace Studyzy.IMEWLConverter
             if (wordLibraryExport is SelfDefining)
             {
                 ((SelfDefining) wordLibraryExport).UserDefiningPattern = pattern;
+            }
+            if (wordLibraryImport is LingoesLd2)
+            {
+                var ld2Import = ((LingoesLd2) wordLibraryImport);
+                ld2Import.WordEncoding = wordEncoding;
+                if (xmlEncoding != null)
+                {
+                    ld2Import.XmlEncoding = xmlEncoding;
+                    ld2Import.IncludeMeaning = true;
+                }
             }
             if (importPaths.Count > 0 && exportPath != "")
             {
@@ -118,9 +130,22 @@ namespace Studyzy.IMEWLConverter
             {
                 codingFile = command.Substring(3);
                 UserCodingHelper.FilePath = codingFile;
-                pattern.Factory = new SelfDefiningCodeGenerater();
+                pattern.IsPinyinFormat = false;
                 beginImportFile = false;
                 return CommandType.Coding;
+            }
+            if (command.StartsWith("-ld2:")) //ld2 encoding
+            {
+                var ecodes = command.Substring(5);
+                var arr = ecodes.Split(',');
+                
+                wordEncoding = Encoding.GetEncoding(arr[0]);
+                if (arr.Length > 1)
+                {
+                    xmlEncoding = Encoding.GetEncoding(arr[1]);
+                }
+              
+                return CommandType.Encoding;
             }
             if (command.StartsWith("-f:")) //format
             {
@@ -133,16 +158,16 @@ namespace Studyzy.IMEWLConverter
                     sort.Add(Convert.ToInt32(c));
                 }
                 pattern.Sort = sort;
-                pattern.PinyinSplitString = format[3].ToString();
+                pattern.CodeSplitString = format[3].ToString();
                 pattern.SplitString = format[4].ToString();
                 string t = format[5].ToString().ToLower();
                 beginImportFile = false;
-                if (t == "l") pattern.PinyinSplitType = BuildType.LeftContain;
-                if (t == "r") pattern.PinyinSplitType = BuildType.RightContain;
-                if (t == "b") pattern.PinyinSplitType = BuildType.FullContain;
-                if (t == "n") pattern.PinyinSplitType = BuildType.None;
-                pattern.ContainPinyin = (format[6].ToString().ToLower() == "y");
-                pattern.ContainCipin = (format[8].ToString().ToLower() == "y");
+                if (t == "l") pattern.CodeSplitType = BuildType.LeftContain;
+                if (t == "r") pattern.CodeSplitType = BuildType.RightContain;
+                if (t == "b") pattern.CodeSplitType = BuildType.FullContain;
+                if (t == "n") pattern.CodeSplitType = BuildType.None;
+                pattern.ContainCode = (format[6].ToString().ToLower() == "y");
+                pattern.ContainRank = (format[8].ToString().ToLower() == "y");
                 return CommandType.Format;
             }
            
@@ -231,7 +256,7 @@ namespace Studyzy.IMEWLConverter
             Console.WriteLine("");
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
             Console.WriteLine("例如要将C:\\test.scel和C:\\a.scel的搜狗细胞词库转换为D:\\gg.txt的谷歌拼音词库，命令为：");
-            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Blue);
+            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Yellow);
             Console.WriteLine("深蓝词库转换.exe -i:" + ConstantString.SOUGOU_XIBAO_SCEL_C + " C:\\test.scel C:\\a.scel -o:" +
                               ConstantString.GOOGLE_PINYIN_C + " D:\\gg.txt");
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
@@ -243,7 +268,7 @@ namespace Studyzy.IMEWLConverter
             Console.WriteLine("b 这里是设置拼音分隔符的位置，有lrbn四个选项，l表示左包含，r表示右包含，b表示两边都包含，n表示两边都不包含");
             Console.WriteLine("yyn 这里是设置拼音汉字词频这3个是否显示，y表示显示，b表示不显示，这里yyn表示显示拼音和汉字，不显示词频");
             Console.WriteLine("例如要将一个qpyd词库转换为自定义格式的文本词库，拼音之间逗号分割，拼音和词之间空格分割，不显示词频，同时使用自定义的编码文件code.txt命令如下：");
-            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Blue);
+            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Yellow);
             Console.WriteLine("深蓝词库转换.exe -i:qpyd D:\\a.qpyd -o:self D:\\zy.txt \"-f:213, nyyn\" -c:D:\\code.txt");
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
         }
@@ -258,6 +283,7 @@ namespace Studyzy.IMEWLConverter
             Null,
             Coding,
             Format,
+            Encoding,
             Other
         }
 

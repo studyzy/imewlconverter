@@ -69,7 +69,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        private readonly IWordCodeGenerater wubiFactory = new PinyinGenerater();
+        private readonly IWordCodeGenerater wubiFactory = new Wubi86Generater();
 
         public virtual string ExportLine(WordLibrary wl)
         {

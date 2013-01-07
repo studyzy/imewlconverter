@@ -46,6 +46,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.cbxPinyinSplitBefore = new System.Windows.Forms.CheckBox();
             this.cbxPinyinSplitBehind = new System.Windows.Forms.CheckBox();
+            this.rtbCodeFormat = new System.Windows.Forms.RichTextBox();
+            this.cbxCodeFormat = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numOrderPinyin)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numOrderCipin)).BeginInit();
@@ -61,7 +63,7 @@
             this.cbxIncludePinyin.Name = "cbxIncludePinyin";
             this.cbxIncludePinyin.Size = new System.Drawing.Size(72, 16);
             this.cbxIncludePinyin.TabIndex = 0;
-            this.cbxIncludePinyin.Text = "包含拼音";
+            this.cbxIncludePinyin.Text = "包含编码";
             this.cbxIncludePinyin.UseVisualStyleBackColor = true;
             this.cbxIncludePinyin.CheckedChanged += new System.EventHandler(this.cbxIncludePinyin_CheckedChanged);
             // 
@@ -72,7 +74,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(131, 12);
             this.label1.TabIndex = 1;
-            this.label1.Text = "每个拼音之间的分隔符:";
+            this.label1.Text = "每个编码之间的分隔符:";
             // 
             // cbbxPinyinSplitString
             // 
@@ -84,7 +86,7 @@
             ",",
             "Tab",
             "无"});
-            this.cbbxPinyinSplitString.Location = new System.Drawing.Point(173, 40);
+            this.cbbxPinyinSplitString.Location = new System.Drawing.Point(196, 40);
             this.cbbxPinyinSplitString.Name = "cbbxPinyinSplitString";
             this.cbbxPinyinSplitString.Size = new System.Drawing.Size(86, 20);
             this.cbbxPinyinSplitString.TabIndex = 2;
@@ -96,7 +98,7 @@
             this.cbxIncludeCipin.AutoSize = true;
             this.cbxIncludeCipin.Checked = true;
             this.cbxIncludeCipin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxIncludeCipin.Location = new System.Drawing.Point(173, 14);
+            this.cbxIncludeCipin.Location = new System.Drawing.Point(196, 14);
             this.cbxIncludeCipin.Name = "cbxIncludeCipin";
             this.cbxIncludeCipin.Size = new System.Drawing.Size(72, 16);
             this.cbxIncludeCipin.TabIndex = 3;
@@ -111,7 +113,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 12);
             this.label2.TabIndex = 4;
-            this.label2.Text = "拼音:";
+            this.label2.Text = "编码:";
             // 
             // numOrderPinyin
             // 
@@ -194,7 +196,7 @@
             "|",
             ",",
             "Tab"});
-            this.cbbxSplitString.Location = new System.Drawing.Point(173, 66);
+            this.cbbxSplitString.Location = new System.Drawing.Point(196, 66);
             this.cbbxSplitString.Name = "cbbxSplitString";
             this.cbbxSplitString.Size = new System.Drawing.Size(86, 20);
             this.cbbxSplitString.TabIndex = 8;
@@ -208,20 +210,21 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(155, 12);
             this.label5.TabIndex = 7;
-            this.label5.Text = "拼音汉字词频之间的分隔符:";
+            this.label5.Text = "编码汉字词频之间的分隔符:";
             // 
             // txbSample
             // 
-            this.txbSample.Location = new System.Drawing.Point(14, 204);
+            this.txbSample.Location = new System.Drawing.Point(16, 234);
+            this.txbSample.Multiline = true;
             this.txbSample.Name = "txbSample";
             this.txbSample.ReadOnly = true;
-            this.txbSample.Size = new System.Drawing.Size(266, 21);
+            this.txbSample.Size = new System.Drawing.Size(286, 74);
             this.txbSample.TabIndex = 9;
             this.txbSample.Text = "这是例子";
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(114, 238);
+            this.btnOK.Location = new System.Drawing.Point(114, 314);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 10;
@@ -231,7 +234,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(205, 238);
+            this.btnCancel.Location = new System.Drawing.Point(205, 314);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 10;
@@ -242,31 +245,55 @@
             // cbxPinyinSplitBefore
             // 
             this.cbxPinyinSplitBefore.AutoSize = true;
-            this.cbxPinyinSplitBefore.Location = new System.Drawing.Point(167, 112);
+            this.cbxPinyinSplitBefore.Location = new System.Drawing.Point(190, 112);
             this.cbxPinyinSplitBefore.Name = "cbxPinyinSplitBefore";
             this.cbxPinyinSplitBefore.Size = new System.Drawing.Size(108, 16);
             this.cbxPinyinSplitBefore.TabIndex = 11;
-            this.cbxPinyinSplitBefore.Text = "拼音前带分隔符";
+            this.cbxPinyinSplitBefore.Text = "编码前带分隔符";
             this.cbxPinyinSplitBefore.UseVisualStyleBackColor = true;
             this.cbxPinyinSplitBefore.CheckedChanged += new System.EventHandler(this.cbxPinyinSplitBefore_CheckedChanged);
             // 
             // cbxPinyinSplitBehind
             // 
             this.cbxPinyinSplitBehind.AutoSize = true;
-            this.cbxPinyinSplitBehind.Location = new System.Drawing.Point(167, 140);
+            this.cbxPinyinSplitBehind.Location = new System.Drawing.Point(190, 140);
             this.cbxPinyinSplitBehind.Name = "cbxPinyinSplitBehind";
             this.cbxPinyinSplitBehind.Size = new System.Drawing.Size(108, 16);
             this.cbxPinyinSplitBehind.TabIndex = 11;
-            this.cbxPinyinSplitBehind.Text = "拼音后带分隔符";
+            this.cbxPinyinSplitBehind.Text = "编码后带分隔符";
             this.cbxPinyinSplitBehind.UseVisualStyleBackColor = true;
             this.cbxPinyinSplitBehind.CheckedChanged += new System.EventHandler(this.cbxPinyinSplitBefore_CheckedChanged);
+            // 
+            // rtbCodeFormat
+            // 
+            this.rtbCodeFormat.Location = new System.Drawing.Point(149, 168);
+            this.rtbCodeFormat.Name = "rtbCodeFormat";
+            this.rtbCodeFormat.Size = new System.Drawing.Size(153, 60);
+            this.rtbCodeFormat.TabIndex = 12;
+            this.rtbCodeFormat.Text = "code_e2=p11+p12+p21+p22\ncode_e3=p11+p21+p31+p32\ncode_a4=p11+p21+p31+n11";
+            // 
+            // cbxCodeFormat
+            // 
+            this.cbxCodeFormat.FormattingEnabled = true;
+            this.cbxCodeFormat.Items.AddRange(new object[] {
+            "拼音格式",
+            "五笔格式",
+            "自定义格式"});
+            this.cbxCodeFormat.Location = new System.Drawing.Point(14, 201);
+            this.cbxCodeFormat.Name = "cbxCodeFormat";
+            this.cbxCodeFormat.Size = new System.Drawing.Size(118, 20);
+            this.cbxCodeFormat.TabIndex = 13;
+            this.cbxCodeFormat.Text = "拼音格式";
+            this.cbxCodeFormat.SelectedIndexChanged += new System.EventHandler(this.cbxCodeFormat_SelectedIndexChanged);
             // 
             // HelpBuildParsePatternForm
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Dialog;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.ClientSize = new System.Drawing.Size(316, 345);
+            this.Controls.Add(this.cbxCodeFormat);
+            this.Controls.Add(this.rtbCodeFormat);
             this.Controls.Add(this.cbxPinyinSplitBehind);
             this.Controls.Add(this.cbxPinyinSplitBefore);
             this.Controls.Add(this.btnCancel);
@@ -318,5 +345,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox cbxPinyinSplitBefore;
         private System.Windows.Forms.CheckBox cbxPinyinSplitBehind;
+        private System.Windows.Forms.RichTextBox rtbCodeFormat;
+        private System.Windows.Forms.ComboBox cbxCodeFormat;
     }
 }

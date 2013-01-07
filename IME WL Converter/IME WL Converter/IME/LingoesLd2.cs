@@ -14,34 +14,53 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.LINGOES_LD2, ConstantString.LINGOES_LD2_C, 200)]
     public class LingoesLd2 : BaseImport, IWordLibraryImport
     {
-        private readonly Encoding[] AVAIL_ENCODINGS = new[]
-            {
-                Encoding.UTF8,
-                Encoding.Unicode,
-                Encoding.BigEndianUnicode,
-                Encoding.GetEncoding("euc-jp")
-            };
+        public LingoesLd2()
+        {
+            WordEncoding = Encoding.UTF8;
+            XmlEncoding = Encoding.UTF8;
+            IncludeMeaning = false;
+        }
+
+        //private readonly Encoding[] AVAIL_ENCODINGS = new[]
+        //    {
+        //        Encoding.UTF8,
+        //        Encoding.Unicode,
+        //        Encoding.BigEndianUnicode,
+        //        Encoding.GetEncoding("euc-jp")
+        //    };
 
         private readonly Regex regex = new Regex("[\u4E00-\u9FA5]+");
-
+        /// <summary>
+        /// 词汇的编码
+        /// </summary>
+        public Encoding WordEncoding { get; set; }
+        /// <summary>
+        /// 解释的编码
+        /// </summary>
+        public Encoding XmlEncoding { get; set; }
+        /// <summary>
+        /// 在导出的Word内容中是否包含注释，默认不包含
+        /// </summary>
+        public bool IncludeMeaning { get; set; }
         #region IWordLibraryImport Members
 
       
 
         public WordLibraryList Import(string path)
         {
-            IWordCodeGenerater pinyinFactory = new PinyinGenerater();
+            //IWordCodeGenerater pinyinFactory = new PinyinGenerater();
             IList<string> words = Parse(path);
             var wll = new WordLibraryList();
             foreach (string word in words)
             {
                 var wl = new WordLibrary();
-                if (IsChinese(word)) //是中文就要进行注音
-                {
-                    var list = pinyinFactory.GetCodeOfString(word);
-                    wl.PinYin = CollectionHelper.ToArray(list);
-                }
-                else
+                //词典转换，不进行注音操作，以提高速度
+                //if (IsChinese(word)) //是中文就要进行注音
+                //{
+                //    var list = pinyinFactory.GetCodeOfString(word);
+                //    wl.PinYin = CollectionHelper.ToArray(list);
+                //}
+                //else
                 {
                     wl.IsEnglish = true;
                 }
@@ -156,23 +175,21 @@ namespace Studyzy.IMEWLConverter.IME
             byte[] inflatedFile = Inflate(fs, offsetCompressedData, deflateStreams);
 
 
-            //String indexFile = ld2File + ".idx";
-            //String extractedFile = ld2File + ".words";
-            //String extractedXmlFile = ld2File + ".xml";
-            //String extractedOutputFile = ld2File + ".output";
+         
 
-            fs.Position = offsetIndex;
-            var idxArray = new int[definitions];
-            for (int i = 0; i < definitions; i++)
-            {
-                idxArray[i] = BinFileHelper.ReadInt32(fs);
-            }
+            //fs.Position = offsetIndex;
+            //var idxArray = new int[definitions];
+            //for (int i = 0; i < definitions; i++)
+            //{
+            //    idxArray[i] = BinFileHelper.ReadInt32(fs);
+            //}
 
 
-            return Extract(inflatedFile, idxArray, inflatedWordsIndexLength,
+            return Extract(inflatedFile, inflatedWordsIndexLength,
                            inflatedWordsIndexLength + inflatedWordsLength);
         }
-
+        #region 解压
+        
 
         private byte[] Inflate(FileStream dataRawBytes, long startP, List<int> deflateStreams)
         {
@@ -217,7 +234,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return t;
         }
-
+      
         private Stream CopyStream(Stream stream, long offset, int length)
         {
             stream.Position = offset;
@@ -240,75 +257,67 @@ namespace Studyzy.IMEWLConverter.IME
             Stream stream = new MemoryStream(bytes);
             return stream;
         }
+        #endregion
 
-        private IList<string> Extract(byte[] inflatedFile, int[] idxArray, int offsetDefs, int offsetXml)
+        #region 解析
+        /// <summary>
+        /// 解析解压后的数据，返回词汇列表
+        /// </summary>
+        /// <param name="dataRawBytes"></param>
+        /// <param name="offsetDefs"></param>
+        /// <param name="offsetXml"></param>
+        /// <returns></returns>
+        private IList<string> Extract(byte[] dataRawBytes, int offsetDefs, int offsetXml)
         {
-            //Debug.WriteLine("写入'" + extractedOutputFile + "'。。。");
-
-            //StreamWriter indexWriter = new StreamWriter(indexFile);
-            //StreamWriter defsWriter = new StreamWriter(extractedWordsFile);
-            //StreamWriter xmlWriter = new StreamWriter(extractedXmlFile);
-            //StreamWriter outputWriter = new StreamWriter(extractedOutputFile);
-            // read inflated data
-
-
-            byte[] dataRawBytes = inflatedFile;
-
             int dataLen = 10;
             int defTotal = offsetDefs/dataLen - 1;
             CountWord = defTotal;
             var words = new string[defTotal];
-            var idxData = new int[6];
-            var defData = new String[2];
+           
 
-            Encoding[] encodings = DetectEncodings(dataRawBytes, offsetDefs, offsetXml, defTotal, dataLen, idxData,
-                                                   defData);
+            //Encoding[] encodings = DetectEncodings(dataRawBytes, offsetDefs, offsetXml, defTotal, dataLen);
 
             //dataRawBytes.Position = (8);
             //int counter = 0;
             CurrentStatus = 0;
             for (int i = 0; i < defTotal; i++)
             {
-                ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen, encodings[0], encodings[1], idxData,
-                                   defData, i);
+               var kv= ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen, WordEncoding, XmlEncoding,i);
 
-                words[i] = defData[0];
-                string xml = defData[1];
-                //defsWriter.Write(defData[0]);
-                //defsWriter.Write("\n");
-
-                //xmlWriter.Write(defData[1]);
-                //xmlWriter.Write("\n");
-
-                //outputWriter.Write(defData[0]);
-                //outputWriter.Write("=");
-                //outputWriter.Write(defData[1]);
-                //outputWriter.Write("\n");
-
-                //Debug.WriteLine(defData[0] + " = " + defData[1]);
+                var word = kv.Key;
+                string xml = kv.Value;
+                if (IncludeMeaning)
+                {
+                    words[i] = word + " = " + (xml);
+                }
+                else
+                {
+                    words[i] = word;
+                }
+                Debug.WriteLine(words[i]);
                 CurrentStatus++;
             }
 
-            //for (int i = 0; i < idxArray.Length; i++)
-            //{
-            //    int idx = idxArray[i];
-            //    indexWriter.Write(words[idx]);
-            //    indexWriter.Write(", ");
-            //    indexWriter.Write((idx));
-            //    indexWriter.Write("\n");
-            //}
-            //indexWriter.Close();
-            //defsWriter.Close();
-            //xmlWriter.Close();
-            //outputWriter.Close();
+          
             Debug.WriteLine("成功读出" + CurrentStatus + "组数据。");
             return new List<string>(words);
         }
-
-        private void ReadDefinitionData(byte[] inflatedBytes, int offsetWords,
+        /// <summary>
+        /// 读取一个词汇的词和解释
+        /// </summary>
+        /// <param name="inflatedBytes"></param>
+        /// <param name="offsetWords"></param>
+        /// <param name="offsetXml"></param>
+        /// <param name="dataLen"></param>
+        /// <param name="wordStringDecoder"></param>
+        /// <param name="xmlStringDecoder"></param>
+        /// <param name="i"></param>
+        /// <returns>Key为词汇，Value为解释</returns>
+        private KeyValuePair<string,string> ReadDefinitionData(byte[] inflatedBytes, int offsetWords,
                                         int offsetXml, int dataLen, Encoding wordStringDecoder,
-                                        Encoding xmlStringDecoder, int[] idxData, string[] defData, int i)
+                                        Encoding xmlStringDecoder,  int i)
         {
+            var idxData = new int[6];
             GetIdxData(inflatedBytes, dataLen*i, idxData);
             int lastWordPos = idxData[0];
             int lastXmlPos = idxData[1];
@@ -338,13 +347,14 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 lastWordPos += 4;
             }
-            defData[1] = xml;
+            //defData[1] = xml;
 
             int position1 = offsetWords + lastWordPos;
 
             byte[] w = BinFileHelper.ReadArray(inflatedBytes, position1, currentWordOffset - lastWordPos);
             string word = wordStringDecoder.GetString(w);
-            defData[0] = word;
+            //defData[0] = word;
+            return new KeyValuePair<string, string>(word,xml);
         }
 
 
@@ -358,36 +368,51 @@ namespace Studyzy.IMEWLConverter.IME
             wordIdxData[5] = BitConverter.ToInt32(dataRawBytes, position + 14);
         }
 
+        /// <summary>
+        /// 判断字典中词汇的编码和解释的编码
+        /// </summary>
+        /// <param name="inflatedBytes"></param>
+        /// <param name="offsetWords"></param>
+        /// <param name="offsetXml"></param>
+        /// <param name="defTotal"></param>
+        /// <param name="dataLen"></param>
+        /// <returns></returns>
+        //private Encoding[] DetectEncodings(byte[] inflatedBytes, int offsetWords, int offsetXml, int defTotal,
+        //                                   int dataLen)
+        //{
+        //    return new[] { AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[0] };
+        //    int test = Math.Min(defTotal, 10);
 
-        private Encoding[] DetectEncodings(byte[] inflatedBytes, int offsetWords, int offsetXml, int defTotal,
-                                           int dataLen, int[] idxData, String[] defData)
+        //    for (int j = 0; j < AVAIL_ENCODINGS.Length; j++)
+        //    {
+        //        for (int k = 0; k < AVAIL_ENCODINGS.Length; k++)
+        //        {
+        //            try
+        //            {
+        //                for (int i = 0; i < test; i++)
+        //                {
+        //                    ReadDefinitionData(inflatedBytes, offsetWords, offsetXml, dataLen, AVAIL_ENCODINGS[j],
+        //                                       AVAIL_ENCODINGS[k], i);
+        //                }
+        //                Debug.WriteLine("词组编码：" + AVAIL_ENCODINGS[j]);
+        //                Debug.WriteLine("XML编码：" + AVAIL_ENCODINGS[k]);
+        //                return new[] {AVAIL_ENCODINGS[j], AVAIL_ENCODINGS[k]};
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // ignore
+        //                Debug.WriteLine("There are some error:" + ex.Message);
+        //            }
+        //        }
+        //    }
+        //    Debug.WriteLine("自动识别编码失败！选择UTF-16LE继续。");
+        //    return new[] {AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[1]};
+        //}
+        Regex hregex = new Regex(@"<(.[^>]*)>");
+        private string RemoveHtmlTag(string html)
         {
-            int test = Math.Min(defTotal, 10);
-
-            for (int j = 0; j < AVAIL_ENCODINGS.Length; j++)
-            {
-                for (int k = 0; k < AVAIL_ENCODINGS.Length; k++)
-                {
-                    try
-                    {
-                        for (int i = 0; i < test; i++)
-                        {
-                            ReadDefinitionData(inflatedBytes, offsetWords, offsetXml, dataLen, AVAIL_ENCODINGS[j],
-                                               AVAIL_ENCODINGS[k], idxData, defData, i);
-                        }
-                        Debug.WriteLine("词组编码：" + AVAIL_ENCODINGS[j]);
-                        Debug.WriteLine("XML编码：" + AVAIL_ENCODINGS[k]);
-                        return new[] {AVAIL_ENCODINGS[j], AVAIL_ENCODINGS[k]};
-                    }
-                    catch (Exception ex)
-                    {
-                        // ignore
-                        Debug.WriteLine("There are some error:" + ex.Message);
-                    }
-                }
-            }
-            Debug.WriteLine("自动识别编码失败！选择UTF-16LE继续。");
-            return new[] {AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[1]};
+            return hregex.Replace(html, "");
         }
+        #endregion
     }
 }

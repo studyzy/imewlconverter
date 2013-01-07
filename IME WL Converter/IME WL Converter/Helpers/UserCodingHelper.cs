@@ -19,6 +19,11 @@ namespace Studyzy.IMEWLConverter.Helpers
                 dictionary = GetCodingDict(FileOperationHelper.ReadFile(filePath));
             }
         }
+        public static IDictionary<char,string> MappingDictionary
+        {
+            get { return dictionary; }
+            set { dictionary = value; }
+        } 
 
         public static string GetCharCoding(char c, string codingFilePath = null)
         {
@@ -42,7 +47,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             var dic = new Dictionary<char, string>();
             foreach (string line in codingContent.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
             {
-                string[] l = line.Split(',');
+                string[] l = line.Split('\t');
                 char c = l[0][0];
                 string code = l[1];
                 if (!dic.ContainsKey(c))

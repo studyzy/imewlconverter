@@ -51,8 +51,8 @@ namespace Studyzy.IMEWLConverter
 
         private void SplitFileByLine(int maxLine)
         {
-            Encoding encoding = null;
-            string str = FileOperationHelper.ReadFileContent(txbFilePath.Text, ref encoding, Encoding.UTF8);
+            Encoding encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
+            string str = FileOperationHelper.ReadFile(txbFilePath.Text,encoding);
             string splitLineChar = "\r\n";
             if (str.IndexOf(splitLineChar) < 0)
             {
@@ -160,9 +160,12 @@ namespace Studyzy.IMEWLConverter
 
         private void SplitFileByLength(int length)
         {
-            Encoding encoding = null;
+            //Encoding encoding = null;
             length = length - 100; //100个字的Buffer
-            string str = FileOperationHelper.ReadFileContent(txbFilePath.Text, ref encoding, Encoding.UTF8);
+            //string str = FileOperationHelper.ReadFileContent(txbFilePath.Text, ref encoding, Encoding.UTF8);
+
+            Encoding encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
+            string str = FileOperationHelper.ReadFile(txbFilePath.Text, encoding);
             int fileIndex = 1;
             do
             {

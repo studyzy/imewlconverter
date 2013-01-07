@@ -310,7 +310,7 @@ namespace Studyzy.IMEWLConverter
         private int maxLength = 100;
         private int minRank = 1;
         private int maxRank = 999999;
-
+        private Encoding ld2WordEncoding=Encoding.UTF8;
         private MainBody mainBody = new MainBody();
       
         private IWordLibraryExport export;
@@ -374,6 +374,10 @@ namespace Studyzy.IMEWLConverter
                 {
                     ((IMultiCodeType) export).CodeType = toCodeType;
                 }
+                if (import is LingoesLd2)
+                {
+                    ((LingoesLd2) import).WordEncoding = ld2WordEncoding;
+                }
                 if (streamExport)
                 {
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -425,29 +429,29 @@ namespace Studyzy.IMEWLConverter
             return filters;
         }
 
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("是否将文本框中的所有词条保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                DialogResult.Yes)
-            {
-                saveFileDialog1.DefaultExt = ".txt";
-                if (cbxTo.Text == ConstantString.MS_PINYIN)
-                {
-                    saveFileDialog1.DefaultExt = ".dctx";
-                }
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, richTextBox1.Text))
-                    {
-                        ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
-                    }
-                    else
-                    {
-                        ShowStatusMessage("保存失败", false);
-                    }
-                }
-            }
-        }
+        //private void btnExport_Click(object sender, EventArgs e)
+        //{
+        //    if (MessageBox.Show("是否将文本框中的所有词条保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+        //        DialogResult.Yes)
+        //    {
+        //        saveFileDialog1.DefaultExt = ".txt";
+        //        if (cbxTo.Text == ConstantString.MS_PINYIN)
+        //        {
+        //            saveFileDialog1.DefaultExt = ".dctx";
+        //        }
+        //        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+        //        {
+        //            if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, richTextBox1.Text))
+        //            {
+        //                ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
+        //            }
+        //            else
+        //            {
+        //                ShowStatusMessage("保存失败", false);
+        //            }
+        //        }
+        //    }
+        //}
 
 
         private void cbxFrom_SelectedIndexChanged(object sender, EventArgs e)
@@ -480,6 +484,14 @@ namespace Studyzy.IMEWLConverter
                 if (diag.ShowDialog() == DialogResult.OK)
                 {
                     fromCodeType = diag.SelectedCodeType;
+                }
+            }
+            if (cbxFrom.Text == ConstantString.LINGOES_LD2)
+            {
+                var diag = new Ld2EncodingConfigForm(ld2WordEncoding);
+                if (diag.ShowDialog() == DialogResult.OK)
+                {
+                    ld2WordEncoding = diag.SelectedEncoding;
                 }
             }
         }
@@ -579,12 +591,12 @@ namespace Studyzy.IMEWLConverter
             }
             if (exportDirectly)
             {
-                richTextBox1.Text = "为提高处理速度，高级设置中默认设置为直接导出，本文本框中不显示转换后的结果，若要查看、修改转换后的结果再导出请取消该设置。";
+                richTextBox1.Text = "为提高处理速度，“高级设置”中选中了“不显示结果，直接导出”，本文本框中不显示转换后的结果，若要查看转换后的结果再确定是否保存请取消该设置。";
             }
             else
             {
                 richTextBox1.Text = fileContent;
-                btnExport.Enabled = true;
+                //btnExport.Enabled = true;
             }
 
             if (

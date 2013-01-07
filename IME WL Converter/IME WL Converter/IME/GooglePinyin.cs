@@ -39,7 +39,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public Encoding Encoding
         {
-            get { return Encoding.Default; }
+            get { return Encoding.GetEncoding("GBK"); }
         }
 
         #endregion

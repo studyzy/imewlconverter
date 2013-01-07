@@ -274,7 +274,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     var txt = Dictionaries.Cangjie5;
                     dictionary = new Dictionary<char, IList<Cangjie>>();
 
-                    foreach (var line in txt.Split('\n'))
+                    foreach (var line in txt.Split(new char[]{'\r', '\n'},StringSplitOptions.RemoveEmptyEntries))
                     {
                         var arr = line.Split('\t');
                         try

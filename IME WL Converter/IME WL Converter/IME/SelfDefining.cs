@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -9,7 +10,7 @@ namespace Studyzy.IMEWLConverter.IME
     {
         public ParsePattern UserDefiningPattern { get; set; }
 
-        #region IWordLibraryImport 成员
+
 
         #region IWordLibraryExport Members
 
@@ -23,8 +24,9 @@ namespace Studyzy.IMEWLConverter.IME
                     sb.Append(ExportLine(wordLibrary));
                     sb.Append("\r\n");
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
                 }
             }
             return sb.ToString();
@@ -43,7 +45,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public Encoding Encoding
         {
-            get { return Encoding.Default; }
+            get { return Encoding.GetEncoding("GBK"); }
         }
 
       
@@ -82,6 +84,6 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-        #endregion
+
     }
 }

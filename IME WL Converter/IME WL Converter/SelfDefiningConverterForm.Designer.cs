@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelfDefiningConverterForm));
             this.rtbFrom = new System.Windows.Forms.RichTextBox();
             this.txbParsePattern = new System.Windows.Forms.TextBox();
             this.btnParse = new System.Windows.Forms.Button();
@@ -44,7 +45,7 @@
             this.btnConvertTest = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbxTextEncoding = new System.Windows.Forms.ComboBox();
+            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +55,7 @@
             this.rtbFrom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbFrom.Location = new System.Drawing.Point(3, 17);
             this.rtbFrom.Name = "rtbFrom";
-            this.rtbFrom.Size = new System.Drawing.Size(253, 322);
+            this.rtbFrom.Size = new System.Drawing.Size(253, 314);
             this.rtbFrom.TabIndex = 0;
             this.rtbFrom.Text = "";
             this.rtbFrom.WordWrap = false;
@@ -94,9 +95,9 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.rtbFrom);
-            this.groupBox1.Location = new System.Drawing.Point(10, 96);
+            this.groupBox1.Location = new System.Drawing.Point(10, 104);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(259, 342);
+            this.groupBox1.Size = new System.Drawing.Size(259, 334);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "源内容";
@@ -104,9 +105,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rtbTo);
-            this.groupBox2.Location = new System.Drawing.Point(275, 96);
+            this.groupBox2.Location = new System.Drawing.Point(275, 104);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(266, 342);
+            this.groupBox2.Size = new System.Drawing.Size(266, 334);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "测试结果";
@@ -116,7 +117,7 @@
             this.rtbTo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbTo.Location = new System.Drawing.Point(3, 17);
             this.rtbTo.Name = "rtbTo";
-            this.rtbTo.Size = new System.Drawing.Size(260, 322);
+            this.rtbTo.Size = new System.Drawing.Size(260, 314);
             this.rtbTo.TabIndex = 0;
             this.rtbTo.Text = "";
             this.rtbTo.WordWrap = false;
@@ -200,23 +201,40 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 73);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(395, 12);
+            this.label3.Size = new System.Drawing.Size(419, 12);
             this.label3.TabIndex = 12;
-            this.label3.Text = "编码文件中每行一个汉字和编码，汉字不可重复，格式形如：“深,shen”";
+            this.label3.Text = "编码文件中每行一个汉字和编码，汉字不可重复，格式形如：“深<Tab>shen”";
             // 
             // cbxTextEncoding
             // 
-            this.cbxTextEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTextEncoding.FormattingEnabled = true;
             this.cbxTextEncoding.Items.AddRange(new object[] {
-            "Default",
             "Unicode",
-            "UTF8",
-            "GB2312",
-            "GB18030"});
-            this.cbxTextEncoding.Location = new System.Drawing.Point(417, 68);
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "BigEndianUnicode",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "BigEndianUnicode",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "BigEndianUnicode",
+            "ASCII"});
+            this.cbxTextEncoding.Location = new System.Drawing.Point(433, 69);
             this.cbxTextEncoding.Name = "cbxTextEncoding";
-            this.cbxTextEncoding.Size = new System.Drawing.Size(121, 20);
-            this.cbxTextEncoding.TabIndex = 13;
+            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
+            this.cbxTextEncoding.Size = new System.Drawing.Size(105, 20);
+            this.cbxTextEncoding.TabIndex = 14;
             // 
             // SelfDefiningConverterForm
             // 
@@ -245,9 +263,10 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "自定义词库识别";
+            this.Text = "自定义词库编码";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelfDefiningConverterForm_FormClosing);
+            this.Load += new System.EventHandler(this.SelfDefiningConverterForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -273,6 +292,6 @@
         private System.Windows.Forms.Button btnConvertTest;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbxTextEncoding;
+        private EncodingComboBox cbxTextEncoding;
     }
 }

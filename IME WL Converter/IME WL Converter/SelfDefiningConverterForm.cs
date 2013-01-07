@@ -106,19 +106,20 @@ namespace Studyzy.IMEWLConverter
                 MessageBox.Show("请点击右上角按钮选择匹配规则");
                 return;
             }
-            IWordCodeGenerater factory = null;
+
             if (string.IsNullOrEmpty(txbFilePath.Text))
             {
-                factory = new PinyinGenerater();
+                //不指定编码文件，那么必然是拼音
+                if (!SelectedParsePattern.IsPinyinFormat)
+                {
+                    MessageBox.Show("不是拼音编码，那么必须指定编码文件");
+                    return;
+                }
             }
             else
             {
-                factory = new SelfDefiningCodeGenerater();
                 UserCodingHelper.FilePath = txbFilePath.Text;
             }
-            SelectedParsePattern.Factory = factory;
-
-
             rtbTo.Clear();
             string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string str in fromList)
@@ -128,6 +129,11 @@ namespace Studyzy.IMEWLConverter
                 string result = SelectedParsePattern.BuildWLString(wl);
                 rtbTo.AppendText(result + "\r\n");
             }
+        }
+
+        private void SelfDefiningConverterForm_Load(object sender, EventArgs e)
+        {
+            rtbFrom.Text = "深\r\n深蓝\r\n深蓝词\r\n深蓝词库\r\n深蓝词库转\r\n深蓝词库转换";
         }
     }
 }
