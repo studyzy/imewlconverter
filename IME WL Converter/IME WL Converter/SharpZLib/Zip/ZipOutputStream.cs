@@ -662,7 +662,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             extraData.AddLeShort(VENDOR_ID); // "AE"
             extraData.AddData(entry.AESEncryptionStrength); //  1 = 128, 2 = 192, 3 = 256
             extraData.AddLeShort((int) entry.CompressionMethod);
-                // The actual compression method used to compress the file
+            // The actual compression method used to compress the file
             extraData.AddNewEntry(0x9901);
         }
 

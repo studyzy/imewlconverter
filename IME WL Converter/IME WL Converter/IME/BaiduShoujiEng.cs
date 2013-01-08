@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -12,7 +13,10 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
-        #region IWordLibraryExport Members
+        public Encoding Encoding
+        {
+            get { return Encoding.ASCII; }
+        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -32,20 +36,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-        #region IWordLibraryTextImport Members
-
-        public Encoding Encoding
-        {
-            get { return Encoding.ASCII; }
-        }
-
-        #endregion
-
-        #endregion
-
         #region IWordLibraryImport 成员
-
-     
 
         public WordLibraryList Import(string path)
         {

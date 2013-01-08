@@ -4,9 +4,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
@@ -293,7 +292,7 @@ namespace Studyzy.IMEWLConverter
             //}
             try
             {
-                var imp = imports[str];
+                IWordLibraryImport imp = imports[str];
                 imp.DefaultRank = defaultRank;
                 return imp;
             }
@@ -304,33 +303,33 @@ namespace Studyzy.IMEWLConverter
         }
 
         #endregion
-        private bool filterEnglish = true;
-        private bool filterSpaceWord = true;
-        private int minLength = 1;
-        private int maxLength = 100;
-        private int minRank = 1;
-        private int maxRank = 999999;
 
-        private MainBody mainBody = new MainBody();
-      
+        private readonly MainBody mainBody = new MainBody();
+        private int defaultRank = 10;
+
         private IWordLibraryExport export;
         private bool exportDirectly;
-        private int defaultRank = 10;
         protected string exportFileName;
         private string exportPath = "";
         private string fileContent;
+        private bool filterEnglish = true;
+        private bool filterSpaceWord = true;
+        private CodeType fromCodeType;
 
         private ParsePattern fromUserSetPattern;
-       
-       
+
+
         private IWordLibraryImport import;
-        
+        private int maxLength = 100;
+        private int maxRank = 999999;
+
         private bool mergeTo1File = true;
+        private int minLength = 1;
+        private int minRank = 1;
 
         private bool streamExport;
-        private ParsePattern toUserSetPattern;
-        private CodeType fromCodeType;
         private CodeType toCodeType;
+        private ParsePattern toUserSetPattern;
 
         private void btnOpenFileDialog_Click(object sender, EventArgs e)
         {
@@ -404,10 +403,10 @@ namespace Studyzy.IMEWLConverter
                 filters.Add(new EnglishFilter());
             }
             var lenFilter = new LengthFilter();
-                lenFilter.MinLength = minLength;
-                lenFilter.MaxLength = maxLength;
-          
-            if (minLength>1 || maxLength<9999)
+            lenFilter.MinLength = minLength;
+            lenFilter.MaxLength = maxLength;
+
+            if (minLength > 1 || maxLength < 9999)
             {
                 filters.Add(lenFilter);
             }
@@ -483,6 +482,7 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
+
         private void cbxTo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxTo.Text == ConstantString.SELF_DEFINING) //弹出自定义窗口
@@ -518,117 +518,6 @@ namespace Studyzy.IMEWLConverter
             }
         }
 
-        #region 多线程操作
-        
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (import != null)
-            {
-                ShowStatusMessage("转换进度：" + import.CurrentStatus + "/" + import.CountWord, false);
-                toolStripProgressBar1.Maximum = import.CountWord;
-                if (import.CountWord > 0 && import.CurrentStatus <= import.CountWord)
-                {
-                    toolStripProgressBar1.Value = import.CurrentStatus;
-                }
-            }
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            string[] files = txbWLPath.Text.Split('|');
-            foreach (string file in files)
-            {
-                //cbxFrom.Text+"转"+cbxTo.Text+"_"+
-                exportFileName = Path.GetFileNameWithoutExtension(file);
-                string path = file.Trim();
-                if (streamExport && import.IsText) //流转换,只有文本类型的才支持。
-                {
-                    mainBody.StreamConvert(files, exportFileName);
-                }
-                else
-                {
-                    fileContent = mainBody.Convert(files);
-                }
-            }
-            timer1.Enabled = false;
-            //简繁体转换
-
-
-        }
-
-
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            timer1.Enabled = false;
-            toolStripProgressBar1.Value = toolStripProgressBar1.Maximum;
-            ShowStatusMessage("转换完成", false);
-            if (e.Error != null)
-            {
-                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message);
-                if (e.Error.InnerException != null)
-                {
-                    richTextBox1.Text = (e.Error.InnerException.ToString());
-                }
-                return;
-            }
-            if (streamExport && import.IsText)
-            {
-                ShowStatusMessage("转换完成,词库保存到文件：" + exportPath, true);
-                return;
-            }
-            if (exportDirectly)
-            {
-                richTextBox1.Text = "为提高处理速度，高级设置中默认设置为直接导出，本文本框中不显示转换后的结果，若要查看、修改转换后的结果再导出请取消该设置。";
-            }
-            else
-            {
-                richTextBox1.Text = fileContent;
-                btnExport.Enabled = true;
-            }
-
-            if (
-                MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                if (!string.IsNullOrEmpty(exportFileName))
-                {
-                    saveFileDialog1.FileName = exportFileName;
-                }
-                //if (export is TouchPal)
-                //{
-                //    saveFileDialog1.DefaultExt = ".bak";
-                //    saveFileDialog1.Filter = "触宝备份文件|*.bak";
-                //}
-                else if (export is MsPinyin)
-                {
-                    saveFileDialog1.DefaultExt = ".dctx";
-                    saveFileDialog1.Filter = "微软拼音2010|*.dctx";
-                }
-                else
-                {
-                    saveFileDialog1.DefaultExt = ".txt";
-                    saveFileDialog1.Filter = "文本文件|*.txt";
-                }
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    //if (export is TouchPal)
-                    //{
-                    //    File.Move(fileContent, saveFileDialog1.FileName);
-                    //}
-                    //else 
-                        if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, fileContent))
-                    {
-                        ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
-                    }
-                    else
-                    {
-                        ShowStatusMessage("保存失败", true);
-                    }
-                }
-            }
-        }
-        #endregion
         /// <summary>
         /// 在状态上显示消息
         /// </summary>
@@ -668,11 +557,8 @@ namespace Studyzy.IMEWLConverter
             }
         }
 
-      
-
-       
-
         #region 菜单操作
+
         private void ToolStripMenuItemSplitFile_Click(object sender, EventArgs e)
         {
             var form = new SplitFileForm();
@@ -688,6 +574,7 @@ namespace Studyzy.IMEWLConverter
                 mainBody.SelectedConverter = form.SelectedConverter;
             }
         }
+
         private void ToolStripMenuItemAccessWebSite_Click(object sender, EventArgs e)
         {
             Process.Start("http://code.google.com/p/imewlconverter/");
@@ -698,8 +585,6 @@ namespace Studyzy.IMEWLConverter
             exportDirectly = toolStripMenuItemExportDirectly.Checked;
         }
 
-
-       
 
         private void ToolStripMenuItemDonate_Click(object sender, EventArgs e)
         {
@@ -736,7 +621,7 @@ namespace Studyzy.IMEWLConverter
 
         private void toolStripMenuItemFilterConfig_Click(object sender, EventArgs e)
         {
-            FilterConfigForm form=new FilterConfigForm();
+            var form = new FilterConfigForm();
             form.WordLengthFrom = minLength;
             form.WordLengthTo = maxLength;
             form.WordRankFrom = minRank;
@@ -746,15 +631,125 @@ namespace Studyzy.IMEWLConverter
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                minLength =       form.WordLengthFrom;
-                maxLength =       form.WordLengthTo;
-                minRank =         form.WordRankFrom;
-                maxRank =         form.WordRankTo;
-                filterEnglish =   form.IgnoreEnglish;
+                minLength = form.WordLengthFrom;
+                maxLength = form.WordLengthTo;
+                minRank = form.WordRankFrom;
+                maxRank = form.WordRankTo;
+                filterEnglish = form.IgnoreEnglish;
                 filterSpaceWord = form.IgnoreSpace;
             }
         }
+
         #endregion
 
+        #region 多线程操作
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (import != null)
+            {
+                ShowStatusMessage("转换进度：" + import.CurrentStatus + "/" + import.CountWord, false);
+                toolStripProgressBar1.Maximum = import.CountWord;
+                if (import.CountWord > 0 && import.CurrentStatus <= import.CountWord)
+                {
+                    toolStripProgressBar1.Value = import.CurrentStatus;
+                }
+            }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string[] files = txbWLPath.Text.Split('|');
+            foreach (string file in files)
+            {
+                //cbxFrom.Text+"转"+cbxTo.Text+"_"+
+                exportFileName = Path.GetFileNameWithoutExtension(file);
+                string path = file.Trim();
+                if (streamExport && import.IsText) //流转换,只有文本类型的才支持。
+                {
+                    mainBody.StreamConvert(files, exportFileName);
+                }
+                else
+                {
+                    fileContent = mainBody.Convert(files);
+                }
+            }
+            timer1.Enabled = false;
+            //简繁体转换
+        }
+
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            timer1.Enabled = false;
+            toolStripProgressBar1.Value = toolStripProgressBar1.Maximum;
+            ShowStatusMessage("转换完成", false);
+            if (e.Error != null)
+            {
+                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message);
+                if (e.Error.InnerException != null)
+                {
+                    richTextBox1.Text = (e.Error.InnerException.ToString());
+                }
+                return;
+            }
+            if (streamExport && import.IsText)
+            {
+                ShowStatusMessage("转换完成,词库保存到文件：" + exportPath, true);
+                return;
+            }
+            if (exportDirectly)
+            {
+                richTextBox1.Text = "为提高处理速度，高级设置中默认设置为直接导出，本文本框中不显示转换后的结果，若要查看、修改转换后的结果再导出请取消该设置。";
+            }
+            else
+            {
+                richTextBox1.Text = fileContent;
+                btnExport.Enabled = true;
+            }
+
+            if (
+                MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (!string.IsNullOrEmpty(exportFileName))
+                {
+                    saveFileDialog1.FileName = exportFileName;
+                }
+                    //if (export is TouchPal)
+                    //{
+                    //    saveFileDialog1.DefaultExt = ".bak";
+                    //    saveFileDialog1.Filter = "触宝备份文件|*.bak";
+                    //}
+                else if (export is MsPinyin)
+                {
+                    saveFileDialog1.DefaultExt = ".dctx";
+                    saveFileDialog1.Filter = "微软拼音2010|*.dctx";
+                }
+                else
+                {
+                    saveFileDialog1.DefaultExt = ".txt";
+                    saveFileDialog1.Filter = "文本文件|*.txt";
+                }
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    //if (export is TouchPal)
+                    //{
+                    //    File.Move(fileContent, saveFileDialog1.FileName);
+                    //}
+                    //else 
+                    if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, fileContent))
+                    {
+                        ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
+                    }
+                    else
+                    {
+                        ShowStatusMessage("保存失败", true);
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Language;
 
 namespace Studyzy.IMEWLConverter

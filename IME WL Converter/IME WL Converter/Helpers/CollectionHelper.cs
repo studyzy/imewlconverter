@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
@@ -8,13 +6,14 @@ namespace Studyzy.IMEWLConverter.Helpers
     {
         public static string[] ToArray(IList<string> str)
         {
-            string[] result = new string[str.Count];
+            var result = new string[str.Count];
             for (int i = 0; i < str.Count; i++)
             {
                 result[i] = str[i];
             }
             return result;
         }
+
         public static string ListToString(IList<string> list, string split = "")
         {
             if (list.Count == 1)
@@ -33,9 +32,9 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             string temp = data;
             //获取当前数组
-            var astr = list[count];
+            IList<string> astr = list[count];
             //循环当前数组
-            foreach (var item in astr)
+            foreach (string item in astr)
             {
                 if (count + 1 < list.Count)
                 {
@@ -51,7 +50,7 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         public static IList<string> Descartes(IList<IList<string>> codes)
         {
-            List<string> result = new List<string>();
+            var result = new List<string>();
             Descartes(codes, 0, result, string.Empty);
             return result;
         }

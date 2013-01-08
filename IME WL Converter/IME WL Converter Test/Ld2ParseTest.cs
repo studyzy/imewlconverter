@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using NUnit.Framework;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter.Test

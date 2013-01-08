@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -10,15 +12,22 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
+        private IWordCodeGenerater codeGenerater;
+
+        public Encoding Encoding
+        {
+            get { return new UTF8Encoding(false); }
+        }
+
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
 
             if (codeGenerater.Is1CharMutiCode)
             {
-                var codes = codeGenerater.GetCodeOfString(wl.Word);
+                IList<string> codes = codeGenerater.GetCodeOfString(wl.Word);
                 int i = 0;
-                foreach (var code in codes)
+                foreach (string code in codes)
                 {
                     sb.Append(wl.Word);
                     sb.Append("\t");
@@ -38,9 +47,9 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     sb.Append(wl.GetPinYinString(" ", BuildType.None));
                 }
-                else if (CodeType == wl.OtherCode.Key)
+                else if (CodeType == wl.CodeType)
                 {
-                    sb.Append(wl.OtherCode.Value[0][0]);
+                    sb.Append(wl.Codes[0][0]);
                 }
                 else
                 {
@@ -59,7 +68,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        private IWordCodeGenerater codeGenerater;
         public string Export(WordLibraryList wlList)
         {
             codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
@@ -72,17 +80,9 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        public Encoding Encoding
-        {
-            get { return new UTF8Encoding(false); }
-        }
-
         #endregion
 
-
         #region IWordLibraryImport 成员
-
-    
 
         public WordLibraryList Import(string path)
         {
@@ -107,11 +107,12 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return wlList;
         }
+
         //private IWordCodeGenerater pyGenerater=new PinyinGenerater();
         public WordLibraryList ImportLine(string line)
         {
             string[] lineArray = line.Split('\t');
-           
+
             string word = lineArray[0];
             string code = lineArray[1];
             var wl = new WordLibrary();
@@ -126,7 +127,7 @@ namespace Studyzy.IMEWLConverter.IME
                 //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
                 wl.AddCode(CodeType, code);
             }
-          
+
 
             var wll = new WordLibraryList();
             wll.Add(wl);

@@ -144,7 +144,7 @@ namespace Studyzy.IMEWLConverter
         {
             do
             {
-                var b =  fs.ReadByte();
+                int b = fs.ReadByte();
                 if (b == -1)
                 {
                     return false;

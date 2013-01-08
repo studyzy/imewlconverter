@@ -106,13 +106,14 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="CodeType.cs" />
+    <Compile Include="Entities\CodeType.cs" />
     <Compile Include="ComboBoxShowAttribute.cs" />
     <Compile Include="Dictionaries.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Dictionaries.resx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\BuildType.cs" />
     <Compile Include="FilterConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,7 +155,7 @@
     <Compile Include="ChineseConverterSelectForm.Designer.cs">
       <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChineseTranslate.cs" />
+    <Compile Include="Entities\ChineseTranslate.cs" />
     <Compile Include="ConsoleRun.cs" />
     <Compile Include="ConstantString.cs" />
     <Compile Include="CreatePinyinWLForm.cs">
@@ -215,7 +216,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParsePattern.cs" />
+    <Compile Include="Entities\ParsePattern.cs" />
     <Compile Include="Helpers\PinyinHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -287,7 +288,7 @@
       <DependentUpon>SplitFileForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\UserCodingHelper.cs" />
-    <Compile Include="WordLibraryStream.cs" />
+    <Compile Include="Entities\WordLibraryStream.cs" />
     <Compile Include="XiaoxiaoConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -355,8 +356,8 @@
     <Compile Include="IME\NoPinyinWordOnly.cs" />
     <Compile Include="IME\Wubi86.cs" />
     <Compile Include="IME\QQShouji.cs" />
-    <Compile Include="WordLibrary.cs" />
-    <Compile Include="WordLibraryList.cs" />
+    <Compile Include="Entities\WordLibrary.cs" />
+    <Compile Include="Entities\WordLibraryList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />

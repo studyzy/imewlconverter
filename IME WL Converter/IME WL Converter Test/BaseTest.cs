@@ -1,4 +1,5 @@
 ﻿using System;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Test
 {

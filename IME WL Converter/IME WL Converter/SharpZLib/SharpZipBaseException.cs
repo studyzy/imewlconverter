@@ -35,6 +35,7 @@
 
 using System;
 using System.Runtime.Serialization;
+
 #if !NETCF_1_0 && !NETCF_2_0
 
 #endif

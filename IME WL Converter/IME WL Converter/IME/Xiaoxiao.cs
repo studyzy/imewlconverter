@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -10,6 +11,111 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
     public class Xiaoxiao : BaseImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
     {
+        #region IWordLibraryExport 成员
+
+        private IWordCodeGenerater codeGenerater;
+
+        private IWordCodeGenerater CodeGenerater
+        {
+            get
+            {
+                if (codeGenerater == null)
+                {
+                    codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
+                }
+                return codeGenerater;
+            }
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.GetEncoding("GB18030"); }
+        }
+
+        public string ExportLine(WordLibrary wl)
+        {
+            var sb = new StringBuilder();
+
+            if (CodeType == CodeType.Pinyin)
+            {
+                sb.Append(wl.GetPinYinString("", BuildType.None));
+            }
+            else if (CodeType == wl.CodeType)
+            {
+                sb.Append(wl.Codes);
+            }
+            else
+            {
+                sb.Append(CollectionHelper.ListToString(CodeGenerater.GetCodeOfString(wl.Word)));
+            }
+            sb.Append(" ");
+            sb.Append(wl.Word);
+            return sb.ToString();
+        }
+
+        public string Export(WordLibraryList wlList)
+        {
+            var sb = new StringBuilder();
+            //sb.Append(GetFileHeader());
+            IDictionary<string, string> xiaoxiaoDic = new Dictionary<string, string>();
+
+            for (int i = 0; i < wlList.Count; i++)
+            {
+                string key = "";
+                var wl = wlList[i];
+                string value = wl.Word;
+                if (CodeType == CodeType.Pinyin)
+                {
+                    key = (wl.GetPinYinString("", BuildType.None));
+                }
+                else if (CodeType == wl.CodeType)
+                {
+                    key = (wl.Codes[0][0]);
+                }
+                else
+                {
+                    IList<string> codes = CodeGenerater.GetCodeOfString(wl.Word);
+                    if (CodeGenerater.Is1CharMutiCode)
+                    {
+                        foreach (string code in codes)
+                        {
+                            if (xiaoxiaoDic.ContainsKey(code))
+                            {
+                                xiaoxiaoDic[code] += " " + value;
+                            }
+                            else
+                            {
+                                xiaoxiaoDic.Add(code, value);
+                            }
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        key = (CollectionHelper.ListToString(codes));
+                    }
+                }
+
+
+                if (xiaoxiaoDic.ContainsKey(key))
+                {
+                    xiaoxiaoDic[key] += " " + value;
+                }
+                else
+                {
+                    xiaoxiaoDic.Add(key, value);
+                }
+            }
+            foreach (var keyValuePair in xiaoxiaoDic)
+            {
+                sb.Append(keyValuePair.Key + " " + keyValuePair.Value + "\n");
+            }
+
+            return sb.ToString();
+        }
+
+        #endregion
+
 //      private string GetFileHeader()
 //      {
 //          if (CodeType == CodeType.Pinyin)
@@ -50,113 +156,13 @@ namespace Studyzy.IMEWLConverter.IME
 //          return "";
 
 //      }
-        #region IWordLibraryExport 成员
 
-        public string ExportLine(WordLibrary wl)
-        {
-            var sb = new StringBuilder();
-
-            if (CodeType == CodeType.Pinyin)
-            {
-                sb.Append(wl.GetPinYinString("", BuildType.None));
-            }
-            else if (CodeType == wl.OtherCode.Key)
-            {
-                sb.Append(wl.OtherCode.Value);
-            }
-            else
-            {
-                sb.Append(CollectionHelper.ListToString(CodeGenerater.GetCodeOfString(wl.Word)));
-            }
-            sb.Append(" ");
-            sb.Append(wl.Word);
-            return sb.ToString();
-        }
-        private IWordCodeGenerater codeGenerater;
-        private IWordCodeGenerater CodeGenerater
-        {
-            get
-            {
-                if(codeGenerater==null)
-                {
-                    codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
-                }
-                return codeGenerater;
-            }
-        }
-        public string Export(WordLibraryList wlList)
-        {
-            var sb = new StringBuilder();
-            //sb.Append(GetFileHeader());
-            IDictionary<string, string> xiaoxiaoDic = new Dictionary<string, string>();
-          
-            for (int i = 0; i < wlList.Count; i++)
-            {
-                string key = "";
-                var wl = wlList[i];
-                string value = wl.Word;
-                if (CodeType == CodeType.Pinyin)
-                {
-                    key=(wl.GetPinYinString("", BuildType.None));
-                }
-                else if (CodeType == wl.OtherCode.Key)
-                {
-                    key = (wl.OtherCode.Value[0][0]);
-                }
-                else
-                {
-                    var codes = CodeGenerater.GetCodeOfString(wl.Word);
-                    if (CodeGenerater.Is1CharMutiCode)
-                    {
-                        foreach (var code in codes)
-                        {
-                            if (xiaoxiaoDic.ContainsKey(code))
-                            {
-                                xiaoxiaoDic[code] += " " + value;
-                            }
-                            else
-                            {
-                                xiaoxiaoDic.Add(code, value);
-                            }
-                        }
-                        continue;
-                    }
-                    else
-                    {
-                        key = (CollectionHelper.ListToString(codes));
-                    }
-                }
-                
-             
-                if (xiaoxiaoDic.ContainsKey(key))
-                {
-                    xiaoxiaoDic[key] += " " + value;
-                }
-                else
-                {
-                    xiaoxiaoDic.Add(key, value);
-                }
-            }
-            foreach (var keyValuePair in xiaoxiaoDic)
-            {
-                sb.Append(keyValuePair.Key + " " + keyValuePair.Value + "\n");
-            }
-
-            return sb.ToString();
-        }
-
-        public Encoding Encoding
-        {
-            get { return Encoding.GetEncoding("GB18030"); }
-        }
-
-        #endregion
-
+        private readonly Regex regex = new Regex(@"[^\s#]+( [\u4E00-\u9FA5]+)+");
 
         public WordLibraryList ImportText(string text)
         {
             var list = new WordLibraryList();
-            var lines = text.Split(new char[]{'\n','\r'},StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = text.Split(new[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries);
             CountWord = lines.Length;
             CurrentStatus = 0;
             foreach (string s in lines)
@@ -169,7 +175,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return list;
         }
-        Regex regex = new Regex(@"[^\s#]+( [\u4E00-\u9FA5]+)+");
+
         private bool IsContent(string line)
         {
             return regex.IsMatch(line);
@@ -180,18 +186,19 @@ namespace Studyzy.IMEWLConverter.IME
             string str = FileOperationHelper.ReadFile(path, Encoding);
             return ImportText(str);
         }
+
         //private IWordCodeGenerater pyGenerater = new PinyinGenerater();
         public WordLibraryList ImportLine(string str)
         {
-            WordLibraryList list = new WordLibraryList();
-            var words = str.Split(' ');
+            var list = new WordLibraryList();
+            string[] words = str.Split(' ');
             for (int i = 1; i < words.Length; i++)
             {
-                var word = words[i];
+                string word = words[i];
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Count = DefaultRank;
-                wl.AddCode(this.CodeType,words[0]);
+                wl.AddCode(CodeType, words[0]);
                 //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(word));
                 list.Add(wl);
             }

@@ -10,8 +10,10 @@ namespace Studyzy.IMEWLConverter.Generaters
 {
     public class PinyinGenerater : IWordCodeGenerater
     {
+        private static Dictionary<string, List<string>> mutiPinYinWord;
+
         #region IWordCodeGenerater Members
-      
+
         public virtual string GetDefaultCodeOfChar(char str)
         {
             return GetCodeOfChar(str)[0];
@@ -41,14 +43,33 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return new List<string>();
             }
         }
-        private static Dictionary<string, List<string>> mutiPinYinWord;
 
-        private  void InitMutiPinYinWord()
+        public virtual IList<string> GetCodeOfChar(char str)
+        {
+            return PinyinHelper.GetPinYinOfChar(str);
+        }
+
+        /// <summary>
+        /// 因为使用了注音的方式，所以避免了多音字，一个词也只有一个音
+        /// </summary>
+        public virtual bool Is1CharMutiCode
+        {
+            get { return false; }
+        }
+
+        public virtual bool Is1Char1Code
+        {
+            get { return true; }
+        }
+
+        #endregion
+
+        private void InitMutiPinYinWord()
         {
             if (mutiPinYinWord == null)
             {
                 var wlList = new Dictionary<string, List<string>>();
-                string[] lines = GetMutiPinyin().Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = GetMutiPinyin().Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string line = lines[i];
@@ -56,14 +77,14 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string py = line.Split(' ')[0];
                     string word = line.Split(' ')[1];
 
-                    var pinyin = new List<string>(py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries));
+                    var pinyin = new List<string>(py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries));
                     wlList.Add(word, pinyin);
                 }
                 mutiPinYinWord = wlList;
             }
         }
 
-        private  string GetMutiPinyin()
+        private string GetMutiPinyin()
         {
             string path = ConstantString.PinyinLibPath;
             var sb = new StringBuilder();
@@ -72,7 +93,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 string txt = FileOperationHelper.ReadFile(path);
 
                 var reg = new Regex(@"^('[a-z]+)+\s[\u4E00-\u9FA5]+$");
-                string[] lines = txt.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < lines.Length; i++)
                 {
                     if (reg.IsMatch(lines[i]))
@@ -90,7 +111,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        private  bool IsInWordPinYin(string word)
+        private bool IsInWordPinYin(string word)
         {
             InitMutiPinYinWord();
             foreach (string key in mutiPinYinWord.Keys)
@@ -108,7 +129,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        private  List<string> GenerateMutiWordPinYin(string word)
+        private List<string> GenerateMutiWordPinYin(string word)
         {
             InitMutiPinYinWord();
             var pinyin = new string[word.Length];
@@ -125,18 +146,5 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return new List<string>(pinyin);
         }
-
-
-        public virtual IList<string> GetCodeOfChar(char str)
-        {
-            return PinyinHelper.GetPinYinOfChar(str);
-        }
-
-        /// <summary>
-        /// 因为使用了注音的方式，所以避免了多音字，一个词也只有一个音
-        /// </summary>
-        public virtual bool Is1CharMutiCode { get { return false; } }
-        public virtual bool Is1Char1Code { get { return true; } }
-        #endregion
     }
 }

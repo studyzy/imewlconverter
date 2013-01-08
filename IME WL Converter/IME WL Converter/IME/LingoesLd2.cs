@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -26,7 +27,12 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport Members
 
-      
+        public override bool IsText
+        {
+            get { return false; }
+        }
+
+        #endregion
 
         public WordLibraryList Import(string path)
         {
@@ -38,7 +44,7 @@ namespace Studyzy.IMEWLConverter.IME
                 var wl = new WordLibrary();
                 if (IsChinese(word)) //是中文就要进行注音
                 {
-                    var list = pinyinFactory.GetCodeOfString(word);
+                    IList<string> list = pinyinFactory.GetCodeOfString(word);
                     wl.PinYin = CollectionHelper.ToArray(list);
                 }
                 else
@@ -56,13 +62,6 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new NotImplementedException();
         }
-
-        public override bool IsText
-        {
-            get { return false; }
-        }
-
-        #endregion
 
         private bool IsChinese(string str)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -12,7 +13,10 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.JIDIAN, ConstantString.JIDIAN_C, 190)]
     public class Jidian : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
-        protected virtual bool IsWubi {get { return false; } }
+        protected virtual bool IsWubi
+        {
+            get { return false; }
+        }
 
         #region IWordLibraryImport 成员
 
@@ -46,7 +50,7 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 1; i < strs.Length; i++)
             {
                 string word = strs[i].Replace("，", ""); //把汉字中带有逗号的都去掉逗号
-                var list = pinyinFactory.GetCodeOfString(word);
+                IList<string> list = pinyinFactory.GetCodeOfString(word);
                 for (int j = 0; j < list.Count; j++)
                 {
                     var wl = new WordLibrary();
@@ -62,19 +66,21 @@ namespace Studyzy.IMEWLConverter.IME
             return wlList;
         }
 
-
-
         #endregion
-
 
         #region IWordLibraryExport 成员
 
         private readonly IWordCodeGenerater wubiFactory = new PinyinGenerater();
 
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
+        }
+
         public virtual string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-            if(string.IsNullOrEmpty(wl.WubiCode))
+            if (string.IsNullOrEmpty(wl.WubiCode))
             {
                 sb.Append(wubiFactory.GetCodeOfString(wl.Word)[0]);
             }
@@ -99,15 +105,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
-
-
-
         #endregion
-
     }
 }

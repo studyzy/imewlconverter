@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -11,6 +12,11 @@ namespace Studyzy.IMEWLConverter.IME
     public class GooglePinyin : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
         #region IWordLibraryExport 成员
+
+        public Encoding Encoding
+        {
+            get { return Encoding.Default; }
+        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -37,16 +43,9 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        public Encoding Encoding
-        {
-            get { return Encoding.Default; }
-        }
-
         #endregion
 
         #region IWordLibraryImport 成员
-
-      
 
         public WordLibraryList Import(string path)
         {
@@ -67,8 +66,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return wlList;
         }
-
-     
 
 
         public WordLibraryList ImportLine(string line)

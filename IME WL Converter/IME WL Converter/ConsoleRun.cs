@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
@@ -72,10 +73,10 @@ namespace Studyzy.IMEWLConverter
             }
             if (importPaths.Count > 0 && exportPath != "")
             {
-                MainBody mainBody=new MainBody();
+                var mainBody = new MainBody();
                 mainBody.Export = wordLibraryExport;
                 mainBody.Import = wordLibraryImport;
-                
+
                 Console.WriteLine("转换开始...");
                 //foreach (string importPath in importPaths)
                 //{
@@ -145,7 +146,7 @@ namespace Studyzy.IMEWLConverter
                 pattern.ContainCipin = (format[8].ToString().ToLower() == "y");
                 return CommandType.Format;
             }
-           
+
             if (beginImportFile)
             {
                 importPaths.Add(command);
@@ -194,7 +195,7 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryExport GetExportInterface(string str)
         {
-           try
+            try
             {
                 return exports[str];
             }
@@ -206,7 +207,6 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryImport GetImportInterface(string str)
         {
-           
             try
             {
                 return imports[str];
@@ -227,7 +227,7 @@ namespace Studyzy.IMEWLConverter
             {
                 Console.WriteLine(comboBoxShowAttribute.ShortCode + "\t" + comboBoxShowAttribute.Name);
             }
-           
+
             Console.WriteLine("");
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
             Console.WriteLine("例如要将C:\\test.scel和C:\\a.scel的搜狗细胞词库转换为D:\\gg.txt的谷歌拼音词库，命令为：");
