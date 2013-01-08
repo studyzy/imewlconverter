@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -72,7 +67,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         public override IList<string> GetCodeOfChar(char str)
         {
             var result = new List<string>();
-            foreach (var code in base.GetCodeOfChar(str))
+            foreach (string code in base.GetCodeOfChar(str))
             {
                 result.Add(ZhuyinHelper.GetZhuyin(code));
             }
@@ -83,18 +78,11 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             var result = new List<string>();
 
-            foreach (var code in base.GetCodeOfString(str, charCodeSplit))
+            foreach (string code in base.GetCodeOfString(str, charCodeSplit))
             {
                 result.Add(ZhuyinHelper.GetZhuyin(code));
             }
             return result;
         }
-
-
-     
-
-
-
-  
     }
 }

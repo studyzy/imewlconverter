@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
@@ -57,6 +56,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             return dic;
         }
+
         //static Regex wcRegex = new Regex(@"[\u4E00-\u9FA5]+,\w+");
         //private static bool IsWordAndCode(string line)
         //{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -13,7 +14,12 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
-        private IWordCodeGenerater wubiGenerater=new Wubi86Generater();
+        private readonly IWordCodeGenerater wubiGenerater = new Wubi86Generater();
+
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
+        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -37,19 +43,12 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
-
-
-
         #endregion
+
         private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
+
         #region IWordLibraryImport 成员
 
-     
         public WordLibraryList ImportLine(string line)
         {
             string code = line.Split(' ')[0];
@@ -60,7 +59,7 @@ namespace Studyzy.IMEWLConverter.IME
             wl.AddCode(CodeType.Wubi, code);
             wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
             var wll = new WordLibraryList();
-            if(wl.PinYin.Length>0)
+            if (wl.PinYin.Length > 0)
             {
                 wll.Add(wl);
             }

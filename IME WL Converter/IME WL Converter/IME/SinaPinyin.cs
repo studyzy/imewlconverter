@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -8,8 +9,6 @@ namespace Studyzy.IMEWLConverter.IME
     public class SinaPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
-
-        #region IWordLibraryExport Members
 
         public string ExportLine(WordLibrary wl)
         {
@@ -34,6 +33,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
+
         #region IWordLibraryTextImport Members
 
         public Encoding Encoding
@@ -43,11 +43,10 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-        #endregion
+
+
 
         #region IWordLibraryImport 成员
-
-     
 
         public WordLibraryList ImportLine(string line)
         {

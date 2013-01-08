@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Studyzy.IMEWLConverter
@@ -31,7 +26,7 @@ namespace Studyzy.IMEWLConverter
             WordRankTo = Convert.ToInt32(numWordRankTo.Value);
             IgnoreEnglish = cbxFilterEnglish.Checked;
             IgnoreSpace = cbxFilterSpace.Checked;
-            DialogResult=DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
         private void FilterConfigForm_Load(object sender, EventArgs e)

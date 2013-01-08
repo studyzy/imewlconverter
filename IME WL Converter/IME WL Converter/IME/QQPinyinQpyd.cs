@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -13,7 +14,12 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryImport Members
 
-    
+        public override bool IsText
+        {
+            get { return false; }
+        }
+
+        #endregion
 
         public WordLibraryList Import(string path)
         {
@@ -46,13 +52,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return wll;
         }
-
-        public override bool IsText
-        {
-            get { return false; }
-        }
-
-        #endregion
 
         private string ParseQpyd(string qqydFile)
         {

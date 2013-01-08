@@ -33,6 +33,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
             Assert.Fail("not matched code,"+c);
             
         }
+        [Ignore("数据量太大，手动启动")]
         [Test]
         public void BatchTest()
         {

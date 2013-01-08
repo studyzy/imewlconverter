@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -14,65 +15,11 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.YAHOO_KEYKEY, ConstantString.YAHOO_KEYKEY_C, 200)]
     public class YahooKeyKey : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
-        private static Regex regex = new Regex(@"^[a-zA-Z]+\d$");
+        private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
+
         #region IWordLibraryExport 成员
-        private IWordCodeGenerater generater=new ZhuyinGenerater();
-        public string ExportLine(WordLibrary wl)
-        {
-            var sb = new StringBuilder();
 
-            sb.Append(wl.Word);
-            sb.Append("\t");
-            IList<string> zhuyins = null;
-            if (wl.OtherCode.Key == CodeType.Pinyin)//如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
-            {
-                IList<string> pinyin=new List<string>();
-                for (var i = 0; i < wl.PinYin.Length; i++)
-                {
-                    if (regex.IsMatch(wl.PinYin[i]))
-                    {
-                        pinyin.Add(wl.PinYin[i]);
-                    }
-                    else
-                    {
-                        pinyin.Add(PinyinHelper.AddToneToPinyin(wl.Word[i], wl.PinYin[i]));
-
-                    }
-                }
-                zhuyins = ZhuyinHelper.GetZhuyin(pinyin);
-            }
-            else
-            {
-                zhuyins = generater.GetCodeOfString(wl.Word);
-            }
-            sb.Append(CollectionHelper.ListToString( zhuyins,","));
-            sb.Append("\t");
-            sb.Append("-1.0");
-            sb.Append("\t");
-            sb.Append("0.0");
-            return sb.ToString();
-        }
-
-        public string Export(WordLibraryList wlList)
-        {
-            var sb = new StringBuilder();
-            sb.Append("MJSR version 1.0.0\r\n");
-            for (int i = 0; i < wlList.Count; i++)
-            {
-                try
-                {
-                    sb.Append(ExportLine(wlList[i]));
-                    sb.Append("\r\n");
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(wlList[i]+ ex.Message);
-                }
-            }
-            sb.Append(END_STRING);
-            return sb.ToString();
-        }
-        private static string END_STRING=@"
+        private static string END_STRING = @"
 # What follows is the Automatic Learning database, do not remove this
 <database>
 7c7b5c2bfd227076f056b3ea475ff6470400010120402020f69be92ab0f5
@@ -180,17 +127,71 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 4ec63bf0b064eaff58fc9805
 </database>
 ";
+        private readonly IWordCodeGenerater generater = new ZhuyinGenerater();
 
         public Encoding Encoding
         {
             get { return Encoding.UTF8; }
         }
 
+        public string ExportLine(WordLibrary wl)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(wl.Word);
+            sb.Append("\t");
+            IList<string> zhuyins = null;
+            if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
+            {
+                IList<string> pinyin = new List<string>();
+                for (int i = 0; i < wl.PinYin.Length; i++)
+                {
+                    if (regex.IsMatch(wl.PinYin[i]))
+                    {
+                        pinyin.Add(wl.PinYin[i]);
+                    }
+                    else
+                    {
+                        pinyin.Add(PinyinHelper.AddToneToPinyin(wl.Word[i], wl.PinYin[i]));
+                    }
+                }
+                zhuyins = ZhuyinHelper.GetZhuyin(pinyin);
+            }
+            else
+            {
+                zhuyins = generater.GetCodeOfString(wl.Word);
+            }
+            sb.Append(CollectionHelper.ListToString(zhuyins, ","));
+            sb.Append("\t");
+            sb.Append("-1.0");
+            sb.Append("\t");
+            sb.Append("0.0");
+            return sb.ToString();
+        }
+
+        public string Export(WordLibraryList wlList)
+        {
+            var sb = new StringBuilder();
+            sb.Append("MJSR version 1.0.0\r\n");
+            for (int i = 0; i < wlList.Count; i++)
+            {
+                try
+                {
+                    sb.Append(ExportLine(wlList[i]));
+                    sb.Append("\r\n");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(wlList[i] + ex.Message);
+                }
+            }
+            sb.Append(END_STRING);
+            return sb.ToString();
+        }
+
         #endregion
 
         #region IWordLibraryImport 成员
-
-      
 
         public WordLibraryList Import(string path)
         {
@@ -207,13 +208,14 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             {
                 string line = lines[i];
                 CurrentStatus = i;
-                if(IsWordLine(line))
+                if (IsWordLine(line))
                 {
                     wlList.AddWordLibraryList(ImportLine(line));
                 }
             }
             return wlList;
         }
+
         private bool IsWordLine(string line)
         {
             return line.Split('\t').Length == 4;
@@ -226,20 +228,19 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             var wl = new WordLibrary();
             wl.Word = c[0];
             wl.Count = DefaultRank;
-            var zhuyin = c[1];
+            string zhuyin = c[1];
             var pys = new List<string>();
-            foreach (var zy in zhuyin.Split(','))
+            foreach (string zy in zhuyin.Split(','))
             {
                 try
                 {
-                    var py = ZhuyinHelper.GetPinyin(zy);
+                    string py = ZhuyinHelper.GetPinyin(zy);
                     pys.Add(py);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
-                
             }
             wl.PinYin = pys.ToArray();
             var wll = new WordLibraryList();

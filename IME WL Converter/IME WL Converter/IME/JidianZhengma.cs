@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -12,8 +10,6 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.JIDIAN_ZHENGMA, ConstantString.JIDIAN_ZHENGMA_C, 190)]
     public class JidianZhengma : Jidian, IWordLibraryTextImport, IWordLibraryExport
     {
-     
-
         #region IWordLibraryExport 成员
 
         private readonly IWordCodeGenerater factory = new ZhengmaGenerater();
@@ -28,10 +24,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-    
-
-
         #endregion
-
     }
 }

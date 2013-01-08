@@ -45,6 +45,7 @@
     <Compile Include="GeneraterTest\PinyinTest.cs" />
     <Compile Include="HelperTest\FileOperationTest.cs" />
     <Compile Include="Ld2ParseTest.cs" />
+    <Compile Include="PerformanceTest.cs" />
     <Compile Include="RimeTest.cs" />
     <Compile Include="SougouPinyinTest.cs" />
     <Compile Include="GooglePinyinTest.cs" />
@@ -111,6 +112,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Test\成语.qpyd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Test\诗词名句大全.scel">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

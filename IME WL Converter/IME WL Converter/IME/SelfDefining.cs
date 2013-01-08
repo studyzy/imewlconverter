@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -48,7 +49,6 @@ namespace Studyzy.IMEWLConverter.IME
             get { return Encoding.GetEncoding("GBK"); }
         }
 
-      
 
         public WordLibraryList Import(string path)
         {
@@ -79,8 +79,6 @@ namespace Studyzy.IMEWLConverter.IME
             wlList.Add(wl);
             return wlList;
         }
-
-  
 
         #endregion
 

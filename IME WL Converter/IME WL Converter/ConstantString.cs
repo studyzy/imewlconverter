@@ -79,6 +79,7 @@ namespace Studyzy.IMEWLConverter
         public const string CANGJIE_PLATFORM_C = "cjpt";
         public const string JIDIAN_ZHENGMA_C = "jdzm";
         public const string YAHOO_KEYKEY_C = "yahoo";
+
         /// <summary>
         /// 注音文件的完整路径
         /// </summary>

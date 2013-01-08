@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -29,7 +30,6 @@ namespace Studyzy.IMEWLConverter.IME
             return wlList;
         }
 
-    
 
         public WordLibraryList ImportLine(string line)
         {

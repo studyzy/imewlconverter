@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -24,6 +25,7 @@ namespace Studyzy.IMEWLConverter
         string Export(WordLibraryList wlList);
         string ExportLine(WordLibrary wl);
     }
+
     public interface IMultiCodeType
     {
         CodeType CodeType { get; set; }

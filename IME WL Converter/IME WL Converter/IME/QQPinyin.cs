@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -10,7 +11,10 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
-        #region IWordLibraryExport Members
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
+        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -40,7 +44,7 @@ namespace Studyzy.IMEWLConverter.IME
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count - 1; i++)
             {
-                var line = ExportLine(wlList[i]);
+                string line = ExportLine(wlList[i]);
                 if (line != "")
                 {
                     sb.Append(line);
@@ -58,21 +62,6 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         #endregion
-
-        #region IWordLibraryTextImport Members
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region IWordLibraryTextImport Members
-
-      
 
         public WordLibraryList ImportLine(string line)
         {
@@ -109,7 +98,5 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return wlList;
         }
-
-        #endregion
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -15,8 +12,46 @@ namespace Studyzy.IMEWLConverter.Generaters
 
     public class ErbiGenerater : IWordCodeGenerater
     {
-        public bool Is1Char1Code { get { return false; } }
+        private Dictionary<char, IList<string>> erbiDic;
+
+        private Dictionary<char, IList<string>> ErbiDic
+        {
+            get
+            {
+                if (erbiDic == null)
+                {
+                    string txt = Dictionaries.Erbi;
+
+                    erbiDic = new Dictionary<char, IList<string>>();
+                    foreach (string line in txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        string[] arr = line.Split('\t');
+                        if (arr[0].Length == 0)
+                        {
+                            continue;
+                        }
+                        char word = arr[0][0];
+                        string code = arr[1];
+                        if (erbiDic.ContainsKey(word))
+                        {
+                            erbiDic[word].Add(code);
+                        }
+                        else
+                        {
+                            erbiDic.Add(word, new List<string> {code});
+                        }
+                    }
+                }
+                return erbiDic;
+            }
+        }
+
         #region IWordCodeGenerater Members
+
+        public bool Is1Char1Code
+        {
+            get { return false; }
+        }
 
         public string GetDefaultCodeOfChar(char str)
         {
@@ -29,14 +64,14 @@ namespace Studyzy.IMEWLConverter.Generaters
             {
                 return null;
             }
-            foreach (var c in str)
+            foreach (char c in str)
             {
                 if (!ErbiDic.ContainsKey(c))
                 {
                     return new List<string>();
                 }
             }
-            
+
             if (str.Length == 1)
             {
                 return ErbiDic[str[0]];
@@ -58,19 +93,33 @@ namespace Studyzy.IMEWLConverter.Generaters
                 codes.Add(Get1Code(str[0]));
                 codes.Add(Get1Code(str[1]));
                 codes.Add(Get1Code(str[2]));
-                codes.Add(Get1Code(str[str.Length-1]));
+                codes.Add(Get1Code(str[str.Length - 1]));
             }
-            List<string> result = new List<string>();
+            var result = new List<string>();
             Descartes(codes, 0, result, string.Empty);
             return result;
         }
+
+        public IList<string> GetCodeOfChar(char str)
+        {
+            return ErbiDic[str];
+        }
+
+
+        public bool Is1CharMutiCode
+        {
+            get { return true; }
+        }
+
+        #endregion
+
         private static string Descartes(IList<IList<string>> list, int count, IList<string> result, string data)
         {
             string temp = data;
             //获取当前数组
-            var astr = list[count];
+            IList<string> astr = list[count];
             //循环当前数组
-            foreach (var item in astr)
+            foreach (string item in astr)
             {
                 if (count + 1 < list.Count)
                 {
@@ -83,14 +132,15 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return temp;
         }
+
         private IList<string> Get2Code(char c)
         {
             var result = new List<string>();
-            var codes = ErbiDic[c];
-            foreach (var code in codes)
+            IList<string> codes = ErbiDic[c];
+            foreach (string code in codes)
             {
-                var c2 = code.Substring(0, Math.Min(code.Length, 2));
-                if(!result.Contains(c2))
+                string c2 = code.Substring(0, Math.Min(code.Length, 2));
+                if (!result.Contains(c2))
                     result.Add(c2);
             }
             return result;
@@ -99,61 +149,14 @@ namespace Studyzy.IMEWLConverter.Generaters
         private IList<string> Get1Code(char c)
         {
             var result = new List<string>();
-            var codes = ErbiDic[c];
-            foreach (var code in codes)
+            IList<string> codes = ErbiDic[c];
+            foreach (string code in codes)
             {
-                var c1 = code.Substring(0, 1);
+                string c1 = code.Substring(0, 1);
                 if (!result.Contains(c1))
                     result.Add(c1);
             }
             return result;
         }
-
-        private Dictionary<char, IList<string>> erbiDic;
-
-        private Dictionary<char, IList<string>> ErbiDic
-        {
-            get
-            {
-                if (erbiDic == null)
-                {
-                 
-                    var txt = Dictionaries.Erbi;
-
-                    erbiDic = new Dictionary<char, IList<string>>();
-                    foreach (var line in txt.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        var arr = line.Split('\t');
-                        if (arr[0].Length == 0)
-                        {
-                            continue;
-                        }
-                        var word = arr[0][0];
-                        var code = arr[1];
-                        if (erbiDic.ContainsKey(word))
-                        {
-                            erbiDic[word].Add(code);
-                        }
-                        else
-                        {
-                            erbiDic.Add(word, new List<string>(){code});                            
-                        }
-                    }
-                }
-                return erbiDic;
-            }
-        }
-
-      
-        public IList<string> GetCodeOfChar(char str)
-        {
-            return ErbiDic[str];
-        }
-
-    
-
-        public bool Is1CharMutiCode { get { return true; } }
-
-        #endregion
     }
 }
