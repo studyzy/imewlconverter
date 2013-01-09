@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +11,12 @@ namespace Studyzy.IMEWLConverter.Generaters
     public class Cangjie5Generater : IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
-        public bool Is1Char1Code { get { return false; } }
+
+        public bool Is1Char1Code
+        {
+            get { return false; }
+        }
+
         public string GetDefaultCodeOfChar(char str)
         {
             return Dictionary[str][0].Code;
@@ -42,28 +48,28 @@ namespace Studyzy.IMEWLConverter.Generaters
                 {'女', "v"},
                 {'田', "w"},
                 {'卜', "y"},
-                {'曰',"a"},
-                {'八',"c"},
-                {'儿',"c"},
-                {'又',"e"},
-                {'小',"f"},
-                {'士',"g"},
-                {'广',"i"},
-                {'厂',"m"},
-                {'工',"m"},
-                {'乙',"n"},
+                {'曰', "a"},
+                {'八', "c"},
+                {'儿', "c"},
+                {'又', "e"},
+                {'小', "f"},
+                {'士', "g"},
+                {'广', "i"},
+                {'厂', "m"},
+                {'工', "m"},
+                {'乙', "n"},
                 {'入', "o"},
-                {'匕',"p"},
-                {'七',"p"},
-           
+                {'匕', "p"},
+                {'七', "p"},
+
             };
+
         /// <summary>
         /// 一个字有多种编码，所以一个词也会多种编码
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-         public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
-
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
         {
             foreach (var c in str)
             {
@@ -94,7 +100,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 codes.Add(GetFirstAndLastCode(str[0]));
                 var code2 = GetFirstAndLastCode(str[1]);
                 codes.Add(code2);
-                if (code2[0].Length == 1)//212取码
+                if (code2[0].Length == 1) //212取码
                 {
                     codes.Add(GetFirstAndLastCode(str[2]));
                 }
@@ -143,7 +149,10 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
 
-        public bool Is1CharMutiCode { get { return true; } }
+        public bool Is1CharMutiCode
+        {
+            get { return true; }
+        }
 
         private char GetSplitedCode(string code)
         {
@@ -151,13 +160,13 @@ namespace Studyzy.IMEWLConverter.Generaters
             return arr[0][arr[0].Length - 1];
         }
 
-       
+
 
         private IList<string> GetLastCode(char c)
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string>() { OneCodeChar[c] };
+                return new List<string>() {OneCodeChar[c]};
             }
             var x = Dictionary[c];
             var result = new List<string>();
@@ -189,7 +198,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string>() { OneCodeChar[c] };
+                return new List<string>() {OneCodeChar[c]};
             }
             var x = Dictionary[c];
             var result = new List<string>();
@@ -208,7 +217,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string>() { OneCodeChar[c] };
+                return new List<string>() {OneCodeChar[c]};
             }
             var x = Dictionary[c];
             var result = new List<string>();
@@ -237,7 +246,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string>() { OneCodeChar[c] };
+                return new List<string>() {OneCodeChar[c]};
             }
             var x = Dictionary[c];
             var result = new List<string>();
@@ -274,7 +283,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     var txt = Dictionaries.Cangjie5;
                     dictionary = new Dictionary<char, IList<Cangjie>>();
 
-                    foreach (var line in txt.Split(new char[]{'\r', '\n'},StringSplitOptions.RemoveEmptyEntries))
+                    foreach (var line in txt.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
                     {
                         var arr = line.Split('\t');
                         try
@@ -292,7 +301,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                             }
                             else
                             {
-                                dictionary.Add(word, new List<Cangjie>() { cj });
+                                dictionary.Add(word, new List<Cangjie>() {cj});
                             }
 
                         }
@@ -312,7 +321,9 @@ namespace Studyzy.IMEWLConverter.Generaters
         private Dictionary<char, IList<Cangjie>> dictionary;
 
         #endregion
+
         public bool IgnoreContainRule { get; set; }
+
         public struct Cangjie
         {
             public string Code { get; set; }

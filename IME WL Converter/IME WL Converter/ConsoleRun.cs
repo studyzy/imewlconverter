@@ -1,10 +1,12 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using Studyzy.IMEWLConverter.Generaters;
+﻿using Studyzy.IMEWLConverter.Entities;
+﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
 
@@ -22,7 +24,7 @@ namespace Studyzy.IMEWLConverter
         private string codingFile;
         private string exportPath = "";
         private string format;
-        private Encoding wordEncoding=Encoding.UTF8, xmlEncoding;
+        private Encoding wordEncoding = Encoding.UTF8, xmlEncoding;
         private CommandType type = CommandType.Null;
         private IWordLibraryExport wordLibraryExport;
         private IWordLibraryImport wordLibraryImport;
@@ -84,10 +86,10 @@ namespace Studyzy.IMEWLConverter
             }
             if (importPaths.Count > 0 && exportPath != "")
             {
-                MainBody mainBody=new MainBody();
+                MainBody mainBody = new MainBody();
                 mainBody.Export = wordLibraryExport;
                 mainBody.Import = wordLibraryImport;
-                
+
                 Console.WriteLine("转换开始...");
                 //foreach (string importPath in importPaths)
                 //{
@@ -138,13 +140,13 @@ namespace Studyzy.IMEWLConverter
             {
                 var ecodes = command.Substring(5);
                 var arr = ecodes.Split(',');
-                
+
                 wordEncoding = Encoding.GetEncoding(arr[0]);
                 if (arr.Length > 1)
                 {
                     xmlEncoding = Encoding.GetEncoding(arr[1]);
                 }
-              
+
                 return CommandType.Encoding;
             }
             if (command.StartsWith("-f:")) //format
@@ -170,7 +172,7 @@ namespace Studyzy.IMEWLConverter
                 pattern.ContainRank = (format[8].ToString().ToLower() == "y");
                 return CommandType.Format;
             }
-           
+
             if (beginImportFile)
             {
                 importPaths.Add(command);
@@ -219,7 +221,7 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryExport GetExportInterface(string str)
         {
-           try
+            try
             {
                 return exports[str];
             }
@@ -231,7 +233,7 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryImport GetImportInterface(string str)
         {
-           
+
             try
             {
                 return imports[str];
@@ -252,7 +254,7 @@ namespace Studyzy.IMEWLConverter
             {
                 Console.WriteLine(comboBoxShowAttribute.ShortCode + "\t" + comboBoxShowAttribute.Name);
             }
-           
+
             Console.WriteLine("");
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
             Console.WriteLine("例如要将C:\\test.scel和C:\\a.scel的搜狗细胞词库转换为D:\\gg.txt的谷歌拼音词库，命令为：");

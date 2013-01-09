@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.Language;
 
 namespace Studyzy.IMEWLConverter
 {
-    class MainBody
+    internal class MainBody
     {
+        private WordLibraryList allWlList = new WordLibraryList();
+        private int count;
+        private IWordLibraryExport export;
+        private IWordLibraryImport import;
+        private IChineseConverter selectedConverter;
+        private ChineseTranslate selectedTranslate;
+
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;
-
         }
 
-        private IWordLibraryImport import;
-        private IWordLibraryExport export;
-        private IChineseConverter selectedConverter;
-        private ChineseTranslate selectedTranslate;
         public IWordLibraryImport Import
         {
             get { return import; }
@@ -46,7 +49,6 @@ namespace Studyzy.IMEWLConverter
             set { selectedTranslate = value; }
         }
 
-        private int count;
         public int Count
         {
             get { return count; }
@@ -54,7 +56,7 @@ namespace Studyzy.IMEWLConverter
 
 
         public IList<ISingleFilter> Filters { get; set; }
-        private WordLibraryList allWlList = new WordLibraryList();
+
         public string Convert(IList<string> filePathes)
         {
             allWlList.Clear();
@@ -66,14 +68,13 @@ namespace Studyzy.IMEWLConverter
             }
             if (selectedTranslate != ChineseTranslate.NotTrans)
             {
-              
                 allWlList = ConvertChinese(allWlList);
-              
             }
             count = allWlList.Count;
             return export.Export(allWlList);
         }
-        public void StreamConvert(IList<string> filePathes,string outPath)
+
+        public void StreamConvert(IList<string> filePathes, string outPath)
         {
             var textImport = import as IWordLibraryTextImport;
             if (textImport == null)
@@ -86,12 +87,13 @@ namespace Studyzy.IMEWLConverter
                 var wlStream = new WordLibraryStream(import, export, filePath, textImport.Encoding, stream);
                 //wlStream.ConvertWordLibrary(WordFilterRetain);
             }
-       
+
             stream.Close();
         }
+
         private WordLibraryList Filter(WordLibraryList list)
         {
-            WordLibraryList result=new WordLibraryList();
+            var result = new WordLibraryList();
             foreach (WordLibrary wordLibrary in list)
             {
                 if (IsKeep(wordLibrary))
@@ -101,6 +103,7 @@ namespace Studyzy.IMEWLConverter
             }
             return result;
         }
+
         private bool IsKeep(WordLibrary wordLibrary)
         {
             foreach (ISingleFilter filter in Filters)
@@ -112,6 +115,7 @@ namespace Studyzy.IMEWLConverter
             }
             return true;
         }
+
         private WordLibraryList ConvertChinese(WordLibraryList wordLibraryList)
         {
             var sb = new StringBuilder();
@@ -129,7 +133,7 @@ namespace Studyzy.IMEWLConverter
             {
                 result = selectedConverter.ToCht(sb.ToString());
             }
-            string[] newList = result.Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] newList = result.Split(new[] {'\r'}, StringSplitOptions.RemoveEmptyEntries);
             if (newList.Length != count)
             {
                 throw new Exception("简繁转换时转换失败，请更改简繁转换设置");

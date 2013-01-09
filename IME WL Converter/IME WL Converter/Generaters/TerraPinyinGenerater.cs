@@ -12,17 +12,17 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return PinyinHelper.GetPinYinWithToneOfChar(str);
         }
+
         public override IList<string> GetCodeOfString(string str, string charCodeSplit = "")
         {
-            var py= base.GetCodeOfString(str, charCodeSplit);
+            IList<string> py = base.GetCodeOfString(str, charCodeSplit);
             var result = new List<string>();
-            for(var i=0;i<str.Length;i++)
+            for (int i = 0; i < str.Length; i++)
             {
-                var p = py[i];
+                string p = py[i];
                 result.Add(PinyinHelper.AddToneToPinyin(str[i], p));
             }
             return result;
         }
-      
     }
 }

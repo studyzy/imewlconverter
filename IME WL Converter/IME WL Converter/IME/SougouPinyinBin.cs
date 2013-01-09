@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -10,7 +11,7 @@ namespace Studyzy.IMEWLConverter.IME
     /// 搜狗二进制备份词库
     /// </summary>
     [ComboBoxShow(ConstantString.SOUGOU_PINYIN_BIN, ConstantString.SOUGOU_PINYIN_BIN_C, 30)]
-    public class SougouPinyinBin : BaseImport,IWordLibraryImport
+    public class SougouPinyinBin : BaseImport, IWordLibraryImport
     {
         private readonly List<string> PinYinDic = new List<string>
             {
@@ -459,6 +460,13 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport Members
 
+        public override bool IsText
+        {
+            get { return false; }
+        }
+
+        #endregion
+
         public WordLibraryList Import(string path)
         {
             var pyAndWord = new WordLibraryList();
@@ -503,17 +511,9 @@ namespace Studyzy.IMEWLConverter.IME
             return pyAndWord;
         }
 
-
-        public override bool IsText
-        {
-            get { return false; }
-        }
-
         public WordLibraryList ImportLine(string line)
         {
             throw new NotImplementedException("搜狗Bin文件为二进制文件，不支持");
         }
-
-        #endregion
     }
 }

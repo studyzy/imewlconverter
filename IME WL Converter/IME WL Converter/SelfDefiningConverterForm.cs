@@ -1,7 +1,9 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Generaters;
+﻿using Studyzy.IMEWLConverter.Entities;
+﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter
@@ -110,11 +112,11 @@ namespace Studyzy.IMEWLConverter
             if (string.IsNullOrEmpty(txbFilePath.Text))
             {
                 //不指定编码文件，那么必然是拼音
-                if (!SelectedParsePattern.IsPinyinFormat)
-                {
-                    MessageBox.Show("不是拼音编码，那么必须指定编码文件");
-                    return;
-                }
+                //if (!SelectedParsePattern.IsPinyinFormat)
+                //{
+                //    MessageBox.Show("不是拼音编码，那么必须指定编码文件");
+                //    return;
+                //}
             }
             else
             {

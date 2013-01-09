@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -42,12 +43,12 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport Members
 
-   
-
         public override bool IsText
         {
             get { return false; }
         }
+
+        #endregion
 
         public WordLibraryList ImportLine(string line)
         {
@@ -66,8 +67,6 @@ namespace Studyzy.IMEWLConverter.IME
             //return null;
             throw new Exception("Scel格式是二进制文件，不支持流转换");
         }
-
-        #endregion
 
         private WordLibraryList ReadScel(string path)
         {
@@ -200,9 +199,9 @@ namespace Studyzy.IMEWLConverter.IME
                 str = new byte[hzBytecount];
                 fs.Read(str, 0, hzBytecount);
                 string word = Encoding.Unicode.GetString(str);
-                short unknown1 = BinFileHelper.ReadInt16(fs);//全部是10,肯定不是词频，具体是什么不知道
-                var unknown2 = BinFileHelper.ReadInt32(fs);//每个字对应的数字不一样，不知道是不是词频
-                pyAndWord.Add(new WordLibrary { Word = word, PinYin = wordPY.ToArray(), Count = DefaultRank });
+                short unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
+                int unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频
+                pyAndWord.Add(new WordLibrary {Word = word, PinYin = wordPY.ToArray(), Count = DefaultRank});
                 CurrentStatus++;
                 //接下来10个字节什么意思呢？暂时先忽略了
                 var temp = new byte[6];

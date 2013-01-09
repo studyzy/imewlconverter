@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -9,9 +7,9 @@ namespace Studyzy.IMEWLConverter.IME
         public BaseImport()
         {
             DefaultRank = 1;
-            CodeType=CodeType.Pinyin;
+            CodeType = CodeType.Pinyin;
         }
-       
+
         public virtual CodeType CodeType { get; set; }
         public virtual int DefaultRank { get; set; }
         public virtual int CountWord { get; set; }
@@ -21,6 +19,5 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return true; }
         }
-       
     }
 }

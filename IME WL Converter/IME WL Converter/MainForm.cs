@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +8,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Filters;
+﻿using Studyzy.IMEWLConverter.Entities;
+﻿using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
 

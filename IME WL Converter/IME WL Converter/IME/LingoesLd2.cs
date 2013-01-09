@@ -6,7 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using Studyzy.IMEWLConverter.Generaters;
+﻿using Studyzy.IMEWLConverter.Entities;
+﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -30,21 +31,25 @@ namespace Studyzy.IMEWLConverter.IME
         //    };
 
         private readonly Regex regex = new Regex("[\u4E00-\u9FA5]+");
+
         /// <summary>
         /// 词汇的编码
         /// </summary>
         public Encoding WordEncoding { get; set; }
+
         /// <summary>
         /// 解释的编码
         /// </summary>
         public Encoding XmlEncoding { get; set; }
+
         /// <summary>
         /// 在导出的Word内容中是否包含注释，默认不包含
         /// </summary>
         public bool IncludeMeaning { get; set; }
+
         #region IWordLibraryImport Members
 
-      
+
 
         public WordLibraryList Import(string path)
         {
@@ -175,7 +180,7 @@ namespace Studyzy.IMEWLConverter.IME
             byte[] inflatedFile = Inflate(fs, offsetCompressedData, deflateStreams);
 
 
-         
+
 
             //fs.Position = offsetIndex;
             //var idxArray = new int[definitions];
@@ -188,8 +193,9 @@ namespace Studyzy.IMEWLConverter.IME
             return Extract(inflatedFile, inflatedWordsIndexLength,
                            inflatedWordsIndexLength + inflatedWordsLength);
         }
+
         #region 解压
-        
+
 
         private byte[] Inflate(FileStream dataRawBytes, long startP, List<int> deflateStreams)
         {
@@ -234,7 +240,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return t;
         }
-      
+
         private Stream CopyStream(Stream stream, long offset, int length)
         {
             stream.Position = offset;
@@ -257,9 +263,11 @@ namespace Studyzy.IMEWLConverter.IME
             Stream stream = new MemoryStream(bytes);
             return stream;
         }
+
         #endregion
 
         #region 解析
+
         /// <summary>
         /// 解析解压后的数据，返回词汇列表
         /// </summary>
@@ -273,7 +281,7 @@ namespace Studyzy.IMEWLConverter.IME
             int defTotal = offsetDefs/dataLen - 1;
             CountWord = defTotal;
             var words = new string[defTotal];
-           
+
 
             //Encoding[] encodings = DetectEncodings(dataRawBytes, offsetDefs, offsetXml, defTotal, dataLen);
 
@@ -282,7 +290,7 @@ namespace Studyzy.IMEWLConverter.IME
             CurrentStatus = 0;
             for (int i = 0; i < defTotal; i++)
             {
-               var kv= ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen, WordEncoding, XmlEncoding,i);
+                var kv = ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen, WordEncoding, XmlEncoding, i);
 
                 var word = kv.Key;
                 string xml = kv.Value;
@@ -298,10 +306,11 @@ namespace Studyzy.IMEWLConverter.IME
                 CurrentStatus++;
             }
 
-          
+
             Debug.WriteLine("成功读出" + CurrentStatus + "组数据。");
             return new List<string>(words);
         }
+
         /// <summary>
         /// 读取一个词汇的词和解释
         /// </summary>
@@ -313,9 +322,9 @@ namespace Studyzy.IMEWLConverter.IME
         /// <param name="xmlStringDecoder"></param>
         /// <param name="i"></param>
         /// <returns>Key为词汇，Value为解释</returns>
-        private KeyValuePair<string,string> ReadDefinitionData(byte[] inflatedBytes, int offsetWords,
-                                        int offsetXml, int dataLen, Encoding wordStringDecoder,
-                                        Encoding xmlStringDecoder,  int i)
+        private KeyValuePair<string, string> ReadDefinitionData(byte[] inflatedBytes, int offsetWords,
+                                                                int offsetXml, int dataLen, Encoding wordStringDecoder,
+                                                                Encoding xmlStringDecoder, int i)
         {
             var idxData = new int[6];
             GetIdxData(inflatedBytes, dataLen*i, idxData);
@@ -354,7 +363,7 @@ namespace Studyzy.IMEWLConverter.IME
             byte[] w = BinFileHelper.ReadArray(inflatedBytes, position1, currentWordOffset - lastWordPos);
             string word = wordStringDecoder.GetString(w);
             //defData[0] = word;
-            return new KeyValuePair<string, string>(word,xml);
+            return new KeyValuePair<string, string>(word, xml);
         }
 
 
@@ -408,11 +417,13 @@ namespace Studyzy.IMEWLConverter.IME
         //    Debug.WriteLine("自动识别编码失败！选择UTF-16LE继续。");
         //    return new[] {AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[1]};
         //}
-        Regex hregex = new Regex(@"<(.[^>]*)>");
+        private Regex hregex = new Regex(@"<(.[^>]*)>");
+
         private string RemoveHtmlTag(string html)
         {
             return hregex.Replace(html, "");
         }
+
         #endregion
     }
 }

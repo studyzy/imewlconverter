@@ -98,6 +98,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 throw new Exception("找不到字：“" + c + "”的拼音");
             }
         }
+
         public static IList<string> GetDefaultPinyin(string word)
         {
             var result = new List<string>();
@@ -149,16 +150,16 @@ namespace Studyzy.IMEWLConverter.Helpers
             List<string> list = PinYinWithToneDict[str];
             foreach (string allpinyin in list)
             {
-                foreach (var pinyin in allpinyin.Split(','))
+                foreach (string pinyin in allpinyin.Split(','))
                 {
-                if (pinyin == py + "0" || pinyin == py + "1" || pinyin == py + "2" || pinyin == py + "3" ||
-                    pinyin == py + "4" || pinyin == py + "5")
-                {
-                    return pinyin;
-                }
+                    if (pinyin == py + "0" || pinyin == py + "1" || pinyin == py + "2" || pinyin == py + "3" ||
+                        pinyin == py + "4" || pinyin == py + "5")
+                    {
+                        return pinyin;
+                    }
                 }
             }
-            Debug.WriteLine("找不到"+str+"的拼音"+py+"对应的音调");
+            Debug.WriteLine("找不到" + str + "的拼音" + py + "对应的音调");
             return null;
         }
 

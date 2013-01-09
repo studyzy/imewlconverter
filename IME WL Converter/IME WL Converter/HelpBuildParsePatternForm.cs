@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+
 using Studyzy.IMEWLConverter.Generaters;
+
+using Studyzy.IMEWLConverter.Entities;
+
 
 namespace Studyzy.IMEWLConverter
 {

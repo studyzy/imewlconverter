@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -14,8 +15,6 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-     
-
         /// <summary>
         /// 将一行纯文本转换为对象
         /// </summary>
@@ -23,7 +22,7 @@ namespace Studyzy.IMEWLConverter.IME
         /// <returns></returns>
         public virtual WordLibraryList ImportLine(string line)
         {
-            var py = pinyinFactory.GetCodeOfString(line);
+            IList<string> py = pinyinFactory.GetCodeOfString(line);
             var wl = new WordLibrary();
             wl.Word = line;
             wl.PinYin = CollectionHelper.ToArray(py);
@@ -46,7 +45,7 @@ namespace Studyzy.IMEWLConverter.IME
         public virtual WordLibraryList ImportText(string str)
         {
             pinyinFactory = new PinyinGenerater();
-           
+
             var wlList = new WordLibraryList();
             string[] words = str.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
             CountWord = words.Length;
@@ -61,7 +60,7 @@ namespace Studyzy.IMEWLConverter.IME
                         wlList.AddWordLibraryList(ImportLine(word));
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
@@ -104,7 +103,5 @@ namespace Studyzy.IMEWLConverter.IME
         #endregion
 
         #endregion
-
-    
     }
 }

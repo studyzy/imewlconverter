@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
         {
-            return new List<string> { GetStringWubiCode(str) };
+            return new List<string> {GetStringWubiCode(str)};
         }
 
         public virtual IList<string> GetCodeOfChar(char str)
@@ -22,7 +22,19 @@ namespace Studyzy.IMEWLConverter.Generaters
             return new List<string> {DictionaryHelper.GetCode(str).Wubi86};
         }
 
-        private  string GetStringWubiCode(string str)
+        public bool Is1CharMutiCode
+        {
+            get { return false; }
+        }
+
+        public bool Is1Char1Code
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+        private string GetStringWubiCode(string str)
         {
             if (str.Length == 1)
             {
@@ -50,9 +62,5 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return code1[0].ToString() + code2[0] + code3[0] + code4[0];
             }
         }
-
-        public bool Is1CharMutiCode { get { return false; } }
-        public bool Is1Char1Code { get { return false; } }
-        #endregion
     }
 }

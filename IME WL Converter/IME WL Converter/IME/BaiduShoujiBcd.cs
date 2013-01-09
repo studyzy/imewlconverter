@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -76,12 +77,12 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport Members
 
-    
-
         public override bool IsText
         {
             get { return false; }
         }
+
+        #endregion
 
         public WordLibraryList Import(string path)
         {
@@ -144,8 +145,6 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new NotImplementedException();
         }
-
-        #endregion
 
         private WordLibrary ImportWord(FileStream fs)
         {

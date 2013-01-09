@@ -52,7 +52,9 @@ namespace Studyzy.IMEWLConverter
         private void SplitFileByLine(int maxLine)
         {
             Encoding encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
-            string str = FileOperationHelper.ReadFile(txbFilePath.Text,encoding);
+
+            string str = FileOperationHelper.ReadFile(txbFilePath.Text, encoding);
+
             string splitLineChar = "\r\n";
             if (str.IndexOf(splitLineChar) < 0)
             {
@@ -144,7 +146,9 @@ namespace Studyzy.IMEWLConverter
         {
             do
             {
-                var b =  fs.ReadByte();
+
+                var b = fs.ReadByte();
+
                 if (b == -1)
                 {
                     return false;
