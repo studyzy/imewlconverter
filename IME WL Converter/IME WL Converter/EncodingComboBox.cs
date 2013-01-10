@@ -10,6 +10,7 @@ namespace Studyzy.IMEWLConverter
 
         public EncodingComboBox()
          {
+           
              Items.Clear();
              this.Items.AddRange(new object[] {
             "Unicode",
@@ -21,6 +22,7 @@ namespace Studyzy.IMEWLConverter
             "ASCII"});
              Text = "UTF-8";
          }
+         
         public Encoding SelectedEncoding
         {
             get
@@ -75,5 +77,7 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
+
+     
     }
 }

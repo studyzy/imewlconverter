@@ -215,26 +215,13 @@
             "GBK",
             "Big5",
             "BigEndianUnicode",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "BigEndianUnicode",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "BigEndianUnicode",
             "ASCII"});
             this.cbxTextEncoding.Location = new System.Drawing.Point(433, 69);
             this.cbxTextEncoding.Name = "cbxTextEncoding";
             this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
             this.cbxTextEncoding.Size = new System.Drawing.Size(105, 20);
             this.cbxTextEncoding.TabIndex = 14;
+            this.cbxTextEncoding.Visible = false;
             // 
             // SelfDefiningConverterForm
             // 

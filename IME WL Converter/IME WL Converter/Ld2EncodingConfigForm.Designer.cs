@@ -65,12 +65,11 @@
             // cbxEncoding
             // 
             this.cbxEncoding.FormattingEnabled = true;
-
             this.cbxEncoding.Location = new System.Drawing.Point(128, 12);
             this.cbxEncoding.Name = "cbxEncoding";
+            this.cbxEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxEncoding.SelectedEncoding")));
             this.cbxEncoding.Size = new System.Drawing.Size(121, 20);
             this.cbxEncoding.TabIndex = 4;
-            this.cbxEncoding.Text = "UTF-8";
             // 
             // Ld2EncodingConfigForm
             // 
@@ -84,6 +83,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Ld2EncodingConfigForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ld2编码设置";
             this.ResumeLayout(false);

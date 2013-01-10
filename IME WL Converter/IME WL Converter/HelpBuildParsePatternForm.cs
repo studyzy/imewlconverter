@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using Studyzy.IMEWLConverter.Generaters;
@@ -167,6 +168,25 @@ code_a4=p11+p21+p31+n11";
                 SelectedParsePattern.IsPinyinFormat = false;
                 SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
             }
+            ShowSample();
+        }
+
+        private void rtbCodeFormat_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
+                ShowSample();
+            }
+            catch
+            {
+                Debug.WriteLine("输入格式不正确");
+            }
+        }
+
+        private void cbxIsPinyin_CheckedChanged(object sender, EventArgs e)
+        {
+            SelectedParsePattern.IsPinyin = cbxIsPinyin.Checked;
             ShowSample();
         }
       

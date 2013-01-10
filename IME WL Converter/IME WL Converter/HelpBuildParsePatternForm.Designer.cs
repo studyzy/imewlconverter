@@ -48,6 +48,7 @@
             this.cbxPinyinSplitBehind = new System.Windows.Forms.CheckBox();
             this.rtbCodeFormat = new System.Windows.Forms.RichTextBox();
             this.cbxCodeFormat = new System.Windows.Forms.ComboBox();
+            this.cbxIsPinyin = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numOrderPinyin)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numOrderCipin)).BeginInit();
@@ -98,7 +99,7 @@
             this.cbxIncludeCipin.AutoSize = true;
             this.cbxIncludeCipin.Checked = true;
             this.cbxIncludeCipin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxIncludeCipin.Location = new System.Drawing.Point(196, 14);
+            this.cbxIncludeCipin.Location = new System.Drawing.Point(117, 14);
             this.cbxIncludeCipin.Name = "cbxIncludeCipin";
             this.cbxIncludeCipin.Size = new System.Drawing.Size(72, 16);
             this.cbxIncludeCipin.TabIndex = 3;
@@ -271,6 +272,7 @@
             this.rtbCodeFormat.Size = new System.Drawing.Size(153, 60);
             this.rtbCodeFormat.TabIndex = 12;
             this.rtbCodeFormat.Text = "code_e2=p11+p12+p21+p22\ncode_e3=p11+p21+p31+p32\ncode_a4=p11+p21+p31+n11";
+            this.rtbCodeFormat.TextChanged += new System.EventHandler(this.rtbCodeFormat_TextChanged);
             // 
             // cbxCodeFormat
             // 
@@ -286,12 +288,26 @@
             this.cbxCodeFormat.Text = "拼音格式";
             this.cbxCodeFormat.SelectedIndexChanged += new System.EventHandler(this.cbxCodeFormat_SelectedIndexChanged);
             // 
+            // cbxIsPinyin
+            // 
+            this.cbxIsPinyin.AutoSize = true;
+            this.cbxIsPinyin.Checked = true;
+            this.cbxIsPinyin.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxIsPinyin.Location = new System.Drawing.Point(214, 14);
+            this.cbxIsPinyin.Name = "cbxIsPinyin";
+            this.cbxIsPinyin.Size = new System.Drawing.Size(84, 16);
+            this.cbxIsPinyin.TabIndex = 14;
+            this.cbxIsPinyin.Text = "是拼音编码";
+            this.cbxIsPinyin.UseVisualStyleBackColor = true;
+            this.cbxIsPinyin.CheckedChanged += new System.EventHandler(this.cbxIsPinyin_CheckedChanged);
+            // 
             // HelpBuildParsePatternForm
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Dialog;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(316, 345);
+            this.Controls.Add(this.cbxIsPinyin);
             this.Controls.Add(this.cbxCodeFormat);
             this.Controls.Add(this.rtbCodeFormat);
             this.Controls.Add(this.cbxPinyinSplitBehind);
@@ -347,5 +363,6 @@
         private System.Windows.Forms.CheckBox cbxPinyinSplitBehind;
         private System.Windows.Forms.RichTextBox rtbCodeFormat;
         private System.Windows.Forms.ComboBox cbxCodeFormat;
+        private System.Windows.Forms.CheckBox cbxIsPinyin;
     }
 }

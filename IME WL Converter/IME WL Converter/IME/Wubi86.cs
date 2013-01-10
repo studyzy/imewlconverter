@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
@@ -37,8 +38,15 @@ namespace Studyzy.IMEWLConverter.IME
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count; i++)
             {
-                sb.Append(ExportLine(wlList[i]));
-                sb.Append("\r\n");
+                try
+                {
+                    sb.Append(ExportLine(wlList[i]));
+                    sb.Append("\r\n");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
             return sb.ToString();
         }

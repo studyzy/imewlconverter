@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
 {
@@ -58,7 +59,8 @@ namespace Studyzy.IMEWLConverter.Entities
         #endregion
 
         #region 扩展属性和方法
-
+        private static IWordCodeGenerater pyGenerater=new PinyinGenerater();
+        private string[] tempPinyin;
         /// <summary>
         /// 词中每个字的拼音(已消除多音字)
         /// </summary>
@@ -72,7 +74,16 @@ namespace Studyzy.IMEWLConverter.Entities
                 }
                 else
                 {
-                    return null;
+                    if (tempPinyin == null)
+                    {
+                        var py = pyGenerater.GetCodeOfString(this.word);
+                        tempPinyin = new string[py.Count];
+                        for (int i = 0; i < py.Count; i++)
+                        {
+                            tempPinyin[i] = py[i];
+                        }
+                    }
+                    return tempPinyin;
                 }
             }
             set
@@ -129,47 +140,8 @@ namespace Studyzy.IMEWLConverter.Entities
         /// <returns></returns>
         public string GetPinYinString(string split, BuildType buildType)
         {
-            var sb = new StringBuilder();
-            IList<string> list = null;
-            if (PinYin != null)
-            {
-                list = new List<string>(PinYin);
-            }
+            return CollectionHelper.GetString(PinYin, split, buildType);
 
-            if (list == null || list.Count == 0)
-            {
-                var pyGenerater = new PinyinGenerater();
-                list = pyGenerater.GetCodeOfString(word);
-            }
-            if (list.Count == 0)
-            {
-                return "";
-            }
-            foreach (string s in list)
-            {
-                sb.Append(s + split);
-            }
-            if (buildType == BuildType.RightContain)
-            {
-                return sb.ToString();
-            }
-            if (buildType == BuildType.FullContain)
-            {
-                return split + sb;
-            }
-            string str = sb.ToString();
-            if (split.Length > 0)
-            {
-                str = str.Remove(sb.Length - 1);
-            }
-            if (buildType == BuildType.None)
-            {
-                return str;
-            }
-            else //BuildType.LeftContain
-            {
-                return split + str;
-            }
         }
 
         public string ToDisplayString()
@@ -180,8 +152,8 @@ namespace Studyzy.IMEWLConverter.Entities
 
         public override string ToString()
         {
-            return "WordLibrary 汉字：" + word +
-                   (string.IsNullOrEmpty(WubiCode) ? "；拼音：" + PinYinString : "五笔：" + WubiCode) + "；词频：" + count;
+            return "WordLibrary 汉字：" + word +"Codes:"+
+                   CollectionHelper.ListToString(Codes[0]) + "；词频：" + count;
         }
 
         #endregion

@@ -77,6 +77,7 @@
             this.Controls.Add(this.cbxCodeType);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "XiaoxiaoConfigForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "小小输入法编码设置";
             this.ResumeLayout(false);

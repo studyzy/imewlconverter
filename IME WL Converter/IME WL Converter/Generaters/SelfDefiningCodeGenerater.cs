@@ -20,13 +20,13 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return MappingDictionary[str];
             }
             //没有指定Mapping表，那么就按拼音处理
-
-            string s = UserCodingHelper.GetCharCoding(str);
-            return s;
+            throw new Exception("Must set mapping table");
+            //string s = UserCodingHelper.GetCharCoding(str);
+            //return s;
         }
 
 
-        public IDictionary<char, string> MappingDictionary { get; set; }
+     
 
 
         public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
@@ -134,7 +134,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
 
         #endregion
-
+        public IDictionary<char, string> MappingDictionary { get; set; }
         /// <summary>
         /// 对于多个字的编码的设定
         /// 形如：

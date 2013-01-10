@@ -131,7 +131,7 @@ namespace Studyzy.IMEWLConverter
             if (command.StartsWith("-c:")) //code
             {
                 codingFile = command.Substring(3);
-                UserCodingHelper.FilePath = codingFile;
+                pattern.MappingTablePath = codingFile;
                 pattern.IsPinyinFormat = false;
                 beginImportFile = false;
                 return CommandType.Coding;

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
@@ -21,6 +24,42 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return list[0];
             }
             return string.Join(split, ToArray(list));
+        }
+        public static string GetString(IEnumerable<string> list, string split, BuildType buildType)
+        {
+            var sb = new StringBuilder();
+           
+
+            if (list == null )
+            {
+                return "";
+            }
+          
+            foreach (string s in list)
+            {
+                sb.Append(s + split);
+            }
+            if (buildType == BuildType.RightContain)
+            {
+                return sb.ToString();
+            }
+            if (buildType == BuildType.FullContain)
+            {
+                return split + sb;
+            }
+            string str = sb.ToString();
+            if (split.Length > 0)
+            {
+                str = str.Remove(sb.Length - 1);
+            }
+            if (buildType == BuildType.None)
+            {
+                return str;
+            }
+            else //BuildType.LeftContain
+            {
+                return split + str;
+            }
         }
 
         /// <summary>

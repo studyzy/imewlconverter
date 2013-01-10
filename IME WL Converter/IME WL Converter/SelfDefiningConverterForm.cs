@@ -17,6 +17,7 @@ namespace Studyzy.IMEWLConverter
         public SelfDefiningConverterForm()
         {
             InitializeComponent();
+            IsImport = true;
         }
 
         public bool IsImport
@@ -28,6 +29,10 @@ namespace Studyzy.IMEWLConverter
 
                 btnParse.Visible = isImport;
                 btnConvertTest.Visible = !isImport;
+                label2.Visible = !isImport;
+                label3.Visible = !isImport;
+                txbFilePath.Visible = !isImport;
+                btnFileSelect.Visible = !isImport;
             }
         }
 
@@ -117,25 +122,42 @@ namespace Studyzy.IMEWLConverter
                 //    MessageBox.Show("不是拼音编码，那么必须指定编码文件");
                 //    return;
                 //}
+                MessageBox.Show("请点击右上角按钮选择编码文件！如果源词库是拼音词库，那么可以不选择编码文件，直接以每个字的拼音作为其编码");
+                return;
             }
             else
             {
-                UserCodingHelper.FilePath = txbFilePath.Text;
+                SelectedParsePattern .MappingTablePath= txbFilePath.Text;
             }
             rtbTo.Clear();
             string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            SelfDefiningCodeGenerater generater=new SelfDefiningCodeGenerater();
+            generater.MappingDictionary = UserCodingHelper.GetCodingDict(txbFilePath.Text);
+            generater.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
             foreach (string str in fromList)
             {
                 string s = str.Trim();
-                var wl = new WordLibrary {Word = s};
-                string result = SelectedParsePattern.BuildWLString(wl);
+                var code= generater.GetCodeOfString(s);
+                string result = SelectedParsePattern.BuildWLString(s,code[0],1);
                 rtbTo.AppendText(result + "\r\n");
             }
         }
 
         private void SelfDefiningConverterForm_Load(object sender, EventArgs e)
         {
-            rtbFrom.Text = "深\r\n深蓝\r\n深蓝词\r\n深蓝词库\r\n深蓝词库转\r\n深蓝词库转换";
+            if (isImport)
+            {
+                rtbFrom.Text = @"shen,lan,ci,ku,zhuan,huan 深 1234
+shen,lan,ci,ku,zhuan,huan 深蓝 1234
+shen,lan,ci,ku,zhuan,huan 深蓝词 1234
+shen,lan,ci,ku,zhuan,huan 深蓝词库 1234
+shen,lan,ci,ku,zhuan,huan 深蓝词库转 1234
+shen,lan,ci,ku,zhuan,huan 深蓝词库转换 1234";
+            }
+            else
+            {
+                rtbFrom.Text = "深\r\n深蓝\r\n深蓝词\r\n深蓝词库\r\n深蓝词库转\r\n深蓝词库转换";
+            }
         }
     }
 }

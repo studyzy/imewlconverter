@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -9,14 +11,40 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.SELF_DEFINING, ConstantString.SELF_DEFINING_C, 2000)]
     public class SelfDefining : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
+        public SelfDefining()
+        {
+            CodeType=CodeType.Unknown;
+        }
+
+
         public ParsePattern UserDefiningPattern { get; set; }
 
-
+        private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
 
         #region IWordLibraryExport Members
-
+        /// <summary>
+        /// 导出词库为自定义格式。
+        /// 如果没有指定自定义编码文件，而且词库是包含拼音编码的，那么就按拼音编码作为每个字的码。
+        /// 如果导出指定了自定义编码文件，那么就忽略词库的已有编码，使用自定义编码文件重新生成编码。
+        /// 如果词库没有包含拼音编码，而且导出也没有指定编码文件，那就抛错吧~~~~
+        /// </summary>
+        /// <param name="wlList"></param>
+        /// <returns></returns>
         public string Export(WordLibraryList wlList)
         {
+            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath))
+            {
+                if (wlList.Count ==0 || wlList[0].CodeType != CodeType.Pinyin)
+                {
+                    throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+                }
+            }
+            else
+            {
+                var dict = UserCodingHelper.GetCodingDict(UserDefiningPattern.MappingTablePath);
+                codeGenerater.MappingDictionary = dict;
+                codeGenerater.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
+            }
             var sb = new StringBuilder();
             foreach (WordLibrary wordLibrary in wlList)
             {
@@ -35,9 +63,31 @@ namespace Studyzy.IMEWLConverter.IME
 
         public string ExportLine(WordLibrary wl)
         {
-            string line = UserDefiningPattern.BuildWLString(wl);
+            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath))
+            {
+                if (wl.CodeType != CodeType.Pinyin)
+                {
+                    throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+                }
+                else if (wl.Codes.Count == 0 || wl.Codes[0].Count == 0)
+                {//是拼音，但是没有给出拼音
+                    throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+                }
+                //自定义拼音格式
+                IDictionary<char,string> dic=new Dictionary<char, string>();
+                for (var i=0;i< wl.Word.Length;i++)
+                {
+                    if(!dic.ContainsKey(wl.Word[i]))
+                    dic.Add(wl.Word[i],wl.PinYin[i]);
+                }
+                return UserDefiningPattern.BuildWLString(dic,wl.Count);
+            }
+            else//自定义编码模式
+            {
+                var codes = codeGenerater.GetCodeOfString(wl.Word);
+                return UserDefiningPattern.BuildWLString(wl.Word, codes[0], wl.Count);
+            }
 
-            return line;
         }
 
         #endregion
@@ -79,6 +129,7 @@ namespace Studyzy.IMEWLConverter.IME
             wlList.Add(wl);
             return wlList;
         }
+       
 
         #endregion
 
