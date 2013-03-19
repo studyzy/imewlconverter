@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -10,14 +11,17 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.CANGJIE_PLATFORM, ConstantString.CANGJIE_PLATFORM_C, 230)]
     public class CangjiePlatform : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
-        public CangjiePlatform()
+     
+        public override CodeType CodeType
         {
-            CodeType = CodeType.Cangjie;
+            get
+            {
+                return CodeType.Cangjie;
+            }
         }
-
         #region IWordLibraryExport 成员
 
-        private readonly IWordCodeGenerater codeGenerater = new Cangjie5Generater();
+        //private readonly IWordCodeGenerater codeGenerater = new Cangjie5Generater();
 
         public Encoding Encoding
         {
@@ -28,7 +32,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var sb = new StringBuilder();
 
-            IList<string> codes = codeGenerater.GetCodeOfString(wl.Word);
+            IList<string> codes = wl.Codes[0];// codeGenerater.GetCodeOfString(wl.Word);
             int i = 0;
             foreach (string code in codes)
             {
@@ -41,6 +45,8 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return sb.ToString();
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public string Export(WordLibraryList wlList)
         {
@@ -88,7 +94,7 @@ namespace Studyzy.IMEWLConverter.IME
             wl.Word = c[1];
             wl.Count = DefaultRank;
             wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
-            wl.AddCode(CodeType, code);
+            wl.SetCode(CodeType, code);
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;

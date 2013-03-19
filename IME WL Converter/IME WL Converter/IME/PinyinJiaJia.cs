@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -51,6 +52,8 @@ namespace Studyzy.IMEWLConverter.IME
                 return "";
             }
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         #endregion
 

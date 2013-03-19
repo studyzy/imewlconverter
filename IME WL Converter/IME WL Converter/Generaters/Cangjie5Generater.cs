@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Studyzy.IMEWLConverter.Helpers;
+﻿using Studyzy.IMEWLConverter.Entities;
+﻿using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -16,6 +17,8 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             get { return false; }
         }
+
+        public bool IsBaseOnOldCode { get { return false; } }
 
         public string GetDefaultCodeOfChar(char str)
         {
@@ -138,6 +141,11 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
 
+        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
+        }
+
         public IList<string> GetCodeOfChar(char str)
         {
             var result = new List<string>();
@@ -252,24 +260,36 @@ namespace Studyzy.IMEWLConverter.Generaters
             var result = new List<string>();
             foreach (var cangjy in x)
             {
-                string code = cangjy.Code[0].ToString() + cangjy.Code[1];
-                if (cangjy.Code.Length > 2)
+                try
                 {
-                    var lastCode = cangjy.Code[cangjy.Code.Length - 1];
-                    if (cangjy.SplitCode != null && !IgnoreContainRule)
+                    if (cangjy.Code.Length == 1)
                     {
-                        var arr = cangjy.SplitCode.Split('\'');
-
-                        if (arr[0].Length > 2)
-                        {
-                            lastCode = arr[0][arr[0].Length - 1];
-                        }
+                        result.Add(cangjy.Code);
+                        continue;
                     }
-                    code += lastCode;
-                }
-                if (!result.Contains(code))
-                    result.Add(code);
+                    string code = cangjy.Code[0].ToString() + cangjy.Code[1];
+                    if (cangjy.Code.Length > 2)
+                    {
+                        var lastCode = cangjy.Code[cangjy.Code.Length - 1];
+                        if (cangjy.SplitCode != null && !IgnoreContainRule)
+                        {
+                            var arr = cangjy.SplitCode.Split('\'');
 
+                            if (arr[0].Length > 2)
+                            {
+                                lastCode = arr[0][arr[0].Length - 1];
+                            }
+                        }
+                        code += lastCode;
+                    }
+                    if (!result.Contains(code))
+                        result.Add(code);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    throw ex;
+                }
             }
             return result;
         }

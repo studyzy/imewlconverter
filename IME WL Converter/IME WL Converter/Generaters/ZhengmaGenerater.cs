@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
     public class ZhengmaGenerater : IWordCodeGenerater
     {
         private Dictionary<char, Zhengma> zhengmaDic;
-
+        public bool IsBaseOnOldCode { get { return false; } }
         private Dictionary<char, Zhengma> ZhengmaDic
         {
             get
@@ -115,7 +116,10 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ZhengmaDic[c].ShortCode[0].ToString();
         }
-
+        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
+        }
         #region Nested type: Zhengma
 
         private struct Zhengma

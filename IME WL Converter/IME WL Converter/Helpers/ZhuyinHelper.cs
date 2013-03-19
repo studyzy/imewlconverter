@@ -73,6 +73,10 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         public static string GetZhuyin(string pinyin)
         {
+            if (string.IsNullOrEmpty(pinyin))
+            {
+                throw new Exception("找不到拼音");
+            }
             int yindiao = 10;
             if (regex.IsMatch(pinyin)) //包含音调
             {

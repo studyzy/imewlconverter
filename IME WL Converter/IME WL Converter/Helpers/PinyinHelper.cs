@@ -147,6 +147,11 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         public static string AddToneToPinyin(char str, string py)
         {
+            if (!PinYinWithToneDict.ContainsKey(str))
+            {
+                Debug.WriteLine("找不到" + str + "的拼音,使用其默认拼音对应的音调1");
+                return py + "1";
+            }
             List<string> list = PinYinWithToneDict[str];
             foreach (string allpinyin in list)
             {
@@ -160,7 +165,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 }
             }
             Debug.WriteLine("找不到" + str + "的拼音" + py + "对应的音调");
-            return null;
+            return py+"1";//找不到音调就用拼音的一声
         }
 
         /// <summary>

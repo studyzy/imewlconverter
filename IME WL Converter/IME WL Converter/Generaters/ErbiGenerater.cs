@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -45,7 +46,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return erbiDic;
             }
         }
-
+        public bool IsBaseOnOldCode { get { return false; } }
         #region IWordCodeGenerater Members
 
         public bool Is1Char1Code
@@ -112,7 +113,10 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         #endregion
-
+        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
+        }
         private static string Descartes(IList<IList<string>> list, int count, IList<string> result, string data)
         {
             string temp = data;

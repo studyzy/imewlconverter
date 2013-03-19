@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -13,12 +14,15 @@ namespace Studyzy.IMEWLConverter.Generaters
         private static Dictionary<string, List<string>> mutiPinYinWord;
 
         #region IWordCodeGenerater Members
-
+        public virtual bool IsBaseOnOldCode { get { return false; } }
         public virtual string GetDefaultCodeOfChar(char str)
         {
             return GetCodeOfChar(str)[0];
         }
-
+        public virtual IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
+        }
         /// <summary>
         /// 获得一个词的拼音
         /// 如果这个词不包含多音字，那么直接使用其拼音

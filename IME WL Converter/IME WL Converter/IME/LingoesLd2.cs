@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 ﻿using Studyzy.IMEWLConverter.Entities;
-﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -20,8 +20,24 @@ namespace Studyzy.IMEWLConverter.IME
             WordEncoding = Encoding.UTF8;
             XmlEncoding = Encoding.UTF8;
             IncludeMeaning = false;
+            form=new Ld2EncodingConfigForm();
+            form.Closed += new EventHandler(form_Closed);
         }
 
+        void form_Closed(object sender, EventArgs e)
+        {
+            WordEncoding = form.SelectedEncoding;
+        }
+        public override Form ImportConfigForm
+        {
+            get
+            {
+                return form;
+            }
+          
+        }
+
+        private Ld2EncodingConfigForm form;
         //private readonly Encoding[] AVAIL_ENCODINGS = new[]
         //    {
         //        Encoding.UTF8,
@@ -296,13 +312,13 @@ namespace Studyzy.IMEWLConverter.IME
                 string xml = kv.Value;
                 if (IncludeMeaning)
                 {
-                    words[i] = word + " = " + (xml);
+                    words[i] = word + "\t" + (xml);
                 }
                 else
                 {
                     words[i] = word;
                 }
-                Debug.WriteLine(words[i]);
+                //Debug.WriteLine(words[i]);
                 CurrentStatus++;
             }
 

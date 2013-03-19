@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -10,10 +11,21 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.RIME, ConstantString.RIME_C, 150)]
     public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
+        public Rime()
+        {
+            form=new RimeConfigForm();
+            form.Closed += new EventHandler(form_Closed);
+        }
+
+        void form_Closed(object sender, EventArgs e)
+        {
+            this.CodeType = form.SelectedCodeType;
+        }
+
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
-
+        private RimeConfigForm form;
         public Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
@@ -43,7 +55,7 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 sb.Append(wl.Word);
                 sb.Append("\t");
-                if (CodeType == CodeType.Pinyin)
+                if (CodeType == CodeType.Pinyin||CodeType==CodeType.TerraPinyin)
                 {
                     sb.Append(wl.GetPinYinString(" ", BuildType.None));
                 }
@@ -68,6 +80,11 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
+        public Form ExportConfigForm { get { return form; } }
+        public override Form ImportConfigForm
+        {
+            get { return form; }
+        }
         public string Export(WordLibraryList wlList)
         {
             codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
@@ -125,7 +142,7 @@ namespace Studyzy.IMEWLConverter.IME
             else
             {
                 //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
-                wl.AddCode(CodeType, code);
+                wl.SetCode(CodeType, code);
             }
 
 

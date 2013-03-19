@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -11,12 +12,31 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.SELF_DEFINING, ConstantString.SELF_DEFINING_C, 2000)]
     public class SelfDefining : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.UserDefine;
+            }
+        }
         public SelfDefining()
         {
             CodeType=CodeType.Unknown;
+            exportForm=new SelfDefiningConverterForm();
+            importForm=new SelfDefiningConverterForm();
+            exportForm.IsImport = false;
+            exportForm.Closed += new EventHandler(exportForm_Closed);
+            importForm.IsImport = true;
+            importForm.Closed += new EventHandler(exportForm_Closed);
         }
 
+        void exportForm_Closed(object sender, EventArgs e)
+        {
+            this.UserDefiningPattern = exportForm.SelectedParsePattern;
+        }
 
+        private SelfDefiningConverterForm exportForm;
+        private SelfDefiningConverterForm importForm;
         public ParsePattern UserDefiningPattern { get; set; }
 
         private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
@@ -90,6 +110,11 @@ namespace Studyzy.IMEWLConverter.IME
 
         }
 
+        public Form ExportConfigForm { get { return exportForm; } }
+        public override Form ImportConfigForm
+        {
+            get { return importForm; }
+        }
         #endregion
 
         #region IWordLibraryTextImport Members

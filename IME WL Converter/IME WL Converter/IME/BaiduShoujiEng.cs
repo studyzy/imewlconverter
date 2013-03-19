@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -17,11 +18,19 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return Encoding.ASCII; }
         }
-
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.English;
+            }
+        }
         public string ExportLine(WordLibrary wl)
         {
             return wl.Word + "\t" + (54999 + wl.Count);
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public string Export(WordLibraryList wlList)
         {

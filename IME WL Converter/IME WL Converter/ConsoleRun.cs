@@ -97,8 +97,15 @@ namespace Studyzy.IMEWLConverter
                 //    wordLibraryList.AddWordLibraryList(wordLibraryImport.Import(importPath));
                 //}
                 //string str = wordLibraryExport.Export(wordLibraryList);
-                string str = mainBody.Convert(importPaths);
-                FileOperationHelper.WriteFile(exportPath, wordLibraryExport.Encoding, str);
+                if (exportPath.EndsWith("*"))
+                {
+                    mainBody.Convert(importPaths, exportPath.Substring(0, exportPath.Length - 1));
+                }
+                else
+                {
+                    string str = mainBody.Convert(importPaths);
+                    FileOperationHelper.WriteFile(exportPath, wordLibraryExport.Encoding, str);
+                }
                 Console.WriteLine("转换完成,共转换" + mainBody.Count + "个");
                 return;
             }
@@ -261,6 +268,14 @@ namespace Studyzy.IMEWLConverter
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Yellow);
             Console.WriteLine("深蓝词库转换.exe -i:" + ConstantString.SOUGOU_XIBAO_SCEL_C + " C:\\test.scel C:\\a.scel -o:" +
                               ConstantString.GOOGLE_PINYIN_C + " D:\\gg.txt");
+
+            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
+            Console.WriteLine("例如要将C:\\test.scel和C:\\a.scel的搜狗细胞词库转换为D:\\temp文件夹下的谷歌拼音词库test.txt和a.txt，命令为：");
+            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Yellow);
+            Console.WriteLine("深蓝词库转换.exe -i:" + ConstantString.SOUGOU_XIBAO_SCEL_C + " C:\\test.scel C:\\a.scel -o:" +
+                              ConstantString.GOOGLE_PINYIN_C + " D:\\temp\\*");
+
+
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
             Console.WriteLine("自定义格式的参数如下:");
             Console.WriteLine("-f:213,|byyn");

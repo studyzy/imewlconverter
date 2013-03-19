@@ -10,7 +10,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 ﻿using Studyzy.IMEWLConverter.Entities;
 ﻿using Studyzy.IMEWLConverter.Filters;
-using Studyzy.IMEWLConverter.Helpers;
+﻿using Studyzy.IMEWLConverter.Generaters;
+﻿using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
@@ -106,122 +107,13 @@ namespace Studyzy.IMEWLConverter
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //cbxFrom.Items.Add(ConstantString.SOUGOU_PINYIN);
-            //cbxFrom.Items.Add(ConstantString.SOUGOU_XIBAO_SCEL);
-            //cbxFrom.Items.Add(ConstantString.SOUGOU_PINYIN_BIN);
-            //cbxFrom.Items.Add(ConstantString.SOUGOU_WUBI);
-
-            //cbxFrom.Items.Add(ConstantString.QQ_PINYIN);
-            //cbxFrom.Items.Add(ConstantString.QQ_PINYIN_QPYD);
-            //cbxFrom.Items.Add(ConstantString.QQ_WUBI);
-            //cbxFrom.Items.Add(ConstantString.QQ_PINYIN_ENG);
-
-            //cbxFrom.Items.Add(ConstantString.BAIDU_PINYIN);
-
-            //cbxFrom.Items.Add(ConstantString.BAIDU_BDICT);
-
-
-            //cbxFrom.Items.Add(ConstantString.GOOGLE_PINYIN);
-            //cbxFrom.Items.Add(ConstantString.PINYIN_JIAJIA);
-            //cbxFrom.Items.Add(ConstantString.MS_PINYIN);
-            //cbxFrom.Items.Add(ConstantString.FIT);
-            //cbxFrom.Items.Add(ConstantString.RIME);
-            //cbxFrom.Items.Add(ConstantString.ENGKOO_PINYIN);
-
-            //cbxFrom.Items.Add(ConstantString.ZIGUANG_PINYIN);
-            //cbxFrom.Items.Add(ConstantString.SINA_PINYIN);
-            //cbxFrom.Items.Add(ConstantString.ZHENGMA);
-
-
-            //cbxFrom.Items.Add(ConstantString.LINGOES_LD2);
-
-
-            //cbxFrom.Items.Add(ConstantString.BAIDU_SHOUJI);
-            //cbxFrom.Items.Add(ConstantString.BAIDU_SHOUJI_ENG);
-            //cbxFrom.Items.Add(ConstantString.BAIDU_BCD);
-            //cbxFrom.Items.Add(ConstantString.QQ_SHOUJI);
-            //cbxFrom.Items.Add(ConstantString.TOUCH_PAL);
-            //cbxFrom.Items.Add(ConstantString.IFLY_IME);
-            //cbxFrom.Items.Add(ConstantString.SELF_DEFINING);
-            //cbxFrom.Items.Add(ConstantString.WORD_ONLY);
-
-
-            //cbxTo.Items.Add(ConstantString.SOUGOU_PINYIN);
-            //cbxTo.Items.Add(ConstantString.SOUGOU_WUBI);
-            //cbxTo.Items.Add(ConstantString.QQ_PINYIN);
-            //cbxTo.Items.Add(ConstantString.BAIDU_PINYIN);
-            //cbxTo.Items.Add(ConstantString.QQ_PINYIN_ENG);
-            //cbxTo.Items.Add(ConstantString.SINA_PINYIN);
-            //cbxTo.Items.Add(ConstantString.GOOGLE_PINYIN);
-            //cbxTo.Items.Add(ConstantString.ZIGUANG_PINYIN);
-            //cbxTo.Items.Add(ConstantString.PINYIN_JIAJIA);
-            //cbxTo.Items.Add(ConstantString.MS_PINYIN);
-            //cbxTo.Items.Add(ConstantString.XIAOXIAO);
-            //cbxTo.Items.Add(ConstantString.FIT);
-            //cbxTo.Items.Add(ConstantString.RIME);
-            //cbxTo.Items.Add(ConstantString.ENGKOO_PINYIN);
-
-            //cbxTo.Items.Add(ConstantString.BAIDU_SHOUJI);
-            //cbxTo.Items.Add(ConstantString.BAIDU_SHOUJI_ENG);
-            //cbxTo.Items.Add(ConstantString.QQ_SHOUJI);
-            //cbxTo.Items.Add(ConstantString.IFLY_IME);
-            //cbxTo.Items.Add(ConstantString.SELF_DEFINING);
-            //cbxTo.Items.Add(ConstantString.WORD_ONLY);
             LoadImeList();
             InitOpenFileDialogFilter("");
         }
 
         private IWordLibraryExport GetExportInterface(string str)
         {
-            //switch (str)
-            //{
-            //    case ConstantString.BAIDU_SHOUJI:
-            //        return new BaiduShouji();
-            //    case ConstantString.QQ_SHOUJI:
-            //        return new QQShouji();
-            //    case ConstantString.SOUGOU_PINYIN:
-            //        return new SougouPinyin();
-
-            //    case ConstantString.SOUGOU_WUBI:
-            //        return new SougouWubi();
-            //    case ConstantString.QQ_PINYIN:
-            //        return new QQPinyin();
-            //    case ConstantString.GOOGLE_PINYIN:
-            //        return new GooglePinyin();
-            //    case ConstantString.WORD_ONLY:
-            //        return new NoPinyinWordOnly();
-            //    case ConstantString.ZIGUANG_PINYIN:
-            //        return new ZiGuangPinyin();
-            //    case ConstantString.PINYIN_JIAJIA:
-            //        return new PinyinJiaJia();
-            //    case ConstantString.SINA_PINYIN:
-            //        return new SinaPinyin();
-            //    case ConstantString.TOUCH_PAL:
-            //        return new TouchPal();
-            //    case ConstantString.IFLY_IME:
-            //        return new iFlyIME();
-            //    case ConstantString.MS_PINYIN:
-            //        return new MsPinyin();
-            //    case ConstantString.XIAOXIAO:
-            //        return new Xiaoxiao();
-            //    case ConstantString.SELF_DEFINING:
-            //        return new SelfDefining();
-            //    case ConstantString.FIT:
-            //        return new FitInput();
-            //    case ConstantString.BAIDU_PINYIN:
-            //        return new BaiduPinyin();
-            //    case ConstantString.QQ_PINYIN_ENG:
-            //        return new QQPinyinEng();
-            //    case ConstantString.BAIDU_SHOUJI_ENG:
-            //        return new BaiduShoujiEng();
-            //    case ConstantString.RIME:
-            //        return new Rime();
-
-            //    case ConstantString.ENGKOO_PINYIN:
-            //        return new EngkooPinyin();
-            //    default:
-            //        throw new ArgumentException("导出词库的输入法错误");
-            //}
+      
             try
             {
                 return exports[str];
@@ -234,69 +126,10 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryImport GetImportInterface(string str)
         {
-            //switch (str)
-            //{
-            //    case ConstantString.BAIDU_SHOUJI:
-            //        return new BaiduShouji();
-            //    case ConstantString.BAIDU_BDICT:
-            //        return new BaiduPinyinBdict();
-            //    case ConstantString.BAIDU_BCD:
-            //        return new BaiduShoujiBcd();
-            //    case ConstantString.QQ_SHOUJI:
-            //        return new QQShouji();
-            //    case ConstantString.SOUGOU_PINYIN:
-            //        return new SougouPinyin();
-            //    case ConstantString.SOUGOU_PINYIN_BIN:
-            //        return new SougouPinyinBin();
-            //    case ConstantString.SOUGOU_WUBI:
-            //        return new SougouWubi();
-            //    case ConstantString.QQ_PINYIN:
-            //        return new QQPinyin();
-            //    case ConstantString.QQ_PINYIN_QPYD:
-            //        return new QQPinyinQpyd();
-            //    case ConstantString.QQ_WUBI:
-            //        return new QQWubi();
-            //    case ConstantString.GOOGLE_PINYIN:
-            //        return new GooglePinyin();
-            //    case ConstantString.ZIGUANG_PINYIN:
-            //        return new ZiGuangPinyin();
-            //    case ConstantString.PINYIN_JIAJIA:
-            //        return new PinyinJiaJia();
-            //    case ConstantString.WORD_ONLY:
-            //        return new NoPinyinWordOnly();
-            //    case ConstantString.SINA_PINYIN:
-            //        return new SinaPinyin();
-            //    case ConstantString.SOUGOU_XIBAO_SCEL:
-            //        return new SougouPinyinScel();
-            //    case ConstantString.ZHENGMA:
-            //        return new Zhengma();
-            //    case ConstantString.SELF_DEFINING:
-            //        return new SelfDefining();
-            //    case ConstantString.TOUCH_PAL:
-            //        return new TouchPal();
-            //    case ConstantString.IFLY_IME:
-            //        return new iFlyIME();
-            //    case ConstantString.MS_PINYIN:
-            //        return new MsPinyin();
-            //    case ConstantString.FIT:
-            //        return new FitInput();
-            //    case ConstantString.RIME:
-            //        return new Rime();
-            //    case ConstantString.QQ_PINYIN_ENG:
-            //        return new QQPinyinEng();
-            //    case ConstantString.BAIDU_SHOUJI_ENG:
-            //        return new BaiduShoujiEng();
-            //    case ConstantString.LINGOES_LD2:
-            //        return new LingoesLd2();
-            //    case ConstantString.ENGKOO_PINYIN:
-            //        return new EngkooPinyin();
-            //    default:
-            //        throw new ArgumentException("导入词库的输入法错误");
-            //}
+  
             try
             {
                 var imp = imports[str];
-                imp.DefaultRank = defaultRank;
                 return imp;
             }
             catch
@@ -306,23 +139,19 @@ namespace Studyzy.IMEWLConverter
         }
 
         #endregion
-        private bool filterEnglish = true;
-        private bool filterSpaceWord = true;
-        private int minLength = 1;
-        private int maxLength = 100;
-        private int minRank = 1;
-        private int maxRank = 999999;
-        private Encoding ld2WordEncoding=Encoding.UTF8;
+      
+        private FilterConfig filterConfig=new FilterConfig();
+        //private Encoding ld2WordEncoding=Encoding.UTF8;
         private MainBody mainBody = new MainBody();
       
         private IWordLibraryExport export;
         private bool exportDirectly;
-        private int defaultRank = 10;
+        //private int defaultRank = 10;
         protected string exportFileName;
         private string exportPath = "";
         private string fileContent;
-
-        private ParsePattern fromUserSetPattern;
+        private IWordRankGenerater wordRankGenerater=new DefaultWordRankGenerater();
+        //private ParsePattern fromUserSetPattern;
        
        
         private IWordLibraryImport import;
@@ -330,9 +159,6 @@ namespace Studyzy.IMEWLConverter
         private bool mergeTo1File = true;
 
         private bool streamExport;
-        private ParsePattern toUserSetPattern;
-        private CodeType fromCodeType;
-        private CodeType toCodeType;
 
         private void btnOpenFileDialog_Click(object sender, EventArgs e)
         {
@@ -358,28 +184,7 @@ namespace Studyzy.IMEWLConverter
 
             try
             {
-                import = GetImportInterface(cbxFrom.Text);
-                export = GetExportInterface(cbxTo.Text);
-                if (import is SelfDefining)
-                {
-                    ((SelfDefining) import).UserDefiningPattern = fromUserSetPattern;
-                }
-                if (export is SelfDefining)
-                {
-                    ((SelfDefining) export).UserDefiningPattern = toUserSetPattern;
-                }
-                if (import is IMultiCodeType)
-                {
-                    ((IMultiCodeType) import).CodeType = fromCodeType;
-                }
-                if (export is IMultiCodeType)
-                {
-                    ((IMultiCodeType) export).CodeType = toCodeType;
-                }
-                if (import is LingoesLd2)
-                {
-                    ((LingoesLd2) import).WordEncoding = ld2WordEncoding;
-                }
+       
                 if (streamExport)
                 {
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -390,6 +195,16 @@ namespace Studyzy.IMEWLConverter
                         return;
                     }
                 }
+                string[] files = txbWLPath.Text.Split('|');
+
+                if (files.Length > 1 && !mergeTo1File)
+                {
+                    if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        outputDir = folderBrowserDialog1.SelectedPath;
+                    }
+                }
+                mainBody.SelectedWordRankGenerater = wordRankGenerater;
                 mainBody.Import = import;
                 mainBody.Export = export;
                 mainBody.Filters = GetFilters();
@@ -405,151 +220,86 @@ namespace Studyzy.IMEWLConverter
         private IList<ISingleFilter> GetFilters()
         {
             var filters = new List<ISingleFilter>();
-            if (filterEnglish)
+            if (filterConfig.NoFilter)
+            {
+                return filters;
+            }
+            if (filterConfig.IgnoreEnglish)
             {
                 filters.Add(new EnglishFilter());
             }
             var lenFilter = new LengthFilter();
-                lenFilter.MinLength = minLength;
-                lenFilter.MaxLength = maxLength;
-          
-            if (minLength>1 || maxLength<9999)
+            lenFilter.MinLength = filterConfig.WordLengthFrom;
+            lenFilter.MaxLength = filterConfig.WordLengthTo;
+
+            if (filterConfig.WordLengthFrom > 1 || filterConfig.WordLengthTo < 9999)
             {
                 filters.Add(lenFilter);
             }
             var rankFilter = new RankFilter();
-            rankFilter.MaxLength = maxRank;
-            rankFilter.MinLength = minRank;
-            if (minRank > 1 || maxRank < 999999)
+            rankFilter.MaxLength = filterConfig.WordRankTo;
+            rankFilter.MinLength = filterConfig.WordRankFrom;
+            if (filterConfig.WordRankFrom > 1 || filterConfig.WordRankTo < 999999)
             {
                 filters.Add(rankFilter);
             }
-            if (filterSpaceWord)
+            if (filterConfig.IgnoreSpace)
             {
                 filters.Add(new SpaceFilter());
             }
+            if (filterConfig.IgnorePunctuation)
+            {
+                filters.Add(new ChinesePunctuationFilter());
+            }
+
             return filters;
         }
-
-        //private void btnExport_Click(object sender, EventArgs e)
-        //{
-        //    if (MessageBox.Show("是否将文本框中的所有词条保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-        //        DialogResult.Yes)
-        //    {
-        //        saveFileDialog1.DefaultExt = ".txt";
-        //        if (cbxTo.Text == ConstantString.MS_PINYIN)
-        //        {
-        //            saveFileDialog1.DefaultExt = ".dctx";
-        //        }
-        //        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-        //        {
-        //            if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, richTextBox1.Text))
-        //            {
-        //                ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
-        //            }
-        //            else
-        //            {
-        //                ShowStatusMessage("保存失败", false);
-        //            }
-        //        }
-        //    }
-        //}
 
 
         private void cbxFrom_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbxFrom.Text == ConstantString.SELF_DEFINING) //弹出自定义窗口
+            import = GetImportInterface(cbxFrom.Text);
+
+            if (import.ImportConfigForm != null)
             {
-                var selfDefining = new SelfDefiningConverterForm();
-                DialogResult show = selfDefining.ShowDialog();
-                if (show != DialogResult.OK)
-                {
-                    cbxFrom.SelectedText = "";
-                    return;
-                }
-                else //选了自定义
-                {
-                    fromUserSetPattern = selfDefining.SelectedParsePattern;
-                }
+                import.ImportConfigForm.ShowDialog();
             }
-            if (cbxFrom.Text == ConstantString.XIAOXIAO)
-            {
-                var diag = new XiaoxiaoConfigForm();
-                if (diag.ShowDialog() == DialogResult.OK)
-                {
-                    fromCodeType = diag.SelectedCodeType;
-                }
-            }
-            if (cbxFrom.Text == ConstantString.RIME)
-            {
-                var diag = new RimeConfigForm();
-                if (diag.ShowDialog() == DialogResult.OK)
-                {
-                    fromCodeType = diag.SelectedCodeType;
-                }
-            }
-            if (cbxFrom.Text == ConstantString.LINGOES_LD2)
-            {
-                var diag = new Ld2EncodingConfigForm(ld2WordEncoding);
-                if (diag.ShowDialog() == DialogResult.OK)
-                {
-                    ld2WordEncoding = diag.SelectedEncoding;
-                }
-            }
+  
         }
         private void cbxTo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbxTo.Text == ConstantString.SELF_DEFINING) //弹出自定义窗口
+            export = GetExportInterface(cbxTo.Text);
+            if (export.ExportConfigForm != null)
             {
-                var selfDefining = new SelfDefiningConverterForm();
-                selfDefining.IsImport = false;
-                DialogResult show = selfDefining.ShowDialog();
-                if (show != DialogResult.OK)
-                {
-                    cbxFrom.SelectedText = "";
-                    return;
-                }
-                else //选了自定义
-                {
-                    toUserSetPattern = selfDefining.SelectedParsePattern;
-                }
+                export.ExportConfigForm.ShowDialog();
             }
-            if (cbxTo.Text == ConstantString.XIAOXIAO)
-            {
-                var diag = new XiaoxiaoConfigForm();
-                if (diag.ShowDialog() == DialogResult.OK)
-                {
-                    toCodeType = diag.SelectedCodeType;
-                }
-            }
-            if (cbxTo.Text == ConstantString.RIME)
-            {
-                var diag = new RimeConfigForm();
-                if (diag.ShowDialog() == DialogResult.OK)
-                {
-                    toCodeType = diag.SelectedCodeType;
-                }
-            }
+
+         
         }
 
+   
         #region 多线程操作
         
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (import != null)
+            if (mainBody != null)
             {
-                ShowStatusMessage("转换进度：" + import.CurrentStatus + "/" + import.CountWord, false);
-                toolStripProgressBar1.Maximum = import.CountWord;
-                if (import.CountWord > 0 && import.CurrentStatus <= import.CountWord)
+                ShowStatusMessage(mainBody.ProcessMessage,false);
+                //ShowStatusMessage("转换进度：" + mainBody.CurrentStatus + "/" + mainBody.CountWord, false);
+                toolStripProgressBar1.Maximum = mainBody.CountWord;
+                if (mainBody.CountWord > 0 && mainBody.CurrentStatus <= mainBody.CountWord)
                 {
-                    toolStripProgressBar1.Value = import.CurrentStatus;
+                    toolStripProgressBar1.Value = mainBody.CurrentStatus;
                 }
             }
         }
 
+        private string outputDir;
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             string[] files = txbWLPath.Text.Split('|');
+
+           
             foreach (string file in files)
             {
                 //cbxFrom.Text+"转"+cbxTo.Text+"_"+
@@ -559,15 +309,20 @@ namespace Studyzy.IMEWLConverter
                 {
                     mainBody.StreamConvert(files, exportFileName);
                 }
-                else
+            }
+            if (mergeTo1File)
+            {
+                if (!streamExport)
                 {
                     fileContent = mainBody.Convert(files);
                 }
             }
+            else
+            {
+                mainBody.Convert(files, outputDir);
+            }
             timer1.Enabled = false;
-            //简繁体转换
-
-
+            
         }
 
 
@@ -600,7 +355,11 @@ namespace Studyzy.IMEWLConverter
                 richTextBox1.Text = fileContent;
                 //btnExport.Enabled = true;
             }
-
+            if (!mergeTo1File)
+            {
+                MessageBox.Show("转换完成!");
+                return;
+            }
             if (
                 MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question) == DialogResult.Yes)
@@ -609,11 +368,7 @@ namespace Studyzy.IMEWLConverter
                 {
                     saveFileDialog1.FileName = exportFileName;
                 }
-                //if (export is TouchPal)
-                //{
-                //    saveFileDialog1.DefaultExt = ".bak";
-                //    saveFileDialog1.Filter = "触宝备份文件|*.bak";
-                //}
+           
                 else if (export is MsPinyin)
                 {
                     saveFileDialog1.DefaultExt = ".dctx";
@@ -626,11 +381,7 @@ namespace Studyzy.IMEWLConverter
                 }
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    //if (export is TouchPal)
-                    //{
-                    //    File.Move(fileContent, saveFileDialog1.FileName);
-                    //}
-                    //else 
+                  
                         if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, fileContent))
                     {
                         ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
@@ -751,24 +502,29 @@ namespace Studyzy.IMEWLConverter
         private void toolStripMenuItemFilterConfig_Click(object sender, EventArgs e)
         {
             FilterConfigForm form=new FilterConfigForm();
-            form.WordLengthFrom = minLength;
-            form.WordLengthTo = maxLength;
-            form.WordRankFrom = minRank;
-            form.WordRankTo = maxRank;
-            form.IgnoreEnglish = filterEnglish;
-            form.IgnoreSpace = filterSpaceWord;
+         
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                minLength =       form.WordLengthFrom;
-                maxLength =       form.WordLengthTo;
-                minRank =         form.WordRankFrom;
-                maxRank =         form.WordRankTo;
-                filterEnglish =   form.IgnoreEnglish;
-                filterSpaceWord = form.IgnoreSpace;
+                this.filterConfig = form.FilterConfig;
             }
         }
         #endregion
+
+        private void ToolStripMenuItemMergeWL_Click(object sender, EventArgs e)
+        {
+            MergeWLForm form=new MergeWLForm();
+            form.Show();
+        }
+
+        private void ToolStripMenuItemRankGenerate_Click(object sender, EventArgs e)
+        {
+            WordRankGenerateForm form=new WordRankGenerateForm();
+            if(form.ShowDialog()==DialogResult.OK)
+            {
+                wordRankGenerater = form.SelectedWordRankGenerater;
+            }
+        }
 
     }
 }

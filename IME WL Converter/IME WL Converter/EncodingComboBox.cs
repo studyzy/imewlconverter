@@ -18,7 +18,7 @@ namespace Studyzy.IMEWLConverter
             "GB18030",
             "GBK",
             "Big5",
-            "BigEndianUnicode",
+            "UnicodeFFFE",
             "ASCII"});
              Text = "UTF-8";
          }
@@ -49,7 +49,7 @@ namespace Studyzy.IMEWLConverter
                 }
                 else if (value == Encoding.BigEndianUnicode)
                 {
-                    Text = "BigEndianUnicode";
+                    Text = "UnicodeFFFE";
                 }
                 else if (value == Encoding.Unicode)
                 {

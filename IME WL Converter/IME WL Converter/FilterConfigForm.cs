@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -8,35 +9,37 @@ namespace Studyzy.IMEWLConverter
         public FilterConfigForm()
         {
             InitializeComponent();
+            if (filterConfig==null)
+            {
+                filterConfig = new FilterConfig();
+            }
         }
 
-        public int WordLengthFrom { get; set; }
-        public int WordLengthTo { get; set; }
-
-        public int WordRankFrom { get; set; }
-        public int WordRankTo { get; set; }
-        public bool IgnoreEnglish { get; set; }
-        public bool IgnoreSpace { get; set; }
-
+        private static FilterConfig filterConfig;
+        public FilterConfig FilterConfig { get { return filterConfig; } }
         private void btnOK_Click(object sender, EventArgs e)
         {
-            WordLengthFrom = Convert.ToInt32(numWordLengthFrom.Value);
-            WordLengthTo = Convert.ToInt32(numWordLengthTo.Value);
-            WordRankFrom = Convert.ToInt32(numWordRankFrom.Value);
-            WordRankTo = Convert.ToInt32(numWordRankTo.Value);
-            IgnoreEnglish = cbxFilterEnglish.Checked;
-            IgnoreSpace = cbxFilterSpace.Checked;
+            filterConfig.WordLengthFrom = Convert.ToInt32(numWordLengthFrom.Value);
+            filterConfig.WordLengthTo = Convert.ToInt32(numWordLengthTo.Value);
+            filterConfig.WordRankFrom = Convert.ToInt32(numWordRankFrom.Value);
+            filterConfig.WordRankTo = Convert.ToInt32(numWordRankTo.Value);
+            filterConfig.IgnoreEnglish = cbxFilterEnglish.Checked;
+            filterConfig.IgnoreSpace = cbxFilterSpace.Checked;
+            filterConfig.IgnorePunctuation = cbxFilterPunctuation.Checked;
+            filterConfig.NoFilter = cbxNoFilter.Checked;
             DialogResult = DialogResult.OK;
         }
 
         private void FilterConfigForm_Load(object sender, EventArgs e)
         {
-            numWordLengthFrom.Value = WordLengthFrom;
-            numWordLengthTo.Value = WordLengthTo;
-            numWordRankFrom.Value = WordRankFrom;
-            numWordRankTo.Value = WordRankTo;
-            cbxFilterEnglish.Checked = IgnoreEnglish;
-            cbxFilterSpace.Checked = IgnoreSpace;
+            numWordLengthFrom.Value = filterConfig.WordLengthFrom;
+            numWordLengthTo.Value = filterConfig.WordLengthTo;
+            numWordRankFrom.Value = filterConfig.WordRankFrom;
+            numWordRankTo.Value = filterConfig.WordRankTo;
+            cbxFilterEnglish.Checked = filterConfig.IgnoreEnglish;
+            cbxFilterSpace.Checked = filterConfig.IgnoreSpace;
+            cbxFilterPunctuation.Checked = filterConfig.IgnorePunctuation;
+            cbxNoFilter.Checked = filterConfig.NoFilter;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -12,7 +13,13 @@ namespace Studyzy.IMEWLConverter.IME
     public class QQPinyinEng : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
-
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.English;
+            }
+        }
         public Encoding Encoding
         {
             get { return Encoding.Unicode; }
@@ -22,6 +29,8 @@ namespace Studyzy.IMEWLConverter.IME
         {
             return wl.Word + "," + wl.Count;
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public string Export(WordLibraryList wlList)
         {

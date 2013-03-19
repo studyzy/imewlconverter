@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -11,8 +12,15 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.WORD_ONLY, ConstantString.WORD_ONLY_C, 2010)]
     public class NoPinyinWordOnly : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
-        private IWordCodeGenerater pinyinFactory;
-
+        //private IWordCodeGenerater pinyinFactory;
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.NoCode;
+            }
+           
+        }
         #region IWordLibraryImport 成员
 
         /// <summary>
@@ -22,10 +30,10 @@ namespace Studyzy.IMEWLConverter.IME
         /// <returns></returns>
         public virtual WordLibraryList ImportLine(string line)
         {
-            IList<string> py = pinyinFactory.GetCodeOfString(line);
+            //IList<string> py = pinyinFactory.GetCodeOfString(line);
             var wl = new WordLibrary();
             wl.Word = line;
-            wl.PinYin = CollectionHelper.ToArray(py);
+            //wl.PinYin = CollectionHelper.ToArray(py);
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;
@@ -44,7 +52,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public virtual WordLibraryList ImportText(string str)
         {
-            pinyinFactory = new PinyinGenerater();
+            //pinyinFactory = new PinyinGenerater();
 
             var wlList = new WordLibraryList();
             string[] words = str.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
@@ -79,6 +87,8 @@ namespace Studyzy.IMEWLConverter.IME
         {
             return wl.Word;
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public virtual string Export(WordLibraryList wlList)
         {

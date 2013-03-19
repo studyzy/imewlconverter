@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -8,6 +10,10 @@ namespace Studyzy.IMEWLConverter.Generaters
     /// </summary>
     public class TerraPinyinGenerater : PinyinGenerater
     {
+        public override bool IsBaseOnOldCode
+        {
+            get { return true; }
+        }
         public override IList<string> GetCodeOfChar(char str)
         {
             return PinyinHelper.GetPinYinWithToneOfChar(str);
@@ -24,5 +30,31 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return result;
         }
+        private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
+        public override IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
+        {
+            if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
+            {
+                IList<string> pinyin = new List<string>();
+                for (int i = 0; i < wl.PinYin.Length; i++)
+                {
+                    if (regex.IsMatch(wl.PinYin[i]))
+                    {
+                        pinyin.Add(wl.PinYin[i]);
+                    }
+                    else
+                    {
+                        pinyin.Add(PinyinHelper.AddToneToPinyin(wl.Word[i], wl.Codes[i][0]));
+                    }
+                }
+                return pinyin;
+            }
+            else
+            {
+                return base.GetCodeOfWordLibrary(wl, charCodeSplit);
+            }
+           
+        }
+
     }
 }

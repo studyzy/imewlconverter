@@ -13,12 +13,12 @@ namespace Studyzy.IMEWLConverter.Entities
         public WordLibrary()
         {
             this.CodeType = CodeType.Pinyin;
-            this.Codes=new List<List<string>>();
+            this.Codes=new List<IList<string>>();
         }
 
         #region 基本属性
 
-        private int count = 1;
+        private int count = 0;
         private bool isEnglish;
         //private string[] pinYin;
         private string pinYinString = "";
@@ -54,13 +54,34 @@ namespace Studyzy.IMEWLConverter.Entities
        
 
         public CodeType CodeType { get; set; }
-        public IList<List<string>> Codes { get; set; }
-
+        /// <summary>
+        /// 如果是一词一码，那么Codes[0][0]就是编码，比如五笔
+        /// 如果是一字一码，字无多码，那么Codes[n][0]就是每个字的编码，比如去多音字的拼音
+        /// 如果是一字一码，字多码，那么Codes[0]就是第一个字的所有编码，Codes[1]是第二个字的所有编码，以此类推，比如含多音字的拼音
+        /// </summary>
+        public IList<IList<string>> Codes { get; set; }
+        /// <summary>
+        /// 一词一码，取Codes[0][0]
+        /// </summary>
+        public string SingleCode
+        {
+            get
+            {
+                if (Codes.Count > 0)
+                {
+                    if (Codes[0].Count > 0)
+                    {
+                        return Codes[0][0];
+                    }
+                }
+                return "";
+            }
+        }
         #endregion
 
         #region 扩展属性和方法
-        private static IWordCodeGenerater pyGenerater=new PinyinGenerater();
-        private string[] tempPinyin;
+        //private static IWordCodeGenerater pyGenerater=new PinyinGenerater();
+        //private string[] tempPinyin;
         /// <summary>
         /// 词中每个字的拼音(已消除多音字)
         /// </summary>
@@ -68,29 +89,40 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
-                if(CodeType==CodeType.Pinyin&&Codes.Count>0)
+                if((CodeType==CodeType.Pinyin||CodeType==CodeType.Zhuyin||CodeType==CodeType.TerraPinyin)&&Codes.Count>0)
                 {
-                    return Codes[0].ToArray();
+                    string[] result=new string[Codes.Count];
+                    int i = 0;
+                    foreach (List<string> code in Codes)
+                    {
+                        result[i++] = code[0];
+                    }
+                    return result;
                 }
                 else
                 {
-                    if (tempPinyin == null)
-                    {
-                        var py = pyGenerater.GetCodeOfString(this.word);
-                        tempPinyin = new string[py.Count];
-                        for (int i = 0; i < py.Count; i++)
-                        {
-                            tempPinyin[i] = py[i];
-                        }
-                    }
-                    return tempPinyin;
+                    //if (tempPinyin == null)
+                    //{
+                    //    var py = pyGenerater.GetCodeOfString(this.word);
+                    //    tempPinyin = new string[py.Count];
+                    //    for (int i = 0; i < py.Count; i++)
+                    //    {
+                    //        tempPinyin[i] = py[i];
+                    //    }
+                    //}
+                    //return tempPinyin;
+                    return null;
                 }
             }
             set
             {
                 CodeType=CodeType.Pinyin;
-                Codes=new List<string>[1];
-                Codes[0]=new List<string>(value);
+                Codes=new List<string>[value.Length];
+                int i = 0;
+                foreach (string s in value)
+                {
+                    Codes[i++]=new List<string>(){s};
+                }
             }
         }
         /// <summary>
@@ -126,12 +158,30 @@ namespace Studyzy.IMEWLConverter.Entities
         /// </summary>
         /// <param name="type"></param>
         /// <param name="str"></param>
-        public void AddCode(CodeType type, string str)
+        public void SetCode(CodeType type, string str)
         {
             this.CodeType = type;
-            this.Codes= new List<List<string>> {new List<string> {str}};
+            this.Codes= new List<IList<string>> {new List<string> {str}};
         }
-
+        /// <summary>
+        /// 设置无多音字的词的编码
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="str"></param>
+        public void SetCode(CodeType type, IList<string> str)
+        {
+            this.CodeType = type;
+            this.Codes = new List<string>[str.Count];
+            for (var i = 0; i < str.Count; i++)
+            {
+                Codes[i] = new List<string>() {str[i]};
+            }
+        }
+        public void SetCode(CodeType type, IList<IList<string>> str)
+        {
+            this.CodeType = type;
+            this.Codes = str;
+        }
         /// <summary>
         /// 获得拼音字符串
         /// </summary>

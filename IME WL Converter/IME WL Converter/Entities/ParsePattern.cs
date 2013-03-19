@@ -249,7 +249,7 @@ namespace Studyzy.IMEWLConverter.Entities
                 int index1 = Sort.FindIndex(i => i == newSort[0]); //最小的一个
                 if (index1 == 0 && ContainCode) //第一个是Code
                 {
-                    wl.AddCode(CodeType.Unknown, strlist[0]);
+                    wl.SetCode(CodeType.Unknown, strlist[0]);
                 }
                 if (index1 == 1)
                 {
@@ -264,7 +264,7 @@ namespace Studyzy.IMEWLConverter.Entities
                     int index2 = Sort.FindIndex(i => i == newSort[1]); //中间的一个
                     if (index2 == 0 && ContainCode) //第一个是Code
                     {
-                        wl.AddCode(CodeType.Unknown, strlist[1]);
+                        wl.SetCode(CodeType.Unknown, strlist[1]);
                     }
                     if (index2 == 1)
                     {
@@ -280,7 +280,7 @@ namespace Studyzy.IMEWLConverter.Entities
                     int index2 = Sort.FindIndex(i => i == newSort[2]); //最大的一个
                     if (index2 == 0 && ContainCode) //第一个是拼音
                     {
-                        wl.AddCode(CodeType.Unknown, strlist[2]);
+                        wl.SetCode(CodeType.Unknown, strlist[2]);
                     }
                     if (index2 == 1)
                     {

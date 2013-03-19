@@ -78,7 +78,9 @@ namespace Studyzy.IMEWLConverter
             int fileIndex = 1;
             for (int i = 0; i < list.Length; i++)
             {
-                if (i%maxLine == 0)
+                fileContent.Append(list[i]);
+                fileContent.Append(splitLineChar);
+                if (i%maxLine == 0||i==list.Length-1)
                 {
                     if (i != 0)
                     {
@@ -88,8 +90,7 @@ namespace Studyzy.IMEWLConverter
                         fileContent = new StringBuilder();
                     }
                 }
-                fileContent.Append(list[i]);
-                fileContent.Append(splitLineChar);
+              
             }
         }
 

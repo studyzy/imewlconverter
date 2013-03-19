@@ -42,7 +42,7 @@ namespace Studyzy.IMEWLConverter
         public const string CANGJIE_PLATFORM = "仓颉平台";
         public const string ENGKOO_PINYIN = "微软英库拼音";
         public const string LINGOES_LD2 = "灵格斯ld2";
-
+        public const string USER_PHRASE = "用户自定义短语";
         //简码，控制台用
         public const string BAIDU_SHOUJI_C = "bdsj";
         public const string BAIDU_SHOUJI_ENG_C = "bdsje";
@@ -79,7 +79,7 @@ namespace Studyzy.IMEWLConverter
         public const string CANGJIE_PLATFORM_C = "cjpt";
         public const string JIDIAN_ZHENGMA_C = "jdzm";
         public const string YAHOO_KEYKEY_C = "yahoo";
-
+        public const string USER_PHRASE_C = "dy";
         /// <summary>
         /// 注音文件的完整路径
         /// </summary>

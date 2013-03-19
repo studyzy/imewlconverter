@@ -117,21 +117,32 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Entities\BuildType.cs" />
+    <Compile Include="Entities\FilterConfig.cs" />
     <Compile Include="FilterConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FilterConfigForm.Designer.cs">
       <DependentUpon>FilterConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Filters\ChinesePunctuationFilter.cs" />
+    <Compile Include="Filters\DistinctFilter.cs" />
+    <Compile Include="Filters\EnglishPunctuationFilter.cs" />
     <Compile Include="Filters\RankFilter.cs" />
     <Compile Include="Generaters\Cangjie5Generater.cs" />
+    <Compile Include="Generaters\BaiduWordRankGenerater.cs" />
+    <Compile Include="Generaters\DefaultWordRankGenerater.cs" />
+    <Compile Include="Generaters\GoogleWordRankGenerater.cs" />
+    <Compile Include="Generaters\IWordRankGenerater.cs" />
+    <Compile Include="Generaters\PhraseGenerater.cs" />
     <Compile Include="Generaters\ZhuyinGenerater.cs" />
     <Compile Include="Generaters\ErbiGenerater.cs" />
     <Compile Include="Generaters\ZhengmaGenerater.cs" />
     <Compile Include="Generaters\TerraPinyinGenerater.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
+    <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\ZhuyinHelper.cs" />
     <Compile Include="IME\CangjiePlatform.cs" />
+    <Compile Include="IME\UserDefinePhrase.cs" />
     <Compile Include="IME\YahooKeyKey.cs" />
     <Compile Include="IME\JidianZhengma.cs" />
     <Compile Include="Language\OfficeComponent.cs" />
@@ -140,6 +151,18 @@
     </Compile>
     <Compile Include="Ld2EncodingConfigForm.Designer.cs">
       <DependentUpon>Ld2EncodingConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MergeWLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MergeWLForm.Designer.cs">
+      <DependentUpon>MergeWLForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhraseFormatConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PhraseFormatConfigForm.Designer.cs">
+      <DependentUpon>PhraseFormatConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RimeConfigForm.cs">
       <SubType>Form</SubType>
@@ -298,6 +321,12 @@
     </Compile>
     <Compile Include="Helpers\UserCodingHelper.cs" />
     <Compile Include="Entities\WordLibraryStream.cs" />
+    <Compile Include="WordRankGenerateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordRankGenerateForm.Designer.cs">
+      <DependentUpon>WordRankGenerateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="XiaoxiaoConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,6 +348,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ld2EncodingConfigForm.resx">
       <DependentUpon>Ld2EncodingConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MergeWLForm.resx">
+      <DependentUpon>MergeWLForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhraseFormatConfigForm.resx">
+      <DependentUpon>PhraseFormatConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RimeConfigForm.resx">
       <DependentUpon>RimeConfigForm.cs</DependentUpon>
@@ -351,6 +386,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SplitFileForm.resx">
       <DependentUpon>SplitFileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordRankGenerateForm.resx">
+      <DependentUpon>WordRankGenerateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XiaoxiaoConfigForm.resx">
       <DependentUpon>XiaoxiaoConfigForm.cs</DependentUpon>

@@ -2,6 +2,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+﻿using System.Windows.Forms;
 ﻿using Studyzy.IMEWLConverter.Entities;
 ﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -16,9 +17,17 @@ namespace Studyzy.IMEWLConverter.IME
     {
         protected virtual bool IsWubi {get { return false; } }
 
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.Unknown;
+            }
+         
+        }
         #region IWordLibraryImport 成员
 
-        private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
+        //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
 
         public WordLibraryList Import(string path)
         {
@@ -47,19 +56,21 @@ namespace Studyzy.IMEWLConverter.IME
 
             for (int i = 1; i < strs.Length; i++)
             {
-                string word = strs[i].Replace("，", ""); //把汉字中带有逗号的都去掉逗号
-                var list = pinyinFactory.GetCodeOfString(word);
-                for (int j = 0; j < list.Count; j++)
-                {
-                    var wl = new WordLibrary();
-                    wl.Word = word;
-                    if (IsWubi)
-                    {
-                        wl.AddCode(CodeType.Wubi, strs[0]);
-                    }
-                    wl.PinYin = CollectionHelper.ToArray(list);
-                    wlList.Add(wl);
-                }
+                var oriWord = strs[i];
+                string word = oriWord.Replace("，", ""); //把汉字中带有逗号的都去掉逗号
+                //var list = pinyinFactory.GetCodeOfString(word);
+                //for (int j = 0; j < list.Count; j++)
+                //{
+                var wl = new WordLibrary();
+                wl.Word = oriWord;
+                //if (IsWubi)
+                //{
+                //    wl.SetCode(CodeType.Wubi, strs[0]);
+                //}
+                //wl.PinYin = CollectionHelper.ToArray(list);
+                wl.SetCode(this.CodeType,strs[0]);
+                wlList.Add(wl);
+                //}
             }
             return wlList;
         }
@@ -89,6 +100,8 @@ namespace Studyzy.IMEWLConverter.IME
 
             return sb.ToString();
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public string Export(WordLibraryList wlList)
         {

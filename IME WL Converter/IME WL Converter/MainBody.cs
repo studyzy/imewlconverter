@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
+using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.Language;
 
@@ -16,13 +17,62 @@ namespace Studyzy.IMEWLConverter
         private IWordLibraryExport export;
         private IWordLibraryImport import;
         private IChineseConverter selectedConverter;
+        private IWordRankGenerater wordRankGenerater;
         private ChineseTranslate selectedTranslate;
+        private int currentStatus = 0;
+        private int countWord = 0;
+        private bool isImportProgress = false;
+
+        public int CurrentStatus
+        {
+            get
+            {
+                if (isImportProgress)
+                {
+                    return import.CurrentStatus;
+                }
+                return currentStatus;
+            }
+            set { currentStatus = value; }
+        }
+
+        public int CountWord
+        {
+            get
+            {
+                if (isImportProgress)
+                {
+                    return import.CountWord;
+                }
+                return countWord;
+            }
+            set { countWord = value; }
+        }
+
+        private string processMessage;
+
+        /// <summary>
+        /// 进度信息
+        /// </summary>
+        public string ProcessMessage
+        {
+            get
+            {
+                if (isImportProgress)
+                {
+                    return "转换进度：" + CurrentStatus + "/" + CountWord;
+                }
+                return processMessage;
+            }
+            set { processMessage = value; }
+        }
 
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;
+            wordRankGenerater=new DefaultWordRankGenerater();
         }
 
         public IWordLibraryImport Import
@@ -42,7 +92,11 @@ namespace Studyzy.IMEWLConverter
             get { return selectedConverter; }
             set { selectedConverter = value; }
         }
-
+        public IWordRankGenerater SelectedWordRankGenerater
+        {
+            get { return wordRankGenerater; }
+            set { wordRankGenerater = value; }
+        }
         public ChineseTranslate SelectedTranslate
         {
             get { return selectedTranslate; }
@@ -56,24 +110,118 @@ namespace Studyzy.IMEWLConverter
 
 
         public IList<ISingleFilter> Filters { get; set; }
-
+        /// <summary>
+        /// 转换多个文件成一个文件
+        /// </summary>
+        /// <param name="filePathes"></param>
+        /// <returns></returns>
         public string Convert(IList<string> filePathes)
         {
             allWlList.Clear();
+            isImportProgress = true;
             foreach (string file in filePathes)
             {
                 WordLibraryList wlList = import.Import(file);
                 wlList = Filter(wlList);
                 allWlList.AddRange(wlList);
             }
+            isImportProgress = false;
             if (selectedTranslate != ChineseTranslate.NotTrans)
             {
                 allWlList = ConvertChinese(allWlList);
+            }
+            GenerateWordRank(allWlList);
+            if (import.CodeType != export.CodeType)
+            {
+                GenerateDestinationCode(allWlList,export.CodeType);
             }
             count = allWlList.Count;
             return export.Export(allWlList);
         }
 
+        private void GenerateWordRank(WordLibraryList wordLibraryList)
+        {
+           
+            countWord = wordLibraryList.Count;
+            currentStatus = 0;
+            foreach (WordLibrary wordLibrary in wordLibraryList)
+            {
+                if (wordLibrary.Count == 0)
+                {
+                    wordLibrary.Count = wordRankGenerater.GetRank(wordLibrary.Word);
+                }
+                currentStatus++;
+                processMessage = "生成词频：" + currentStatus + "/" + countWord;
+            }
+        }
+        private void GenerateDestinationCode(WordLibraryList wordLibraryList,CodeType codeType)
+        {
+            var generater = GetCodeGenerater(codeType);
+            if(generater==null)//未知编码方式，则不进行编码。
+                return;
+            countWord = wordLibraryList.Count;
+            currentStatus = 0;
+            foreach (WordLibrary wordLibrary in wordLibraryList)
+            {
+                currentStatus++;
+                processMessage = "生成目标编码：" + currentStatus + "/" + countWord;
+                if (wordLibrary.CodeType == codeType)
+                {
+                    continue;
+                }
+                if (generater.IsBaseOnOldCode)
+                {
+                    wordLibrary.SetCode(codeType, generater.GetCodeOfWordLibrary(wordLibrary));
+                }
+                else
+                {
+                    wordLibrary.SetCode(codeType, generater.GetCodeOfString(wordLibrary.Word));
+                }
+            }
+        }
+        private IWordCodeGenerater GetCodeGenerater(CodeType codeType)
+        {
+            switch (codeType)
+            {
+                    case CodeType.Cangjie:return new Cangjie5Generater();
+                    case CodeType.TerraPinyin:return new TerraPinyinGenerater();
+                    case CodeType.Zhuyin:return new ZhuyinGenerater();
+                    case CodeType.Wubi:return new Wubi86Generater();
+                    case CodeType.Wubi98:return new Wubi98Generater();
+                    case CodeType.Pinyin:return new PinyinGenerater();
+                    case CodeType.Erbi:return new ErbiGenerater();
+                    case CodeType.Zhengma:return new ZhengmaGenerater();
+                    case CodeType.UserDefinePhrase:return new PhraseGenerater();
+                    case CodeType.UserDefine:return new SelfDefiningCodeGenerater();
+                    default:
+                    return null;
+            }
+        }
+        /// <summary>
+        /// 转换多个文件为对应文件名的多个文件
+        /// </summary>
+        /// <param name="filePathes"></param>
+        /// <param name="outputDir"></param>
+        public void Convert(IList<string> filePathes,string outputDir)
+        {
+            int c = 0;
+            foreach (string file in filePathes)
+            {
+                WordLibraryList wlList = import.Import(file);
+                wlList = Filter(wlList);
+                if (selectedTranslate != ChineseTranslate.NotTrans)
+                {
+                    wlList = ConvertChinese(wlList);
+                }
+                c += wlList.Count;
+                GenerateWordRank(wlList);
+                var result = export.Export(wlList);
+                var exportPath =outputDir +(outputDir.EndsWith("\\")?"":"\\")+ Path.GetFileNameWithoutExtension(file) + ".txt";
+                FileOperationHelper.WriteFile(exportPath, export.Encoding, result);
+            }
+            count = c;
+          
+        }
         public void StreamConvert(IList<string> filePathes, string outPath)
         {
             var textImport = import as IWordLibraryTextImport;

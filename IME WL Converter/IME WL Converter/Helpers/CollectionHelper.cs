@@ -39,6 +39,10 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 sb.Append(s + split);
             }
+            if (sb.Length == 0)
+            {
+                return "";
+            }
             if (buildType == BuildType.RightContain)
             {
                 return sb.ToString();

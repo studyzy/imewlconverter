@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -15,7 +16,14 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.YAHOO_KEYKEY, ConstantString.YAHOO_KEYKEY_C, 200)]
     public class YahooKeyKey : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
-        private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.Zhuyin;
+            }
+        }
+        //private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
 
         #region IWordLibraryExport 成员
 
@@ -127,7 +135,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 4ec63bf0b064eaff58fc9805
 </database>
 ";
-        private readonly IWordCodeGenerater generater = new ZhuyinGenerater();
+        //private readonly IWordCodeGenerater generater = new ZhuyinGenerater();
 
         public Encoding Encoding
         {
@@ -140,34 +148,39 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 
             sb.Append(wl.Word);
             sb.Append("\t");
-            IList<string> zhuyins = null;
-            if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
-            {
-                IList<string> pinyin = new List<string>();
-                for (int i = 0; i < wl.PinYin.Length; i++)
-                {
-                    if (regex.IsMatch(wl.PinYin[i]))
-                    {
-                        pinyin.Add(wl.PinYin[i]);
-                    }
-                    else
-                    {
-                        pinyin.Add(PinyinHelper.AddToneToPinyin(wl.Word[i], wl.PinYin[i]));
-                    }
-                }
-                zhuyins = ZhuyinHelper.GetZhuyin(pinyin);
-            }
-            else
-            {
-                zhuyins = generater.GetCodeOfString(wl.Word);
-            }
-            sb.Append(CollectionHelper.ListToString(zhuyins, ","));
+            //IList<string> zhuyins = null;
+            //if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
+            //{
+            //    IList<string> pinyin = new List<string>();
+            //    for (int i = 0; i < wl.PinYin.Length; i++)
+            //    {
+            //        if (regex.IsMatch(wl.PinYin[i]))
+            //        {
+            //            pinyin.Add(wl.PinYin[i]);
+            //        }
+            //        else
+            //        {
+            //            pinyin.Add(PinyinHelper.AddToneToPinyin(wl.Word[i], wl.PinYin[i]));
+            //        }
+            //    }
+            //    zhuyins = ZhuyinHelper.GetZhuyin(pinyin);
+            //}
+            //else
+            //{
+            //    //zhuyins = generater.GetCodeOfString(wl.Word);
+            //}
+
+            //sb.Append(CollectionHelper.ListToString(zhuyins, ","));
+
+            sb.Append(wl.GetPinYinString(",", BuildType.None));
             sb.Append("\t");
             sb.Append("-1.0");
             sb.Append("\t");
             sb.Append("0.0");
             return sb.ToString();
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public string Export(WordLibraryList wlList)
         {

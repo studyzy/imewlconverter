@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
@@ -27,6 +28,8 @@ namespace Studyzy.IMEWLConverter.IME
 
             return sb.ToString();
         }
+
+        public Form ExportConfigForm { get; private set; }
 
 
         public string Export(WordLibraryList wlList)

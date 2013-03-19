@@ -12,18 +12,25 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
-        private readonly IWordCodeGenerater factory = new ZhengmaGenerater();
+        //private readonly IWordCodeGenerater factory = new ZhengmaGenerater();
 
         public override string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-            sb.Append(factory.GetCodeOfString(wl.Word)[0]);
+            sb.Append(wl.SingleCode);
+            //sb.Append(factory.GetCodeOfString(wl.Word)[0]);
             sb.Append(" ");
             sb.Append(wl.Word);
 
             return sb.ToString();
         }
-
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.Zhengma;
+            }
+        }
         #endregion
     }
 }

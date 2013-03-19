@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -13,9 +14,16 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.WUBI86, ConstantString.WUBI86_C, 210)]
     public class Wubi86 : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
+        public override CodeType CodeType
+        {
+            get
+            {
+                return CodeType.Wubi;
+            }
+        }
         #region IWordLibraryExport 成员
 
-        private readonly IWordCodeGenerater wubiGenerater = new Wubi86Generater();
+        //private readonly IWordCodeGenerater wubiGenerater = new Wubi86Generater();
 
         public Encoding Encoding
         {
@@ -26,12 +34,14 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var sb = new StringBuilder();
 
-            sb.Append(wubiGenerater.GetCodeOfString(wl.Word)[0]);
+            sb.Append(wl.WubiCode);
             sb.Append(" ");
             sb.Append(wl.Word);
 
             return sb.ToString();
         }
+
+        public Form ExportConfigForm { get; private set; }
 
         public string Export(WordLibraryList wlList)
         {
@@ -53,7 +63,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-        private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
+        //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
 
         #region IWordLibraryImport 成员
 
@@ -64,8 +74,8 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Count = DefaultRank;
-            wl.AddCode(CodeType.Wubi, code);
-            wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
+            wl.SetCode(CodeType.Wubi, code);
+            //wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
             var wll = new WordLibraryList();
             if (wl.PinYin.Length > 0)
             {

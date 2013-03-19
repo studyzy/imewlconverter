@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -16,7 +17,10 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// 在词语的编码中，是否是每个单字一个编码，比如拼音就是每个字一个编码，而无比则不是。
         /// </summary>
         bool Is1Char1Code { get; }
-
+        /// <summary>
+        /// 在生成编码时，是否可基于原有编码进行升级，比如不带声调的拼音升级为带声调的拼音
+        /// </summary>
+        bool IsBaseOnOldCode { get; }
         /// <summary>
         /// 获得一个字的默认编码
         /// </summary>
@@ -31,6 +35,13 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// <param name="charCodeSplit">一个词中的各个字的编码之间的分隔符，默认不分割 </param>
         /// <returns></returns>
         IList<string> GetCodeOfString(string str, string charCodeSplit = "");
+        /// <summary>
+        /// 获得一个词条的编码，可能会利用到词条的原编码
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="charCodeSplit"></param>
+        /// <returns></returns>
+        IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "");
 
         /// <summary>
         /// 获得一个字的所有编码。比如多音字，一字多码

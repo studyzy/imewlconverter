@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Studyzy.IMEWLConverter.Entities
+{
+   public class FilterConfig
+    {
+       public FilterConfig()
+       {
+           WordLengthFrom = 1;
+           WordLengthTo = 100;
+           WordRankFrom = 1;
+           WordRankTo = 999999;
+
+           IgnoreEnglish = true;
+           IgnoreSpace = true;
+           IgnorePunctuation = true;
+           NoFilter = false;
+       }
+
+       public bool NoFilter { get; set; }
+        public int WordLengthFrom { get; set; }
+        public int WordLengthTo { get; set; }
+
+        public int WordRankFrom { get; set; }
+        public int WordRankTo { get; set; }
+        public bool IgnoreEnglish { get; set; }
+        public bool IgnoreSpace { get; set; }
+        public bool IgnorePunctuation { get; set; }
+    }
+}

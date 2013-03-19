@@ -84,5 +84,14 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return result;
         }
+        public override IList<string> GetCodeOfWordLibrary(Entities.WordLibrary wl, string charCodeSplit = "")
+        {
+            var result = new List<string>();
+            foreach (string code in base.GetCodeOfWordLibrary(wl, charCodeSplit))
+            {
+                result.Add(ZhuyinHelper.GetZhuyin(code));
+            }
+            return result;
+        }
     }
 }

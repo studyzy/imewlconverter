@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -10,7 +11,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         #region IWordCodeGenerater Members
 
         public bool Is1Char1Code { get; set; }
-
+        public bool IsBaseOnOldCode { get { return false; } }
         public string GetDefaultCodeOfChar(char str)
         {
 
@@ -25,7 +26,10 @@ namespace Studyzy.IMEWLConverter.Generaters
             //return s;
         }
 
-
+        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
+        }
      
 
 

@@ -55,11 +55,14 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItemCreatePinyinWL = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemSplitFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemMergeWL = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.ToolStripMenuItemRankGenerate = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -154,6 +157,7 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFilterConfig,
+            this.ToolStripMenuItemRankGenerate,
             this.toolStripSeparator2,
             this.toolStripMenuItemExportDirectly,
             this.toolStripMenuItemStreamExport,
@@ -218,7 +222,8 @@
             this.ToolStripMenuItemAccessWebSite,
             this.toolStripSeparator3,
             this.ToolStripMenuItemCreatePinyinWL,
-            this.ToolStripMenuItemSplitFile});
+            this.ToolStripMenuItemSplitFile,
+            this.ToolStripMenuItemMergeWL});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
             this.关于ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.关于ToolStripMenuItem.Text = "帮助";
@@ -227,49 +232,56 @@
             // 
             this.ToolStripMenuItemDonate.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripMenuItemDonate.Image")));
             this.ToolStripMenuItemDonate.Name = "ToolStripMenuItemDonate";
-            this.ToolStripMenuItemDonate.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItemDonate.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItemDonate.Text = "捐贈";
             this.ToolStripMenuItemDonate.Click += new System.EventHandler(this.ToolStripMenuItemDonate_Click);
             // 
             // ToolStripMenuItemHelp
             // 
             this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
-            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItemHelp.Text = "帮助";
             this.ToolStripMenuItemHelp.Click += new System.EventHandler(this.ToolStripMenuItemHelp_Click);
             // 
             // ToolStripMenuItemAbout
             // 
             this.ToolStripMenuItemAbout.Name = "ToolStripMenuItemAbout";
-            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItemAbout.Text = "关于";
             this.ToolStripMenuItemAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // ToolStripMenuItemAccessWebSite
             // 
             this.ToolStripMenuItemAccessWebSite.Name = "ToolStripMenuItemAccessWebSite";
-            this.ToolStripMenuItemAccessWebSite.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItemAccessWebSite.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItemAccessWebSite.Text = "查看最新版本";
             this.ToolStripMenuItemAccessWebSite.Click += new System.EventHandler(this.ToolStripMenuItemAccessWebSite_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(145, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuItemCreatePinyinWL
             // 
             this.ToolStripMenuItemCreatePinyinWL.Name = "ToolStripMenuItemCreatePinyinWL";
-            this.ToolStripMenuItemCreatePinyinWL.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItemCreatePinyinWL.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItemCreatePinyinWL.Text = "注音库生成";
             this.ToolStripMenuItemCreatePinyinWL.Click += new System.EventHandler(this.ToolStripMenuItemCreatePinyinWL_Click);
             // 
             // ToolStripMenuItemSplitFile
             // 
             this.ToolStripMenuItemSplitFile.Name = "ToolStripMenuItemSplitFile";
-            this.ToolStripMenuItemSplitFile.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItemSplitFile.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItemSplitFile.Text = "文件分割";
             this.ToolStripMenuItemSplitFile.Click += new System.EventHandler(this.ToolStripMenuItemSplitFile_Click);
+            // 
+            // ToolStripMenuItemMergeWL
+            // 
+            this.ToolStripMenuItemMergeWL.Name = "ToolStripMenuItemMergeWL";
+            this.ToolStripMenuItemMergeWL.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemMergeWL.Text = "词库合并";
+            this.ToolStripMenuItemMergeWL.Click += new System.EventHandler(this.ToolStripMenuItemMergeWL_Click);
             // 
             // statusStrip1
             // 
@@ -302,6 +314,13 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // ToolStripMenuItemRankGenerate
+            // 
+            this.ToolStripMenuItemRankGenerate.Name = "ToolStripMenuItemRankGenerate";
+            this.ToolStripMenuItemRankGenerate.Size = new System.Drawing.Size(196, 22);
+            this.ToolStripMenuItemRankGenerate.Text = "词频生成设置";
+            this.ToolStripMenuItemRankGenerate.Click += new System.EventHandler(this.ToolStripMenuItemRankGenerate_Click);
             // 
             // MainForm
             // 
@@ -368,6 +387,9 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDonate;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSplitFile;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemChineseTransConfig;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemMergeWL;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemRankGenerate;
     }
 }
 

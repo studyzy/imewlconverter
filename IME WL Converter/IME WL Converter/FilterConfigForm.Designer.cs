@@ -39,6 +39,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cbxFilterEnglish = new System.Windows.Forms.CheckBox();
             this.cbxFilterSpace = new System.Windows.Forms.CheckBox();
+            this.cbxFilterPunctuation = new System.Windows.Forms.CheckBox();
+            this.cbxNoFilter = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordRankFrom)).BeginInit();
@@ -47,7 +49,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(189, 174);
+            this.btnOK.Location = new System.Drawing.Point(189, 204);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 0;
@@ -178,11 +180,35 @@
             this.cbxFilterSpace.Text = "过滤包含空格的词";
             this.cbxFilterSpace.UseVisualStyleBackColor = true;
             // 
+            // cbxFilterPunctuation
+            // 
+            this.cbxFilterPunctuation.AutoSize = true;
+            this.cbxFilterPunctuation.Checked = true;
+            this.cbxFilterPunctuation.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxFilterPunctuation.Location = new System.Drawing.Point(144, 100);
+            this.cbxFilterPunctuation.Name = "cbxFilterPunctuation";
+            this.cbxFilterPunctuation.Size = new System.Drawing.Size(120, 16);
+            this.cbxFilterPunctuation.TabIndex = 7;
+            this.cbxFilterPunctuation.Text = "过滤包含标点的词";
+            this.cbxFilterPunctuation.UseVisualStyleBackColor = true;
+            // 
+            // cbxNoFilter
+            // 
+            this.cbxNoFilter.AutoSize = true;
+            this.cbxNoFilter.Location = new System.Drawing.Point(14, 208);
+            this.cbxNoFilter.Name = "cbxNoFilter";
+            this.cbxNoFilter.Size = new System.Drawing.Size(60, 16);
+            this.cbxNoFilter.TabIndex = 8;
+            this.cbxNoFilter.Text = "不过滤";
+            this.cbxNoFilter.UseVisualStyleBackColor = true;
+            // 
             // FilterConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 215);
+            this.ClientSize = new System.Drawing.Size(284, 236);
+            this.Controls.Add(this.cbxNoFilter);
+            this.Controls.Add(this.cbxFilterPunctuation);
             this.Controls.Add(this.cbxFilterSpace);
             this.Controls.Add(this.cbxFilterEnglish);
             this.Controls.Add(this.label4);
@@ -223,5 +249,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbxFilterEnglish;
         private System.Windows.Forms.CheckBox cbxFilterSpace;
+        private System.Windows.Forms.CheckBox cbxFilterPunctuation;
+        private System.Windows.Forms.CheckBox cbxNoFilter;
     }
 }

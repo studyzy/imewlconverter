@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
@@ -8,9 +9,11 @@ namespace Studyzy.IMEWLConverter
         int CountWord { get; set; }
         int CurrentStatus { get; set; }
         bool IsText { get; }
-        int DefaultRank { get; set; }
+        //int DefaultRank { get; set; }
         WordLibraryList Import(string path);
         WordLibraryList ImportLine(string str);
+        Form ImportConfigForm { get; }
+        CodeType CodeType { get; }
     }
 
     public interface IWordLibraryTextImport : IWordLibraryImport
@@ -24,10 +27,12 @@ namespace Studyzy.IMEWLConverter
         Encoding Encoding { get; }
         string Export(WordLibraryList wlList);
         string ExportLine(WordLibrary wl);
+        Form ExportConfigForm { get; }
+        CodeType CodeType { get;}
     }
 
     public interface IMultiCodeType
     {
-        CodeType CodeType { get; set; }
+        CodeType CodeType { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -33,7 +34,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         #endregion
-
+        public bool IsBaseOnOldCode { get { return false; } }
         private string GetStringWubiCode(string str)
         {
             if (str.Length == 1)
@@ -61,6 +62,10 @@ namespace Studyzy.IMEWLConverter.Generaters
                 string code4 = GetDefaultCodeOfChar(str[str.Length - 1]);
                 return code1[0].ToString() + code2[0] + code3[0] + code4[0];
             }
+        }
+        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
         }
     }
 }

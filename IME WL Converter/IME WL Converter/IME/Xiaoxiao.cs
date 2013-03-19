@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -11,10 +12,20 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
     public class Xiaoxiao : BaseImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
     {
+        public Xiaoxiao()
+        {
+            form=new XiaoxiaoConfigForm();
+            form.Closed += new EventHandler(form_Closed);
+        }
+
+        void form_Closed(object sender, EventArgs e)
+        {
+            this.CodeType = form.SelectedCodeType;
+        }   
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
-
+        private XiaoxiaoConfigForm form;
         private IWordCodeGenerater CodeGenerater
         {
             get
@@ -53,6 +64,11 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
+        public Form ExportConfigForm { get { return form; } }
+        public override Form ImportConfigForm
+        {
+            get { return form; }
+        }
         public string Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
@@ -198,7 +214,7 @@ namespace Studyzy.IMEWLConverter.IME
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Count = DefaultRank;
-                wl.AddCode(CodeType, words[0]);
+                wl.SetCode(CodeType, words[0]);
                 //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(word));
                 list.Add(wl);
             }
