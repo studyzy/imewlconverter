@@ -169,75 +169,70 @@ namespace Studyzy.IMEWLConverter {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ├	ia
-        ///┤	ia
-        ///⺄	ib
-        ///⺈	it
-        ///⺋	i/
-        ///⺋	ifjl
-        ///⺌	if
-        ///⺗	ifo
-        ///⺗	id
-        ///⺗	ido
-        ///⺧	iqa
-        ///⺪	im
-        ///⺪	imjz
-        ///⺮	iqiz
-        ///⺳	ipt
-        ///⺳	ip
-        ///⺶	iihz
-        ///⺷	ii
-        ///⺷	iiha
-        ///⺻	in
-        ///⻊	il
-        ///㑇	iftn
-        ///㑳	iftm
-        ///㖞	illg
-        ///㘚	ilnj
-        ///㤘	iotn
-        ///㧏	iugr
-        ///㧐	iu..
-        ///㩳	iufy
-        ///㭎	ixgr
-        ///㱮	ikgj
-        ///㳠	icko
-        ///䁖	igij
-        ///䅟	iq.k
-        ///䌷	i/gj
-        ///䎱	ihgs
-        ///䓖	ibo,
-        ///䙡	ipgj
-        ///䜣	ipej
-        ///䜩	ipja
-        ///䝼	igha
-        ///䥇	izpk
-        ///䥺	iz;d
-        ///䦃	izbj
-        ///䦅	izih
-        ///䦆	izgh
-        ///䦟	inff
-        ///䦶	iutn
-        ///䦷	iuff
-        ///䲟	itt;
-        ///䲠	ithk
-        ///䲡	itij
-        ///䲢	idtg
-        ///䲢	idih
-        ///䲣	iaqr
-        ///䴓	ijtp
-        ///䴔	iytp
-        ///䴕	iktp
-        ///䴖	ihtp
-        ///䴗	igtp
-        ///䴘	ietp
-        ///䴙	intp
-        ///䶮	ikhr
-        ///一	iz
-        ///一	y
-        ///一	yz
-        ///丁	dj&apos;
-        ///丁	dje
-        ///丁	dju [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to 艶	g			
+        ///焕	i			
+        ///捍	u			
+        ///歬	a			
+        ///啵	l			
+        ///覐	g			
+        ///其	j			
+        ///堼	v			
+        ///痟	y			
+        ///盹	g			
+        ///娎	u			
+        ///钕	z			
+        ///曜	s			
+        ///榪	x			
+        ///瞧	g			
+        ///鎹	z			
+        ///巩	j			
+        ///吳	l			
+        ///輙	j			
+        ///煤	i			
+        ///鑨	z			
+        ///盚	j			
+        ///銰	z			
+        ///搮	u			
+        ///噘	l			
+        ///槑	l			
+        ///軌	j			
+        ///轉	j			
+        ///王	h			
+        ///桡	x			
+        ///钎	z			
+        ///絫	v			.
+        ///遤	j			
+        ///騴	j			
+        ///航	e			
+        ///赊	g			
+        ///兣	j			
+        ///硳	k			
+        ///噲	l			
+        ///瓱	m			;
+        ///颡	v		.	.
+        ///橙	x			
+        ///夌	v			
+        ///摦	u			
+        ///駥	j			
+        ///楜	x			
+        ///蜄	g			
+        ///龇	a			
+        ///払	u			
+        ///閌	g			
+        ///暈	s			
+        ///攦	u			
+        ///靈	l			
+        ///喔	l			
+        ///戮	v		.	
+        ///閧	g			
+        ///栢	x			
+        ///斤	e			
+        ///攐	u			
+        ///夶	k			
+        ///誓	u			
+        ///產	y			
+        ///墦	v			
+        ///冋	g [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Erbi {
             get {

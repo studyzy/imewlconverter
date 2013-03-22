@@ -33,6 +33,7 @@ namespace Studyzy.IMEWLConverter.IME
             //IList<string> py = pinyinFactory.GetCodeOfString(line);
             var wl = new WordLibrary();
             wl.Word = line;
+            wl.CodeType = this.CodeType;
             //wl.PinYin = CollectionHelper.ToArray(py);
             var wll = new WordLibraryList();
             wll.Add(wl);

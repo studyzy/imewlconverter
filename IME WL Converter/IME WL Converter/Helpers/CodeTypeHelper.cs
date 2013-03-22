@@ -13,7 +13,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return "拼音";
                 case CodeType.Wubi:
                     return "五笔";
-                case CodeType.Erbi:
+                case CodeType.QingsongErbi:
                     return "二笔";
                 case CodeType.English:
                     return "英语";
@@ -36,8 +36,14 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new PinyinGenerater();
                 case CodeType.Wubi:
                     return new Wubi86Generater();
-                case CodeType.Erbi:
-                    return new ErbiGenerater();
+                case CodeType.QingsongErbi:
+                    return new QingsongErbiGenerater();
+                case CodeType.ChaoqiangErbi:
+                    return new ChaoqiangErbiGenerater();
+                case CodeType.XiandaiErbi:
+                    return new XiandaiErbiGenerater();
+                case CodeType.ChaoqingYinxin:
+                    return new YingxinErbiGenerater();
                 case CodeType.English:
                     return new PinyinGenerater();
                 case CodeType.Yong:

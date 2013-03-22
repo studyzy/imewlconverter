@@ -37,6 +37,7 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOYA_WUBI = "小鸭五笔";
         public const string MS_PINYIN = "微软拼音";
         public const string XIAOXIAO = "小小输入法";
+        public const string XIAOXIAO_ERBI = "二笔输入法";
         public const string FIT = "FIT输入法";
         public const string RIME = "Rime中州韵";
         public const string CANGJIE_PLATFORM = "仓颉平台";
@@ -80,6 +81,7 @@ namespace Studyzy.IMEWLConverter
         public const string JIDIAN_ZHENGMA_C = "jdzm";
         public const string YAHOO_KEYKEY_C = "yahoo";
         public const string USER_PHRASE_C = "dy";
+        public const string XIAOXIAO_ERBI_C = "erbi";
         /// <summary>
         /// 注音文件的完整路径
         /// </summary>

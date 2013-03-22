@@ -136,9 +136,20 @@ namespace Studyzy.IMEWLConverter
                 GenerateDestinationCode(allWlList,export.CodeType);
             }
             count = allWlList.Count;
-            return export.Export(allWlList);
+            return export.Export(RemoveEmptyCodeData(allWlList));
         }
-
+        private WordLibraryList RemoveEmptyCodeData(WordLibraryList wordLibraryList)
+        {
+            WordLibraryList list=new WordLibraryList();
+            foreach (WordLibrary wordLibrary in wordLibraryList)
+            {
+                if (!string.IsNullOrEmpty(wordLibrary.SingleCode))
+                {
+                    list.Add(wordLibrary);
+                }
+            }
+            return list;
+        }
         private void GenerateWordRank(WordLibraryList wordLibraryList)
         {
            
@@ -156,7 +167,7 @@ namespace Studyzy.IMEWLConverter
         }
         private void GenerateDestinationCode(WordLibraryList wordLibraryList,CodeType codeType)
         {
-            var generater = GetCodeGenerater(codeType);
+            var generater = CodeTypeHelper.GetGenerater(codeType);
             if(generater==null)//未知编码方式，则不进行编码。
                 return;
             countWord = wordLibraryList.Count;
@@ -179,24 +190,7 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
-        private IWordCodeGenerater GetCodeGenerater(CodeType codeType)
-        {
-            switch (codeType)
-            {
-                    case CodeType.Cangjie:return new Cangjie5Generater();
-                    case CodeType.TerraPinyin:return new TerraPinyinGenerater();
-                    case CodeType.Zhuyin:return new ZhuyinGenerater();
-                    case CodeType.Wubi:return new Wubi86Generater();
-                    case CodeType.Wubi98:return new Wubi98Generater();
-                    case CodeType.Pinyin:return new PinyinGenerater();
-                    case CodeType.Erbi:return new ErbiGenerater();
-                    case CodeType.Zhengma:return new ZhengmaGenerater();
-                    case CodeType.UserDefinePhrase:return new PhraseGenerater();
-                    case CodeType.UserDefine:return new SelfDefiningCodeGenerater();
-                    default:
-                    return null;
-            }
-        }
+      
         /// <summary>
         /// 转换多个文件为对应文件名的多个文件
         /// </summary>
@@ -215,7 +209,7 @@ namespace Studyzy.IMEWLConverter
                 }
                 c += wlList.Count;
                 GenerateWordRank(wlList);
-                var result = export.Export(wlList);
+                var result = export.Export(RemoveEmptyCodeData(wlList));
                 var exportPath =outputDir +(outputDir.EndsWith("\\")?"":"\\")+ Path.GetFileNameWithoutExtension(file) + ".txt";
                 FileOperationHelper.WriteFile(exportPath, export.Encoding, result);
             }

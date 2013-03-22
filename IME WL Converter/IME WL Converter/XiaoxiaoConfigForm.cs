@@ -24,7 +24,7 @@ namespace Studyzy.IMEWLConverter
                     SelectedCodeType = CodeType.Wubi;
                     break;
                 case "二笔":
-                    SelectedCodeType = CodeType.Erbi;
+                    SelectedCodeType = CodeType.QingsongErbi;
                     break;
                 case "英语":
                     SelectedCodeType = CodeType.English;

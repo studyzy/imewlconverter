@@ -40,10 +40,17 @@
         Yong,
 
         /// <summary>
-        /// 二笔
+        /// 青松二笔
         /// </summary>
-        Erbi,
-
+        QingsongErbi,
+        /// <summary>
+        /// 超强二笔30键
+        /// </summary>
+        ChaoqiangErbi,
+        /// <summary>
+        /// 超强音形(二笔)
+        /// </summary>
+        ChaoqingYinxin,
         /// <summary>
         /// 英语
         /// </summary>
@@ -53,7 +60,10 @@
         /// 内码
         /// </summary>
         InnerCode,
-
+        /// <summary>
+        /// 现代二笔
+        /// </summary>
+        XiandaiErbi,
         /// <summary>
         /// 注音
         /// </summary>

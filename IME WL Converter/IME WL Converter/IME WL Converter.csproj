@@ -106,6 +106,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ErbiTypeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErbiTypeForm.Designer.cs">
+      <DependentUpon>ErbiTypeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\CodeType.cs" />
     <Compile Include="ComboBoxShowAttribute.cs" />
     <Compile Include="Dictionaries.Designer.cs">
@@ -130,6 +136,10 @@
     <Compile Include="Filters\RankFilter.cs" />
     <Compile Include="Generaters\Cangjie5Generater.cs" />
     <Compile Include="Generaters\BaiduWordRankGenerater.cs" />
+    <Compile Include="Generaters\ChaoqiangErbiGenerater.cs" />
+    <Compile Include="Generaters\QingsongErbiGenerater.cs" />
+    <Compile Include="Generaters\YinxingErbiGenerater.cs" />
+    <Compile Include="Generaters\XiandaiErbiGenerater.cs" />
     <Compile Include="Generaters\DefaultWordRankGenerater.cs" />
     <Compile Include="Generaters\GoogleWordRankGenerater.cs" />
     <Compile Include="Generaters\IWordRankGenerater.cs" />
@@ -142,6 +152,7 @@
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\ZhuyinHelper.cs" />
     <Compile Include="IME\CangjiePlatform.cs" />
+    <Compile Include="IME\XiaoxiaoErbi.cs" />
     <Compile Include="IME\UserDefinePhrase.cs" />
     <Compile Include="IME\YahooKeyKey.cs" />
     <Compile Include="IME\JidianZhengma.cs" />
@@ -339,6 +350,9 @@
     <EmbeddedResource Include="ChineseConverterSelectForm.resx">
       <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ErbiTypeForm.resx">
+      <DependentUpon>ErbiTypeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dictionaries.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Dictionaries.Designer.cs</LastGenOutput>
@@ -415,12 +429,12 @@
     <Content Include="Readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Erbi.txt" />
     <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
     <None Include="Resources\Zhuyin.txt" />
     <None Include="Resources\Zhengma.txt" />
     <None Include="Resources\WordPinyin.txt" />
     <None Include="Resources\TouchPalPinyinDic.txt" />
-    <None Include="Resources\Erbi.txt" />
     <None Include="Resources\ChineseCode.txt" />
     <None Include="Resources\Cangjie5.txt" />
   </ItemGroup>

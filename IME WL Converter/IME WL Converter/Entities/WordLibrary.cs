@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -167,14 +168,21 @@ namespace Studyzy.IMEWLConverter.Entities
         /// 设置无多音字的词的编码
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="str"></param>
-        public void SetCode(CodeType type, IList<string> str)
+        /// <param name="codes"></param>
+        public void SetCode(CodeType type, IList<string> codes)
         {
+          
             this.CodeType = type;
-            this.Codes = new List<string>[str.Count];
-            for (var i = 0; i < str.Count; i++)
+            if (codes == null)
             {
-                Codes[i] = new List<string>() {str[i]};
+                Debug.WriteLine("没有生成新编码，无法设置");
+                Codes.Clear();
+                return;
+            }
+            this.Codes = new List<string>[codes.Count];
+            for (var i = 0; i < codes.Count; i++)
+            {
+                Codes[i] = new List<string>() {codes[i]};
             }
         }
         public void SetCode(CodeType type, IList<IList<string>> str)

@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
         [TestFixtureSetUp]
         public void Setup()
         {
-            generater = new ErbiGenerater();
+            generater = new QingsongErbiGenerater();
         }
         [TestCase('镇', "zzj")]
         [TestCase('镇', "zzjg")]
