@@ -35,7 +35,15 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (IsInWordPinYin(str))
             {
-                return GenerateMutiWordPinYin(str);
+                var pyList= GenerateMutiWordPinYin(str);
+                for (var i = 0; i < str.Length; i++)
+                {
+                    if (pyList[i] == null)
+                    {
+                        pyList[i] = PinyinHelper.GetDefaultPinyin(str[i]);
+                    }
+                }
+                    return pyList;
             }
             try
             {

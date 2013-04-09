@@ -155,6 +155,14 @@ namespace Studyzy.IMEWLConverter.IME
         //        CharAndPinyin.Add(word,pinyin);
         //    }
         //}
+        /// <summary>
+        /// 读取一个词语，格式为：
+        /// 4字节的长度len
+        /// len*2字节的拼音（对于每个字，声母、韵母各1字节）
+        /// len*2字节的汉字（Unicode编码）
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <returns></returns>
         private WordLibrary ImportWord(FileStream fs)
         {
             int show = 0;

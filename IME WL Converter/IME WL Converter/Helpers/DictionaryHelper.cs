@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
-    internal class DictionaryHelper
+    public class DictionaryHelper
     {
         private static readonly Dictionary<char, ChineseCode> dictionary = new Dictionary<char, ChineseCode>();
 
@@ -45,7 +45,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
     }
 
-    internal struct ChineseCode
+    public struct ChineseCode
     {
         public string Code { get; set; }
         public char Word { get; set; }

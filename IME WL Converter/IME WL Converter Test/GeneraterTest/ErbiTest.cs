@@ -16,11 +16,11 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
         {
             generater = new QingsongErbiGenerater();
         }
-        [TestCase('镇', "zzj")]
-        [TestCase('镇', "zzjg")]
-        public void TestOneWord(char c, string code)
+        [TestCase("中国人民", "zgrm")]
+        [TestCase("中华人民共和国", "zhrg")]
+        public void TestOneWord(string c, string code)
         {
-            var codes=generater.GetCodeOfChar(c);
+            var codes=generater.GetCodeOfString(c);
             foreach (var code1 in codes)
             {
                 Debug.WriteLine(code1);

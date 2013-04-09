@@ -20,9 +20,11 @@ namespace Studyzy.IMEWLConverter.IME
             WordEncoding = Encoding.UTF8;
             XmlEncoding = Encoding.UTF8;
             IncludeMeaning = false;
+            CodeType=CodeType.English;
             form=new Ld2EncodingConfigForm();
             form.Closed += new EventHandler(form_Closed);
         }
+       
 
         void form_Closed(object sender, EventArgs e)
         {

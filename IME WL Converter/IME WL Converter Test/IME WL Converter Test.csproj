@@ -40,10 +40,13 @@
     <Compile Include="BaiduBdictTest.cs" />
     <Compile Include="BaiduShoujiTest.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="FilterTest\AllFilterTest.cs" />
     <Compile Include="GeneraterTest\ZhuyinTest.cs" />
     <Compile Include="GeneraterTest\ErbiTest.cs" />
     <Compile Include="GeneraterTest\PinyinTest.cs" />
+    <Compile Include="HelperTest\DictionaryHelperTest.cs" />
     <Compile Include="HelperTest\FileOperationTest.cs" />
+    <Compile Include="HelperTest\HttpHelperTest.cs" />
     <Compile Include="Ld2ParseTest.cs" />
     <Compile Include="PerformanceTest.cs" />
     <Compile Include="RimeTest.cs" />

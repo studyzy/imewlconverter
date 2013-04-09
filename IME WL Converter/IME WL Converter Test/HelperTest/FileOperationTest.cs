@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Helpers;
@@ -19,6 +20,15 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             Assert.AreEqual(e.ToString(),Encoding.GetEncoding(encoding).ToString());
             var txt = FileOperationHelper.ReadFile(path);
             Debug.WriteLine(txt);
+        }
+        [Test]
+        public void TestWriteFile()
+        {
+            string path = "WriteTest.txt";
+            string content = "Hello Word!";
+            Assert.IsTrue(FileOperationHelper.WriteFile(path, Encoding.UTF8, content));
+            Assert.IsTrue(File.Exists(path));
+            File.Delete(path);
         }
     }
 }
