@@ -8,33 +8,68 @@ namespace Studyzy.IMEWLConverter.Generaters
 {
     public class SelfDefiningCodeGenerater : IWordCodeGenerater
     {
+    
+        private static PinyinGenerater pinyinGenerater=new PinyinGenerater();
         #region IWordCodeGenerater Members
-
+        /// <summary>
+        /// 外部的编码表,如果为空，则表示使用拼音编码
+        /// </summary>
+        public IDictionary<char, string> MappingDictionary { get; set; }
+        /// <summary>
+        /// 对于多个字的编码的设定
+        /// 形如：
+        /// code_e2=p11+p12+p21+p22
+        /// code_e3=p11+p21+p31+p32
+        /// code_a4=p11+p21+p31+n11
+        /// </summary>
+        public string MutiWordCodeFormat { get; set; }
+        /// <summary>
+        /// 自定义编码时不允许一字多码
+        /// </summary>
+        public bool Is1CharMutiCode
+        {
+            get { return false; }
+        }
         public bool Is1Char1Code { get; set; }
-        public bool IsBaseOnOldCode { get { return false; } }
+        /// <summary>
+        /// 有可能是拼音编码，所以是True
+        /// </summary>
+        public bool IsBaseOnOldCode { get { return true; } }
         public string GetDefaultCodeOfChar(char str)
         {
-
             if (MappingDictionary != null && MappingDictionary.Count > 0)
 
             {
                 return MappingDictionary[str];
             }
             //没有指定Mapping表，那么就按拼音处理
-            throw new Exception("Must set mapping table");
-            //string s = UserCodingHelper.GetCharCoding(str);
-            //return s;
+            return pinyinGenerater.GetDefaultCodeOfChar(str);
+            
+        }
+        private bool IsPinyinCode
+        {
+            get { return MappingDictionary == null || MappingDictionary.Count == 0; }
         }
 
-        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        public IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
         {
-            return GetCodeOfString(str.Word, charCodeSplit);
+            if (wl.CodeType == CodeType.Pinyin && IsPinyinCode)
+            {
+                return CollectionHelper.Descartes(wl.Codes);
+            }
+
+            return GetCodeOfString(wl.Word, charCodeSplit);
         }
      
 
 
         public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
         {
+
+            if (IsPinyinCode)
+            {
+                return pinyinGenerater.GetCodeOfString(str, charCodeSplit);
+            }
             var list = new List<string>();
 
             if (Is1Char1Code || str.Length == 1)
@@ -45,7 +80,6 @@ namespace Studyzy.IMEWLConverter.Generaters
                     list.Add(GetDefaultCodeOfChar(c));
                 }
             }
-
             else //多个字一个编码
             {
                 var result = "";
@@ -128,24 +162,10 @@ namespace Studyzy.IMEWLConverter.Generaters
 
 
 
-        /// <summary>
-        /// 自定义编码时不允许一字多码
-        /// </summary>
-        public bool Is1CharMutiCode
-        {
-            get { return false; }
-        }
-
+    
 
         #endregion
-        public IDictionary<char, string> MappingDictionary { get; set; }
-        /// <summary>
-        /// 对于多个字的编码的设定
-        /// 形如：
-        /// code_e2=p11+p12+p21+p22
-        /// code_e3=p11+p21+p31+p32
-        /// code_a4=p11+p21+p31+n11
-        /// </summary>
-        public string MutiWordCodeFormat { get; set; }
+      
+
     }
 }

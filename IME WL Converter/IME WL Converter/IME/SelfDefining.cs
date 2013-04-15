@@ -22,24 +22,29 @@ namespace Studyzy.IMEWLConverter.IME
         public SelfDefining()
         {
             CodeType=CodeType.Unknown;
-            exportForm=new SelfDefiningConverterForm();
-            importForm=new SelfDefiningConverterForm();
+            exportForm=new SelfDefiningConfigForm();
+            importForm = new SelfDefiningConfigForm();
             exportForm.IsImport = false;
             exportForm.Closed += new EventHandler(exportForm_Closed);
             importForm.IsImport = true;
-            importForm.Closed += new EventHandler(exportForm_Closed);
+            importForm.Closed += new EventHandler(importForm_Closed);
         }
 
         void exportForm_Closed(object sender, EventArgs e)
         {
+            Global.ExportSelfDefiningPattern = exportForm.SelectedParsePattern;
             this.UserDefiningPattern = exportForm.SelectedParsePattern;
         }
-
-        private SelfDefiningConverterForm exportForm;
-        private SelfDefiningConverterForm importForm;
+        void importForm_Closed(object sender, EventArgs e)
+        {
+            Global.ImportSelfDefiningPattern = importForm.SelectedParsePattern;
+            this.UserDefiningPattern = importForm.SelectedParsePattern;
+        }
+        private SelfDefiningConfigForm exportForm;
+        private SelfDefiningConfigForm importForm;
         public ParsePattern UserDefiningPattern { get; set; }
 
-        private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
+        //private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
 
         #region IWordLibraryExport Members
         /// <summary>
@@ -61,9 +66,9 @@ namespace Studyzy.IMEWLConverter.IME
             }
             else
             {
-                var dict = UserCodingHelper.GetCodingDict(UserDefiningPattern.MappingTablePath);
-                codeGenerater.MappingDictionary = dict;
-                codeGenerater.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
+                //var dict = UserCodingHelper.GetCodingDict(UserDefiningPattern.MappingTablePath);
+                //codeGenerater.MappingDictionary = dict;
+                //codeGenerater.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
             }
             var sb = new StringBuilder();
             foreach (WordLibrary wordLibrary in wlList)
@@ -83,31 +88,32 @@ namespace Studyzy.IMEWLConverter.IME
 
         public string ExportLine(WordLibrary wl)
         {
-            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath))
-            {
-                if (wl.CodeType != CodeType.Pinyin)
-                {
-                    throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
-                }
-                else if (wl.Codes.Count == 0 || wl.Codes[0].Count == 0)
-                {//是拼音，但是没有给出拼音
-                    throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
-                }
-                //自定义拼音格式
-                IDictionary<char,string> dic=new Dictionary<char, string>();
-                for (var i=0;i< wl.Word.Length;i++)
-                {
-                    if(!dic.ContainsKey(wl.Word[i]))
-                    dic.Add(wl.Word[i],wl.PinYin[i]);
-                }
-                return UserDefiningPattern.BuildWLString(dic,wl.Count);
-            }
-            else//自定义编码模式
-            {
-                var codes = codeGenerater.GetCodeOfString(wl.Word);
-                return UserDefiningPattern.BuildWLString(wl.Word, codes[0], wl.Count);
-            }
-
+            //if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath))
+            //{
+            //    if (wl.CodeType != CodeType.Pinyin)
+            //    {
+            //        throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+            //    }
+            //    else if (wl.Codes.Count == 0 || wl.Codes[0].Count == 0)
+            //    {//是拼音，但是没有给出拼音
+            //        throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+            //    }
+            //    //自定义拼音格式
+            //    IDictionary<char,string> dic=new Dictionary<char, string>();
+            //    for (var i=0;i< wl.Word.Length;i++)
+            //    {
+            //        if(!dic.ContainsKey(wl.Word[i]))
+            //        dic.Add(wl.Word[i],wl.PinYin[i]);
+            //    }
+            //    return UserDefiningPattern.BuildWLString(dic,wl.Count);
+            //}
+            //else//自定义编码模式
+            //{
+            //    //var codes = codeGenerater.GetCodeOfString(wl.Word);
+            //    //return UserDefiningPattern.BuildWLString(wl.Word, codes[0], wl.Count);
+            //    return null;
+            //}
+            return UserDefiningPattern.BuildWlString(wl);
         }
 
         public Form ExportConfigForm { get { return exportForm; } }

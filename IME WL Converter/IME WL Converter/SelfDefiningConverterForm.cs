@@ -1,7 +1,8 @@
 
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.IO;
+﻿using System.Windows.Forms;
 ﻿using Studyzy.IMEWLConverter.Entities;
 ﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -29,7 +30,7 @@ namespace Studyzy.IMEWLConverter
 
                 btnParse.Visible = isImport;
                 btnConvertTest.Visible = !isImport;
-                label2.Visible = !isImport;
+                lbFileSelect.Visible = !isImport;
                 label3.Visible = !isImport;
                 txbFilePath.Visible = !isImport;
                 btnFileSelect.Visible = !isImport;
@@ -48,6 +49,15 @@ namespace Studyzy.IMEWLConverter
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (!cbxIsPinyin.Checked)
+            {
+                if (string.IsNullOrEmpty(txbFilePath.Text) || !File.Exists(txbFilePath.Text))
+                {
+                    MessageBox.Show("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+                    return;
+                }
+                SelectedParsePattern.MappingTablePath = txbFilePath.Text;
+            }
             DialogResult = DialogResult.OK;
         }
 
@@ -158,6 +168,23 @@ shen,lan,ci,ku,zhuan,huan 深蓝词库转换 1234";
             {
                 rtbFrom.Text = "深\r\n深蓝\r\n深蓝词\r\n深蓝词库\r\n深蓝词库转\r\n深蓝词库转换";
             }
+        }
+
+        private void cbxIsPinyin_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxIsPinyin.Checked)
+            {
+                lbFileSelect.Visible = false;
+                txbFilePath.Visible = false;
+                btnFileSelect.Visible = false;
+            }
+            else
+            {
+                lbFileSelect.Visible = true;
+                txbFilePath.Visible = true;
+                btnFileSelect.Visible = true;
+            }
+            SelectedParsePattern.IsPinyin = cbxIsPinyin.Checked;
         }
     }
 }

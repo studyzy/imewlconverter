@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelfDefiningConverterForm));
             this.rtbFrom = new System.Windows.Forms.RichTextBox();
             this.txbParsePattern = new System.Windows.Forms.TextBox();
@@ -39,12 +40,14 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnHelpBuild = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbFileSelect = new System.Windows.Forms.Label();
             this.txbFilePath = new System.Windows.Forms.TextBox();
             this.btnFileSelect = new System.Windows.Forms.Button();
             this.btnConvertTest = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label3 = new System.Windows.Forms.Label();
+            this.cbxIsPinyin = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -154,20 +157,20 @@
             this.btnHelpBuild.UseVisualStyleBackColor = true;
             this.btnHelpBuild.Click += new System.EventHandler(this.btnHelpBuild_Click);
             // 
-            // label2
+            // lbFileSelect
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 12);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "编码文件:";
+            this.lbFileSelect.AutoSize = true;
+            this.lbFileSelect.Location = new System.Drawing.Point(88, 44);
+            this.lbFileSelect.Name = "lbFileSelect";
+            this.lbFileSelect.Size = new System.Drawing.Size(59, 12);
+            this.lbFileSelect.TabIndex = 10;
+            this.lbFileSelect.Text = "编码文件:";
             // 
             // txbFilePath
             // 
-            this.txbFilePath.Location = new System.Drawing.Point(73, 40);
+            this.txbFilePath.Location = new System.Drawing.Point(153, 40);
             this.txbFilePath.Name = "txbFilePath";
-            this.txbFilePath.Size = new System.Drawing.Size(423, 21);
+            this.txbFilePath.Size = new System.Drawing.Size(343, 21);
             this.txbFilePath.TabIndex = 9;
             // 
             // btnFileSelect
@@ -205,10 +208,29 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "编码文件中每行一个汉字和编码，汉字不可重复，格式形如：“深<Tab>shen”";
             // 
+            // cbxIsPinyin
+            // 
+            this.cbxIsPinyin.AutoSize = true;
+            this.cbxIsPinyin.Location = new System.Drawing.Point(10, 44);
+            this.cbxIsPinyin.Name = "cbxIsPinyin";
+            this.cbxIsPinyin.Size = new System.Drawing.Size(72, 16);
+            this.cbxIsPinyin.TabIndex = 15;
+            this.cbxIsPinyin.Text = "拼音编码";
+            this.toolTip1.SetToolTip(this.cbxIsPinyin, "选中则使用拼音编码规则对词库进行编码，不选中则使用外部指定的编码文件进行编码");
+            this.cbxIsPinyin.UseVisualStyleBackColor = true;
+            this.cbxIsPinyin.CheckedChanged += new System.EventHandler(this.cbxIsPinyin_CheckedChanged);
+            // 
             // cbxTextEncoding
             // 
             this.cbxTextEncoding.FormattingEnabled = true;
             this.cbxTextEncoding.Items.AddRange(new object[] {
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
             "Unicode",
             "UTF-8",
             "GB18030",
@@ -221,6 +243,7 @@
             this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
             this.cbxTextEncoding.Size = new System.Drawing.Size(105, 20);
             this.cbxTextEncoding.TabIndex = 14;
+            this.cbxTextEncoding.Text = "UTF-8";
             this.cbxTextEncoding.Visible = false;
             // 
             // SelfDefiningConverterForm
@@ -229,10 +252,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(553, 491);
+            this.Controls.Add(this.cbxIsPinyin);
             this.Controls.Add(this.cbxTextEncoding);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnConvertTest);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lbFileSelect);
             this.Controls.Add(this.txbFilePath);
             this.Controls.Add(this.btnFileSelect);
             this.Controls.Add(this.btnHelpBuild);
@@ -273,12 +297,14 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnHelpBuild;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbFileSelect;
         private System.Windows.Forms.TextBox txbFilePath;
         private System.Windows.Forms.Button btnFileSelect;
         private System.Windows.Forms.Button btnConvertTest;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label3;
         private EncodingComboBox cbxTextEncoding;
+        private System.Windows.Forms.CheckBox cbxIsPinyin;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

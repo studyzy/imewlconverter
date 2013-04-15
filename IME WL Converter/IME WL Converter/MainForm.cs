@@ -509,7 +509,7 @@ namespace Studyzy.IMEWLConverter
                 this.filterConfig = form.FilterConfig;
             }
         }
-        #endregion
+     
 
         private void ToolStripMenuItemMergeWL_Click(object sender, EventArgs e)
         {
@@ -525,6 +525,6 @@ namespace Studyzy.IMEWLConverter
                 wordRankGenerater = form.SelectedWordRankGenerater;
             }
         }
-
+        #endregion
     }
 }

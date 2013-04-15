@@ -106,6 +106,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelfDefiningConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelfDefiningConfigForm.Designer.cs">
+      <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ErbiTypeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,7 @@
     <Compile Include="Generaters\ErbiGenerater.cs" />
     <Compile Include="Generaters\ZhengmaGenerater.cs" />
     <Compile Include="Generaters\TerraPinyinGenerater.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\ZhuyinHelper.cs" />
@@ -210,12 +217,6 @@
     <Compile Include="Helpers\CodeTypeHelper.cs" />
     <Compile Include="Helpers\DictionaryHelper.cs" />
     <Compile Include="Helpers\FileOperationHelper.cs" />
-    <Compile Include="HelpBuildParsePatternForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelpBuildParsePatternForm.Designer.cs">
-      <DependentUpon>HelpBuildParsePatternForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,12 +264,6 @@
     <Compile Include="Helpers\PinyinHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelfDefiningConverterForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SelfDefiningConverterForm.Designer.cs">
-      <DependentUpon>SelfDefiningConverterForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SharpZLib\Checksums\Adler32.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -350,6 +345,10 @@
     <EmbeddedResource Include="ChineseConverterSelectForm.resx">
       <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SelfDefiningConfigForm.resx">
+      <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ErbiTypeForm.resx">
       <DependentUpon>ErbiTypeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -375,9 +374,6 @@
     <EmbeddedResource Include="CreatePinyinWLForm.resx">
       <DependentUpon>CreatePinyinWLForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HelpBuildParsePatternForm.resx">
-      <DependentUpon>HelpBuildParsePatternForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -394,10 +390,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SelfDefiningConverterForm.resx">
-      <DependentUpon>SelfDefiningConverterForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="SplitFileForm.resx">
       <DependentUpon>SplitFileForm.cs</DependentUpon>
     </EmbeddedResource>

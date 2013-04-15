@@ -50,17 +50,38 @@ namespace Studyzy.IMEWLConverter.Entities
         /// 对于多个字的编码的设定
         /// </summary>
         public string MutiWordCodeFormat { get; set; }
+        /// <summary>
+        /// 是否包含编码
+        /// </summary>
         public bool ContainCode { get; set; }
+        /// <summary>
+        /// 是否包含词频
+        /// </summary>
         public bool ContainRank { get; set; }
+        /// <summary>
+        /// 编码之间的分隔符
+        /// </summary>
         public string CodeSplitString { get; set; }
+        /// <summary>
+        /// 编码、词频、汉字之间的分隔符
+        /// </summary>
         public string SplitString { get; set; }
+        /// <summary>
+        /// 编码的分隔符所在位置
+        /// </summary>
         public BuildType CodeSplitType { get; set; }
+        /// <summary>
+        /// 编码词频汉字的排序方式
+        /// </summary>
         public List<int> Sort { get; set; }
         /// <summary>
         /// 每个字对应的编码的文件路径
         /// </summary>
         public string MappingTablePath { get; set; }
-
+        /// <summary>
+        /// 按照指定规则，生成一个示例
+        /// </summary>
+        /// <returns></returns>
         public string BuildWLStringSample()
         {
        
@@ -81,7 +102,7 @@ namespace Studyzy.IMEWLConverter.Entities
             {
                 word += c;
              
-                result += BuildWLString(dic,1234,word) + "\r\n";
+                result += BuildWlString(dic,1234,word) + "\r\n";
             }
 
             return result;
@@ -92,7 +113,7 @@ namespace Studyzy.IMEWLConverter.Entities
         /// <param name="charCodes"></param>
         /// <param name="rank"></param>
         /// <returns></returns>
-        public string BuildWLString(IDictionary<char, string> charCodes, int rank,string word="")
+        public string BuildWlString(IDictionary<char, string> charCodes, int rank,string word="")
         {
             string code = "";
            if(word=="")
@@ -106,7 +127,7 @@ namespace Studyzy.IMEWLConverter.Entities
             {
                 if (IsPinyinFormat)
                 {
-                    code = CollectionHelper.GetString(charCodes.Values, CodeSplitString, CodeSplitType);
+                    code = CollectionHelper.GetString(GetSelectWordCodes(word, charCodes), CodeSplitString, CodeSplitType);
                 }
                 else//多字一码，根据用户设置的编码规则，生成编码
                 {
@@ -116,11 +137,28 @@ namespace Studyzy.IMEWLConverter.Entities
                     code = selfFactory.GetCodeOfString(word)[0];
                 }
             }
-            return BuildWLString(word, code, rank);
+            return BuildWlString(word, code, rank);
 
         }
+        private IEnumerable<string> GetSelectWordCodes(string word, IDictionary<char, string> charCodes)
+        {
+            if (word == "")
+            {
+                return charCodes.Values;
+            }
+            var result = new List<string>();
+            foreach (var c in word)
+            {
+                result.Add(charCodes[c]);
+            }
+            return result;
+        }
 
-        public string BuildWLString(string word,string code,int rank)
+        public string BuildWlString(WordLibrary wl)
+        {
+            return wl.Word;
+        }
+        public string BuildWlString(string word,string code,int rank)
         {
             string  cp = "";
             if (!ContainCode)
