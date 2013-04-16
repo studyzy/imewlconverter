@@ -47,7 +47,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.SplitString = GetSplitString(cbbxSplitString.Text);
             SelectedParsePattern.CodeSplitType = GetBuildType();
             SelectedParsePattern.Sort = GetSort();
-            SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音格式";
+            SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音规则";
             SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
             if (!cbxIsPinyin.Checked)
             {

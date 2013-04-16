@@ -8,7 +8,10 @@ namespace Studyzy.IMEWLConverter.Generaters
 {
     public class SelfDefiningCodeGenerater : IWordCodeGenerater
     {
-    
+    public SelfDefiningCodeGenerater()
+    {
+
+    }
         private static PinyinGenerater pinyinGenerater=new PinyinGenerater();
         #region IWordCodeGenerater Members
         /// <summary>
@@ -30,7 +33,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             get { return false; }
         }
-        public bool Is1Char1Code { get; set; }
+        public bool Is1Char1Code { get { return Global.ExportSelfDefiningPattern.IsPinyinFormat; } }
         /// <summary>
         /// 有可能是拼音编码，所以是True
         /// </summary>
