@@ -156,7 +156,20 @@ namespace Studyzy.IMEWLConverter.Entities
 
         public string BuildWlString(WordLibrary wl)
         {
-            return wl.Word;
+            string code = "";
+            if (ContainCode)
+            {
+                if (IsPinyinFormat)
+                {
+                    code = CollectionHelper.GetString(CollectionHelper.DescarteIndex1(wl.Codes), CodeSplitString, CodeSplitType);
+                }
+                else//多字一码，根据用户设置的编码规则，生成编码
+                {
+                    code = wl.SingleCode;
+                }
+            }
+            return BuildWlString(wl.Word, code, wl.Count);
+
         }
         public string BuildWlString(string word,string code,int rank)
         {

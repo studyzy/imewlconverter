@@ -33,7 +33,10 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             get { return false; }
         }
-        public bool Is1Char1Code { get { return Global.ExportSelfDefiningPattern.IsPinyinFormat; } }
+        /// <summary>
+        /// 如果是拼音格式，那么就是一字一码，如果不是，那么就是一词一码
+        /// </summary>
+        public bool Is1Char1Code { get; set; }
         /// <summary>
         /// 有可能是拼音编码，所以是True
         /// </summary>

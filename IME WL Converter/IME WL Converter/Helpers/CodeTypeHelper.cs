@@ -67,7 +67,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             var UserDefiningPattern = Global.ExportSelfDefiningPattern;
             var s = new SelfDefiningCodeGenerater();
             s.MutiWordCodeFormat = Global.ExportSelfDefiningPattern.MutiWordCodeFormat;
-
+            s.Is1Char1Code = Global.ExportSelfDefiningPattern.IsPinyinFormat;
           
             var dict = UserCodingHelper.GetCodingDict(Global.ExportSelfDefiningPattern.MappingTablePath);
             s.MappingDictionary = dict;

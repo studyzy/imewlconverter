@@ -97,5 +97,14 @@ namespace Studyzy.IMEWLConverter.Helpers
             Descartes(codes, 0, result, string.Empty);
             return result;
         }
+        public static IList<string> DescarteIndex1(IList<IList<string>> codes)
+        {
+            var result = new List<string>();
+            foreach (var code in codes)
+            {
+                result.Add(code[0]);
+            }
+            return result;
+        }
     }
 }

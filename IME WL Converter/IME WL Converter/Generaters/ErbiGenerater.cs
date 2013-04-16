@@ -51,6 +51,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                         var codes = code.Split(' '); //code之间空格分割
                         erbiDic[word] = new List<string>(codes);
                     }
+                    OverrideDictionary(erbiDic);
                 }
                 return erbiDic;
             }
