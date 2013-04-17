@@ -250,6 +250,7 @@ namespace Studyzy.IMEWLConverter
             if (filterConfig.IgnorePunctuation)
             {
                 filters.Add(new ChinesePunctuationFilter());
+                filters.Add(new EnglishPunctuationFilter());
             }
 
             return filters;

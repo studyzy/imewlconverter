@@ -61,7 +61,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (wl.CodeType == CodeType.Pinyin && IsPinyinCode)
             {
-                return CollectionHelper.Descartes(wl.Codes);
+                return CollectionHelper.DescarteIndex1(wl.Codes);
             }
 
             return GetCodeOfString(wl.Word, charCodeSplit);

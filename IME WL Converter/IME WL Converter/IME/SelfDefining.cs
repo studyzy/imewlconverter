@@ -57,7 +57,7 @@ namespace Studyzy.IMEWLConverter.IME
         /// <returns></returns>
         public string Export(WordLibraryList wlList)
         {
-            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath))
+            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath)&& !UserDefiningPattern.IsPinyin)
             {
                 if (wlList.Count ==0 || wlList[0].CodeType != CodeType.Pinyin)
                 {

@@ -9,7 +9,7 @@ namespace Studyzy.IMEWLConverter.Filters
     internal class EnglishPunctuationFilter : ISingleFilter
     {
         #region ISingleFilter Members
-        private static Regex regex = new Regex("[-,.?:;'\""+@"!`]|(-{2})|(/.{3})|(/(/))|(/[/])|({})");
+        private static Regex regex = new Regex("[-,~.?:;'\""+@"!`\^]|(-{2})|(/.{3})|(/(/))|(/[/])|({})");
         public bool IsKeep(WordLibrary wl)
         {
             return !regex.IsMatch(wl.Word);

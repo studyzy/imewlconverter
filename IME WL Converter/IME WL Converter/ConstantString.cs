@@ -21,6 +21,7 @@ namespace Studyzy.IMEWLConverter
         public const string WUBI86 = "五笔86版";
         public const string WUBI98 = "五笔98版";
         public const string QQ_PINYIN = "QQ拼音";
+        public const string LIBPINYIN = "libpinyin";
         public const string QQ_PINYIN_QPYD = "QQ分类词库qpyd";
         public const string GOOGLE_PINYIN = "谷歌拼音";
         public const string YAHOO_KEYKEY = "雅虎奇摩";
@@ -82,6 +83,7 @@ namespace Studyzy.IMEWLConverter
         public const string YAHOO_KEYKEY_C = "yahoo";
         public const string USER_PHRASE_C = "dy";
         public const string XIAOXIAO_ERBI_C = "erbi";
+        public const string LIBPINYIN_C = "libpy";
         /// <summary>
         /// 注音文件的完整路径
         /// </summary>
