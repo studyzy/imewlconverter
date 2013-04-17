@@ -28,5 +28,9 @@ namespace Studyzy.IMEWLConverter.Entities
         public bool IgnoreEnglish { get; set; }
         public bool IgnoreSpace { get; set; }
         public bool IgnorePunctuation { get; set; }
+
+        public bool ReplaceEnglish { get; set; }
+        public bool ReplaceSpace { get; set; }
+        public bool ReplacePunctuation { get; set; }
     }
 }

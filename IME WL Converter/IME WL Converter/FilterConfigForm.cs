@@ -27,6 +27,10 @@ namespace Studyzy.IMEWLConverter
             filterConfig.IgnoreSpace = cbxFilterSpace.Checked;
             filterConfig.IgnorePunctuation = cbxFilterPunctuation.Checked;
             filterConfig.NoFilter = cbxNoFilter.Checked;
+
+            filterConfig.ReplaceEnglish = cbxReplaceEnglish.Checked;
+            filterConfig.ReplaceSpace = cbxReplaceSpace.Checked;
+            filterConfig.ReplacePunctuation = cbxReplacePunctuation.Checked;
             DialogResult = DialogResult.OK;
         }
 

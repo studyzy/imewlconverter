@@ -41,6 +41,9 @@
             this.cbxFilterSpace = new System.Windows.Forms.CheckBox();
             this.cbxFilterPunctuation = new System.Windows.Forms.CheckBox();
             this.cbxNoFilter = new System.Windows.Forms.CheckBox();
+            this.cbxReplacePunctuation = new System.Windows.Forms.CheckBox();
+            this.cbxReplaceSpace = new System.Windows.Forms.CheckBox();
+            this.cbxReplaceEnglish = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordRankFrom)).BeginInit();
@@ -49,7 +52,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(189, 204);
+            this.btnOK.Location = new System.Drawing.Point(191, 211);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 0;
@@ -185,7 +188,7 @@
             this.cbxFilterPunctuation.AutoSize = true;
             this.cbxFilterPunctuation.Checked = true;
             this.cbxFilterPunctuation.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxFilterPunctuation.Location = new System.Drawing.Point(144, 100);
+            this.cbxFilterPunctuation.Location = new System.Drawing.Point(14, 175);
             this.cbxFilterPunctuation.Name = "cbxFilterPunctuation";
             this.cbxFilterPunctuation.Size = new System.Drawing.Size(120, 16);
             this.cbxFilterPunctuation.TabIndex = 7;
@@ -195,18 +198,51 @@
             // cbxNoFilter
             // 
             this.cbxNoFilter.AutoSize = true;
-            this.cbxNoFilter.Location = new System.Drawing.Point(14, 208);
+            this.cbxNoFilter.Location = new System.Drawing.Point(14, 215);
             this.cbxNoFilter.Name = "cbxNoFilter";
             this.cbxNoFilter.Size = new System.Drawing.Size(60, 16);
             this.cbxNoFilter.TabIndex = 8;
             this.cbxNoFilter.Text = "不过滤";
             this.cbxNoFilter.UseVisualStyleBackColor = true;
             // 
+            // cbxReplacePunctuation
+            // 
+            this.cbxReplacePunctuation.AutoSize = true;
+            this.cbxReplacePunctuation.Location = new System.Drawing.Point(170, 175);
+            this.cbxReplacePunctuation.Name = "cbxReplacePunctuation";
+            this.cbxReplacePunctuation.Size = new System.Drawing.Size(96, 16);
+            this.cbxReplacePunctuation.TabIndex = 11;
+            this.cbxReplacePunctuation.Text = "替换标点部分";
+            this.cbxReplacePunctuation.UseVisualStyleBackColor = true;
+            // 
+            // cbxReplaceSpace
+            // 
+            this.cbxReplaceSpace.AutoSize = true;
+            this.cbxReplaceSpace.Location = new System.Drawing.Point(170, 138);
+            this.cbxReplaceSpace.Name = "cbxReplaceSpace";
+            this.cbxReplaceSpace.Size = new System.Drawing.Size(96, 16);
+            this.cbxReplaceSpace.TabIndex = 10;
+            this.cbxReplaceSpace.Text = "替换空格部分";
+            this.cbxReplaceSpace.UseVisualStyleBackColor = true;
+            // 
+            // cbxReplaceEnglish
+            // 
+            this.cbxReplaceEnglish.AutoSize = true;
+            this.cbxReplaceEnglish.Location = new System.Drawing.Point(170, 100);
+            this.cbxReplaceEnglish.Name = "cbxReplaceEnglish";
+            this.cbxReplaceEnglish.Size = new System.Drawing.Size(96, 16);
+            this.cbxReplaceEnglish.TabIndex = 9;
+            this.cbxReplaceEnglish.Text = "替换英文部分";
+            this.cbxReplaceEnglish.UseVisualStyleBackColor = true;
+            // 
             // FilterConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 236);
+            this.ClientSize = new System.Drawing.Size(281, 251);
+            this.Controls.Add(this.cbxReplacePunctuation);
+            this.Controls.Add(this.cbxReplaceSpace);
+            this.Controls.Add(this.cbxReplaceEnglish);
             this.Controls.Add(this.cbxNoFilter);
             this.Controls.Add(this.cbxFilterPunctuation);
             this.Controls.Add(this.cbxFilterSpace);
@@ -251,5 +287,8 @@
         private System.Windows.Forms.CheckBox cbxFilterSpace;
         private System.Windows.Forms.CheckBox cbxFilterPunctuation;
         private System.Windows.Forms.CheckBox cbxNoFilter;
+        private System.Windows.Forms.CheckBox cbxReplacePunctuation;
+        private System.Windows.Forms.CheckBox cbxReplaceSpace;
+        private System.Windows.Forms.CheckBox cbxReplaceEnglish;
     }
 }

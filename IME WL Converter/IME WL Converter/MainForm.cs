@@ -208,6 +208,7 @@ namespace Studyzy.IMEWLConverter
                 mainBody.Import = import;
                 mainBody.Export = export;
                 mainBody.Filters = GetFilters();
+                mainBody.ReplaceFilters = GetReplaceFilters();
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();
             }
@@ -215,6 +216,25 @@ namespace Studyzy.IMEWLConverter
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private IList<IReplaceFilter> GetReplaceFilters()
+        {
+            var filters = new List<IReplaceFilter>();
+            if (filterConfig.ReplaceEnglish)
+            {
+                filters.Add(new EnglishFilter());
+            }
+            if (filterConfig.ReplacePunctuation)
+            {
+                filters.Add(new EnglishPunctuationFilter());
+                filters.Add(new ChinesePunctuationFilter());
+            }
+            if (filterConfig.ReplaceSpace)
+            {
+                filters.Add(new SpaceFilter());
+            }
+            return filters;
         }
 
         private IList<ISingleFilter> GetFilters()

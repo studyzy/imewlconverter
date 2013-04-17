@@ -107,7 +107,7 @@ namespace Studyzy.IMEWLConverter
         {
             get { return count; }
         }
-
+        public IList<IReplaceFilter> ReplaceFilters { get; set; }
 
         public IList<ISingleFilter> Filters { get; set; }
         /// <summary>
@@ -240,8 +240,14 @@ namespace Studyzy.IMEWLConverter
             {
                 if (IsKeep(wordLibrary))
                 {
+                    foreach (var replaceFilter in ReplaceFilters)
+                    {
+                        replaceFilter.Replace(wordLibrary);
+                    }
+                    if(wordLibrary.Word!=string.Empty)
                     result.Add(wordLibrary);
                 }
+
             }
             return result;
         }
