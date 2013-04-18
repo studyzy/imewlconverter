@@ -16,6 +16,7 @@ namespace Studyzy.IMEWLConverter.Entities
            IgnoreEnglish = true;
            IgnoreSpace = true;
            IgnorePunctuation = true;
+           IgnoreNumber = true;
            NoFilter = false;
        }
 

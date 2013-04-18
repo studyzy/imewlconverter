@@ -50,14 +50,14 @@ namespace Studyzy.IMEWLConverter.Test
             Debug.WriteLine(str);
             Assert.IsNotNullOrEmpty(str);
         }
-        [Test]
-        public void TestWLWithoutPinyinExportException()
-        {
-            export.UserDefiningPattern = InitPattern();
-            var str = export.Export(new WordLibraryList() { new WordLibrary { Count = 10, Word = "深蓝测试" } });
-            Debug.WriteLine(str);
-            Assert.IsNullOrEmpty(str);
-        }
+        //[Test]
+        //public void TestWLWithoutPinyinExportException()
+        //{
+        //    export.UserDefiningPattern = InitPattern();
+        //    var str = export.Export(new WordLibraryList() { new WordLibrary { Count = 10, Word = "深蓝测试" } });
+        //    Debug.WriteLine(str);
+        //    Assert.IsNullOrEmpty(str);
+        //}
         [Test]
         public void TestExportExtCodeLots()
         {
