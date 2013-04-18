@@ -234,6 +234,10 @@ namespace Studyzy.IMEWLConverter
             {
                 filters.Add(new SpaceFilter());
             }
+            if (filterConfig.ReplaceNumber)
+            {
+                filters.Add(new NumberFilter());
+            }
             return filters;
         }
 
@@ -271,6 +275,10 @@ namespace Studyzy.IMEWLConverter
             {
                 filters.Add(new ChinesePunctuationFilter());
                 filters.Add(new EnglishPunctuationFilter());
+            }
+            if (filterConfig.IgnoreNumber)
+            {
+                filters.Add(new NumberFilter());
             }
 
             return filters;

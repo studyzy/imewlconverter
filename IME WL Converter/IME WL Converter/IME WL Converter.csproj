@@ -106,6 +106,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Filters\NumberFilter.cs" />
     <Compile Include="Filters\IReplaceFilter.cs" />
     <Compile Include="IME\Libpinyin.cs" />
     <Compile Include="SelfDefiningConfigForm.cs">
