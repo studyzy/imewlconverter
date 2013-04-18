@@ -62,15 +62,19 @@ namespace Studyzy.IMEWLConverter.IME
                 string key = "";
                 var wl = wlList[i];
                 string value = wl.Word;
-                key = wl.SingleCode;
-                if (xiaoxiaoDic.ContainsKey(key))
+                foreach (var code in wl.Codes)
                 {
-                    xiaoxiaoDic[key] += " " + value;
+                    key = code[0];
+                    if (xiaoxiaoDic.ContainsKey(key))
+                    {
+                        xiaoxiaoDic[key] += " " + value;
+                    }
+                    else
+                    {
+                        xiaoxiaoDic.Add(key, value);
+                    }
                 }
-                else
-                {
-                    xiaoxiaoDic.Add(key, value);
-                }
+               
             }
             foreach (var keyValuePair in xiaoxiaoDic)
             {

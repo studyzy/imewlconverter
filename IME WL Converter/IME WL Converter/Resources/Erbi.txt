@@ -5093,7 +5093,7 @@
 脍	d			
 偖	f			
 蕇	b			
-迅	b n			m n
+迅	n b			m n
 糾	b			
 召	c		,	,
 朗	p			
@@ -14829,7 +14829,7 @@
 觋	j			
 唼	l			
 摣	u			
-噩	h j			j z
+噩	j h			j z
 坡	v			
 雡	v		.	
 鏏	z			

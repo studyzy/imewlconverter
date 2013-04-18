@@ -100,25 +100,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="Forms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
+    <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Filters\NumberFilter.cs" />
     <Compile Include="Filters\IReplaceFilter.cs" />
     <Compile Include="IME\Libpinyin.cs" />
-    <Compile Include="SelfDefiningConfigForm.cs">
+    <Compile Include="Forms\SelfDefiningConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelfDefiningConfigForm.Designer.cs">
+    <Compile Include="Forms\SelfDefiningConfigForm.Designer.cs">
       <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ErbiTypeForm.cs">
+    <Compile Include="Forms\ErbiTypeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ErbiTypeForm.Designer.cs">
+    <Compile Include="Forms\ErbiTypeForm.Designer.cs">
       <DependentUpon>ErbiTypeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\CodeType.cs" />
@@ -133,10 +133,10 @@
     </Compile>
     <Compile Include="Entities\BuildType.cs" />
     <Compile Include="Entities\FilterConfig.cs" />
-    <Compile Include="FilterConfigForm.cs">
+    <Compile Include="Forms\FilterConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FilterConfigForm.Designer.cs">
+    <Compile Include="Forms\FilterConfigForm.Designer.cs">
       <DependentUpon>FilterConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Filters\ChinesePunctuationFilter.cs" />
@@ -167,28 +167,28 @@
     <Compile Include="IME\YahooKeyKey.cs" />
     <Compile Include="IME\JidianZhengma.cs" />
     <Compile Include="Language\OfficeComponent.cs" />
-    <Compile Include="Ld2EncodingConfigForm.cs">
+    <Compile Include="Forms\Ld2EncodingConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ld2EncodingConfigForm.Designer.cs">
+    <Compile Include="Forms\Ld2EncodingConfigForm.Designer.cs">
       <DependentUpon>Ld2EncodingConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MergeWLForm.cs">
+    <Compile Include="Forms\MergeWLForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MergeWLForm.Designer.cs">
+    <Compile Include="Forms\MergeWLForm.Designer.cs">
       <DependentUpon>MergeWLForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PhraseFormatConfigForm.cs">
+    <Compile Include="Forms\PhraseFormatConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhraseFormatConfigForm.Designer.cs">
+    <Compile Include="Forms\PhraseFormatConfigForm.Designer.cs">
       <DependentUpon>PhraseFormatConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RimeConfigForm.cs">
+    <Compile Include="Forms\RimeConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RimeConfigForm.Designer.cs">
+    <Compile Include="Forms\RimeConfigForm.Designer.cs">
       <DependentUpon>RimeConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Filters\EnglishFilter.cs" />
@@ -202,28 +202,28 @@
     <Compile Include="Generaters\IWordCodeGenerater.cs" />
     <Compile Include="Generaters\PinyinGenerater.cs" />
     <Compile Include="Helpers\BinFileHelper.cs" />
-    <Compile Include="ChineseConverterSelectForm.cs">
+    <Compile Include="Forms\ChineseConverterSelectForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChineseConverterSelectForm.Designer.cs">
+    <Compile Include="Forms\ChineseConverterSelectForm.Designer.cs">
       <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\ChineseTranslate.cs" />
     <Compile Include="ConsoleRun.cs" />
     <Compile Include="ConstantString.cs" />
-    <Compile Include="CreatePinyinWLForm.cs">
+    <Compile Include="Forms\CreatePinyinWLForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreatePinyinWLForm.Designer.cs">
+    <Compile Include="Forms\CreatePinyinWLForm.Designer.cs">
       <DependentUpon>CreatePinyinWLForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CodeTypeHelper.cs" />
     <Compile Include="Helpers\DictionaryHelper.cs" />
     <Compile Include="Helpers\FileOperationHelper.cs" />
-    <Compile Include="HelpForm.cs">
+    <Compile Include="Forms\HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelpForm.Designer.cs">
+    <Compile Include="Forms\HelpForm.Designer.cs">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IME\BaiduPinyin.cs" />
@@ -257,10 +257,10 @@
     <Compile Include="Language\IChineseConverter.cs" />
     <Compile Include="Language\SystemKernel.cs" />
     <Compile Include="MainBody.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\ParsePattern.cs" />
@@ -322,65 +322,65 @@
     <Compile Include="SharpZLib\Zip\ZipInputStream.cs" />
     <Compile Include="SharpZLib\Zip\ZipNameTransform.cs" />
     <Compile Include="SharpZLib\Zip\ZipOutputStream.cs" />
-    <Compile Include="SplitFileForm.cs">
+    <Compile Include="Forms\SplitFileForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SplitFileForm.Designer.cs">
+    <Compile Include="Forms\SplitFileForm.Designer.cs">
       <DependentUpon>SplitFileForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\UserCodingHelper.cs" />
     <Compile Include="Entities\WordLibraryStream.cs" />
-    <Compile Include="WordRankGenerateForm.cs">
+    <Compile Include="Forms\WordRankGenerateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WordRankGenerateForm.Designer.cs">
+    <Compile Include="Forms\WordRankGenerateForm.Designer.cs">
       <DependentUpon>WordRankGenerateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="XiaoxiaoConfigForm.cs">
+    <Compile Include="Forms\XiaoxiaoConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="XiaoxiaoConfigForm.Designer.cs">
+    <Compile Include="Forms\XiaoxiaoConfigForm.Designer.cs">
       <DependentUpon>XiaoxiaoConfigForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChineseConverterSelectForm.resx">
+    <EmbeddedResource Include="Forms\ChineseConverterSelectForm.resx">
       <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelfDefiningConfigForm.resx">
+    <EmbeddedResource Include="Forms\SelfDefiningConfigForm.resx">
       <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ErbiTypeForm.resx">
+    <EmbeddedResource Include="Forms\ErbiTypeForm.resx">
       <DependentUpon>ErbiTypeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionaries.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Dictionaries.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="FilterConfigForm.resx">
+    <EmbeddedResource Include="Forms\FilterConfigForm.resx">
       <DependentUpon>FilterConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ld2EncodingConfigForm.resx">
+    <EmbeddedResource Include="Forms\Ld2EncodingConfigForm.resx">
       <DependentUpon>Ld2EncodingConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MergeWLForm.resx">
+    <EmbeddedResource Include="Forms\MergeWLForm.resx">
       <DependentUpon>MergeWLForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhraseFormatConfigForm.resx">
+    <EmbeddedResource Include="Forms\PhraseFormatConfigForm.resx">
       <DependentUpon>PhraseFormatConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RimeConfigForm.resx">
+    <EmbeddedResource Include="Forms\RimeConfigForm.resx">
       <DependentUpon>RimeConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CreatePinyinWLForm.resx">
+    <EmbeddedResource Include="Forms\CreatePinyinWLForm.resx">
       <DependentUpon>CreatePinyinWLForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HelpForm.resx">
+    <EmbeddedResource Include="Forms\HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -393,13 +393,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SplitFileForm.resx">
+    <EmbeddedResource Include="Forms\SplitFileForm.resx">
       <DependentUpon>SplitFileForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WordRankGenerateForm.resx">
+    <EmbeddedResource Include="Forms\WordRankGenerateForm.resx">
       <DependentUpon>WordRankGenerateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="XiaoxiaoConfigForm.resx">
+    <EmbeddedResource Include="Forms\XiaoxiaoConfigForm.resx">
       <DependentUpon>XiaoxiaoConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

@@ -22,6 +22,8 @@ QQ拼音（文本词库和qpyd格式分类词库）
 
 新浪拼音
 
+libpinyin(Linux)
+
 QQ五笔
 
 搜狗五笔
@@ -52,11 +54,11 @@ And it support more than 6 ime codes:
 
 拼音
 
-五笔
+五笔（五笔86、五笔98）
 
 郑码
 
-二笔
+二笔（超强二笔，青松二笔等）
 
 仓颉
 
