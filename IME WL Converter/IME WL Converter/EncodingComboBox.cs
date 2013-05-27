@@ -7,20 +7,26 @@ namespace Studyzy.IMEWLConverter
 {
     public class EncodingComboBox:ComboBox
     {
+        private bool isInit = false;
 
         public EncodingComboBox()
          {
-           
-             Items.Clear();
-             this.Items.AddRange(new object[] {
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII"});
-             Text = "UTF-8";
+             if (!isInit)
+             {
+                 Items.Clear();
+                 this.Items.AddRange(new object[]
+                     {
+                         "Unicode",
+                         "UTF-8",
+                         "GB18030",
+                         "GBK",
+                         "Big5",
+                         "UnicodeFFFE",
+                         "ASCII"
+                     });
+                 Text = "UTF-8";
+                 isInit = true;
+             }
          }
          
         public Encoding SelectedEncoding

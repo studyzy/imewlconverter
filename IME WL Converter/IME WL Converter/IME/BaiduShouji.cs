@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
@@ -68,14 +69,22 @@ namespace Studyzy.IMEWLConverter.IME
 
         public WordLibraryList ImportLine(string line)
         {
-            string py = line.Split(' ')[1];
-            string word = line.Split(' ')[0];
-            var wl = new WordLibrary();
-            wl.Word = word;
-            wl.Count = 1;
-            wl.PinYin = py.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
-            wll.Add(wl);
+            try
+            {
+                string py = line.Split(' ')[1];
+                string word = line.Split(' ')[0];
+                var wl = new WordLibrary();
+                wl.Word = word;
+                wl.Count = 1;
+                wl.PinYin = py.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                wll.Add(wl);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(line+"\t"+ex.Message);
+            }
             return wll;
         }
 

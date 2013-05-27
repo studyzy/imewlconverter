@@ -127,7 +127,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public Encoding Encoding
         {
-            get { return Encoding.GetEncoding("GBK"); }
+            get { return UserDefiningPattern.TextEncoding; }
         }
 
 

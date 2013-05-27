@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelfDefiningConfigForm));
             this.rtbFrom = new System.Windows.Forms.RichTextBox();
-            this.btnParse = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rtbTo = new System.Windows.Forms.RichTextBox();
@@ -40,12 +39,12 @@
             this.lbFileSelect = new System.Windows.Forms.Label();
             this.txbFilePath = new System.Windows.Forms.TextBox();
             this.btnFileSelect = new System.Windows.Forms.Button();
-            this.btnConvertTest = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lbRemark = new System.Windows.Forms.Label();
             this.cbxIsPinyin = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cbxCodeFormat = new System.Windows.Forms.ComboBox();
             this.rtbCodeFormat = new System.Windows.Forms.RichTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -65,6 +64,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cbxIncludePinyin = new System.Windows.Forms.CheckBox();
             this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
+            this.btnTest = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -80,20 +80,10 @@
             this.rtbFrom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbFrom.Location = new System.Drawing.Point(3, 17);
             this.rtbFrom.Name = "rtbFrom";
-            this.rtbFrom.Size = new System.Drawing.Size(251, 107);
+            this.rtbFrom.Size = new System.Drawing.Size(210, 107);
             this.rtbFrom.TabIndex = 0;
             this.rtbFrom.Text = "";
             this.rtbFrom.WordWrap = false;
-            // 
-            // btnParse
-            // 
-            this.btnParse.Location = new System.Drawing.Point(48, 456);
-            this.btnParse.Name = "btnParse";
-            this.btnParse.Size = new System.Drawing.Size(75, 23);
-            this.btnParse.TabIndex = 2;
-            this.btnParse.Text = "测试识别";
-            this.btnParse.UseVisualStyleBackColor = true;
-            this.btnParse.Click += new System.EventHandler(this.btnParse_Click);
             // 
             // groupBox1
             // 
@@ -102,7 +92,7 @@
             this.groupBox1.Controls.Add(this.rtbFrom);
             this.groupBox1.Location = new System.Drawing.Point(10, 311);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(257, 127);
+            this.groupBox1.Size = new System.Drawing.Size(216, 127);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "源内容";
@@ -115,13 +105,14 @@
             this.groupBox2.Size = new System.Drawing.Size(266, 127);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "测试结果";
+            this.groupBox2.Text = "结果";
             // 
             // rtbTo
             // 
             this.rtbTo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbTo.Location = new System.Drawing.Point(3, 17);
             this.rtbTo.Name = "rtbTo";
+            this.rtbTo.ReadOnly = true;
             this.rtbTo.Size = new System.Drawing.Size(260, 107);
             this.rtbTo.TabIndex = 0;
             this.rtbTo.Text = "";
@@ -155,6 +146,7 @@
             this.lbFileSelect.Size = new System.Drawing.Size(59, 12);
             this.lbFileSelect.TabIndex = 10;
             this.lbFileSelect.Text = "编码文件:";
+            this.lbFileSelect.Visible = false;
             // 
             // txbFilePath
             // 
@@ -162,6 +154,7 @@
             this.txbFilePath.Name = "txbFilePath";
             this.txbFilePath.Size = new System.Drawing.Size(330, 21);
             this.txbFilePath.TabIndex = 9;
+            this.txbFilePath.Visible = false;
             // 
             // btnFileSelect
             // 
@@ -172,35 +165,27 @@
             this.btnFileSelect.TabIndex = 8;
             this.btnFileSelect.Text = "..";
             this.btnFileSelect.UseVisualStyleBackColor = true;
+            this.btnFileSelect.Visible = false;
             this.btnFileSelect.Click += new System.EventHandler(this.btnFileSelect_Click);
-            // 
-            // btnConvertTest
-            // 
-            this.btnConvertTest.Location = new System.Drawing.Point(158, 456);
-            this.btnConvertTest.Name = "btnConvertTest";
-            this.btnConvertTest.Size = new System.Drawing.Size(75, 23);
-            this.btnConvertTest.TabIndex = 11;
-            this.btnConvertTest.Text = "测试编码";
-            this.btnConvertTest.UseVisualStyleBackColor = true;
-            this.btnConvertTest.Visible = false;
-            this.btnConvertTest.Click += new System.EventHandler(this.btnConvertTest_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // label3
+            // lbRemark
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 55);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(419, 12);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "编码文件中每行一个汉字和编码，汉字不可重复，格式形如：“深<Tab>shen”";
+            this.lbRemark.AutoSize = true;
+            this.lbRemark.Location = new System.Drawing.Point(4, 55);
+            this.lbRemark.Name = "lbRemark";
+            this.lbRemark.Size = new System.Drawing.Size(503, 12);
+            this.lbRemark.TabIndex = 12;
+            this.lbRemark.Text = "若不使用拼音，编码文件中每行一个汉字和编码，汉字不可重复，格式形如：“深<Tab>shen”";
             // 
             // cbxIsPinyin
             // 
             this.cbxIsPinyin.AutoSize = true;
+            this.cbxIsPinyin.Checked = true;
+            this.cbxIsPinyin.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxIsPinyin.Location = new System.Drawing.Point(6, 25);
             this.cbxIsPinyin.Name = "cbxIsPinyin";
             this.cbxIsPinyin.Size = new System.Drawing.Size(72, 16);
@@ -212,13 +197,14 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.cbxCodeFormat);
             this.groupBox3.Controls.Add(this.rtbCodeFormat);
             this.groupBox3.Controls.Add(this.lbFileSelect);
             this.groupBox3.Controls.Add(this.btnFileSelect);
             this.groupBox3.Controls.Add(this.cbxTextEncoding);
             this.groupBox3.Controls.Add(this.cbxIsPinyin);
-            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.lbRemark);
             this.groupBox3.Controls.Add(this.txbFilePath);
             this.groupBox3.Location = new System.Drawing.Point(10, 155);
             this.groupBox3.Name = "groupBox3";
@@ -226,6 +212,15 @@
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "编码设置";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(358, 103);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "词库编码：";
             // 
             // cbxCodeFormat
             // 
@@ -248,6 +243,7 @@
             this.rtbCodeFormat.Size = new System.Drawing.Size(153, 60);
             this.rtbCodeFormat.TabIndex = 16;
             this.rtbCodeFormat.Text = "code_e2=p11+p12+p21+p22\ncode_e3=p11+p21+p31+p32\ncode_a4=p11+p21+p31+n11";
+            this.rtbCodeFormat.Visible = false;
             this.rtbCodeFormat.TextChanged += new System.EventHandler(this.rtbCodeFormat_TextChanged);
             // 
             // groupBox4
@@ -465,35 +461,24 @@
             "GBK",
             "Big5",
             "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "BigEndianUnicode",
             "ASCII"});
-            this.cbxTextEncoding.Location = new System.Drawing.Point(429, 49);
+            this.cbxTextEncoding.Location = new System.Drawing.Point(429, 100);
             this.cbxTextEncoding.Name = "cbxTextEncoding";
             this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
             this.cbxTextEncoding.Size = new System.Drawing.Size(93, 20);
             this.cbxTextEncoding.TabIndex = 14;
             this.cbxTextEncoding.Text = "UTF-8";
-            this.cbxTextEncoding.Visible = false;
+            // 
+            // btnTest
+            // 
+            this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTest.Location = new System.Drawing.Point(229, 368);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(40, 23);
+            this.btnTest.TabIndex = 1;
+            this.btnTest.Text = "->";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // SelfDefiningConfigForm
             // 
@@ -501,14 +486,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(551, 491);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnConvertTest);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnParse);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -538,7 +522,6 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox rtbFrom;
-        private System.Windows.Forms.Button btnParse;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RichTextBox rtbTo;
@@ -547,9 +530,8 @@
         private System.Windows.Forms.Label lbFileSelect;
         private System.Windows.Forms.TextBox txbFilePath;
         private System.Windows.Forms.Button btnFileSelect;
-        private System.Windows.Forms.Button btnConvertTest;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbRemark;
         private EncodingComboBox cbxTextEncoding;
         private System.Windows.Forms.CheckBox cbxIsPinyin;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -572,5 +554,7 @@
         private System.Windows.Forms.ComboBox cbbxPinyinSplitString;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox cbxIncludePinyin;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnTest;
     }
 }

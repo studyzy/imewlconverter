@@ -20,7 +20,7 @@ namespace Studyzy.IMEWLConverter.Entities
             sample.PinYin = new[] { "shen", "lan", "ci", "ku", "zhuan", "huan" };
             IsPinyinFormat = true;
         }
-        //private IWordCodeGenerater pyFactory = new PinyinGenerater();
+        private IWordCodeGenerater pyFactory = new PinyinGenerater();
         private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
         private bool isPinyinFormat = true;
 
@@ -35,8 +35,12 @@ namespace Studyzy.IMEWLConverter.Entities
                 isPinyinFormat = value;
             }
         }
+        /// <summary>
+        /// 打开或保存自定义编码的文件时，使用的编码格式
+        /// </summary>
+        public Encoding TextEncoding { get; set; }
 
-        private bool isPinyin = false;
+        private bool isPinyin = true;
         /// <summary>
         /// 是否是拼音编码
         /// </summary>
@@ -84,8 +88,8 @@ namespace Studyzy.IMEWLConverter.Entities
         /// <returns></returns>
         public string BuildWLStringSample()
         {
-       
-           var dic = new Dictionary<char, string>()
+
+            IDictionary<char, string> dic = new Dictionary<char, string>()
                 {
                     {'深', "shen"},
                     {'蓝', "lan"},
@@ -94,7 +98,13 @@ namespace Studyzy.IMEWLConverter.Entities
                     {'转', "zhuan"},
                     {'换', "huan"}
                 };
-        
+           if (!IsPinyin)
+           {
+               if (!string.IsNullOrEmpty(MappingTablePath))
+               {
+                   dic = UserCodingHelper.GetCodingDict(MappingTablePath);
+               }
+           }
             string word = "";
             string result = "";
 
@@ -107,6 +117,26 @@ namespace Studyzy.IMEWLConverter.Entities
 
             return result;
         }
+        /// <summary>
+        /// 只有单词的情况下，根据规则生成目标格式的编码
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public string BuildWlString(string word)
+        {
+            WordLibrary wl=new WordLibrary(){Word = word};
+            if (IsPinyin)
+            {
+                var py = pyFactory.GetCodeOfString(word, CodeSplitString);
+                wl.PinYin = CollectionHelper.ToArray(py);
+            }
+            else
+            {
+                wl.SetCode(CodeType.UserDefine, selfFactory.GetCodeOfString(word, CodeSplitString));
+            }
+            
+        }
+
         /// <summary>
         /// 传入一个字与码的集合，以及词频，根据用户设定的格式，生成一条词条字符串
         /// </summary>

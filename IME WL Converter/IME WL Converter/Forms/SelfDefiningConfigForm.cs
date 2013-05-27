@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 ﻿using System.Diagnostics;
 ﻿using System.IO;
+﻿using System.Text;
 ﻿using System.Windows.Forms;
 ﻿using Studyzy.IMEWLConverter.Entities;
 ﻿using Studyzy.IMEWLConverter.Generaters;
@@ -49,6 +50,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.Sort = GetSort();
             SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音规则";
             SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
+            SelectedParsePattern.TextEncoding = cbxTextEncoding.SelectedEncoding;
             if (!cbxIsPinyin.Checked)
             {
                 if (string.IsNullOrEmpty(txbFilePath.Text) || !File.Exists(txbFilePath.Text))
@@ -67,12 +69,12 @@ namespace Studyzy.IMEWLConverter
             {
                 isImport = value;
 
-                btnParse.Visible = isImport;
-                btnConvertTest.Visible = !isImport;
-                lbFileSelect.Visible = !isImport;
-                label3.Visible = !isImport;
-                txbFilePath.Visible = !isImport;
-                btnFileSelect.Visible = !isImport;
+                //btnParse.Visible = isImport;
+                //btnConvertTest.Visible = !isImport;
+                //lbFileSelect.Visible = !isImport;
+                lbRemark.Visible = !isImport;
+                //txbFilePath.Visible = !isImport;
+                //btnFileSelect.Visible = !isImport;
             }
         }
 
@@ -146,29 +148,31 @@ namespace Studyzy.IMEWLConverter
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 txbFilePath.Text = openFileDialog1.FileName;
+                SelectedParsePattern.MappingTablePath = openFileDialog1.FileName;
+                ShowSample();
             }
         }
 
-        private void btnConvertTest_Click(object sender, EventArgs e)
-        {
-            if (!ReBuildUserPattern())
-            {
-                return;
-            }
-            rtbTo.Clear();
-            string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            SelfDefiningCodeGenerater generater=new SelfDefiningCodeGenerater();
+        //private void btnConvertTest_Click(object sender, EventArgs e)
+        //{
+        //    if (!ReBuildUserPattern())
+        //    {
+        //        return;
+        //    }
+        //    rtbTo.Clear();
+        //    string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+        //    SelfDefiningCodeGenerater generater=new SelfDefiningCodeGenerater();
 
-            generater.MappingDictionary = UserCodingHelper.GetCodingDict(txbFilePath.Text);
-            generater.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
-            foreach (string str in fromList)
-            {
-                string s = str.Trim();
-                var code= generater.GetCodeOfString(s);
-                string result = SelectedParsePattern.BuildWlString(s,code[0],1);
-                rtbTo.AppendText(result + "\r\n");
-            }
-        }
+        //    generater.MappingDictionary = UserCodingHelper.GetCodingDict(txbFilePath.Text);
+        //    generater.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
+        //    foreach (string str in fromList)
+        //    {
+        //        string s = str.Trim();
+        //        var code= generater.GetCodeOfString(s);
+        //        string result = SelectedParsePattern.BuildWlString(s,code[0],1);
+        //        rtbTo.AppendText(result + "\r\n");
+        //    }
+        //}
 
         private void SelfDefiningConverterForm_Load(object sender, EventArgs e)
         {
@@ -202,6 +206,7 @@ shen,lan,ci,ku,zhuan,huan 深蓝词库转换 1234";
                 btnFileSelect.Visible = true;
             }
             SelectedParsePattern.IsPinyin = cbxIsPinyin.Checked;
+            ShowSample();
         }
 
         private void cbxIncludePinyin_CheckedChanged(object sender, EventArgs e)
@@ -304,10 +309,12 @@ code_a4=p11+p21+p31+n11";
             if (cbxCodeFormat.Text == "拼音规则")
             {
                 SelectedParsePattern.IsPinyinFormat = true;
+                rtbCodeFormat.Visible = false;
             }
             else
             {
                 SelectedParsePattern.IsPinyinFormat = false;
+                rtbCodeFormat.Visible = true;
             }
             SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
             ShowSample();
@@ -324,6 +331,18 @@ code_a4=p11+p21+p31+n11";
             {
                 Debug.WriteLine("输入格式不正确");
             }
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            var lines= rtbFrom.Text.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder sb=new StringBuilder();
+            foreach (var line in lines)
+            {
+                var wl= SelectedParsePattern.BuildWordLibrary(line);
+                sb.Append(wl.ToDisplayString()+"\r\n");
+            }
+            rtbTo.Text = sb.ToString();
         }
 
       
