@@ -134,7 +134,8 @@ namespace Studyzy.IMEWLConverter.Entities
             {
                 wl.SetCode(CodeType.UserDefine, selfFactory.GetCodeOfString(word, CodeSplitString));
             }
-            
+            //todo
+            return word;
         }
 
         /// <summary>
