@@ -328,17 +328,20 @@ namespace Studyzy.IMEWLConverter
         {
             string[] files = txbWLPath.Text.Split('|');
 
-           
-            foreach (string file in files)
+            if (streamExport && import.IsText) //流转换,只有文本类型的才支持。
             {
-                //cbxFrom.Text+"转"+cbxTo.Text+"_"+
-                exportFileName = Path.GetFileNameWithoutExtension(file);
-                string path = file.Trim();
-                if (streamExport && import.IsText) //流转换,只有文本类型的才支持。
-                {
-                    mainBody.StreamConvert(files, exportFileName);
-                }
+                mainBody.StreamConvert(files, exportPath);
+                timer1.Enabled = false;
+                return;
             }
+            
+            
+            //foreach (string file in files)
+            //{
+            //    //cbxFrom.Text+"转"+cbxTo.Text+"_"+
+            //    exportFileName = Path.GetFileNameWithoutExtension(file);
+            //    string path = file.Trim();
+            //}
             if (mergeTo1File)
             {
                 if (!streamExport)

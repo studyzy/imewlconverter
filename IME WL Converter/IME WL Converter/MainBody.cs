@@ -227,7 +227,7 @@ namespace Studyzy.IMEWLConverter
             foreach (string filePath in filePathes)
             {
                 var wlStream = new WordLibraryStream(import, export, filePath, textImport.Encoding, stream);
-                //wlStream.ConvertWordLibrary(WordFilterRetain);
+                wlStream.ConvertWordLibrary(w => IsKeep(w));
             }
 
             stream.Close();

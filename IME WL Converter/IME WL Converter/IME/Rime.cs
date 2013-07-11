@@ -34,7 +34,10 @@ namespace Studyzy.IMEWLConverter.IME
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-
+            if (codeGenerater == null)
+            {
+                codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
+            }
             if (codeGenerater.Is1CharMutiCode)
             {
                 IList<string> codes = codeGenerater.GetCodeOfString(wl.Word);
