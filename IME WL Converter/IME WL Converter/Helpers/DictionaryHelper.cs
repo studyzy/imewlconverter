@@ -26,7 +26,8 @@ namespace Studyzy.IMEWLConverter.Helpers
                                 Word = hzpy[1][0],
                                 Wubi86 = hzpy[2],
                                 Wubi98 = (hzpy[3] == "" ? hzpy[2] : hzpy[3]),
-                                Pinyins = hzpy[4]
+                                Pinyins = hzpy[4],
+                                Freq = Convert.ToDouble(hzpy[5])
                             });
                     }
                 }
@@ -38,6 +39,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             return Dict[c];
         }
+       
 
         public static List<ChineseCode> GetAll()
         {
@@ -52,5 +54,6 @@ namespace Studyzy.IMEWLConverter.Helpers
         public string Wubi86 { get; set; }
         public string Wubi98 { get; set; }
         public string Pinyins { get; set; }
+        public double Freq { get; set; }
     }
 }

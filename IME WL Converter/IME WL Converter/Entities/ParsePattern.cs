@@ -7,6 +7,9 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
 {
+    /// <summary>
+    /// 根据设置的样式，解析和展示词条
+    /// </summary>
     public class ParsePattern
     {
         private readonly WordLibrary sample;
@@ -20,7 +23,7 @@ namespace Studyzy.IMEWLConverter.Entities
             sample.PinYin = new[] { "shen", "lan", "ci", "ku", "zhuan", "huan" };
             IsPinyinFormat = true;
         }
-        private IWordCodeGenerater pyFactory = new PinyinGenerater();
+    
         private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
         private bool isPinyinFormat = true;
 
@@ -42,7 +45,7 @@ namespace Studyzy.IMEWLConverter.Entities
 
         private bool isPinyin = true;
         /// <summary>
-        /// 是否是拼音编码
+        /// 是否是拼音编码，如果是，可以对汉字注音
         /// </summary>
         public bool IsPinyin
         {
@@ -75,13 +78,19 @@ namespace Studyzy.IMEWLConverter.Entities
         /// </summary>
         public BuildType CodeSplitType { get; set; }
         /// <summary>
-        /// 编码词频汉字的排序方式
+        /// 编码\汉字\词频的排序方式
         /// </summary>
         public List<int> Sort { get; set; }
         /// <summary>
         /// 每个字对应的编码的文件路径
         /// </summary>
         public string MappingTablePath { get; set; }
+        /// <summary>
+        /// 每个字对应的编码的字典
+        /// </summary>
+        public IDictionary<char,string> MappingTable { get; set; }
+        #region Example
+        
         /// <summary>
         /// 按照指定规则，生成一个示例
         /// </summary>
@@ -118,42 +127,21 @@ namespace Studyzy.IMEWLConverter.Entities
             return result;
         }
         /// <summary>
-        /// 只有单词的情况下，根据规则生成目标格式的编码
-        /// </summary>
-        /// <param name="word"></param>
-        /// <returns></returns>
-        public string BuildWlString(string word)
-        {
-            WordLibrary wl=new WordLibrary(){Word = word};
-            if (IsPinyin)
-            {
-                var py = pyFactory.GetCodeOfString(word, CodeSplitString);
-                wl.PinYin = CollectionHelper.ToArray(py);
-            }
-            else
-            {
-                wl.SetCode(CodeType.UserDefine, selfFactory.GetCodeOfString(word, CodeSplitString));
-            }
-            //todo
-            return word;
-        }
-
-        /// <summary>
         /// 传入一个字与码的集合，以及词频，根据用户设定的格式，生成一条词条字符串
         /// </summary>
         /// <param name="charCodes"></param>
         /// <param name="rank"></param>
         /// <returns></returns>
-        public string BuildWlString(IDictionary<char, string> charCodes, int rank,string word="")
+        private string BuildWlString(IDictionary<char, string> charCodes, int rank, string word = "")
         {
             string code = "";
-           if(word=="")
-           {
-               foreach (var c in charCodes.Keys)
+            if (word == "")
             {
-                word += c;
+                foreach (var c in charCodes.Keys)
+                {
+                    word += c;
+                }
             }
-           }
             if (ContainCode)
             {
                 if (IsPinyinFormat)
@@ -164,27 +152,35 @@ namespace Studyzy.IMEWLConverter.Entities
                 {
                     selfFactory.MutiWordCodeFormat = MutiWordCodeFormat;
                     selfFactory.MappingDictionary = charCodes;
-                    
+
                     code = selfFactory.GetCodeOfString(word)[0];
                 }
             }
             return BuildWlString(word, code, rank);
 
         }
-        private IEnumerable<string> GetSelectWordCodes(string word, IDictionary<char, string> charCodes)
-        {
-            if (word == "")
-            {
-                return charCodes.Values;
-            }
-            var result = new List<string>();
-            foreach (var c in word)
-            {
-                result.Add(charCodes[c]);
-            }
-            return result;
-        }
+        #endregion
 
+        #region 生成指定格式的字符串
+
+        /// <summary>
+        /// 只有单词的情况下，根据规则生成目标格式的编码
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        //public string BuildWlString(string word)
+        //{
+        //    //WordLibrary wl=new WordLibrary(){Word = word};
+        //    return BuildWlString(word,null,1);
+          
+        //}
+
+      
+        /// <summary>
+        /// 根据Pattern设置，将WordLibrary转换成该格式的字符串
+        /// </summary>
+        /// <param name="wl"></param>
+        /// <returns></returns>
         public string BuildWlString(WordLibrary wl)
         {
             string code = "";
@@ -201,14 +197,28 @@ namespace Studyzy.IMEWLConverter.Entities
             }
             return BuildWlString(wl.Word, code, wl.Count);
 
+
         }
-        public string BuildWlString(string word,string code,int rank)
+
+        /// <summary>
+        /// 根据Pattern设置，将汉字、编码、词频组合成设置的格式
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="code"></param>
+        /// <param name="rank"></param>
+        /// <returns></returns>
+        public string BuildWlString(string word, string code, int rank)
         {
-            string  cp = "";
+          
+            string cp = "";
             if (!ContainCode)
             {
                 code = "";
             }
+            //else if(string.IsNullOrEmpty(code))//没有Code就生成Code
+            //{
+            //    GenerateCode(word)
+            //}
             var sb = new StringBuilder();
             if (ContainRank)
             {
@@ -230,45 +240,21 @@ namespace Studyzy.IMEWLConverter.Entities
             string str = sb.ToString();
             return str.Substring(0, str.LastIndexOf(SplitString));
         }
-        ////没有什么思路，接下来的代码写得乱七八糟的，但是好像还是对的。zengyi20101114
-        ////如果wl中提供了拼音数组，而且自定义格式也是拼音格式，那么就只转换格式即可。
-        //public string BuildWLString(WordLibrary wl)
-        //{
-        //    string py = "", cp = "";
-        //    var sb = new StringBuilder();
-        //    if (ContainCode)
-        //    {
-        //        if (IsPinyinFormat)
-        //        {
-        //            py = wl.GetPinYinString(CodeSplitString, CodeSplitType);
-        //        }
-        //        else
-        //        {
-        //            selfFactory.MutiWordCodeFormat = MutiWordCodeFormat;
-        //            py = selfFactory.GetCodeOfString(wl.Word)[0];
-        //        }
-        //    }
-        //    if (ContainRank)
-        //    {
-        //        cp = wl.Count.ToString();
-        //    }
-        //    var dic = new Dictionary<int, string>();
-        //    dic.Add(Sort[0], py);
-        //    dic.Add(Sort[1], wl.Word);
-        //    dic.Add(Sort[2], cp);
-        //    var newSort = new List<int>(Sort);
-        //    newSort.Sort();
-        //    foreach (int x in newSort)
-        //    {
-        //        if (dic[x] != "")
-        //        {
-        //            sb.Append(dic[x] + SplitString);
-        //        }
-        //    }
-        //    string str = sb.ToString();
-        //    return str.Substring(0, str.LastIndexOf(SplitString));
-        //}
+     
+      
+      
+       
 
+        #endregion
+      
+
+        #region 根据字符串生成WL
+       
+        /// <summary>
+        /// 根据Pattern设置的格式，对输入的一行该格式的字符串转换成WordLibrary
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public WordLibrary BuildWordLibrary(string line)
         {
             var wl = new WordLibrary();
@@ -278,22 +264,22 @@ namespace Studyzy.IMEWLConverter.Entities
             if (isPinyin)
             {
                 int index1 = Sort.FindIndex(i => i == newSort[0]); //最小的一个
-                if (index1 == 0 && ContainCode) //第一个是拼音
+                if (index1 == 0 && ContainCode) //第一个是编码
                 {
                     wl.PinYinString = strlist[0];
                 }
-                if (index1 == 1)
+                if (index1 == 1)//第一个是汉字
                 {
                     wl.Word = strlist[0];
                 }
-                if (index1 == 2 && ContainRank)
+                if (index1 == 2 && ContainRank)//第一个是词频
                 {
                     wl.Count = Convert.ToInt32(strlist[0]);
                 }
                 if (strlist.Length > 1)
                 {
                     int index2 = Sort.FindIndex(i => i == newSort[1]); //中间的一个
-                    if (index2 == 0 && ContainCode) //第一个是拼音
+                    if (index2 == 0 && ContainCode) //一个是Code
                     {
                         wl.PinYinString = strlist[1];
                     }
@@ -377,7 +363,7 @@ namespace Studyzy.IMEWLConverter.Entities
             }
             return wl;
         }
-
+        #endregion
         //public void CodingString(WordLibrary wl, IWordCodeGenerater factory)
         //{
         //    var codes = new List<string>();
@@ -388,5 +374,19 @@ namespace Studyzy.IMEWLConverter.Entities
         //    }
         //    wl.PinYin = codes.ToArray();
         //}
+
+        private IEnumerable<string> GetSelectWordCodes(string word, IDictionary<char, string> charCodes)
+        {
+            if (word == "")
+            {
+                return charCodes.Values;
+            }
+            var result = new List<string>();
+            foreach (var c in word)
+            {
+                result.Add(charCodes[c]);
+            }
+            return result;
+        }
     }
 }

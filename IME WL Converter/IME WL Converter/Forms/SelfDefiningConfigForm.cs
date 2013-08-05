@@ -15,14 +15,14 @@ namespace Studyzy.IMEWLConverter
     {
         private readonly List<string> fromWords = new List<string>();
 
-        private bool isImport = true;
+        //private bool isImport = true;
 
         public SelfDefiningConfigForm()
         {
           
             InitializeComponent();
             InitParsePattern();
-            IsImport = true;
+            //IsImport = true;
         }
     
 
@@ -49,6 +49,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.CodeSplitType = GetBuildType();
             SelectedParsePattern.Sort = GetSort();
             SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音规则";
+            SelectedParsePattern.IsPinyin = cbxIsPinyin.Checked;
             SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
             SelectedParsePattern.TextEncoding = cbxTextEncoding.SelectedEncoding;
             if (!cbxIsPinyin.Checked)
@@ -62,21 +63,21 @@ namespace Studyzy.IMEWLConverter
             }
             return true;
         }
-        public bool IsImport
-        {
-            get { return isImport; }
-            set
-            {
-                isImport = value;
+        //public bool IsImport
+        //{
+        //    get { return isImport; }
+        //    set
+        //    {
+        //        isImport = value;
 
-                //btnParse.Visible = isImport;
-                //btnConvertTest.Visible = !isImport;
-                //lbFileSelect.Visible = !isImport;
-                lbRemark.Visible = !isImport;
-                //txbFilePath.Visible = !isImport;
-                //btnFileSelect.Visible = !isImport;
-            }
-        }
+        //        //btnParse.Visible = isImport;
+        //        //btnConvertTest.Visible = !isImport;
+        //        //lbFileSelect.Visible = !isImport;
+        //        lbRemark.Visible = !isImport;
+        //        //txbFilePath.Visible = !isImport;
+        //        //btnFileSelect.Visible = !isImport;
+        //    }
+        //}
 
         public List<string> FromWords
         {
@@ -101,29 +102,29 @@ namespace Studyzy.IMEWLConverter
             DialogResult = DialogResult.Cancel;
         }
 
-        private void btnParse_Click(object sender, EventArgs e)
-        {
-            if (SelectedParsePattern == null)
-            {
-                MessageBox.Show("请点击右上角按钮选择匹配规则");
-                return;
-            }
-            rtbTo.Clear();
-            try
-            {
-                string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string str in fromList)
-                {
-                    string s = str.Trim();
-                    WordLibrary wl = SelectedParsePattern.BuildWordLibrary(s);
-                    rtbTo.AppendText(wl.ToDisplayString() + "\r\n");
-                }
-            }
-            catch
-            {
-                MessageBox.Show("无法识别源内容，请确认源内容与自定义规则匹配！");
-            }
-        }
+        //private void btnParse_Click(object sender, EventArgs e)
+        //{
+        //    if (SelectedParsePattern == null)
+        //    {
+        //        MessageBox.Show("请点击右上角按钮选择匹配规则");
+        //        return;
+        //    }
+        //    rtbTo.Clear();
+        //    try
+        //    {
+        //        string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+        //        foreach (string str in fromList)
+        //        {
+        //            string s = str.Trim();
+        //            WordLibrary wl = SelectedParsePattern.BuildWordLibrary(s);
+        //            rtbTo.AppendText(wl.ToDisplayString() + "\r\n");
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        MessageBox.Show("无法识别源内容，请确认源内容与自定义规则匹配！");
+        //    }
+        //}
 
         //private void btnHelpBuild_Click(object sender, EventArgs e)
         //{
@@ -174,22 +175,7 @@ namespace Studyzy.IMEWLConverter
         //    }
         //}
 
-        private void SelfDefiningConverterForm_Load(object sender, EventArgs e)
-        {
-            if (isImport)
-            {
-                rtbFrom.Text = @"shen,lan,ci,ku,zhuan,huan 深 1234
-shen,lan,ci,ku,zhuan,huan 深蓝 1234
-shen,lan,ci,ku,zhuan,huan 深蓝词 1234
-shen,lan,ci,ku,zhuan,huan 深蓝词库 1234
-shen,lan,ci,ku,zhuan,huan 深蓝词库转 1234
-shen,lan,ci,ku,zhuan,huan 深蓝词库转换 1234";
-            }
-            else
-            {
-                rtbFrom.Text = "深\r\n深蓝\r\n深蓝词\r\n深蓝词库\r\n深蓝词库转\r\n深蓝词库转换";
-            }
-        }
+      
 
         private void cbxIsPinyin_CheckedChanged(object sender, EventArgs e)
         {
@@ -339,10 +325,35 @@ code_a4=p11+p21+p31+n11";
             StringBuilder sb=new StringBuilder();
             foreach (var line in lines)
             {
-                var wl= SelectedParsePattern.BuildWordLibrary(line);
-                sb.Append(wl.ToDisplayString()+"\r\n");
+                WordLibrary wl=new WordLibrary(){Word = line.Trim(),Count = 1234};
+                GenerateCode( wl);
+                sb.Append(SelectedParsePattern.BuildWlString(wl)+"\r\n");
             }
             rtbTo.Text = sb.ToString();
+        }
+
+        private IWordCodeGenerater pyFactory = new PinyinGenerater();
+        private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
+        private void GenerateCode( WordLibrary wl)
+        {
+            var word = wl.Word;
+            if (SelectedParsePattern.IsPinyin&&SelectedParsePattern.IsPinyinFormat)
+            {
+                var py = pyFactory.GetCodeOfString(word, SelectedParsePattern.CodeSplitString);
+                wl.PinYin = CollectionHelper.ToArray(py);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(SelectedParsePattern.MappingTablePath))
+                {
+                    SelectedParsePattern.MappingTable = UserCodingHelper.GetCodingDict(SelectedParsePattern.MappingTablePath);
+                }
+                selfFactory.MappingDictionary = SelectedParsePattern.MappingTable;
+                selfFactory.Is1Char1Code = SelectedParsePattern.IsPinyinFormat;
+                selfFactory.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
+                wl.SetCode(CodeType.UserDefine, selfFactory.GetCodeOfString(word, SelectedParsePattern.CodeSplitString));
+            }
+
         }
 
       

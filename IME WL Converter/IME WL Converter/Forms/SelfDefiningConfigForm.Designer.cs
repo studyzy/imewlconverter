@@ -63,8 +63,8 @@
             this.cbbxPinyinSplitString = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbxIncludePinyin = new System.Windows.Forms.CheckBox();
-            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.btnTest = new System.Windows.Forms.Button();
+            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -444,10 +444,28 @@
             this.cbxIncludePinyin.UseVisualStyleBackColor = true;
             this.cbxIncludePinyin.CheckedChanged += new System.EventHandler(this.cbxIncludePinyin_CheckedChanged);
             // 
+            // btnTest
+            // 
+            this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTest.Location = new System.Drawing.Point(229, 368);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(40, 23);
+            this.btnTest.TabIndex = 1;
+            this.btnTest.Text = "->";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // cbxTextEncoding
             // 
             this.cbxTextEncoding.FormattingEnabled = true;
             this.cbxTextEncoding.Items.AddRange(new object[] {
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
             "Unicode",
             "UTF-8",
             "GB18030",
@@ -468,17 +486,6 @@
             this.cbxTextEncoding.Size = new System.Drawing.Size(93, 20);
             this.cbxTextEncoding.TabIndex = 14;
             this.cbxTextEncoding.Text = "UTF-8";
-            // 
-            // btnTest
-            // 
-            this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTest.Location = new System.Drawing.Point(229, 368);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(40, 23);
-            this.btnTest.TabIndex = 1;
-            this.btnTest.Text = "->";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // SelfDefiningConfigForm
             // 
@@ -503,7 +510,6 @@
             this.Text = "自定义词库编码";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelfDefiningConverterForm_FormClosing);
-            this.Load += new System.EventHandler(this.SelfDefiningConverterForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -521,40 +527,40 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox rtbFrom;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RichTextBox rtbTo;
-        private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Label lbFileSelect;
-        private System.Windows.Forms.TextBox txbFilePath;
-        private System.Windows.Forms.Button btnFileSelect;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Label lbRemark;
-        private EncodingComboBox cbxTextEncoding;
-        private System.Windows.Forms.CheckBox cbxIsPinyin;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.ComboBox cbxCodeFormat;
-        private System.Windows.Forms.RichTextBox rtbCodeFormat;
-        private System.Windows.Forms.CheckBox cbxPinyinSplitBehind;
-        private System.Windows.Forms.CheckBox cbxPinyinSplitBefore;
-        private System.Windows.Forms.ComboBox cbbxSplitString;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.NumericUpDown numOrderCipin;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numOrderHanzi;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numOrderPinyin;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox cbxIncludeCipin;
-        private System.Windows.Forms.ComboBox cbbxPinyinSplitString;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox cbxIncludePinyin;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnTest;
+        protected System.Windows.Forms.RichTextBox rtbFrom;
+        protected System.Windows.Forms.GroupBox groupBox1;
+        protected System.Windows.Forms.GroupBox groupBox2;
+        protected System.Windows.Forms.RichTextBox rtbTo;
+        protected System.Windows.Forms.Button btnOK;
+        protected System.Windows.Forms.Button btnCancel;
+        protected System.Windows.Forms.Label lbFileSelect;
+        protected System.Windows.Forms.TextBox txbFilePath;
+        protected System.Windows.Forms.Button btnFileSelect;
+        protected System.Windows.Forms.OpenFileDialog openFileDialog1;
+        protected System.Windows.Forms.Label lbRemark;
+        protected EncodingComboBox cbxTextEncoding;
+        protected System.Windows.Forms.CheckBox cbxIsPinyin;
+        protected System.Windows.Forms.ToolTip toolTip1;
+        protected System.Windows.Forms.GroupBox groupBox3;
+        protected System.Windows.Forms.GroupBox groupBox4;
+        protected System.Windows.Forms.ComboBox cbxCodeFormat;
+        protected System.Windows.Forms.RichTextBox rtbCodeFormat;
+        protected System.Windows.Forms.CheckBox cbxPinyinSplitBehind;
+        protected System.Windows.Forms.CheckBox cbxPinyinSplitBefore;
+        protected System.Windows.Forms.ComboBox cbbxSplitString;
+        protected System.Windows.Forms.Label label5;
+        protected System.Windows.Forms.GroupBox groupBox5;
+        protected System.Windows.Forms.NumericUpDown numOrderCipin;
+        protected System.Windows.Forms.Label label4;
+        protected System.Windows.Forms.NumericUpDown numOrderHanzi;
+        protected System.Windows.Forms.Label label1;
+        protected System.Windows.Forms.NumericUpDown numOrderPinyin;
+        protected System.Windows.Forms.Label label2;
+        protected System.Windows.Forms.CheckBox cbxIncludeCipin;
+        protected System.Windows.Forms.ComboBox cbbxPinyinSplitString;
+        protected System.Windows.Forms.Label label6;
+        protected System.Windows.Forms.CheckBox cbxIncludePinyin;
+        protected System.Windows.Forms.Label label3;
+        protected System.Windows.Forms.Button btnTest;
     }
 }

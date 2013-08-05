@@ -32,6 +32,10 @@ namespace Studyzy.IMEWLConverter
             {
                 wordRankGenerater=new BaiduWordRankGenerater();
             }
+            else if (rbtnCalc.Checked)
+            {
+                wordRankGenerater = new CalcWordRankGenerater();
+            }
             DialogResult=DialogResult.OK;
         }
 

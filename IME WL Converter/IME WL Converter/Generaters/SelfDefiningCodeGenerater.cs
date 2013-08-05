@@ -6,6 +6,9 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
+    /// <summary>
+    /// 根据提供的外部字典，格式，生成编码的类
+    /// </summary>
     public class SelfDefiningCodeGenerater : IWordCodeGenerater
     {
     public SelfDefiningCodeGenerater()
@@ -68,11 +71,16 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
      
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="charCodeSplit"></param>
+        /// <returns></returns>
         public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
         {
 
-            if (IsPinyinCode)
+            if (IsPinyinCode && Is1Char1Code)
             {
                 return pinyinGenerater.GetCodeOfString(str, charCodeSplit);
             }

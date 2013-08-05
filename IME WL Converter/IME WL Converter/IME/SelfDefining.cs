@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Forms;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -22,11 +23,11 @@ namespace Studyzy.IMEWLConverter.IME
         public SelfDefining()
         {
             CodeType=CodeType.Unknown;
-            exportForm=new SelfDefiningConfigForm();
-            importForm = new SelfDefiningConfigForm();
-            exportForm.IsImport = false;
+            exportForm = new SelfDefiningConfigFormExport();
+            importForm = new SelfDefiningConfigFormImport();
+         
             exportForm.Closed += new EventHandler(exportForm_Closed);
-            importForm.IsImport = true;
+          
             importForm.Closed += new EventHandler(importForm_Closed);
         }
 

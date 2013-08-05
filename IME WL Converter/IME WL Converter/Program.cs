@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Forms;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -22,6 +23,12 @@ namespace Studyzy.IMEWLConverter
         [STAThread]
         private static void Main(string[] args)
         {
+
+#if DEBUG
+
+            //Application.Run(new SelfDefiningConfigFormExport());
+            //return;
+#endif
             if (args.Length > 0)
             {
                 AttachConsole(ATTACH_PARENT_PROCESS);

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,7 @@
     <Compile Include="BaiduShoujiTest.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="FilterTest\AllFilterTest.cs" />
+    <Compile Include="GeneraterTest\SelfDefiningCodeGeneraterTest.cs" />
     <Compile Include="GeneraterTest\ZhuyinTest.cs" />
     <Compile Include="GeneraterTest\ErbiTest.cs" />
     <Compile Include="GeneraterTest\PinyinTest.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="Ld2ParseTest.cs" />
     <Compile Include="PerformanceTest.cs" />
     <Compile Include="RimeTest.cs" />
+    <Compile Include="SelectedParsePatternTest.cs" />
     <Compile Include="SelfDefiningTest.cs" />
     <Compile Include="SougouPinyinTest.cs" />
     <Compile Include="GooglePinyinTest.cs" />

@@ -204,7 +204,7 @@ namespace Studyzy.IMEWLConverter.Entities
 
         public string ToDisplayString()
         {
-            return "汉字：" + word + (string.IsNullOrEmpty(WubiCode) ? "；拼音：" + PinYinString : "五笔：" + WubiCode) + "；词频：" +
+            return "汉字：" + word + (string.IsNullOrEmpty(WubiCode) ? "；编码：" + CollectionHelper.ListToString(CollectionHelper.Descartes(Codes)) : "五笔：" + WubiCode) + "；词频：" +
                    count;
         }
 
