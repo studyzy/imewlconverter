@@ -1,4 +1,4 @@
-imewlconverter
+﻿imewlconverter
 ==============
 
 an ime word library converter
@@ -65,3 +65,5 @@ And it support more than 6 ime codes:
 注音
 
 自定义
+
+本程序支持批量转换（一次拖拽多个词库文件，或者按住Ctrl选择多个文件），支持命令行模式（在命令行下使用-?命令查看帮助）。
