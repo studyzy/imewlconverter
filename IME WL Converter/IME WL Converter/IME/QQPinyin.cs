@@ -44,6 +44,10 @@ namespace Studyzy.IMEWLConverter.IME
 
         public string Export(WordLibraryList wlList)
         {
+            if (wlList.Count == 0)
+            {
+                return "";
+            }
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count - 1; i++)
             {

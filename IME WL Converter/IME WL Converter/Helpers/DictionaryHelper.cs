@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 if (dictionary.Count == 0)
                 {
                     string allPinYin = Dictionaries.ChineseCode;
-                    string[] pyList = allPinYin.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] pyList = allPinYin.Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < pyList.Length; i++)
                     {
                         string[] hzpy = pyList[i].Split('\t');

@@ -117,7 +117,7 @@ namespace Studyzy.IMEWLConverter.Entities
             }
             set
             {
-                CodeType=CodeType.Pinyin;
+                //CodeType=CodeType.Pinyin;
                 Codes=new List<string>[value.Length];
                 int i = 0;
                 foreach (string s in value)

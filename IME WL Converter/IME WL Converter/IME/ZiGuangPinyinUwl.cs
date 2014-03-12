@@ -249,7 +249,7 @@ namespace Studyzy.IMEWLConverter.IME
             wl.Count = (BitConverter.ToInt32(rankB, 0) - 1)/32;
             //py
             int pyLen = Math.Min(8, len); //拼音最大支持8个字的拼音
-            wl.PinYin = new string[pyLen];
+            var wlPinYin = new string[pyLen];
             for (int i = 0; i < pyLen; i++)
             {
                 int smB = stream.ReadByte();
@@ -261,18 +261,19 @@ namespace Studyzy.IMEWLConverter.IME
                 //wl.PinYin[i] = smIndex + "~" + ymIndex;
                 try
                 {
-                    wl.PinYin[i] = Shengmu[smIndex] + Yunmu[ymIndex];
+                    wlPinYin[i] = Shengmu[smIndex] + Yunmu[ymIndex];
                 }
                 catch
                 {
 #if DEBUG
-                    wl.PinYin[i] = smIndex + "~" + ymIndex;
+                    wlPinYin[i] = smIndex + "~" + ymIndex;
                     Debug.WriteLine(stream.Position);
 #else
                     return null;
 #endif
                 }
             }
+            wl.PinYin = wlPinYin;
             //hz
             var hzB = new byte[len*2];
             stream.Read(hzB, 0, len*2);
