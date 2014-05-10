@@ -243,7 +243,7 @@
     <Compile Include="IME\ZiGuangPinyinUwl.cs" />
     <Compile Include="IME\Wubi98.cs" />
     <Compile Include="IME\QQPinyinEng.cs" />
-    <Compile Include="IME\EngkooPinyin.cs" />
+    <Compile Include="IME\BingPinyin.cs" />
     <Compile Include="IME\LingoesLd2.cs" />
     <Compile Include="IME\SougouPinyinBin.cs" />
     <Compile Include="IME\FitInput.cs" />

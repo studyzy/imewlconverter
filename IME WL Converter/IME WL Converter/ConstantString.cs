@@ -42,7 +42,7 @@ namespace Studyzy.IMEWLConverter
         public const string FIT = "FIT输入法";
         public const string RIME = "Rime中州韵";
         public const string CANGJIE_PLATFORM = "仓颉平台";
-        public const string ENGKOO_PINYIN = "微软英库拼音";
+        public const string BING_PINYIN = "必应输入法";
         public const string LINGOES_LD2 = "灵格斯ld2";
         public const string USER_PHRASE = "用户自定义短语";
         //简码，控制台用
@@ -73,7 +73,7 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_C = "xiaoxiao";
         public const string FIT_C = "fit";
         public const string RIME_C = "rime";
-        public const string ENGKOO_PINYIN_C = "engkoo";
+        public const string BING_PINYIN_C = "bing";
         public const string LINGOES_LD2_C = "ld2";
         public const string BAIDU_PINYIN_C = "bdpy";
         public const string QQ_PINYIN_ENG_C = "qqpye";
