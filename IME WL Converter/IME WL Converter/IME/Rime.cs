@@ -11,15 +11,30 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.RIME, ConstantString.RIME_C, 150)]
     public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
+        private string lineSplitString;
         public Rime()
         {
             form=new RimeConfigForm();
             form.Closed += new EventHandler(form_Closed);
         }
 
-        void form_Closed(object sender, EventArgs e)
+        private void form_Closed(object sender, EventArgs e)
         {
             this.CodeType = form.SelectedCodeType;
+            switch (form.SelectedOS)
+            {
+                case OperationSystem.Windows:
+                    lineSplitString = "\r\n";
+                    break;
+                case OperationSystem.MacOS:
+                    lineSplitString = "\r";
+                    break;
+                case OperationSystem.Linux:
+                    lineSplitString = "\n";
+                    break;
+
+            }
+
         }
 
         #region IWordLibraryExport 成员
@@ -51,7 +66,7 @@ namespace Studyzy.IMEWLConverter.IME
                     sb.Append(wl.Count);
                     i++;
                     if (i != codes.Count)
-                        sb.Append("\r\n");
+                        sb.Append(lineSplitString);
                 }
             }
             else
@@ -95,7 +110,7 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 0; i < wlList.Count; i++)
             {
                 sb.Append(ExportLine(wlList[i]));
-                sb.Append("\r\n");
+                sb.Append(lineSplitString);
             }
             return sb.ToString();
         }
@@ -113,7 +128,7 @@ namespace Studyzy.IMEWLConverter.IME
         public WordLibraryList ImportText(string str)
         {
             var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = str.Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries);
             CountWord = lines.Length;
             for (int i = 0; i < lines.Length; i++)
             {

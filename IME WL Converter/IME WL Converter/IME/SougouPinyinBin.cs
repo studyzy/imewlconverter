@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
@@ -13,6 +15,7 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.SOUGOU_PINYIN_BIN, ConstantString.SOUGOU_PINYIN_BIN_C, 30)]
     public class SougouPinyinBin : BaseImport, IWordLibraryImport
     {
+        #region PinYinDic
         private readonly List<string> PinYinDic = new List<string>
             {
                 "a",
@@ -455,6 +458,7 @@ namespace Studyzy.IMEWLConverter.IME
                 "Y",
                 "Z"
             };
+        #endregion
 
         //4字节使用同一个拼音的词条数x，2字节拼音长度n，n字节拼音的编号，（2字节汉字的长度y，y*2字节汉字的内容Unicode编码，2字节词频，2字节未知，4字节未知）*x
 
@@ -503,8 +507,16 @@ namespace Studyzy.IMEWLConverter.IME
                     short count = BinFileHelper.ReadInt16(fs);
                     short count2 = BinFileHelper.ReadInt16(fs);
                     int unknown = BinFileHelper.ReadInt32(fs); //不知道干啥的
-                    var wl = new WordLibrary {Count = count, Word = word, PinYin = pyArray};
-                    pyAndWord.Add(wl);
+                    if (pyArray.Length == word.Length)
+                    {
+                        var wl = new WordLibrary {Count = count, Word = word, PinYin = pyArray};
+                        pyAndWord.Add(wl);
+                       
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error data: word:["+word+"] pinyin:["+string.Join(",",pyArray)+"]");
+                    }
                     CurrentStatus++;
                 }
             }

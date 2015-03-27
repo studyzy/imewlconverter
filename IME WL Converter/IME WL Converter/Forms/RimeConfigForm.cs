@@ -12,7 +12,7 @@ namespace Studyzy.IMEWLConverter
         }
 
         public CodeType SelectedCodeType { get; set; }
-
+        public OperationSystem SelectedOS { get; set; }
         private void btnOK_Click(object sender, EventArgs e)
         {
             switch (cbxCodeType.Text)
@@ -35,6 +35,18 @@ namespace Studyzy.IMEWLConverter
                 default:
                     SelectedCodeType = CodeType.Unknown;
                     break;
+            }
+            if (rbWin.Checked)
+            {
+                SelectedOS = OperationSystem.Windows;
+            }
+            else if (rbMac.Checked)
+            {
+                SelectedOS = OperationSystem.MacOS;
+            }
+            else
+            {
+                SelectedOS = OperationSystem.Linux;
             }
             DialogResult = DialogResult.OK;
         }
