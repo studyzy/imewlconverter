@@ -516,7 +516,7 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemDonate_Click(object sender, EventArgs e)
         {
-            Process.Start("http://imewlconverter.googlecode.com/svn/wiki/donate.html");
+            Process.Start("https://github.com/studyzy/imewlconverter/wiki/Donate");
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
