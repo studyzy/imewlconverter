@@ -26,6 +26,8 @@ namespace Studyzy.IMEWLConverter.Entities
 
         public int WordRankFrom { get; set; }
         public int WordRankTo { get; set; }
+
+        public int WordRankPercentage { get; set; }
         public bool IgnoreEnglish { get; set; }
         public bool IgnoreNumber { get; set; }
         public bool IgnoreSpace { get; set; }

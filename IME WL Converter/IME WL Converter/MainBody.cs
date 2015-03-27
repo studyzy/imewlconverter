@@ -70,6 +70,7 @@ namespace Studyzy.IMEWLConverter
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
+            BatchFilters=new List<IBatchFilter>();
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;
             wordRankGenerater=new DefaultWordRankGenerater();
@@ -110,6 +111,8 @@ namespace Studyzy.IMEWLConverter
         public IList<IReplaceFilter> ReplaceFilters { get; set; }
 
         public IList<ISingleFilter> Filters { get; set; }
+
+        public IList<IBatchFilter> BatchFilters { get; set; } 
         /// <summary>
         /// 转换多个文件成一个文件
         /// </summary>

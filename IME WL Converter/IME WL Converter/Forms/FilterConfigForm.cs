@@ -23,6 +23,7 @@ namespace Studyzy.IMEWLConverter
             filterConfig.WordLengthTo = Convert.ToInt32(numWordLengthTo.Value);
             filterConfig.WordRankFrom = Convert.ToInt32(numWordRankFrom.Value);
             filterConfig.WordRankTo = Convert.ToInt32(numWordRankTo.Value);
+            filterConfig.WordRankPercentage = Convert.ToInt32(numWordRankPercentage.Value);
             filterConfig.IgnoreEnglish = cbxFilterEnglish.Checked;
             filterConfig.IgnoreSpace = cbxFilterSpace.Checked;
             filterConfig.IgnorePunctuation = cbxFilterPunctuation.Checked;
@@ -42,6 +43,7 @@ namespace Studyzy.IMEWLConverter
             numWordLengthTo.Value = filterConfig.WordLengthTo;
             numWordRankFrom.Value = filterConfig.WordRankFrom;
             numWordRankTo.Value = filterConfig.WordRankTo;
+            numWordRankPercentage.Value = filterConfig.WordRankPercentage;
             cbxFilterEnglish.Checked = filterConfig.IgnoreEnglish;
             cbxFilterSpace.Checked = filterConfig.IgnoreSpace;
             cbxFilterPunctuation.Checked = filterConfig.IgnorePunctuation;

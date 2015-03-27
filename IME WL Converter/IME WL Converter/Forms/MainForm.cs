@@ -208,6 +208,7 @@ namespace Studyzy.IMEWLConverter
                 mainBody.Import = import;
                 mainBody.Export = export;
                 mainBody.Filters = GetFilters();
+                mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();
@@ -216,6 +217,21 @@ namespace Studyzy.IMEWLConverter
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private IList<IBatchFilter> GetBatchFilters()
+        {
+           var filters = new List<IBatchFilter>();
+            if (filterConfig.NoFilter)
+            {
+                return filters;
+            }
+            if (filterConfig.WordRankPercentage < 100)
+            {
+                RankPercentageFilter filter=new RankPercentageFilter(){Percentage = filterConfig.WordRankPercentage};
+                filters.Add(filter);
+            }
+            return filters;
         }
 
         private IList<IReplaceFilter> GetReplaceFilters()
