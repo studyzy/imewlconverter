@@ -12,20 +12,10 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
     public class Xiaoxiao : BaseImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
     {
-        public Xiaoxiao()
-        {
-            form=new XiaoxiaoConfigForm();
-            form.Closed += new EventHandler(form_Closed);
-        }
-
-        void form_Closed(object sender, EventArgs e)
-        {
-            this.CodeType = form.SelectedCodeType;
-        }   
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
-        private XiaoxiaoConfigForm form;
+        //private XiaoxiaoConfigForm form;
         private IWordCodeGenerater CodeGenerater
         {
             get
@@ -64,11 +54,7 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        public Form ExportConfigForm { get { return form; } }
-        public override Form ImportConfigForm
-        {
-            get { return form; }
-        }
+        //public Form ExportConfigForm { get { return form; } }
         public string Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();

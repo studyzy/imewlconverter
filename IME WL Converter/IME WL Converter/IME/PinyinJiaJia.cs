@@ -53,7 +53,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
         }
 
-        public Form ExportConfigForm { get; private set; }
+        
 
         #endregion
 

@@ -21,7 +21,7 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        public Form ExportConfigForm { get; private set; }
+        
 
         public string Export(WordLibraryList wlList)
         {

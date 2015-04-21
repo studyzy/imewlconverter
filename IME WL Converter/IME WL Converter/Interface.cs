@@ -12,7 +12,7 @@ namespace Studyzy.IMEWLConverter
         //int DefaultRank { get; set; }
         WordLibraryList Import(string path);
         WordLibraryList ImportLine(string str);
-        Form ImportConfigForm { get; }
+        //Form ImportConfigForm { get; }
         CodeType CodeType { get; }
     }
 
@@ -27,7 +27,7 @@ namespace Studyzy.IMEWLConverter
         Encoding Encoding { get; }
         string Export(WordLibraryList wlList);
         string ExportLine(WordLibrary wl);
-        Form ExportConfigForm { get; }
+        //Form ExportConfigForm { get; }
         CodeType CodeType { get;}
     }
 

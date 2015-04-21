@@ -23,26 +23,20 @@ namespace Studyzy.IMEWLConverter.IME
         public SelfDefining()
         {
             CodeType=CodeType.Unknown;
-            exportForm = new SelfDefiningConfigFormExport();
-            importForm = new SelfDefiningConfigFormImport();
+            //exportForm = new SelfDefiningConfigFormExport();
          
-            exportForm.Closed += new EventHandler(exportForm_Closed);
+            //exportForm.Closed += new EventHandler(exportForm_Closed);
           
-            importForm.Closed += new EventHandler(importForm_Closed);
         }
 
-        void exportForm_Closed(object sender, EventArgs e)
-        {
-            Global.ExportSelfDefiningPattern = exportForm.SelectedParsePattern;
-            this.UserDefiningPattern = exportForm.SelectedParsePattern;
-        }
-        void importForm_Closed(object sender, EventArgs e)
-        {
-            Global.ImportSelfDefiningPattern = importForm.SelectedParsePattern;
-            this.UserDefiningPattern = importForm.SelectedParsePattern;
-        }
-        private SelfDefiningConfigForm exportForm;
-        private SelfDefiningConfigForm importForm;
+        //void exportForm_Closed(object sender, EventArgs e)
+        //{
+        //    Global.ExportSelfDefiningPattern = exportForm.SelectedParsePattern;
+        //    this.UserDefiningPattern = exportForm.SelectedParsePattern;
+        //}
+        
+        //private SelfDefiningConfigForm exportForm;
+        //private SelfDefiningConfigForm importForm;
         public ParsePattern UserDefiningPattern { get; set; }
 
         //private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
@@ -117,11 +111,8 @@ namespace Studyzy.IMEWLConverter.IME
             return UserDefiningPattern.BuildWlString(wl);
         }
 
-        public Form ExportConfigForm { get { return exportForm; } }
-        public override Form ImportConfigForm
-        {
-            get { return importForm; }
-        }
+        //public Form ExportConfigForm { get { return exportForm; } }
+       
         #endregion
 
         #region IWordLibraryTextImport Members

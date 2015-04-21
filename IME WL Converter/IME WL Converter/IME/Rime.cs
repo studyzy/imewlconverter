@@ -12,35 +12,39 @@ namespace Studyzy.IMEWLConverter.IME
     public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
         private string lineSplitString;
-        public Rime()
+      
+
+        private OperationSystem os;
+        public OperationSystem OS
         {
-            form=new RimeConfigForm();
-            form.Closed += new EventHandler(form_Closed);
+            get { return os; }
+            set
+            {
+                os = value;
+                lineSplitString = GetLineSplit(os);
+            } 
         }
 
-        private void form_Closed(object sender, EventArgs e)
+        private string GetLineSplit(OperationSystem os)
         {
-            this.CodeType = form.SelectedCodeType;
-            switch (form.SelectedOS)
+            switch (os)
             {
                 case OperationSystem.Windows:
-                    lineSplitString = "\r\n";
-                    break;
+                    return "\r\n";
+
                 case OperationSystem.MacOS:
-                    lineSplitString = "\r";
-                    break;
+                    return "\r";
+
                 case OperationSystem.Linux:
-                    lineSplitString = "\n";
-                    break;
-
+                    return "\n";
             }
-
+            return "\r\n";
         }
 
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
-        private RimeConfigForm form;
+        //private RimeConfigForm form;
         public Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
@@ -98,11 +102,7 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        public Form ExportConfigForm { get { return form; } }
-        public override Form ImportConfigForm
-        {
-            get { return form; }
-        }
+        
         public string Export(WordLibraryList wlList)
         {
             codeGenerater = CodeTypeHelper.GetGenerater(CodeType);

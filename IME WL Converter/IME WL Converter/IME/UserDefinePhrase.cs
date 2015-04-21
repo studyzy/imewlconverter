@@ -16,8 +16,6 @@ namespace Studyzy.IMEWLConverter.IME
         public UserDefinePhrase()
         {
             PhraseFormat = "{1},{2}={0}"; //默认搜狗自定义短语的格式
-            form = new PhraseFormatConfigForm();
-            form.Closed += new EventHandler(form_Closed);
         }
         public override CodeType CodeType
         {
@@ -27,7 +25,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
         }
 
-        private PhraseFormatConfigForm form;
 
         public Encoding Encoding { get; set; }
 
@@ -46,15 +43,6 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\r\n");
             }
             return sb.ToString();
-        }
-
-        void form_Closed(object sender, EventArgs e)
-        {
-           if(form.DialogResult==DialogResult.OK)
-           {
-               this.PhraseFormat = form.PhraseFormat;
-               this.DefaultRank = form.DefaultRank;
-           }
         }
 
         public string ExportLine(WordLibrary wl)
@@ -76,9 +64,6 @@ namespace Studyzy.IMEWLConverter.IME
         /// 短语的格式{0}是短语{1}是编码{2}是排列的位置
         /// </summary>
         public string PhraseFormat { get; set; }
-        public Form ExportConfigForm
-        {
-            get { return form; }
-        }
+        
     }
 }

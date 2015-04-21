@@ -180,7 +180,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             return sb.ToString();
         }
 
-        public Form ExportConfigForm { get; private set; }
+        
 
         public string Export(WordLibraryList wlList)
         {

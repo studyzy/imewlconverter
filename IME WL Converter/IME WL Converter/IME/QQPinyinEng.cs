@@ -30,7 +30,7 @@ namespace Studyzy.IMEWLConverter.IME
             return wl.Word + "," + wl.Count;
         }
 
-        public Form ExportConfigForm { get; private set; }
+        
 
         public string Export(WordLibraryList wlList)
         {

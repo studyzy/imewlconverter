@@ -89,7 +89,7 @@ namespace Studyzy.IMEWLConverter.IME
             return wl.Word;
         }
 
-        public Form ExportConfigForm { get; private set; }
+        
 
         public virtual string Export(WordLibraryList wlList)
         {

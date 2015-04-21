@@ -304,19 +304,20 @@ namespace Studyzy.IMEWLConverter
         private void cbxFrom_SelectedIndexChanged(object sender, EventArgs e)
         {
             import = GetImportInterface(cbxFrom.Text);
-
-            if (import.ImportConfigForm != null)
+            var form=new CoreWinFormMapping().GetImportForm(import);
+            if (form != null)
             {
-                import.ImportConfigForm.ShowDialog();
+                form.ShowDialog();
             }
   
         }
         private void cbxTo_SelectedIndexChanged(object sender, EventArgs e)
         {
             export = GetExportInterface(cbxTo.Text);
-            if (export.ExportConfigForm != null)
+            var form = new CoreWinFormMapping().GetExportForm(export);
+            if (form != null)
             {
-                export.ExportConfigForm.ShowDialog();
+                form.ShowDialog();
             }
 
          

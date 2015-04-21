@@ -16,22 +16,6 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.XIAOXIAO_ERBI, ConstantString.XIAOXIAO_ERBI_C, 100)]
     public class XiaoxiaoErbi : BaseImport, IWordLibraryExport
     {
-        public XiaoxiaoErbi()
-        {
-            form = new ErbiTypeForm();
-            form.Closed += new EventHandler(form_Closed);
-        }
-
-        void form_Closed(object sender, EventArgs e)
-        {
-            if (form.DialogResult == DialogResult.OK)
-            {
-                CodeType = form.SelectedCodeType;
-            }
-        }
-
-     
-      
         #region IWordLibraryExport 成员
         
         public Encoding Encoding
@@ -47,9 +31,7 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(wl.Word);
             return sb.ToString();
         }
-        private ErbiTypeForm form=new ErbiTypeForm();
-
-        public Form ExportConfigForm { get { return form; } }
+        
 
         public string Export(WordLibraryList wlList)
         {

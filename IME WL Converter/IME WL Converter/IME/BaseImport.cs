@@ -15,7 +15,7 @@ namespace Studyzy.IMEWLConverter.IME
         public virtual int DefaultRank { get; set; }
         public virtual int CountWord { get; set; }
         public virtual int CurrentStatus { get; set; }
-        public virtual Form ImportConfigForm { get; private set; }
+        //public virtual Form ImportConfigForm { get; private set; }
         public virtual bool IsText
         {
             get { return true; }
