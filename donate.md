@@ -7,6 +7,7 @@
 **通过支付宝捐赠**
 
 支付宝收款账户：曾毅 studyzy@163.com
+![](Images/alipayQR.jpg)
 
 **通过 PayPal 捐赠**
 
