@@ -12,9 +12,9 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
         public void TestGenerateCode()
         {
             SelfDefiningCodeGenerater generater=new SelfDefiningCodeGenerater();
-            generater.MappingDictionary=new Dictionary<char, string>();
-            generater.MappingDictionary.Add('深', "shen");
-            generater.MappingDictionary.Add('蓝', "lan");
+            generater.MappingDictionary=new Dictionary<char, IList<string>>();
+            generater.MappingDictionary.Add('深',new []{ "shen"});
+            generater.MappingDictionary.Add('蓝',new []{ "lan"});
             generater.MutiWordCodeFormat = @"code_e2=p11+p12+p21+p22
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";
@@ -25,9 +25,9 @@ code_a4=p11+p21+p31+n11";
         public void TestGeneratePinyinFormatCode()
         {
             SelfDefiningCodeGenerater generater = new SelfDefiningCodeGenerater();
-            generater.MappingDictionary = new Dictionary<char, string>();
-            generater.MappingDictionary.Add('深', "ipws");
-            generater.MappingDictionary.Add('蓝', "ajtl");
+            generater.MappingDictionary = new Dictionary<char,IList<  string>>();
+            generater.MappingDictionary.Add('深',new []{ "ipws"});
+            generater.MappingDictionary.Add('蓝', new []{"ajtl"});
             generater.MutiWordCodeFormat = @"code_e2=p11+p12+p21+p22
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";

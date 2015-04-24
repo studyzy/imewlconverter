@@ -509,7 +509,7 @@ namespace Studyzy.IMEWLConverter.IME
                     int unknown = BinFileHelper.ReadInt32(fs); //不知道干啥的
                     if (pyArray.Length == word.Length)
                     {
-                        var wl = new WordLibrary {Count = count, Word = word, PinYin = pyArray};
+                        var wl = new WordLibrary {Rank = count, Word = word, PinYin = pyArray};
                         pyAndWord.Add(wl);
                        
                     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Forms;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -26,8 +25,8 @@ namespace Studyzy.IMEWLConverter
 
 #if DEBUG
 
-            //Application.Run(new SelfDefiningConfigFormExport());
-            //return;
+            Application.Run(new SelfDefiningConfigForm());
+            return;
 #endif
             if (args.Length > 0)
             {

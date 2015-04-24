@@ -8,6 +8,7 @@ using System.Collections.Generic;
 ﻿using Studyzy.IMEWLConverter.Entities;
 ﻿using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
+﻿using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -15,6 +16,7 @@ namespace Studyzy.IMEWLConverter
     {
         private readonly List<string> fromWords = new List<string>();
 
+        private SelfDefining ime=new SelfDefining();
         //private bool isImport = true;
 
         public SelfDefiningConfigForm()
@@ -44,45 +46,31 @@ namespace Studyzy.IMEWLConverter
         {
             SelectedParsePattern.ContainCode = cbxIncludePinyin.Checked;
             SelectedParsePattern.ContainRank = cbxIncludeCipin.Checked;
-            SelectedParsePattern.CodeSplitString = GetSplitString(cbbxPinyinSplitString.Text);
-            SelectedParsePattern.SplitString = GetSplitString(cbbxSplitString.Text);
-            SelectedParsePattern.CodeSplitType = GetBuildType();
             SelectedParsePattern.Sort = GetSort();
-            SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音规则";
-            SelectedParsePattern.IsPinyin = cbxIsPinyin.Checked;
-            SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
-            SelectedParsePattern.TextEncoding = cbxTextEncoding.SelectedEncoding;
-            if (!cbxIsPinyin.Checked)
+
+            SelectedParsePattern.CodeSplitString = GetSplitString(cbbxPinyinSplitString.Text);
+            SelectedParsePattern.CodeSplitType = GetBuildType();
+
+            SelectedParsePattern.LineSplitString = cbxLineSplitString.Text;
+            SelectedParsePattern.SplitString = GetSplitString(cbbxSplitString.Text);
+
+            SelectedParsePattern.CodeType = cbxCodeType.Text == "拼音编码" ? CodeType.Pinyin : CodeType.UserDefine;
+            if (cbxCodeType.Text != "拼音编码")
             {
                 if (string.IsNullOrEmpty(txbFilePath.Text) || !File.Exists(txbFilePath.Text))
                 {
                     MessageBox.Show("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
                     return false;
                 }
+                SelectedParsePattern.TextEncoding = cbxTextEncoding.SelectedEncoding;
                 SelectedParsePattern.MappingTablePath = txbFilePath.Text;
             }
+            SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音规则";
+            SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
             return true;
         }
-        //public bool IsImport
-        //{
-        //    get { return isImport; }
-        //    set
-        //    {
-        //        isImport = value;
+     
 
-        //        //btnParse.Visible = isImport;
-        //        //btnConvertTest.Visible = !isImport;
-        //        //lbFileSelect.Visible = !isImport;
-        //        lbRemark.Visible = !isImport;
-        //        //txbFilePath.Visible = !isImport;
-        //        //btnFileSelect.Visible = !isImport;
-        //    }
-        //}
-
-        public List<string> FromWords
-        {
-            get { return fromWords; }
-        }
 
         /// <summary>
         /// 用户自定义的匹配模式
@@ -102,40 +90,6 @@ namespace Studyzy.IMEWLConverter
             DialogResult = DialogResult.Cancel;
         }
 
-        //private void btnParse_Click(object sender, EventArgs e)
-        //{
-        //    if (SelectedParsePattern == null)
-        //    {
-        //        MessageBox.Show("请点击右上角按钮选择匹配规则");
-        //        return;
-        //    }
-        //    rtbTo.Clear();
-        //    try
-        //    {
-        //        string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-        //        foreach (string str in fromList)
-        //        {
-        //            string s = str.Trim();
-        //            WordLibrary wl = SelectedParsePattern.BuildWordLibrary(s);
-        //            rtbTo.AppendText(wl.ToDisplayString() + "\r\n");
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        MessageBox.Show("无法识别源内容，请确认源内容与自定义规则匹配！");
-        //    }
-        //}
-
-        //private void btnHelpBuild_Click(object sender, EventArgs e)
-        //{
-        //    var builder = new HelpBuildParsePatternForm();
-        //    if (builder.ShowDialog() == DialogResult.OK)
-        //    {
-        //        SelectedParsePattern = builder.SelectedParsePattern;
-        //        txbParsePattern.Text = SelectedParsePattern.BuildWLStringSample();
-        //    }
-        //}
-
         private void SelfDefiningConverterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult != DialogResult.OK)
@@ -154,46 +108,6 @@ namespace Studyzy.IMEWLConverter
             }
         }
 
-        //private void btnConvertTest_Click(object sender, EventArgs e)
-        //{
-        //    if (!ReBuildUserPattern())
-        //    {
-        //        return;
-        //    }
-        //    rtbTo.Clear();
-        //    string[] fromList = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-        //    SelfDefiningCodeGenerater generater=new SelfDefiningCodeGenerater();
-
-        //    generater.MappingDictionary = UserCodingHelper.GetCodingDict(txbFilePath.Text);
-        //    generater.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
-        //    foreach (string str in fromList)
-        //    {
-        //        string s = str.Trim();
-        //        var code= generater.GetCodeOfString(s);
-        //        string result = SelectedParsePattern.BuildWlString(s,code[0],1);
-        //        rtbTo.AppendText(result + "\r\n");
-        //    }
-        //}
-
-      
-
-        private void cbxIsPinyin_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbxIsPinyin.Checked)
-            {
-                lbFileSelect.Visible = false;
-                txbFilePath.Visible = false;
-                btnFileSelect.Visible = false;
-            }
-            else
-            {
-                lbFileSelect.Visible = true;
-                txbFilePath.Visible = true;
-                btnFileSelect.Visible = true;
-            }
-            SelectedParsePattern.IsPinyin = cbxIsPinyin.Checked;
-            ShowSample();
-        }
 
         private void cbxIncludePinyin_CheckedChanged(object sender, EventArgs e)
         {
@@ -203,7 +117,23 @@ namespace Studyzy.IMEWLConverter
         }
         private void ShowSample()
         {
-            this.rtbTo.Text = SelectedParsePattern.BuildWLStringSample();
+            if (ReBuildUserPattern())
+            {
+                ime.UserDefiningPattern = SelectedParsePattern;
+                this.rtbTo.Text = ime.Export(SampleWL());
+            }
+        }
+
+        private WordLibraryList SampleWL()
+        {
+            WordLibraryList list=new WordLibraryList();
+            list.Add(new WordLibrary(){Word = "深",Rank = 1234});
+            list.Add(new WordLibrary() { Word = "深蓝", Rank = 1234 });
+            list.Add(new WordLibrary() { Word = "深蓝词", Rank = 1234 });
+            list.Add(new WordLibrary() { Word = "深蓝词库", Rank = 1234 });
+            list.Add(new WordLibrary() { Word = "深蓝词库转", Rank = 1234 });
+            list.Add(new WordLibrary() { Word = "深蓝词库转换", Rank = 1234 });
+            return list;
         }
 
         private void cbxIncludeCipin_CheckedChanged(object sender, EventArgs e)
@@ -318,42 +248,65 @@ code_a4=p11+p21+p31+n11";
                 Debug.WriteLine("输入格式不正确");
             }
         }
-
         private void btnTest_Click(object sender, EventArgs e)
         {
             var lines= rtbFrom.Text.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            StringBuilder sb=new StringBuilder();
+           
+            WordLibraryList list=new WordLibraryList();
             foreach (var line in lines)
             {
-                WordLibrary wl=new WordLibrary(){Word = line.Trim(),Count = 1234};
-                GenerateCode( wl);
-                sb.Append(SelectedParsePattern.BuildWlString(wl)+"\r\n");
+                WordLibrary wl=new WordLibrary(){Word = line.Trim(),Rank = 1234};
+                list.Add(wl);
             }
-            rtbTo.Text = sb.ToString();
+            ime.UserDefiningPattern = this.SelectedParsePattern;
+            var result = ime.Export(list);
+            rtbTo.Text = result;
         }
 
-        private IWordCodeGenerater pyFactory = new PinyinGenerater();
-        private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
-        private void GenerateCode( WordLibrary wl)
+        //private IWordCodeGenerater pyFactory = new PinyinGenerater();
+        //private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
+        //private void GenerateCode( WordLibrary wl)
+        //{
+        //    var word = wl.Word;
+        //    if (SelectedParsePattern.IsPinyin&&SelectedParsePattern.IsPinyinFormat)
+        //    {
+        //        var py = pyFactory.GetCodeOfString(word, SelectedParsePattern.CodeSplitString);
+        //        wl.PinYin = CollectionHelper.ToArray(py);
+        //    }
+        //    else
+        //    {
+        //        if (!string.IsNullOrEmpty(SelectedParsePattern.MappingTablePath))
+        //        {
+        //            SelectedParsePattern.MappingTable = UserCodingHelper.GetCodingDict(SelectedParsePattern.MappingTablePath);
+        //        }
+        //        selfFactory.MappingDictionary = SelectedParsePattern.MappingTable;
+        //        selfFactory.Is1Char1Code = SelectedParsePattern.IsPinyinFormat;
+        //        selfFactory.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
+        //        wl.SetCode(CodeType.UserDefine, selfFactory.GetCodeOfString(word, SelectedParsePattern.CodeSplitString));
+        //    }
+
+        //}
+
+        private void cbxCodeType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var word = wl.Word;
-            if (SelectedParsePattern.IsPinyin&&SelectedParsePattern.IsPinyinFormat)
+            if (cbxCodeType.Text=="拼音编码")
             {
-                var py = pyFactory.GetCodeOfString(word, SelectedParsePattern.CodeSplitString);
-                wl.PinYin = CollectionHelper.ToArray(py);
+                lbFileSelect.Visible = false;
+                txbFilePath.Visible = false;
+                btnFileSelect.Visible = false;
+                cbxTextEncoding.Visible = false;
+                SelectedParsePattern.CodeType = CodeType.Pinyin;
             }
             else
             {
-                if (!string.IsNullOrEmpty(SelectedParsePattern.MappingTablePath))
-                {
-                    SelectedParsePattern.MappingTable = UserCodingHelper.GetCodingDict(SelectedParsePattern.MappingTablePath);
-                }
-                selfFactory.MappingDictionary = SelectedParsePattern.MappingTable;
-                selfFactory.Is1Char1Code = SelectedParsePattern.IsPinyinFormat;
-                selfFactory.MutiWordCodeFormat = SelectedParsePattern.MutiWordCodeFormat;
-                wl.SetCode(CodeType.UserDefine, selfFactory.GetCodeOfString(word, SelectedParsePattern.CodeSplitString));
+                lbFileSelect.Visible = true;
+                txbFilePath.Visible = true;
+                btnFileSelect.Visible = true;
+                cbxTextEncoding.Visible = true;
+                SelectedParsePattern.CodeType = CodeType.UserDefine;
             }
-
+          
+            ShowSample();
         }
 
       

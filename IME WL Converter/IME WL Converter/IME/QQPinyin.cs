@@ -36,7 +36,7 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(" ");
             sb.Append(wl.Word);
             sb.Append(" ");
-            sb.Append(wl.Count);
+            sb.Append(wl.Rank);
             return sb.ToString();
         }
 
@@ -63,7 +63,7 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(", ");
             sb.Append(last.GetPinYinString("'", BuildType.None));
             sb.Append(" ");
-            sb.Append(last.Count);
+            sb.Append(last.Rank);
             sb.Append("\r\n");
             return sb.ToString();
         }
@@ -79,7 +79,7 @@ namespace Studyzy.IMEWLConverter.IME
             int count = Convert.ToInt32(sp[2]);
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Count = count;
+            wl.Rank = count;
             wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             wll.Add(wl);

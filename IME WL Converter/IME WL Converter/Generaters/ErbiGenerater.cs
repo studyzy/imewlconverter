@@ -93,7 +93,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             return ErbiDic[str][0];
         }
 
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             IList<string> pinYin =  pinyinGenerater.GetCodeOfString(str);
             var codes = GetErbiCode(str, pinYin);
@@ -101,7 +101,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
         private static PinyinGenerater pinyinGenerater = new PinyinGenerater();
-        public IList<string> GetCodeOfChar(char str)
+        public IList<string> GetAllCodesOfChar(char str)
         {
             return ErbiDic[str];
         }

@@ -92,7 +92,7 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             string code = c[0];
             wl.Word = c[1];
-            wl.Count = DefaultRank;
+            wl.Rank = DefaultRank;
             wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
             wl.SetCode(CodeType, code);
             var wll = new WordLibraryList();

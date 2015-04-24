@@ -36,6 +36,16 @@ namespace Studyzy.IMEWLConverter.Entities
             {
                 try
                 {
+                    if (import is IStreamPrepare)
+                    {
+                        var p = import as IStreamPrepare;
+                        p.Prepare();
+                    }
+                    if (export is IStreamPrepare)
+                    {
+                        var p = export as IStreamPrepare;
+                        p.Prepare();
+                    }
                     while (sr.Peek() != -1)
                     {
                         string line = sr.ReadLine();

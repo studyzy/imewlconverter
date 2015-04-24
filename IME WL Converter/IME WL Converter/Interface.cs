@@ -35,4 +35,9 @@ namespace Studyzy.IMEWLConverter
     {
         CodeType CodeType { get; }
     }
+
+    public interface IStreamPrepare
+    {
+        void Prepare();
+    }
 }

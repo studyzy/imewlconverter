@@ -14,12 +14,12 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             get { return true; }
         }
-        public override IList<string> GetCodeOfChar(char str)
+        public override IList<string> GetAllCodesOfChar(char str)
         {
             return PinyinHelper.GetPinYinWithToneOfChar(str);
         }
 
-        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             IList<string> py = base.GetCodeOfString(str, charCodeSplit);
             var result = new List<string>();

@@ -9,7 +9,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         #region Init
 
         private static readonly Dictionary<char, List<string>> dictionary = new Dictionary<char, List<string>>();
-        private static readonly Dictionary<char, List<string>> pyDictionary = new Dictionary<char, List<string>>();
+        private static readonly Dictionary<char, IList<string>> pyDictionary = new Dictionary<char, IList<string>>();
 
         /// <summary>
         /// 字的拼音(包括音调)
@@ -39,7 +39,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <summary>
         /// 字的拼音，不包括音调
         /// </summary>
-        private static Dictionary<char, List<string>> PinYinDict
+        public static Dictionary<char, IList<string>> PinYinDict
         {
             get
             {
@@ -86,7 +86,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             try
             {
-                List<string> pys = PinYinDict[c];
+                var pys = PinYinDict[c];
                 if (pys != null && pys.Count > 0)
                 {
                     return pys[0];
@@ -114,7 +114,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static List<string> GetPinYinOfChar(char str)
+        public static IList<string> GetPinYinOfChar(char str)
         {
             return PinYinDict[str];
         }
@@ -183,7 +183,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             for (int i = 0; i < word.Length; i++)
             {
-                List<string> charPinyinList = GetPinYinOfChar(word[i]);
+                var charPinyinList = GetPinYinOfChar(word[i]);
                 if (!charPinyinList.Contains(pinyinList[i]))
                 {
                     return false;

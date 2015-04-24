@@ -18,7 +18,13 @@ namespace Studyzy.IMEWLConverter.Test
             export=new SelfDefining();
         }
 
-        private WordLibrary WlData = new WordLibrary { Count = 10, PinYin = new[] { "shen", "lan", "ce", "shi" }, Word = "深蓝测试" };
+        private WordLibrary WlData = new WordLibrary
+        {
+            Rank = 10, 
+            PinYin = new[] { "shen", "lan", "ce", "shi" }, 
+            Word = "深蓝测试",
+            CodeType = CodeType.Pinyin
+        };
         [Test]
         public void TestExportPinyinWL()
         {
@@ -36,6 +42,7 @@ namespace Studyzy.IMEWLConverter.Test
             p.CodeSplitString = "_";
             p.CodeSplitType= BuildType.None;
             p.IsPinyinFormat = true;
+            p.CodeType = CodeType.Pinyin;
             export.UserDefiningPattern = p;
             var str = export.Export(new WordLibraryList() { WlData });
             Debug.WriteLine(str);
@@ -67,7 +74,7 @@ namespace Studyzy.IMEWLConverter.Test
             foreach (var c in str)
             {
                 ts += c;
-                list.Add(new WordLibrary() {Count = 10, IsEnglish = false, Word = ts});
+                list.Add(new WordLibrary() {Rank = 10, IsEnglish = false, Word = ts});
             }
 
 
@@ -87,6 +94,7 @@ code_a4=p11+p21+p31+n11";
             pp.ContainRank = false;
             pp.SplitString = " ";
             pp.ContainCode = true;
+            pp.TextEncoding = Encoding.UTF8;
             return pp;
         }
      

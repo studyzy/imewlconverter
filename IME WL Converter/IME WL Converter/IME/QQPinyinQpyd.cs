@@ -43,7 +43,7 @@ namespace Studyzy.IMEWLConverter.IME
             int count = 1;
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Count = count;
+            wl.Rank = count;
             wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             if (!string.IsNullOrEmpty(py))

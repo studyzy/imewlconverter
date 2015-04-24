@@ -160,9 +160,9 @@ namespace Studyzy.IMEWLConverter
             currentStatus = 0;
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
-                if (wordLibrary.Count == 0)
+                if (wordLibrary.Rank == 0)
                 {
-                    wordLibrary.Count = wordRankGenerater.GetRank(wordLibrary.Word);
+                    wordLibrary.Rank = wordRankGenerater.GetRank(wordLibrary.Word);
                 }
                 currentStatus++;
                 processMessage = "生成词频：" + currentStatus + "/" + countWord;

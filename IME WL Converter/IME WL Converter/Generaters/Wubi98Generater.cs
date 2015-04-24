@@ -11,7 +11,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
 
-        public override IList<string> GetCodeOfChar(char str)
+        public override IList<string> GetAllCodesOfChar(char str)
         {
             return new List<string> {DictionaryHelper.GetCode(str).Wubi98};
         }

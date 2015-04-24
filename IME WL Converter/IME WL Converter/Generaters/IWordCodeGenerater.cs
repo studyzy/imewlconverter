@@ -4,7 +4,7 @@ using Studyzy.IMEWLConverter.Entities;
 namespace Studyzy.IMEWLConverter.Generaters
 {
     /// <summary>
-    /// 根据汉字输出其Code的接口,其假设是一个汉字只有一个Code对应
+    /// 根据汉字输出其Code的接口,被IME下的类调用
     /// </summary>
     public interface IWordCodeGenerater
     {
@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         bool Is1CharMutiCode { get; }
 
         /// <summary>
-        /// 在词语的编码中，是否是每个单字一个编码，比如拼音就是每个字一个编码，而无比则不是。
+        /// 在词语的编码中，是否是每个单字一个编码，比如拼音就是每个字一个编码，而五笔则不是。
         /// </summary>
         bool Is1Char1Code { get; }
         /// <summary>
@@ -22,7 +22,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         bool IsBaseOnOldCode { get; }
         /// <summary>
-        /// 获得一个字的默认编码
+        /// 获得一个字的默认编码,如果找不到编码，则返回null
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -34,7 +34,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// <param name="str"></param>
         /// <param name="charCodeSplit">一个词中的各个字的编码之间的分隔符，默认不分割 </param>
         /// <returns></returns>
-        IList<string> GetCodeOfString(string str, string charCodeSplit = "");
+        IList<string> GetCodeOfString(string str, string charCodeSplit = "",BuildType buildType=BuildType.None);
         /// <summary>
         /// 获得一个词条的编码，可能会利用到词条的原编码
         /// </summary>
@@ -48,6 +48,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        IList<string> GetCodeOfChar(char str);
+        IList<string> GetAllCodesOfChar(char str);
     }
 }

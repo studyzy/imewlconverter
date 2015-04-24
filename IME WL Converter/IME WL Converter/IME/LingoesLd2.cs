@@ -72,7 +72,7 @@ namespace Studyzy.IMEWLConverter.IME
                     wl.IsEnglish = true;
                 }
                 wl.Word = word;
-                wl.Count = DefaultRank;
+                wl.Rank = DefaultRank;
                 wll.Add(wl);
             }
             return wll;

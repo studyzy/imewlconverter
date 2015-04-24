@@ -21,7 +21,7 @@ namespace Studyzy.IMEWLConverter.IME
 
             sb.Append(wl.Word);
             sb.Append("\t");
-            sb.Append(wl.Count);
+            sb.Append(wl.Rank);
             sb.Append("\t");
             sb.Append(wl.GetPinYinString(" ", BuildType.None));
 
@@ -79,7 +79,7 @@ namespace Studyzy.IMEWLConverter.IME
             string[] c = line.Split('\t');
             var wl = new WordLibrary();
             wl.Word = c[0];
-            wl.Count = Convert.ToInt32(c[1]);
+            wl.Rank = Convert.ToInt32(c[1]);
             wl.PinYin = c[2].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             wll.Add(wl);

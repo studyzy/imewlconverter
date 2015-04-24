@@ -90,19 +90,69 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             return temp;
         }
-
+        /// <summary>
+        /// 多音字情况下，做笛卡尔积
+        /// </summary>
+        /// <param name="codes"></param>
+        /// <returns></returns>
         public static IList<string> Descartes(IList<IList<string>> codes)
         {
             var result = new List<string>();
             Descartes(codes, 0, result, string.Empty);
             return result;
         }
+        /// <summary>
+        /// 只取每个字的第一个编码，返回这些编码的List
+        /// </summary>
+        /// <param name="codes"></param>
+        /// <returns></returns>
         public static IList<string> DescarteIndex1(IList<IList<string>> codes)
         {
             var result = new List<string>();
             foreach (var code in codes)
             {
                 result.Add(code[0]);
+            }
+            return result;
+        }
+
+        public static IList<string> CartesianProduct(IList<IList<string>> codes,String split)
+        {
+            int count = 1;
+            foreach (var code in codes)
+            {
+                count *= code.Count;
+            }
+            var result = new List<string>();
+            for (int i = 0; i < count; i++)
+            {
+                string[] line = new string[codes.Count];
+                for (int j = 0; j < codes.Count; j++)
+                {
+                    line[j] = codes[j][i%codes[j].Count];
+                }
+                result.Add(String.Join(split,line));
+            }
+            return result;
+        }
+
+        public static IList<string> CartesianProduct(IList<IList<string>> codes, String split, BuildType buildType)
+        {
+            var list = CartesianProduct(codes, split);
+            if (buildType == BuildType.None) return list;
+            var result = new List<string>();
+            foreach (var line in list)
+            {
+                var newline = line;
+                if (buildType == BuildType.FullContain || buildType == BuildType.LeftContain)
+                {
+                    newline = split + newline;
+                }
+                if (buildType == BuildType.FullContain || buildType == BuildType.RightContain)
+                {
+                    newline = newline + split;
+                }
+                result.Add(newline);
             }
             return result;
         }

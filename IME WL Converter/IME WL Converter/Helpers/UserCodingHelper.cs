@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
@@ -41,10 +42,10 @@ namespace Studyzy.IMEWLConverter.Helpers
         //    }
         //}
 
-        public static IDictionary<char, string> GetCodingDict(string filePath)
+        public static IDictionary<char, IList<string>> GetCodingDict(string filePath, Encoding encoding)
         {
-            var codingContent = FileOperationHelper.ReadFile(filePath);
-            var dic = new Dictionary<char, string>();
+            var codingContent = FileOperationHelper.ReadFile(filePath,encoding);
+            var dic = new Dictionary<char, IList<string>>();
             foreach (string line in codingContent.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
             {
                 string[] l = line.Split('\t');
@@ -52,7 +53,11 @@ namespace Studyzy.IMEWLConverter.Helpers
                 string code = l[1];
                 if (!dic.ContainsKey(c))
                 {
-                    dic.Add(c, code);
+                    dic.Add(c,new List<string>(){ code});
+                }
+                else
+                {
+                    dic[c].Add(code);
                 }
             }
             return dic;

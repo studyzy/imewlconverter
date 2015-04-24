@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter.Test
 {
     internal class SelectedParsePatternTest
     {
+
+        SelfDefining selfDefining = new SelfDefining();
         [Test]
         public void TestPinyinString2WL()
         {
             ParsePattern parser = new ParsePattern()
                                       {
-                                          IsPinyin = true,
+                                          IsPinyinFormat = true,
                                           CodeSplitType = BuildType.FullContain,
                                           CodeSplitString = ",",
                                           ContainCode = true,
@@ -21,11 +24,63 @@ namespace Studyzy.IMEWLConverter.Test
                                           SplitString = " ",
                                           Sort = new List<int>() {2, 1, 3}
                                       };
-            var wl = parser.BuildWordLibrary("深蓝 ,shen,lan, 1");
-            Assert.AreEqual(wl.PinYin[0], "shen");
-            Assert.AreEqual(wl.PinYin[1], "lan");
-            Assert.AreEqual(wl.Count, 1);
+            var str = "深蓝 ,shen,lan, 1";
+            selfDefining.UserDefiningPattern = parser;
+            var wl = selfDefining.ImportLine(str)[0];
+          
+            Assert.AreEqual(wl.Codes[0][0], "shen");
+            Assert.AreEqual(wl.Codes[1][0], "lan");
+            Assert.AreEqual(wl.Rank, 1);
         }
+
+        [Test]
+        public void TestWordLibrary2String()
+        {
+            ParsePattern parser = new ParsePattern()
+            {
+                IsPinyinFormat = true,
+                CodeSplitType = BuildType.FullContain,
+                CodeSplitString = ",",
+                ContainCode = true,
+                ContainRank = true,
+                SplitString = "|",
+                CodeType = CodeType.Pinyin,
+                Sort = new List<int>() {2, 1, 3}
+            };
+            WordLibrary wl = new WordLibrary() {Word = "深蓝", Rank = 123, CodeType = CodeType.Pinyin};
+            wl.Codes = new IList<string>[2];
+            wl.Codes[0] = new[] {"shen"};
+            wl.Codes[1] = new[] {"lan"};
+            selfDefining.UserDefiningPattern = parser;
+            var str = selfDefining.ExportLine(wl);
+            Assert.AreEqual(str, "深蓝|,shen,lan,|123");
+        }
+        [Test]
+        public void TestGeneratePinyinThen2String()
+        {
+            ParsePattern parser = new ParsePattern()
+            {
+                IsPinyinFormat = true,
+                CodeSplitType = BuildType.FullContain,
+                CodeSplitString = "~",
+                ContainCode = true,
+                ContainRank = true,
+                SplitString = "|",
+                CodeType = CodeType.Pinyin,
+                LineSplitString = "\r",
+                Sort = new List<int>() { 2, 1, 3 }
+            };
+            WordLibraryList wll=new WordLibraryList();
+            WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.UserDefine };
+            wl.Codes = new IList<string>[2];
+            wl.Codes[0] = new[] { "sn" };
+            wl.Codes[1] = new[] { "ln" };
+            wll.Add(wl);
+            selfDefining.UserDefiningPattern = parser;
+            var str = selfDefining.Export(wll);
+            Assert.AreEqual(str, "深蓝|~shen~lan~|123\r");
+        }
+
 //        [Test]
 //        public void TestCodeString2WL()
 //        {

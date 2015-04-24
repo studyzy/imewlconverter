@@ -73,7 +73,7 @@ namespace Studyzy.IMEWLConverter.IME
             string word = line.Split(' ')[1];
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Count = DefaultRank;
+            wl.Rank = DefaultRank;
             wl.SetCode(CodeType.Wubi, code);
             //wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
             var wll = new WordLibraryList();

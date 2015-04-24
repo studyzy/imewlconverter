@@ -46,6 +46,7 @@
     <Compile Include="GeneraterTest\ZhuyinTest.cs" />
     <Compile Include="GeneraterTest\ErbiTest.cs" />
     <Compile Include="GeneraterTest\PinyinTest.cs" />
+    <Compile Include="HelperTest\CollectionHelperTest.cs" />
     <Compile Include="HelperTest\DictionaryHelperTest.cs" />
     <Compile Include="HelperTest\FileOperationTest.cs" />
     <Compile Include="HelperTest\HttpHelperTest.cs" />

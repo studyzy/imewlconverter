@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -64,17 +65,17 @@ namespace Studyzy.IMEWLConverter.Generaters
     /// </summary>
     public class ZhuyinGenerater : TerraPinyinGenerater
     {
-        public override IList<string> GetCodeOfChar(char str)
+        public override IList<string> GetAllCodesOfChar(char str)
         {
             var result = new List<string>();
-            foreach (string code in base.GetCodeOfChar(str))
+            foreach (string code in base.GetAllCodesOfChar(str))
             {
                 result.Add(ZhuyinHelper.GetZhuyin(code));
             }
             return result;
         }
 
-        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             var result = new List<string>();
 

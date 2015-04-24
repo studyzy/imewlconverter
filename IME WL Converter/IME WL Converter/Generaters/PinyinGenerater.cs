@@ -17,7 +17,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         public virtual bool IsBaseOnOldCode { get { return false; } }
         public virtual string GetDefaultCodeOfChar(char str)
         {
-            return GetCodeOfChar(str)[0];
+            return GetAllCodesOfChar(str)[0];
         }
         public virtual IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
         {
@@ -31,7 +31,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public virtual IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public virtual IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             if (IsInWordPinYin(str))
             {
@@ -56,7 +56,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
         }
 
-        public virtual IList<string> GetCodeOfChar(char str)
+        public virtual IList<string> GetAllCodesOfChar(char str)
         {
             return PinyinHelper.GetPinYinOfChar(str);
         }

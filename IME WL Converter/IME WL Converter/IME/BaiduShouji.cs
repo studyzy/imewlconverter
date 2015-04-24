@@ -76,7 +76,7 @@ namespace Studyzy.IMEWLConverter.IME
                 string word = line.Split(' ')[0];
                 var wl = new WordLibrary();
                 wl.Word = word;
-                wl.Count = 1;
+                wl.Rank = 1;
                 wl.PinYin = py.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
                 wll.Add(wl);

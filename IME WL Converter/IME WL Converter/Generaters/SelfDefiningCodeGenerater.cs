@@ -11,16 +11,13 @@ namespace Studyzy.IMEWLConverter.Generaters
     /// </summary>
     public class SelfDefiningCodeGenerater : IWordCodeGenerater
     {
-    public SelfDefiningCodeGenerater()
-    {
 
-    }
-        private static PinyinGenerater pinyinGenerater=new PinyinGenerater();
+        //private static PinyinGenerater pinyinGenerater=new PinyinGenerater();
         #region IWordCodeGenerater Members
         /// <summary>
         /// 外部的编码表,如果为空，则表示使用拼音编码
         /// </summary>
-        public IDictionary<char, string> MappingDictionary { get; set; }
+        public IDictionary<char, IList<string>> MappingDictionary { get; set; }
         /// <summary>
         /// 对于多个字的编码的设定
         /// 形如：
@@ -30,11 +27,11 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         public string MutiWordCodeFormat { get; set; }
         /// <summary>
-        /// 自定义编码时不允许一字多码
+        /// 自定义编码时允许一字多码
         /// </summary>
         public bool Is1CharMutiCode
         {
-            get { return false; }
+            get { return true; }
         }
         /// <summary>
         /// 如果是拼音格式，那么就是一字一码，如果不是，那么就是一词一码
@@ -49,20 +46,28 @@ namespace Studyzy.IMEWLConverter.Generaters
             if (MappingDictionary != null && MappingDictionary.Count > 0)
 
             {
-                return MappingDictionary[str];
+                if (MappingDictionary.ContainsKey(str))
+                {
+                    return MappingDictionary[str][0];
+                }
             }
             //没有指定Mapping表，那么就按拼音处理
-            return pinyinGenerater.GetDefaultCodeOfChar(str);
-            
+            //return pinyinGenerater.GetDefaultCodeOfChar(str);
+            return null;
         }
-        private bool IsPinyinCode
-        {
-            get { return MappingDictionary == null || MappingDictionary.Count == 0; }
-        }
-
+        //private bool IsPinyinCode
+        //{
+        //    get { return MappingDictionary == null || MappingDictionary.Count == 0; }
+        //}
+        /// <summary>
+        /// 获得一个词条的编码，可能会利用到词条的原编码
+        /// </summary>
+        /// <param name="wl"></param>
+        /// <param name="charCodeSplit"></param>
+        /// <returns></returns>
         public IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
         {
-            if (wl.CodeType == CodeType.Pinyin && IsPinyinCode)
+            if (wl.CodeType == CodeType.Pinyin)
             {
                 return CollectionHelper.DescarteIndex1(wl.Codes);
             }
@@ -72,30 +77,22 @@ namespace Studyzy.IMEWLConverter.Generaters
      
 
         /// <summary>
-        /// 
+        /// 获得一个词的编码,如果MutiCode==True，那么返回的是一个词的多种编码方式
         /// </summary>
         /// <param name="str"></param>
         /// <param name="charCodeSplit"></param>
         /// <returns></returns>
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "",BuildType buildType=BuildType.None)
         {
-
-            if (IsPinyinCode && Is1Char1Code)
+           var codes=  GetAllCodesOfString(str);
+            if (Is1Char1Code)
             {
-                return pinyinGenerater.GetCodeOfString(str, charCodeSplit);
+                return CollectionHelper.CartesianProduct(codes,charCodeSplit,buildType);
             }
-            var list = new List<string>();
-
-            if (Is1Char1Code || str.Length == 1)
-
+           
+            else //一个词语一个编码
             {
-                foreach (char c in str)
-                {
-                    list.Add(GetDefaultCodeOfChar(c));
-                }
-            }
-            else //多个字一个编码
-            {
+                var list = new List<string>();
                 var result = "";
                 var arr = MutiWordCodeFormat.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
                 Dictionary<string, string> format = new Dictionary<string, string>();
@@ -133,9 +130,9 @@ namespace Studyzy.IMEWLConverter.Generaters
                     result = GetStringCode(str, f);
                 }
                 list.Add(result);
-
+                return list;
             }
-            return list;
+         
         }
 
 
@@ -169,12 +166,20 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
 
-        public IList<string> GetCodeOfChar(char str)
+        public IList<string> GetAllCodesOfChar(char str)
         {
-            throw new System.NotImplementedException("Don't allow one char muti codes");
+            return MappingDictionary[str];
         }
 
-
+        private IList<IList<string>> GetAllCodesOfString(string str)
+        {
+            var result = new List<IList<string>>();
+            foreach (var c in str)
+            {
+                result.Add(GetAllCodesOfChar(c));
+            }
+            return result;
+        }
 
     
 

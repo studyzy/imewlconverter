@@ -28,12 +28,12 @@ namespace Studyzy.IMEWLConverter.Generaters
            throw new NotImplementedException();
         }
 
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             throw new NotImplementedException("please call GetCodeOfWordLibrary method");
         }
 
-        public IList<string> GetCodeOfChar(char str)
+        public IList<string> GetAllCodesOfChar(char str)
         {
             throw new NotImplementedException();
         }

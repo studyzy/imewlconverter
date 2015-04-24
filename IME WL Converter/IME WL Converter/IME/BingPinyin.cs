@@ -56,7 +56,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Count = 1;
+            wl.Rank = 1;
             wl.PinYin =py;
             var wll = new WordLibraryList();
             wll.Add(wl);

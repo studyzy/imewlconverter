@@ -240,7 +240,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             string[] c = line.Split('\t');
             var wl = new WordLibrary();
             wl.Word = c[0];
-            wl.Count = DefaultRank;
+            wl.Rank = DefaultRank;
             string zhuyin = c[1];
             var pys = new List<string>();
             foreach (string zy in zhuyin.Split(','))

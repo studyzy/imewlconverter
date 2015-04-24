@@ -27,7 +27,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public string ExportLine(WordLibrary wl)
         {
-            return wl.Word + "," + wl.Count;
+            return wl.Word + "," + wl.Rank;
         }
 
         
@@ -54,7 +54,7 @@ namespace Studyzy.IMEWLConverter.IME
             int count = Convert.ToInt32(sp[1]);
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Count = count;
+            wl.Rank = count;
             wl.PinYin = new string[] {};
             var wll = new WordLibraryList();
             wll.Add(wl);

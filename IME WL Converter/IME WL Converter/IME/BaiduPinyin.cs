@@ -44,13 +44,13 @@ namespace Studyzy.IMEWLConverter.IME
             if (array.Length == 2) //English
             {
                 wl.IsEnglish = true;
-                wl.Count = Convert.ToInt32(array[1]);
+                wl.Rank = Convert.ToInt32(array[1]);
             }
             else
             {
                 string py = line.Split('\t')[1];
                 wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
-                wl.Count = Convert.ToInt32(array[2]);
+                wl.Rank = Convert.ToInt32(array[2]);
             }
 
             var wll = new WordLibraryList();
@@ -78,7 +78,7 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(wl.GetPinYinString("'", BuildType.RightContain));
                 sb.Append("\t");
             }
-            sb.Append(wl.Count);
+            sb.Append(wl.Rank);
             return sb.ToString();
         }
 

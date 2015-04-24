@@ -19,14 +19,13 @@ namespace Studyzy.IMEWLConverter.Entities
 
         #region 基本属性
 
-        private int count = 0;
+        private int rank = 0;
         private bool isEnglish;
-        //private string[] pinYin;
         private string pinYinString = "";
         private string word;
 
         /// <summary>
-        /// 该词条是否是英文词条
+        /// 该词条是否是英文词条,是则不处理编码
         /// </summary>
         public bool IsEnglish
         {
@@ -46,10 +45,10 @@ namespace Studyzy.IMEWLConverter.Entities
         /// <summary>
         /// 词频，打字出现次数
         /// </summary>
-        public int Count
+        public int Rank
         {
-            get { return count; }
-            set { count = value; }
+            get { return rank; }
+            set { rank = value; }
         }
 
        
@@ -94,8 +93,9 @@ namespace Studyzy.IMEWLConverter.Entities
                 {
                     string[] result=new string[Codes.Count];
                     int i = 0;
-                    foreach (List<string> code in Codes)
+                    foreach (var list in Codes)
                     {
+                        var code = (List<string>) list;
                         result[i++] = code[0];
                     }
                     return result;
@@ -201,17 +201,24 @@ namespace Studyzy.IMEWLConverter.Entities
             return CollectionHelper.GetString(PinYin, split, buildType);
 
         }
-
-        public string ToDisplayString()
+        public IList<string> GetCodeString(string split, BuildType buildType)
         {
-            return "汉字：" + word + (string.IsNullOrEmpty(WubiCode) ? "；编码：" + CollectionHelper.ListToString(CollectionHelper.Descartes(Codes)) : "五笔：" + WubiCode) + "；词频：" +
-                   count;
+            return CollectionHelper.CartesianProduct(Codes, split,buildType);
         }
+        //public string ToDisplayString()
+        //{
+        //    return "汉字：" + word + (string.IsNullOrEmpty(WubiCode) ? "；编码：" + CollectionHelper.ListToString(CollectionHelper.Descartes(Codes)) : "五笔：" + WubiCode) + "；词频：" +
+        //           rank;
+        //}
 
         public override string ToString()
         {
-            return "WordLibrary 汉字：" + word +"Codes:"+
-                   CollectionHelper.ListToString(Codes[0]) + "；词频：" + count;
+            List<string> codesList=new List<string>();
+            foreach (var code in Codes)
+            {
+                codesList.Add(CollectionHelper.ListToString(code));
+            }
+            return "WordLibrary 汉字：" + word + " Codes:" + CollectionHelper.ListToString(codesList)+ "；词频：" + rank;
         }
 
         #endregion

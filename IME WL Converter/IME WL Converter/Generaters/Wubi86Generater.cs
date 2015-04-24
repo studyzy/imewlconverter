@@ -13,12 +13,12 @@ namespace Studyzy.IMEWLConverter.Generaters
             return DictionaryHelper.GetCode(str).Wubi86;
         }
 
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             return new List<string> {GetStringWubiCode(str)};
         }
 
-        public virtual IList<string> GetCodeOfChar(char str)
+        public virtual IList<string> GetAllCodesOfChar(char str)
         {
             return new List<string> {DictionaryHelper.GetCode(str).Wubi86};
         }

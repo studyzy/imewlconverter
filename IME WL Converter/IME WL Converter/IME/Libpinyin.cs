@@ -68,7 +68,7 @@ namespace Studyzy.IMEWLConverter.IME
        
             var wl = new WordLibrary(){CodeType = CodeType.Pinyin};
             wl.Word = word;
-            wl.Count = DefaultRank;
+            wl.Rank = DefaultRank;
             wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             wll.Add(wl);

@@ -246,7 +246,7 @@ namespace Studyzy.IMEWLConverter.IME
                 var b = (byte) stream.ReadByte();
                 rankB[i] = b;
             }
-            wl.Count = (BitConverter.ToInt32(rankB, 0) - 1)/32;
+            wl.Rank = (BitConverter.ToInt32(rankB, 0) - 1)/32;
             //py
             int pyLen = Math.Min(8, len); //拼音最大支持8个字的拼音
             var wlPinYin = new string[pyLen];

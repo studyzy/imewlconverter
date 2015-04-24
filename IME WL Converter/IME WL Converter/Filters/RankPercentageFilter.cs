@@ -15,7 +15,7 @@ namespace Studyzy.IMEWLConverter.Filters
                 return list;
             }
             int count = list.Count*Percentage/100;
-            list.Sort((a,b)=>a.Count-b.Count);
+            list.Sort((a,b)=>a.Rank-b.Rank);
             WordLibraryList result=new WordLibraryList();
             for (var i = 0; i < count; i++)
             {

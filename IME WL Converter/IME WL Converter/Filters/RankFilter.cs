@@ -15,7 +15,7 @@ namespace Studyzy.IMEWLConverter.Filters
 
         public bool IsKeep(WordLibrary wl)
         {
-            return (wl.Count >= MinLength && wl.Count <= MaxLength);
+            return (wl.Rank >= MinLength && wl.Rank <= MaxLength);
         }
     }
 }

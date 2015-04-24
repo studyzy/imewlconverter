@@ -132,7 +132,7 @@ namespace Studyzy.IMEWLConverter.IME
                 string word = xn.SelectSingleNode("ns1:OutputString", namespaceManager).InnerText;
                 var wl = new WordLibrary();
                 wl.Word = word;
-                wl.Count = 1;
+                wl.Rank = 1;
                 wl.PinYin = py.Split(new[] {' ', '1', '2', '3', '4'}, StringSplitOptions.RemoveEmptyEntries);
                 CurrentStatus = i;
                 wlList.Add(wl);

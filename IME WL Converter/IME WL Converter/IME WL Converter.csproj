@@ -100,6 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreConsoleMapping.cs" />
     <Compile Include="CoreWinFormMapping.cs" />
     <Compile Include="Entities\OperationSystem.cs" />
     <Compile Include="Filters\RankPercentageFilter.cs" />
@@ -111,12 +112,6 @@
     </Compile>
     <Compile Include="Filters\NumberFilter.cs" />
     <Compile Include="Filters\IReplaceFilter.cs" />
-    <Compile Include="Forms\SelfDefiningConfigFormExport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SelfDefiningConfigFormImport.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Generaters\CalcWordRankGenerater.cs" />
     <Compile Include="IME\Libpinyin.cs" />
     <Compile Include="Forms\SelfDefiningConfigForm.cs">
@@ -392,12 +387,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SelfDefiningConfigFormExport.resx">
-      <DependentUpon>SelfDefiningConfigFormExport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SelfDefiningConfigFormImport.resx">
-      <DependentUpon>SelfDefiningConfigFormImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

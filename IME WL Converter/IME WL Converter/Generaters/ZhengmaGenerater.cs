@@ -50,7 +50,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             return ZhengmaDic[str].Code[0];
         }
 
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             foreach (char c in str)
             {
@@ -88,7 +88,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
 
-        public IList<string> GetCodeOfChar(char str)
+        public IList<string> GetAllCodesOfChar(char str)
         {
             return ZhengmaDic[str].Code;
         }

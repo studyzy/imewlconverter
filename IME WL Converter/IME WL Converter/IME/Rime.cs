@@ -67,7 +67,7 @@ namespace Studyzy.IMEWLConverter.IME
                     sb.Append("\t");
                     sb.Append(code);
                     sb.Append("\t");
-                    sb.Append(wl.Count);
+                    sb.Append(wl.Rank);
                     i++;
                     if (i != codes.Count)
                         sb.Append(lineSplitString);
@@ -97,7 +97,7 @@ namespace Studyzy.IMEWLConverter.IME
                     }
                 }
                 sb.Append("\t");
-                sb.Append(wl.Count);
+                sb.Append(wl.Rank);
             }
             return sb.ToString();
         }
@@ -152,7 +152,7 @@ namespace Studyzy.IMEWLConverter.IME
             string code = lineArray[1];
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Count = Convert.ToInt32(lineArray[2]);
+            wl.Rank = Convert.ToInt32(lineArray[2]);
             if (CodeType == CodeType.Pinyin)
             {
                 wl.PinYin = code.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);

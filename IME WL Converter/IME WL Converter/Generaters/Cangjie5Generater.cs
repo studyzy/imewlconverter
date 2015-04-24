@@ -72,7 +72,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "")
+        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
             foreach (var c in str)
             {
@@ -146,7 +146,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             return GetCodeOfString(str.Word, charCodeSplit);
         }
 
-        public IList<string> GetCodeOfChar(char str)
+        public IList<string> GetAllCodesOfChar(char str)
         {
             var result = new List<string>();
             foreach (var cangjie in Dictionary[str])
