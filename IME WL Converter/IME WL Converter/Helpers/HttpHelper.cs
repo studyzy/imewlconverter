@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Drawing;
-using System.Web;
+
 namespace Studyzy.IMEWLConverter.Helpers
 {
     public static class HttpHelper
@@ -15,6 +11,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             return GetHtml(url, Encoding.UTF8);
         }
+
         public static string GetHtml(string url, Encoding encoding)
         {
             WebRequest wrt;
@@ -24,6 +21,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             wrp = wrt.GetResponse();
             return new StreamReader(wrp.GetResponseStream(), encoding).ReadToEnd();
         }
+
         //public string GetHtml(string URL, out string cookie)
         //{
         //    WebRequest wrt;
@@ -76,7 +74,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         //{
         //    byte[] byteRequest = Encoding.Default.GetBytes(postData);
 
-           
+
         //    HttpWebRequest httpWebRequest;
         //    HttpWebResponse webResponse;
         //    if (referer == null)
@@ -114,8 +112,8 @@ namespace Studyzy.IMEWLConverter.Helpers
         //    webResponse = (HttpWebResponse)httpWebRequest.GetResponse();
         //    string html = new StreamReader(webResponse.GetResponseStream(), this.Encoding).ReadToEnd();
         //    return html;
-          
-          
+
+
         //}
         ////public  byte[] ReadFully(Stream stream)
         ////{
@@ -155,12 +153,12 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         //    httpWebRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Maxthon; .NET CLR 1.1.4322)";
         //    httpWebRequest.Method = "GET";
-         
+
 
         //    httpWebRequest.CookieContainer = SetCookie(cookie);
 
         //    HttpWebResponse webResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-      
+
         //    Stream getStream = webResponse.GetResponseStream();
         //    Image img = new Bitmap(getStream);
 
@@ -174,8 +172,5 @@ namespace Studyzy.IMEWLConverter.Helpers
         //{
         //    return HttpUtility.UrlEncode(str, this.Encoding);
         //}
-
-
-       
     }
 }

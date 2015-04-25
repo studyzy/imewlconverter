@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -8,7 +7,7 @@ namespace Studyzy.IMEWLConverter.Helpers
     public static class FileOperationHelper
     {
         /// <summary>
-        /// 根据词库的格式或内容判断源词库的类型
+        ///     根据词库的格式或内容判断源词库的类型
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
@@ -48,7 +47,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return ConstantString.LINGOES_LD2;
             }
             string example = "";
-            var code = GetEncodingType(filePath);
+            Encoding code = GetEncodingType(filePath);
             using (var sr = new StreamReader(filePath, code))
             {
                 for (int i = 0; i < 5; i++)
@@ -115,8 +114,9 @@ namespace Studyzy.IMEWLConverter.Helpers
 
             return "";
         }
+
         /// <summary>
-        /// 自动判断文字编码，然后进行读取
+        ///     自动判断文字编码，然后进行读取
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -126,7 +126,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 return "";
             }
-            var c = GetEncodingType(path);
+            Encoding c = GetEncodingType(path);
             return ReadFile(path, c);
             //string ext = Path.GetExtension(path);
             //if (ext == ".scel") //搜狗细胞词库
@@ -159,7 +159,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 将一个字符串写入文件，采用覆盖的方式
+        ///     将一个字符串写入文件，采用覆盖的方式
         /// </summary>
         /// <param name="path"></param>
         /// <param name="coding"></param>
@@ -190,7 +190,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 写一行文本到文件，追加的方式
+        ///     写一行文本到文件，追加的方式
         /// </summary>
         /// <param name="path"></param>
         /// <param name="line"></param>
@@ -253,31 +253,26 @@ namespace Studyzy.IMEWLConverter.Helpers
                     {
                         return Encoding.UTF8;
                     }
-                    else if (ss[0] == 0xFE && ss[1] == 0xFF) // UTF-16 BE BOM
+                    if (ss[0] == 0xFE && ss[1] == 0xFF) // UTF-16 BE BOM
                     {
                         return Encoding.BigEndianUnicode;
                     }
-                    else if (ss[0] == 0xFF && ss[1] == 0xFE) // Unicode BOM (UTF-16 LE or UTF-32 LE)
+                    if (ss[0] == 0xFF && ss[1] == 0xFE) // Unicode BOM (UTF-16 LE or UTF-32 LE)
                     {
                         return Encoding.Unicode;
                     }
-                    else
-                    {
-                        return IsUtf8OrGb18030(fs);
-                    }
-                }
-                else
-                {
                     return IsUtf8OrGb18030(fs);
                 }
+                return IsUtf8OrGb18030(fs);
             }
         }
+
         /// <summary>
-        /// 判断是UTF8（无BOM）还是GB18030
-        /// 1. 如果第1位是0就不需要判断的，一定是ASCII字符。
-        /// 2. 如果第1位是1开头的，第2位是0开头的，一定是GB编码。
-        /// 3. 如果第1位是非1110开头的，则一定是GB编码。
-        /// 4. 多做几个汉字判断。    
+        ///     判断是UTF8（无BOM）还是GB18030
+        ///     1. 如果第1位是0就不需要判断的，一定是ASCII字符。
+        ///     2. 如果第1位是1开头的，第2位是0开头的，一定是GB编码。
+        ///     3. 如果第1位是非1110开头的，则一定是GB编码。
+        ///     4. 多做几个汉字判断。
         /// </summary>
         /// <param name="fs"></param>
         /// <returns></returns>
@@ -286,26 +281,26 @@ namespace Studyzy.IMEWLConverter.Helpers
             fs.Position = 0;
             do
             {
-                var b = fs.ReadByte();
-                if (b == -1)//不知道
+                int b = fs.ReadByte();
+                if (b == -1) //不知道
                 {
                     return Encoding.Default;
                 }
-                if (b < 0x80)// ASCII character.  
+                if (b < 0x80) // ASCII character.  
                 {
                     continue;
                 }
-                byte s = (byte) b;
-                byte s1 = (byte)fs.ReadByte();
+                var s = (byte) b;
+                var s1 = (byte) fs.ReadByte();
                 //byte s2 = (byte) fs.ReadByte();
-                if (s1<0x80||(s<0xE0||s>0xF0))
+                if (s1 < 0x80 || (s < 0xE0 || s > 0xF0))
                 {
                     return Encoding.GetEncoding("GB18030");
-                 
                 }
                 return new UTF8Encoding(false);
             } while (true);
         }
+
         public static void WriteFileHeader(FileStream fs, Encoding encoding)
         {
             if (encoding == Encoding.UTF8)
@@ -325,7 +320,6 @@ namespace Studyzy.IMEWLConverter.Helpers
                 fs.WriteByte(0xFF);
             }
         }
-
 
 
         //public static bool IsUnicode(Encoding encoding)
@@ -490,7 +484,5 @@ namespace Studyzy.IMEWLConverter.Helpers
         //            return new StreamReader(fs);
         //    }
         //}
-
-
     }
 }

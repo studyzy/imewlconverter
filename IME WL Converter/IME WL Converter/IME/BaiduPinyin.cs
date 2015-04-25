@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 百度PC输入法，中文词库和英文词库放在同一个文件，中文词库比如“跨年	kua'nian'	1”，英文词库比如“Jira	1”
+    ///     百度PC输入法，中文词库和英文词库放在同一个文件，中文词库比如“跨年	kua'nian'	1”，英文词库比如“Jira	1”
     /// </summary>
     [ComboBoxShow(ConstantString.BAIDU_PINYIN, ConstantString.BAIDU_PINYIN_C, 90)]
     internal class BaiduPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
@@ -62,11 +61,6 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
-
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
@@ -82,7 +76,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -93,6 +86,11 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\r\n");
             }
             return sb.ToString();
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
         }
 
         #endregion

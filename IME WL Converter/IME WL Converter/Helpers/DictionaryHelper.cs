@@ -14,21 +14,21 @@ namespace Studyzy.IMEWLConverter.Helpers
                 if (dictionary.Count == 0)
                 {
                     string allPinYin = Dictionaries.ChineseCode;
-                    string[] pyList = allPinYin.Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] pyList = allPinYin.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < pyList.Length; i++)
                     {
                         string[] hzpy = pyList[i].Split('\t');
                         char hz = Convert.ToChar(hzpy[1]);
 
                         dictionary.Add(hz, new ChineseCode
-                            {
-                                Code = hzpy[0],
-                                Word = hzpy[1][0],
-                                Wubi86 = hzpy[2],
-                                Wubi98 = (hzpy[3] == "" ? hzpy[2] : hzpy[3]),
-                                Pinyins = hzpy[4],
-                                Freq = Convert.ToDouble(hzpy[5])
-                            });
+                        {
+                            Code = hzpy[0],
+                            Word = hzpy[1][0],
+                            Wubi86 = hzpy[2],
+                            Wubi98 = (hzpy[3] == "" ? hzpy[2] : hzpy[3]),
+                            Pinyins = hzpy[4],
+                            Freq = Convert.ToDouble(hzpy[5])
+                        });
                     }
                 }
                 return dictionary;
@@ -39,7 +39,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             return Dict[c];
         }
-       
+
 
         public static List<ChineseCode> GetAll()
         {

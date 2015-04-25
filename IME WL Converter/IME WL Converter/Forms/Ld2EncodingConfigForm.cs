@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -10,17 +6,16 @@ namespace Studyzy.IMEWLConverter
 {
     public partial class Ld2EncodingConfigForm : Form
     {
+        private static Encoding selectedEncoding;
+
         public Ld2EncodingConfigForm()
         {
             InitializeComponent();
-            if(selectedEncoding==null)
+            if (selectedEncoding == null)
             {
                 selectedEncoding = Encoding.UTF8;
             }
-
         }
-
-        private static Encoding selectedEncoding=null;
 
         public Encoding SelectedEncoding
         {

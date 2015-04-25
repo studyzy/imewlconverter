@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-﻿using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -15,15 +14,6 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.LINGOES_LD2, ConstantString.LINGOES_LD2_C, 200)]
     public class LingoesLd2 : BaseImport, IWordLibraryImport
     {
-        public LingoesLd2()
-        {
-            WordEncoding = Encoding.UTF8;
-            XmlEncoding = Encoding.UTF8;
-            IncludeMeaning = false;
-            CodeType=CodeType.English;
-        }
-       
-       
         //private readonly Encoding[] AVAIL_ENCODINGS = new[]
         //    {
         //        Encoding.UTF8,
@@ -34,24 +24,30 @@ namespace Studyzy.IMEWLConverter.IME
 
         private readonly Regex regex = new Regex("[\u4E00-\u9FA5]+");
 
+        public LingoesLd2()
+        {
+            WordEncoding = Encoding.UTF8;
+            XmlEncoding = Encoding.UTF8;
+            IncludeMeaning = false;
+            CodeType = CodeType.English;
+        }
+
         /// <summary>
-        /// 词汇的编码
+        ///     词汇的编码
         /// </summary>
         public Encoding WordEncoding { get; set; }
 
         /// <summary>
-        /// 解释的编码
+        ///     解释的编码
         /// </summary>
         public Encoding XmlEncoding { get; set; }
 
         /// <summary>
-        /// 在导出的Word内容中是否包含注释，默认不包含
+        ///     在导出的Word内容中是否包含注释，默认不包含
         /// </summary>
         public bool IncludeMeaning { get; set; }
 
         #region IWordLibraryImport Members
-
-
 
         public WordLibraryList Import(string path)
         {
@@ -123,14 +119,11 @@ namespace Studyzy.IMEWLConverter.IME
                         // without additional information
                         return ReadDictionary(fs, offsetData);
                     }
-                    else if (fs.Length > offsetWithInfo - 0x1C)
+                    if (fs.Length > offsetWithInfo - 0x1C)
                     {
                         return ReadDictionary(fs, offsetWithInfo);
                     }
-                    else
-                    {
-                        Debug.WriteLine("文件不包含字典数据。网上字典？");
-                    }
+                    Debug.WriteLine("文件不包含字典数据。网上字典？");
                 }
                 else
                 {
@@ -182,8 +175,6 @@ namespace Studyzy.IMEWLConverter.IME
             byte[] inflatedFile = Inflate(fs, offsetCompressedData, deflateStreams);
 
 
-
-
             //fs.Position = offsetIndex;
             //var idxArray = new int[definitions];
             //for (int i = 0; i < definitions; i++)
@@ -193,11 +184,10 @@ namespace Studyzy.IMEWLConverter.IME
 
 
             return Extract(inflatedFile, inflatedWordsIndexLength,
-                           inflatedWordsIndexLength + inflatedWordsLength);
+                inflatedWordsIndexLength + inflatedWordsLength);
         }
 
         #region 解压
-
 
         private byte[] Inflate(FileStream dataRawBytes, long startP, List<int> deflateStreams)
         {
@@ -271,7 +261,49 @@ namespace Studyzy.IMEWLConverter.IME
         #region 解析
 
         /// <summary>
-        /// 解析解压后的数据，返回词汇列表
+        ///     判断字典中词汇的编码和解释的编码
+        /// </summary>
+        /// <param name="inflatedBytes"></param>
+        /// <param name="offsetWords"></param>
+        /// <param name="offsetXml"></param>
+        /// <param name="defTotal"></param>
+        /// <param name="dataLen"></param>
+        /// <returns></returns>
+        //private Encoding[] DetectEncodings(byte[] inflatedBytes, int offsetWords, int offsetXml, int defTotal,
+        //                                   int dataLen)
+        //{
+        //    return new[] { AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[0] };
+        //    int test = Math.Min(defTotal, 10);
+
+        //    for (int j = 0; j < AVAIL_ENCODINGS.Length; j++)
+        //    {
+        //        for (int k = 0; k < AVAIL_ENCODINGS.Length; k++)
+        //        {
+        //            try
+        //            {
+        //                for (int i = 0; i < test; i++)
+        //                {
+        //                    ReadDefinitionData(inflatedBytes, offsetWords, offsetXml, dataLen, AVAIL_ENCODINGS[j],
+        //                                       AVAIL_ENCODINGS[k], i);
+        //                }
+        //                Debug.WriteLine("词组编码：" + AVAIL_ENCODINGS[j]);
+        //                Debug.WriteLine("XML编码：" + AVAIL_ENCODINGS[k]);
+        //                return new[] {AVAIL_ENCODINGS[j], AVAIL_ENCODINGS[k]};
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // ignore
+        //                Debug.WriteLine("There are some error:" + ex.Message);
+        //            }
+        //        }
+        //    }
+        //    Debug.WriteLine("自动识别编码失败！选择UTF-16LE继续。");
+        //    return new[] {AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[1]};
+        //}
+        private readonly Regex hregex = new Regex(@"<(.[^>]*)>");
+
+        /// <summary>
+        ///     解析解压后的数据，返回词汇列表
         /// </summary>
         /// <param name="dataRawBytes"></param>
         /// <param name="offsetDefs"></param>
@@ -292,9 +324,10 @@ namespace Studyzy.IMEWLConverter.IME
             CurrentStatus = 0;
             for (int i = 0; i < defTotal; i++)
             {
-                var kv = ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen, WordEncoding, XmlEncoding, i);
+                KeyValuePair<string, string> kv = ReadDefinitionData(dataRawBytes, offsetDefs, offsetXml, dataLen,
+                    WordEncoding, XmlEncoding, i);
 
-                var word = kv.Key;
+                string word = kv.Key;
                 string xml = kv.Value;
                 if (IncludeMeaning)
                 {
@@ -314,7 +347,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         /// <summary>
-        /// 读取一个词汇的词和解释
+        ///     读取一个词汇的词和解释
         /// </summary>
         /// <param name="inflatedBytes"></param>
         /// <param name="offsetWords"></param>
@@ -325,8 +358,8 @@ namespace Studyzy.IMEWLConverter.IME
         /// <param name="i"></param>
         /// <returns>Key为词汇，Value为解释</returns>
         private KeyValuePair<string, string> ReadDefinitionData(byte[] inflatedBytes, int offsetWords,
-                                                                int offsetXml, int dataLen, Encoding wordStringDecoder,
-                                                                Encoding xmlStringDecoder, int i)
+            int offsetXml, int dataLen, Encoding wordStringDecoder,
+            Encoding xmlStringDecoder, int i)
         {
             var idxData = new int[6];
             GetIdxData(inflatedBytes, dataLen*i, idxData);
@@ -378,48 +411,6 @@ namespace Studyzy.IMEWLConverter.IME
             wordIdxData[4] = BitConverter.ToInt32(dataRawBytes, position + 10);
             wordIdxData[5] = BitConverter.ToInt32(dataRawBytes, position + 14);
         }
-
-        /// <summary>
-        /// 判断字典中词汇的编码和解释的编码
-        /// </summary>
-        /// <param name="inflatedBytes"></param>
-        /// <param name="offsetWords"></param>
-        /// <param name="offsetXml"></param>
-        /// <param name="defTotal"></param>
-        /// <param name="dataLen"></param>
-        /// <returns></returns>
-        //private Encoding[] DetectEncodings(byte[] inflatedBytes, int offsetWords, int offsetXml, int defTotal,
-        //                                   int dataLen)
-        //{
-        //    return new[] { AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[0] };
-        //    int test = Math.Min(defTotal, 10);
-
-        //    for (int j = 0; j < AVAIL_ENCODINGS.Length; j++)
-        //    {
-        //        for (int k = 0; k < AVAIL_ENCODINGS.Length; k++)
-        //        {
-        //            try
-        //            {
-        //                for (int i = 0; i < test; i++)
-        //                {
-        //                    ReadDefinitionData(inflatedBytes, offsetWords, offsetXml, dataLen, AVAIL_ENCODINGS[j],
-        //                                       AVAIL_ENCODINGS[k], i);
-        //                }
-        //                Debug.WriteLine("词组编码：" + AVAIL_ENCODINGS[j]);
-        //                Debug.WriteLine("XML编码：" + AVAIL_ENCODINGS[k]);
-        //                return new[] {AVAIL_ENCODINGS[j], AVAIL_ENCODINGS[k]};
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                // ignore
-        //                Debug.WriteLine("There are some error:" + ex.Message);
-        //            }
-        //        }
-        //    }
-        //    Debug.WriteLine("自动识别编码失败！选择UTF-16LE继续。");
-        //    return new[] {AVAIL_ENCODINGS[1], AVAIL_ENCODINGS[1]};
-        //}
-        private Regex hregex = new Regex(@"<(.[^>]*)>");
 
         private string RemoveHtmlTag(string html)
         {

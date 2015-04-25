@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -11,14 +10,11 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.CANGJIE_PLATFORM, ConstantString.CANGJIE_PLATFORM_C, 230)]
     public class CangjiePlatform : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
-     
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.Cangjie;
-            }
+            get { return CodeType.Cangjie; }
         }
+
         #region IWordLibraryExport 成员
 
         //private readonly IWordCodeGenerater codeGenerater = new Cangjie5Generater();
@@ -32,7 +28,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var sb = new StringBuilder();
 
-            IList<string> codes = wl.Codes[0];// codeGenerater.GetCodeOfString(wl.Word);
+            IList<string> codes = wl.Codes[0]; // codeGenerater.GetCodeOfString(wl.Word);
             int i = 0;
             foreach (string code in codes)
             {
@@ -46,7 +42,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {

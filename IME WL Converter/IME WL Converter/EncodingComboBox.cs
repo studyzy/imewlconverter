@@ -1,34 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
 namespace Studyzy.IMEWLConverter
 {
-    public class EncodingComboBox:ComboBox
+    public class EncodingComboBox : ComboBox
     {
-        private bool isInit = false;
+        private readonly bool isInit;
 
         public EncodingComboBox()
-         {
-             if (!isInit)
-             {
-                 Items.Clear();
-                 this.Items.AddRange(new object[]
-                     {
-                         "Unicode",
-                         "UTF-8",
-                         "GB18030",
-                         "GBK",
-                         "Big5",
-                         "UnicodeFFFE",
-                         "ASCII"
-                     });
-                 Text = "UTF-8";
-                 isInit = true;
-             }
-         }
-         
+        {
+            if (!isInit)
+            {
+                Items.Clear();
+                Items.AddRange(new object[]
+                {
+                    "Unicode",
+                    "UTF-8",
+                    "GB18030",
+                    "GBK",
+                    "Big5",
+                    "UnicodeFFFE",
+                    "ASCII"
+                });
+                Text = "UTF-8";
+                isInit = true;
+            }
+        }
+
         public Encoding SelectedEncoding
         {
             get
@@ -51,7 +50,7 @@ namespace Studyzy.IMEWLConverter
             {
                 if (value.HeaderName == Encoding.UTF8.HeaderName)
                 {
-                    this.Text = "UTF-8";
+                    Text = "UTF-8";
                 }
                 else if (value == Encoding.BigEndianUnicode)
                 {
@@ -83,7 +82,5 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
-
-     
     }
 }

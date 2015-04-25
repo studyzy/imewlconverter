@@ -17,12 +17,12 @@ namespace Studyzy.IMEWLConverter
         private static extern bool AttachConsole(int dwProcessId);
 
         /// <summary>
-        /// 应用程序的主入口点。
+        ///     应用程序的主入口点。
         /// </summary>
         [STAThread]
         private static void Main(string[] args)
         {
-            var platform = Environment.OSVersion.Platform;
+            PlatformID platform = Environment.OSVersion.Platform;
             if (platform == PlatformID.Unix || platform == PlatformID.MacOSX)
             {
                 var consoleRun = new ConsoleRun(args);

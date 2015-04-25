@@ -8,7 +8,7 @@ namespace Studyzy.IMEWLConverter.Generaters
     public class ZhengmaGenerater : IWordCodeGenerater
     {
         private Dictionary<char, Zhengma> zhengmaDic;
-        public bool IsBaseOnOldCode { get { return false; } }
+
         private Dictionary<char, Zhengma> ZhengmaDic
         {
             get
@@ -106,6 +106,33 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #endregion
 
+        public bool IsBaseOnOldCode
+        {
+            get { return false; }
+        }
+
+        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        {
+            return GetCodeOfString(str.Word, charCodeSplit);
+        }
+
+        #region Nested type: Zhengma
+
+        private struct Zhengma
+        {
+            /// <summary>
+            ///     构词嘛
+            /// </summary>
+            public string ShortCode { get; set; }
+
+            /// <summary>
+            ///     单字郑码
+            /// </summary>
+            public IList<string> Code { get; set; }
+        }
+
+        #endregion
+
         private string Get2Code(char c)
         {
             Zhengma codes = ZhengmaDic[c];
@@ -116,25 +143,5 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ZhengmaDic[c].ShortCode[0].ToString();
         }
-        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
-        {
-            return GetCodeOfString(str.Word, charCodeSplit);
-        }
-        #region Nested type: Zhengma
-
-        private struct Zhengma
-        {
-            /// <summary>
-            /// 构词嘛
-            /// </summary>
-            public string ShortCode { get; set; }
-
-            /// <summary>
-            /// 单字郑码
-            /// </summary>
-            public IList<string> Code { get; set; }
-        }
-
-        #endregion
     }
 }

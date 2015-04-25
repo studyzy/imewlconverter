@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -11,11 +10,6 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
-
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
@@ -23,11 +17,10 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(wl.Word);
             sb.Append(" ");
             sb.Append(wl.GetPinYinString(" ", BuildType.None));
-            
+
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -40,6 +33,11 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
+        }
+
         #endregion
 
         public WordLibraryList ImportLine(string line)
@@ -47,17 +45,17 @@ namespace Studyzy.IMEWLConverter.IME
             if (line.Length > 0 && line[0] == ';')
                 return null;
             string[] sp = line.Split(' ');
-            
+
             string word = sp[0];
-            string[] py=new string[word.Length];
-            for (var i = 0; i < word.Length; i++)
+            var py = new string[word.Length];
+            for (int i = 0; i < word.Length; i++)
             {
                 py[i] = sp[i + 1];
             }
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Rank = 1;
-            wl.PinYin =py;
+            wl.PinYin = py;
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;

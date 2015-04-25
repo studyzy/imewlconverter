@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-  
     public class XiandaiErbiGenerater : ErbiGenerater
     {
         protected override int DicColumnIndex
         {
             get { return 1; }
         }
+
         /// <summary>
-        /// 现代二笔与普通二笔不同的是，现代二笔组词的时候，每个词取2码，并没有4码长度的限制。
+        ///     现代二笔与普通二笔不同的是，现代二笔组词的时候，每个词取2码，并没有4码长度的限制。
         /// </summary>
         /// <param name="str"></param>
         /// <param name="py"></param>
@@ -30,9 +27,9 @@ namespace Studyzy.IMEWLConverter.Generaters
 
             try
             {
-                for (var i = 0; i < str.Length;i++ )
+                for (int i = 0; i < str.Length; i++)
                 {
-                    var c = str[i];
+                    char c = str[i];
                     codes.Add(Get1CharCode(c, py[i]));
                 }
             }
@@ -43,6 +40,5 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return codes;
         }
-      
     }
 }

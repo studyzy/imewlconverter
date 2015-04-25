@@ -1,12 +1,10 @@
-
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-﻿using Studyzy.IMEWLConverter.Entities;
-﻿using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
 
@@ -24,10 +22,11 @@ namespace Studyzy.IMEWLConverter
         private string codingFile;
         private string exportPath = "";
         private string format;
-        private Encoding wordEncoding = Encoding.UTF8, xmlEncoding;
         private CommandType type = CommandType.Null;
+        private Encoding wordEncoding = Encoding.UTF8;
         private IWordLibraryExport wordLibraryExport;
         private IWordLibraryImport wordLibraryImport;
+        private Encoding xmlEncoding;
 
         public ConsoleRun(string[] args)
         {
@@ -91,7 +90,7 @@ namespace Studyzy.IMEWLConverter
             }
             if (importPaths.Count > 0 && exportPath != "")
             {
-                MainBody mainBody = new MainBody();
+                var mainBody = new MainBody();
                 mainBody.Export = wordLibraryExport;
                 mainBody.Import = wordLibraryImport;
 
@@ -112,12 +111,8 @@ namespace Studyzy.IMEWLConverter
                     FileOperationHelper.WriteFile(exportPath, wordLibraryExport.Encoding, str);
                 }
                 Console.WriteLine("转换完成,共转换" + mainBody.Count + "个");
-                return;
             }
-            else
-            {
-                Console.WriteLine("输入 -? 可获取帮助");
-            }
+            Console.WriteLine("输入 -? 可获取帮助");
         }
 
         private CommandType RunCommand(string command)
@@ -150,8 +145,8 @@ namespace Studyzy.IMEWLConverter
             }
             if (command.StartsWith("-ld2:")) //ld2 encoding
             {
-                var ecodes = command.Substring(5);
-                var arr = ecodes.Split(',');
+                string ecodes = command.Substring(5);
+                string[] arr = ecodes.Split(',');
 
                 wordEncoding = Encoding.GetEncoding(arr[0]);
                 if (arr.Length > 1)
@@ -245,7 +240,6 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryImport GetImportInterface(string str)
         {
-
             try
             {
                 return imports[str];
@@ -313,12 +307,10 @@ namespace Studyzy.IMEWLConverter
     }
 
     /// <summary>
-    /// Static class for console colour manipulation.
+    ///     Static class for console colour manipulation.
     /// </summary>
     internal class ConsoleColour
     {
-        // constants for console streams
-
         #region ForeGroundColour enum
 
         [Flags]
@@ -336,6 +328,8 @@ namespace Studyzy.IMEWLConverter
         }
 
         #endregion
+
+        // constants for console streams
 
         private const int STD_INPUT_HANDLE = -10;
         private const int STD_OUTPUT_HANDLE = -11;

@@ -41,45 +41,45 @@ using ICSharpCode.SharpZipLib.Core;
 namespace ICSharpCode.SharpZipLib.Zip
 {
     /// <summary>
-    /// FastZipEvents supports all events applicable to <see cref="FastZip">FastZip</see> operations.
+    ///     FastZipEvents supports all events applicable to <see cref="FastZip">FastZip</see> operations.
     /// </summary>
     public class FastZipEvents
     {
         /// <summary>
-        /// Delegate to invoke when processing for a file has been completed.
+        ///     Delegate to invoke when processing for a file has been completed.
         /// </summary>
         public CompletedFileHandler CompletedFile;
 
         /// <summary>
-        /// Delegate to invoke when processing directory failures.
+        ///     Delegate to invoke when processing directory failures.
         /// </summary>
         public DirectoryFailureHandler DirectoryFailure;
 
         /// <summary>
-        /// Delegate to invoke when processing file failures.
+        ///     Delegate to invoke when processing file failures.
         /// </summary>
         public FileFailureHandler FileFailure;
 
         /// <summary>
-        /// Delegate to invoke when processing directories.
+        ///     Delegate to invoke when processing directories.
         /// </summary>
         public ProcessDirectoryHandler ProcessDirectory;
 
         /// <summary>
-        /// Delegate to invoke when processing files.
+        ///     Delegate to invoke when processing files.
         /// </summary>
         public ProcessFileHandler ProcessFile;
 
         /// <summary>
-        /// Delegate to invoke during processing of files.
+        ///     Delegate to invoke during processing of files.
         /// </summary>
         public ProgressHandler Progress;
 
         /// <summary>
-        /// The minimum timespan between <see cref="Progress"/> events.
+        ///     The minimum timespan between <see cref="Progress" /> events.
         /// </summary>
-        /// <value>The minimum period of time between <see cref="Progress"/> events.</value>
-        /// <seealso cref="Progress"/>
+        /// <value>The minimum period of time between <see cref="Progress" /> events.</value>
+        /// <seealso cref="Progress" />
         /// <remarks>The default interval is three seconds.</remarks>
         public TimeSpan ProgressInterval
         {
@@ -94,7 +94,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Raise the <see cref="DirectoryFailure">directory failure</see> event.
+        ///     Raise the <see cref="DirectoryFailure">directory failure</see> event.
         /// </summary>
         /// <param name="directory">The directory causing the failure.</param>
         /// <param name="e">The exception for this event.</param>
@@ -114,7 +114,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Fires the <see cref="FileFailure"> file failure handler delegate</see>.
+        ///     Fires the <see cref="FileFailure"> file failure handler delegate</see>.
         /// </summary>
         /// <param name="file">The file causing the failure.</param>
         /// <param name="e">The exception for this failure.</param>
@@ -134,7 +134,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Fires the <see cref="ProcessFile">ProcessFile delegate</see>.
+        ///     Fires the <see cref="ProcessFile">ProcessFile delegate</see>.
         /// </summary>
         /// <param name="file">The file being processed.</param>
         /// <returns>A boolean indicating if execution should continue or not.</returns>
@@ -153,7 +153,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Fires the <see cref="CompletedFile"/> delegate
+        ///     Fires the <see cref="CompletedFile" /> delegate
         /// </summary>
         /// <param name="file">The file whose processing has been completed.</param>
         /// <returns>A boolean indicating if execution should continue or not.</returns>
@@ -171,11 +171,11 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Fires the <see cref="ProcessDirectory">process directory</see> delegate.
+        ///     Fires the <see cref="ProcessDirectory">process directory</see> delegate.
         /// </summary>
         /// <param name="directory">The directory being processed.</param>
         /// <param name="hasMatchingFiles">Flag indicating if the directory has matching files as determined by the current filter.</param>
-        /// <returns>A <see cref="bool"/> of true if the operation should continue; false otherwise.</returns>
+        /// <returns>A <see cref="bool" /> of true if the operation should continue; false otherwise.</returns>
         public bool OnProcessDirectory(string directory, bool hasMatchingFiles)
         {
             bool result = true;
@@ -191,29 +191,29 @@ namespace ICSharpCode.SharpZipLib.Zip
     }
 
     /// <summary>
-    /// FastZip provides facilities for creating and extracting zip files.
+    ///     FastZip provides facilities for creating and extracting zip files.
     /// </summary>
     public class FastZip
     {
         #region Enumerations
 
         /// <summary>
-        /// Defines the desired handling when overwriting files during extraction.
+        ///     Defines the desired handling when overwriting files during extraction.
         /// </summary>
         public enum Overwrite
         {
             /// <summary>
-            /// Prompt the user to confirm overwriting
+            ///     Prompt the user to confirm overwriting
             /// </summary>
             Prompt,
 
             /// <summary>
-            /// Never overwrite files.
+            ///     Never overwrite files.
             /// </summary>
             Never,
 
             /// <summary>
-            /// Always overwrite files.
+            ///     Always overwrite files.
             /// </summary>
             Always
         }
@@ -223,14 +223,14 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Constructors
 
         /// <summary>
-        /// Initialise a default instance of <see cref="FastZip"/>.
+        ///     Initialise a default instance of <see cref="FastZip" />.
         /// </summary>
         public FastZip()
         {
         }
 
         /// <summary>
-        /// Initialise a new instance of <see cref="FastZip"/>
+        ///     Initialise a new instance of <see cref="FastZip" />
         /// </summary>
         /// <param name="events">The <see cref="FastZipEvents">events</see> to use during operations.</param>
         public FastZip(FastZipEvents events)
@@ -243,13 +243,13 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Properties
 
         /// <summary>
-        /// Get/set a value indicating wether empty directories should be created.
+        ///     Get/set a value indicating wether empty directories should be created.
         /// </summary>
         public bool CreateEmptyDirectories { get; set; }
 
 #if !NETCF_1_0
         /// <summary>
-        /// Get / set the password value.
+        ///     Get / set the password value.
         /// </summary>
         public string Password
         {
@@ -259,7 +259,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 #endif
 
         /// <summary>
-        /// Get or set the <see cref="INameTransform"></see> active when creating Zip files.
+        ///     Get or set the <see cref="INameTransform"></see> active when creating Zip files.
         /// </summary>
         /// <seealso cref="EntryFactory"></seealso>
         public INameTransform NameTransform
@@ -269,7 +269,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get or set the <see cref="IEntryFactory"></see> active when creating Zip files.
+        ///     Get or set the <see cref="IEntryFactory"></see> active when creating Zip files.
         /// </summary>
         public IEntryFactory EntryFactory
         {
@@ -288,15 +288,15 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Gets or sets the setting for <see cref="UseZip64">Zip64 handling when writing.</see>
+        ///     Gets or sets the setting for <see cref="UseZip64">Zip64 handling when writing.</see>
         /// </summary>
         /// <remarks>
-        /// The default value is dynamic which is not backwards compatible with old
-        /// programs and can cause problems with XP's built in compression which cant
-        /// read Zip64 archives. However it does avoid the situation were a large file
-        /// is added and cannot be completed correctly.
-        /// NOTE: Setting the size for entries before they are added is the best solution!
-        /// By default the EntryFactory used by FastZip will set fhe file size.
+        ///     The default value is dynamic which is not backwards compatible with old
+        ///     programs and can cause problems with XP's built in compression which cant
+        ///     read Zip64 archives. However it does avoid the situation were a large file
+        ///     is added and cannot be completed correctly.
+        ///     NOTE: Setting the size for entries before they are added is the best solution!
+        ///     By default the EntryFactory used by FastZip will set fhe file size.
         /// </remarks>
         public UseZip64 UseZip64
         {
@@ -305,8 +305,8 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get/set a value indicating wether file dates and times should 
-        /// be restored when extracting files from an archive.
+        ///     Get/set a value indicating wether file dates and times should
+        ///     be restored when extracting files from an archive.
         /// </summary>
         /// <remarks>The default value is false.</remarks>
         public bool RestoreDateTimeOnExtract
@@ -316,8 +316,8 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get/set a value indicating wether file attributes should
-        /// be restored during extract operations
+        ///     Get/set a value indicating wether file attributes should
+        ///     be restored during extract operations
         /// </summary>
         public bool RestoreAttributesOnExtract { get; set; }
 
@@ -326,7 +326,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Delegates
 
         /// <summary>
-        /// Delegate called when confirming overwriting of files.
+        ///     Delegate called when confirming overwriting of files.
         /// </summary>
         public delegate bool ConfirmOverwriteDelegate(string fileName);
 
@@ -335,7 +335,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region CreateZip
 
         /// <summary>
-        /// Create a zip file.
+        ///     Create a zip file.
         /// </summary>
         /// <param name="zipFileName">The name of the zip file to create.</param>
         /// <param name="sourceDirectory">The directory to source files from.</param>
@@ -343,13 +343,13 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
         public void CreateZip(string zipFileName, string sourceDirectory,
-                              bool recurse, string fileFilter, string directoryFilter)
+            bool recurse, string fileFilter, string directoryFilter)
         {
             CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter);
         }
 
         /// <summary>
-        /// Create a zip file/archive.
+        ///     Create a zip file/archive.
         /// </summary>
         /// <param name="zipFileName">The name of the zip file to create.</param>
         /// <param name="sourceDirectory">The directory to obtain files and directories from.</param>
@@ -361,16 +361,16 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Create a zip archive sending output to the <paramref name="outputStream"/> passed.
+        ///     Create a zip archive sending output to the <paramref name="outputStream" /> passed.
         /// </summary>
         /// <param name="outputStream">The stream to write archive data to.</param>
         /// <param name="sourceDirectory">The directory to source files from.</param>
         /// <param name="recurse">True to recurse directories, false for no recursion.</param>
         /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
         /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
-        /// <remarks>The <paramref name="outputStream"/> is closed after creation.</remarks>
+        /// <remarks>The <paramref name="outputStream" /> is closed after creation.</remarks>
         public void CreateZip(Stream outputStream, string sourceDirectory, bool recurse, string fileFilter,
-                              string directoryFilter)
+            string directoryFilter)
         {
             NameTransform = new ZipNameTransform(sourceDirectory);
             sourceDirectory_ = sourceDirectory;
@@ -414,7 +414,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region ExtractZip
 
         /// <summary>
-        /// Extract the contents of a zip file.
+        ///     Extract the contents of a zip file.
         /// </summary>
         /// <param name="zipFileName">The zip file to extract from.</param>
         /// <param name="targetDirectory">The directory to save extracted information in.</param>
@@ -425,7 +425,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Extract the contents of a zip file.
+        ///     Extract the contents of a zip file.
         /// </summary>
         /// <param name="zipFileName">The zip file to extract from.</param>
         /// <param name="targetDirectory">The directory to save extracted information in.</param>
@@ -435,16 +435,16 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="directoryFilter">A filter to apply to directories.</param>
         /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
         public void ExtractZip(string zipFileName, string targetDirectory,
-                               Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
-                               string fileFilter, string directoryFilter, bool restoreDateTime)
+            Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
+            string fileFilter, string directoryFilter, bool restoreDateTime)
         {
             Stream inputStream = File.Open(zipFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             ExtractZip(inputStream, targetDirectory, overwrite, confirmDelegate, fileFilter, directoryFilter,
-                       restoreDateTime, true);
+                restoreDateTime, true);
         }
 
         /// <summary>
-        /// Extract the contents of a zip file held in a stream.
+        ///     Extract the contents of a zip file held in a stream.
         /// </summary>
         /// <param name="inputStream">The seekable input stream containing the zip to extract from.</param>
         /// <param name="targetDirectory">The directory to save extracted information in.</param>
@@ -455,9 +455,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
         /// <param name="isStreamOwner">Flag indicating whether the inputStream will be closed by this method.</param>
         public void ExtractZip(Stream inputStream, string targetDirectory,
-                               Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
-                               string fileFilter, string directoryFilter, bool restoreDateTime,
-                               bool isStreamOwner)
+            Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
+            string fileFilter, string directoryFilter, bool restoreDateTime,
+            bool isStreamOwner)
         {
             if ((overwrite == Overwrite.Prompt) && (confirmDelegate == null))
             {
@@ -501,10 +501,6 @@ namespace ICSharpCode.SharpZipLib.Zip
                         {
                             ExtractEntry(entry);
                         }
-                    }
-                    else
-                    {
-                        // Do nothing for volume labels etc...
                     }
                 }
             }
@@ -585,7 +581,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             if ((events_ != null) && (events_.Progress != null))
             {
                 StreamUtils.Copy(stream, outputStream_, buffer_,
-                                 events_.Progress, events_.ProgressInterval, this, name);
+                    events_.Progress, events_.ProgressInterval, this, name);
             }
             else
             {
@@ -636,8 +632,8 @@ namespace ICSharpCode.SharpZipLib.Zip
                             if ((events_ != null) && (events_.Progress != null))
                             {
                                 StreamUtils.Copy(zipFile_.GetInputStream(entry), outputStream, buffer_,
-                                                 events_.Progress, events_.ProgressInterval, this, entry.Name,
-                                                 entry.Size);
+                                    events_.Progress, events_.ProgressInterval, this, entry.Name,
+                                    entry.Size);
                             }
                             else
                             {

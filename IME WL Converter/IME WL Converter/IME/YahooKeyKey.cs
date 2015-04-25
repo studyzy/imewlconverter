@@ -2,28 +2,21 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 雅虎奇摩输入法
+    ///     雅虎奇摩输入法
     /// </summary>
     [ComboBoxShow(ConstantString.YAHOO_KEYKEY, ConstantString.YAHOO_KEYKEY_C, 200)]
     public class YahooKeyKey : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.Zhuyin;
-            }
+            get { return CodeType.Zhuyin; }
         }
-        //private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
 
         #region IWordLibraryExport 成员
 
@@ -180,7 +173,6 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -229,11 +221,6 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             return wlList;
         }
 
-        private bool IsWordLine(string line)
-        {
-            return line.Split('\t').Length == 4;
-        }
-
 
         public WordLibraryList ImportLine(string line)
         {
@@ -261,6 +248,13 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             return wll;
         }
 
+        private bool IsWordLine(string line)
+        {
+            return line.Split('\t').Length == 4;
+        }
+
         #endregion
+
+        //private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
     }
 }

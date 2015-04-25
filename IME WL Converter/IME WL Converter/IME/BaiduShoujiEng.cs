@@ -1,36 +1,23 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 百度手机输入法支持单独的英语词库，格式“单词Tab词频”
+    ///     百度手机输入法支持单独的英语词库，格式“单词Tab词频”
     /// </summary>
     [ComboBoxShow(ConstantString.BAIDU_SHOUJI_ENG, ConstantString.BAIDU_SHOUJI_ENG_C, 1010)]
     public class BaiduShoujiEng : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
 
-        public Encoding Encoding
-        {
-            get { return Encoding.ASCII; }
-        }
-        public override CodeType CodeType
-        {
-            get
-            {
-                return CodeType.English;
-            }
-        }
         public string ExportLine(WordLibrary wl)
         {
             return wl.Word + "\t" + (54999 + wl.Rank);
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -41,6 +28,16 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\r\n");
             }
             return sb.ToString();
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.ASCII; }
+        }
+
+        public override CodeType CodeType
+        {
+            get { return CodeType.English; }
         }
 
         #endregion

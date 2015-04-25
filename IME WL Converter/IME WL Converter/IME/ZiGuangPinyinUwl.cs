@@ -9,15 +9,11 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 紫光Uwl格式
+    ///     紫光Uwl格式
     /// </summary>
     [ComboBoxShow(ConstantString.ZIGUANG_PINYIN_UWL, ConstantString.ZIGUANG_PINYIN_UWL_C, 171)]
     public class ZiGuangPinyinUwl : BaseImport, IWordLibraryImport
     {
-        //{0x05 2word
-
-        //4字节使用同一个拼音的词条数x，2字节拼音长度n，n字节拼音的编号，（2字节汉字的长度y，y*2字节汉字的内容Unicode编码，2字节词频，2字节未知，4字节未知）*x
-
         #region IWordLibraryImport Members
 
         public override bool IsText
@@ -26,6 +22,10 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         #endregion
+
+        //{0x05 2word
+
+        //4字节使用同一个拼音的词条数x，2字节拼音长度n，n字节拼音的编号，（2字节汉字的长度y，y*2字节汉字的内容Unicode编码，2字节词频，2字节未知，4字节未知）*x
 
         public WordLibraryList Import(string path)
         {
@@ -131,75 +131,75 @@ namespace Studyzy.IMEWLConverter.IME
         //        {33, "v"},
         //    };
         private readonly IList<string> Shengmu = new List<string>
-            {
-                "",
-                "b",
-                "c",
-                "ch",
-                "d",
-                "f",
-                "g",
-                "h",
-                "j",
-                "k",
-                "l",
-                "m",
-                "n",
-                "p",
-                "q",
-                "r",
-                "s",
-                "sh",
-                "t",
-                "w",
-                "x",
-                "y",
-                "z",
-                "zh",
-            };
+        {
+            "",
+            "b",
+            "c",
+            "ch",
+            "d",
+            "f",
+            "g",
+            "h",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "p",
+            "q",
+            "r",
+            "s",
+            "sh",
+            "t",
+            "w",
+            "x",
+            "y",
+            "z",
+            "zh",
+        };
 
         private readonly IList<string> Yunmu = new List<string>
-            {
-                "ang",
-                "a",
-                "ai",
-                "an",
-                "ang",
-                "ao",
-                "e",
-                "ei",
-                "en",
-                "eng",
-                "er",
-                "i",
-                "ia",
-                "ian",
-                "iang",
-                "iao",
-                "ie",
-                "in",
-                "ing",
-                "iong",
-                "iu",
-                "o",
-                "ong",
-                "ou",
-                "u",
-                "ua",
-                "uai",
-                "uan",
-                "uang",
-                "ue",
-                "ui",
-                "un",
-                "uo",
-                "v",
-            };
+        {
+            "ang",
+            "a",
+            "ai",
+            "an",
+            "ang",
+            "ao",
+            "e",
+            "ei",
+            "en",
+            "eng",
+            "er",
+            "i",
+            "ia",
+            "ian",
+            "iang",
+            "iao",
+            "ie",
+            "in",
+            "ing",
+            "iong",
+            "iu",
+            "o",
+            "ong",
+            "ou",
+            "u",
+            "ua",
+            "uai",
+            "uan",
+            "uang",
+            "ue",
+            "ui",
+            "un",
+            "uo",
+            "v",
+        };
 
         #endregion
 
         private readonly IList<byte> LenDic = new List<byte>
-            {0x05, 0x87, 0x09, 0x8B, 0x0D, 0x8F, 0x11, 0x13, 0x15, 0x17, 0x19};
+        {0x05, 0x87, 0x09, 0x8B, 0x0D, 0x8F, 0x11, 0x13, 0x15, 0x17, 0x19};
 
         public Segment(Stream stream)
         {
@@ -214,7 +214,7 @@ namespace Studyzy.IMEWLConverter.IME
             do
             {
                 int l;
-                var wl = Parse(stream, out l);
+                WordLibrary wl = Parse(stream, out l);
                 lenB += l;
                 if (wl != null)
                 {

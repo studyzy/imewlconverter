@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -12,11 +11,6 @@ namespace Studyzy.IMEWLConverter.IME
     {
         #region IWordLibraryExport 成员
 
-        public Encoding Encoding
-        {
-            get { return new UTF8Encoding(false); }
-        }
-
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
@@ -24,7 +18,7 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(" ");
             try
             {
-                var py = wl.GetPinYinString("'", BuildType.None);
+                string py = wl.GetPinYinString("'", BuildType.None);
                 if (string.IsNullOrEmpty(py))
                 {
                     return "";
@@ -35,11 +29,10 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 Debug.WriteLine(ex.Message);
             }
-       
+
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -53,20 +46,24 @@ namespace Studyzy.IMEWLConverter.IME
                     sb.Append("\n");
                 }
             }
-         
+
             return sb.ToString();
+        }
+
+        public Encoding Encoding
+        {
+            get { return new UTF8Encoding(false); }
         }
 
         #endregion
 
         public WordLibraryList ImportLine(string line)
         {
-        
             string[] sp = line.Split(' ');
             string py = sp[1];
             string word = sp[0];
-       
-            var wl = new WordLibrary(){CodeType = CodeType.Pinyin};
+
+            var wl = new WordLibrary {CodeType = CodeType.Pinyin};
             wl.Word = word;
             wl.Rank = DefaultRank;
             wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);

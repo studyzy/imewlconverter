@@ -47,7 +47,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
     // and http://www.gladman.me.uk/cryptography_technology/fileencrypt/
 
     /// <summary>
-    /// Encrypts and decrypts AES ZIP
+    ///     Encrypts and decrypts AES ZIP
     /// </summary>
     internal class ZipAESStream : CryptoStream
     {
@@ -63,7 +63,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         private int _slideBufStartPos;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="stream">The stream on which to perform the cryptographic transformation.</param>
         /// <param name="transform">Instance of ZipAESTransform</param>
@@ -89,8 +89,8 @@ namespace ICSharpCode.SharpZipLib.Encryption
         // Blocksize is always 16 here, even for AES-256 which has transform.InputBlockSize of 32.
 
         /// <summary>
-        /// Reads a sequence of bytes from the current CryptoStream into buffer,
-        /// and advances the position within the stream by the number of bytes read.
+        ///     Reads a sequence of bytes from the current CryptoStream into buffer,
+        ///     and advances the position within the stream by the number of bytes read.
         /// </summary>
         public override int Read(byte[] outBuffer, int offset, int count)
         {
@@ -124,10 +124,10 @@ namespace ICSharpCode.SharpZipLib.Encryption
                 {
                     // At least a 16 byte block and an auth code remains.
                     _transform.TransformBlock(_slideBuffer,
-                                              _slideBufStartPos,
-                                              CRYPTO_BLOCK_SIZE,
-                                              outBuffer,
-                                              offset);
+                        _slideBufStartPos,
+                        CRYPTO_BLOCK_SIZE,
+                        outBuffer,
+                        offset);
                     nBytes += CRYPTO_BLOCK_SIZE;
                     offset += CRYPTO_BLOCK_SIZE;
                     _slideBufStartPos += CRYPTO_BLOCK_SIZE;
@@ -140,10 +140,10 @@ namespace ICSharpCode.SharpZipLib.Encryption
                         // At least one byte of data plus auth code
                         int finalBlock = byteCount - AUTH_CODE_LENGTH;
                         _transform.TransformBlock(_slideBuffer,
-                                                  _slideBufStartPos,
-                                                  finalBlock,
-                                                  outBuffer,
-                                                  offset);
+                            _slideBufStartPos,
+                            finalBlock,
+                            outBuffer,
+                            offset);
 
                         nBytes += finalBlock;
                         _slideBufStartPos += finalBlock;
@@ -168,7 +168,8 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.
+        ///     Writes a sequence of bytes to the current stream and advances the current position within this stream by the number
+        ///     of bytes written.
         /// </summary>
         /// <param name="buffer">An array of bytes. This method copies count bytes from buffer to the current stream. </param>
         /// <param name="offset">The byte offset in buffer at which to begin copying bytes to the current stream. </param>

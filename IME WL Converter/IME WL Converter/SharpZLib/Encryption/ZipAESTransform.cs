@@ -44,7 +44,7 @@ using System.Security.Cryptography;
 namespace ICSharpCode.SharpZipLib.Encryption
 {
     /// <summary>
-    /// Transforms stream using AES in CTR mode
+    ///     Transforms stream using AES in CTR mode
     /// </summary>
     internal class ZipAESTransform : ICryptoTransform
     {
@@ -70,14 +70,15 @@ namespace ICSharpCode.SharpZipLib.Encryption
         private bool _finalised;
 
         /// <summary>
-        /// Constructor.
+        ///     Constructor.
         /// </summary>
         /// <param name="key">Password string</param>
-        /// <param name="saltBytes">Random bytes, length depends on encryption strength.
-        /// 128 bits = 8 bytes, 192 bits = 12 bytes, 256 bits = 16 bytes.</param>
+        /// <param name="saltBytes">
+        ///     Random bytes, length depends on encryption strength.
+        ///     128 bits = 8 bytes, 192 bits = 12 bytes, 256 bits = 16 bytes.
+        /// </param>
         /// <param name="blockSize">The encryption strength, in bytes eg 16 for 128 bits.</param>
         /// <param name="writeMode">True when creating a zip, false when reading. For the AuthCode.</param>
-        ///
         public ZipAESTransform(string key, byte[] saltBytes, int blockSize, bool writeMode)
         {
             if (blockSize != 16 && blockSize != 32) // 24 valid for AES but not supported by Winzip
@@ -104,7 +105,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Returns the 2 byte password verifier
+        ///     Returns the 2 byte password verifier
         /// </summary>
         public byte[] PwdVerifier
         {
@@ -114,10 +115,10 @@ namespace ICSharpCode.SharpZipLib.Encryption
         #region ICryptoTransform Members
 
         /// <summary>
-        /// Implement the ICryptoTransform method.
+        ///     Implement the ICryptoTransform method.
         /// </summary>
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer,
-                                  int outputOffset)
+            int outputOffset)
         {
             // Pass the data stream to the hash algorithm for generating the Auth Code.
             // This does not change the inputBuffer. Do this before decryption for read mode.
@@ -154,7 +155,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Not implemented.
+        ///     Not implemented.
         /// </summary>
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
@@ -162,7 +163,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Gets the size of the input data blocks in bytes.
+        ///     Gets the size of the input data blocks in bytes.
         /// </summary>
         public int InputBlockSize
         {
@@ -170,7 +171,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Gets the size of the output data blocks in bytes.
+        ///     Gets the size of the output data blocks in bytes.
         /// </summary>
         public int OutputBlockSize
         {
@@ -178,7 +179,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Gets a value indicating whether multiple blocks can be transformed.
+        ///     Gets a value indicating whether multiple blocks can be transformed.
         /// </summary>
         public bool CanTransformMultipleBlocks
         {
@@ -186,7 +187,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Gets a value indicating whether the current transform can be reused.
+        ///     Gets a value indicating whether the current transform can be reused.
         /// </summary>
         public bool CanReuseTransform
         {
@@ -194,7 +195,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         }
 
         /// <summary>
-        /// Cleanup internal state.
+        ///     Cleanup internal state.
         /// </summary>
         public void Dispose()
         {
@@ -204,7 +205,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
         #endregion
 
         /// <summary>
-        /// Returns the 10 byte AUTH CODE to be checked or appended immediately following the AES data stream.
+        ///     Returns the 10 byte AUTH CODE to be checked or appended immediately following the AES data stream.
         /// </summary>
         public byte[] GetAuthCode()
         {

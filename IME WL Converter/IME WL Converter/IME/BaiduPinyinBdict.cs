@@ -12,69 +12,69 @@ namespace Studyzy.IMEWLConverter.IME
     public class BaiduPinyinBdict : BaseImport, IWordLibraryImport
     {
         private readonly List<string> Shengmu = new List<string>
-            {
-                "c",
-                "d",
-                "b",
-                "f",
-                "g",
-                "h",
-                "ch",
-                "j",
-                "k",
-                "l",
-                "m",
-                "n",
-                "",
-                "p",
-                "q",
-                "r",
-                "s",
-                "t",
-                "sh",
-                "zh",
-                "w",
-                "x",
-                "y",
-                "z"
-            };
+        {
+            "c",
+            "d",
+            "b",
+            "f",
+            "g",
+            "h",
+            "ch",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "sh",
+            "zh",
+            "w",
+            "x",
+            "y",
+            "z"
+        };
 
         private readonly List<string> Yunmu = new List<string>
-            {
-                "uang",
-                "iang",
-                "iong",
-                "ang",
-                "eng",
-                "ian",
-                "iao",
-                "ing",
-                "ong",
-                "uai",
-                "uan",
-                "ai",
-                "an",
-                "ao",
-                "ei",
-                "en",
-                "er",
-                "ua",
-                "ie",
-                "in",
-                "iu",
-                "ou",
-                "ia",
-                "ue",
-                "ui",
-                "un",
-                "uo",
-                "a",
-                "e",
-                "i",
-                "o",
-                "u",
-                "v"
-            };
+        {
+            "uang",
+            "iang",
+            "iong",
+            "ang",
+            "eng",
+            "ian",
+            "iao",
+            "ing",
+            "ong",
+            "uai",
+            "uan",
+            "ai",
+            "an",
+            "ao",
+            "ei",
+            "en",
+            "er",
+            "ua",
+            "ie",
+            "in",
+            "iu",
+            "ou",
+            "ia",
+            "ue",
+            "ui",
+            "un",
+            "uo",
+            "a",
+            "e",
+            "i",
+            "o",
+            "u",
+            "v"
+        };
 
         #region IWordLibraryImport Members
 
@@ -156,10 +156,10 @@ namespace Studyzy.IMEWLConverter.IME
         //    }
         //}
         /// <summary>
-        /// 读取一个词语，格式为：
-        /// 4字节的长度len
-        /// len*2字节的拼音（对于每个字，声母、韵母各1字节）
-        /// len*2字节的汉字（Unicode编码）
+        ///     读取一个词语，格式为：
+        ///     4字节的长度len
+        ///     len*2字节的拼音（对于每个字，声母、韵母各1字节）
+        ///     len*2字节的汉字（Unicode编码）
         /// </summary>
         /// <param name="fs"></param>
         /// <returns></returns>

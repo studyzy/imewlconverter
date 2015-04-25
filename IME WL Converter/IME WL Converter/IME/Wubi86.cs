@@ -1,34 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 搜狗五笔的词库格式为“五笔编码 词语”\r\n
+    ///     搜狗五笔的词库格式为“五笔编码 词语”\r\n
     /// </summary>
     [ComboBoxShow(ConstantString.WUBI86, ConstantString.WUBI86_C, 210)]
     public class Wubi86 : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.Wubi;
-            }
+            get { return CodeType.Wubi; }
         }
+
         #region IWordLibraryExport 成员
 
         //private readonly IWordCodeGenerater wubiGenerater = new Wubi86Generater();
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -41,7 +32,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -61,9 +51,12 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        #endregion
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
+        }
 
-        //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
+        #endregion
 
         #region IWordLibraryImport 成员
 
@@ -106,5 +99,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         #endregion
+
+        //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
     }
 }

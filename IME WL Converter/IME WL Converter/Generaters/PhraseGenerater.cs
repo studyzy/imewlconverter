@@ -14,9 +14,11 @@ namespace Studyzy.IMEWLConverter.Generaters
 
     public class PhraseGenerater : IWordCodeGenerater
     {
-       
-        public bool IsBaseOnOldCode { get { return true; } }
-      
+        public bool IsBaseOnOldCode
+        {
+            get { return true; }
+        }
+
 
         public bool Is1Char1Code
         {
@@ -25,7 +27,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public string GetDefaultCodeOfChar(char str)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
@@ -49,13 +51,9 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (str.CodeType == CodeType.Pinyin)
             {
-                return new List<string>() {str.GetPinYinString("", BuildType.None)};
+                return new List<string> {str.GetPinYinString("", BuildType.None)};
             }
-            else
-            {
-                return CollectionHelper.Descartes(str.Codes);
-            }
+            return CollectionHelper.Descartes(str.Codes);
         }
-     
     }
 }

@@ -1,14 +1,10 @@
-
-﻿using System;
+using System;
 using System.Collections.Generic;
-﻿using System.Diagnostics;
-﻿using System.IO;
-﻿using System.Text;
-﻿using System.Windows.Forms;
-﻿using Studyzy.IMEWLConverter.Entities;
-﻿using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
-﻿using Studyzy.IMEWLConverter.IME;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -16,17 +12,21 @@ namespace Studyzy.IMEWLConverter
     {
         private readonly List<string> fromWords = new List<string>();
 
-        private SelfDefining ime=new SelfDefining();
+        private readonly SelfDefining ime = new SelfDefining();
         //private bool isImport = true;
 
         public SelfDefiningConfigForm()
         {
-          
             InitializeComponent();
             InitParsePattern();
             //IsImport = true;
         }
-    
+
+        /// <summary>
+        ///     用户自定义的匹配模式
+        /// </summary>
+        public ParsePattern SelectedParsePattern { get; set; }
+
 
         private void InitParsePattern()
         {
@@ -35,7 +35,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.ContainCode = true;
             SelectedParsePattern.CodeSplitString = ",";
             SelectedParsePattern.CodeSplitType = BuildType.None;
-            SelectedParsePattern.Sort = new List<int> { 1, 2, 3 };
+            SelectedParsePattern.Sort = new List<int> {1, 2, 3};
             SelectedParsePattern.SplitString = " ";
 
 
@@ -51,7 +51,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.CodeSplitString = GetSplitString(cbbxPinyinSplitString.Text);
             SelectedParsePattern.CodeSplitType = GetBuildType();
 
-            SelectedParsePattern.LineSplitString =GetLineSplitString();
+            SelectedParsePattern.LineSplitString = GetLineSplitString();
             SelectedParsePattern.SplitString = GetSplitString(cbbxSplitString.Text);
 
             SelectedParsePattern.CodeType = cbxCodeType.Text == "拼音编码" ? CodeType.Pinyin : CodeType.UserDefine;
@@ -84,17 +84,11 @@ namespace Studyzy.IMEWLConverter
                     return cbxLineSplitString.Text;
             }
         }
-     
 
-
-        /// <summary>
-        /// 用户自定义的匹配模式
-        /// </summary>
-        public ParsePattern SelectedParsePattern { get; set; }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if(ReBuildUserPattern())
+            if (ReBuildUserPattern())
             {
                 DialogResult = DialogResult.OK;
             }
@@ -130,22 +124,23 @@ namespace Studyzy.IMEWLConverter
             numOrderPinyin.Visible = cbxIncludePinyin.Checked;
             ShowSample();
         }
+
         private void ShowSample()
         {
             if (ReBuildUserPattern())
             {
                 ime.UserDefiningPattern = SelectedParsePattern;
-                this.rtbTo.Text = ime.Export(SampleWL());
+                rtbTo.Text = ime.Export(SampleWL());
             }
         }
 
         private WordLibraryList SampleWL()
         {
-            WordLibraryList list=new WordLibraryList();
-            var lines = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var line in lines)
+            var list = new WordLibraryList();
+            string[] lines = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string line in lines)
             {
-                list.Add(new WordLibrary() { Word = line, Rank = 1234,CodeType = CodeType.NoCode});
+                list.Add(new WordLibrary {Word = line, Rank = 1234, CodeType = CodeType.NoCode});
             }
             return list;
         }
@@ -156,6 +151,7 @@ namespace Studyzy.IMEWLConverter
             numOrderCipin.Visible = cbxIncludeCipin.Checked;
             ShowSample();
         }
+
         private string GetSplitString(string selectText)
         {
             string str = "";
@@ -177,6 +173,7 @@ namespace Studyzy.IMEWLConverter
             }
             return str;
         }
+
         private BuildType GetBuildType()
         {
             if (cbxPinyinSplitBefore.Checked && cbxPinyinSplitBehind.Checked)
@@ -192,8 +189,8 @@ namespace Studyzy.IMEWLConverter
                 return BuildType.RightContain;
             }
             return BuildType.None;
-
         }
+
         private void cbbxPinyinSplitString_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedParsePattern.CodeSplitString = GetSplitString(cbbxPinyinSplitString.Text);
@@ -211,17 +208,19 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.CodeSplitType = GetBuildType();
             ShowSample();
         }
+
         private List<int> GetSort()
         {
             var sort = new List<int>();
-            int a = (int)numOrderPinyin.Value * 10;
-            int b = (int)numOrderHanzi.Value * 10 + 1; //善重复键值问题
-            int c = (int)numOrderCipin.Value * 10 + 2; //善重复键值问题
+            int a = (int) numOrderPinyin.Value*10;
+            int b = (int) numOrderHanzi.Value*10 + 1; //善重复键值问题
+            int c = (int) numOrderCipin.Value*10 + 2; //善重复键值问题
             sort.Add(a);
             sort.Add(b);
             sort.Add(c);
             return sort;
         }
+
         private void numOrderPinyin_ValueChanged(object sender, EventArgs e)
         {
             SelectedParsePattern.Sort = GetSort();
@@ -262,6 +261,7 @@ code_a4=p11+p21+p31+n11";
                 Debug.WriteLine("输入格式不正确");
             }
         }
+
         private void btnTest_Click(object sender, EventArgs e)
         {
             ShowSample();
@@ -293,7 +293,7 @@ code_a4=p11+p21+p31+n11";
 
         private void cbxCodeType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbxCodeType.Text=="拼音编码")
+            if (cbxCodeType.Text == "拼音编码")
             {
                 lbFileSelect.Visible = false;
                 txbFilePath.Visible = false;
@@ -309,9 +309,6 @@ code_a4=p11+p21+p31+n11";
                 cbxTextEncoding.Visible = true;
                 SelectedParsePattern.CodeType = CodeType.UserDefine;
             }
-          
         }
-
-      
     }
 }

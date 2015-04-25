@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -64,7 +63,7 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 0; i < wlList.Count; i++)
             {
                 string key = "";
-                var wl = wlList[i];
+                WordLibrary wl = wlList[i];
                 string value = wl.Word;
                 if (CodeType == CodeType.Pinyin)
                 {
@@ -92,10 +91,7 @@ namespace Studyzy.IMEWLConverter.IME
                         }
                         continue;
                     }
-                    else
-                    {
-                        key = (CollectionHelper.ListToString(codes));
-                    }
+                    key = (CollectionHelper.ListToString(codes));
                 }
 
 
@@ -178,11 +174,6 @@ namespace Studyzy.IMEWLConverter.IME
             return list;
         }
 
-        private bool IsContent(string line)
-        {
-            return regex.IsMatch(line);
-        }
-
         public WordLibraryList Import(string path)
         {
             string str = FileOperationHelper.ReadFile(path, Encoding);
@@ -205,6 +196,11 @@ namespace Studyzy.IMEWLConverter.IME
                 list.Add(wl);
             }
             return list;
+        }
+
+        private bool IsContent(string line)
+        {
+            return regex.IsMatch(line);
         }
     }
 }

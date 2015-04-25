@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -53,8 +52,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
         }
 
-        
-
         #endregion
 
         #region IWordLibraryImport 成员
@@ -63,8 +60,8 @@ namespace Studyzy.IMEWLConverter.IME
 
 
         /// <summary>
-        /// 形如：冷血xue动物
-        /// 只有多音字才注音，一般的字不注音，就使用默认读音即可
+        ///     形如：冷血xue动物
+        ///     只有多音字才注音，一般的字不注音，就使用默认读音即可
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>

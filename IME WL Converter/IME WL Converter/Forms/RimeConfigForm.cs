@@ -13,6 +13,7 @@ namespace Studyzy.IMEWLConverter
 
         public CodeType SelectedCodeType { get; set; }
         public OperationSystem SelectedOS { get; set; }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             switch (cbxCodeType.Text)

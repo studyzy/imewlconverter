@@ -39,22 +39,22 @@ using System.IO;
 namespace ICSharpCode.SharpZipLib.Zip
 {
     /// <summary>
-    /// Holds data pertinent to a data descriptor.
+    ///     Holds data pertinent to a data descriptor.
     /// </summary>
     public class DescriptorData
     {
         /// <summary>
-        /// Get /set the compressed size of data.
+        ///     Get /set the compressed size of data.
         /// </summary>
         public long CompressedSize { get; set; }
 
         /// <summary>
-        /// Get / set the uncompressed size of data
+        ///     Get / set the uncompressed size of data
         /// </summary>
         public long Size { get; set; }
 
         /// <summary>
-        /// Get /set the crc value.
+        ///     Get /set the crc value.
         /// </summary>
         public long Crc
         {
@@ -81,14 +81,14 @@ namespace ICSharpCode.SharpZipLib.Zip
     }
 
     /// <summary>
-    /// This class assists with writing/reading from Zip files.
+    ///     This class assists with writing/reading from Zip files.
     /// </summary>
     internal class ZipHelperStream : Stream
     {
         #region Constructors
 
         /// <summary>
-        /// Initialise an instance of this class.
+        ///     Initialise an instance of this class.
         /// </summary>
         /// <param name="name">The name of the file to open.</param>
         public ZipHelperStream(string name)
@@ -98,7 +98,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Initialise a new instance of <see cref="ZipHelperStream"/>.
+        ///     Initialise a new instance of <see cref="ZipHelperStream" />.
         /// </summary>
         /// <param name="stream">The stream to use.</param>
         public ZipHelperStream(Stream stream)
@@ -109,7 +109,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Get / set a value indicating wether the the underlying stream is owned or not.
+        ///     Get / set a value indicating wether the the underlying stream is owned or not.
         /// </summary>
         /// <remarks>If the stream is owned it is closed when this instance is closed.</remarks>
         public bool IsStreamOwner
@@ -179,10 +179,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Close the stream.
+        ///     Close the stream.
         /// </summary>
         /// <remarks>
-        /// The underlying stream is closed only if <see cref="IsStreamOwner"/> is true.
+        ///     The underlying stream is closed only if <see cref="IsStreamOwner" /> is true.
         /// </remarks>
         public override void Close()
         {
@@ -223,8 +223,8 @@ namespace ICSharpCode.SharpZipLib.Zip
                 else
                 {
                     WriteLEInt(entry.IsCrypted
-                                   ? (int) entry.CompressedSize + ZipConstants.CryptoHeaderSize
-                                   : (int) entry.CompressedSize);
+                        ? (int) entry.CompressedSize + ZipConstants.CryptoHeaderSize
+                        : (int) entry.CompressedSize);
                     WriteLEInt((int) entry.Size);
                 }
             }
@@ -315,7 +315,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Locates a block with the desired <paramref name="signature"/>.
+        ///     Locates a block with the desired <paramref name="signature" />.
         /// </summary>
         /// <param name="signature">The signature to find.</param>
         /// <param name="endLocation">Location, marking the end of block.</param>
@@ -323,7 +323,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="maximumVariableData">The maximum variable data.</param>
         /// <returns>Eeturns the offset of the first byte after the signature; -1 if not found</returns>
         public long LocateBlockWithSignature(int signature, long endLocation, int minimumBlockSize,
-                                             int maximumVariableData)
+            int maximumVariableData)
         {
             long pos = endLocation - minimumBlockSize;
             if (pos < 0)
@@ -347,7 +347,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write Zip64 end of central directory records (File header and locator).
+        ///     Write Zip64 end of central directory records (File header and locator).
         /// </summary>
         /// <param name="noOfEntries">The number of entries in the central directory.</param>
         /// <param name="sizeEntries">The size of entries in the central directory.</param>
@@ -381,14 +381,14 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write the required records to end the central directory.
+        ///     Write the required records to end the central directory.
         /// </summary>
         /// <param name="noOfEntries">The number of entries in the directory.</param>
         /// <param name="sizeEntries">The size of the entries in the directory.</param>
         /// <param name="startOfCentralDirectory">The start of the central directory.</param>
         /// <param name="comment">The archive comment.  (This can be null).</param>
         public void WriteEndOfCentralDirectory(long noOfEntries, long sizeEntries,
-                                               long startOfCentralDirectory, byte[] comment)
+            long startOfCentralDirectory, byte[] comment)
         {
             if ((noOfEntries >= 0xffff) ||
                 (startOfCentralDirectory >= 0xffffffff) ||
@@ -455,14 +455,14 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region LE value reading/writing
 
         /// <summary>
-        /// Read an unsigned short in little endian byte order.
+        ///     Read an unsigned short in little endian byte order.
         /// </summary>
         /// <returns>Returns the value read.</returns>
         /// <exception cref="IOException">
-        /// An i/o error occurs.
+        ///     An i/o error occurs.
         /// </exception>
         /// <exception cref="EndOfStreamException">
-        /// The file ends prematurely
+        ///     The file ends prematurely
         /// </exception>
         public int ReadLEShort()
         {
@@ -483,14 +483,14 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read an int in little endian byte order.
+        ///     Read an int in little endian byte order.
         /// </summary>
         /// <returns>Returns the value read.</returns>
         /// <exception cref="IOException">
-        /// An i/o error occurs.
+        ///     An i/o error occurs.
         /// </exception>
         /// <exception cref="System.IO.EndOfStreamException">
-        /// The file ends prematurely
+        ///     The file ends prematurely
         /// </exception>
         public int ReadLEInt()
         {
@@ -498,7 +498,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read a long in little endian byte order.
+        ///     Read a long in little endian byte order.
         /// </summary>
         /// <returns>The value read.</returns>
         public long ReadLELong()
@@ -507,7 +507,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write an unsigned short in little endian byte order.
+        ///     Write an unsigned short in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteLEShort(int value)
@@ -517,7 +517,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write a ushort in little endian byte order.
+        ///     Write a ushort in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteLEUshort(ushort value)
@@ -527,7 +527,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write an int in little endian byte order.
+        ///     Write an int in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteLEInt(int value)
@@ -537,7 +537,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write a uint in little endian byte order.
+        ///     Write a uint in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteLEUint(uint value)
@@ -547,7 +547,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write a long in little endian byte order.
+        ///     Write a long in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteLELong(long value)
@@ -557,7 +557,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Write a ulong in little endian byte order.
+        ///     Write a ulong in little endian byte order.
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteLEUlong(ulong value)
@@ -569,7 +569,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Write a data descriptor.
+        ///     Write a data descriptor.
         /// </summary>
         /// <param name="entry">The entry to write a descriptor for.</param>
         /// <returns>Returns the number of descriptor bytes written.</returns>
@@ -610,7 +610,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read data descriptor at the end of compressed data.
+        ///     Read data descriptor at the end of compressed data.
         /// </summary>
         /// <param name="zip64">if set to <c>true</c> [zip64].</param>
         /// <param name="data">The data to fill in.</param>

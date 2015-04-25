@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -17,11 +16,12 @@ namespace Studyzy.IMEWLConverter.Generaters
     public abstract class ErbiGenerater : IWordCodeGenerater
     {
         /// <summary>
-        /// 二笔的编码可能是一字多码的
+        ///     二笔的编码可能是一字多码的
         /// </summary>
         private Dictionary<char, IList<string>> erbiDic;
+
         /// <summary>
-        /// 1是现代二笔，2是音形，3是超强二笔，4是青松二笔
+        ///     1是现代二笔，2是音形，3是超强二笔，4是青松二笔
         /// </summary>
         protected abstract int DicColumnIndex { get; }
 
@@ -48,7 +48,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                         {
                             code = arr[1];
                         }
-                        var codes = code.Split(' '); //code之间空格分割
+                        string[] codes = code.Split(' '); //code之间空格分割
                         erbiDic[word] = new List<string>(codes);
                     }
                     OverrideDictionary(erbiDic);
@@ -56,32 +56,34 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return erbiDic;
             }
         }
-        /// <summary>
-        /// 读取外部的字典文件，覆盖系统默认字典
-        /// </summary>
-        /// <param name="dictionary"></param>
-        protected virtual void OverrideDictionary(IDictionary<char, IList<string>> dictionary)
+
+        public bool IsBaseOnOldCode
         {
-            var fileContent = FileOperationHelper.ReadFile("mb.txt");
-            if (fileContent != "")
-            {
-                foreach (string line in fileContent.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    string[] arr = line.Split('\t');
-                    if (arr[0].Length == 0)
-                    {
-                        continue;
-                    }
-                    char word = arr[0][0];
-                    string code = arr[1];
-                    var codes = code.Split(' ');
-                    dictionary[word] = new List<string>(codes);//强行覆盖现有字典
-                }
-            }
+            get { return true; }
         }
 
-        public bool IsBaseOnOldCode { get { return true; } }
+        public IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
+        {
+            IList<string> pinYin = null;
+            if (wl.CodeType == CodeType.Pinyin)
+            {
+                pinYin = wl.PinYin;
+            }
+            else
+            {
+                //生成拼音
+                pinYin = pinyinGenerater.GetCodeOfString(wl.Word);
+            }
+            IList<IList<string>> codes = GetErbiCode(wl.Word, pinYin);
+            if (codes == null)
+                return null;
+            IList<string> result = CollectionHelper.Descartes(codes);
+            return result;
+        }
+
         #region IWordCodeGenerater Members
+
+        private static readonly PinyinGenerater pinyinGenerater = new PinyinGenerater();
 
         public bool Is1Char1Code
         {
@@ -95,12 +97,12 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
         {
-            IList<string> pinYin =  pinyinGenerater.GetCodeOfString(str);
-            var codes = GetErbiCode(str, pinYin);
-            var result = CollectionHelper.Descartes(codes);
+            IList<string> pinYin = pinyinGenerater.GetCodeOfString(str);
+            IList<IList<string>> codes = GetErbiCode(str, pinYin);
+            IList<string> result = CollectionHelper.Descartes(codes);
             return result;
         }
-        private static PinyinGenerater pinyinGenerater = new PinyinGenerater();
+
         public IList<string> GetAllCodesOfChar(char str)
         {
             return ErbiDic[str];
@@ -113,23 +115,29 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         #endregion
-        public IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
+
+        /// <summary>
+        ///     读取外部的字典文件，覆盖系统默认字典
+        /// </summary>
+        /// <param name="dictionary"></param>
+        protected virtual void OverrideDictionary(IDictionary<char, IList<string>> dictionary)
         {
-            IList<string> pinYin = null;
-            if (wl.CodeType == CodeType.Pinyin)
+            string fileContent = FileOperationHelper.ReadFile("mb.txt");
+            if (fileContent != "")
             {
-                pinYin = wl.PinYin;
+                foreach (string line in fileContent.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    string[] arr = line.Split('\t');
+                    if (arr[0].Length == 0)
+                    {
+                        continue;
+                    }
+                    char word = arr[0][0];
+                    string code = arr[1];
+                    string[] codes = code.Split(' ');
+                    dictionary[word] = new List<string>(codes); //强行覆盖现有字典
+                }
             }
-            else
-            {
-                //生成拼音
-                pinYin = pinyinGenerater.GetCodeOfString(wl.Word);
-            }
-            var codes = GetErbiCode(wl.Word, pinYin);
-            if (codes == null)
-                return null;
-            var result = CollectionHelper.Descartes(codes);
-            return result;
         }
 
 
@@ -141,14 +149,14 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             var codes = new List<IList<string>>();
 
-         
+
             try
             {
                 if (str.Length == 1)
                 {
                     codes.Add(Get1CharCode(str[0], py[0]));
                 }
-                else if (str.Length == 2)//各取2码
+                else if (str.Length == 2) //各取2码
                 {
                     codes.Add(Get1CharCode(str[0], py[0]));
                     codes.Add(Get1CharCode(str[1], py[1]));
@@ -156,12 +164,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                 else if (str.Length == 3)
                 {
                     codes.Add(Get1CharCode(str[0], py[0]));
-                    codes.Add(new List<string>() { py[1][0].ToString() });
-                    codes.Add(new List<string>() { py[2][0].ToString() });
+                    codes.Add(new List<string> {py[1][0].ToString()});
+                    codes.Add(new List<string> {py[2][0].ToString()});
                 }
                 else
                 {
-                    codes.Add(new List<string>() { py[0][0].ToString() + py[1][0] + py[2][0] + py[str.Length - 1][0] });
+                    codes.Add(new List<string> {py[0][0].ToString() + py[1][0] + py[2][0] + py[str.Length - 1][0]});
                 }
             }
             catch (Exception ex)
@@ -171,19 +179,20 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return codes;
         }
+
         /// <summary>
-        /// 获得一个字的二笔码
+        ///     获得一个字的二笔码
         /// </summary>
         /// <param name="c"></param>
         /// <param name="py"></param>
         /// <returns></returns>
-        protected IList<string> Get1CharCode(char c,string py)
+        protected IList<string> Get1CharCode(char c, string py)
         {
             var result = new List<string>();
-            var codes = ErbiDic[c];
-            foreach ( var code in codes)
+            IList<string> codes = ErbiDic[c];
+            foreach (string code in codes)
             {
-                result.Add(py[0].ToString()+code[0]);
+                result.Add(py[0].ToString() + code[0]);
             }
             return result;
         }

@@ -3,7 +3,7 @@
 namespace Studyzy.IMEWLConverter
 {
     /// <summary>
-    /// 常量字符串
+    ///     常量字符串
     /// </summary>
     public static class ConstantString
     {
@@ -84,8 +84,9 @@ namespace Studyzy.IMEWLConverter
         public const string USER_PHRASE_C = "dy";
         public const string XIAOXIAO_ERBI_C = "erbi";
         public const string LIBPINYIN_C = "libpy";
+
         /// <summary>
-        /// 注音文件的完整路径
+        ///     注音文件的完整路径
         /// </summary>
         public static readonly string PinyinLibPath = Application.StartupPath + "\\注音.txt";
     }

@@ -42,55 +42,57 @@ using ICSharpCode.SharpZipLib.Core;
 namespace ICSharpCode.SharpZipLib.Zip
 {
     /// <summary>
-    /// Basic implementation of <see cref="IEntryFactory"></see>
+    ///     Basic implementation of <see cref="IEntryFactory"></see>
     /// </summary>
     public class ZipEntryFactory : IEntryFactory
     {
         #region Enumerations
 
         /// <summary>
-        /// Defines the possible values to be used for the <see cref="ZipEntry.DateTime"/>.
+        ///     Defines the possible values to be used for the <see cref="ZipEntry.DateTime" />.
         /// </summary>
         public enum TimeSetting
         {
             /// <summary>
-            /// Use the recorded LastWriteTime value for the file.
+            ///     Use the recorded LastWriteTime value for the file.
             /// </summary>
             LastWriteTime,
 
             /// <summary>
-            /// Use the recorded LastWriteTimeUtc value for the file
+            ///     Use the recorded LastWriteTimeUtc value for the file
             /// </summary>
             LastWriteTimeUtc,
 
             /// <summary>
-            /// Use the recorded CreateTime value for the file.
+            ///     Use the recorded CreateTime value for the file.
             /// </summary>
             CreateTime,
 
             /// <summary>
-            /// Use the recorded CreateTimeUtc value for the file.
+            ///     Use the recorded CreateTimeUtc value for the file.
             /// </summary>
             CreateTimeUtc,
 
             /// <summary>
-            /// Use the recorded LastAccessTime value for the file.
+            ///     Use the recorded LastAccessTime value for the file.
             /// </summary>
             LastAccessTime,
 
             /// <summary>
-            /// Use the recorded LastAccessTimeUtc value for the file.
+            ///     Use the recorded LastAccessTimeUtc value for the file.
             /// </summary>
             LastAccessTimeUtc,
 
             /// <summary>
-            /// Use a fixed value.
+            ///     Use a fixed value.
             /// </summary>
-            /// <remarks>The actual <see cref="DateTime"/> value used can be
-            /// specified via the <see cref="ZipEntryFactory(DateTime)"/> constructor or 
-            /// using the <see cref="ZipEntryFactory(TimeSetting)"/> with the setting set
-            /// to <see cref="TimeSetting.Fixed"/> which will use the <see cref="DateTime"/> when this class was constructed.
-            /// The <see cref="FixedDateTime"/> property can also be used to set this value.</remarks>
+            /// <remarks>
+            ///     The actual <see cref="DateTime" /> value used can be
+            ///     specified via the <see cref="ZipEntryFactory(DateTime)" /> constructor or
+            ///     using the <see cref="ZipEntryFactory(TimeSetting)" /> with the setting set
+            ///     to <see cref="TimeSetting.Fixed" /> which will use the <see cref="DateTime" /> when this class was constructed.
+            ///     The <see cref="FixedDateTime" /> property can also be used to set this value.
+            /// </remarks>
             Fixed,
         }
 
@@ -99,18 +101,21 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Constructors
 
         /// <summary>
-        /// Initialise a new instance of the <see cref="ZipEntryFactory"/> class.
+        ///     Initialise a new instance of the <see cref="ZipEntryFactory" /> class.
         /// </summary>
-        /// <remarks>A default <see cref="INameTransform"/>, and the LastWriteTime for files is used.</remarks>
+        /// <remarks>A default <see cref="INameTransform" />, and the LastWriteTime for files is used.</remarks>
         public ZipEntryFactory()
         {
             nameTransform_ = new ZipNameTransform();
         }
 
         /// <summary>
-        /// Initialise a new instance of <see cref="ZipEntryFactory"/> using the specified <see cref="TimeSetting"/>
+        ///     Initialise a new instance of <see cref="ZipEntryFactory" /> using the specified <see cref="TimeSetting" />
         /// </summary>
-        /// <param name="timeSetting">The <see cref="TimeSetting">time setting</see> to use when creating <see cref="ZipEntry">Zip entries</see>.</param>
+        /// <param name="timeSetting">
+        ///     The <see cref="TimeSetting">time setting</see> to use when creating
+        ///     <see cref="ZipEntry">Zip entries</see>.
+        /// </param>
         public ZipEntryFactory(TimeSetting timeSetting)
         {
             timeSetting_ = timeSetting;
@@ -118,9 +123,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Initialise a new instance of <see cref="ZipEntryFactory"/> using the specified <see cref="DateTime"/>
+        ///     Initialise a new instance of <see cref="ZipEntryFactory" /> using the specified <see cref="DateTime" />
         /// </summary>
-        /// <param name="time">The time to set all <see cref="ZipEntry.DateTime"/> values to.</param>
+        /// <param name="time">The time to set all <see cref="ZipEntry.DateTime" /> values to.</param>
         public ZipEntryFactory(DateTime time)
         {
             timeSetting_ = TimeSetting.Fixed;
@@ -133,7 +138,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Properties
 
         /// <summary>
-        /// Get / set the <see cref="TimeSetting"/> in use.
+        ///     Get / set the <see cref="TimeSetting" /> in use.
         /// </summary>
         public TimeSetting Setting
         {
@@ -142,7 +147,8 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get / set the <see cref="DateTime"/> value to use when <see cref="Setting"/> is set to <see cref="TimeSetting.Fixed"/>
+        ///     Get / set the <see cref="DateTime" /> value to use when <see cref="Setting" /> is set to
+        ///     <see cref="TimeSetting.Fixed" />
         /// </summary>
         public DateTime FixedDateTime
         {
@@ -158,7 +164,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// A bitmask defining the attributes to be retrieved from the actual file.
+        ///     A bitmask defining the attributes to be retrieved from the actual file.
         /// </summary>
         /// <remarks>The default is to get all possible attributes from the actual file.</remarks>
         public int GetAttributes
@@ -168,7 +174,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// A bitmask defining which attributes are to be set on.
+        ///     A bitmask defining which attributes are to be set on.
         /// </summary>
         /// <remarks>By default no attributes are set on.</remarks>
         public int SetAttributes
@@ -178,7 +184,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get set a value indicating wether unidoce text should be set on.
+        ///     Get set a value indicating wether unidoce text should be set on.
         /// </summary>
         public bool IsUnicodeText
         {
@@ -187,10 +193,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get / set the <see cref="INameTransform"/> to be used when creating new <see cref="ZipEntry"/> values.
+        ///     Get / set the <see cref="INameTransform" /> to be used when creating new <see cref="ZipEntry" /> values.
         /// </summary>
         /// <remarks>
-        /// Setting this property to null will cause a default <see cref="ZipNameTransform">name transform</see> to be used.
+        ///     Setting this property to null will cause a default <see cref="ZipNameTransform">name transform</see> to be used.
         /// </remarks>
         public INameTransform NameTransform
         {
@@ -213,21 +219,21 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region IEntryFactory Members
 
         /// <summary>
-        /// Make a new <see cref="ZipEntry"/> for a file.
+        ///     Make a new <see cref="ZipEntry" /> for a file.
         /// </summary>
         /// <param name="fileName">The name of the file to create a new entry for.</param>
-        /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
+        /// <returns>Returns a new <see cref="ZipEntry" /> based on the <paramref name="fileName" />.</returns>
         public ZipEntry MakeFileEntry(string fileName)
         {
             return MakeFileEntry(fileName, true);
         }
 
         /// <summary>
-        /// Make a new <see cref="ZipEntry"/> from a name.
+        ///     Make a new <see cref="ZipEntry" /> from a name.
         /// </summary>
         /// <param name="fileName">The name of the file to create a new entry for.</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>
-        /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
+        /// <returns>Returns a new <see cref="ZipEntry" /> based on the <paramref name="fileName" />.</returns>
         public ZipEntry MakeFileEntry(string fileName, bool useFileSystem)
         {
             var result = new ZipEntry(nameTransform_.TransformFile(fileName));
@@ -313,7 +319,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Make a new <see cref="ZipEntry"></see> for a directory.
+        ///     Make a new <see cref="ZipEntry"></see> for a directory.
         /// </summary>
         /// <param name="directoryName">The raw untransformed name for the new directory</param>
         /// <returns>Returns a new <see cref="ZipEntry"></see> representing a directory.</returns>
@@ -323,7 +329,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Make a new <see cref="ZipEntry"></see> for a directory.
+        ///     Make a new <see cref="ZipEntry"></see> for a directory.
         /// </summary>
         /// <param name="directoryName">The raw untransformed name for the new directory</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>

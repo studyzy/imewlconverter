@@ -1,30 +1,27 @@
-
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-﻿using System.Windows.Forms;
-﻿using Studyzy.IMEWLConverter.Entities;
-﻿using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 极点的词库格式为“编码 词语 词语 词语”\r\n
+    ///     极点的词库格式为“编码 词语 词语 词语”\r\n
     /// </summary>
     [ComboBoxShow(ConstantString.JIDIAN, ConstantString.JIDIAN_C, 190)]
     public class Jidian : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
-        protected virtual bool IsWubi {get { return false; } }
+        protected virtual bool IsWubi
+        {
+            get { return false; }
+        }
 
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.Unknown;
-            }
-         
+            get { return CodeType.Unknown; }
         }
+
         #region IWordLibraryImport 成员
 
         //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
@@ -56,7 +53,7 @@ namespace Studyzy.IMEWLConverter.IME
 
             for (int i = 1; i < strs.Length; i++)
             {
-                var oriWord = strs[i];
+                string oriWord = strs[i];
                 string word = oriWord.Replace("，", ""); //把汉字中带有逗号的都去掉逗号
                 //var list = pinyinFactory.GetCodeOfString(word);
                 //for (int j = 0; j < list.Count; j++)
@@ -68,17 +65,14 @@ namespace Studyzy.IMEWLConverter.IME
                 //    wl.SetCode(CodeType.Wubi, strs[0]);
                 //}
                 //wl.PinYin = CollectionHelper.ToArray(list);
-                wl.SetCode(this.CodeType,strs[0]);
+                wl.SetCode(CodeType, strs[0]);
                 wlList.Add(wl);
                 //}
             }
             return wlList;
         }
 
-
-
         #endregion
-
 
         #region IWordLibraryExport 成员
 
@@ -87,7 +81,7 @@ namespace Studyzy.IMEWLConverter.IME
         public virtual string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-            if(string.IsNullOrEmpty(wl.WubiCode))
+            if (string.IsNullOrEmpty(wl.WubiCode))
             {
                 sb.Append(wubiFactory.GetCodeOfString(wl.Word)[0]);
             }
@@ -101,7 +95,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -120,10 +113,6 @@ namespace Studyzy.IMEWLConverter.IME
             get { return Encoding.Unicode; }
         }
 
-
-
         #endregion
-
     }
-
 }

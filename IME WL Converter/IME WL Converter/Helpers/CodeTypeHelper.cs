@@ -54,21 +54,22 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new TerraPinyinGenerater();
                 case CodeType.Cangjie:
                     return new Cangjie5Generater();
-                //case CodeType.UserDefine:
-                //    {
-                //        return SelfDefiningCodeGenerater();
-                //    }
+                    //case CodeType.UserDefine:
+                    //    {
+                    //        return SelfDefiningCodeGenerater();
+                    //    }
                 default:
                     return new SelfDefiningCodeGenerater();
             }
         }
+
         //private static IWordCodeGenerater SelfDefiningCodeGenerater()
         //{
         //    var UserDefiningPattern = Global.ExportSelfDefiningPattern;
         //    var s = new SelfDefiningCodeGenerater();
         //    s.MutiWordCodeFormat = Global.ExportSelfDefiningPattern.MutiWordCodeFormat;
         //    s.Is1Char1Code = Global.ExportSelfDefiningPattern.IsPinyinFormat;
-          
+
         //    var dict = UserCodingHelper.GetCodingDict(Global.ExportSelfDefiningPattern.MappingTablePath);
         //    s.MappingDictionary = dict;
         //    return s;

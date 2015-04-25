@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// Google拼音输入法
+    ///     Google拼音输入法
     /// </summary>
     [ComboBoxShow(ConstantString.GOOGLE_PINYIN, ConstantString.GOOGLE_PINYIN_C, 110)]
     public class GooglePinyin : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
         #region IWordLibraryExport 成员
-
 
         public string ExportLine(WordLibrary wl)
         {
@@ -29,7 +27,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -47,7 +44,6 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return Encoding.GetEncoding("GBK"); }
         }
-
 
         #endregion
 

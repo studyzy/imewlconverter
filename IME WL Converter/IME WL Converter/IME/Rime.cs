@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
@@ -12,9 +11,10 @@ namespace Studyzy.IMEWLConverter.IME
     public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
         private string lineSplitString;
-      
+
 
         private OperationSystem os;
+
         public OperationSystem OS
         {
             get { return os; }
@@ -22,7 +22,7 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 os = value;
                 lineSplitString = GetLineSplit(os);
-            } 
+            }
         }
 
         private string GetLineSplit(OperationSystem os)
@@ -45,10 +45,6 @@ namespace Studyzy.IMEWLConverter.IME
 
         private IWordCodeGenerater codeGenerater;
         //private RimeConfigForm form;
-        public Encoding Encoding
-        {
-            get { return new UTF8Encoding(false); }
-        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -77,7 +73,7 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 sb.Append(wl.Word);
                 sb.Append("\t");
-                if (CodeType == CodeType.Pinyin||CodeType==CodeType.TerraPinyin)
+                if (CodeType == CodeType.Pinyin || CodeType == CodeType.TerraPinyin)
                 {
                     sb.Append(wl.GetPinYinString(" ", BuildType.None));
                 }
@@ -102,7 +98,7 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
+
         public string Export(WordLibraryList wlList)
         {
             codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
@@ -113,6 +109,11 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(lineSplitString);
             }
             return sb.ToString();
+        }
+
+        public Encoding Encoding
+        {
+            get { return new UTF8Encoding(false); }
         }
 
         #endregion
@@ -128,7 +129,7 @@ namespace Studyzy.IMEWLConverter.IME
         public WordLibraryList ImportText(string str)
         {
             var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = str.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
             CountWord = lines.Length;
             for (int i = 0; i < lines.Length; i++)
             {

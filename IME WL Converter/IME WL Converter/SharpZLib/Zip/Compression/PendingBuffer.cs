@@ -42,19 +42,17 @@ using System;
 namespace ICSharpCode.SharpZipLib.Zip.Compression
 {
     /// <summary>
-    /// This class is general purpose class for writing data to a buffer.
-    /// 
-    /// It allows you to write bits as well as bytes
-    /// Based on DeflaterPending.java
-    /// 
-    /// author of the original java version : Jochen Hoenicke
+    ///     This class is general purpose class for writing data to a buffer.
+    ///     It allows you to write bits as well as bytes
+    ///     Based on DeflaterPending.java
+    ///     author of the original java version : Jochen Hoenicke
     /// </summary>
     public class PendingBuffer
     {
         #region Instance Fields
 
         /// <summary>
-        /// Internal work buffer
+        ///     Internal work buffer
         /// </summary>
         private readonly byte[] buffer_;
 
@@ -68,17 +66,17 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         #region Constructors
 
         /// <summary>
-        /// construct instance using default buffer size of 4096
+        ///     construct instance using default buffer size of 4096
         /// </summary>
         public PendingBuffer() : this(4096)
         {
         }
 
         /// <summary>
-        /// construct instance using specified buffer size
+        ///     construct instance using specified buffer size
         /// </summary>
         /// <param name="bufferSize">
-        /// size to use for internal buffer
+        ///     size to use for internal buffer
         /// </param>
         public PendingBuffer(int bufferSize)
         {
@@ -88,7 +86,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         #endregion
 
         /// <summary>
-        /// The number of bits written to the buffer
+        ///     The number of bits written to the buffer
         /// </summary>
         public int BitCount
         {
@@ -96,7 +94,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Indicates if buffer has been flushed
+        ///     Indicates if buffer has been flushed
         /// </summary>
         public bool IsFlushed
         {
@@ -104,7 +102,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Clear internal state/buffers
+        ///     Clear internal state/buffers
         /// </summary>
         public void Reset()
         {
@@ -112,10 +110,10 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Write a byte to buffer
+        ///     Write a byte to buffer
         /// </summary>
         /// <param name="value">
-        /// The value to write
+        ///     The value to write
         /// </param>
         public void WriteByte(int value)
         {
@@ -129,10 +127,10 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Write a short value to buffer LSB first
+        ///     Write a short value to buffer LSB first
         /// </summary>
         /// <param name="value">
-        /// The value to write.
+        ///     The value to write.
         /// </param>
         public void WriteShort(int value)
         {
@@ -147,7 +145,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// write an integer LSB first
+        ///     write an integer LSB first
         /// </summary>
         /// <param name="value">The value to write.</param>
         public void WriteInt(int value)
@@ -165,7 +163,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Write a block of data to buffer
+        ///     Write a block of data to buffer
         /// </summary>
         /// <param name="block">data to write</param>
         /// <param name="offset">offset of first byte to write</param>
@@ -183,7 +181,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Align internal buffer on a byte boundary
+        ///     Align internal buffer on a byte boundary
         /// </summary>
         public void AlignToByte()
         {
@@ -206,7 +204,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Write bits to internal buffer
+        ///     Write bits to internal buffer
         /// </summary>
         /// <param name="b">source of bits</param>
         /// <param name="count">number of bits to write</param>
@@ -234,7 +232,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Write a short value to internal buffer most significant byte first
+        ///     Write a short value to internal buffer most significant byte first
         /// </summary>
         /// <param name="s">value to write</param>
         public void WriteShortMSB(int s)
@@ -250,8 +248,8 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Flushes the pending buffer into the given output array.  If the
-        /// output array is to small, only a partial flush is done.
+        ///     Flushes the pending buffer into the given output array.  If the
+        ///     output array is to small, only a partial flush is done.
         /// </summary>
         /// <param name="output">The output array.</param>
         /// <param name="offset">The offset into output array.</param>
@@ -282,11 +280,11 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
 
         /// <summary>
-        /// Convert internal buffer to byte array.
-        /// Buffer is empty on completion
+        ///     Convert internal buffer to byte array.
+        ///     Buffer is empty on completion
         /// </summary>
         /// <returns>
-        /// The internal buffer contents converted to a byte array.
+        ///     The internal buffer contents converted to a byte array.
         /// </returns>
         public byte[] ToByteArray()
         {

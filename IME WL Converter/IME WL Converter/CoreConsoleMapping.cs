@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Studyzy.IMEWLConverter
+﻿namespace Studyzy.IMEWLConverter
 {
-    class CoreConsoleMapping
+    internal class CoreConsoleMapping
     {
     }
 }

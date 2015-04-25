@@ -43,17 +43,17 @@ namespace ICSharpCode.SharpZipLib.Zip
     // Its just a sketch of an idea at the moment.
 
     /// <summary>
-    /// ExtraData tagged value interface.
+    ///     ExtraData tagged value interface.
     /// </summary>
     public interface ITaggedData
     {
         /// <summary>
-        /// Get the ID for this tagged data value.
+        ///     Get the ID for this tagged data value.
         /// </summary>
         short TagID { get; }
 
         /// <summary>
-        /// Set the contents of this instance from the data passed.
+        ///     Set the contents of this instance from the data passed.
         /// </summary>
         /// <param name="data">The data to extract contents from.</param>
         /// <param name="offset">The offset to begin extracting data from.</param>
@@ -61,19 +61,19 @@ namespace ICSharpCode.SharpZipLib.Zip
         void SetData(byte[] data, int offset, int count);
 
         /// <summary>
-        /// Get the data representing this instance.
+        ///     Get the data representing this instance.
         /// </summary>
         /// <returns>Returns the data for this instance.</returns>
         byte[] GetData();
     }
 
     /// <summary>
-    /// A raw binary tagged value
+    ///     A raw binary tagged value
     /// </summary>
     public class RawTaggedData : ITaggedData
     {
         /// <summary>
-        /// Initialise a new instance.
+        ///     Initialise a new instance.
         /// </summary>
         /// <param name="tag">The tag ID.</param>
         public RawTaggedData(short tag)
@@ -82,7 +82,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get /set the binary data representing this instance.
+        ///     Get /set the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
         public byte[] Data
@@ -100,12 +100,12 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region ITaggedData Members
 
         /// <summary>
-        /// Get the ID for this tagged data value.
+        ///     Get the ID for this tagged data value.
         /// </summary>
         public short TagID { get; set; }
 
         /// <summary>
-        /// Set the data from the raw values provided.
+        ///     Set the data from the raw values provided.
         /// </summary>
         /// <param name="data">The raw data to extract values from.</param>
         /// <param name="offset">The index to start extracting values from.</param>
@@ -122,7 +122,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get the binary data representing this instance.
+        ///     Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
         public byte[] GetData()
@@ -134,30 +134,30 @@ namespace ICSharpCode.SharpZipLib.Zip
     }
 
     /// <summary>
-    /// Class representing extended unix date time values.
+    ///     Class representing extended unix date time values.
     /// </summary>
     public class ExtendedUnixData : ITaggedData
     {
         #region Flags enum
 
         /// <summary>
-        /// Flags indicate which values are included in this instance.
+        ///     Flags indicate which values are included in this instance.
         /// </summary>
         [Flags]
         public enum Flags : byte
         {
             /// <summary>
-            /// The modification time is included
+            ///     The modification time is included
             /// </summary>
             ModificationTime = 0x01,
 
             /// <summary>
-            /// The access time is included
+            ///     The access time is included
             /// </summary>
             AccessTime = 0x02,
 
             /// <summary>
-            /// The create time is included.
+            ///     The create time is included.
             /// </summary>
             CreateTime = 0x04,
         }
@@ -165,7 +165,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Get /set the Modification Time
+        ///     Get /set the Modification Time
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <seealso cref="IsValidValue"></seealso>
@@ -185,7 +185,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get / set the Access Time
+        ///     Get / set the Access Time
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <seealso cref="IsValidValue"></seealso>
@@ -205,7 +205,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get / Set the Create Time
+        ///     Get / Set the Create Time
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <seealso cref="IsValidValue"></seealso>
@@ -225,7 +225,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get/set the <see cref="Flags">values</see> to include.
+        ///     Get/set the <see cref="Flags">values</see> to include.
         /// </summary>
         private Flags Include
         {
@@ -245,7 +245,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region ITaggedData Members
 
         /// <summary>
-        /// Get the ID
+        ///     Get the ID
         /// </summary>
         public short TagID
         {
@@ -253,7 +253,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Set the data from the raw values provided.
+        ///     Set the data from the raw values provided.
         /// </summary>
         /// <param name="data">The raw data to extract values from.</param>
         /// <param name="index">The index to start extracting values from.</param>
@@ -295,7 +295,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get the binary data representing this instance.
+        ///     Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
         public byte[] GetData()
@@ -332,15 +332,16 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Test a <see cref="DateTime"> value to see if is valid and can be represented here.</see>
+        ///     Test a <see cref="DateTime"> value to see if is valid and can be represented here.</see>
         /// </summary>
         /// <param name="value">The <see cref="DateTime">value</see> to test.</param>
         /// <returns>Returns true if the value is valid and can be represented; false if not.</returns>
-        /// <remarks>The standard Unix time is a signed integer data type, directly encoding the Unix time number,
-        /// which is the number of seconds since 1970-01-01.
-        /// Being 32 bits means the values here cover a range of about 136 years.
-        /// The minimum representable time is 1901-12-13 20:45:52,
-        /// and the maximum representable time is 2038-01-19 03:14:07.
+        /// <remarks>
+        ///     The standard Unix time is a signed integer data type, directly encoding the Unix time number,
+        ///     which is the number of seconds since 1970-01-01.
+        ///     Being 32 bits means the values here cover a range of about 136 years.
+        ///     The minimum representable time is 1901-12-13 20:45:52,
+        ///     and the maximum representable time is 2038-01-19 03:14:07.
         /// </remarks>
         public static bool IsValidValue(DateTime value)
         {
@@ -350,12 +351,12 @@ namespace ICSharpCode.SharpZipLib.Zip
     }
 
     /// <summary>
-    /// Class handling NT date time values.
+    ///     Class handling NT date time values.
     /// </summary>
     public class NTTaggedData : ITaggedData
     {
         /// <summary>
-        /// Get/set the <see cref="DateTime">last modification time</see>.
+        ///     Get/set the <see cref="DateTime">last modification time</see>.
         /// </summary>
         public DateTime LastModificationTime
         {
@@ -371,7 +372,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get /set the <see cref="DateTime">create time</see>
+        ///     Get /set the <see cref="DateTime">create time</see>
         /// </summary>
         public DateTime CreateTime
         {
@@ -387,7 +388,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get /set the <see cref="DateTime">last access time</see>.
+        ///     Get /set the <see cref="DateTime">last access time</see>.
         /// </summary>
         public DateTime LastAccessTime
         {
@@ -413,7 +414,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region ITaggedData Members
 
         /// <summary>
-        /// Get the ID for this tagged data value.
+        ///     Get the ID for this tagged data value.
         /// </summary>
         public short TagID
         {
@@ -421,7 +422,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Set the data from the raw values provided.
+        ///     Set the data from the raw values provided.
         /// </summary>
         /// <param name="data">The raw data to extract values from.</param>
         /// <param name="index">The index to start extracting values from.</param>
@@ -451,17 +452,14 @@ namespace ICSharpCode.SharpZipLib.Zip
                         }
                         break;
                     }
-                    else
-                    {
-                        // An unknown NTFS tag so simply skip it.
-                        helperStream.Seek(ntfsLength, SeekOrigin.Current);
-                    }
+                    // An unknown NTFS tag so simply skip it.
+                    helperStream.Seek(ntfsLength, SeekOrigin.Current);
                 }
             }
         }
 
         /// <summary>
-        /// Get the binary data representing this instance.
+        ///     Get the binary data representing this instance.
         /// </summary>
         /// <returns>The raw binary data representing this instance.</returns>
         public byte[] GetData()
@@ -483,15 +481,15 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Test a <see cref="DateTime"> valuie to see if is valid and can be represented here.</see>
+        ///     Test a <see cref="DateTime"> valuie to see if is valid and can be represented here.</see>
         /// </summary>
         /// <param name="value">The <see cref="DateTime">value</see> to test.</param>
         /// <returns>Returns true if the value is valid and can be represented; false if not.</returns>
         /// <remarks>
-        /// NTFS filetimes are 64-bit unsigned integers, stored in Intel
-        /// (least significant byte first) byte order. They determine the
-        /// number of 1.0E-07 seconds (1/10th microseconds!) past WinNT "epoch",
-        /// which is "01-Jan-1601 00:00:00 UTC". 28 May 60056 is the upper limit
+        ///     NTFS filetimes are 64-bit unsigned integers, stored in Intel
+        ///     (least significant byte first) byte order. They determine the
+        ///     number of 1.0E-07 seconds (1/10th microseconds!) past WinNT "epoch",
+        ///     which is "01-Jan-1601 00:00:00 UTC". 28 May 60056 is the upper limit
         /// </remarks>
         public static bool IsValidValue(DateTime value)
         {
@@ -509,12 +507,12 @@ namespace ICSharpCode.SharpZipLib.Zip
     }
 
     /// <summary>
-    /// A factory that creates <see cref="ITaggedData">tagged data</see> instances.
+    ///     A factory that creates <see cref="ITaggedData">tagged data</see> instances.
     /// </summary>
     internal interface ITaggedDataFactory
     {
         /// <summary>
-        /// Get data for a specific tag value.
+        ///     Get data for a specific tag value.
         /// </summary>
         /// <param name="tag">The tag ID to find.</param>
         /// <param name="data">The data to search.</param>
@@ -524,23 +522,22 @@ namespace ICSharpCode.SharpZipLib.Zip
         ITaggedData Create(short tag, byte[] data, int offset, int count);
     }
 
-    /// 
     /// <summary>
-    /// A class to handle the extra data field for Zip entries
+    ///     A class to handle the extra data field for Zip entries
     /// </summary>
     /// <remarks>
-    /// Extra data contains 0 or more values each prefixed by a header tag and length.
-    /// They contain zero or more bytes of actual data.
-    /// The data is held internally using a copy on write strategy.  This is more efficient but
-    /// means that for extra data created by passing in data can have the values modified by the caller
-    /// in some circumstances.
+    ///     Extra data contains 0 or more values each prefixed by a header tag and length.
+    ///     They contain zero or more bytes of actual data.
+    ///     The data is held internally using a copy on write strategy.  This is more efficient but
+    ///     means that for extra data created by passing in data can have the values modified by the caller
+    ///     in some circumstances.
     /// </remarks>
     public sealed class ZipExtraData : IDisposable
     {
         #region Constructors
 
         /// <summary>
-        /// Initialise a default instance.
+        ///     Initialise a default instance.
         /// </summary>
         public ZipExtraData()
         {
@@ -548,7 +545,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Initialise with known extra data.
+        ///     Initialise with known extra data.
         /// </summary>
         /// <param name="data">The extra data.</param>
         public ZipExtraData(byte[] data)
@@ -566,7 +563,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Gets the current extra data length.
+        ///     Gets the current extra data length.
         /// </summary>
         public int Length
         {
@@ -574,27 +571,29 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get the length of the last value found by <see cref="Find"/>
+        ///     Get the length of the last value found by <see cref="Find" />
         /// </summary>
-        /// <remarks>This is only valid if <see cref="Find"/> has previously returned true.</remarks>
+        /// <remarks>This is only valid if <see cref="Find" /> has previously returned true.</remarks>
         public int ValueLength
         {
             get { return _readValueLength; }
         }
 
         /// <summary>
-        /// Get the index for the current read value.
+        ///     Get the index for the current read value.
         /// </summary>
-        /// <remarks>This is only valid if <see cref="Find"/> has previously returned true.
-        /// Initially the result will be the index of the first byte of actual data.  The value is updated after calls to
-        /// <see cref="ReadInt"/>, <see cref="ReadShort"/> and <see cref="ReadLong"/>. </remarks>
+        /// <remarks>
+        ///     This is only valid if <see cref="Find" /> has previously returned true.
+        ///     Initially the result will be the index of the first byte of actual data.  The value is updated after calls to
+        ///     <see cref="ReadInt" />, <see cref="ReadShort" /> and <see cref="ReadLong" />.
+        /// </remarks>
         public int CurrentReadIndex
         {
             get { return _index; }
         }
 
         /// <summary>
-        /// Get the number of bytes remaining to be read for the current value;
+        ///     Get the number of bytes remaining to be read for the current value;
         /// </summary>
         public int UnreadCount
         {
@@ -613,7 +612,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region IDisposable Members
 
         /// <summary>
-        /// Dispose of this instance.
+        ///     Dispose of this instance.
         /// </summary>
         public void Dispose()
         {
@@ -637,7 +636,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Get the raw extra data value
+        ///     Get the raw extra data value
         /// </summary>
         /// <returns>Returns the raw byte[] extra data this instance represents.</returns>
         public byte[] GetEntryData()
@@ -651,7 +650,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Clear the stored data.
+        ///     Clear the stored data.
         /// </summary>
         public void Clear()
         {
@@ -662,10 +661,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get a read-only <see cref="Stream"/> for the associated tag.
+        ///     Get a read-only <see cref="Stream" /> for the associated tag.
         /// </summary>
         /// <param name="tag">The tag to locate data for.</param>
-        /// <returns>Returns a <see cref="Stream"/> containing tag data or null if no tag was found.</returns>
+        /// <returns>Returns a <see cref="Stream" /> containing tag data or null if no tag was found.</returns>
         public Stream GetStreamForTag(int tag)
         {
             Stream result = null;
@@ -677,7 +676,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Get the <see cref="ITaggedData">tagged data</see> for a tag.
+        ///     Get the <see cref="ITaggedData">tagged data</see> for a tag.
         /// </summary>
         /// <param name="tag">The tag to search for.</param>
         /// <returns>Returns a <see cref="ITaggedData">tagged value</see> or null if none found.</returns>
@@ -711,7 +710,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Find an extra data value
+        ///     Find an extra data value
         /// </summary>
         /// <param name="headerID">The identifier for the value to find.</param>
         /// <returns>Returns true if the value was found; false otherwise.</returns>
@@ -748,9 +747,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Add a new entry to extra data.
+        ///     Add a new entry to extra data.
         /// </summary>
-        /// <param name="taggedData">The <see cref="ITaggedData"/> value to add.</param>
+        /// <param name="taggedData">The <see cref="ITaggedData" /> value to add.</param>
         public void AddEntry(ITaggedData taggedData)
         {
             if (taggedData == null)
@@ -761,7 +760,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Add a new entry to extra data
+        ///     Add a new entry to extra data
         /// </summary>
         /// <param name="headerID">The ID for this entry.</param>
         /// <param name="fieldData">The data to add.</param>
@@ -812,18 +811,21 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Start adding a new entry.
+        ///     Start adding a new entry.
         /// </summary>
-        /// <remarks>Add data using <see cref="AddData(byte[])"/>, <see cref="AddLeShort"/>, <see cref="AddLeInt"/>, or <see cref="AddLeLong"/>.
-        /// The new entry is completed and actually added by calling <see cref="AddNewEntry"/></remarks>
-        /// <seealso cref="AddEntry(ITaggedData)"/>
+        /// <remarks>
+        ///     Add data using <see cref="AddData(byte[])" />, <see cref="AddLeShort" />, <see cref="AddLeInt" />, or
+        ///     <see cref="AddLeLong" />.
+        ///     The new entry is completed and actually added by calling <see cref="AddNewEntry" />
+        /// </remarks>
+        /// <seealso cref="AddEntry(ITaggedData)" />
         public void StartNewEntry()
         {
             _newEntry = new MemoryStream();
         }
 
         /// <summary>
-        /// Add entry data added since <see cref="StartNewEntry"/> using the ID passed.
+        ///     Add entry data added since <see cref="StartNewEntry" /> using the ID passed.
         /// </summary>
         /// <param name="headerID">The identifier to use for this entry.</param>
         public void AddNewEntry(int headerID)
@@ -834,20 +836,20 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Add a byte of data to the pending new entry.
+        ///     Add a byte of data to the pending new entry.
         /// </summary>
         /// <param name="data">The byte to add.</param>
-        /// <seealso cref="StartNewEntry"/>
+        /// <seealso cref="StartNewEntry" />
         public void AddData(byte data)
         {
             _newEntry.WriteByte(data);
         }
 
         /// <summary>
-        /// Add data to a pending new entry.
+        ///     Add data to a pending new entry.
         /// </summary>
         /// <param name="data">The data to add.</param>
-        /// <seealso cref="StartNewEntry"/>
+        /// <seealso cref="StartNewEntry" />
         public void AddData(byte[] data)
         {
             if (data == null)
@@ -859,10 +861,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Add a short value in little endian order to the pending new entry.
+        ///     Add a short value in little endian order to the pending new entry.
         /// </summary>
         /// <param name="toAdd">The data to add.</param>
-        /// <seealso cref="StartNewEntry"/>
+        /// <seealso cref="StartNewEntry" />
         public void AddLeShort(int toAdd)
         {
             unchecked
@@ -873,10 +875,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Add an integer value in little endian order to the pending new entry.
+        ///     Add an integer value in little endian order to the pending new entry.
         /// </summary>
         /// <param name="toAdd">The data to add.</param>
-        /// <seealso cref="StartNewEntry"/>
+        /// <seealso cref="StartNewEntry" />
         public void AddLeInt(int toAdd)
         {
             unchecked
@@ -887,10 +889,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Add a long value in little endian order to the pending new entry.
+        ///     Add a long value in little endian order to the pending new entry.
         /// </summary>
         /// <param name="toAdd">The data to add.</param>
-        /// <seealso cref="StartNewEntry"/>
+        /// <seealso cref="StartNewEntry" />
         public void AddLeLong(long toAdd)
         {
             unchecked
@@ -901,7 +903,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Delete an extra data field.
+        ///     Delete an extra data field.
         /// </summary>
         /// <param name="headerID">The identifier of the field to delete.</param>
         /// <returns>Returns true if the field was found and deleted.</returns>
@@ -927,7 +929,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Reading Support
 
         /// <summary>
-        /// Read a long in little endian form from the last <see cref="Find">found</see> data value
+        ///     Read a long in little endian form from the last <see cref="Find">found</see> data value
         /// </summary>
         /// <returns>Returns the long value read.</returns>
         public long ReadLong()
@@ -937,7 +939,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read an integer in little endian form from the last <see cref="Find">found</see> data value.
+        ///     Read an integer in little endian form from the last <see cref="Find">found</see> data value.
         /// </summary>
         /// <returns>Returns the integer read.</returns>
         public int ReadInt()
@@ -951,7 +953,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read a short value in little endian form from the last <see cref="Find">found</see> data value.
+        ///     Read a short value in little endian form from the last <see cref="Find">found</see> data value.
         /// </summary>
         /// <returns>Returns the short value read.</returns>
         public int ReadShort()
@@ -963,7 +965,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read a byte from an extra data
+        ///     Read a byte from an extra data
         /// </summary>
         /// <returns>The byte value read or -1 if the end of data has been reached.</returns>
         public int ReadByte()
@@ -978,7 +980,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Skip data during reading.
+        ///     Skip data during reading.
         /// </summary>
         /// <param name="amount">The number of bytes to skip.</param>
         public void Skip(int amount)
@@ -1007,7 +1009,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Internal form of <see cref="ReadShort"/> that reads data at any location.
+        ///     Internal form of <see cref="ReadShort" /> that reads data at any location.
         /// </summary>
         /// <returns>Returns the short value read.</returns>
         private int ReadShortInternal()

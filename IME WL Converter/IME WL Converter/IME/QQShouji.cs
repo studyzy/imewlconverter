@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -12,11 +11,6 @@ namespace Studyzy.IMEWLConverter.IME
         private int number = 1;
 
         #region IWordLibraryExport 成员
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -34,7 +28,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -46,6 +39,11 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\r\n");
             }
             return sb.ToString();
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
         }
 
         #endregion

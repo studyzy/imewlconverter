@@ -41,12 +41,12 @@ using ICSharpCode.SharpZipLib.Core;
 namespace ICSharpCode.SharpZipLib.Zip
 {
     /// <summary>
-    /// WindowsNameTransform transforms <see cref="ZipFile"/> names to windows compatible ones.
+    ///     WindowsNameTransform transforms <see cref="ZipFile" /> names to windows compatible ones.
     /// </summary>
     public class WindowsNameTransform : INameTransform
     {
         /// <summary>
-        ///  The maximum windows path name permitted.
+        ///     The maximum windows path name permitted.
         /// </summary>
         /// <remarks>This may not valid for all windows systems - CE?, etc but I cant find the equivalent in the CLR.</remarks>
         private const int MaxPath = 260;
@@ -66,7 +66,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Initialise static class information.
+        ///     Initialise static class information.
         /// </summary>
         static WindowsNameTransform()
         {
@@ -87,7 +87,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Initialises a new instance of <see cref="WindowsNameTransform"/>
+        ///     Initialises a new instance of <see cref="WindowsNameTransform" />
         /// </summary>
         /// <param name="baseDirectory"></param>
         public WindowsNameTransform(string baseDirectory)
@@ -101,7 +101,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Initialise a default instance of <see cref="WindowsNameTransform"/>
+        ///     Initialise a default instance of <see cref="WindowsNameTransform" />
         /// </summary>
         public WindowsNameTransform()
         {
@@ -109,7 +109,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Gets or sets a value containing the target directory to prefix values with.
+        ///     Gets or sets a value containing the target directory to prefix values with.
         /// </summary>
         public string BaseDirectory
         {
@@ -126,7 +126,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Gets or sets a value indicating wether paths on incoming values should be removed.
+        ///     Gets or sets a value indicating wether paths on incoming values should be removed.
         /// </summary>
         public bool TrimIncomingPaths
         {
@@ -135,7 +135,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Gets or set the character to replace invalid characters during transformations.
+        ///     Gets or set the character to replace invalid characters during transformations.
         /// </summary>
         public char Replacement
         {
@@ -162,7 +162,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region INameTransform Members
 
         /// <summary>
-        /// Transform a Zip directory name to a windows directory name.
+        ///     Transform a Zip directory name to a windows directory name.
         /// </summary>
         /// <param name="name">The directory name to transform.</param>
         /// <returns>The transformed name.</returns>
@@ -184,7 +184,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Transform a Zip format file name to a windows style one.
+        ///     Transform a Zip format file name to a windows style one.
         /// </summary>
         /// <param name="name">The file name to transform.</param>
         /// <returns>The transformed name.</returns>
@@ -216,7 +216,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Test a name to see if it is a valid name for a windows filename as extracted from a Zip archive.
+        ///     Test a name to see if it is a valid name for a windows filename as extracted from a Zip archive.
         /// </summary>
         /// <param name="name">The name to test.</param>
         /// <returns>Returns true if the name is a valid zip name; false otherwise.</returns>
@@ -233,7 +233,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Force a name to be valid by replacing invalid characters with a fixed value
+        ///     Force a name to be valid by replacing invalid characters with a fixed value
         /// </summary>
         /// <param name="name">The name to make valid</param>
         /// <param name="replacement">The replacement character to use for any invalid characters.</param>

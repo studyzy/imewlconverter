@@ -6,20 +6,24 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.Generaters
 {
     /// <summary>
-    /// 地球拼音输入法，就是带音调的拼音输入法
+    ///     地球拼音输入法，就是带音调的拼音输入法
     /// </summary>
     public class TerraPinyinGenerater : PinyinGenerater
     {
+        private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
+
         public override bool IsBaseOnOldCode
         {
             get { return true; }
         }
+
         public override IList<string> GetAllCodesOfChar(char str)
         {
             return PinyinHelper.GetPinYinWithToneOfChar(str);
         }
 
-        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "",
+            BuildType buildType = BuildType.None)
         {
             IList<string> py = base.GetCodeOfString(str, charCodeSplit);
             var result = new List<string>();
@@ -30,7 +34,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return result;
         }
-        private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
+
         public override IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
         {
             if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
@@ -49,12 +53,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 }
                 return pinyin;
             }
-            else
-            {
-                return base.GetCodeOfWordLibrary(wl, charCodeSplit);
-            }
-           
+            return base.GetCodeOfWordLibrary(wl, charCodeSplit);
         }
-
     }
 }

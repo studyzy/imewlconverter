@@ -6,17 +6,22 @@ namespace Studyzy.IMEWLConverter
 {
     public partial class FilterConfigForm : Form
     {
+        private static FilterConfig filterConfig;
+
         public FilterConfigForm()
         {
             InitializeComponent();
-            if (filterConfig==null)
+            if (filterConfig == null)
             {
                 filterConfig = new FilterConfig();
             }
         }
 
-        private static FilterConfig filterConfig;
-        public FilterConfig FilterConfig { get { return filterConfig; } }
+        public FilterConfig FilterConfig
+        {
+            get { return filterConfig; }
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             filterConfig.WordLengthFrom = Convert.ToInt32(numWordLengthFrom.Value);

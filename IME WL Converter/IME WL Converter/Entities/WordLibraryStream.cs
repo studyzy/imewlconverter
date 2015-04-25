@@ -15,7 +15,7 @@ namespace Studyzy.IMEWLConverter.Entities
         private readonly StreamWriter sw;
 
         public WordLibraryStream(IWordLibraryImport import, IWordLibraryExport export, string path, Encoding encoding,
-                                 StreamWriter sw)
+            StreamWriter sw)
         {
             this.import = import;
             this.export = export;

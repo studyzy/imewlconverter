@@ -54,52 +54,52 @@ using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 namespace ICSharpCode.SharpZipLib.Zip
 {
     /// <summary>
-    /// This is an InflaterInputStream that reads the files baseInputStream an zip archive
-    /// one after another.  It has a special method to get the zip entry of
-    /// the next file.  The zip entry contains information about the file name
-    /// size, compressed size, Crc, etc.
-    /// It includes support for Stored and Deflated entries.
-    /// <br/>
-    /// <br/>Author of the original java version : Jochen Hoenicke
+    ///     This is an InflaterInputStream that reads the files baseInputStream an zip archive
+    ///     one after another.  It has a special method to get the zip entry of
+    ///     the next file.  The zip entry contains information about the file name
+    ///     size, compressed size, Crc, etc.
+    ///     It includes support for Stored and Deflated entries.
+    ///     <br />
+    ///     <br />Author of the original java version : Jochen Hoenicke
     /// </summary>
+    /// <example>
+    ///     This sample shows how to read a zip file
+    ///     <code lang="C#">
+    ///  using System;
+    ///  using System.Text;
+    ///  using System.IO;
+    ///  
+    ///  using ICSharpCode.SharpZipLib.Zip;
+    ///  
+    ///  class MainClass
+    ///  {
+    ///  	public static void Main(string[] args)
+    ///  	{
+    ///  		using ( ZipInputStream s = new ZipInputStream(File.OpenRead(args[0]))) {
     /// 
-    /// <example> This sample shows how to read a zip file
-    /// <code lang="C#">
-    /// using System;
-    /// using System.Text;
-    /// using System.IO;
-    /// 
-    /// using ICSharpCode.SharpZipLib.Zip;
-    /// 
-    /// class MainClass
-    /// {
-    /// 	public static void Main(string[] args)
-    /// 	{
-    /// 		using ( ZipInputStream s = new ZipInputStream(File.OpenRead(args[0]))) {
-    ///
-    /// 			ZipEntry theEntry;
-    /// 			const int size = 2048;
-    /// 			byte[] data = new byte[2048];
-    /// 			
-    /// 			while ((theEntry = s.GetNextEntry()) != null) {
-    ///                 if ( entry.IsFile ) {
-    /// 				    Console.Write("Show contents (y/n) ?");
-    /// 				    if (Console.ReadLine() == "y") {
-    /// 				    	while (true) {
-    /// 				    		size = s.Read(data, 0, data.Length);
-    /// 				    		if (size > 0) {
-    /// 				    			Console.Write(new ASCIIEncoding().GetString(data, 0, size));
-    /// 				    		} else {
-    /// 				    			break;
-    /// 				    		}
-    /// 				    	}
-    /// 				    }
-    /// 				}
-    /// 			}
-    /// 		}
-    /// 	}
-    /// }
-    /// </code>
+    ///  			ZipEntry theEntry;
+    ///  			const int size = 2048;
+    ///  			byte[] data = new byte[2048];
+    ///  			
+    ///  			while ((theEntry = s.GetNextEntry()) != null) {
+    ///                  if ( entry.IsFile ) {
+    ///  				    Console.Write("Show contents (y/n) ?");
+    ///  				    if (Console.ReadLine() == "y") {
+    ///  				    	while (true) {
+    ///  				    		size = s.Read(data, 0, data.Length);
+    ///  				    		if (size > 0) {
+    ///  				    			Console.Write(new ASCIIEncoding().GetString(data, 0, size));
+    ///  				    		} else {
+    ///  				    			break;
+    ///  				    		}
+    ///  				    	}
+    ///  				    }
+    ///  				}
+    ///  			}
+    ///  		}
+    ///  	}
+    ///  }
+    ///  </code>
     /// </example>
     public class ZipInputStream : InflaterInputStream
     {
@@ -111,7 +111,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         private int flags;
 
         /// <summary>
-        /// The current reader this instance.
+        ///     The current reader this instance.
         /// </summary>
         private ReadDataHandler internalReader;
 
@@ -121,7 +121,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         private long size;
 
         /// <summary>
-        /// Delegate for reading bytes from a stream. 
+        ///     Delegate for reading bytes from a stream.
         /// </summary>
         private delegate int ReadDataHandler(byte[] b, int offset, int length);
 
@@ -130,9 +130,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         #region Constructors
 
         /// <summary>
-        /// Creates a new Zip input stream, for reading a zip archive.
+        ///     Creates a new Zip input stream, for reading a zip archive.
         /// </summary>
-        /// <param name="baseInputStream">The underlying <see cref="Stream"/> providing data.</param>
+        /// <param name="baseInputStream">The underlying <see cref="Stream" /> providing data.</param>
         public ZipInputStream(Stream baseInputStream)
             : base(baseInputStream, new Inflater(true))
         {
@@ -140,9 +140,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Creates a new Zip input stream, for reading a zip archive.
+        ///     Creates a new Zip input stream, for reading a zip archive.
         /// </summary>
-        /// <param name="baseInputStream">The underlying <see cref="Stream"/> providing data.</param>
+        /// <param name="baseInputStream">The underlying <see cref="Stream" /> providing data.</param>
         /// <param name="bufferSize">Size of the buffer.</param>
         public ZipInputStream(Stream baseInputStream, int bufferSize)
             : base(baseInputStream, new Inflater(true), bufferSize)
@@ -153,9 +153,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         #endregion
 
         /// <summary>
-        /// Optional password used for encryption when non-null
+        ///     Optional password used for encryption when non-null
         /// </summary>
-        /// <value>A password for all encrypted <see cref="ZipEntry">entries </see> in this <see cref="ZipInputStream"/></value>
+        /// <value>A password for all encrypted <see cref="ZipEntry">entries </see> in this <see cref="ZipInputStream" /></value>
         public string Password
         {
             get { return password; }
@@ -164,11 +164,11 @@ namespace ICSharpCode.SharpZipLib.Zip
 
 
         /// <summary>
-        /// Gets a value indicating if there is a current entry and it can be decompressed
+        ///     Gets a value indicating if there is a current entry and it can be decompressed
         /// </summary>
         /// <remarks>
-        /// The entry can only be decompressed if the library supports the zip features required to extract it.
-        /// See the <see cref="ZipEntry.Version">ZipEntry Version</see> property for more details.
+        ///     The entry can only be decompressed if the library supports the zip features required to extract it.
+        ///     See the <see cref="ZipEntry.Version">ZipEntry Version</see> property for more details.
         /// </remarks>
         public bool CanDecompressEntry
         {
@@ -176,8 +176,8 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Returns 1 if there is an entry available
-        /// Otherwise returns 0.
+        ///     Returns 1 if there is an entry available
+        ///     Otherwise returns 0.
         /// </summary>
         public override int Available
         {
@@ -185,7 +185,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Returns the current size that can be read from the current entry if available
+        ///     Returns the current size that can be read from the current entry if available
         /// </summary>
         /// <exception cref="ZipException">Thrown if the entry size is not known.</exception>
         /// <exception cref="InvalidOperationException">Thrown if no entry is currently available.</exception>
@@ -199,33 +199,27 @@ namespace ICSharpCode.SharpZipLib.Zip
                     {
                         return entry.Size;
                     }
-                    else
-                    {
-                        throw new ZipException("Length not available for the current entry");
-                    }
+                    throw new ZipException("Length not available for the current entry");
                 }
-                else
-                {
-                    throw new InvalidOperationException("No current entry");
-                }
+                throw new InvalidOperationException("No current entry");
             }
         }
 
         /// <summary>
-        /// Advances to the next entry in the archive
+        ///     Advances to the next entry in the archive
         /// </summary>
         /// <returns>
-        /// The next <see cref="ZipEntry">entry</see> in the archive or null if there are no more entries.
+        ///     The next <see cref="ZipEntry">entry</see> in the archive or null if there are no more entries.
         /// </returns>
         /// <remarks>
-        /// If the previous entry is still open <see cref="CloseEntry">CloseEntry</see> is called.
+        ///     If the previous entry is still open <see cref="CloseEntry">CloseEntry</see> is called.
         /// </remarks>
         /// <exception cref="InvalidOperationException">
-        /// Input stream is closed
+        ///     Input stream is closed
         /// </exception>
         /// <exception cref="ZipException">
-        /// Password is not set, password is invalid, compression method is invalid,
-        /// version required to extract is not supported
+        ///     Password is not set, password is invalid, compression method is invalid,
+        ///     version required to extract is not supported
         /// </exception>
         public ZipEntry GetNextEntry()
         {
@@ -361,7 +355,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Read data descriptor at the end of compressed data. 
+        ///     Read data descriptor at the end of compressed data.
         /// </summary>
         private void ReadDataDescriptor()
         {
@@ -387,7 +381,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Complete cleanup as the final part of closing.
+        ///     Complete cleanup as the final part of closing.
         /// </summary>
         /// <param name="testCrc">True if the crc value should be tested</param>
         private void CompleteCloseEntry(bool testCrc)
@@ -417,13 +411,13 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Closes the current zip entry and moves to the next one.
+        ///     Closes the current zip entry and moves to the next one.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// The stream is closed
+        ///     The stream is closed
         /// </exception>
         /// <exception cref="ZipException">
-        /// The Zip stream ends early
+        ///     The Zip stream ends early
         /// </exception>
         public void CloseEntry()
         {
@@ -480,10 +474,10 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Reads a byte from the current zip entry.
+        ///     Reads a byte from the current zip entry.
         /// </summary>
         /// <returns>
-        /// The byte or -1 if end of stream is reached.
+        ///     The byte or -1 if end of stream is reached.
         /// </returns>
         public override int ReadByte()
         {
@@ -496,7 +490,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Handle attempts to read by throwing an <see cref="InvalidOperationException"/>.
+        ///     Handle attempts to read by throwing an <see cref="InvalidOperationException" />.
         /// </summary>
         /// <param name="destination">The destination array to store data in.</param>
         /// <param name="offset">The offset at which data read should be stored.</param>
@@ -508,7 +502,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Handle attempts to read from this entry by throwing an exception
+        ///     Handle attempts to read from this entry by throwing an exception
         /// </summary>
         private int ReadingNotSupported(byte[] destination, int offset, int count)
         {
@@ -516,8 +510,8 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Perform the initial read on an entry which may include 
-        /// reading encryption headers and setting up inflation.
+        ///     Perform the initial read on an entry which may include
+        ///     reading encryption headers and setting up inflation.
         /// </summary>
         /// <param name="destination">The destination to fill with data read.</param>
         /// <param name="offset">The offset to start reading at.</param>
@@ -528,7 +522,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             if (!CanDecompressEntry)
             {
                 throw new ZipException("Library cannot extract this entry. Version required is (" +
-                                       entry.Version.ToString() + ")");
+                                       entry.Version + ")");
             }
 
             // Handle encryption if required.
@@ -583,15 +577,12 @@ namespace ICSharpCode.SharpZipLib.Zip
                 internalReader = BodyRead;
                 return BodyRead(destination, offset, count);
             }
-            else
-            {
-                internalReader = ReadingNotAvailable;
-                return 0;
-            }
+            internalReader = ReadingNotAvailable;
+            return 0;
         }
 
         /// <summary>
-        /// Read a block of bytes from the stream.
+        ///     Read a block of bytes from the stream.
         /// </summary>
         /// <param name="buffer">The destination for the bytes.</param>
         /// <param name="offset">The index to start storing data.</param>
@@ -632,19 +623,20 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Reads a block of bytes from the current zip entry.
+        ///     Reads a block of bytes from the current zip entry.
         /// </summary>
         /// <returns>
-        /// The number of bytes read (this may be less than the length requested, even before the end of stream), or 0 on end of stream.
+        ///     The number of bytes read (this may be less than the length requested, even before the end of stream), or 0 on end
+        ///     of stream.
         /// </returns>
         /// <exception name="IOException">
-        /// An i/o error occured.
+        ///     An i/o error occured.
         /// </exception>
         /// <exception cref="ZipException">
-        /// The deflated stream is corrupted.
+        ///     The deflated stream is corrupted.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// The stream is not open.
+        ///     The stream is not open.
         /// </exception>
         private int BodyRead(byte[] buffer, int offset, int count)
         {
@@ -733,7 +725,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         }
 
         /// <summary>
-        /// Closes the zip input stream
+        ///     Closes the zip input stream
         /// </summary>
         public override void Close()
         {

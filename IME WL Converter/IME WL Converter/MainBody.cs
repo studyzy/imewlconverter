@@ -14,14 +14,24 @@ namespace Studyzy.IMEWLConverter
     {
         private WordLibraryList allWlList = new WordLibraryList();
         private int count;
+        private int countWord;
+        private int currentStatus;
         private IWordLibraryExport export;
         private IWordLibraryImport import;
+        private bool isImportProgress;
+        private string processMessage;
         private IChineseConverter selectedConverter;
-        private IWordRankGenerater wordRankGenerater;
         private ChineseTranslate selectedTranslate;
-        private int currentStatus = 0;
-        private int countWord = 0;
-        private bool isImportProgress = false;
+        private IWordRankGenerater wordRankGenerater;
+
+        public MainBody()
+        {
+            Filters = new List<ISingleFilter>();
+            BatchFilters = new List<IBatchFilter>();
+            selectedConverter = new SystemKernel();
+            selectedTranslate = ChineseTranslate.NotTrans;
+            wordRankGenerater = new DefaultWordRankGenerater();
+        }
 
         public int CurrentStatus
         {
@@ -49,10 +59,8 @@ namespace Studyzy.IMEWLConverter
             set { countWord = value; }
         }
 
-        private string processMessage;
-
         /// <summary>
-        /// 进度信息
+        ///     进度信息
         /// </summary>
         public string ProcessMessage
         {
@@ -65,15 +73,6 @@ namespace Studyzy.IMEWLConverter
                 return processMessage;
             }
             set { processMessage = value; }
-        }
-
-        public MainBody()
-        {
-            Filters = new List<ISingleFilter>();
-            BatchFilters=new List<IBatchFilter>();
-            selectedConverter = new SystemKernel();
-            selectedTranslate = ChineseTranslate.NotTrans;
-            wordRankGenerater=new DefaultWordRankGenerater();
         }
 
         public IWordLibraryImport Import
@@ -93,11 +92,13 @@ namespace Studyzy.IMEWLConverter
             get { return selectedConverter; }
             set { selectedConverter = value; }
         }
+
         public IWordRankGenerater SelectedWordRankGenerater
         {
             get { return wordRankGenerater; }
             set { wordRankGenerater = value; }
         }
+
         public ChineseTranslate SelectedTranslate
         {
             get { return selectedTranslate; }
@@ -108,13 +109,15 @@ namespace Studyzy.IMEWLConverter
         {
             get { return count; }
         }
+
         public IList<IReplaceFilter> ReplaceFilters { get; set; }
 
         public IList<ISingleFilter> Filters { get; set; }
 
-        public IList<IBatchFilter> BatchFilters { get; set; } 
+        public IList<IBatchFilter> BatchFilters { get; set; }
+
         /// <summary>
-        /// 转换多个文件成一个文件
+        ///     转换多个文件成一个文件
         /// </summary>
         /// <param name="filePathes"></param>
         /// <returns></returns>
@@ -136,14 +139,15 @@ namespace Studyzy.IMEWLConverter
             GenerateWordRank(allWlList);
             if (import.CodeType != export.CodeType)
             {
-                GenerateDestinationCode(allWlList,export.CodeType);
+                GenerateDestinationCode(allWlList, export.CodeType);
             }
             count = allWlList.Count;
             return export.Export(RemoveEmptyCodeData(allWlList));
         }
+
         private WordLibraryList RemoveEmptyCodeData(WordLibraryList wordLibraryList)
         {
-            WordLibraryList list=new WordLibraryList();
+            var list = new WordLibraryList();
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
                 if (!string.IsNullOrEmpty(wordLibrary.SingleCode))
@@ -153,9 +157,9 @@ namespace Studyzy.IMEWLConverter
             }
             return list;
         }
+
         private void GenerateWordRank(WordLibraryList wordLibraryList)
         {
-           
             countWord = wordLibraryList.Count;
             currentStatus = 0;
             foreach (WordLibrary wordLibrary in wordLibraryList)
@@ -168,10 +172,11 @@ namespace Studyzy.IMEWLConverter
                 processMessage = "生成词频：" + currentStatus + "/" + countWord;
             }
         }
-        private void GenerateDestinationCode(WordLibraryList wordLibraryList,CodeType codeType)
+
+        private void GenerateDestinationCode(WordLibraryList wordLibraryList, CodeType codeType)
         {
-            var generater = CodeTypeHelper.GetGenerater(codeType);
-            if(generater==null)//未知编码方式，则不进行编码。
+            IWordCodeGenerater generater = CodeTypeHelper.GetGenerater(codeType);
+            if (generater == null) //未知编码方式，则不进行编码。
                 return;
             countWord = wordLibraryList.Count;
             currentStatus = 0;
@@ -193,13 +198,13 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
-      
+
         /// <summary>
-        /// 转换多个文件为对应文件名的多个文件
+        ///     转换多个文件为对应文件名的多个文件
         /// </summary>
         /// <param name="filePathes"></param>
         /// <param name="outputDir"></param>
-        public void Convert(IList<string> filePathes,string outputDir)
+        public void Convert(IList<string> filePathes, string outputDir)
         {
             int c = 0;
             foreach (string file in filePathes)
@@ -212,13 +217,14 @@ namespace Studyzy.IMEWLConverter
                 }
                 c += wlList.Count;
                 GenerateWordRank(wlList);
-                var result = export.Export(RemoveEmptyCodeData(wlList));
-                var exportPath =outputDir +(outputDir.EndsWith("\\")?"":"\\")+ Path.GetFileNameWithoutExtension(file) + ".txt";
+                string result = export.Export(RemoveEmptyCodeData(wlList));
+                string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
+                                    Path.GetFileNameWithoutExtension(file) + ".txt";
                 FileOperationHelper.WriteFile(exportPath, export.Encoding, result);
             }
             count = c;
-          
         }
+
         public void StreamConvert(IList<string> filePathes, string outPath)
         {
             var textImport = import as IWordLibraryTextImport;
@@ -243,14 +249,13 @@ namespace Studyzy.IMEWLConverter
             {
                 if (IsKeep(wordLibrary))
                 {
-                    foreach (var replaceFilter in ReplaceFilters)
+                    foreach (IReplaceFilter replaceFilter in ReplaceFilters)
                     {
                         replaceFilter.Replace(wordLibrary);
                     }
-                    if(wordLibrary.Word!=string.Empty)
-                    result.Add(wordLibrary);
+                    if (wordLibrary.Word != string.Empty)
+                        result.Add(wordLibrary);
                 }
-
             }
             return result;
         }

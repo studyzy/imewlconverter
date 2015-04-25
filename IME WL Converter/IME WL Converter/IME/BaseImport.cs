@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Entities;
+﻿using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -11,7 +10,7 @@ namespace Studyzy.IMEWLConverter.IME
             CodeType = CodeType.Pinyin;
         }
 
-        public virtual CodeType CodeType { get;protected set; }
+        public virtual CodeType CodeType { get; protected set; }
         public virtual int DefaultRank { get; set; }
         public virtual int CountWord { get; set; }
         public virtual int CurrentStatus { get; set; }

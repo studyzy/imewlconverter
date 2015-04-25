@@ -9,7 +9,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 搜狗细胞词库
+    ///     搜狗细胞词库
     /// </summary>
     [ComboBoxShow(ConstantString.SOUGOU_XIBAO_SCEL, ConstantString.SOUGOU_XIBAO_SCEL_C, 20)]
     public class SougouPinyinScel : BaseImport, IWordLibraryImport

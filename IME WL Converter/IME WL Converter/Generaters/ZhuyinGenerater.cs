@@ -61,7 +61,7 @@ namespace Studyzy.IMEWLConverter.Generaters
      */
 
     /// <summary>
-    /// 注音是在地球拼音的基础上，通过注音Mapping表，转化为注音符号
+    ///     注音是在地球拼音的基础上，通过注音Mapping表，转化为注音符号
     /// </summary>
     public class ZhuyinGenerater : TerraPinyinGenerater
     {
@@ -75,7 +75,8 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
 
-        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "",
+            BuildType buildType = BuildType.None)
         {
             var result = new List<string>();
 
@@ -85,7 +86,8 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             return result;
         }
-        public override IList<string> GetCodeOfWordLibrary(Entities.WordLibrary wl, string charCodeSplit = "")
+
+        public override IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
         {
             var result = new List<string>();
             foreach (string code in base.GetCodeOfWordLibrary(wl, charCodeSplit))

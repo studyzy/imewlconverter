@@ -141,7 +141,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 根据注音获得不包含音调的拼音
+        ///     根据注音获得不包含音调的拼音
         /// </summary>
         /// <param name="zhuyin"></param>
         /// <returns></returns>

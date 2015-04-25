@@ -3,78 +3,88 @@
     public enum CodeType
     {
         /// <summary>
-        /// 用户自定义短语
+        ///     用户自定义短语
         /// </summary>
         UserDefinePhrase,
+
         /// <summary>
-        /// 五笔86
+        ///     五笔86
         /// </summary>
         Wubi,
         Wubi98,
+
         /// <summary>
-        /// 郑码
+        ///     郑码
         /// </summary>
         Zhengma,
 
         /// <summary>
-        /// 仓颉
+        ///     仓颉
         /// </summary>
         Cangjie,
 
         /// <summary>
-        /// 未知
+        ///     未知
         /// </summary>
         Unknown,
+
         /// <summary>
-        /// 用户自定义
+        ///     用户自定义
         /// </summary>
         UserDefine,
+
         /// <summary>
-        /// 拼音
+        ///     拼音
         /// </summary>
         Pinyin,
 
         /// <summary>
-        /// 永码
+        ///     永码
         /// </summary>
         Yong,
 
         /// <summary>
-        /// 青松二笔
+        ///     青松二笔
         /// </summary>
         QingsongErbi,
+
         /// <summary>
-        /// 超强二笔30键
+        ///     超强二笔30键
         /// </summary>
         ChaoqiangErbi,
+
         /// <summary>
-        /// 超强音形(二笔)
+        ///     超强音形(二笔)
         /// </summary>
         ChaoqingYinxin,
+
         /// <summary>
-        /// 英语
+        ///     英语
         /// </summary>
         English,
 
         /// <summary>
-        /// 内码
+        ///     内码
         /// </summary>
         InnerCode,
+
         /// <summary>
-        /// 现代二笔
+        ///     现代二笔
         /// </summary>
         XiandaiErbi,
+
         /// <summary>
-        /// 注音
+        ///     注音
         /// </summary>
         Zhuyin,
 
         /// <summary>
-        /// 地球拼音
+        ///     地球拼音
         /// </summary>
         TerraPinyin,
+
         /// <summary>
-        /// 无编码
+        ///     无编码
         /// </summary>
         NoCode
     }

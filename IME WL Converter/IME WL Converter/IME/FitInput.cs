@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -33,7 +32,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return sb.ToString();
         }
-        
+
         public Encoding Encoding
         {
             get { return new UTF8Encoding(false); }

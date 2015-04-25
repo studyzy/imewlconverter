@@ -29,7 +29,7 @@ namespace Studyzy.IMEWLConverter
                 case "现代二笔":
                     SelectedCodeType = CodeType.XiandaiErbi;
                     break;
-              
+
                 default:
                     SelectedCodeType = CodeType.Unknown;
                     break;

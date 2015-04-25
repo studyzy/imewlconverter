@@ -10,11 +10,11 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter
 {
     /// <summary>
-    /// 这个程序主要是为注音准备注音词库的。输入的都是文本的搜狗词库格式的词库，对每个词的拼音进行分析，
-    /// 如果这个词的每个字的拼音使用的是默认注音，那么就忽略这个词，
-    /// 如果不是，那么就判断每个字的注音是否合理，不合理的注音直接忽略，合理的，那么就把这个词记录下来。
-    /// 接下来对留下的词进行处理，遍历每个词，在其他词中找是否存在该词，如果存在，则把该词从长的词中去掉，
-    /// 然后看长词的读音是否还是多音，如果不是，那么长词就被删除，如果还有，那么长词保留。
+    ///     这个程序主要是为注音准备注音词库的。输入的都是文本的搜狗词库格式的词库，对每个词的拼音进行分析，
+    ///     如果这个词的每个字的拼音使用的是默认注音，那么就忽略这个词，
+    ///     如果不是，那么就判断每个字的注音是否合理，不合理的注音直接忽略，合理的，那么就把这个词记录下来。
+    ///     接下来对留下的词进行处理，遍历每个词，在其他词中找是否存在该词，如果存在，则把该词从长的词中去掉，
+    ///     然后看长词的读音是否还是多音，如果不是，那么长词就被删除，如果还有，那么长词保留。
     /// </summary>
     public partial class CreatePinyinWLForm : Form
     {
@@ -117,10 +117,7 @@ namespace Studyzy.IMEWLConverter
                 GetTextD d = GetText;
                 return (string) txtWLFilePath.Invoke(d);
             }
-            else
-            {
-                return txtWLFilePath.Text;
-            }
+            return txtWLFilePath.Text;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -131,7 +128,7 @@ namespace Studyzy.IMEWLConverter
         }
 
         /// <summary>
-        /// 这个单词的拼音是否需要保存(如果完全是默认注音就不保存，否则如果拼音合理，就应该保存)
+        ///     这个单词的拼音是否需要保存(如果完全是默认注音就不保存，否则如果拼音合理，就应该保存)
         /// </summary>
         /// <param name="word"></param>
         /// <param name="py"></param>
@@ -167,7 +164,7 @@ namespace Studyzy.IMEWLConverter
         }
 
         /// <summary>
-        /// 去处掉重复的注音词汇
+        ///     去处掉重复的注音词汇
         /// </summary>
         /// <param name="input"></param>
         private Dictionary<string, string> RemoveDuplicateWords(Dictionary<string, string> input)
@@ -222,7 +219,7 @@ namespace Studyzy.IMEWLConverter
 
 
         /// <summary>
-        /// 打印错误消息
+        ///     打印错误消息
         /// </summary>
         /// <param name="message"></param>
         private void ShowTextErrorMessage(string message)
@@ -243,7 +240,7 @@ namespace Studyzy.IMEWLConverter
         }
 
         /// <summary>
-        /// 文本框中打印普通消息
+        ///     文本框中打印普通消息
         /// </summary>
         /// <param name="message"></param>
         private void ShowTextMessage(string message)
@@ -270,7 +267,7 @@ namespace Studyzy.IMEWLConverter
         #region Nested type: ShowTextMessageDelegate
 
         /// <summary>
-        /// 这个委托是用来多线程情况下使用的，防止跨线程调用
+        ///     这个委托是用来多线程情况下使用的，防止跨线程调用
         /// </summary>
         /// <param name="msg"></param>
         private delegate void ShowTextMessageDelegate(string msg);

@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 基于小小输入法而制作的二笔输入法，包括超强二笔、现代二笔、青松二笔等,格式：
-    /// 编码 词语1 词语2 词语3
+    ///     基于小小输入法而制作的二笔输入法，包括超强二笔、现代二笔、青松二笔等,格式：
+    ///     编码 词语1 词语2 词语3
     /// </summary>
     [ComboBoxShow(ConstantString.XIAOXIAO_ERBI, ConstantString.XIAOXIAO_ERBI_C, 100)]
     public class XiaoxiaoErbi : BaseImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
-        
+
         public Encoding Encoding
         {
             get { return Encoding.GetEncoding("GB18030"); }
@@ -31,7 +26,7 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(wl.Word);
             return sb.ToString();
         }
-        
+
 
         public string Export(WordLibraryList wlList)
         {
@@ -42,7 +37,7 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 0; i < wlList.Count; i++)
             {
                 string key = "";
-                var wl = wlList[i];
+                WordLibrary wl = wlList[i];
                 string value = wl.Word;
                 foreach (var code in wl.Codes)
                 {
@@ -56,7 +51,6 @@ namespace Studyzy.IMEWLConverter.IME
                         xiaoxiaoDic.Add(key, value);
                     }
                 }
-               
             }
             foreach (var keyValuePair in xiaoxiaoDic)
             {
@@ -67,8 +61,5 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         #endregion
-
-
-    
     }
 }

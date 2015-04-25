@@ -80,7 +80,7 @@ namespace Studyzy.IMEWLConverter
             {
                 fileContent.Append(list[i]);
                 fileContent.Append(splitLineChar);
-                if (i%maxLine == 0||i==list.Length-1)
+                if (i%maxLine == 0 || i == list.Length - 1)
                 {
                     if (i != 0)
                     {
@@ -90,7 +90,6 @@ namespace Studyzy.IMEWLConverter
                         fileContent = new StringBuilder();
                     }
                 }
-              
             }
         }
 
@@ -107,7 +106,7 @@ namespace Studyzy.IMEWLConverter
             {
                 string newFile = GetWriteFilePath(fileIndex++);
                 var outFile = new FileStream(newFile, FileMode.OpenOrCreate,
-                                             FileAccess.Write);
+                    FileAccess.Write);
                 if (fileIndex != 2) //不是第一个文件，那么就要写文件头
                 {
                     FileOperationHelper.WriteFileHeader(outFile, encoding);
@@ -147,8 +146,7 @@ namespace Studyzy.IMEWLConverter
         {
             do
             {
-
-                var b = fs.ReadByte();
+                int b = fs.ReadByte();
 
                 if (b == -1)
                 {

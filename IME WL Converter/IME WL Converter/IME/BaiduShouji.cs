@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -11,11 +10,6 @@ namespace Studyzy.IMEWLConverter.IME
     public class BaiduShouji : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
 
         public string ExportLine(WordLibrary wl)
         {
@@ -29,7 +23,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -40,6 +33,11 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\r\n");
             }
             return sb.ToString();
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
         }
 
         #endregion
@@ -77,13 +75,13 @@ namespace Studyzy.IMEWLConverter.IME
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Rank = 1;
-                wl.PinYin = py.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = py.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
                 wll.Add(wl);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(line+"\t"+ex.Message);
+                Debug.WriteLine(line + "\t" + ex.Message);
             }
             return wll;
         }

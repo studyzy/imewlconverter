@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Generaters;
 
@@ -11,32 +6,37 @@ namespace Studyzy.IMEWLConverter
 {
     public partial class WordRankGenerateForm : Form
     {
+        private static IWordRankGenerater wordRankGenerater = new DefaultWordRankGenerater();
+
         public WordRankGenerateForm()
         {
             InitializeComponent();
         }
 
-        private static IWordRankGenerater wordRankGenerater=new DefaultWordRankGenerater();
-        public IWordRankGenerater SelectedWordRankGenerater{get { return wordRankGenerater; }}
+        public IWordRankGenerater SelectedWordRankGenerater
+        {
+            get { return wordRankGenerater; }
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (rbtnDefault.Checked)
             {
-                wordRankGenerater=new DefaultWordRankGenerater(){Rank = (int)numRank.Value};
+                wordRankGenerater = new DefaultWordRankGenerater {Rank = (int) numRank.Value};
             }
             else if (rbtnGoogle.Checked)
             {
-                wordRankGenerater=new GoogleWordRankGenerater();
+                wordRankGenerater = new GoogleWordRankGenerater();
             }
             else if (rbtnBaidu.Checked)
             {
-                wordRankGenerater=new BaiduWordRankGenerater();
+                wordRankGenerater = new BaiduWordRankGenerater();
             }
             else if (rbtnCalc.Checked)
             {
                 wordRankGenerater = new CalcWordRankGenerater();
             }
-            DialogResult=DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
         private void WordRankGenerateForm_Load(object sender, EventArgs e)

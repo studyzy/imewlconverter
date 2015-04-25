@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Helpers;
@@ -15,12 +12,13 @@ namespace Studyzy.IMEWLConverter
         {
             InitializeComponent();
         }
+
         //private Dictionary<string,List<string>> main 
         private void btnSelectMainWLFile_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                this.txbMainWLFile.Text = openFileDialog1.FileName;
+                txbMainWLFile.Text = openFileDialog1.FileName;
             }
         }
 
@@ -28,21 +26,21 @@ namespace Studyzy.IMEWLConverter
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
-                this.txbUserWLFiles.Text = string.Join(" | ", openFileDialog2.FileNames);
+                txbUserWLFiles.Text = string.Join(" | ", openFileDialog2.FileNames);
             }
         }
 
         private void btnMergeWL_Click(object sender, EventArgs e)
         {
-            var mainWL = FileOperationHelper.ReadFile(txbMainWLFile.Text);
-            var mainDict = ConvertTxt2Dictionary(mainWL);
-            var userFiles = txbUserWLFiles.Text.Split('|');
-            foreach (var userFile in userFiles)
+            string mainWL = FileOperationHelper.ReadFile(txbMainWLFile.Text);
+            Dictionary<string, List<string>> mainDict = ConvertTxt2Dictionary(mainWL);
+            string[] userFiles = txbUserWLFiles.Text.Split('|');
+            foreach (string userFile in userFiles)
             {
-                var filePath = userFile.Trim();
-                var userTxt = FileOperationHelper.ReadFile(filePath);
-                var userDict = ConvertTxt2Dictionary(userTxt);
-                Merge2Dict(mainDict,userDict);
+                string filePath = userFile.Trim();
+                string userTxt = FileOperationHelper.ReadFile(filePath);
+                Dictionary<string, List<string>> userDict = ConvertTxt2Dictionary(userTxt);
+                Merge2Dict(mainDict, userDict);
             }
             if (cbxSortByCode.Checked)
             {
@@ -51,15 +49,15 @@ namespace Studyzy.IMEWLConverter
                 var sortedDict = new Dictionary<string, List<string>>();
                 foreach (string key in keys)
                 {
-                    sortedDict.Add(key,mainDict[key]);
+                    sortedDict.Add(key, mainDict[key]);
                 }
                 mainDict = sortedDict;
             }
-            var result = Dict2String(mainDict);
+            string result = Dict2String(mainDict);
             richTextBox1.Text = result;
             if (
-               MessageBox.Show("是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
-                               MessageBoxIcon.Question) == DialogResult.Yes)
+                MessageBox.Show("是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -67,38 +65,40 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
-        private   Dictionary<string,List<string>> ConvertTxt2Dictionary(string txt)
+
+        private Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
         {
-            var lines = txt.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            Dictionary<string, List<string>> mainDict = new Dictionary<string, List<string>>();
-            foreach (var line in lines)
+            string[] lines = txt.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            var mainDict = new Dictionary<string, List<string>>();
+            foreach (string line in lines)
             {
-                var array = line.Split(' ');
-                var key = array[0];
+                string[] array = line.Split(' ');
+                string key = array[0];
                 if (!mainDict.ContainsKey(key))
                 {
                     mainDict.Add(key, new List<string>());
                 }
-                for (var i = 1; i < array.Length; i++)
+                for (int i = 1; i < array.Length; i++)
                 {
-                    var word = array[i];
+                    string word = array[i];
                     mainDict[key].Add(word);
                 }
             }
             return mainDict;
         }
-        private void Merge2Dict(Dictionary<string,List<string>> d1,Dictionary<string,List<string>> d2)
+
+        private void Merge2Dict(Dictionary<string, List<string>> d1, Dictionary<string, List<string>> d2)
         {
-            foreach (KeyValuePair<string, List<string>> pair in d2)
+            foreach (var pair in d2)
             {
                 if (!d1.ContainsKey(pair.Key))
                 {
-                    d1.Add(pair.Key,pair.Value);
+                    d1.Add(pair.Key, pair.Value);
                 }
                 else
                 {
-                    var v = d1[pair.Key];
-                    foreach (var word in pair.Value)
+                    List<string> v = d1[pair.Key];
+                    foreach (string word in pair.Value)
                     {
                         if (!v.Contains(word))
                         {
@@ -108,14 +108,16 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
+
         private void ShowMessage(string message)
         {
-            richTextBox1.AppendText(message+"\r\n");
+            richTextBox1.AppendText(message + "\r\n");
         }
-        private string Dict2String(Dictionary<string,List<string>> dictionary)
+
+        private string Dict2String(Dictionary<string, List<string>> dictionary)
         {
-            StringBuilder sb=new StringBuilder();
-            foreach (KeyValuePair<string, List<string>> pair in dictionary)
+            var sb = new StringBuilder();
+            foreach (var pair in dictionary)
             {
                 sb.Append(pair.Key);
                 sb.Append(" ");

@@ -25,16 +25,17 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             return string.Join(split, ToArray(list));
         }
+
         public static string GetString(IEnumerable<string> list, string split, BuildType buildType)
         {
             var sb = new StringBuilder();
-           
 
-            if (list == null )
+
+            if (list == null)
             {
                 return "";
             }
-          
+
             foreach (string s in list)
             {
                 sb.Append(s + split);
@@ -60,14 +61,11 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 return str;
             }
-            else //BuildType.LeftContain
-            {
-                return split + str;
-            }
+            return split + str;
         }
 
         /// <summary>
-        /// Cartesian product
+        ///     Cartesian product
         /// </summary>
         /// <param name="codes"></param>
         /// <returns></returns>
@@ -90,8 +88,9 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             return temp;
         }
+
         /// <summary>
-        /// 多音字情况下，做笛卡尔积
+        ///     多音字情况下，做笛卡尔积
         /// </summary>
         /// <param name="codes"></param>
         /// <returns></returns>
@@ -101,8 +100,9 @@ namespace Studyzy.IMEWLConverter.Helpers
             Descartes(codes, 0, result, string.Empty);
             return result;
         }
+
         /// <summary>
-        /// 只取每个字的第一个编码，返回这些编码的List
+        ///     只取每个字的第一个编码，返回这些编码的List
         /// </summary>
         /// <param name="codes"></param>
         /// <returns></returns>
@@ -116,7 +116,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             return result;
         }
 
-        public static IList<string> CartesianProduct(IList<IList<string>> codes,String split)
+        public static IList<string> CartesianProduct(IList<IList<string>> codes, String split)
         {
             int count = 1;
             foreach (var code in codes)
@@ -126,24 +126,24 @@ namespace Studyzy.IMEWLConverter.Helpers
             var result = new List<string>();
             for (int i = 0; i < count; i++)
             {
-                string[] line = new string[codes.Count];
+                var line = new string[codes.Count];
                 for (int j = 0; j < codes.Count; j++)
                 {
                     line[j] = codes[j][i%codes[j].Count];
                 }
-                result.Add(String.Join(split,line));
+                result.Add(String.Join(split, line));
             }
             return result;
         }
 
         public static IList<string> CartesianProduct(IList<IList<string>> codes, String split, BuildType buildType)
         {
-            var list = CartesianProduct(codes, split);
+            IList<string> list = CartesianProduct(codes, split);
             if (buildType == BuildType.None) return list;
             var result = new List<string>();
-            foreach (var line in list)
+            foreach (string line in list)
             {
-                var newline = line;
+                string newline = line;
                 if (buildType == BuildType.FullContain || buildType == BuildType.LeftContain)
                 {
                     newline = split + newline;

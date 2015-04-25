@@ -39,12 +39,12 @@ using System.IO;
 namespace ICSharpCode.SharpZipLib.Core
 {
     /// <summary>
-    /// Provides simple <see cref="Stream"/>" utilities.
+    ///     Provides simple <see cref="Stream" />" utilities.
     /// </summary>
     public sealed class StreamUtils
     {
         /// <summary>
-        /// Initialise an instance of <see cref="StreamUtils"></see>
+        ///     Initialise an instance of <see cref="StreamUtils"></see>
         /// </summary>
         private StreamUtils()
         {
@@ -52,25 +52,25 @@ namespace ICSharpCode.SharpZipLib.Core
         }
 
         /// <summary>
-        /// Read from a <see cref="Stream"/> ensuring all the required data is read.
+        ///     Read from a <see cref="Stream" /> ensuring all the required data is read.
         /// </summary>
         /// <param name="stream">The stream to read.</param>
         /// <param name="buffer">The buffer to fill.</param>
-        /// <seealso cref="ReadFully(Stream,byte[],int,int)"/>
+        /// <seealso cref="ReadFully(Stream,byte[],int,int)" />
         public static void ReadFully(Stream stream, byte[] buffer)
         {
             ReadFully(stream, buffer, 0, buffer.Length);
         }
 
         /// <summary>
-        /// Read from a <see cref="Stream"/>" ensuring all the required data is read.
+        ///     Read from a <see cref="Stream" />" ensuring all the required data is read.
         /// </summary>
         /// <param name="stream">The stream to read data from.</param>
         /// <param name="buffer">The buffer to store data in.</param>
         /// <param name="offset">The offset at which to begin storing data.</param>
         /// <param name="count">The number of bytes of data to store.</param>
         /// <exception cref="ArgumentNullException">Required parameter is null</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="offset"/> and or <paramref name="count"/> are invalid.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="offset" /> and or <paramref name="count" /> are invalid.</exception>
         /// <exception cref="EndOfStreamException">End of stream is encountered before all the data has been read.</exception>
         public static void ReadFully(Stream stream, byte[] buffer, int offset, int count)
         {
@@ -108,7 +108,7 @@ namespace ICSharpCode.SharpZipLib.Core
         }
 
         /// <summary>
-        /// Copy the contents of one <see cref="Stream"/> to another.
+        ///     Copy the contents of one <see cref="Stream" /> to another.
         /// </summary>
         /// <param name="source">The stream to source data from.</param>
         /// <param name="destination">The stream to write data to.</param>
@@ -154,40 +154,42 @@ namespace ICSharpCode.SharpZipLib.Core
         }
 
         /// <summary>
-        /// Copy the contents of one <see cref="Stream"/> to another.
+        ///     Copy the contents of one <see cref="Stream" /> to another.
         /// </summary>
         /// <param name="source">The stream to source data from.</param>
         /// <param name="destination">The stream to write data to.</param>
         /// <param name="buffer">The buffer to use during copying.</param>
         /// <param name="progressHandler">The <see cref="ProgressHandler">progress handler delegate</see> to use.</param>
-        /// <param name="updateInterval">The minimum <see cref="TimeSpan"/> between progress updates.</param>
+        /// <param name="updateInterval">The minimum <see cref="TimeSpan" /> between progress updates.</param>
         /// <param name="sender">The source for this event.</param>
         /// <param name="name">The name to use with the event.</param>
         /// <remarks>This form is specialised for use within #Zip to support events during archive operations.</remarks>
         public static void Copy(Stream source, Stream destination,
-                                byte[] buffer, ProgressHandler progressHandler, TimeSpan updateInterval, object sender,
-                                string name)
+            byte[] buffer, ProgressHandler progressHandler, TimeSpan updateInterval, object sender,
+            string name)
         {
             Copy(source, destination, buffer, progressHandler, updateInterval, sender, name, -1);
         }
 
         /// <summary>
-        /// Copy the contents of one <see cref="Stream"/> to another.
+        ///     Copy the contents of one <see cref="Stream" /> to another.
         /// </summary>
         /// <param name="source">The stream to source data from.</param>
         /// <param name="destination">The stream to write data to.</param>
         /// <param name="buffer">The buffer to use during copying.</param>
         /// <param name="progressHandler">The <see cref="ProgressHandler">progress handler delegate</see> to use.</param>
-        /// <param name="updateInterval">The minimum <see cref="TimeSpan"/> between progress updates.</param>
+        /// <param name="updateInterval">The minimum <see cref="TimeSpan" /> between progress updates.</param>
         /// <param name="sender">The source for this event.</param>
         /// <param name="name">The name to use with the event.</param>
-        /// <param name="fixedTarget">A predetermined fixed target value to use with progress updates.
-        /// If the value is negative the target is calculated by looking at the stream.</param>
+        /// <param name="fixedTarget">
+        ///     A predetermined fixed target value to use with progress updates.
+        ///     If the value is negative the target is calculated by looking at the stream.
+        /// </param>
         /// <remarks>This form is specialised for use within #Zip to support events during archive operations.</remarks>
         public static void Copy(Stream source, Stream destination,
-                                byte[] buffer,
-                                ProgressHandler progressHandler, TimeSpan updateInterval,
-                                object sender, string name, long fixedTarget)
+            byte[] buffer,
+            ProgressHandler progressHandler, TimeSpan updateInterval,
+            object sender, string name, long fixedTarget)
         {
             if (source == null)
             {

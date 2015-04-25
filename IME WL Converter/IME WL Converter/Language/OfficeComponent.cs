@@ -6,20 +6,6 @@ namespace Studyzy.IMEWLConverter.Language
 {
     internal class OfficeComponent : IChineseConverter, IDisposable
     {
-        //public void Init()
-        //{
-        //    //appWord = new Microsoft.Office.Interop.Word.Application();
-        //    object template = Missing.Value;
-        //    object newTemplate = Missing.Value;
-        //    object docType = Missing.Value;
-        //    object visible = true;
-        //    //doc = appWord.Documents.Add(ref template, ref newTemplate, ref docType, ref visible);
-        //    doc=new Document();
-        //}
-
-        //private Document doc;
-        //private _Application appWord;
-
         #region IChineseConverter Members
 
         public string ToChs(string cht)
@@ -66,5 +52,19 @@ namespace Studyzy.IMEWLConverter.Language
         }
 
         #endregion
+
+        //public void Init()
+        //{
+        //    //appWord = new Microsoft.Office.Interop.Word.Application();
+        //    object template = Missing.Value;
+        //    object newTemplate = Missing.Value;
+        //    object docType = Missing.Value;
+        //    object visible = true;
+        //    //doc = appWord.Documents.Add(ref template, ref newTemplate, ref docType, ref visible);
+        //    doc=new Document();
+        //}
+
+        //private Document doc;
+        //private _Application appWord;
     }
 }

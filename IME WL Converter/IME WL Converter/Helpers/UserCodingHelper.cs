@@ -44,7 +44,7 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         public static IDictionary<char, IList<string>> GetCodingDict(string filePath, Encoding encoding)
         {
-            var codingContent = FileOperationHelper.ReadFile(filePath,encoding);
+            string codingContent = FileOperationHelper.ReadFile(filePath, encoding);
             var dic = new Dictionary<char, IList<string>>();
             foreach (string line in codingContent.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -53,7 +53,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 string code = l[1];
                 if (!dic.ContainsKey(c))
                 {
-                    dic.Add(c,new List<string>(){ code});
+                    dic.Add(c, new List<string> {code});
                 }
                 else
                 {

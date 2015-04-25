@@ -12,7 +12,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         private static readonly Dictionary<char, IList<string>> pyDictionary = new Dictionary<char, IList<string>>();
 
         /// <summary>
-        /// 字的拼音(包括音调)
+        ///     字的拼音(包括音调)
         /// </summary>
         private static Dictionary<char, List<string>> PinYinWithToneDict
         {
@@ -37,7 +37,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 字的拼音，不包括音调
+        ///     字的拼音，不包括音调
         /// </summary>
         public static Dictionary<char, IList<string>> PinYinDict
         {
@@ -78,7 +78,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         #endregion
 
         /// <summary>
-        /// 获得一个字的默认拼音(不包含音调)
+        ///     获得一个字的默认拼音(不包含音调)
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             try
             {
-                var pys = PinYinDict[c];
+                IList<string> pys = PinYinDict[c];
                 if (pys != null && pys.Count > 0)
                 {
                     return pys[0];
@@ -110,7 +110,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 获得单个字的拼音,不包括声调
+        ///     获得单个字的拼音,不包括声调
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -120,7 +120,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 判断一个字是否多音字
+        ///     判断一个字是否多音字
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
@@ -130,7 +130,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 获得单个字的拼音,包括声调
+        ///     获得单个字的拼音,包括声调
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -140,7 +140,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         }
 
         /// <summary>
-        /// 如果给出一个字和一个没有音调的拼音，返回正确的带音调的拼音
+        ///     如果给出一个字和一个没有音调的拼音，返回正确的带音调的拼音
         /// </summary>
         /// <param name="str"></param>
         /// <param name="py"></param>
@@ -165,11 +165,11 @@ namespace Studyzy.IMEWLConverter.Helpers
                 }
             }
             Debug.WriteLine("找不到" + str + "的拼音" + py + "对应的音调");
-            return py+"1";//找不到音调就用拼音的一声
+            return py + "1"; //找不到音调就用拼音的一声
         }
 
         /// <summary>
-        /// 判断给出的词和拼音是否有效
+        ///     判断给出的词和拼音是否有效
         /// </summary>
         /// <param name="word"></param>
         /// <param name="pinyin"></param>
@@ -183,7 +183,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             for (int i = 0; i < word.Length; i++)
             {
-                var charPinyinList = GetPinYinOfChar(word[i]);
+                IList<string> charPinyinList = GetPinYinOfChar(word[i]);
                 if (!charPinyinList.Contains(pinyinList[i]))
                 {
                     return false;

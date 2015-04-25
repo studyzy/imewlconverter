@@ -9,12 +9,10 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return true; }
         }
+
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.Wubi;
-            }
+            get { return CodeType.Wubi; }
         }
     }
 }

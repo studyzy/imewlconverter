@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -15,16 +12,13 @@ namespace Studyzy.IMEWLConverter.IME
         //private IWordCodeGenerater pinyinFactory;
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.NoCode;
-            }
-           
+            get { return CodeType.NoCode; }
         }
+
         #region IWordLibraryImport 成员
 
         /// <summary>
-        /// 将一行纯文本转换为对象
+        ///     将一行纯文本转换为对象
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
@@ -33,7 +27,7 @@ namespace Studyzy.IMEWLConverter.IME
             //IList<string> py = pinyinFactory.GetCodeOfString(line);
             var wl = new WordLibrary();
             wl.Word = line;
-            wl.CodeType = this.CodeType;
+            wl.CodeType = CodeType;
             //wl.PinYin = CollectionHelper.ToArray(py);
             var wll = new WordLibraryList();
             wll.Add(wl);
@@ -41,7 +35,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         /// <summary>
-        /// 通过搜狗细胞词库txt内容构造词库对象
+        ///     通过搜狗细胞词库txt内容构造词库对象
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -89,7 +83,6 @@ namespace Studyzy.IMEWLConverter.IME
             return wl.Word;
         }
 
-        
 
         public virtual string Export(WordLibraryList wlList)
         {

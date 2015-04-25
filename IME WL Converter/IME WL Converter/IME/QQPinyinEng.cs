@@ -1,36 +1,23 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// QQ拼音支持单独的英语词库，使用“英文单词,词频”的格式
+    ///     QQ拼音支持单独的英语词库，使用“英文单词,词频”的格式
     /// </summary>
     [ComboBoxShow(ConstantString.QQ_PINYIN_ENG, ConstantString.QQ_PINYIN_ENG_C, 80)]
     public class QQPinyinEng : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
-        public override CodeType CodeType
-        {
-            get
-            {
-                return CodeType.English;
-            }
-        }
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
 
         public string ExportLine(WordLibrary wl)
         {
             return wl.Word + "," + wl.Rank;
         }
 
-        
 
         public string Export(WordLibraryList wlList)
         {
@@ -42,6 +29,16 @@ namespace Studyzy.IMEWLConverter.IME
             }
 
             return sb.ToString();
+        }
+
+        public override CodeType CodeType
+        {
+            get { return CodeType.English; }
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
         }
 
         #endregion

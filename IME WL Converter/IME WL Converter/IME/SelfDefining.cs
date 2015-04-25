@@ -2,39 +2,57 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.SELF_DEFINING, ConstantString.SELF_DEFINING_C, 2000)]
-    public class SelfDefining : BaseImport, IWordLibraryTextImport, IWordLibraryExport,IStreamPrepare
+    public class SelfDefining : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IStreamPrepare
     {
-        public override CodeType CodeType
-        {
-            get { return UserDefiningPattern.CodeType; }
-        }
-        public ParsePattern UserDefiningPattern { get; set; }
-
         private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
- 
 
         #region IWordLibraryExport Members
 
+        private string lineFormat = "";
+
+        public void Prepare()
+        {
+            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath) &&
+                UserDefiningPattern.CodeType == CodeType.UserDefine)
+            {
+                throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+            }
+
+            codeGenerater = new SelfDefiningCodeGenerater();
+            if (UserDefiningPattern.CodeType == CodeType.Pinyin)
+            {
+                codeGenerater.MappingDictionary = PinyinHelper.PinYinDict;
+            }
+            else
+            {
+                IDictionary<char, IList<string>> dict =
+                    UserCodingHelper.GetCodingDict(UserDefiningPattern.MappingTablePath,
+                        UserDefiningPattern.TextEncoding);
+                codeGenerater.MappingDictionary = dict;
+            }
+            codeGenerater.Is1Char1Code = UserDefiningPattern.IsPinyinFormat;
+            codeGenerater.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
+            BuildLineFormat();
+        }
+
         /// <summary>
-        /// 导出词库为自定义格式。
-        /// 如果没有指定自定义编码文件，而且词库是包含拼音编码的，那么就按拼音编码作为每个字的码。
-        /// 如果导出指定了自定义编码文件，那么就忽略词库的已有编码，使用自定义编码文件重新生成编码。
-        /// 如果词库没有包含拼音编码，而且导出也没有指定编码文件，那就抛错吧~~~~
+        ///     导出词库为自定义格式。
+        ///     如果没有指定自定义编码文件，而且词库是包含拼音编码的，那么就按拼音编码作为每个字的码。
+        ///     如果导出指定了自定义编码文件，那么就忽略词库的已有编码，使用自定义编码文件重新生成编码。
+        ///     如果词库没有包含拼音编码，而且导出也没有指定编码文件，那就抛错吧~~~~
         /// </summary>
         /// <param name="wlList"></param>
         /// <returns></returns>
         public string Export(WordLibraryList wlList)
         {
-           Prepare();
+            Prepare();
             var sb = new StringBuilder();
             foreach (WordLibrary wordLibrary in wlList)
             {
@@ -51,37 +69,41 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-        private string lineFormat="";
-
-        public void Prepare()
+        public string ExportLine(WordLibrary wl)
         {
-            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath) &&
-                UserDefiningPattern.CodeType == CodeType.UserDefine)
+            if (lineFormat == "")
             {
-
-                throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
-
+                BuildLineFormat();
             }
-
-            codeGenerater = new SelfDefiningCodeGenerater();
-            if (UserDefiningPattern.CodeType == CodeType.Pinyin)
+            var lines = new List<string>();
+            //需要判断源WL与导出的字符串的CodeType是否一致，如果一致，那么可以采用其编码，如果不一致，那么忽略编码，
+            //调用CodeGenerater生成新的编码，并用新编码生成行
+            IList<string> codes = null;
+            if (wl.CodeType == CodeType)
             {
-                codeGenerater.MappingDictionary = PinyinHelper.PinYinDict;
+                codes = wl.GetCodeString(UserDefiningPattern.CodeSplitString, UserDefiningPattern.CodeSplitType);
             }
             else
             {
-                var dict = UserCodingHelper.GetCodingDict(UserDefiningPattern.MappingTablePath,
-                    UserDefiningPattern.TextEncoding);
-                codeGenerater.MappingDictionary = dict;
+                codes = codeGenerater.GetCodeOfString(wl.Word, UserDefiningPattern.CodeSplitString,
+                    UserDefiningPattern.CodeSplitType);
+                if (codes == null || codes.Count == 0) //生成失败
+                    return null;
             }
-            codeGenerater.Is1Char1Code = UserDefiningPattern.IsPinyinFormat;
-            codeGenerater.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
-            BuildLineFormat();
+            string word = wl.Word;
+            int rank = wl.Rank;
+            foreach (string code in codes)
+            {
+                string line = String.Format(lineFormat, code, word, rank);
+                lines.Add(line);
+            }
+
+            return String.Join(UserDefiningPattern.LineSplitString, CollectionHelper.ToArray(lines));
         }
 
         private void BuildLineFormat()
         {
-            Dictionary<int, string> dictionary = new Dictionary<int, string>();
+            var dictionary = new Dictionary<int, string>();
             if (UserDefiningPattern.ContainCode)
             {
                 dictionary.Add(UserDefiningPattern.Sort[0], "{0}");
@@ -93,7 +115,7 @@ namespace Studyzy.IMEWLConverter.IME
             dictionary.Add(UserDefiningPattern.Sort[1], "{1}");
             var newSort = new List<int>(UserDefiningPattern.Sort);
             newSort.Sort();
-          
+
             lineFormat = "";
             foreach (int x in newSort)
             {
@@ -105,40 +127,6 @@ namespace Studyzy.IMEWLConverter.IME
             lineFormat = lineFormat.Substring(0, lineFormat.Length - UserDefiningPattern.SplitString.Length);
         }
 
-        public string ExportLine(WordLibrary wl)
-        {
-            if (lineFormat == "")
-            {
-                BuildLineFormat();
-            }
-            List<string> lines=new List<string>();
-            //需要判断源WL与导出的字符串的CodeType是否一致，如果一致，那么可以采用其编码，如果不一致，那么忽略编码，
-            //调用CodeGenerater生成新的编码，并用新编码生成行
-            IList<string> codes = null;
-            if (wl.CodeType == this.CodeType)
-            {
-                codes = wl.GetCodeString(UserDefiningPattern.CodeSplitString, UserDefiningPattern.CodeSplitType);
-               
-            }
-            else
-            {
-                codes = codeGenerater.GetCodeOfString(wl.Word, UserDefiningPattern.CodeSplitString,UserDefiningPattern.CodeSplitType);
-                if (codes == null || codes.Count == 0) //生成失败
-                    return null;
-               
-            }
-            var word = wl.Word;
-            var rank = wl.Rank;
-            foreach (var code in codes)
-            {
-                var line = String.Format(lineFormat, code, word, rank);
-                lines.Add(line);
-            }
-
-            return String.Join(UserDefiningPattern.LineSplitString,CollectionHelper.ToArray(lines));
-        }
-
-       
         #endregion
 
         #region IWordLibraryTextImport Members
@@ -178,14 +166,13 @@ namespace Studyzy.IMEWLConverter.IME
             wlList.Add(wl);
             return wlList;
         }
-       
 
         #endregion
 
         #region 根据字符串生成WL
 
         /// <summary>
-        /// 根据Pattern设置的格式，对输入的一行该格式的字符串转换成WordLibrary
+        ///     根据Pattern设置的格式，对输入的一行该格式的字符串转换成WordLibrary
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
@@ -193,76 +180,83 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var wl = new WordLibrary();
             wl.CodeType = UserDefiningPattern.CodeType;
-            string[] strlist = line.Split(new[] { UserDefiningPattern.SplitString }, StringSplitOptions.RemoveEmptyEntries);
+            string[] strlist = line.Split(new[] {UserDefiningPattern.SplitString}, StringSplitOptions.RemoveEmptyEntries);
             var newSort = new List<int>(UserDefiningPattern.Sort);
             newSort.Sort();
-            string code="", word="";
-            int rank=0;
-           
-                int index1 =UserDefiningPattern. Sort.FindIndex(i => i == newSort[0]); //最小的一个
-                if (index1 == 0 && UserDefiningPattern.ContainCode) //第一个是编码
+            string code = "", word = "";
+            int rank = 0;
+
+            int index1 = UserDefiningPattern.Sort.FindIndex(i => i == newSort[0]); //最小的一个
+            if (index1 == 0 && UserDefiningPattern.ContainCode) //第一个是编码
+            {
+                code = strlist[0];
+            }
+            if (index1 == 1) //第一个是汉字
+            {
+                word = strlist[0];
+            }
+            if (index1 == 2 && UserDefiningPattern.ContainRank) //第一个是词频
+            {
+                rank = Convert.ToInt32(strlist[0]);
+            }
+            if (strlist.Length > 1)
+            {
+                int index2 = UserDefiningPattern.Sort.FindIndex(i => i == newSort[1]); //中间的一个
+                if (index2 == 0 && UserDefiningPattern.ContainCode) //一个是Code
                 {
-                    code = strlist[0];
+                    code = strlist[1];
                 }
-                if (index1 == 1)//第一个是汉字
+                if (index2 == 1)
                 {
-                    word= strlist[0];
+                    word = strlist[1];
                 }
-                if (index1 == 2 &&UserDefiningPattern. ContainRank)//第一个是词频
+                if (index2 == 2 && UserDefiningPattern.ContainRank)
                 {
-                   rank = Convert.ToInt32(strlist[0]);
+                    rank = Convert.ToInt32(strlist[1]);
                 }
-                if (strlist.Length > 1)
+            }
+            if (strlist.Length > 2)
+            {
+                int index2 = UserDefiningPattern.Sort.FindIndex(i => i == newSort[2]); //最大的一个
+                if (index2 == 0 && UserDefiningPattern.ContainCode) //第一个是拼音
                 {
-                    int index2 = UserDefiningPattern.Sort.FindIndex(i => i == newSort[1]); //中间的一个
-                    if (index2 == 0 && UserDefiningPattern.ContainCode) //一个是Code
-                    {
-                        code = strlist[1];
-                    }
-                    if (index2 == 1)
-                    {
-                        word = strlist[1];
-                    }
-                    if (index2 == 2 && UserDefiningPattern.ContainRank)
-                    {
-                        rank = Convert.ToInt32(strlist[1]);
-                    }
+                    code = strlist[2];
                 }
-                if (strlist.Length > 2)
+                if (index2 == 1)
                 {
-                    int index2 = UserDefiningPattern.Sort.FindIndex(i => i == newSort[2]); //最大的一个
-                    if (index2 == 0 && UserDefiningPattern.ContainCode) //第一个是拼音
-                    {
-                        code = strlist[2];
-                    }
-                    if (index2 == 1)
-                    {
-                        word = strlist[2];
-                    }
-                    if (index2 == 2 && UserDefiningPattern.ContainRank)
-                    {
-                        rank = Convert.ToInt32(strlist[2]);
-                    }
+                    word = strlist[2];
                 }
+                if (index2 == 2 && UserDefiningPattern.ContainRank)
+                {
+                    rank = Convert.ToInt32(strlist[2]);
+                }
+            }
             wl.Word = word;
             wl.Rank = rank;
             if (code != "")
             {
                 if (UserDefiningPattern.IsPinyinFormat)
                 {
-                    var codes = code.Split(new[] {UserDefiningPattern.CodeSplitString},
+                    string[] codes = code.Split(new[] {UserDefiningPattern.CodeSplitString},
                         StringSplitOptions.RemoveEmptyEntries);
-                    wl.SetCode(UserDefiningPattern.CodeType,new List<string>(codes));
+                    wl.SetCode(UserDefiningPattern.CodeType, new List<string>(codes));
                 }
                 else
                 {
-                    wl.SetCode(UserDefiningPattern.CodeType,code);
+                    wl.SetCode(UserDefiningPattern.CodeType, code);
                 }
             }
-          
+
             return wl;
         }
+
         #endregion
 
+        public ParsePattern UserDefiningPattern { get; set; }
+
+        public override CodeType CodeType
+        {
+            get { return UserDefiningPattern.CodeType; }
+        }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 极点的词库格式为“编码 词语 词语 词语”\r\n
+    ///     极点的词库格式为“编码 词语 词语 词语”\r\n
     /// </summary>
     [ComboBoxShow(ConstantString.JIDIAN_ZHENGMA, ConstantString.JIDIAN_ZHENGMA_C, 190)]
     public class JidianZhengma : Jidian, IWordLibraryTextImport, IWordLibraryExport
@@ -24,13 +23,12 @@ namespace Studyzy.IMEWLConverter.IME
 
             return sb.ToString();
         }
+
         public override CodeType CodeType
         {
-            get
-            {
-                return CodeType.Zhengma;
-            }
+            get { return CodeType.Zhengma; }
         }
+
         #endregion
     }
 }

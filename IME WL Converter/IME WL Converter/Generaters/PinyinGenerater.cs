@@ -14,36 +14,44 @@ namespace Studyzy.IMEWLConverter.Generaters
         private static Dictionary<string, List<string>> mutiPinYinWord;
 
         #region IWordCodeGenerater Members
-        public virtual bool IsBaseOnOldCode { get { return false; } }
+
+        public virtual bool IsBaseOnOldCode
+        {
+            get { return false; }
+        }
+
         public virtual string GetDefaultCodeOfChar(char str)
         {
             return GetAllCodesOfChar(str)[0];
         }
+
         public virtual IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
         {
             return GetCodeOfString(str.Word, charCodeSplit);
         }
+
         /// <summary>
-        /// 获得一个词的拼音
-        /// 如果这个词不包含多音字，那么直接使用其拼音
-        /// 如果包含多音字，则找对应的注音词，根据注音词进行注音
-        /// 没有找到注音词的，使用默认拼音
+        ///     获得一个词的拼音
+        ///     如果这个词不包含多音字，那么直接使用其拼音
+        ///     如果包含多音字，则找对应的注音词，根据注音词进行注音
+        ///     没有找到注音词的，使用默认拼音
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public virtual IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+        public virtual IList<string> GetCodeOfString(string str, string charCodeSplit = "",
+            BuildType buildType = BuildType.None)
         {
             if (IsInWordPinYin(str))
             {
-                var pyList= GenerateMutiWordPinYin(str);
-                for (var i = 0; i < str.Length; i++)
+                List<string> pyList = GenerateMutiWordPinYin(str);
+                for (int i = 0; i < str.Length; i++)
                 {
                     if (pyList[i] == null)
                     {
                         pyList[i] = PinyinHelper.GetDefaultPinyin(str[i]);
                     }
                 }
-                    return pyList;
+                return pyList;
             }
             try
             {
@@ -62,7 +70,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         /// <summary>
-        /// 因为使用了注音的方式，所以避免了多音字，一个词也只有一个音
+        ///     因为使用了注音的方式，所以避免了多音字，一个词也只有一个音
         /// </summary>
         public virtual bool Is1CharMutiCode
         {
@@ -119,7 +127,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         /// <summary>
-        /// 一个词中是否有多音字注音
+        ///     一个词中是否有多音字注音
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
@@ -137,7 +145,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         /// <summary>
-        /// 产生一个词中多音字的拼音,没有的就空着
+        ///     产生一个词中多音字的拼音,没有的就空着
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>

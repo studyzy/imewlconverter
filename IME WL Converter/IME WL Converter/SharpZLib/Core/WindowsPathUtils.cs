@@ -36,23 +36,23 @@
 namespace ICSharpCode.SharpZipLib.Core
 {
     /// <summary>
-    /// WindowsPathUtils provides simple utilities for handling windows paths.
+    ///     WindowsPathUtils provides simple utilities for handling windows paths.
     /// </summary>
     public abstract class WindowsPathUtils
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowsPathUtils"/> class.
+        ///     Initializes a new instance of the <see cref="WindowsPathUtils" /> class.
         /// </summary>
         internal WindowsPathUtils()
         {
         }
 
         /// <summary>
-        /// Remove any path root present in the path
+        ///     Remove any path root present in the path
         /// </summary>
-        /// <param name="path">A <see cref="string"/> containing path information.</param>
+        /// <param name="path">A <see cref="string" /> containing path information.</param>
         /// <returns>The path with the root removed if it was present; path otherwise.</returns>
-        /// <remarks>Unlike the <see cref="System.IO.Path"/> class the path isnt otherwise checked for validity.</remarks>
+        /// <remarks>Unlike the <see cref="System.IO.Path" /> class the path isnt otherwise checked for validity.</remarks>
         public static string DropPathRoot(string path)
         {
             string result = path;
