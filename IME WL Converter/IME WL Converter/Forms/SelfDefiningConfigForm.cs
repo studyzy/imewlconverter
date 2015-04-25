@@ -51,7 +51,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.CodeSplitString = GetSplitString(cbbxPinyinSplitString.Text);
             SelectedParsePattern.CodeSplitType = GetBuildType();
 
-            SelectedParsePattern.LineSplitString = cbxLineSplitString.Text;
+            SelectedParsePattern.LineSplitString =GetLineSplitString();
             SelectedParsePattern.SplitString = GetSplitString(cbbxSplitString.Text);
 
             SelectedParsePattern.CodeType = cbxCodeType.Text == "拼音编码" ? CodeType.Pinyin : CodeType.UserDefine;
@@ -68,6 +68,21 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.IsPinyinFormat = cbxCodeFormat.Text == "拼音规则";
             SelectedParsePattern.MutiWordCodeFormat = rtbCodeFormat.Text;
             return true;
+        }
+
+        private string GetLineSplitString()
+        {
+            switch (cbxLineSplitString.Text)
+            {
+                case "\\r\\n":
+                    return "\r\n";
+                case "\\r":
+                    return "\r";
+                case "\\n":
+                    return "\n";
+                default:
+                    return cbxLineSplitString.Text;
+            }
         }
      
 
@@ -127,12 +142,11 @@ namespace Studyzy.IMEWLConverter
         private WordLibraryList SampleWL()
         {
             WordLibraryList list=new WordLibraryList();
-            list.Add(new WordLibrary(){Word = "深",Rank = 1234});
-            list.Add(new WordLibrary() { Word = "深蓝", Rank = 1234 });
-            list.Add(new WordLibrary() { Word = "深蓝词", Rank = 1234 });
-            list.Add(new WordLibrary() { Word = "深蓝词库", Rank = 1234 });
-            list.Add(new WordLibrary() { Word = "深蓝词库转", Rank = 1234 });
-            list.Add(new WordLibrary() { Word = "深蓝词库转换", Rank = 1234 });
+            var lines = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                list.Add(new WordLibrary() { Word = line, Rank = 1234,CodeType = CodeType.NoCode});
+            }
             return list;
         }
 
@@ -250,17 +264,7 @@ code_a4=p11+p21+p31+n11";
         }
         private void btnTest_Click(object sender, EventArgs e)
         {
-            var lines= rtbFrom.Text.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-           
-            WordLibraryList list=new WordLibraryList();
-            foreach (var line in lines)
-            {
-                WordLibrary wl=new WordLibrary(){Word = line.Trim(),Rank = 1234};
-                list.Add(wl);
-            }
-            ime.UserDefiningPattern = this.SelectedParsePattern;
-            var result = ime.Export(list);
-            rtbTo.Text = result;
+            ShowSample();
         }
 
         //private IWordCodeGenerater pyFactory = new PinyinGenerater();
@@ -306,7 +310,6 @@ code_a4=p11+p21+p31+n11";
                 SelectedParsePattern.CodeType = CodeType.UserDefine;
             }
           
-            ShowSample();
         }
 
       

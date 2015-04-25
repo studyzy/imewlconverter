@@ -22,7 +22,13 @@ namespace Studyzy.IMEWLConverter
         [STAThread]
         private static void Main(string[] args)
         {
-
+            var platform = Environment.OSVersion.Platform;
+            if (platform == PlatformID.Unix || platform == PlatformID.MacOSX)
+            {
+                var consoleRun = new ConsoleRun(args);
+                consoleRun.Run();
+                return;
+            }
 #if DEBUG
 
             Application.Run(new SelfDefiningConfigForm());

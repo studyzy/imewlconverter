@@ -162,7 +162,6 @@
     <Compile Include="Generaters\ErbiGenerater.cs" />
     <Compile Include="Generaters\ZhengmaGenerater.cs" />
     <Compile Include="Generaters\TerraPinyinGenerater.cs" />
-    <Compile Include="Global.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\ZhuyinHelper.cs" />

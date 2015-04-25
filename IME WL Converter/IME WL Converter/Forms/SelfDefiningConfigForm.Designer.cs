@@ -33,7 +33,6 @@
             this.rtbFrom = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rtbTo = new System.Windows.Forms.RichTextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lbFileSelect = new System.Windows.Forms.Label();
@@ -47,7 +46,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbxCodeFormat = new System.Windows.Forms.ComboBox();
             this.rtbCodeFormat = new System.Windows.Forms.RichTextBox();
-            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbxLineSplitString = new System.Windows.Forms.ComboBox();
@@ -67,6 +65,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cbxIncludePinyin = new System.Windows.Forms.CheckBox();
             this.btnTest = new System.Windows.Forms.Button();
+            this.rtbTo = new System.Windows.Forms.RichTextBox();
+            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -82,9 +82,9 @@
             this.rtbFrom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbFrom.Location = new System.Drawing.Point(3, 16);
             this.rtbFrom.Name = "rtbFrom";
-            this.rtbFrom.Size = new System.Drawing.Size(210, 119);
+            this.rtbFrom.Size = new System.Drawing.Size(166, 119);
             this.rtbFrom.TabIndex = 0;
-            this.rtbFrom.Text = "";
+            this.rtbFrom.Text = "深\n深蓝\n深蓝词\n深蓝词库\n深蓝词库转\n深蓝词库转换";
             this.rtbFrom.WordWrap = false;
             // 
             // groupBox1
@@ -94,7 +94,7 @@
             this.groupBox1.Controls.Add(this.rtbFrom);
             this.groupBox1.Location = new System.Drawing.Point(10, 325);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(216, 138);
+            this.groupBox1.Size = new System.Drawing.Size(172, 138);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "源内容";
@@ -102,23 +102,12 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rtbTo);
-            this.groupBox2.Location = new System.Drawing.Point(275, 325);
+            this.groupBox2.Location = new System.Drawing.Point(236, 325);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(266, 138);
+            this.groupBox2.Size = new System.Drawing.Size(305, 138);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "结果";
-            // 
-            // rtbTo
-            // 
-            this.rtbTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbTo.Location = new System.Drawing.Point(3, 16);
-            this.rtbTo.Name = "rtbTo";
-            this.rtbTo.ReadOnly = true;
-            this.rtbTo.Size = new System.Drawing.Size(260, 119);
-            this.rtbTo.TabIndex = 0;
-            this.rtbTo.Text = "";
-            this.rtbTo.WordWrap = false;
             // 
             // btnOK
             // 
@@ -177,11 +166,11 @@
             // lbRemark
             // 
             this.lbRemark.AutoSize = true;
-            this.lbRemark.Location = new System.Drawing.Point(9, 77);
+            this.lbRemark.Location = new System.Drawing.Point(113, 25);
             this.lbRemark.Name = "lbRemark";
-            this.lbRemark.Size = new System.Drawing.Size(489, 13);
+            this.lbRemark.Size = new System.Drawing.Size(405, 13);
             this.lbRemark.TabIndex = 12;
-            this.lbRemark.Text = "若不使用拼音，编码文件中每行一个汉字和编码，汉字不可重复，格式形如：“深<Tab>shen”";
+            this.lbRemark.Text = "若不使用拼音，编码文件中每行一个汉字和编码，格式形如：“深<Tab>shen”";
             // 
             // groupBox3
             // 
@@ -209,7 +198,7 @@
             "自定义编码"});
             this.cbxCodeType.Location = new System.Drawing.Point(9, 22);
             this.cbxCodeType.Name = "cbxCodeType";
-            this.cbxCodeType.Size = new System.Drawing.Size(109, 21);
+            this.cbxCodeType.Size = new System.Drawing.Size(91, 21);
             this.cbxCodeType.TabIndex = 19;
             this.cbxCodeType.Text = "拼音编码";
             this.cbxCodeType.SelectedIndexChanged += new System.EventHandler(this.cbxCodeType_SelectedIndexChanged);
@@ -217,7 +206,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 113);
+            this.label8.Location = new System.Drawing.Point(9, 95);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(91, 13);
             this.label8.TabIndex = 18;
@@ -230,7 +219,7 @@
             "拼音规则",
             "五笔规则",
             "自定义规则"});
-            this.cbxCodeFormat.Location = new System.Drawing.Point(115, 110);
+            this.cbxCodeFormat.Location = new System.Drawing.Point(116, 92);
             this.cbxCodeFormat.Name = "cbxCodeFormat";
             this.cbxCodeFormat.Size = new System.Drawing.Size(118, 21);
             this.cbxCodeFormat.TabIndex = 17;
@@ -239,44 +228,13 @@
             // 
             // rtbCodeFormat
             // 
-            this.rtbCodeFormat.Location = new System.Drawing.Point(268, 99);
+            this.rtbCodeFormat.Location = new System.Drawing.Point(268, 92);
             this.rtbCodeFormat.Name = "rtbCodeFormat";
-            this.rtbCodeFormat.Size = new System.Drawing.Size(153, 58);
+            this.rtbCodeFormat.Size = new System.Drawing.Size(153, 65);
             this.rtbCodeFormat.TabIndex = 16;
             this.rtbCodeFormat.Text = "code_e2=p11+p12+p21+p22\ncode_e3=p11+p21+p31+p32\ncode_a4=p11+p21+p31+n11";
             this.rtbCodeFormat.Visible = false;
             this.rtbCodeFormat.TextChanged += new System.EventHandler(this.rtbCodeFormat_TextChanged);
-            // 
-            // cbxTextEncoding
-            // 
-            this.cbxTextEncoding.FormattingEnabled = true;
-            this.cbxTextEncoding.Items.AddRange(new object[] {
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII"});
-            this.cbxTextEncoding.Location = new System.Drawing.Point(423, 52);
-            this.cbxTextEncoding.Name = "cbxTextEncoding";
-            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
-            this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
-            this.cbxTextEncoding.TabIndex = 14;
             // 
             // groupBox4
             // 
@@ -311,14 +269,14 @@
             // 
             this.cbxLineSplitString.FormattingEnabled = true;
             this.cbxLineSplitString.Items.AddRange(new object[] {
-            "/r/n",
-            "/r",
-            "/n"});
+            "\\r\\n",
+            "\\r",
+            "\\n"});
             this.cbxLineSplitString.Location = new System.Drawing.Point(410, 108);
             this.cbxLineSplitString.Name = "cbxLineSplitString";
             this.cbxLineSplitString.Size = new System.Drawing.Size(53, 21);
             this.cbxLineSplitString.TabIndex = 21;
-            this.cbxLineSplitString.Text = "/r/n";
+            this.cbxLineSplitString.Text = "\\r\\n";
             // 
             // cbxPinyinSplitBehind
             // 
@@ -503,13 +461,77 @@
             // btnTest
             // 
             this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTest.Location = new System.Drawing.Point(229, 387);
+            this.btnTest.Location = new System.Drawing.Point(190, 387);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(40, 25);
             this.btnTest.TabIndex = 1;
             this.btnTest.Text = "->";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // rtbTo
+            // 
+            this.rtbTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbTo.Location = new System.Drawing.Point(3, 16);
+            this.rtbTo.Name = "rtbTo";
+            this.rtbTo.ReadOnly = true;
+            this.rtbTo.Size = new System.Drawing.Size(299, 119);
+            this.rtbTo.TabIndex = 0;
+            this.rtbTo.Text = "";
+            // 
+            // cbxTextEncoding
+            // 
+            this.cbxTextEncoding.FormattingEnabled = true;
+            this.cbxTextEncoding.Items.AddRange(new object[] {
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII"});
+            this.cbxTextEncoding.Location = new System.Drawing.Point(423, 52);
+            this.cbxTextEncoding.Name = "cbxTextEncoding";
+            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
+            this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
+            this.cbxTextEncoding.TabIndex = 14;
+            this.cbxTextEncoding.Text = "UTF-8";
+            this.cbxTextEncoding.Visible = false;
             // 
             // SelfDefiningConfigForm
             // 
@@ -554,7 +576,6 @@
         protected System.Windows.Forms.RichTextBox rtbFrom;
         protected System.Windows.Forms.GroupBox groupBox1;
         protected System.Windows.Forms.GroupBox groupBox2;
-        protected System.Windows.Forms.RichTextBox rtbTo;
         protected System.Windows.Forms.Button btnOK;
         protected System.Windows.Forms.Button btnCancel;
         protected System.Windows.Forms.Label lbFileSelect;
@@ -588,5 +609,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cbxLineSplitString;
         protected System.Windows.Forms.Label label8;
+        private System.Windows.Forms.RichTextBox rtbTo;
     }
 }

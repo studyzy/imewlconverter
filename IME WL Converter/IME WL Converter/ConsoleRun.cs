@@ -45,6 +45,11 @@ namespace Studyzy.IMEWLConverter
 
         public void Run()
         {
+            if (Args.Length == 0)
+            {
+                Console.WriteLine("输入 -? 可获取帮助");
+                return;
+            }
             for (int i = 0; i < Args.Length; i++)
             {
                 string arg = Args[i];
