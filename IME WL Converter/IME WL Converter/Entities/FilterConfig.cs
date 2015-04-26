@@ -8,7 +8,7 @@
             WordLengthTo = 100;
             WordRankFrom = 1;
             WordRankTo = 999999;
-
+            WordRankPercentage = 100;
             IgnoreEnglish = true;
             IgnoreSpace = true;
             IgnorePunctuation = true;

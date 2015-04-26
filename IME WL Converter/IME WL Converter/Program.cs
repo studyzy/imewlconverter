@@ -6,10 +6,6 @@ namespace Studyzy.IMEWLConverter
 {
     internal static class Program
     {
-        //[DllImport("kernel32.dll")]
-        //static extern bool AllocConsole();
-        //[DllImport("kernel32.dll")]
-        //static extern bool FreeConsole();
 
         private const int ATTACH_PARENT_PROCESS = -1;
 
