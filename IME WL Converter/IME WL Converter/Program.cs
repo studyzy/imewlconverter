@@ -31,8 +31,8 @@ namespace Studyzy.IMEWLConverter
             }
 #if DEBUG
 
-            Application.Run(new SelfDefiningConfigForm());
-            return;
+            //Application.Run(new SelfDefiningConfigForm());
+            //return;
 #endif
             if (args.Length > 0)
             {

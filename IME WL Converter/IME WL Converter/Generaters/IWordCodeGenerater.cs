@@ -18,33 +18,31 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         bool Is1Char1Code { get; }
 
-        /// <summary>
-        ///     在生成编码时，是否可基于原有编码进行升级，比如不带声调的拼音升级为带声调的拼音
-        /// </summary>
-        bool IsBaseOnOldCode { get; }
+        ///// <summary>
+        /////     在生成编码时，是否可基于原有编码进行升级，比如不带声调的拼音升级为带声调的拼音
+        ///// </summary>
+        //bool IsBaseOnOldCode { get; }
 
-        /// <summary>
-        ///     获得一个字的默认编码,如果找不到编码，则返回null
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        string GetDefaultCodeOfChar(char str);
+        ///// <summary>
+        /////     获得一个字的默认编码,如果找不到编码，则返回null
+        ///// </summary>
+        ///// <param name="str"></param>
+        ///// <returns></returns>
+        //string GetDefaultCodeOfChar(char str);
 
-        /// <summary>
-        ///     获得一个词的编码,如果MutiCode==True，那么返回的是一个词的多种编码方式，如果为False，那么返回的是每个字的编码
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="charCodeSplit">一个词中的各个字的编码之间的分隔符，默认不分割 </param>
-        /// <returns></returns>
-        IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None);
+        ///// <summary>
+        /////     获得一个词的编码,如果MutiCode==True，那么返回的是一个词的多种编码方式，如果为False，那么返回的是每个字的编码
+        ///// </summary>
+        ///// <param name="str"></param>
+        ///// <returns></returns>
+        Code GetCodeOfString(string str);
 
         /// <summary>
         ///     获得一个词条的编码，可能会利用到词条的原编码
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="charCodeSplit"></param>
+        /// <param name="wl"></param>
         /// <returns></returns>
-        IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "");
+       void GetCodeOfWordLibrary(WordLibrary wl);
 
         /// <summary>
         ///     获得一个字的所有编码。比如多音字，一字多码

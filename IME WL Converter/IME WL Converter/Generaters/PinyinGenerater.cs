@@ -9,25 +9,37 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class PinyinGenerater : IWordCodeGenerater
+    public class PinyinGenerater :BaseCodeGenerater, IWordCodeGenerater
     {
         private static Dictionary<string, List<string>> mutiPinYinWord;
 
         #region IWordCodeGenerater Members
 
-        public virtual bool IsBaseOnOldCode
-        {
-            get { return false; }
-        }
+    
 
-        public virtual string GetDefaultCodeOfChar(char str)
+        public override void GetCodeOfWordLibrary(WordLibrary wl)
         {
-            return GetAllCodesOfChar(str)[0];
-        }
-
-        public virtual IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
-        {
-            return GetCodeOfString(str.Word, charCodeSplit);
+            if (wl.CodeType == CodeType.Pinyin)
+            {
+                return;
+            }
+            if (wl.CodeType == CodeType.TerraPinyin) //要去掉音调
+            {
+                for (int i = 0; i < wl.Codes.Count; i++)
+                {
+                    var row = wl.Codes[i];
+                    for (int j = 0; j < row.Count; j++)
+                    {
+                        string s = row[j];
+                        string py = s.Remove(s.Length - 1); //remove tone
+                        wl.Codes[i][j] = py;
+                    }
+                }
+                return;
+            }
+            //不是拼音，就调用GetCode生成拼音
+            var code= GetCodeOfString(wl.Word);
+            wl.Codes = code;
         }
 
         /// <summary>
@@ -38,8 +50,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public virtual IList<string> GetCodeOfString(string str, string charCodeSplit = "",
-            BuildType buildType = BuildType.None)
+        public override Code GetCodeOfString(string str)
         {
             if (IsInWordPinYin(str))
             {
@@ -51,16 +62,16 @@ namespace Studyzy.IMEWLConverter.Generaters
                         pyList[i] = PinyinHelper.GetDefaultPinyin(str[i]);
                     }
                 }
-                return pyList;
+                return new Code(pyList,true);
             }
             try
             {
-                return PinyinHelper.GetDefaultPinyin(str);
+                return new Code( PinyinHelper.GetDefaultPinyin(str),true);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return new List<string>();
+                return null;
             }
         }
 

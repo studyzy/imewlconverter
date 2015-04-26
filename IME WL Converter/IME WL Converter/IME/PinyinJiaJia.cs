@@ -7,6 +7,9 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ComboBoxShow(ConstantString.PINYIN_JIAJIA, ConstantString.PINYIN_JIAJIA_C, 120)]
     public class PinyinJiaJia : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
@@ -100,7 +103,7 @@ namespace Studyzy.IMEWLConverter.IME
                 hz += word[j];
                 if (word[j + 1] > 'z') //而且后面跟的不是拼音
                 {
-                    py.Add(single.GetDefaultCodeOfChar(word[j]));
+                    py.Add(single.GetAllCodesOfChar(word[j])[0]);
                 }
                 else //后面跟拼音
                 {
@@ -118,7 +121,7 @@ namespace Studyzy.IMEWLConverter.IME
             if (j == word.Length - 1) //最后一个字是汉字
             {
                 hz += word[j];
-                py.Add(single.GetDefaultCodeOfChar(word[j]));
+                py.Add(single.GetAllCodesOfChar(word[j])[0]);
             }
             var wl = new WordLibrary();
             wl.PinYin = py.ToArray();

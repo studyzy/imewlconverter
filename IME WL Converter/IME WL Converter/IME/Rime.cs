@@ -7,6 +7,11 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
+    /// <summary>
+    /// RIME是一个输入法框架，支持多种输入法编码，词库规则是：
+    /// 词语+Tab+编码（拼音空格隔开）+Tab+词频
+    /// 
+    /// </summary>
     [ComboBoxShow(ConstantString.RIME, ConstantString.RIME_C, 150)]
     public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
@@ -53,9 +58,10 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
             }
+            codeGenerater.GetCodeOfWordLibrary(wl);
             if (codeGenerater.Is1CharMutiCode)
             {
-                IList<string> codes = codeGenerater.GetCodeOfString(wl.Word);
+                IList<string> codes = codeGenerater.GetCodeOfString(wl.Word).ToCodeString(" ");
                 int i = 0;
                 foreach (string code in codes)
                 {
@@ -83,14 +89,8 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 else
                 {
-                    if (codeGenerater.Is1Char1Code)
-                    {
-                        sb.Append(CollectionHelper.ListToString(codeGenerater.GetCodeOfString(wl.Word), " "));
-                    }
-                    else
-                    {
-                        sb.Append(CollectionHelper.ListToString(codeGenerater.GetCodeOfString(wl.Word)));
-                    }
+
+                    sb.Append(wl.Codes.ToCodeString(" ")[0]);
                 }
                 sb.Append("\t");
                 sb.Append(wl.Rank);

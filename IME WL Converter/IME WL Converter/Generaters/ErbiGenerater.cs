@@ -13,7 +13,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 　　多字词（四字以上词）：取前三字和最后一字的第一码（前三末一）。
      */
 
-    public abstract class ErbiGenerater : IWordCodeGenerater
+    public abstract class ErbiGenerater :BaseCodeGenerater, IWordCodeGenerater
     {
         /// <summary>
         ///     二笔的编码可能是一字多码的
@@ -51,56 +51,32 @@ namespace Studyzy.IMEWLConverter.Generaters
                         string[] codes = code.Split(' '); //code之间空格分割
                         erbiDic[word] = new List<string>(codes);
                     }
-                    OverrideDictionary(erbiDic);
+                    //OverrideDictionary(erbiDic);
                 }
                 return erbiDic;
             }
         }
 
-        public bool IsBaseOnOldCode
-        {
-            get { return true; }
-        }
 
-        public IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
-        {
-            IList<string> pinYin = null;
-            if (wl.CodeType == CodeType.Pinyin)
-            {
-                pinYin = wl.PinYin;
-            }
-            else
-            {
-                //生成拼音
-                pinYin = pinyinGenerater.GetCodeOfString(wl.Word);
-            }
-            IList<IList<string>> codes = GetErbiCode(wl.Word, pinYin);
-            if (codes == null)
-                return null;
-            IList<string> result = CollectionHelper.Descartes(codes);
-            return result;
-        }
+       
 
         #region IWordCodeGenerater Members
 
-        private static readonly PinyinGenerater pinyinGenerater = new PinyinGenerater();
+        protected  PinyinGenerater pinyinGenerater = new PinyinGenerater();
 
         public bool Is1Char1Code
         {
             get { return false; }
         }
 
-        public string GetDefaultCodeOfChar(char str)
-        {
-            return ErbiDic[str][0];
-        }
 
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+
+        public override Code GetCodeOfString(string str)
         {
-            IList<string> pinYin = pinyinGenerater.GetCodeOfString(str);
-            IList<IList<string>> codes = GetErbiCode(str, pinYin);
+            var code = pinyinGenerater.GetCodeOfString(str);
+            IList<IList<string>> codes = GetErbiCode(str, code.GetDefaultCode());
             IList<string> result = CollectionHelper.Descartes(codes);
-            return result;
+            return new Code(result,false);
         }
 
         public IList<string> GetAllCodesOfChar(char str)
@@ -116,29 +92,29 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #endregion
 
-        /// <summary>
-        ///     读取外部的字典文件，覆盖系统默认字典
-        /// </summary>
-        /// <param name="dictionary"></param>
-        protected virtual void OverrideDictionary(IDictionary<char, IList<string>> dictionary)
-        {
-            string fileContent = FileOperationHelper.ReadFile("mb.txt");
-            if (fileContent != "")
-            {
-                foreach (string line in fileContent.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    string[] arr = line.Split('\t');
-                    if (arr[0].Length == 0)
-                    {
-                        continue;
-                    }
-                    char word = arr[0][0];
-                    string code = arr[1];
-                    string[] codes = code.Split(' ');
-                    dictionary[word] = new List<string>(codes); //强行覆盖现有字典
-                }
-            }
-        }
+        ///// <summary>
+        /////     读取外部的字典文件，覆盖系统默认字典
+        ///// </summary>
+        ///// <param name="dictionary"></param>
+        //protected virtual void OverrideDictionary(IDictionary<char, IList<string>> dictionary)
+        //{
+        //    string fileContent = FileOperationHelper.ReadFile("mb.txt");
+        //    if (fileContent != "")
+        //    {
+        //        foreach (string line in fileContent.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
+        //        {
+        //            string[] arr = line.Split('\t');
+        //            if (arr[0].Length == 0)
+        //            {
+        //                continue;
+        //            }
+        //            char word = arr[0][0];
+        //            string code = arr[1];
+        //            string[] codes = code.Split(' ');
+        //            dictionary[word] = new List<string>(codes); //强行覆盖现有字典
+        //        }
+        //    }
+        //}
 
 
         protected virtual IList<IList<string>> GetErbiCode(string str, IList<string> py)

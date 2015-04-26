@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Studyzy.IMEWLConverter.Generaters;
 using NUnit.Framework;
@@ -28,8 +29,8 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
         [TestCase("行走", "xing zou")]
         public void TestGetLongWordsPinyin(string str,string py)
         {
-            var result = generater.GetCodeOfString(str, " ");
-            Assert.AreEqual(py,CollectionHelper.ListToString(result," "));
+            var result = generater.GetCodeOfString(str);
+            Assert.Contains(py,result.ToCodeString(" ").ToArray());
         }
     }
 }

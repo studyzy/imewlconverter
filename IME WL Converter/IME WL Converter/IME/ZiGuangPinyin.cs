@@ -5,6 +5,9 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
+    /// <summary>
+    /// 以前叫紫光输入法，现在改名叫华宇拼音输入法
+    /// </summary>
     [ComboBoxShow(ConstantString.ZIGUANG_PINYIN, ConstantString.ZIGUANG_PINYIN_C, 170)]
     public class ZiGuangPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {

@@ -188,14 +188,8 @@ namespace Studyzy.IMEWLConverter
                 {
                     continue;
                 }
-                if (generater.IsBaseOnOldCode)
-                {
-                    wordLibrary.SetCode(codeType, generater.GetCodeOfWordLibrary(wordLibrary));
-                }
-                else
-                {
-                    wordLibrary.SetCode(codeType, generater.GetCodeOfString(wordLibrary.Word));
-                }
+                generater.GetCodeOfWordLibrary(wordLibrary);
+
             }
         }
 

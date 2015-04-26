@@ -7,9 +7,9 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.Generaters
 {
     /// <summary>
-    ///     根据提供的外部字典，格式，生成编码的类
+    /// 根据提供的外部字典，格式，生成编码的类
     /// </summary>
-    public class SelfDefiningCodeGenerater : IWordCodeGenerater
+    public class SelfDefiningCodeGenerater :BaseCodeGenerater, IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
 
@@ -40,14 +40,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         public bool Is1Char1Code { get; set; }
 
-        /// <summary>
-        ///     有可能是拼音编码，所以是True
-        /// </summary>
-        public bool IsBaseOnOldCode
-        {
-            get { return true; }
-        }
-
         public string GetDefaultCodeOfChar(char str)
         {
             if (MappingDictionary != null && MappingDictionary.Count > 0)
@@ -63,25 +55,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             return null;
         }
 
-        //private bool IsPinyinCode
-        //{
-        //    get { return MappingDictionary == null || MappingDictionary.Count == 0; }
-        //}
-        /// <summary>
-        ///     获得一个词条的编码，可能会利用到词条的原编码
-        /// </summary>
-        /// <param name="wl"></param>
-        /// <param name="charCodeSplit"></param>
-        /// <returns></returns>
-        public IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
-        {
-            if (wl.CodeType == CodeType.Pinyin)
-            {
-                return CollectionHelper.DescarteIndex1(wl.Codes);
-            }
-
-            return GetCodeOfString(wl.Word, charCodeSplit);
-        }
 
 
         /// <summary>
@@ -90,14 +63,14 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// <param name="str"></param>
         /// <param name="charCodeSplit"></param>
         /// <returns></returns>
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+        public override Code GetCodeOfString(string str)
         {
             IList<IList<string>> codes = GetAllCodesOfString(str);
             if (Is1Char1Code)
             {
-                return CollectionHelper.CartesianProduct(codes, charCodeSplit, buildType);
+                return new Code(codes);
             }
-
+            //一词一码，按组词规则生成
             var list = new List<string>();
             string result = "";
             string[] arr = MutiWordCodeFormat.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
@@ -134,7 +107,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 result = GetStringCode(str, f);
             }
             list.Add(result);
-            return list;
+            return new Code(list,false);
         }
 
 
@@ -184,6 +157,5 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #endregion
 
-        //private static PinyinGenerater pinyinGenerater=new PinyinGenerater();
     }
 }

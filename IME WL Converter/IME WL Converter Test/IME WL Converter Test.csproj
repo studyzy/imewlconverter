@@ -46,6 +46,7 @@
     <Compile Include="BaseTest.cs" />
     <Compile Include="FilterTest\AllFilterTest.cs" />
     <Compile Include="GeneraterTest\SelfDefiningCodeGeneraterTest.cs" />
+    <Compile Include="GeneraterTest\TerraPinyinTest.cs" />
     <Compile Include="GeneraterTest\ZhuyinTest.cs" />
     <Compile Include="GeneraterTest\ErbiTest.cs" />
     <Compile Include="GeneraterTest\PinyinTest.cs" />

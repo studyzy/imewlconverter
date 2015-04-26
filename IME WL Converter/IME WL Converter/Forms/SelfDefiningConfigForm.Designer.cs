@@ -33,6 +33,7 @@
             this.rtbFrom = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rtbTo = new System.Windows.Forms.RichTextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lbFileSelect = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbxCodeFormat = new System.Windows.Forms.ComboBox();
             this.rtbCodeFormat = new System.Windows.Forms.RichTextBox();
+            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbxLineSplitString = new System.Windows.Forms.ComboBox();
@@ -65,8 +67,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cbxIncludePinyin = new System.Windows.Forms.CheckBox();
             this.btnTest = new System.Windows.Forms.Button();
-            this.rtbTo = new System.Windows.Forms.RichTextBox();
-            this.cbxTextEncoding = new Studyzy.IMEWLConverter.EncodingComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -108,6 +108,16 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "结果";
+            // 
+            // rtbTo
+            // 
+            this.rtbTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbTo.Location = new System.Drawing.Point(3, 16);
+            this.rtbTo.Name = "rtbTo";
+            this.rtbTo.ReadOnly = true;
+            this.rtbTo.Size = new System.Drawing.Size(299, 119);
+            this.rtbTo.TabIndex = 0;
+            this.rtbTo.Text = "";
             // 
             // btnOK
             // 
@@ -166,7 +176,7 @@
             // lbRemark
             // 
             this.lbRemark.AutoSize = true;
-            this.lbRemark.Location = new System.Drawing.Point(113, 25);
+            this.lbRemark.Location = new System.Drawing.Point(105, 25);
             this.lbRemark.Name = "lbRemark";
             this.lbRemark.Size = new System.Drawing.Size(405, 13);
             this.lbRemark.TabIndex = 12;
@@ -235,6 +245,66 @@
             this.rtbCodeFormat.Text = "code_e2=p11+p12+p21+p22\ncode_e3=p11+p21+p31+p32\ncode_a4=p11+p21+p31+n11";
             this.rtbCodeFormat.Visible = false;
             this.rtbCodeFormat.TextChanged += new System.EventHandler(this.rtbCodeFormat_TextChanged);
+            // 
+            // cbxTextEncoding
+            // 
+            this.cbxTextEncoding.FormattingEnabled = true;
+            this.cbxTextEncoding.Items.AddRange(new object[] {
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII",
+            "Unicode",
+            "UTF-8",
+            "GB18030",
+            "GBK",
+            "Big5",
+            "UnicodeFFFE",
+            "ASCII"});
+            this.cbxTextEncoding.Location = new System.Drawing.Point(423, 52);
+            this.cbxTextEncoding.Name = "cbxTextEncoding";
+            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
+            this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
+            this.cbxTextEncoding.TabIndex = 14;
+            this.cbxTextEncoding.Visible = false;
             // 
             // groupBox4
             // 
@@ -468,70 +538,6 @@
             this.btnTest.Text = "->";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // rtbTo
-            // 
-            this.rtbTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbTo.Location = new System.Drawing.Point(3, 16);
-            this.rtbTo.Name = "rtbTo";
-            this.rtbTo.ReadOnly = true;
-            this.rtbTo.Size = new System.Drawing.Size(299, 119);
-            this.rtbTo.TabIndex = 0;
-            this.rtbTo.Text = "";
-            // 
-            // cbxTextEncoding
-            // 
-            this.cbxTextEncoding.FormattingEnabled = true;
-            this.cbxTextEncoding.Items.AddRange(new object[] {
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII"});
-            this.cbxTextEncoding.Location = new System.Drawing.Point(423, 52);
-            this.cbxTextEncoding.Name = "cbxTextEncoding";
-            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
-            this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
-            this.cbxTextEncoding.TabIndex = 14;
-            this.cbxTextEncoding.Text = "UTF-8";
-            this.cbxTextEncoding.Visible = false;
             // 
             // SelfDefiningConfigForm
             // 

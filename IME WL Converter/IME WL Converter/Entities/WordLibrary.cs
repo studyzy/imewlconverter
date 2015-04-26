@@ -12,7 +12,7 @@ namespace Studyzy.IMEWLConverter.Entities
         public WordLibrary()
         {
             CodeType = CodeType.Pinyin;
-            Codes = new List<IList<string>>();
+            Codes = new Code();
         }
 
         #region 基本属性
@@ -54,10 +54,11 @@ namespace Studyzy.IMEWLConverter.Entities
 
         /// <summary>
         ///     如果是一词一码，那么Codes[0][0]就是编码，比如五笔
+        /// 如果是一词多码，那么Codes[0]就是所有编码，比如二笔
         ///     如果是一字一码，字无多码，那么Codes[n][0]就是每个字的编码，比如去多音字的拼音
-        ///     如果是一字一码，字多码，那么Codes[0]就是第一个字的所有编码，Codes[1]是第二个字的所有编码，以此类推，比如含多音字的拼音
+        ///     如果是一字多码，那么Codes[0]就是第一个字的所有编码，Codes[1]是第二个字的所有编码，以此类推，比如含多音字的拼音
         /// </summary>
-        public IList<IList<string>> Codes { get; set; }
+        public Code Codes { get; set; }
 
         /// <summary>
         ///     一词一码，取Codes[0][0]
@@ -102,22 +103,13 @@ namespace Studyzy.IMEWLConverter.Entities
                     }
                     return result;
                 }
-                //if (tempPinyin == null)
-                //{
-                //    var py = pyGenerater.GetCodeOfString(this.word);
-                //    tempPinyin = new string[py.Count];
-                //    for (int i = 0; i < py.Count; i++)
-                //    {
-                //        tempPinyin[i] = py[i];
-                //    }
-                //}
-                //return tempPinyin;
+               
                 return null;
             }
             set
             {
                 //CodeType=CodeType.Pinyin;
-                Codes = new List<string>[value.Length];
+                Codes = new Code(value,true);
                 int i = 0;
                 foreach (string s in value)
                 {
@@ -162,7 +154,7 @@ namespace Studyzy.IMEWLConverter.Entities
         public void SetCode(CodeType type, string str)
         {
             CodeType = type;
-            Codes = new List<IList<string>> {new List<string> {str}};
+            Codes = new Code(str);
         }
 
         /// <summary>
@@ -170,7 +162,7 @@ namespace Studyzy.IMEWLConverter.Entities
         /// </summary>
         /// <param name="type"></param>
         /// <param name="codes"></param>
-        public void SetCode(CodeType type, IList<string> codes)
+        public void SetCode(CodeType type, IList<string> codes,bool is1Char1Code)
         {
             CodeType = type;
             if (codes == null)
@@ -179,17 +171,18 @@ namespace Studyzy.IMEWLConverter.Entities
                 Codes.Clear();
                 return;
             }
-            Codes = new List<string>[codes.Count];
-            for (int i = 0; i < codes.Count; i++)
-            {
-                Codes[i] = new List<string> {codes[i]};
-            }
+            Codes =new Code(codes,is1Char1Code);
         }
 
         public void SetCode(CodeType type, IList<IList<string>> str)
         {
             CodeType = type;
-            Codes = str;
+            Codes = new Code(str);
+        }
+        public void SetCode(CodeType type, Code code)
+        {
+            CodeType = type;
+            Codes = code;
         }
 
         /// <summary>
@@ -216,12 +209,8 @@ namespace Studyzy.IMEWLConverter.Entities
 
         public override string ToString()
         {
-            var codesList = new List<string>();
-            foreach (var code in Codes)
-            {
-                codesList.Add(CollectionHelper.ListToString(code));
-            }
-            return "WordLibrary 汉字：" + word + " Codes:" + CollectionHelper.ListToString(codesList) + "；词频：" + rank;
+            var codesList = Codes.ToCodeString(",");
+            return "WordLibrary 汉字：" + word + " Codes:" + string.Join(";",codesList) + " 词频：" + rank;
         }
 
         #endregion

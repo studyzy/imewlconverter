@@ -54,9 +54,9 @@ namespace Studyzy.IMEWLConverter.Test
                 Sort = new List<int>() { 2, 1, 3 }
             };
             WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.Pinyin };
-            wl.Codes = new IList<string>[2];
-            wl.Codes[0] = new[] { "shen" };
-            wl.Codes[1] = new[] { "lan" };
+            wl.Codes = new Code();
+            wl.Codes.Add( new[] { "shen" });
+            wl.Codes.Add( new[] { "lan" });
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.ExportLine(wl);
             Assert.AreEqual(str, "深蓝|,shen,lan,|123");
@@ -78,9 +78,9 @@ namespace Studyzy.IMEWLConverter.Test
             };
             WordLibraryList wll = new WordLibraryList();
             WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.UserDefine };
-            wl.Codes = new IList<string>[2];
-            wl.Codes[0] = new[] { "sn" };
-            wl.Codes[1] = new[] { "ln" };
+            wl.Codes = new Code();
+            wl.Codes.Add(new[] { "sn" });
+            wl.Codes.Add( new[] { "ln" });
             wll.Add(wl);
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.Export(wll);
@@ -145,6 +145,25 @@ namespace Studyzy.IMEWLConverter.Test
             Debug.WriteLine(x);
             Assert.IsNotNullOrEmpty(str);
         }
+        [Test]
+        public void TestImportTxt()
+        {
+            string txt = "深藍 shen,lan 12345";
+            var pp = new ParsePattern();
+            pp.Sort=new List<int>(){2,1,3};
+            pp.IsPinyinFormat = true;
+            pp.CodeType = CodeType.Pinyin;
+            pp.CodeSplitString = ",";
+            pp.SplitString = " ";
+            pp.CodeSplitType= BuildType.None;
+            selfDefining.UserDefiningPattern = pp;
+   
+            var x = selfDefining.ImportLine(txt);
+            Debug.WriteLine(x[0].ToString());
+            Assert.IsNotNullOrEmpty(x[0].Word,"深藍");
+        }
+
+
         private ParsePattern InitPattern()
         {
             ParsePattern pp=new ParsePattern();
@@ -156,6 +175,7 @@ code_a4=p11+p21+p31+n11";
             pp.SplitString = " ";
             pp.ContainCode = true;
             pp.TextEncoding = Encoding.UTF8;
+            pp.CodeType = CodeType.UserDefine;
             return pp;
         }
      

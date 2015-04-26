@@ -5,7 +5,7 @@ using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class ZhengmaGenerater : IWordCodeGenerater
+    public class ZhengmaGenerater : BaseCodeGenerater,IWordCodeGenerater
     {
         private Dictionary<char, Zhengma> zhengmaDic;
 
@@ -45,24 +45,19 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #region IWordCodeGenerater Members
 
-        public string GetDefaultCodeOfChar(char str)
-        {
-            return ZhengmaDic[str].Code[0];
-        }
-
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+        public override  Code GetCodeOfString(string str)
         {
             foreach (char c in str)
             {
                 if (!ZhengmaDic.ContainsKey(c))
                 {
-                    return new List<string>();
+                    return null;
                 }
             }
 
             if (str.Length == 1)
             {
-                return ZhengmaDic[str[0]].Code;
+                return new Code(ZhengmaDic[str[0]].Code,false);
             }
             var codes = new StringBuilder();
             if (str.Length == 2) //二字词组 2+2
@@ -83,9 +78,8 @@ namespace Studyzy.IMEWLConverter.Generaters
                 codes.Append(Get1Code(str[2]));
                 codes.Append(Get1Code(str[3]));
             }
-            var result = new List<string>();
-            result.Add(codes.ToString());
-            return result;
+          
+            return new Code(codes.ToString());
         }
 
         public IList<string> GetAllCodesOfChar(char str)
@@ -106,22 +100,15 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #endregion
 
-        public bool IsBaseOnOldCode
-        {
-            get { return false; }
-        }
 
-        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
-        {
-            return GetCodeOfString(str.Word, charCodeSplit);
-        }
+       
 
         #region Nested type: Zhengma
 
         private struct Zhengma
         {
             /// <summary>
-            ///     构词嘛
+            ///     构词码
             /// </summary>
             public string ShortCode { get; set; }
 

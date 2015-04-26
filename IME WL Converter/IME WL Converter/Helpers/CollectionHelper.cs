@@ -7,24 +7,24 @@ namespace Studyzy.IMEWLConverter.Helpers
 {
     public static class CollectionHelper
     {
-        public static string[] ToArray(IList<string> str)
-        {
-            var result = new string[str.Count];
-            for (int i = 0; i < str.Count; i++)
-            {
-                result[i] = str[i];
-            }
-            return result;
-        }
+        //public static string[] ToArray(IList<string> str)
+        //{
+        //    var result = new string[str.Count];
+        //    for (int i = 0; i < str.Count; i++)
+        //    {
+        //        result[i] = str[i];
+        //    }
+        //    return result;
+        //}
 
-        public static string ListToString(IList<string> list, string split = "")
-        {
-            if (list.Count == 1)
-            {
-                return list[0];
-            }
-            return string.Join(split, ToArray(list));
-        }
+        //public static string ListToString(IList<string> list, string split = "")
+        //{
+        //    if (list.Count == 1)
+        //    {
+        //        return list[0];
+        //    }
+        //    return string.Join(split, ToArray(list));
+        //}
 
         public static string GetString(IEnumerable<string> list, string split, BuildType buildType)
         {

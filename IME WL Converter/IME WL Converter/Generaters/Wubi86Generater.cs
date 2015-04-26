@@ -13,9 +13,9 @@ namespace Studyzy.IMEWLConverter.Generaters
             return DictionaryHelper.GetCode(str).Wubi86;
         }
 
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
+        public Code GetCodeOfString(string str)
         {
-            return new List<string> {GetStringWubiCode(str)};
+            return new Code(GetStringWubiCode(str));
         }
 
         public virtual IList<string> GetAllCodesOfChar(char str)
@@ -35,14 +35,10 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         #endregion
 
-        public bool IsBaseOnOldCode
-        {
-            get { return false; }
-        }
 
-        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
+        public void GetCodeOfWordLibrary(WordLibrary wl)
         {
-            return GetCodeOfString(str.Word, charCodeSplit);
+            wl.Codes = GetCodeOfString(wl.Word);
         }
 
         private string GetStringWubiCode(string str)

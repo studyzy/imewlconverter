@@ -25,7 +25,7 @@ namespace Studyzy.IMEWLConverter
         public const string QQ_PINYIN_QPYD = "QQ分类词库qpyd";
         public const string GOOGLE_PINYIN = "谷歌拼音";
         public const string YAHOO_KEYKEY = "雅虎奇摩";
-        public const string ZIGUANG_PINYIN = "紫光拼音";
+        public const string ZIGUANG_PINYIN = "华宇紫光拼音";
         public const string ZIGUANG_PINYIN_UWL = "紫光拼音词库uwl";
         public const string PINYIN_JIAJIA = "拼音加加";
         public const string WORD_ONLY = "无拼音纯汉字";
@@ -45,6 +45,7 @@ namespace Studyzy.IMEWLConverter
         public const string BING_PINYIN = "必应输入法";
         public const string LINGOES_LD2 = "灵格斯ld2";
         public const string USER_PHRASE = "用户自定义短语";
+        public const string SHOUXIN_PINYIN = "手心拼音";
         //简码，控制台用
         public const string BAIDU_SHOUJI_C = "bdsj";
         public const string BAIDU_SHOUJI_ENG_C = "bdsje";
@@ -84,6 +85,7 @@ namespace Studyzy.IMEWLConverter
         public const string USER_PHRASE_C = "dy";
         public const string XIAOXIAO_ERBI_C = "erbi";
         public const string LIBPINYIN_C = "libpy";
+        public const string SHOUXIN_PINYIN_C = "sxpy";
 
         /// <summary>
         ///     注音文件的完整路径

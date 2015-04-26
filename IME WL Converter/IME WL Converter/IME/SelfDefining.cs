@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.SELF_DEFINING, ConstantString.SELF_DEFINING_C, 2000)]
     public class SelfDefining : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IStreamPrepare
     {
-        private SelfDefiningCodeGenerater codeGenerater = new SelfDefiningCodeGenerater();
+        private IWordCodeGenerater codeGenerater = null;
 
         #region IWordLibraryExport Members
 
@@ -19,26 +20,23 @@ namespace Studyzy.IMEWLConverter.IME
 
         public void Prepare()
         {
-            if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath) &&
-                UserDefiningPattern.CodeType == CodeType.UserDefine)
-            {
-                throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
-            }
 
-            codeGenerater = new SelfDefiningCodeGenerater();
-            if (UserDefiningPattern.CodeType == CodeType.Pinyin)
+            codeGenerater = CodeTypeHelper.GetGenerater(this.UserDefiningPattern.CodeType);
+            if (UserDefiningPattern.CodeType == CodeType.UserDefine)
             {
-                codeGenerater.MappingDictionary = PinyinHelper.PinYinDict;
-            }
-            else
-            {
+                if (string.IsNullOrEmpty(UserDefiningPattern.MappingTablePath))
+                {
+                    throw new Exception("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+                }
                 IDictionary<char, IList<string>> dict =
                     UserCodingHelper.GetCodingDict(UserDefiningPattern.MappingTablePath,
                         UserDefiningPattern.TextEncoding);
-                codeGenerater.MappingDictionary = dict;
+                var g = codeGenerater as SelfDefiningCodeGenerater;
+                g.MappingDictionary = dict;
+                g.Is1Char1Code = UserDefiningPattern.IsPinyinFormat;
+                g.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
             }
-            codeGenerater.Is1Char1Code = UserDefiningPattern.IsPinyinFormat;
-            codeGenerater.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
+
             BuildLineFormat();
         }
 
@@ -79,26 +77,19 @@ namespace Studyzy.IMEWLConverter.IME
             //需要判断源WL与导出的字符串的CodeType是否一致，如果一致，那么可以采用其编码，如果不一致，那么忽略编码，
             //调用CodeGenerater生成新的编码，并用新编码生成行
             IList<string> codes = null;
-            if (wl.CodeType == CodeType)
+            if (wl.CodeType != CodeType)
             {
-                codes = wl.GetCodeString(UserDefiningPattern.CodeSplitString, UserDefiningPattern.CodeSplitType);
-            }
-            else
-            {
-                codes = codeGenerater.GetCodeOfString(wl.Word, UserDefiningPattern.CodeSplitString,
-                    UserDefiningPattern.CodeSplitType);
-                if (codes == null || codes.Count == 0) //生成失败
-                    return null;
-            }
+                codeGenerater.GetCodeOfWordLibrary(wl);
+                            }
             string word = wl.Word;
             int rank = wl.Rank;
-            foreach (string code in codes)
+            foreach (string code in wl.Codes.ToCodeString(UserDefiningPattern.CodeSplitString,UserDefiningPattern.CodeSplitType))
             {
                 string line = String.Format(lineFormat, code, word, rank);
                 lines.Add(line);
             }
 
-            return String.Join(UserDefiningPattern.LineSplitString, CollectionHelper.ToArray(lines));
+            return String.Join(UserDefiningPattern.LineSplitString, lines);
         }
 
         private void BuildLineFormat()
@@ -172,7 +163,7 @@ namespace Studyzy.IMEWLConverter.IME
         #region 根据字符串生成WL
 
         /// <summary>
-        ///     根据Pattern设置的格式，对输入的一行该格式的字符串转换成WordLibrary
+        /// 根据Pattern设置的格式，对输入的一行该格式的字符串转换成WordLibrary
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
@@ -239,7 +230,7 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     string[] codes = code.Split(new[] {UserDefiningPattern.CodeSplitString},
                         StringSplitOptions.RemoveEmptyEntries);
-                    wl.SetCode(UserDefiningPattern.CodeType, new List<string>(codes));
+                    wl.SetCode(UserDefiningPattern.CodeType, new List<string>(codes),UserDefiningPattern.IsPinyinFormat);
                 }
                 else
                 {

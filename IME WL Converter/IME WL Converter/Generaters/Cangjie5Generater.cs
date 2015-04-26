@@ -7,7 +7,7 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class Cangjie5Generater : IWordCodeGenerater
+    public class Cangjie5Generater :BaseCodeGenerater, IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
 
@@ -99,23 +99,10 @@ namespace Studyzy.IMEWLConverter.Generaters
             get { return false; }
         }
 
-        public bool IsBaseOnOldCode
-        {
-            get { return false; }
-        }
 
-        public string GetDefaultCodeOfChar(char str)
+        public override Code GetCodeOfString(string str)
         {
-            return Dictionary[str][0].Code;
-        }
-
-        /// <summary>
-        ///     一个字有多种编码，所以一个词也会多种编码
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
-        {
+            
             foreach (char c in str)
             {
                 if (!Dictionary.ContainsKey(c))
@@ -131,7 +118,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     c.Add(cangjy.Code);
                 }
 
-                return c;
+                return new Code(c,false);
             }
             IList<IList<string>> codes = new List<IList<string>>();
             var sb = new StringBuilder();
@@ -180,12 +167,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
             IList<string> result = CollectionHelper.Descartes(codes);
 
-            return result;
-        }
-
-        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
-        {
-            return GetCodeOfString(str.Word, charCodeSplit);
+            return new Code(result,false);
         }
 
         public IList<string> GetAllCodesOfChar(char str)

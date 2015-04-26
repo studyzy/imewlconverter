@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="CoreConsoleMapping.cs" />
     <Compile Include="CoreWinFormMapping.cs" />
+    <Compile Include="Entities\Code.cs" />
     <Compile Include="Entities\OperationSystem.cs" />
     <Compile Include="Filters\RankPercentageFilter.cs" />
     <Compile Include="Forms\AboutBox.cs">
@@ -113,6 +114,7 @@
     </Compile>
     <Compile Include="Filters\NumberFilter.cs" />
     <Compile Include="Filters\IReplaceFilter.cs" />
+    <Compile Include="Generaters\BaseCodeGenerater.cs" />
     <Compile Include="Generaters\CalcWordRankGenerater.cs" />
     <Compile Include="IME\Libpinyin.cs" />
     <Compile Include="Forms\SelfDefiningConfigForm.cs">
@@ -167,6 +169,7 @@
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\ZhuyinHelper.cs" />
     <Compile Include="IME\CangjiePlatform.cs" />
+    <Compile Include="IME\ShouxinPinyin.cs" />
     <Compile Include="IME\XiaoxiaoErbi.cs" />
     <Compile Include="IME\UserDefinePhrase.cs" />
     <Compile Include="IME\YahooKeyKey.cs" />

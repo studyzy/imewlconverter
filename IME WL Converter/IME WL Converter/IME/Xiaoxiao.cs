@@ -8,6 +8,10 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
+    /// <summary>
+    /// 小小输入法是一个框架，根据不同的选项来切换不同的输入法。可以指定不同的词库。以拼音词库为例，词库格式为：
+    /// 拼音（无分隔符）+空格+词语1+空格+词语2...
+    /// </summary>
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
     public class Xiaoxiao : BaseImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
     {
@@ -42,11 +46,12 @@ namespace Studyzy.IMEWLConverter.IME
             }
             else if (CodeType == wl.CodeType)
             {
-                sb.Append(wl.Codes);
+                sb.Append(wl.Codes[0][0]);
             }
             else
             {
-                sb.Append(CollectionHelper.ListToString(CodeGenerater.GetCodeOfString(wl.Word)));
+               var code= CodeGenerater.GetCodeOfString(wl.Word);
+                sb.Append(code.ToCodeString());
             }
             sb.Append(" ");
             sb.Append(wl.Word);
@@ -75,11 +80,12 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 else
                 {
-                    IList<string> codes = CodeGenerater.GetCodeOfString(wl.Word);
-                    if (CodeGenerater.Is1CharMutiCode)
+                    var codes = CodeGenerater.GetCodeOfString(wl.Word);
+                    var list = codes.ToCodeString();
+                    foreach (var code in list)
                     {
-                        foreach (string code in codes)
-                        {
+                        
+                  
                             if (xiaoxiaoDic.ContainsKey(code))
                             {
                                 xiaoxiaoDic[code] += " " + value;
@@ -88,10 +94,8 @@ namespace Studyzy.IMEWLConverter.IME
                             {
                                 xiaoxiaoDic.Add(code, value);
                             }
-                        }
-                        continue;
+                      
                     }
-                    key = (CollectionHelper.ListToString(codes));
                 }
 
 

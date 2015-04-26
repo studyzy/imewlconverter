@@ -10,20 +10,17 @@ namespace Studyzy.IMEWLConverter.Entities
     /// </summary>
     public class ParsePattern
     {
-        private readonly WordLibrary sample;
-
-        private SelfDefiningCodeGenerater selfFactory = new SelfDefiningCodeGenerater();
 
         public ParsePattern()
         {
             Sort = new List<int> {1, 2, 3};
-            sample = new WordLibrary();
-            sample.Rank = 1234;
-            sample.Word = "深蓝词库转换";
-            sample.PinYin = new[] {"shen", "lan", "ci", "ku", "zhuan", "huan"};
+            CodeType = CodeType.UserDefine;
             IsPinyinFormat = true;
             LineSplitString = "\r\n";
             TextEncoding = Encoding.Default;
+            ContainCode = true;
+            ContainRank = true;
+            CodeSplitType=BuildType.None;
         }
 
         /// <summary>

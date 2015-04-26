@@ -75,26 +75,36 @@ namespace Studyzy.IMEWLConverter.Generaters
             return result;
         }
 
-        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "",
-            BuildType buildType = BuildType.None)
+        public override Code GetCodeOfString(string str)
         {
-            var result = new List<string>();
+            var result = new List<IList<string>>();
 
-            foreach (string code in base.GetCodeOfString(str, charCodeSplit))
+            foreach (var row in base.GetCodeOfString(str))
             {
-                result.Add(ZhuyinHelper.GetZhuyin(code));
+                var zyrow = new List<string>();
+                foreach (var py in row)
+                {
+                    zyrow.Add(ZhuyinHelper.GetZhuyin(py));
+                }
+               
+                result.Add(zyrow);
             }
-            return result;
+            return new Code(result);
         }
 
-        public override IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
+        public override void GetCodeOfWordLibrary(WordLibrary wl)
         {
-            var result = new List<string>();
-            foreach (string code in base.GetCodeOfWordLibrary(wl, charCodeSplit))
+            base.GetCodeOfWordLibrary(wl);
+            for (int i = 0; i < wl.Codes.Count; i++)
             {
-                result.Add(ZhuyinHelper.GetZhuyin(code));
+                var row = wl.Codes[i];
+                for (int j = 0; j < row.Count; j++)
+                {
+                    string s = row[j];
+                    string zy = ZhuyinHelper.GetZhuyin(s); 
+                    wl.Codes[i][j] = zy;
+                }
             }
-            return result;
         }
     }
 }

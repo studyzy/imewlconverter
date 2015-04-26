@@ -12,7 +12,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 　　多字词（四字以上词）：取前三字和最后一字的第一码（前三末一）。
      */
 
-    public class PhraseGenerater : IWordCodeGenerater
+    public class PhraseGenerater :BaseCodeGenerater, IWordCodeGenerater
     {
         public bool IsBaseOnOldCode
         {
@@ -25,15 +25,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             get { return false; }
         }
 
-        public string GetDefaultCodeOfChar(char str)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<string> GetCodeOfString(string str, string charCodeSplit = "", BuildType buildType = BuildType.None)
-        {
-            throw new NotImplementedException("please call GetCodeOfWordLibrary method");
-        }
 
         public IList<string> GetAllCodesOfChar(char str)
         {
@@ -54,6 +45,11 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return new List<string> {str.GetPinYinString("", BuildType.None)};
             }
             return CollectionHelper.Descartes(str.Codes);
+        }
+
+        public override Code GetCodeOfString(string str)
+        {
+            throw new NotImplementedException();
         }
     }
 }

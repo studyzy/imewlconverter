@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -12,48 +13,52 @@ namespace Studyzy.IMEWLConverter.Generaters
     {
         private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
 
-        public override bool IsBaseOnOldCode
-        {
-            get { return true; }
-        }
 
         public override IList<string> GetAllCodesOfChar(char str)
         {
             return PinyinHelper.GetPinYinWithToneOfChar(str);
         }
 
-        public override IList<string> GetCodeOfString(string str, string charCodeSplit = "",
-            BuildType buildType = BuildType.None)
+        public override Code GetCodeOfString(string str)
         {
-            IList<string> py = base.GetCodeOfString(str, charCodeSplit);
+            var py = base.GetCodeOfString(str);
             var result = new List<string>();
             for (int i = 0; i < str.Length; i++)
             {
-                string p = py[i];
-                result.Add(PinyinHelper.AddToneToPinyin(str[i], p));
+                var prow = py[i];
+                foreach (var p in prow)
+                {
+                    result.Add(PinyinHelper.AddToneToPinyin(str[i], p));
+                }
+              
             }
-            return result;
+            return new Code( result,true);
         }
 
-        public override IList<string> GetCodeOfWordLibrary(WordLibrary wl, string charCodeSplit = "")
+        public override void GetCodeOfWordLibrary(WordLibrary wl)
         {
+            if (wl.CodeType == CodeType.TerraPinyin)
+            {
+                return;
+            }
             if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
             {
-                IList<string> pinyin = new List<string>();
-                for (int i = 0; i < wl.PinYin.Length; i++)
+
+                for (int i = 0; i < wl.Codes.Count; i++)
                 {
-                    if (regex.IsMatch(wl.PinYin[i]))
+                    var row = wl.Codes[i];
+                    for (int j = 0; j < row.Count; j++)
                     {
-                        pinyin.Add(wl.PinYin[i]);
-                    }
-                    else
-                    {
-                        pinyin.Add(PinyinHelper.AddToneToPinyin(wl.Word[i], wl.Codes[i][0]));
+                        string s = row[j];
+                        string py =PinyinHelper.AddToneToPinyin(wl.Word[i], s); //add tone
+                        wl.Codes[i][j] = py;
                     }
                 }
-                return pinyin;
+
+               
+                return ;
             }
-            return base.GetCodeOfWordLibrary(wl, charCodeSplit);
+            base.GetCodeOfWordLibrary(wl);
         }
     }
 }
