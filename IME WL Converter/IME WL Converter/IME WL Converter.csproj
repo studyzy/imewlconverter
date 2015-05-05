@@ -219,12 +219,6 @@
     <Compile Include="Entities\ChineseTranslate.cs" />
     <Compile Include="ConsoleRun.cs" />
     <Compile Include="ConstantString.cs" />
-    <Compile Include="Forms\CreatePinyinWLForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CreatePinyinWLForm.Designer.cs">
-      <DependentUpon>CreatePinyinWLForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\CodeTypeHelper.cs" />
     <Compile Include="Helpers\DictionaryHelper.cs" />
     <Compile Include="Helpers\FileOperationHelper.cs" />
@@ -381,9 +375,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RimeConfigForm.resx">
       <DependentUpon>RimeConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CreatePinyinWLForm.resx">
-      <DependentUpon>CreatePinyinWLForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>

@@ -404,11 +404,11 @@ namespace Studyzy.IMEWLConverter
             streamExport = toolStripMenuItemStreamExport.Checked;
         }
 
-        private void ToolStripMenuItemCreatePinyinWL_Click(object sender, EventArgs e)
-        {
-            var f = new CreatePinyinWLForm();
-            f.Show();
-        }
+        //private void ToolStripMenuItemCreatePinyinWL_Click(object sender, EventArgs e)
+        //{
+        //    var f = new CreatePinyinWLForm();
+        //    f.Show();
+        //}
 
         private void toolStripMenuItemMergeToOneFile_Click(object sender, EventArgs e)
         {

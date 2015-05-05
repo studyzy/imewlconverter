@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿
+using System.Windows;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -86,10 +87,5 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_ERBI_C = "erbi";
         public const string LIBPINYIN_C = "libpy";
         public const string SHOUXIN_PINYIN_C = "sxpy";
-
-        /// <summary>
-        ///     注音文件的完整路径
-        /// </summary>
-        public static readonly string PinyinLibPath = Application.StartupPath + "\\注音.txt";
     }
 }
