@@ -1,4 +1,4 @@
-﻿<Application x:Class="IME_WL_Converter_WPF.App"
+﻿<Application x:Class="Studyzy.IMEWLConverter.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="WPF/MainWindow.xaml">

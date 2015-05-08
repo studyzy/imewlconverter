@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
@@ -210,7 +211,7 @@ namespace Studyzy.IMEWLConverter.Entities
         public override string ToString()
         {
             var codesList = Codes.ToCodeString(",");
-            return "WordLibrary 汉字：" + word + " Codes:" + string.Join(";",codesList) + " 词频：" + rank;
+            return "WordLibrary 汉字：" + word + " Codes:" + string.Join(";",codesList.ToArray()) + " 词频：" + rank;
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
@@ -89,7 +90,7 @@ namespace Studyzy.IMEWLConverter.IME
                 lines.Add(line);
             }
 
-            return String.Join(UserDefiningPattern.LineSplitString, lines);
+            return String.Join(UserDefiningPattern.LineSplitString, lines.ToArray());
         }
 
         private void BuildLineFormat()
