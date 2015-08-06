@@ -1,0 +1,31 @@
+﻿<Window x:Class="Studyzy.IMEWLConverter.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Menu HorizontalAlignment="Left" Height="34" Margin="0,-1,0,0" VerticalAlignment="Top" Width="517">
+            <MenuItem Header="Config">
+                <MenuItem Header="MenuItem1" Height="30" Width="100"/>
+                <MenuItem Header="MenuItem2" Height="30" Width="100"/>
+                <MenuItem Header="MenuItem3" Height="30" Width="100"/>
+            </MenuItem>
+            <MenuItem Header="About"/>
+        </Menu>
+        <TextBox Name="TxbFilePath" HorizontalAlignment="Left" Height="23" Margin="26,41,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="315"/>
+        <Button Content="Button" Name="BtnGenerate" HorizontalAlignment="Left" Margin="432,41,0,0" VerticalAlignment="Top" Width="75" Click="BtnGenerate_Click"/>
+        <ComboBox Name="CbxFrom" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.967,0.587"/>
+        <ComboBox Name="CbxTo" HorizontalAlignment="Left" Margin="263.947,69,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.967,0.587"/>
+        <RichTextBox HorizontalAlignment="Left" Height="164.632" Margin="10,116.368,0,0" VerticalAlignment="Top" Width="481">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+       
+        <StatusBar HorizontalAlignment="Left" Height="23" Margin="0,297,0,0" VerticalAlignment="Top" Width="517">
+            <ProgressBar Height="10" Width="100"/>
+        </StatusBar>
+       
+    </Grid>
+</Window>

@@ -117,22 +117,22 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         private string GetMutiPinyin()
         {
-            string path = ConstantString.PinyinLibPath;
+            //string path = ConstantString.PinyinLibPath;
             var sb = new StringBuilder();
-            if (File.Exists(path))
-            {
-                string txt = FileOperationHelper.ReadFile(path);
+            //if (File.Exists(path))
+            //{
+            //    string txt = FileOperationHelper.ReadFile(path);
 
-                var reg = new Regex(@"^('[a-z]+)+\s[\u4E00-\u9FA5]+$");
-                string[] lines = txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    if (reg.IsMatch(lines[i]))
-                    {
-                        sb.Append(lines[i] + "\r\n");
-                    }
-                }
-            }
+            //    var reg = new Regex(@"^('[a-z]+)+\s[\u4E00-\u9FA5]+$");
+            //    string[] lines = txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+            //    for (int i = 0; i < lines.Length; i++)
+            //    {
+            //        if (reg.IsMatch(lines[i]))
+            //        {
+            //            sb.Append(lines[i] + "\r\n");
+            //        }
+            //    }
+            //}
             sb.Append(Dictionaries.WordPinyin);
             return sb.ToString();
         }
