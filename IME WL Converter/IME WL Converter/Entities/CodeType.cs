@@ -82,10 +82,14 @@
         ///     地球拼音
         /// </summary>
         TerraPinyin,
-
+        /// <summary>
+        /// 超音速写
+        /// </summary>
+        Chaoyin,
         /// <summary>
         ///     无编码
         /// </summary>
         NoCode
+
     }
 }

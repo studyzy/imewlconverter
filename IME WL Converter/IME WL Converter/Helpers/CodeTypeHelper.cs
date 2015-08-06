@@ -54,6 +54,8 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new TerraPinyinGenerater();
                 case CodeType.Cangjie:
                     return new Cangjie5Generater();
+                case CodeType.Chaoyin:
+                    return new ChaoyinGenerater();
                     //case CodeType.UserDefine:
                     //    {
                     //        return SelfDefiningCodeGenerater();

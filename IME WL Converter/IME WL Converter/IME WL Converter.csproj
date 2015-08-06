@@ -117,6 +117,9 @@
     <Compile Include="Filters\IReplaceFilter.cs" />
     <Compile Include="Generaters\BaseCodeGenerater.cs" />
     <Compile Include="Generaters\CalcWordRankGenerater.cs" />
+    <Compile Include="Generaters\ChaoyinGenerater.cs" />
+    <Compile Include="Helpers\ChaoyinHelper.cs" />
+    <Compile Include="IME\Chaoyin.cs" />
     <Compile Include="IME\Libpinyin.cs" />
     <Compile Include="Forms\SelfDefiningConfigForm.cs">
       <SubType>Form</SubType>
@@ -425,6 +428,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Erbi.txt" />
+    <None Include="Resources\ChaoyinCodeMapping.txt" />
     <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
     <None Include="Resources\Zhuyin.txt" />
     <None Include="Resources\Zhengma.txt" />
