@@ -42,6 +42,8 @@
     <AssemblyOriginatorKeyFile>IME WL Converter.pfx</AssemblyOriginatorKeyFile>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -294,6 +296,7 @@
     <Compile Include="IME\QQShouji.cs" />
     <Compile Include="Entities\WordLibrary.cs" />
     <Compile Include="Entities\WordLibraryList.cs" />
+    <Compile Include="IME\Chaoyin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />

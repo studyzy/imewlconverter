@@ -47,6 +47,7 @@ namespace Studyzy.IMEWLConverter
         public const string LINGOES_LD2 = "灵格斯ld2";
         public const string USER_PHRASE = "用户自定义短语";
         public const string SHOUXIN_PINYIN = "手心拼音";
+		public const string CHAO_YIN="超音速录";
         //简码，控制台用
         public const string BAIDU_SHOUJI_C = "bdsj";
         public const string BAIDU_SHOUJI_ENG_C = "bdsje";
@@ -87,5 +88,6 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_ERBI_C = "erbi";
         public const string LIBPINYIN_C = "libpy";
         public const string SHOUXIN_PINYIN_C = "sxpy";
+		public const string CHAO_YIN_C="cysl";
     }
 }
