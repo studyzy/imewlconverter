@@ -115,11 +115,18 @@
     </Compile>
     <Compile Include="Filters\NumberFilter.cs" />
     <Compile Include="Filters\IReplaceFilter.cs" />
+    <Compile Include="Forms\DonateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DonateForm.Designer.cs">
+      <DependentUpon>DonateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Generaters\BaseCodeGenerater.cs" />
     <Compile Include="Generaters\CalcWordRankGenerater.cs" />
     <Compile Include="Generaters\ChaoyinGenerater.cs" />
     <Compile Include="Helpers\ChaoyinHelper.cs" />
     <Compile Include="IME\Chaoyin.cs" />
+    <Compile Include="IME\ChinesePyim.cs" />
     <Compile Include="IME\Libpinyin.cs" />
     <Compile Include="Forms\SelfDefiningConfigForm.cs">
       <SubType>Form</SubType>
@@ -354,6 +361,9 @@
     <EmbeddedResource Include="Forms\ChineseConverterSelectForm.resx">
       <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DonateForm.resx">
+      <DependentUpon>DonateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SelfDefiningConfigForm.resx">
       <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -429,6 +439,7 @@
     </Content>
     <None Include="Resources\Erbi.txt" />
     <None Include="Resources\ChaoyinCodeMapping.txt" />
+    <None Include="Resources\alipayQR.jpg" />
     <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
     <None Include="Resources\Zhuyin.txt" />
     <None Include="Resources\Zhengma.txt" />
