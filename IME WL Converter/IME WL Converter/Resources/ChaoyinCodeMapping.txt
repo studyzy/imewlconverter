@@ -1,4 +1,4 @@
-﻿a	k	Y
+﻿a	ki	
 ai	ge	
 an	hi	
 ang	re	
@@ -39,7 +39,7 @@ chi	b	Y
 chong	bu	
 chou	by	
 chu	bv	
-chua		
+chua	bf	
 chuai	bs	
 chuan	bo	
 chuang	bj	
@@ -78,9 +78,9 @@ dui	jd
 dun	jl	
 duo	jx	
 e	ae	
-ei		
+ei	w	
 en	ni	
-eng		
+eng	t	
 er	z	Y
 fa	ok	
 fan	oh	
@@ -88,8 +88,8 @@ fang	or
 fei	ow	
 fen	on	
 feng	ot	
-fiao		
-fo	o	Y
+fiao	om	
+fo	ox	
 fou	oy	
 fu	ov	
 ga	hk	
@@ -180,7 +180,7 @@ lie	si
 lin	sd	
 ling	ss	
 liu	sa	
-lo		
+lo	sx	
 long	su	
 lou	sy	
 lu	sv	
@@ -188,13 +188,13 @@ luan	so
 lue	sl	
 lun	sl	
 luo	sx	
-lv	sv	
+lv	sn	
 ma	rk	
 mai	rg	
 man	rh	
 mang	rr	
 mao	rb	
-me	ri	
+me	r	Y
 mei	rw	
 men	rn	
 meng	rt	
@@ -220,7 +220,7 @@ neng	it
 ni	if	
 nian	ij	
 niang	ir	
-niao	ib	
+niao	im	
 nie	ii	
 nin	id	
 ning	is	
@@ -228,13 +228,13 @@ niu	ia
 nong	iu	
 nou	iy	
 nu	iv	
-nun		
+nun	il	
 nuan	io	
 nue	il	
 nuo	ix	
-nv	iv	
+nv	in	
 o	x	Y
-ou	yi	Y
+ou	yi	
 pa	qk	
 pai	qg	
 pan	qh	
@@ -272,11 +272,11 @@ rao	cb
 re	ca	
 ren	cn	
 reng	ct	
-ri	c	
+ri	c	Y
 rong	cu	
 rou	cy	
 ru	cv	
-rua		
+rua	cf	
 ruan	co	
 rui	cd	
 run	cl	
@@ -295,7 +295,7 @@ shan	kh
 shang	kr	
 shao	kb	
 she	ka	
-shei		
+shei	kw	
 shen	kn	
 sheng	kt	
 shi	k	Y
@@ -322,7 +322,7 @@ tan	th
 tang	tr	
 tao	tb	
 te	t	Y
-tei		
+tei	tw	
 teng	tt	
 ti	tf	
 tian	tj	
@@ -367,7 +367,7 @@ ye	fa
 yi	f	Y
 yin	fn	
 ying	ft	
-yo		
+yo	fx	
 yong	fu	
 you	fy	
 yu	n	Y
@@ -389,7 +389,7 @@ zhan	lh
 zhang	lr	
 zhao	lb	
 zhe	la	
-zhei		
+zhei	lw	
 zhen	ln	
 zheng	lt	
 zhi	l	Y

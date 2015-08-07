@@ -40,6 +40,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             //不是拼音，就调用GetCode生成拼音
             var code= GetCodeOfString(wl.Word);
             wl.Codes = code;
+            wl.CodeType=CodeType.Pinyin;
         }
 
         /// <summary>

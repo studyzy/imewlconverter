@@ -13,8 +13,12 @@ namespace Studyzy.IMEWLConverter.IME
 	[ComboBoxShow(ConstantString.CHAO_YIN, ConstantString.CHAO_YIN_C, 190)]
     internal class Chaoyin : BaseImport, IWordLibraryExport
     {
-      
 
+        public Chaoyin()
+        {
+            DefaultRank = 1;
+            CodeType=CodeType.Chaoyin;
+        }
         //#region IWordLibraryImport 成员
 
         //public WordLibraryList Import(string path)
@@ -73,7 +77,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var sb = new StringBuilder();
 
-            sb.Append(wl.WubiCode);
+            sb.Append(wl.SingleCode);
             sb.Append(" = ");
             sb.Append(wl.Rank);
             sb.Append(",");

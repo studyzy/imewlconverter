@@ -165,7 +165,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 result.Append(PinyinCodeMapping[pinyins[0]][0]);
                 result.Append(PinyinCodeMapping[pinyins[1]][0]);
                 result.Append(PinyinCodeMapping[pinyins[2]]);
-                if (ShenmuY.Contains(pinyins[1]))
+                if (ShenmuY.Contains(pinyins[2]))
                 {
                     result.Append("'");
                 }
