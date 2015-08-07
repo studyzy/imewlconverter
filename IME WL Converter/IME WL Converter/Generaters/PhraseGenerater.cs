@@ -38,15 +38,16 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
 
-        public IList<string> GetCodeOfWordLibrary(WordLibrary str, string charCodeSplit = "")
-        {
-            if (str.CodeType == CodeType.Pinyin)
-            {
-                return new List<string> {str.GetPinYinString("", BuildType.None)};
-            }
-            return CollectionHelper.Descartes(str.Codes);
-        }
 
+        public override void GetCodeOfWordLibrary(WordLibrary wl)
+        {
+            if (wl.CodeType == CodeType.Pinyin)
+            {
+                wl.SetCode(CodeType.UserDefinePhrase,wl.GetPinYinString("", BuildType.None));
+            }
+            var codes= CollectionHelper.Descartes(wl.Codes);
+            wl.SetCode(CodeType.UserDefinePhrase, codes[0]);
+        }
         public override Code GetCodeOfString(string str)
         {
             throw new NotImplementedException();

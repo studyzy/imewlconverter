@@ -36,7 +36,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         #endregion
 
 
-        public void GetCodeOfWordLibrary(WordLibrary wl)
+        public virtual void GetCodeOfWordLibrary(WordLibrary wl)
         {
             wl.Codes = GetCodeOfString(wl.Word);
         }

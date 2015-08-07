@@ -139,7 +139,7 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
-                if (CodeType == CodeType.Wubi)
+                if (CodeType == CodeType.Wubi||CodeType==CodeType.Wubi98)
                 {
                     return Codes[0][0];
                 }

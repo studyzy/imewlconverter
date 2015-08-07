@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -9,7 +10,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return DictionaryHelper.GetCode(str).Wubi98;
         }
-
 
         public override IList<string> GetAllCodesOfChar(char str)
         {

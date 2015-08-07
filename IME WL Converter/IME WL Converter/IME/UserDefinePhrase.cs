@@ -23,7 +23,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public override CodeType CodeType
         {
-            get { return CodeType.Unknown; }
+            get { return CodeType.UserDefinePhrase; }
         }
 
 

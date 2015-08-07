@@ -130,5 +130,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ZhengmaDic[c].ShortCode[0].ToString();
         }
+
     }
 }

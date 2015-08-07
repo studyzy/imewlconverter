@@ -1,4 +1,6 @@
-﻿namespace Studyzy.IMEWLConverter.Generaters
+﻿using Studyzy.IMEWLConverter.Entities;
+
+namespace Studyzy.IMEWLConverter.Generaters
 {
     public class ChaoqiangErbiGenerater : ErbiGenerater
     {

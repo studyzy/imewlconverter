@@ -14,5 +14,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         public abstract Code GetCodeOfString(string str);
+  
     }
 }

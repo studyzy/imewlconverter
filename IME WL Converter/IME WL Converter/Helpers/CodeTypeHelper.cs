@@ -36,6 +36,8 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new PinyinGenerater();
                 case CodeType.Wubi:
                     return new Wubi86Generater();
+                case CodeType.Wubi98:
+                    return new Wubi98Generater();
                 case CodeType.QingsongErbi:
                     return new QingsongErbiGenerater();
                 case CodeType.ChaoqiangErbi:
@@ -56,6 +58,12 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new Cangjie5Generater();
                 case CodeType.Chaoyin:
                     return new ChaoyinGenerater();
+                case CodeType.UserDefinePhrase:
+                    return new PhraseGenerater();
+                case CodeType.Zhuyin:
+                    return new ZhuyinGenerater();
+                case CodeType.NoCode:
+                    return null;
                     //case CodeType.UserDefine:
                     //    {
                     //        return SelfDefiningCodeGenerater();

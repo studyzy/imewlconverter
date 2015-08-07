@@ -15,6 +15,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
     public abstract class ErbiGenerater :BaseCodeGenerater, IWordCodeGenerater
     {
+     
         /// <summary>
         ///     二笔的编码可能是一字多码的
         /// </summary>

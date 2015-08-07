@@ -7,19 +7,19 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    ///     极点的词库格式为“编码 词语 词语 词语”\r\n
+    ///     极点五笔/郑码的词库格式为“编码 词语 词语 词语”\r\n
     /// </summary>
     [ComboBoxShow(ConstantString.JIDIAN, ConstantString.JIDIAN_C, 190)]
     public class Jidian : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
-        protected virtual bool IsWubi
-        {
-            get { return false; }
-        }
+        //protected virtual bool IsWubi
+        //{
+        //    get { return true; }
+        //}
 
         public override CodeType CodeType
         {
-            get { return CodeType.Unknown; }
+            get { return CodeType.Wubi; }
         }
 
         #region IWordLibraryImport 成员
@@ -76,19 +76,20 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        private readonly IWordCodeGenerater wubiFactory = new Wubi86Generater();
+       
 
         public virtual string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-            if (string.IsNullOrEmpty(wl.WubiCode))
-            {
-                sb.Append(wubiFactory.GetCodeOfString(wl.Word)[0]);
-            }
-            else
-            {
-                sb.Append(wl.WubiCode);
-            }
+            //if (string.IsNullOrEmpty(wl.WubiCode))
+            //{
+            //    sb.Append(wubiFactory.GetCodeOfString(wl.Word)[0]);
+            //}
+            //else
+            //{
+            //    sb.Append(wl.WubiCode);
+            //}
+            sb.Append(wl.SingleCode);
             sb.Append(" ");
             sb.Append(wl.Word);
 

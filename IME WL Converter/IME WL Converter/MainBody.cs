@@ -189,7 +189,8 @@ namespace Studyzy.IMEWLConverter
                     continue;
                 }
                 generater.GetCodeOfWordLibrary(wordLibrary);
-
+                if(codeType!=CodeType.Unknown)
+                wordLibrary.CodeType = codeType;
             }
         }
 
