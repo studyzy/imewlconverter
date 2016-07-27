@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -7,6 +7,7 @@ using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.Language;
+using System.Linq;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -116,6 +117,31 @@ namespace Studyzy.IMEWLConverter
 
         public IList<IBatchFilter> BatchFilters { get; set; }
 
+
+        public List<string> GetRealPath(IList<string> filePathes)
+        {
+            var list = new List<string>();
+
+            filePathes.ToList().ForEach(x =>
+            {
+                var dic = Path.GetDirectoryName(x);
+                var filen = Path.GetFileName(x);
+                if (filen.Contains("*"))
+                {
+                    var files = Directory.GetFiles(dic, filen, SearchOption.AllDirectories);
+                    list.AddRange(files);
+                }
+                else
+                {
+                    list.Add(x);
+                }
+
+            });
+
+
+            return list;
+        }
+
         /// <summary>
         ///     转换多个文件成一个文件
         /// </summary>
@@ -125,11 +151,15 @@ namespace Studyzy.IMEWLConverter
         {
             allWlList.Clear();
             isImportProgress = true;
+
+            filePathes = GetRealPath(filePathes);
+
             foreach (string file in filePathes)
             {
                 WordLibraryList wlList = import.Import(file);
                 wlList = Filter(wlList);
                 allWlList.AddRange(wlList);
+
             }
             isImportProgress = false;
             if (selectedTranslate != ChineseTranslate.NotTrans)
@@ -189,8 +219,8 @@ namespace Studyzy.IMEWLConverter
                     continue;
                 }
                 generater.GetCodeOfWordLibrary(wordLibrary);
-                if(codeType!=CodeType.Unknown)
-                wordLibrary.CodeType = codeType;
+                if (codeType != CodeType.Unknown)
+                    wordLibrary.CodeType = codeType;
             }
         }
 
@@ -202,8 +232,12 @@ namespace Studyzy.IMEWLConverter
         public void Convert(IList<string> filePathes, string outputDir)
         {
             int c = 0;
+
+            filePathes = GetRealPath(filePathes);
+
             foreach (string file in filePathes)
             {
+
                 WordLibraryList wlList = import.Import(file);
                 wlList = Filter(wlList);
                 if (selectedTranslate != ChineseTranslate.NotTrans)
@@ -244,10 +278,11 @@ namespace Studyzy.IMEWLConverter
             {
                 if (IsKeep(wordLibrary))
                 {
-                    foreach (IReplaceFilter replaceFilter in ReplaceFilters)
-                    {
-                        replaceFilter.Replace(wordLibrary);
-                    }
+                    if (ReplaceFilters != null)
+                        foreach (IReplaceFilter replaceFilter in ReplaceFilters)
+                        {
+                            replaceFilter.Replace(wordLibrary);
+                        }
                     if (wordLibrary.Word != string.Empty)
                         result.Add(wordLibrary);
                 }
@@ -284,7 +319,7 @@ namespace Studyzy.IMEWLConverter
             {
                 result = selectedConverter.ToCht(sb.ToString());
             }
-            string[] newList = result.Split(new[] {'\r'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] newList = result.Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
             if (newList.Length != count)
             {
                 throw new Exception("简繁转换时转换失败，请更改简繁转换设置");
