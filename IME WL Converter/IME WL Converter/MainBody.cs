@@ -25,6 +25,7 @@ namespace Studyzy.IMEWLConverter
         private ChineseTranslate selectedTranslate;
         private IWordRankGenerater wordRankGenerater;
 
+        public IList<string> ExportContents { get; set; } 
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
@@ -149,6 +150,7 @@ namespace Studyzy.IMEWLConverter
         /// <returns></returns>
         public string Convert(IList<string> filePathes)
         {
+            ExportContents=new List<string>();
             allWlList.Clear();
             isImportProgress = true;
 
@@ -172,7 +174,8 @@ namespace Studyzy.IMEWLConverter
                 GenerateDestinationCode(allWlList, export.CodeType);
             }
             count = allWlList.Count;
-            return export.Export(RemoveEmptyCodeData(allWlList));
+            ExportContents = export.Export(RemoveEmptyCodeData(allWlList));
+            return string.Join("\r\n", ExportContents.ToArray());
         }
 
         private WordLibraryList RemoveEmptyCodeData(WordLibraryList wordLibraryList)
@@ -231,6 +234,7 @@ namespace Studyzy.IMEWLConverter
         /// <param name="outputDir"></param>
         public void Convert(IList<string> filePathes, string outputDir)
         {
+            ExportContents=new List<string>();
             int c = 0;
 
             filePathes = GetRealPath(filePathes);
@@ -246,12 +250,26 @@ namespace Studyzy.IMEWLConverter
                 }
                 c += wlList.Count;
                 GenerateWordRank(wlList);
-                string result = export.Export(RemoveEmptyCodeData(wlList));
-                string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
-                                    Path.GetFileNameWithoutExtension(file) + ".txt";
-                FileOperationHelper.WriteFile(exportPath, export.Encoding, result);
+                ExportContents = export.Export(RemoveEmptyCodeData(wlList));
+                for(var i=0;i< ExportContents.Count;i++)
+                {
+                    string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
+                                   Path.GetFileNameWithoutExtension(file) + (i==0?"":i.ToString())+ ".txt";
+                    FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
+                }
+               
             }
             count = c;
+        }
+        public void ExportToFile(string filePath)
+        {
+            var outputDir = Path.GetDirectoryName(filePath);
+            for (var i = 0; i < ExportContents.Count; i++)
+            {
+                string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
+                               Path.GetFileNameWithoutExtension(filePath) + (i == 0 ? "" : i.ToString()) + ".txt";
+                FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
+            }
         }
 
         public void StreamConvert(IList<string> filePathes, string outPath)

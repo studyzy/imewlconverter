@@ -22,7 +22,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestExport()
         {
-            string txt = exporter.Export(WlListData);
+            string txt = exporter.Export(WlListData)[0];
             Assert.AreEqual(txt, "深蓝测试\r\n词库转换\r\n");
         }
 

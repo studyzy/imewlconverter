@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
@@ -19,7 +20,7 @@ namespace Studyzy.IMEWLConverter.IME
             return str;
         }
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count; i++)
@@ -30,7 +31,7 @@ namespace Studyzy.IMEWLConverter.IME
 
                 sb.Append("\n");
             }
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         public Encoding Encoding

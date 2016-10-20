@@ -550,14 +550,10 @@ namespace Studyzy.IMEWLConverter
                 }
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    if (FileOperationHelper.WriteFile(saveFileDialog1.FileName, export.Encoding, fileContent))
-                    {
-                        ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
-                    }
-                    else
-                    {
-                        ShowStatusMessage("保存失败", true);
-                    }
+                    mainBody.ExportToFile(saveFileDialog1.FileName);
+
+                    ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
+
                 }
             }
         }

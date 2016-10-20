@@ -99,7 +99,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
             var sb = new StringBuilder();
@@ -108,7 +108,7 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(ExportLine(wlList[i]));
                 sb.Append(lineSplitString);
             }
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         public Encoding Encoding

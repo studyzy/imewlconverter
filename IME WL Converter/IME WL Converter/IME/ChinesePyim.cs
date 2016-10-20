@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
@@ -65,7 +66,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             sb.Append(";; -*- coding: utf-8 -*--\n");
@@ -75,7 +76,7 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(ExportLine(wlList[i]));
                 sb.Append("\n");
             }
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         #endregion

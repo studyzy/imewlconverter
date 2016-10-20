@@ -20,7 +20,7 @@ namespace Studyzy.IMEWLConverter.IME
             get { return Encoding.Unicode; }
         }
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count; i++)
@@ -32,7 +32,7 @@ namespace Studyzy.IMEWLConverter.IME
                     sb.Append("\r\n");
                 }
             }
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         public string ExportLine(WordLibrary wl)

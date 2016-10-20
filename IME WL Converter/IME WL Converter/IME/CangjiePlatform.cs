@@ -46,7 +46,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count; i++)
@@ -54,7 +54,7 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(ExportLine(wlList[i]));
                 sb.Append("\r\n");
             }
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         #endregion

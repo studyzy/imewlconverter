@@ -130,7 +130,7 @@ namespace Studyzy.IMEWLConverter
             if (ReBuildUserPattern())
             {
                 ime.UserDefiningPattern = SelectedParsePattern;
-                rtbTo.Text = ime.Export(SampleWL());
+                rtbTo.Text = ime.Export(SampleWL())[0];
             }
         }
 

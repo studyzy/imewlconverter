@@ -189,7 +189,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public Encoding Encoding { get; }
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             string tempPath = "C:\\temp\\test.txt";
 
@@ -223,7 +223,7 @@ namespace Studyzy.IMEWLConverter.IME
             fs.Write(BitConverter.GetBytes(fs.Length),0,4);
            
             fs.Close();
-            return tempPath;
+            return new List<string>() {tempPath };
         }
 
         public string ExportLine(WordLibrary wl)

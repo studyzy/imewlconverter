@@ -59,7 +59,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         //public Form ExportConfigForm { get { return form; } }
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             //sb.Append(GetFileHeader());
@@ -113,7 +113,7 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(keyValuePair.Key + " " + keyValuePair.Value + "\n");
             }
 
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using Studyzy.IMEWLConverter.Entities;
@@ -29,7 +30,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             sb.Append(
@@ -78,7 +79,7 @@ namespace Studyzy.IMEWLConverter.IME
                 }
             }
             sb.Append("</ns1:Dictionary>");
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         private string GetPinyinWithTone(WordLibrary wl)

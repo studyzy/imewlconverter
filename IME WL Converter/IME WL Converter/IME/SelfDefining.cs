@@ -49,7 +49,7 @@ namespace Studyzy.IMEWLConverter.IME
         /// </summary>
         /// <param name="wlList"></param>
         /// <returns></returns>
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             Prepare();
             var sb = new StringBuilder();
@@ -65,7 +65,7 @@ namespace Studyzy.IMEWLConverter.IME
                     Debug.WriteLine(ex.Message);
                 }
             }
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         public string ExportLine(WordLibrary wl)

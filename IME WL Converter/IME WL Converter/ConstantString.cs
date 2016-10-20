@@ -33,7 +33,7 @@ namespace Studyzy.IMEWLConverter
         public const string SOUGOU_XIBAO_SCEL = "搜狗细胞词库scel";
         public const string SINA_PINYIN = "新浪拼音";
         public const string SELF_DEFINING = "自定义";
-        public const string IFLY_IME = "讯飞语音输入法";
+        public const string IFLY_IME = "讯飞输入法";
         public const string JIDIAN = "极点五笔";
         public const string JIDIAN_ZHENGMA = "极点郑码";
         public const string XIAOYA_WUBI = "小鸭五笔";

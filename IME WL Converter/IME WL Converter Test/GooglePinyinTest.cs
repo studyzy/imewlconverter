@@ -27,7 +27,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestExport()
         {
-            string txt = exporter.Export(WlListData);
+            var txt = exporter.Export(WlListData)[0];
             Assert.IsTrue(txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Length == 2);
         }
 

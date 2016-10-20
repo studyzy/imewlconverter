@@ -174,7 +174,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
         }
 
 
-        public string Export(WordLibraryList wlList)
+        public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             sb.Append("MJSR version 1.0.0\r\n");
@@ -191,7 +191,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
                 }
             }
             sb.Append(END_STRING);
-            return sb.ToString();
+            return new List<string>() { sb.ToString() };
         }
 
         #endregion

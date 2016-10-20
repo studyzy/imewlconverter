@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
@@ -25,9 +27,14 @@ namespace Studyzy.IMEWLConverter
     {
         Encoding Encoding { get; }
         CodeType CodeType { get; }
-        string Export(WordLibraryList wlList);
+        /// <summary>
+        /// 导出成多个文件
+        /// </summary>
+        /// <param name="wlList"></param>
+        /// <returns></returns>
+        IList<string> Export(WordLibraryList wlList);
         string ExportLine(WordLibrary wl);
-        //Form ExportConfigForm { get; }
+      
     }
 
     public interface IMultiCodeType
