@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
@@ -174,7 +175,11 @@ namespace Studyzy.IMEWLConverter
                 GenerateDestinationCode(allWlList, export.CodeType);
             }
             count = allWlList.Count;
-            ExportContents = export.Export(RemoveEmptyCodeData(allWlList));
+            if (export.CodeType != CodeType.NoCode)
+            {
+                allWlList = RemoveEmptyCodeData(allWlList);
+            }
+            ExportContents = export.Export(allWlList);
             return string.Join("\r\n", ExportContents.ToArray());
         }
 
@@ -183,7 +188,8 @@ namespace Studyzy.IMEWLConverter
             var list = new WordLibraryList();
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
-                if (!string.IsNullOrEmpty(wordLibrary.SingleCode))
+
+                if (!string.IsNullOrEmpty(wordLibrary.SingleCode))//没有编码，则不保留
                 {
                     list.Add(wordLibrary);
                 }
@@ -221,7 +227,14 @@ namespace Studyzy.IMEWLConverter
                 {
                     continue;
                 }
-                generater.GetCodeOfWordLibrary(wordLibrary);
+                try
+                {
+                    generater.GetCodeOfWordLibrary(wordLibrary);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("生成编码失败"+ex.Message);
+                }
                 if (codeType != CodeType.Unknown)
                     wordLibrary.CodeType = codeType;
             }

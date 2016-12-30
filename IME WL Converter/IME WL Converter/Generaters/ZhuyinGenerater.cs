@@ -92,19 +92,19 @@ namespace Studyzy.IMEWLConverter.Generaters
             return new Code(result);
         }
 
-        public override void GetCodeOfWordLibrary(WordLibrary wl)
-        {
-            base.GetCodeOfWordLibrary(wl);
-            for (int i = 0; i < wl.Codes.Count; i++)
-            {
-                var row = wl.Codes[i];
-                for (int j = 0; j < row.Count; j++)
-                {
-                    string s = row[j];
-                    string zy = ZhuyinHelper.GetZhuyin(s); 
-                    wl.Codes[i][j] = zy;
-                }
-            }
-        }
+        //public override void GetCodeOfWordLibrary(WordLibrary wl)
+        //{
+        //    base.GetCodeOfWordLibrary(wl);
+        //    for (int i = 0; i < wl.Codes.Count; i++)
+        //    {
+        //        var row = wl.Codes[i];
+        //        for (int j = 0; j < row.Count; j++)
+        //        {
+        //            string s = row[j];
+        //            string zy = ZhuyinHelper.GetZhuyin(s); 
+        //            wl.Codes[i][j] = zy;
+        //        }
+        //    }
+        //}
     }
 }

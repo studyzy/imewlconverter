@@ -58,7 +58,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 string code1 = GetDefaultCodeOfChar(str[0]);
                 string code2 = GetDefaultCodeOfChar(str[1]);
                 string code3 = GetDefaultCodeOfChar(str[2]);
-                return code1[0] + code2[0] + code3.Substring(0, 2);
+                return code1[0].ToString() + code2[0] + code3.Substring(0, 2);
             }
             else
             {

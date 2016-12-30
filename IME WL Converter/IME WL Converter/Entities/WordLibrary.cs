@@ -68,6 +68,10 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
+                if (Codes == null)//Code生成失败
+                {
+                    return null;
+                }
                 if (Codes.Count > 0)
                 {
                     if (Codes[0].Count > 0)
