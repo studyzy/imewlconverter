@@ -11,15 +11,19 @@ namespace Studyzy.IMEWLConverter.IME
     public class BaiduShouji : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
-
+        /// <summary>
+        /// 百度手机的格式为 中文(pin|yin) 词频
+        /// </summary>
+        /// <param name="wl"></param>
+        /// <returns></returns>
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
 
             sb.Append(wl.Word);
-            sb.Append(" ");
+            sb.Append("(");
             sb.Append(wl.GetPinYinString("|", BuildType.None));
-            sb.Append(" 20000");
+            sb.Append(") 20000");
 
             return sb.ToString();
         }
@@ -71,8 +75,10 @@ namespace Studyzy.IMEWLConverter.IME
             var wll = new WordLibraryList();
             try
             {
-                string py = line.Split(' ')[1];
-                string word = line.Split(' ')[0];
+                var array1 = line.Split('(');
+                string word = array1[0];
+                string py = array1[1].Split(')')[0];
+
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Rank = 1;
