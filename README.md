@@ -1,6 +1,6 @@
 # 深蓝词库转换
 ==============
-最新版下载地址：[2.1.2 Download](https://github.com/studyzy/imewlconverter/releases/download/V2.1.2/Release_V2.1.2.zip)
+最新版下载地址：[2.1.3 Download](https://github.com/studyzy/imewlconverter/releases/download/V2.1.3/Release_V2.1.3.zip)
 
 一款输入法词库转换软件，支持以下超过20种的输入法工具和词库：
 
@@ -30,6 +30,7 @@
 
 - QQ手机拼音
 - 百度手机拼音（文本词库和bcd格式）
+- 谷歌拼音输入法
 
 该软件支持6种以上的输入法编码方法：
 - 拼音
