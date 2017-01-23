@@ -59,13 +59,16 @@ namespace Studyzy.IMEWLConverter.IME
         public WordLibraryList ImportText(string str)
         {
             var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = str.Split(new[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
             CountWord = lines.Length;
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
                 CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
+                if (line.Length > 0 && line[0] != '#')//注释行
+                {
+                    wlList.AddWordLibraryList(ImportLine(line));
+                }
             }
             return wlList;
         }
