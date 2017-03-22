@@ -181,8 +181,8 @@
     <Compile Include="Helpers\ZhuyinHelper.cs" />
     <Compile Include="IME\CangjiePlatform.cs" />
     <Compile Include="IME\MsPinyin.cs" />
+    <Compile Include="IME\Win10MsPinyin.cs" />
     <Compile Include="IME\ShouxinPinyin.cs" />
-    <Compile Include="IME\MsPinyin2.cs" />
     <Compile Include="IME\XiaoxiaoErbi.cs" />
     <Compile Include="IME\UserDefinePhrase.cs" />
     <Compile Include="IME\YahooKeyKey.cs" />

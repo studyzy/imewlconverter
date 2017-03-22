@@ -1,6 +1,6 @@
 # 深蓝词库转换
 ==============
-最新版下载地址：[2.1.3 Download](https://github.com/studyzy/imewlconverter/releases/download/V2.1.3/Release_V2.1.3.zip)
+最新版下载地址：[2.1.4 Download](https://github.com/studyzy/imewlconverter/releases/download/V2.1.4/Release_V2.1.4.zip)
 
 一款输入法词库转换软件，支持以下超过20种的输入法工具和词库：
 
@@ -9,6 +9,7 @@
 - 百度PC拼音（文本词库、bdict格式）
 - 谷歌拼音
 - 微软拼音2010
+- Win0微软拼音
 - 拼音加加
 - 微软英库拼音
 - 紫光拼音（文本词库和uwl格式分类词库）

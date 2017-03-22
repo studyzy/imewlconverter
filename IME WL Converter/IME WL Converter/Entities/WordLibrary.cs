@@ -123,6 +123,16 @@ namespace Studyzy.IMEWLConverter.Entities
             }
         }
 
+        public int GetPinYinLength()
+        {
+            int len = 0;
+            foreach (var s in PinYin)
+            {
+                len += s.Length;
+            }
+            return len;
+            
+        }
         /// <summary>
         ///     词的拼音字符串，可以单独设置的一个属性，如果没有设置该属性，而获取该属性，则返回PinYin属性和“'”组合的字符串
         /// </summary>
