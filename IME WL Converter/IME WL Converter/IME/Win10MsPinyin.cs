@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.IME
     /// Win10微软拼音
     /// </summary>
     [ComboBoxShow(ConstantString.WIN10_MS_PINYIN, ConstantString.WIN10_MS_PINYIN_C, 130)]
-    public class Win10MsPinyin : IWordLibraryExport //BaseImport, IWordLibraryImport, 
+    public class Win10MsPinyin : IWordLibraryExport , IWordLibraryImport
     {
         /*
         mschxudp file format
@@ -46,65 +46,13 @@ hanzi_offset = 8 + len(pinyin)
 phrase_offsets[N] + hanzi_offset + len(phrase) == phrase_offsets[N + 1]
 
 */
-        //#region IWordLibraryImport 成员
+     
+        public Encoding Encoding { get {return Encoding.Unicode;} }
 
-        ////public bool OnlySinglePinyin { get; set; }
+        public int CountWord { get; set; }
+        public int CurrentStatus { get; set; }
 
-        //public WordLibraryList Import(string path)
-        //{
-          
-        //    return ReadFile(path);
-        //}
-
-        //#endregion
-
-        //private Dictionary<int, string> pyDic = new Dictionary<int, string>();
-
-
-
-        //public WordLibraryList ImportLine(string line)
-        //{
-        //    throw new Exception("Win10微软拼音格式是二进制文件，不支持流转换");
-        //}
-
-        //private WordLibrary ImportOnePhrase(FileStream fs)
-        //{
-        //    var position = fs.Position;
-        // var magic=   BinFileHelper.ReadInt32(fs);// magic(0x00080008)
-        //    var hzoffset= BinFileHelper.ReadInt16(fs);
-        //    var rank = fs.ReadByte();
-        //    var unknow = fs.ReadByte();
-        //    var pinyinByteLen = hzoffset - 10;
-        //    var pinyin = Encoding.Unicode.GetString(BinFileHelper.ReadArray(fs, pinyinByteLen));
-        //    //TODO
-        //    return new WordLibrary();
-        //}
-        //private WordLibraryList ReadFile(string path)
-        //{
-        //    pyDic = new Dictionary<int, string>();
-        //    //Dictionary<string, string> pyAndWord = new Dictionary<string, string>();
-        //    var pyAndWord = new WordLibraryList();
-        //    var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-         
-        //    fs.Position = 0x10;
-        //    var phrase_start = BinFileHelper.ReadInt32(fs);
-        //    var phrase_end= BinFileHelper.ReadInt32(fs);
-        //    CountWord= (int)BinFileHelper.ReadInt64(fs);
-        //    CurrentStatus = 0;
-        //    fs.Position = phrase_start;
-        //    for (int i = 0; i < CountWord; i++)
-        //    {
-        //        pyAndWord.Add(ImportOnePhrase(fs));
-        //    }
-
-        //    fs.Close();
-        //    return pyAndWord;
-
-        //}
-
-      
-
-        public Encoding Encoding { get; }
+        public bool IsText => false;
 
         public CodeType CodeType
         {
@@ -112,6 +60,67 @@ phrase_offsets[N] + hanzi_offset + len(phrase) == phrase_offsets[N + 1]
             {
                 return CodeType.Pinyin;
             }
+        }
+
+        public WordLibraryList Import(string path)
+        {
+            var pyAndWord = new WordLibraryList();
+            var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            fs.Position = 0x0C;
+            var phrase_offset_start = BinFileHelper.ReadInt32(fs);
+            var phrase_start= BinFileHelper.ReadInt32(fs);
+            var phrase_end = BinFileHelper.ReadInt32(fs);
+            var phrase_count = BinFileHelper.ReadInt32(fs);
+
+            fs.Position = phrase_offset_start;
+            var offsets = ReadOffsets(fs, phrase_count);
+            offsets.Add(phrase_end- phrase_start);
+
+            fs.Position = phrase_start;
+            for (var i = 0; i < phrase_count; i++)
+            {
+                var wl = ReadOnePhrase(fs, phrase_start+offsets[i+1]);
+                pyAndWord.Add(wl);
+            }
+            return pyAndWord;
+        }
+
+        private IList<int> ReadOffsets(FileStream fs,int count)
+        {
+            var result=new List<int>();
+       
+            for (var i = 0; i < count; i++)
+            {
+                var offset = BinFileHelper.ReadInt32(fs);
+                result.Add(offset);
+            }
+            return result;
+        } 
+
+        private WordLibrary ReadOnePhrase(FileStream fs,int nextStartPosition)
+        {
+            WordLibrary wl=new WordLibrary();
+            var magic = BinFileHelper.ReadInt32(fs);
+            var hanzi_offset = BinFileHelper.ReadInt16(fs);
+            wl.Rank = fs.ReadByte();
+            var x6 = fs.ReadByte();//不知道干啥的
+            var pyBytesLen = hanzi_offset - 10;
+            var pyBytes = BinFileHelper.ReadArray(fs, pyBytesLen);
+            var pyStr= Encoding.Unicode.GetString(pyBytes);
+            var split = BinFileHelper.ReadInt16(fs);//00 00 分割拼音和汉字
+            var wordBytesLen = nextStartPosition - (int)fs.Position-2;//结尾还有个00 00
+            var wordBytes = BinFileHelper.ReadArray(fs, wordBytesLen);
+            BinFileHelper.ReadInt16(fs);//00 00分割
+            var word = Encoding.Unicode.GetString(wordBytes);
+            wl.Word = word;
+            wl.SetPinyinString(pyStr);
+            wl.CodeType= CodeType.Pinyin;
+            return wl;
+        }
+
+        public WordLibraryList ImportLine(string str)
+        {
+            throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
 
         public IList<string> Export(WordLibraryList wlList)
@@ -162,7 +171,7 @@ phrase_offsets[N] + hanzi_offset + len(phrase) == phrase_offsets[N + 1]
 
         public string ExportLine(WordLibrary wl)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
     }
 }

@@ -171,7 +171,33 @@ namespace Studyzy.IMEWLConverter.Entities
             CodeType = type;
             Codes = new Code(str);
         }
-
+        /// <summary>
+        /// 设置没有任何分隔符的拼音，由系统重新分割开
+        /// </summary>
+        /// <param name="pinyin"></param>
+        public void SetPinyinString(string pinyin)
+        {
+            foreach (var c in word)
+            {
+                var pys = PinyinHelper.GetPinYinOfChar(c);
+                var match = false;
+                foreach (var cpy in pys)
+                {
+                    if (pinyin.StartsWith(cpy))//拼音匹配正确
+                    {
+                        match = true;
+                        pinyin = pinyin.Substring(cpy.Length);
+                        Codes.Add(new List<string> {cpy});
+                        break;
+                    }
+                }
+                if (!match) //这个字的所有拼音都不和传入的字符串中的拼音匹配
+                {
+                    Codes.Add(pys);
+                }
+            }
+          
+        }
         /// <summary>
         ///     设置无多音字的词的编码
         /// </summary>
