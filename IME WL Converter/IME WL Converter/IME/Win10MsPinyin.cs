@@ -125,7 +125,8 @@ phrase_offsets[N] + hanzi_offset + len(phrase) == phrase_offsets[N + 1]
 
         public IList<string> Export(WordLibraryList wlList)
         {
-          
+            //Win10拼音只支持最多32个字符的编码
+            wlList = Filter(wlList);
             string tempPath =Path.GetDirectoryName( Application.ExecutablePath)+ "\\Win10微软拼音词库.txt";
 
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -167,6 +168,20 @@ phrase_offsets[N] + hanzi_offset + len(phrase) == phrase_offsets[N + 1]
            
             fs.Close();
             return new List<string>() {"词库文件在："+ tempPath };
+        }
+
+        private WordLibraryList Filter(WordLibraryList wlList)
+        {
+            var result=new WordLibraryList();
+            foreach (var wl in wlList)
+            {
+              if(wl.GetPinYinLength()>32)
+                    continue;
+              if(wl.Word.Length>64)
+                    continue;
+              result.Add(wl);
+            }
+            return result;
         }
 
         public string ExportLine(WordLibrary wl)

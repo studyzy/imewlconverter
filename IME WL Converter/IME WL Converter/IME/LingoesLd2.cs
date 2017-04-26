@@ -315,8 +315,9 @@ namespace Studyzy.IMEWLConverter.IME
             int defTotal = offsetDefs/dataLen - 1;
             CountWord = defTotal;
             var words = new string[defTotal];
-
-
+#if DEBUG
+            StreamWriter sw=new StreamWriter("C:\\Temp\\灵格斯.txt",false);
+#endif
             //Encoding[] encodings = DetectEncodings(dataRawBytes, offsetDefs, offsetXml, defTotal, dataLen);
 
             //dataRawBytes.Position = (8);
@@ -337,11 +338,15 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     words[i] = word;
                 }
-                //Debug.WriteLine(words[i]);
+#if DEBUG
+                sw.WriteLine(kv.Key+"\t"+kv.Value);
+#endif
                 CurrentStatus++;
             }
 
-
+#if DEBUG
+            sw.Close();
+#endif
             Debug.WriteLine("成功读出" + CurrentStatus + "组数据。");
             return new List<string>(words);
         }
