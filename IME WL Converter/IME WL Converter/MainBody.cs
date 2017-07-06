@@ -169,7 +169,10 @@ namespace Studyzy.IMEWLConverter
             {
                 allWlList = ConvertChinese(allWlList);
             }
-            GenerateWordRank(allWlList);
+            if (export.CodeType != CodeType.NoCode)
+            {
+                GenerateWordRank(allWlList);
+            }
             if (import.CodeType != export.CodeType)
             {
                 GenerateDestinationCode(allWlList, export.CodeType);
