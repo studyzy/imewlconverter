@@ -25,7 +25,7 @@
 - FIT输入法(Mac)
 - Rime输入法(Linux中州韻、Windows小狼毫、Mac OS鼠鬚管)
 - 雅虎奇摩输入法（注音）
-- 灵格斯词库
+- [灵格斯词库ld2](Lingoes_Ld2)
 - 自定义格式
 
 手机端：
