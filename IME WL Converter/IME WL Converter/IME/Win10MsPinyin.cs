@@ -184,7 +184,7 @@ candidate 第一个字节代表短语在候选框位置
                 var wl = wlList[i];
                 var hanzi_offset = 8 +8+ wl.GetPinYinLength()*2 + 2;
                 bw.Write(BitConverter.GetBytes((short) hanzi_offset));
-                bw.Write((byte) 0x1); //1是詞頻
+                bw.Write((byte) wl.Rank); //1是詞頻
                 bw.Write((byte) 0x6); //6不知道
                 bw.Write(BitConverter.GetBytes(0x00000000));//Unknown
                 bw.Write(BitConverter.GetBytes(0xE679CD20));//Unknown

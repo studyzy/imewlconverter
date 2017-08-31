@@ -38,7 +38,7 @@ namespace Studyzy.IMEWLConverter
         public const string JIDIAN_ZHENGMA = "极点郑码";
         public const string XIAOYA_WUBI = "小鸭五笔";
         public const string MS_PINYIN = "微软拼音";
-        public const string WIN10_MS_PINYIN = "Win10微软拼音";
+        public const string WIN10_MS_PINYIN = "Win10微软拼音（自定义短语）";
         public const string XIAOXIAO = "小小输入法";
         public const string XIAOXIAO_ERBI = "二笔输入法";
         public const string FIT = "FIT输入法";
