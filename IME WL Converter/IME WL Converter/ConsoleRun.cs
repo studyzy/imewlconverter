@@ -93,7 +93,7 @@ namespace Studyzy.IMEWLConverter
                 var mainBody = new MainBody();
                 mainBody.Export = wordLibraryExport;
                 mainBody.Import = wordLibraryImport;
-
+                mainBody.ProcessNotice += MainBody_ProcessNotice;
                 Console.WriteLine("转换开始...");
                 //foreach (string importPath in importPaths)
                 //{
@@ -115,11 +115,21 @@ namespace Studyzy.IMEWLConverter
             Console.WriteLine("输入 -? 可获取帮助");
         }
 
+        private void MainBody_ProcessNotice(string message)
+        {
+            Console.WriteLine(message);
+        }
+
         private CommandType RunCommand(string command)
         {
-            if (command == "-help" || command == "-?")
+            if (command == "--help" || command == "-?")
             {
                 Help();
+                return CommandType.Help;
+            }
+            if (command == "--version" || command == "-v")
+            {
+                Console.WriteLine("Version:"+ Assembly.GetExecutingAssembly().GetName().Version);
                 return CommandType.Help;
             }
             if (command.StartsWith("-i:"))
@@ -182,7 +192,7 @@ namespace Studyzy.IMEWLConverter
 
             if (beginImportFile)
             {
-                importPaths.Add(command);
+                importPaths.AddRange(FileOperationHelper.GetFilesPath( command));
             }
             if (type == CommandType.Export)
             {
@@ -272,6 +282,11 @@ namespace Studyzy.IMEWLConverter
             Console.WriteLine("例如要将C:\\test.scel和C:\\a.scel的搜狗细胞词库转换为D:\\temp文件夹下的谷歌拼音词库test.txt和a.txt，命令为：");
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Yellow);
             Console.WriteLine("深蓝词库转换.exe -i:" + ConstantString.SOUGOU_XIBAO_SCEL_C + " C:\\test.scel C:\\a.scel -o:" +
+                              ConstantString.GOOGLE_PINYIN_C + " D:\\temp\\*");
+            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
+            Console.WriteLine("例如要将C:\\test\\*.scel的搜狗细胞词库转换为D:\\temp文件夹下的谷歌拼音词库，命令为：");
+            ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.Yellow);
+            Console.WriteLine("深蓝词库转换.exe -i:" + ConstantString.SOUGOU_XIBAO_SCEL_C + " C:\\test\\*.scel -o:" +
                               ConstantString.GOOGLE_PINYIN_C + " D:\\temp\\*");
 
 

@@ -12,8 +12,10 @@ using System.Linq;
 
 namespace Studyzy.IMEWLConverter
 {
+    public delegate void ProcessNotice(string message);
     internal class MainBody
     {
+        public event ProcessNotice ProcessNotice;
         private WordLibraryList allWlList = new WordLibraryList();
         private int count;
         private int countWord;
@@ -120,32 +122,32 @@ namespace Studyzy.IMEWLConverter
         public IList<IBatchFilter> BatchFilters { get; set; }
 
 
-        public List<string> GetRealPath(IList<string> filePathes)
-        {
-            var list = new List<string>();
+        //public List<string> GetRealPath(IList<string> filePathes)
+        //{
+        //    var list = new List<string>();
 
-            filePathes.ToList().ForEach(x =>
-            {
-                var dic = Path.GetDirectoryName(x);
-                var filen = Path.GetFileName(x);
-                if (filen.Contains("*"))
-                {
-                    var files = Directory.GetFiles(dic, filen, SearchOption.AllDirectories);
-                    list.AddRange(files);
-                }
-                else
-                {
-                    list.Add(x);
-                }
+        //    filePathes.ToList().ForEach(x =>
+        //    {
+        //        var dic = Path.GetDirectoryName(x);
+        //        var filen = Path.GetFileName(x);
+        //        if (filen.Contains("*"))
+        //        {
+        //            var files = Directory.GetFiles(dic, filen, SearchOption.AllDirectories);
+        //            list.AddRange(files);
+        //        }
+        //        else
+        //        {
+        //            list.Add(x);
+        //        }
 
-            });
+        //    });
 
 
-            return list;
-        }
+        //    return list;
+        //}
 
         /// <summary>
-        ///     转换多个文件成一个文件
+        /// 转换多个文件成一个文件
         /// </summary>
         /// <param name="filePathes"></param>
         /// <returns></returns>
@@ -155,7 +157,7 @@ namespace Studyzy.IMEWLConverter
             allWlList.Clear();
             isImportProgress = true;
 
-            filePathes = GetRealPath(filePathes);
+            //filePathes = GetRealPath(filePathes);
 
             foreach (string file in filePathes)
             {
@@ -253,27 +255,40 @@ namespace Studyzy.IMEWLConverter
             ExportContents=new List<string>();
             int c = 0;
 
-            filePathes = GetRealPath(filePathes);
-
+            //filePathes = GetRealPath(filePathes);
+            int fileCount = filePathes.Count;
+            var fileProcessed = 0;
             foreach (string file in filePathes)
             {
-
-                WordLibraryList wlList = import.Import(file);
-                wlList = Filter(wlList);
-                if (selectedTranslate != ChineseTranslate.NotTrans)
+                fileProcessed++;
+                DateTime start = DateTime.Now;
+                try
                 {
-                    wlList = ConvertChinese(wlList);
+                    WordLibraryList wlList = import.Import(file);
+                    wlList = Filter(wlList);
+                    if (selectedTranslate != ChineseTranslate.NotTrans)
+                    {
+                        wlList = ConvertChinese(wlList);
+                    }
+                    c += wlList.Count;
+                    GenerateWordRank(wlList);
+                    ExportContents = export.Export(RemoveEmptyCodeData(wlList));
+                    for (var i = 0; i < ExportContents.Count; i++)
+                    {
+                        string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
+                                            Path.GetFileNameWithoutExtension(file) + (i == 0 ? "" : i.ToString()) +
+                                            ".txt";
+                        FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
+                    }
+                    var costSeconds = (DateTime.Now - start).TotalSeconds;
+                    ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t转换完成，耗时：" +
+                                          costSeconds + "秒\r\n");
                 }
-                c += wlList.Count;
-                GenerateWordRank(wlList);
-                ExportContents = export.Export(RemoveEmptyCodeData(wlList));
-                for(var i=0;i< ExportContents.Count;i++)
+                catch (Exception ex)
                 {
-                    string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
-                                   Path.GetFileNameWithoutExtension(file) + (i==0?"":i.ToString())+ ".txt";
-                    FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
+                    ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t处理时发生异常：" +
+                                         ex.Message + "\r\n");
                 }
-               
             }
             count = c;
         }

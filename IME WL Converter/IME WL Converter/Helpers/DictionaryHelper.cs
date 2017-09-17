@@ -37,7 +37,12 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         public static ChineseCode GetCode(char c)
         {
+            if(Dict.ContainsKey(c))
             return Dict[c];
+            else
+            {
+                throw new Exception("给定关键字不在字典中，【"+c+"】");
+            }
         }
 
 

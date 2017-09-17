@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -320,8 +322,46 @@ namespace Studyzy.IMEWLConverter.Helpers
                 fs.WriteByte(0xFF);
             }
         }
+        /// <summary>
+        /// 根据文本框输入的一个路径，返回文件列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static IList<string> GetFilesPath(string input)
+        {
+            var result = new List<string>();
 
+            foreach (var path in input.Split('|'))
+            {
+                result.AddRange(GetFilesPathFor1(path.Trim()));
+            }
+            return result;
+        }
 
+        /// <summary>
+        /// 给定一个文件夹或者正则表达式，返回文件路径列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static IList<string> GetFilesPathFor1(string input)
+        {
+
+            if (input.Contains("*"))//正则匹配模式
+            {
+                var dic = Path.GetDirectoryName(input);
+                var filen = Path.GetFileName(input);
+                return Directory.GetFiles(dic, filen, SearchOption.AllDirectories);
+            }
+            if (Directory.Exists(input)) //这是一个文件夹
+            {
+                return Directory.GetFiles(input, "*.*", SearchOption.AllDirectories);
+            }
+            if (File.Exists(input))//文件
+            {
+                return new List<string>() {input};
+            }
+            return new List<string>();
+        }
         //public static bool IsUnicode(Encoding encoding)
         //{
         //    int codepage = encoding.CodePage;

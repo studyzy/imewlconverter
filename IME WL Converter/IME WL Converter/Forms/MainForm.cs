@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
+using Studyzy.IMEWLConverter.Language;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -135,13 +139,14 @@ namespace Studyzy.IMEWLConverter
         #endregion
 
         //private Encoding ld2WordEncoding=Encoding.UTF8;
-        private readonly MainBody mainBody = new MainBody();
+        private  MainBody mainBody;
 
         private IWordLibraryExport export;
         private bool exportDirectly;
         //private int defaultRank = 10;
         protected string exportFileName;
         private string exportPath = "";
+        //private bool isFolderBatchConvert = false;
         private string fileContent;
         private FilterConfig filterConfig = new FilterConfig();
         //private ParsePattern fromUserSetPattern;
@@ -188,21 +193,25 @@ namespace Studyzy.IMEWLConverter
                         return;
                     }
                 }
-                string[] files = txbWLPath.Text.Split('|');
-
-                if (files.Length > 1 && !mergeTo1File)
+                
+                if (!mergeTo1File)
                 {
                     if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                     {
                         outputDir = folderBrowserDialog1.SelectedPath;
                     }
                 }
+                mainBody=new MainBody();
                 mainBody.SelectedWordRankGenerater = wordRankGenerater;
                 mainBody.Import = import;
                 mainBody.Export = export;
+                mainBody.SelectedTranslate = this.translate;
+                mainBody.SelectedConverter = this.chineseConverter;
                 mainBody.Filters = GetFilters();
                 mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
+                
+                mainBody.ProcessNotice+=new ProcessNotice((string notice) => { richTextBox1.AppendText(notice);});
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();
             }
@@ -361,13 +370,15 @@ namespace Studyzy.IMEWLConverter
             form.Show();
         }
 
+        private ChineseTranslate translate = ChineseTranslate.NotTrans;
+        private IChineseConverter chineseConverter = null;
         private void ToolStripMenuItemChineseTransConfig_Click(object sender, EventArgs e)
         {
             var form = new ChineseConverterSelectForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                mainBody.SelectedTranslate = form.SelectedTranslate;
-                mainBody.SelectedConverter = form.SelectedConverter;
+                translate = form.SelectedTranslate;
+                chineseConverter = form.SelectedConverter;
             }
         }
 
@@ -465,7 +476,8 @@ namespace Studyzy.IMEWLConverter
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            string[] files = txbWLPath.Text.Split('|');
+            var files = FileOperationHelper.GetFilesPath( txbWLPath.Text);
+           
 
             if (streamExport && import.IsText) //流转换,只有文本类型的才支持。
             {
@@ -474,13 +486,6 @@ namespace Studyzy.IMEWLConverter
                 return;
             }
 
-
-            //foreach (string file in files)
-            //{
-            //    //cbxFrom.Text+"转"+cbxTo.Text+"_"+
-            //    exportFileName = Path.GetFileNameWithoutExtension(file);
-            //    string path = file.Trim();
-            //}
             if (mergeTo1File)
             {
                 if (!streamExport)
@@ -519,7 +524,7 @@ namespace Studyzy.IMEWLConverter
             {
                 richTextBox1.Text = "为提高处理速度，“高级设置”中选中了“不显示结果，直接导出”，本文本框中不显示转换后的结果，若要查看转换后的结果再确定是否保存请取消该设置。";
             }
-            else
+            else if(mergeTo1File)
             {
                 richTextBox1.Text = fileContent;
                 //btnExport.Enabled = true;

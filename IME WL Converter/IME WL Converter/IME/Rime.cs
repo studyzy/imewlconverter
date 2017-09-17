@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
@@ -54,11 +55,26 @@ namespace Studyzy.IMEWLConverter.IME
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
+            if (this.CodeType == wl.CodeType&&this.CodeType!= CodeType.Pinyin&&CodeType!=CodeType.TerraPinyin)
+            {
+                return wl.Word + "\t" + wl.Codes[0][0] + "\t" + wl.Rank;
+            }
+
             if (codeGenerater == null)
             {
                 codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
             }
-            codeGenerater.GetCodeOfWordLibrary(wl);
+            try
+            {
+                codeGenerater.GetCodeOfWordLibrary(wl);
+            }
+            catch (Exception ex)
+            {
+                Debug.Fail(ex.Message);
+                return null;
+            }
+           
+
             if (codeGenerater.Is1CharMutiCode)
             {
                 IList<string> codes = codeGenerater.GetCodeOfString(wl.Word).ToCodeString(" ");
@@ -105,8 +121,12 @@ namespace Studyzy.IMEWLConverter.IME
             var sb = new StringBuilder();
             for (int i = 0; i < wlList.Count; i++)
             {
-                sb.Append(ExportLine(wlList[i]));
-                sb.Append(lineSplitString);
+                var line = ExportLine(wlList[i]);
+                if (!string.IsNullOrEmpty(line))
+                {
+                    sb.Append(line);
+                    sb.Append(lineSplitString);
+                }
             }
             return new List<string>() { sb.ToString() };
         }

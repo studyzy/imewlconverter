@@ -68,9 +68,9 @@
             // 
             // btnConvert
             // 
-            this.btnConvert.Location = new System.Drawing.Point(465, 29);
+            this.btnConvert.Location = new System.Drawing.Point(465, 27);
             this.btnConvert.Name = "btnConvert";
-            this.btnConvert.Size = new System.Drawing.Size(75, 55);
+            this.btnConvert.Size = new System.Drawing.Size(75, 51);
             this.btnConvert.TabIndex = 0;
             this.btnConvert.Text = "转 换";
             this.btnConvert.UseVisualStyleBackColor = true;
@@ -78,17 +78,17 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 94);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 87);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(528, 334);
+            this.richTextBox1.Size = new System.Drawing.Size(528, 309);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             // 
             // txbWLPath
             // 
-            this.txbWLPath.Location = new System.Drawing.Point(12, 29);
+            this.txbWLPath.Location = new System.Drawing.Point(12, 27);
             this.txbWLPath.Name = "txbWLPath";
-            this.txbWLPath.Size = new System.Drawing.Size(396, 20);
+            this.txbWLPath.Size = new System.Drawing.Size(396, 21);
             this.txbWLPath.TabIndex = 2;
             // 
             // openFileDialog1
@@ -102,9 +102,9 @@
             // 
             // btnOpenFileDialog
             // 
-            this.btnOpenFileDialog.Location = new System.Drawing.Point(414, 28);
+            this.btnOpenFileDialog.Location = new System.Drawing.Point(414, 26);
             this.btnOpenFileDialog.Name = "btnOpenFileDialog";
-            this.btnOpenFileDialog.Size = new System.Drawing.Size(33, 25);
+            this.btnOpenFileDialog.Size = new System.Drawing.Size(33, 23);
             this.btnOpenFileDialog.TabIndex = 3;
             this.btnOpenFileDialog.Text = "...";
             this.btnOpenFileDialog.UseVisualStyleBackColor = true;
@@ -115,9 +115,9 @@
             this.cbxFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxFrom.DropDownWidth = 150;
             this.cbxFrom.FormattingEnabled = true;
-            this.cbxFrom.Location = new System.Drawing.Point(12, 63);
+            this.cbxFrom.Location = new System.Drawing.Point(12, 58);
             this.cbxFrom.Name = "cbxFrom";
-            this.cbxFrom.Size = new System.Drawing.Size(196, 21);
+            this.cbxFrom.Size = new System.Drawing.Size(196, 20);
             this.cbxFrom.TabIndex = 4;
             this.cbxFrom.SelectedIndexChanged += new System.EventHandler(this.cbxFrom_SelectedIndexChanged);
             // 
@@ -125,18 +125,18 @@
             // 
             this.cbxTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTo.FormattingEnabled = true;
-            this.cbxTo.Location = new System.Drawing.Point(251, 63);
+            this.cbxTo.Location = new System.Drawing.Point(251, 58);
             this.cbxTo.Name = "cbxTo";
-            this.cbxTo.Size = new System.Drawing.Size(196, 21);
+            this.cbxTo.Size = new System.Drawing.Size(196, 20);
             this.cbxTo.TabIndex = 4;
             this.cbxTo.SelectedIndexChanged += new System.EventHandler(this.cbxTo_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(220, 66);
+            this.label1.Location = new System.Drawing.Point(220, 61);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 5;
             this.label1.Text = "-->>";
             // 
@@ -148,7 +148,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(549, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(549, 25);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -163,33 +163,33 @@
             this.toolStripMenuItemMergeToOneFile,
             this.ToolStripMenuItemChineseTransConfig});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(67, 20);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(68, 21);
             this.toolStripMenuItem1.Text = "高级设置";
             // 
             // toolStripMenuItemFilterConfig
             // 
             this.toolStripMenuItemFilterConfig.Name = "toolStripMenuItemFilterConfig";
-            this.toolStripMenuItemFilterConfig.Size = new System.Drawing.Size(194, 22);
+            this.toolStripMenuItemFilterConfig.Size = new System.Drawing.Size(196, 22);
             this.toolStripMenuItemFilterConfig.Text = "词条过滤设置";
             this.toolStripMenuItemFilterConfig.Click += new System.EventHandler(this.toolStripMenuItemFilterConfig_Click);
             // 
             // ToolStripMenuItemRankGenerate
             // 
             this.ToolStripMenuItemRankGenerate.Name = "ToolStripMenuItemRankGenerate";
-            this.ToolStripMenuItemRankGenerate.Size = new System.Drawing.Size(194, 22);
+            this.ToolStripMenuItemRankGenerate.Size = new System.Drawing.Size(196, 22);
             this.ToolStripMenuItemRankGenerate.Text = "词频生成设置";
             this.ToolStripMenuItemRankGenerate.Click += new System.EventHandler(this.ToolStripMenuItemRankGenerate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(193, 6);
             // 
             // toolStripMenuItemExportDirectly
             // 
             this.toolStripMenuItemExportDirectly.CheckOnClick = true;
             this.toolStripMenuItemExportDirectly.Name = "toolStripMenuItemExportDirectly";
-            this.toolStripMenuItemExportDirectly.Size = new System.Drawing.Size(194, 22);
+            this.toolStripMenuItemExportDirectly.Size = new System.Drawing.Size(196, 22);
             this.toolStripMenuItemExportDirectly.Text = "不显示结果，直接导出";
             this.toolStripMenuItemExportDirectly.Click += new System.EventHandler(this.toolStripMenuItemExportDirectly_Click);
             // 
@@ -197,7 +197,7 @@
             // 
             this.toolStripMenuItemStreamExport.CheckOnClick = true;
             this.toolStripMenuItemStreamExport.Name = "toolStripMenuItemStreamExport";
-            this.toolStripMenuItemStreamExport.Size = new System.Drawing.Size(194, 22);
+            this.toolStripMenuItemStreamExport.Size = new System.Drawing.Size(196, 22);
             this.toolStripMenuItemStreamExport.Text = "一边读取，一边导出";
             this.toolStripMenuItemStreamExport.ToolTipText = "目前只有文本格式的词库才能支持该功能";
             this.toolStripMenuItemStreamExport.Click += new System.EventHandler(this.toolStripMenuItemStreamExport_Click);
@@ -208,14 +208,14 @@
             this.toolStripMenuItemMergeToOneFile.CheckOnClick = true;
             this.toolStripMenuItemMergeToOneFile.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItemMergeToOneFile.Name = "toolStripMenuItemMergeToOneFile";
-            this.toolStripMenuItemMergeToOneFile.Size = new System.Drawing.Size(194, 22);
+            this.toolStripMenuItemMergeToOneFile.Size = new System.Drawing.Size(196, 22);
             this.toolStripMenuItemMergeToOneFile.Text = "合并多词库到一个文件";
             this.toolStripMenuItemMergeToOneFile.Click += new System.EventHandler(this.toolStripMenuItemMergeToOneFile_Click);
             // 
             // ToolStripMenuItemChineseTransConfig
             // 
             this.ToolStripMenuItemChineseTransConfig.Name = "ToolStripMenuItemChineseTransConfig";
-            this.ToolStripMenuItemChineseTransConfig.Size = new System.Drawing.Size(194, 22);
+            this.ToolStripMenuItemChineseTransConfig.Size = new System.Drawing.Size(196, 22);
             this.ToolStripMenuItemChineseTransConfig.Text = "简繁体转换设置";
             this.ToolStripMenuItemChineseTransConfig.Click += new System.EventHandler(this.ToolStripMenuItemChineseTransConfig_Click);
             // 
@@ -230,54 +230,54 @@
             this.ToolStripMenuItemSplitFile,
             this.ToolStripMenuItemMergeWL});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.关于ToolStripMenuItem.Text = "帮助";
             // 
             // ToolStripMenuItemDonate
             // 
             this.ToolStripMenuItemDonate.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripMenuItemDonate.Image")));
             this.ToolStripMenuItemDonate.Name = "ToolStripMenuItemDonate";
-            this.ToolStripMenuItemDonate.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemDonate.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItemDonate.Text = "捐贈";
             this.ToolStripMenuItemDonate.Click += new System.EventHandler(this.ToolStripMenuItemDonate_Click);
             // 
             // ToolStripMenuItemHelp
             // 
             this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
-            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItemHelp.Text = "帮助";
             this.ToolStripMenuItemHelp.Click += new System.EventHandler(this.ToolStripMenuItemHelp_Click);
             // 
             // ToolStripMenuItemAbout
             // 
             this.ToolStripMenuItemAbout.Name = "ToolStripMenuItemAbout";
-            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItemAbout.Text = "关于";
             this.ToolStripMenuItemAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // ToolStripMenuItemAccessWebSite
             // 
             this.ToolStripMenuItemAccessWebSite.Name = "ToolStripMenuItemAccessWebSite";
-            this.ToolStripMenuItemAccessWebSite.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemAccessWebSite.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItemAccessWebSite.Text = "查看最新版本";
             this.ToolStripMenuItemAccessWebSite.Click += new System.EventHandler(this.ToolStripMenuItemAccessWebSite_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(145, 6);
             // 
             // ToolStripMenuItemSplitFile
             // 
             this.ToolStripMenuItemSplitFile.Name = "ToolStripMenuItemSplitFile";
-            this.ToolStripMenuItemSplitFile.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemSplitFile.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItemSplitFile.Text = "文件分割";
             this.ToolStripMenuItemSplitFile.Click += new System.EventHandler(this.ToolStripMenuItemSplitFile_Click);
             // 
             // ToolStripMenuItemMergeWL
             // 
             this.ToolStripMenuItemMergeWL.Name = "ToolStripMenuItemMergeWL";
-            this.ToolStripMenuItemMergeWL.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemMergeWL.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItemMergeWL.Text = "词库合并";
             this.ToolStripMenuItemMergeWL.Click += new System.EventHandler(this.ToolStripMenuItemMergeWL_Click);
             // 
@@ -286,21 +286,21 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 434);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 400);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(549, 23);
+            this.statusStrip1.Size = new System.Drawing.Size(549, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 17);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 18);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(152, 17);
             this.toolStripStatusLabel1.Text = "欢迎使用深蓝词库转换工具";
             // 
             // timer1
@@ -316,9 +316,9 @@
             // MainForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 457);
+            this.ClientSize = new System.Drawing.Size(549, 422);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbxTo);
