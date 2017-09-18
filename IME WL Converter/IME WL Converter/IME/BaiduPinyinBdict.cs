@@ -170,6 +170,10 @@ namespace Studyzy.IMEWLConverter.IME
             var temp = new byte[4];
             fs.Read(temp, 0, 4);
             int len = BitConverter.ToInt32(temp, 0);
+            if (len > 1000)
+            {
+                throw new Exception("有异常的词库，解析失败");
+            }
             if (len == 0)
             {
                 Debug.WriteLine(fs.Position);

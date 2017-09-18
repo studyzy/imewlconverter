@@ -464,12 +464,21 @@ namespace Studyzy.IMEWLConverter
         {
             if (mainBody != null)
             {
-                ShowStatusMessage(mainBody.ProcessMessage, false);
-                //ShowStatusMessage("转换进度：" + mainBody.CurrentStatus + "/" + mainBody.CountWord, false);
-                toolStripProgressBar1.Maximum = mainBody.CountWord;
-                if (mainBody.CountWord > 0 && mainBody.CurrentStatus <= mainBody.CountWord)
+                try
                 {
-                    toolStripProgressBar1.Value = mainBody.CurrentStatus;
+                    ShowStatusMessage(mainBody.ProcessMessage, false);
+                    int count = mainBody.CountWord;
+                    int current = mainBody.CurrentStatus;
+                    //ShowStatusMessage("转换进度：" + mainBody.CurrentStatus + "/" + mainBody.CountWord, false);
+                    toolStripProgressBar1.Maximum = count;
+                    if (count > 0 && current <= count)
+                    {
+                        toolStripProgressBar1.Value = current;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
                 }
             }
         }
