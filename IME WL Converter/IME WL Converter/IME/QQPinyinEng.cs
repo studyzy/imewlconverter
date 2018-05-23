@@ -53,6 +53,7 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Rank = count;
+            wl.CodeType = this.CodeType;
             wl.PinYin = new string[] {};
             var wll = new WordLibraryList();
             wll.Add(wl);

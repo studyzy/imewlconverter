@@ -87,7 +87,7 @@ candidate 第一个字节代表短语在候选框位置
 
         public CodeType CodeType
         {
-            get { return CodeType.Pinyin; }
+            get { return CodeType.UserDefinePhrase; }
         }
 
         public WordLibraryList Import(string path)
