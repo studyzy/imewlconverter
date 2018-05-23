@@ -1,7 +1,7 @@
 # 深蓝词库转换
 ==============
 
-最新版下载地址：[2.2.1 Download](https://github.com/studyzy/imewlconverter/releases/download/V2.2.1/Release_V2.2.1.zip)
+最新版下载地址：[Download](https://github.com/studyzy/imewlconverter/releases)
 
 一款输入法词库转换软件，支持以下超过20种的输入法工具和词库：
 
