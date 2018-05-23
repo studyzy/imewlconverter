@@ -41,7 +41,11 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public override void GetCodeOfWordLibrary(WordLibrary wl)
         {
-            if (wl.CodeType == CodeType.Pinyin)
+            if(wl.CodeType== CodeType.English)
+            {
+                wl.SetCode(CodeType.UserDefinePhrase, wl.Word);
+            }
+            else if (wl.CodeType == CodeType.Pinyin)
             {
                 wl.SetCode(CodeType.UserDefinePhrase,wl.GetPinYinString("", BuildType.None));
             }

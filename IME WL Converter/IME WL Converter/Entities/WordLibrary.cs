@@ -109,7 +109,7 @@ namespace Studyzy.IMEWLConverter.Entities
                     return result;
                 }
                
-                return null;
+                return Codes[0].ToArray();
             }
             set
             {
@@ -126,10 +126,15 @@ namespace Studyzy.IMEWLConverter.Entities
         public int GetPinYinLength()
         {
             int len = 0;
-            foreach (var s in PinYin)
+            if (Codes.Count > 1 || Codes[0].Count > 1)
             {
-                len += s.Length;
+                foreach (var s in PinYin)
+                {
+                    len += s.Length;
+                }
             }
+            else
+                len = Codes[0][0].Length;
             return len;
             
         }

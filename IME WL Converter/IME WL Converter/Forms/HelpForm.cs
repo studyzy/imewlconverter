@@ -29,6 +29,8 @@ namespace Studyzy.IMEWLConverter
             helpString +=
                 "2.0版增加了简繁体转换功能、支持多种五笔、郑码、仓颉、注音、二笔等输入法词库、百度拼音PC版、灵格斯ld2格式等，增加对仓颉平台、雅虎奇摩输入法的支持。加强了Rime输入法和小小输入法\r\n";
             helpString += "2.1版修复了自定义转换时的Bug，增加了超音速录、手心输入法等的支持。升级为.Net 3.5只要在Vista以上操作系统不需要安装.Net。";
+            helpString += "2.2支持手心输入法和最新版Win10微软拼音（用户自定义短语）\r\n";
+            helpString += "2.3支持Win10微软拼音（用户自定义短语）对其他输入法编码的支持\r\n";
             helpString += "关于各种输入法的词库转换操作方法可以参见项目网站（https://github.com/studyzy/imewlconverter/）\r\n";
             helpString +=
                 "如果您觉得深蓝词库转换能够给您的生活带来了极大的方便，可以通过Paypal或者支付宝捐赠该软件(https://github.com/studyzy/imewlconverter/wiki/Donate)。\r\n";

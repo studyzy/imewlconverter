@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("深蓝 http://studyzy.cnblogs.com")]
 [assembly: AssemblyProduct("深蓝词库转换")]
-[assembly: AssemblyCopyright("Copyright ©  2010-2017")]
+[assembly: AssemblyCopyright("Copyright ©  2010-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("IME WL Converter Test")]//单元测试的时候可以访问内部对象
