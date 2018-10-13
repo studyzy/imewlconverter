@@ -21,6 +21,22 @@ namespace Studyzy.IMEWLConverter.Helpers
             return s;
         }
 
+        public static ushort ReadUInt16(Stream fs)
+        {
+            var temp = new byte[2];
+            fs.Read(temp, 0, 2);
+            ushort s = BitConverter.ToUInt16(temp, 0);
+            return s;
+        }
+
+        public static uint ReadUInt32(Stream fs)
+        {
+            var temp = new byte[4];
+            fs.Read(temp, 0, 4);
+            uint s = BitConverter.ToUInt32(temp, 0);
+            return s;
+        }
+
         public static long ReadInt64(Stream fs)
         {
             var temp = new byte[8];
