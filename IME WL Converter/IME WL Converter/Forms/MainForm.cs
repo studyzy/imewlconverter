@@ -384,7 +384,7 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemAccessWebSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://code.google.com/p/imewlconverter/");
+            Process.Start("https://github.com/studyzy/imewlconverter/releases");
         }
 
         private void toolStripMenuItemExportDirectly_Click(object sender, EventArgs e)
