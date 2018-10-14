@@ -4,6 +4,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 {
     public class CalcWordRankGenerater : IWordRankGenerater
     {
+        public bool ForceUse { get; set; }
         public int GetRank(string word)
         {
             double x = 1;

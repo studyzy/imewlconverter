@@ -9,7 +9,7 @@ namespace Studyzy.IMEWLConverter.Generaters
     {
         private static string API = "http://www.baidu.com/s?wd={0}";
         private static readonly Regex regex = new Regex("百度为您找到相关结果约([0-9\\,]+)个");
-
+        public bool ForceUse { get; set; }
         public int GetRank(string word)
         {
             try

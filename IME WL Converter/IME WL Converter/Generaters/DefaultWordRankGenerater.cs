@@ -6,7 +6,7 @@
         {
             Rank = 1;
         }
-
+        public bool ForceUse { get; set; }
         public int Rank { get; set; }
 
         public int GetRank(string word)

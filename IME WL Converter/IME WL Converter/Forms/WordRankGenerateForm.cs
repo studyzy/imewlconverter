@@ -36,6 +36,7 @@ namespace Studyzy.IMEWLConverter
             {
                 wordRankGenerater = new CalcWordRankGenerater();
             }
+            wordRankGenerater.ForceUse = cbxForceUseNewRank.Checked;
             DialogResult = DialogResult.OK;
         }
 
@@ -53,6 +54,7 @@ namespace Studyzy.IMEWLConverter
             {
                 rbtnBaidu.Checked = true;
             }
+            cbxForceUseNewRank.Checked = wordRankGenerater.ForceUse;
         }
     }
 }

@@ -208,7 +208,7 @@ namespace Studyzy.IMEWLConverter
             currentStatus = 0;
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
-                if (wordLibrary.Rank == 0)
+                if (wordLibrary.Rank == 0|| wordRankGenerater.ForceUse )
                 {
                     wordLibrary.Rank = wordRankGenerater.GetRank(wordLibrary.Word);
                 }
