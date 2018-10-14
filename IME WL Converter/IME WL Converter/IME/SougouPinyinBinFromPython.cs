@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -16,11 +17,14 @@ namespace Studyzy.IMEWLConverter.IME
     /// <summary>
     ///     搜狗二进制备份词库翻译自Python
     /// </summary>
-    public class SougouPinyinBinFromPython
+    [ComboBoxShow(ConstantString.SOUGOU_PINYIN_BIN, ConstantString.SOUGOU_PINYIN_BIN_C, 30)]
+    public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
     {
         const int UserDictHeaderSize = 80;
 
-        public List<Word> Import(string path)
+        public override CodeType CodeType { get =>CodeType.NoCode; protected set => base.CodeType = value; }
+
+        public WordLibraryList Import(string path)
         {
             var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
@@ -170,9 +174,9 @@ namespace Studyzy.IMEWLConverter.IME
             return userHeader;
         }
 
-        private List<Word> ReadAllWords(FileStream fs, SougouPinyinDict dict, SougouPinyinUserHeader userHeader)
+        private WordLibraryList ReadAllWords(FileStream fs, SougouPinyinDict dict, SougouPinyinUserHeader userHeader)
         {
-            var wordList = new List<Word>();
+            var wordList = new WordLibraryList();
             var size = fs.Length;
             var keyId = 0;
             var key = dict.KeyList[keyId];
@@ -182,10 +186,12 @@ namespace Studyzy.IMEWLConverter.IME
             hashStore.EndPosition = fs.Position;
 
             var attrHeader = dict.HeaderItemsAttrList[key.AttrIdx];
-            var attrCount = attrHeader.UsedDataSize == 0 ? attrHeader.DataSize : attrHeader.UsedDataSize;
+            var attrCount = attrHeader.UsedDataSize == 0 ? attrHeader.DataSize : attrHeader.UsedDataSize;//总条数
+            this.CountWord = attrCount;
             var hashStoreCount = dict.BaseHashSize[keyId];
 
             Debug.WriteLine($"Base hash size: {hashStoreCount}, Attribute count: {attrCount}");
+            var processedCount = 0;
             for (var ih = 0; ih < hashStoreCount; ih++)
             {
                 // Jump to the last hash store position
@@ -210,6 +216,8 @@ namespace Studyzy.IMEWLConverter.IME
                         offset = BinFileHelper.ReadInt32(fs);
                         //Debug.WriteLine($"id: {ia}-{ia2} pos1: {attrBasePos}; pos2: {attr2BasePos}; offset: {offset}");
                         wordList.Add(GetPyAndWord(fs, dict, attrBasePos, attr2BasePos, userHeader));
+                        processedCount++;
+                        this.CurrentStatus = processedCount;
                         if (offset == -1)
                             break;
                     }
@@ -219,7 +227,7 @@ namespace Studyzy.IMEWLConverter.IME
             return wordList;
         }
 
-        private Word GetPyAndWord(FileStream fs, SougouPinyinDict dict, long attriPos1, long attriPos2, SougouPinyinUserHeader userHeader)
+        private WordLibrary GetPyAndWord(FileStream fs, SougouPinyinDict dict, long attriPos1, long attriPos2, SougouPinyinUserHeader userHeader)
         {
             var word = new Word()
             {
@@ -232,7 +240,9 @@ namespace Studyzy.IMEWLConverter.IME
             var dataId = dict.GetDataIdByAttriId(dict.KeyList[0].AttrIdx);
             fs.Seek(dict.GetDataPosition(dataId, word.Attribute.Offset), SeekOrigin.Begin);
             word.WordByte = decryptWords(fs, word.Attribute.P1, userHeader.P2, userHeader.P3);
-            return word;
+            var wordLibrary = new WordLibrary() { Word = word.WordString,Rank=(int)word.Attribute.Frequency,CodeType=CodeType.NoCode };
+
+            return wordLibrary;
         }
 
         private byte[] decryptWords(FileStream fs, uint p1, uint p2, uint p3)
@@ -250,6 +260,12 @@ namespace Studyzy.IMEWLConverter.IME
             }
 
             return decwords;
+        }
+
+
+        public WordLibraryList ImportLine(string str)
+        {
+            throw new NotImplementedException("搜狗Bin文件为二进制文件，不支持");
         }
         #endregion
 
@@ -308,7 +324,7 @@ namespace Studyzy.IMEWLConverter.IME
         public struct Word
         {
             public byte[] WordByte;
-            public string WordString => Encoding.Unicode.GetString(WordByte);
+            public string WordString => Encoding.UTF32.GetString(WordByte);
             public WordAttribute Attribute;
             public long PyPosition;
 

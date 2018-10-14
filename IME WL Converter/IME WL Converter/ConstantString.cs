@@ -18,7 +18,7 @@ namespace Studyzy.IMEWLConverter
         public const string QQ_WUBI = "QQ五笔";
         public const string TOUCH_PAL = "触宝手机";
         public const string SOUGOU_PINYIN = "搜狗拼音txt";
-        public const string SOUGOU_PINYIN_BIN = "搜狗拼音(7.2以下)词库bin";
+        public const string SOUGOU_PINYIN_BIN = "搜狗拼音备份词库bin";
         public const string WUBI86 = "五笔86版";
         public const string WUBI98 = "五笔98版";
         public const string QQ_PINYIN = "QQ拼音";

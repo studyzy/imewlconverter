@@ -180,6 +180,8 @@
     <Compile Include="Helpers\ZhuyinHelper.cs" />
     <Compile Include="IME\CangjiePlatform.cs" />
     <Compile Include="IME\MsPinyin.cs" />
+    <Compile Include="IME\SougouPinyinBinFromPython.cs" />
+    <Compile Include="IME\SougouPinyinDict.cs" />
     <Compile Include="IME\Win10MsPinyin.cs" />
     <Compile Include="IME\ShouxinPinyin.cs" />
     <Compile Include="IME\XiaoxiaoErbi.cs" />
@@ -252,7 +254,6 @@
     <Compile Include="IME\QQPinyinEng.cs" />
     <Compile Include="IME\BingPinyin.cs" />
     <Compile Include="IME\LingoesLd2.cs" />
-    <Compile Include="IME\SougouPinyinBin.cs" />
     <Compile Include="IME\FitInput.cs" />
     <Compile Include="IME\iFlyIME.cs" />
     <Compile Include="IME\QQPinyinQpyd.cs" />
@@ -441,6 +442,8 @@
     <None Include="Resources\Erbi.txt" />
     <None Include="Resources\ChaoyinCodeMapping.txt" />
     <None Include="Resources\alipayQR.jpg" />
+    <None Include="Resources\微信打赏码.png" />
+    <None Include="Resources\支付宝收钱码.png" />
     <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
     <None Include="Resources\Zhuyin.txt" />
     <None Include="Resources\Zhengma.txt" />

@@ -11,7 +11,7 @@ namespace Studyzy.IMEWLConverter.Test
         [TestFixtureSetUp]
         public override void InitData()
         {
-            importer = new SougouPinyinBin();
+            importer = new SougouPinyinBinFromPython();
         }
 
         protected override string StringData
