@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -154,9 +153,9 @@ candidate 第一个字节代表短语在候选框位置
 
         public IList<string> Export(WordLibraryList wlList)
         {
-//Win10拼音只支持最多32个字符的编码
+            //Win10拼音只支持最多32个字符的编码
             wlList = Filter(wlList);
-            string tempPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\Win10_1703微软拼音词库.dat";
+            string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音词库.dat";
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
             BinaryWriter bw = new BinaryWriter(fs);
