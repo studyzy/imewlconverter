@@ -78,6 +78,11 @@ namespace Studyzy.IMEWLConverter
             {
                 ((SelfDefining) wordLibraryExport).UserDefiningPattern = pattern;
             }
+            if (wordLibraryExport is Rime)
+            {
+                ((Rime)wordLibraryExport).CodeType = pattern.CodeType;
+                ((Rime)wordLibraryExport).OS = pattern.OS;
+            }
             if (wordLibraryImport is LingoesLd2)
             {
                 var ld2Import = ((LingoesLd2) wordLibraryImport);
@@ -152,6 +157,34 @@ namespace Studyzy.IMEWLConverter
                 pattern.IsPinyinFormat = false;
                 beginImportFile = false;
                 return CommandType.Coding;
+            }
+            if (command.StartsWith("-ct:")) //code type
+            {
+                var codeType = command.Substring(4).ToLower();
+                switch (codeType)
+                {
+                    case "pinyin": pattern.CodeType = CodeType.Pinyin;break;
+                    case "wubi":pattern.CodeType = CodeType.Wubi;break;
+                    case "zhengma":pattern.CodeType = CodeType.Zhengma;break;
+                    case "cangjie":pattern.CodeType = CodeType.Cangjie;break;
+                    case "zhuyin":pattern.CodeType = CodeType.TerraPinyin;break;
+                    default:pattern.CodeType = CodeType.Pinyin;break;
+                }
+                return CommandType.CodeType;
+            }
+            if (command.StartsWith("-os:")) //code type
+            {
+                var os = command.Substring(4).ToLower();
+                switch (os)
+                {
+                    case "windows": pattern.OS = OperationSystem.Windows; break;
+                    case "mac":
+                    case "macos": pattern.OS = OperationSystem.MacOS; break;
+                    case "linux":
+                    case "unix": pattern.OS = OperationSystem.Linux; break;
+                    default: pattern.OS = OperationSystem.Windows; break;
+                }
+                return CommandType.OS;
             }
             if (command.StartsWith("-ld2:")) //ld2 encoding
             {
@@ -291,6 +324,8 @@ namespace Studyzy.IMEWLConverter
 
 
             ConsoleColour.SetForeGroundColour(ConsoleColour.ForeGroundColour.White);
+            Console.WriteLine("对于导出词库为Rime输入法的，可以通过-ct:pinyin/wubi/zhengma设置编码，也可通过-os:windows/macos/linux设置适用的操作系统");
+
             Console.WriteLine("自定义格式的参数如下:");
             Console.WriteLine("-f:213,|byyn");
             Console.WriteLine("213 这里是设置拼音、汉字和词频的顺序，213表示1汉字2拼音3词频，必须要有3个");
@@ -312,9 +347,13 @@ namespace Studyzy.IMEWLConverter
             Export,
             Help,
             Null,
+            //编码映射文件
             Coding,
+            //编码类型
+            CodeType,
             Format,
             Encoding,
+            OS,
             Other
         }
 

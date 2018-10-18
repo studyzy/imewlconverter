@@ -77,6 +77,7 @@ namespace Studyzy.IMEWLConverter.Entities
         ///     编码类型：拼音，五笔...
         /// </summary>
         public CodeType CodeType { get; set; }
+        public OperationSystem OS { get; set; } = OperationSystem.Windows;
 
         /// <summary>
         ///     是否是拼音这种一字一码的编码规则，不是则需要采用MutiWordCodeFormat计算词语的编码

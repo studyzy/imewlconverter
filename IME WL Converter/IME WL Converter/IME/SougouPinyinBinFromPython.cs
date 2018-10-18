@@ -22,7 +22,7 @@ namespace Studyzy.IMEWLConverter.IME
     {
         const int UserDictHeaderSize = 80;
 
-        public override CodeType CodeType { get =>CodeType.NoCode; protected set => base.CodeType = value; }
+        public override CodeType CodeType { get =>CodeType.NoCode;  set => base.CodeType = value; }
 
         public WordLibraryList Import(string path)
         {

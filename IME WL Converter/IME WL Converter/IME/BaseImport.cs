@@ -12,7 +12,7 @@ namespace Studyzy.IMEWLConverter.IME
         /// <summary>
         /// 输入法编码类型
         /// </summary>
-        public virtual CodeType CodeType { get; protected set; }
+        public virtual CodeType CodeType { get;  set; }
         /// <summary>
         /// 默认词频，主要用于词频丢失的情况下生成词频
         /// </summary>
