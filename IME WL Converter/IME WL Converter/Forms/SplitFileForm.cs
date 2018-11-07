@@ -80,7 +80,7 @@ namespace Studyzy.IMEWLConverter
             {
                 fileContent.Append(list[i]);
                 fileContent.Append(splitLineChar);
-                if (i%maxLine == 0 || i == list.Length - 1)
+                if ((i+1)%maxLine == 0 || i == list.Length - 1)
                 {
                     if (i != 0)
                     {
