@@ -38,14 +38,19 @@ namespace Studyzy.IMEWLConverter.IME
 
         public WordLibraryList ImportLine(string line)
         {
-            string py = line.Split(' ')[0];
-            string word = line.Split(' ')[1];
-            var wl = new WordLibrary();
-            wl.Word = word;
-            wl.Rank = 1;
-            wl.PinYin = py.Split(new[] {'-'}, StringSplitOptions.RemoveEmptyEntries);
+            var array = line.Split(' ');
+            var py = array[0].Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
-            wll.Add(wl);
+            for (var i = 1; i < array.Length; i++)
+            {
+                string word = line.Split(' ')[i];
+                var wl = new WordLibrary();
+                wl.Word = word;
+                wl.Rank = 1;
+                wl.PinYin = py;
+
+                wll.Add(wl);
+            }
             return wll;
         }
 
