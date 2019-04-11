@@ -5,4 +5,24 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Cangjie5.txt" />
+    <None Remove="Resources\ChaoyinCodeMapping.txt" />
+    <None Remove="Resources\ChineseCode.txt" />
+    <None Remove="Resources\Erbi.txt" />
+    <None Remove="Resources\TouchPalPinyinDic.txt" />
+    <None Remove="Resources\WordPinyin.txt" />
+    <None Remove="Resources\Zhengma.txt" />
+    <None Remove="Resources\Zhuyin.txt" />
+    <None Remove="Resources\alipayQR.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Cangjie5.txt" />
+    <EmbeddedResource Include="Resources\ChaoyinCodeMapping.txt" />
+    <EmbeddedResource Include="Resources\ChineseCode.txt" />
+    <EmbeddedResource Include="Resources\Erbi.txt" />
+    <EmbeddedResource Include="Resources\WordPinyin.txt" />
+    <EmbeddedResource Include="Resources\Zhengma.txt" />
+    <EmbeddedResource Include="Resources\Zhuyin.txt" />
+  </ItemGroup>
 </Project>

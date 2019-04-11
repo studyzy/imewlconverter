@@ -84,7 +84,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 {
                     pinyinCodeMapping = new Dictionary<string, string>();
                     //todo
-                    var lines = Dictionaries.ChaoyinCodeMapping.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var lines = DictionaryHelper.GetResourceContent("ChaoyinCodeMapping.txt").Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in lines)
                     {
                         var array = line.Split('\t');

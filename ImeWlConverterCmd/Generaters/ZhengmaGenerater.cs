@@ -15,7 +15,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             {
                 if (zhengmaDic == null)
                 {
-                    string txt = Dictionaries.Zhengma;
+                    string txt = Helpers.DictionaryHelper.GetResourceContent("Zhengma.txt");
 
                     zhengmaDic = new Dictionary<char, Zhengma>();
                     foreach (string line in txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))

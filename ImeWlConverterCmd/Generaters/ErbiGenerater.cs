@@ -33,7 +33,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 if (erbiDic == null)
                 {
                     //该字典包含4种编码，1是现代二笔，2是音形，3是超强二笔，4是青松二笔
-                    string txt = Dictionaries.Erbi;
+                    string txt = Helpers.DictionaryHelper.GetResourceContent("Erbi.txt");
 
                     erbiDic = new Dictionary<char, IList<string>>();
                     foreach (string line in txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))

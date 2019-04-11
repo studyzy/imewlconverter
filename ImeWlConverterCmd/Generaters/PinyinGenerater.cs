@@ -134,7 +134,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             //        }
             //    }
             //}
-            sb.Append(Dictionaries.WordPinyin);
+            sb.Append(Helpers.DictionaryHelper.GetResourceContent("WordPinyin.txt"));
             return sb.ToString();
         }
 

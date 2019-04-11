@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
@@ -13,7 +15,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 if (dictionary.Count == 0)
                 {
-                    string allPinYin = Dictionaries.ChineseCode;
+                    string allPinYin = GetResourceContent("ChineseCode.txt");
                     string[] pyList = allPinYin.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < pyList.Length; i++)
                     {
@@ -50,6 +52,21 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             return new List<ChineseCode>(Dict.Values);
         }
+        public static string GetResourceContent(string fileName)
+        {
+            string file;
+            var assembly = typeof(DictionaryHelper).GetTypeInfo().Assembly;
+
+            using (var stream = assembly.GetManifestResourceStream("ImeWlConverterCmd.Resources." + fileName))
+            {
+                using (var reader = new StreamReader(stream,true))
+                {
+                    file = reader.ReadToEnd();
+                }
+            }
+            return file;
+        }
+
     }
 
     public struct ChineseCode

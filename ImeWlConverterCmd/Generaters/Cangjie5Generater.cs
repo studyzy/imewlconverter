@@ -60,7 +60,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             {
                 if (dictionary == null)
                 {
-                    string txt = Dictionaries.Cangjie5;
+                    string txt = Helpers.DictionaryHelper.GetResourceContent("Cangjie5.txt");
                     dictionary = new Dictionary<char, IList<Cangjie>>();
 
                     foreach (string line in txt.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
