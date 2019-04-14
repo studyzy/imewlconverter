@@ -10,11 +10,9 @@
     <None Remove="Resources\ChaoyinCodeMapping.txt" />
     <None Remove="Resources\ChineseCode.txt" />
     <None Remove="Resources\Erbi.txt" />
-    <None Remove="Resources\TouchPalPinyinDic.txt" />
     <None Remove="Resources\WordPinyin.txt" />
     <None Remove="Resources\Zhengma.txt" />
     <None Remove="Resources\Zhuyin.txt" />
-    <None Remove="Resources\alipayQR.jpg" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Cangjie5.txt" />
