@@ -39,7 +39,18 @@ namespace Studyzy.IMEWLConverter.IME
 
         public Encoding Encoding
         {
-            get { return Encoding.GetEncoding("GBK"); }
+            get
+            {
+                try
+                {
+                    return Encoding.GetEncoding("GBK");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + " Your system doesn't support GBK, try to use GB2312.");
+                    return Encoding.GetEncoding("GB2312");
+                }
+            }
         }
 
         #endregion
