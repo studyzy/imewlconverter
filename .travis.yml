@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 2.2.4
+dotnet: 2.2
 script:
  - dotnet restore ImeWlConverterCmd
  - dotnet build ImeWlConverterCmd
