@@ -1,2 +1,9 @@
+os: linux
+dist: xenial
+sudo: required
 language: csharp
-solution: IME WL Converter.sln
+mono: none
+dotnet: 2.2
+script:
+ - dotnet restore ImeWlConverterCmd
+ - dotnet build ImeWlConverterCmd
