@@ -1,3 +1,6 @@
+os: linux
+dist: xenial
+sudo: required
 language: csharp
 mono: none
 dotnet: 2.2
