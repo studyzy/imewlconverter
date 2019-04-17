@@ -1,2 +1,6 @@
 language: csharp
-solution: IME WL Converter.sln
+mono: none
+dotnet: 2.2.4
+script:
+ - dotnet restore ImeWlConverterCmd
+ - dotnet build ImeWlConverterCmd
