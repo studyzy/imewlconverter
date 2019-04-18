@@ -11,12 +11,12 @@ namespace Studyzy.IMEWLConverter.Test
     [TestFixture]
     public class SelfDefiningTest
     {
-        private SelfDefining selfDefining;
-        [SetUp]
-        public void Init()
-        {
-            selfDefining=new SelfDefining();
-        }
+        //private SelfDefining selfDefining;
+        //[SetUp]
+        //public void Init()
+        //{
+        //    selfDefining=new SelfDefining();
+        //}
         [Test]
         public void TestPinyinString2WL()
         {
@@ -31,6 +31,7 @@ namespace Studyzy.IMEWLConverter.Test
                 Sort = new List<int>() { 2, 1, 3 }
             };
             var str = "深蓝 ,shen,lan, 1";
+            var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = parser;
             var wl = selfDefining.ImportLine(str)[0];
 
@@ -57,6 +58,7 @@ namespace Studyzy.IMEWLConverter.Test
             wl.Codes = new Code();
             wl.Codes.Add( new[] { "shen" });
             wl.Codes.Add( new[] { "lan" });
+            var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.ExportLine(wl);
             Assert.AreEqual(str, "深蓝|,shen,lan,|123");
@@ -82,6 +84,7 @@ namespace Studyzy.IMEWLConverter.Test
             wl.Codes.Add(new[] { "sn" });
             wl.Codes.Add( new[] { "ln" });
             wll.Add(wl);
+            var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.Export(wll);
             Assert.AreEqual(str[0], "深蓝|~shen~lan~|123\r");
@@ -104,6 +107,8 @@ namespace Studyzy.IMEWLConverter.Test
             p.CodeSplitType= BuildType.None;
             p.IsPinyinFormat = true;
             p.CodeType = CodeType.Pinyin;
+            var selfDefining = new SelfDefining();
+
             selfDefining.UserDefiningPattern = p;
             var str = selfDefining.Export(new WordLibraryList() { WlData });
             Debug.WriteLine(str);
@@ -112,6 +117,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestExportExtCodeWL()
         {
+            var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = InitPattern();
             selfDefining.UserDefiningPattern.MappingTablePath = "./Test/array30.txt";
             var str = selfDefining.Export(new WordLibraryList() { WlData });
@@ -138,7 +144,7 @@ namespace Studyzy.IMEWLConverter.Test
                 list.Add(new WordLibrary() {Rank = 10, IsEnglish = false, Word = ts});
             }
 
-
+            var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = InitPattern();
             selfDefining.UserDefiningPattern.MappingTablePath = "./Test/array30.txt";
             var x = selfDefining.Export(list);
@@ -156,6 +162,7 @@ namespace Studyzy.IMEWLConverter.Test
             pp.CodeSplitString = ",";
             pp.SplitString = " ";
             pp.CodeSplitType= BuildType.None;
+            var selfDefining = new SelfDefining();
             selfDefining.UserDefiningPattern = pp;
    
             var x = selfDefining.ImportLine(txt);

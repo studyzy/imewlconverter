@@ -297,7 +297,15 @@ namespace Studyzy.IMEWLConverter.Helpers
                 //byte s2 = (byte) fs.ReadByte();
                 if (s1 < 0x80 || (s < 0xE0 || s > 0xF0))
                 {
-                    return Encoding.GetEncoding("GB18030");
+                    //return Encoding.GetEncoding("GB18030");
+                    try
+                    {
+                        return Encoding.GetEncoding("GB18030");
+                    }
+                    catch
+                    {
+                        return Encoding.GetEncoding("GB2312");
+                    }
                 }
                 return new UTF8Encoding(false);
             } while (true);

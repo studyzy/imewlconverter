@@ -33,7 +33,17 @@ namespace Studyzy.IMEWLConverter.IME
 
         public Encoding Encoding
         {
-            get { return Encoding.GetEncoding("GB18030"); }
+            get
+            {
+                try
+                {
+                    return Encoding.GetEncoding("GB18030");
+                }
+                catch
+                {
+                    return Encoding.GetEncoding("GB2312");
+                }
+            }
         }
 
         public string ExportLine(WordLibrary wl)

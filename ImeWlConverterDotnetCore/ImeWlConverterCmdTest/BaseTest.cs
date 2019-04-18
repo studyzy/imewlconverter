@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Test
@@ -33,7 +34,8 @@ namespace Studyzy.IMEWLConverter.Test
 
         protected string GetFullPath(string fileName)
         {
-            return AppDomain.CurrentDomain.BaseDirectory + "/Test/" + fileName;
+            return Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Test", fileName)
+            ;
         }
     }
 }

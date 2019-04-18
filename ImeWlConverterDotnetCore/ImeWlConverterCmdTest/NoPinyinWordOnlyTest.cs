@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Text;
+using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
@@ -12,6 +13,7 @@ namespace Studyzy.IMEWLConverter.Test
         {
             importer = new NoPinyinWordOnly();
             exporter = new NoPinyinWordOnly();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         protected override string StringData
