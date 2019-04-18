@@ -84,7 +84,7 @@ namespace Studyzy.IMEWLConverter.Test
             wll.Add(wl);
             selfDefining.UserDefiningPattern = parser;
             var str = selfDefining.Export(wll);
-            Assert.AreEqual(str, "深蓝|~shen~lan~|123\r");
+            Assert.AreEqual(str[0], "深蓝|~shen~lan~|123\r");
         }
         private WordLibrary WlData = new WordLibrary
         {
@@ -107,7 +107,7 @@ namespace Studyzy.IMEWLConverter.Test
             selfDefining.UserDefiningPattern = p;
             var str = selfDefining.Export(new WordLibraryList() { WlData });
             Debug.WriteLine(str);
-            Assert.AreEqual(str, "深蓝测试$shen_lan_ce_shi\r\n");
+            Assert.AreEqual(str[0], "深蓝测试$shen_lan_ce_shi\r\n");
         }
         [Test]
         public void TestExportExtCodeWL()
@@ -160,7 +160,7 @@ namespace Studyzy.IMEWLConverter.Test
    
             var x = selfDefining.ImportLine(txt);
             Debug.WriteLine(x[0].ToString());
-            Assert.Equals(x[0].Word,"深藍");
+            Assert.AreEqual(x[0].Word,"深藍");
         }
 
 

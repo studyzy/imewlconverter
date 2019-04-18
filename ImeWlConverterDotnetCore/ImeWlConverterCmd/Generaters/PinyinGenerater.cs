@@ -101,7 +101,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             if (mutiPinYinWord == null)
             {
                 var wlList = new Dictionary<string, List<string>>();
-                string[] lines = GetMutiPinyin().Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = GetMutiPinyin().Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string line = lines[i];
@@ -118,24 +118,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         private string GetMutiPinyin()
         {
-            //string path = ConstantString.PinyinLibPath;
-            var sb = new StringBuilder();
-            //if (File.Exists(path))
-            //{
-            //    string txt = FileOperationHelper.ReadFile(path);
-
-            //    var reg = new Regex(@"^('[a-z]+)+\s[\u4E00-\u9FA5]+$");
-            //    string[] lines = txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            //    for (int i = 0; i < lines.Length; i++)
-            //    {
-            //        if (reg.IsMatch(lines[i]))
-            //        {
-            //            sb.Append(lines[i] + "\r\n");
-            //        }
-            //    }
-            //}
-            sb.Append(Helpers.DictionaryHelper.GetResourceContent("WordPinyin.txt"));
-            return sb.ToString();
+            return DictionaryHelper.GetResourceContent("WordPinyin.txt");
         }
 
         /// <summary>
