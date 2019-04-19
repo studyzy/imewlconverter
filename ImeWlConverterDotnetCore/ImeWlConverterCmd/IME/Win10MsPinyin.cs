@@ -107,7 +107,10 @@ candidate 第一个字节代表短语在候选框位置
             for (var i = 0; i < phrase_count; i++)
             {
                 var wl = ReadOnePhrase(fs, phrase_start + offsets[i + 1]);
-                pyAndWord.Add(wl);
+                if (wl != null)
+                {
+                    pyAndWord.Add(wl);
+                }
             }
             return pyAndWord;
         }
@@ -141,7 +144,14 @@ candidate 第一个字节代表短语在候选框位置
             BinFileHelper.ReadInt16(fs); //00 00分割
             var word = Encoding.Unicode.GetString(wordBytes);
             wl.Word = word;
-            wl.SetPinyinString(pyStr);
+            try
+            {
+                wl.SetPinyinString(pyStr);
+            }
+            catch
+            {
+                return null;
+            }
             wl.CodeType = CodeType.Pinyin;
             return wl;
         }
