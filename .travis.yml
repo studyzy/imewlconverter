@@ -5,6 +5,6 @@ language: csharp
 mono: none
 dotnet: 2.2
 script:
- - dotnet restore ./ImeWlConverterDotnetCore/ImeWlConverterCmd
- - dotnet build ./ImeWlConverterDotnetCore/ImeWlConverterCmd
- - dotnet test ./ImeWlConverterDotnetCore/ImeWlConverterCmdTest
+# - dotnet restore ./src/ImeWlConverterDotnetCore/ImeWlConverterCmd
+ - dotnet build ./src/ImeWlConverterCmd
+ - dotnet test ./src/ImeWlConverterCoreTest

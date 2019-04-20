@@ -32,7 +32,7 @@ public class Resource4Test
         string file;
         var assembly = typeof(Resource4Test).GetTypeInfo().Assembly;
 
-        using (var stream = assembly.GetManifestResourceStream("ImeWlConverterCmdTest.Resources." + fileName))
+        using (var stream = assembly.GetManifestResourceStream("ImeWlConverterCoreTest.Resources." + fileName))
         {
             using (var reader = new StreamReader(stream, true))
             {
