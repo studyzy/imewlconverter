@@ -31,7 +31,7 @@ namespace Studyzy.IMEWLConverter
 
         private void LoadImeList()
         {
-            Assembly assembly = GetType().Assembly;
+            Assembly assembly =typeof(MainBody).Assembly;
             Type[] d = assembly.GetTypes();
             var cbxImportItems = new List<ComboBoxShowAttribute>();
             var cbxExportItems = new List<ComboBoxShowAttribute>();

@@ -77,7 +77,7 @@ namespace Studyzy.IMEWLConverter.IME
             var lines = new List<string>();
             //需要判断源WL与导出的字符串的CodeType是否一致，如果一致，那么可以采用其编码，如果不一致，那么忽略编码，
             //调用CodeGenerater生成新的编码，并用新编码生成行
-            IList<string> codes = null;
+            //IList<string> codes = null;
             if (wl.CodeType != CodeType)
             {
                 codeGenerater.GetCodeOfWordLibrary(wl);

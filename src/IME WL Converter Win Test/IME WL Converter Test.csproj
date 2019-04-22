@@ -74,7 +74,7 @@
     <Compile Include="SougouPinyinBinTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IME WL Converter\IME WL Converter.csproj">
+    <ProjectReference Include="..\IME WL Converter Win\IME WL Converter Win.csproj">
       <Project>{736D1A59-B755-4805-B0C7-F62EC12EB704}</Project>
       <Name>IME WL Converter Win</Name>
     </ProjectReference>

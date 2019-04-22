@@ -29,7 +29,6 @@ namespace Studyzy.IMEWLConverter
 
         public ConsoleRun(string[] args)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Args = args;
             pattern.ContainCode = true;
             pattern.SplitString = " ";
