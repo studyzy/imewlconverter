@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net46</TargetFramework>
+    <AssemblyName>ImeWlConverterCore</AssemblyName>
+    <RootNamespace>ImeWlConverterCore</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,8 +24,5 @@
     <EmbeddedResource Include="Resources\WordPinyin.txt" />
     <EmbeddedResource Include="Resources\Zhengma.txt" />
     <EmbeddedResource Include="Resources\Zhuyin.txt" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
 </Project>
