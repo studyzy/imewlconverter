@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/cmd.csproj"
+                "${workspaceFolder}/src/ImeWlConverterCmd/ImeWlConverterCmd.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/cmd.csproj"
+                "${workspaceFolder}/src/ImeWlConverterCmd/ImeWlConverterCmd.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/cmd.csproj"
+                "${workspaceFolder}/src/ImeWlConverterCmd/ImeWlConverterCmd.csproj"
             ],
             "problemMatcher": "$tsc"
         }

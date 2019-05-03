@@ -9,6 +9,7 @@ using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.Language;
 using System.Linq;
+using System.Timers;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -27,6 +28,7 @@ namespace Studyzy.IMEWLConverter
         private IChineseConverter selectedConverter;
         private ChineseTranslate selectedTranslate;
         private IWordRankGenerater wordRankGenerater;
+        private Timer timer;
 
         public IList<string> ExportContents { get; set; } 
         public MainBody()
@@ -36,6 +38,40 @@ namespace Studyzy.IMEWLConverter
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;
             wordRankGenerater = new DefaultWordRankGenerater();
+            InitTimer();
+        }
+        /// <summary>
+        /// 初始化Timer控件
+        /// </summary>
+        private void InitTimer()
+        {
+            //设置定时间隔(毫秒为单位)
+            int interval = 3000;
+            timer = new System.Timers.Timer(interval);
+            //设置执行一次（false）还是一直执行(true)
+            timer.AutoReset = true;
+            //设置是否执行System.Timers.Timer.Elapsed事件
+            timer.Enabled = true;
+            //绑定Elapsed事件
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
+        }
+
+        /// <summary>
+        /// Timer类执行定时到点事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                ProcessNotice(this.processMessage);
+//                this.Invoke(new SetControlValue(SetTextBoxText), currentCount.ToString());
+            }
+            catch (Exception ex)
+            {
+                ProcessNotice("执行定时到点事件失败:" + ex.Message);
+            }
         }
 
         public int CurrentStatus
@@ -153,6 +189,7 @@ namespace Studyzy.IMEWLConverter
         /// <returns></returns>
         public string Convert(IList<string> filePathes)
         {
+            this.timer.Start();
             ExportContents=new List<string>();
             allWlList.Clear();
             isImportProgress = true;
@@ -169,14 +206,19 @@ namespace Studyzy.IMEWLConverter
             isImportProgress = false;
             if (selectedTranslate != ChineseTranslate.NotTrans)
             {
+                ProcessNotice("开始繁简转换...");
+
                 allWlList = ConvertChinese(allWlList);
             }
             if (export.CodeType != CodeType.NoCode)
             {
+                ProcessNotice("开始生成词频...");
                 GenerateWordRank(allWlList);
             }
             if (import.CodeType != export.CodeType)
             {
+                ProcessNotice("开始生成目标编码...");
+
                 GenerateDestinationCode(allWlList, export.CodeType);
             }
             count = allWlList.Count;
@@ -185,6 +227,7 @@ namespace Studyzy.IMEWLConverter
                 allWlList = RemoveEmptyCodeData(allWlList);
             }
             ExportContents = export.Export(allWlList);
+            this.timer.Stop();
             return string.Join("\r\n", ExportContents.ToArray());
         }
 
@@ -256,6 +299,7 @@ namespace Studyzy.IMEWLConverter
         /// <param name="outputDir"></param>
         public void Convert(IList<string> filePathes, string outputDir)
         {
+            this.timer.Start();
             ExportContents=new List<string>();
             int c = 0;
 
@@ -295,6 +339,7 @@ namespace Studyzy.IMEWLConverter
                 }
             }
             count = c;
+            this.timer.Stop();
         }
         public void ExportToFile(string filePath)
         {

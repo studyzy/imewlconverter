@@ -8,4 +8,9 @@
     <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj">
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Program.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
 </Project>
