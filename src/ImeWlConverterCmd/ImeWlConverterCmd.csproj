@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Version>2.5.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj">

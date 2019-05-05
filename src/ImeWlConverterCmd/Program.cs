@@ -45,15 +45,27 @@ namespace Studyzy.IMEWLConverter
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("dotnet ImeWlConverterCmd.dll -i:" + ConstantString.SOUGOU_XIBAO_SCEL_C + " ./test/*.scel -o:" +
                               ConstantString.GOOGLE_PINYIN_C + " ./temp/*");
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("对于导入词库不包含词频，而导出时需要指定词频，可以通过-r:命令指定词频的生成方式，支持的有：");
             Console.WriteLine("-r:baidu  根据该词语在百度搜索的结果数量决定词频");
             Console.WriteLine("-r:google  根据该词语在Google搜索的结果数量决定词频(需翻墙)");
             Console.WriteLine("-r:数字  指定一个固定数字的词频");
-
-
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("");
             Console.WriteLine("对于导出词库为Rime输入法的，可以通过-ct:pinyin/wubi/zhengma设置编码，也可通过-os:windows/macos/linux设置适用的操作系统");
-
+            Console.WriteLine("");
+            Console.WriteLine("使用-ft:可以设置词条的过滤条件，如果不设置则不过滤任何词条。-ft:后面可以设置的过滤条件包括：");
+            Console.WriteLine("len:1-100 保留字数为1到100的词条");
+            Console.WriteLine("rank:2-9999 保留词频在2到9999的词条");
+            Console.WriteLine("rm:eng 移除包含英文字母的词条");
+            Console.WriteLine("rm:num 移除包含数字的词条");
+            Console.WriteLine("rm:space 移除包含空格的词条");
+            Console.WriteLine("rm:pun 移除包含标点符号的词条");
+            Console.WriteLine("以上过滤条件可以组合，同时起作用，用竖线分开即可：");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("-ft:\"len:1-100|rank:2-9999|rm:eng|rm:num|rm:space|rm:pun\"");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("");
             Console.WriteLine("自定义格式的参数如下:");
             Console.WriteLine("-f:213,|byyn");
             Console.WriteLine("213 这里是设置拼音、汉字和词频的顺序，213表示1汉字2拼音3词频，必须要有3个");
@@ -64,8 +76,11 @@ namespace Studyzy.IMEWLConverter
             Console.WriteLine("例如要将一个qpyd词库转换为自定义格式的文本词库，拼音之间逗号分割，拼音和词之间空格分割，不显示词频，同时使用自定义的编码文件code.txt命令如下：");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("dotnet ImeWlConverterCmd.dll -i:qpyd ./a.qpyd -o:self ./zy.txt \"-f:213, nyyn\" -c:./code.txt");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("其中-c:./code.txt指定的编码文件格式为：“汉字<Tab键>编码”每行一个。");
             Console.ForegroundColor = defaultFColor;
             Console.BackgroundColor = defaultBColor;
+            Console.WriteLine("");
             Console.WriteLine("最后，如果这款软件帮助到了您，您可以通过捐赠表示感谢，捐赠作者支付宝地址：studyzy@163.com 曾毅");
 
         }

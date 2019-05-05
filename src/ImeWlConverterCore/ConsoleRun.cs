@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
@@ -30,6 +32,7 @@ namespace Studyzy.IMEWLConverter
         private Encoding xmlEncoding;
         private ShowHelp showHelp;
         private IWordRankGenerater wordRankGenerater= new DefaultWordRankGenerater();
+        private IList<ISingleFilter> filters = new List<ISingleFilter>();
 
         public ConsoleRun(string[] args,ShowHelp showHelp)
         {
@@ -103,6 +106,7 @@ namespace Studyzy.IMEWLConverter
                 mainBody.Export = wordLibraryExport;
                 mainBody.Import = wordLibraryImport;
                 mainBody.SelectedWordRankGenerater = this.wordRankGenerater;
+                mainBody.Filters = this.filters;
                 mainBody.ProcessNotice += MainBody_ProcessNotice;
                 Console.WriteLine("转换开始...");
                 //foreach (string importPath in importPaths)
@@ -161,6 +165,48 @@ namespace Studyzy.IMEWLConverter
                 pattern.MappingTablePath = codingFile;
                 pattern.IsPinyinFormat = false;
                 beginImportFile = false;
+                return CommandType.Coding;
+            }
+            if (command.StartsWith("-ft:")) //filter
+            {
+                var filterStrs = command.Substring(4);
+                Regex lenRegex = new Regex(@"len:(\d+)-(\d+)");
+                Regex rankRegex = new Regex(@"rank:(\d+)-(\d+)");
+                Regex rmRegex = new Regex(@"rm:(\w+)");
+                foreach (var filterStr in filterStrs.Split('|'))
+                {
+                   if (lenRegex.IsMatch(filterStr))
+                    {
+                        var match = lenRegex.Match(filterStr);
+                        var from = Convert.ToInt32(match.Groups[1].Value);
+                        var to = Convert.ToInt32(match.Groups[2].Value);
+                        var numberFilter = new LengthFilter() { MinLength = from, MaxLength = to };
+                        this.filters.Add(numberFilter);
+                    }else if (rankRegex.IsMatch(filterStr))
+                    {
+                        var match = rankRegex.Match(filterStr);
+                        var from = Convert.ToInt32(match.Groups[1].Value);
+                        var to = Convert.ToInt32(match.Groups[2].Value);
+                        var rFilter = new RankFilter() { MinLength = from, MaxLength = to };
+                        this.filters.Add(rFilter);
+                    }
+                    else if (rmRegex.IsMatch(filterStr))
+                    {
+                        var match = rmRegex.Match(filterStr);
+                        var rmType = match.Groups[1].Value;
+                        ISingleFilter filter;
+                        switch (rmType)
+                        {
+                            case "eng":filter = new EnglishFilter();break;
+                            case "num":filter = new NumberFilter();break;
+                            case "space":filter = new SpaceFilter();break;
+                            case "pun":filter = new EnglishPunctuationFilter();break;
+                            default:throw new ArgumentException("Unsupport filter type:" + rmType);
+                        }                        
+                        this.filters.Add(filter);
+                    }
+
+                }
                 return CommandType.Coding;
             }
             if (command.StartsWith("-ct:")) //code type
