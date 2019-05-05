@@ -176,9 +176,27 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
+        private bool CheckCanRun()
+        {
+            if(import==null || export==null)
+            {
+                MessageBox.Show("请先选择导入词库类型和导出词库类型");
+                return false;
+            }
+            if(this.txbWLPath.Text=="")
+            {
+                MessageBox.Show("请先选择源词库文件");
+                return false;
+            }
+            return true;
+        }
 
         private void btnConvert_Click(object sender, EventArgs e)
         {
+            if (!CheckCanRun())
+            {
+                return;
+            }
             richTextBox1.Clear();
 
             try
@@ -211,7 +229,9 @@ namespace Studyzy.IMEWLConverter
                 mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
                 
-                mainBody.ProcessNotice+=new ProcessNotice((string notice) => { richTextBox1.AppendText(notice);});
+                mainBody.ProcessNotice+=new ProcessNotice((string notice) => {
+                    richTextBox1.Invoke(new Action(() => richTextBox1.AppendText(notice + "\r\n")));
+                });
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();
             }
