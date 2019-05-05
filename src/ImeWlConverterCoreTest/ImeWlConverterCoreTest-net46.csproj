@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net46</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>ImeWlConverterCoreTest</AssemblyName>
+
+    <RootNamespace>ImeWlConverterCoreTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -76,6 +80,6 @@
     <EmbeddedResource Include="Resources\PinyinJiajia.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj" />
+    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore-net46.csproj" />
   </ItemGroup>
 </Project>

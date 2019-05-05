@@ -34,8 +34,7 @@ namespace Studyzy.IMEWLConverter.Test
 
         protected string GetFullPath(string fileName)
         {
-            return Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Test", fileName)
-            ;
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Test", fileName);
         }
     }
 }
