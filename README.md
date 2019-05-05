@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/studyzy/imewlconverter.svg?branch=master)](https://travis-ci.org/studyzy/imewlconverter)
 [![Code Count](https://tokei.rs/b1/github/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter)
-[![version](https://img.shields.io/github/tag/studyzy/imewlconverter.svg)](https://github.com/studyzy/imewlconverter/releases/latest)
+[![version](https://img.shields.io/github/tag/studyzy/imewlconverter.svg)](https://github.com/studyzy/imewlconverter/releases/latest) [![Join the chat at https://gitter.im/studyzy/imewlconverter](https://badges.gitter.im/studyzy/imewlconverter.svg)](https://gitter.im/studyzy/imewlconverter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 一款输入法词库转换软件，支持以下超过20种的输入法工具和词库：
