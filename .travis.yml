@@ -7,4 +7,6 @@ dotnet: 2.2
 script:
 # - dotnet restore ./src/ImeWlConverterDotnetCore/ImeWlConverterCmd
  - dotnet build ./src/ImeWlConverterCmd
- - dotnet test ./src/ImeWlConverterCoreTest
+ - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
+ - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp2.2
+ - dotnet ./ImeWlConverterCmd.dll -?
