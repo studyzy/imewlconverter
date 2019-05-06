@@ -7,7 +7,7 @@ using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
-    [ComboBoxShow(ConstantString.MS_PINYIN, ConstantString.MS_PINYIN_C, 130)]
+    [ComboBoxShow(ConstantString.MS_PINYIN, ConstantString.MS_PINYIN_C, 135)]
     public class MsPinyin : BaseImport, IWordLibraryExport, IWordLibraryTextImport
     {
         #region IWordLibraryExport 成员

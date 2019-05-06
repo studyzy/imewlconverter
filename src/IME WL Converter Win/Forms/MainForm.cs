@@ -558,7 +558,7 @@ namespace Studyzy.IMEWLConverter
                 richTextBox1.Text = fileContent;
                 //btnExport.Enabled = true;
             }
-            if (!mergeTo1File ||  export is Win10MsPinyin)//微软拼音是二进制文件，不需要再提示保存
+            if (!mergeTo1File ||  export is Win10MsPinyin || export is Win10MsWubi)//微软拼音是二进制文件，不需要再提示保存
             {
                 MessageBox.Show("转换完成!");
                 return;
