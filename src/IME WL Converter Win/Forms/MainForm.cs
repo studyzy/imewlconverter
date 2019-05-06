@@ -519,7 +519,16 @@ namespace Studyzy.IMEWLConverter
             {
                 if (!streamExport)
                 {
-                    fileContent = mainBody.Convert(files);
+                    try
+                    {
+                        fileContent = mainBody.Convert(files);
+                    }
+                    catch(Exception ex)
+                    {
+                        mainBody.Dispose();
+                        this.richTextBox1.AppendText(ex.Message);
+                        throw ex;
+                    }
                 }
             }
             else

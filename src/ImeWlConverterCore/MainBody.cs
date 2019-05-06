@@ -14,7 +14,7 @@ using System.Timers;
 namespace Studyzy.IMEWLConverter
 {
     public delegate void ProcessNotice(string message);
-    public class MainBody
+    public class MainBody:IDisposable
     {
         public event ProcessNotice ProcessNotice;
         private WordLibraryList allWlList = new WordLibraryList();
@@ -428,6 +428,11 @@ namespace Studyzy.IMEWLConverter
                 wordLibrary.Word = newList[i];
             }
             return wordLibraryList;
+        }
+
+        public void Dispose()
+        {
+            this.timer.Stop();
         }
     }
 }
