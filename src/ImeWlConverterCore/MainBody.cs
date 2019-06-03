@@ -262,6 +262,7 @@ namespace Studyzy.IMEWLConverter
 
         private void GenerateDestinationCode(WordLibraryList wordLibraryList, CodeType codeType)
         {
+            if (wordLibraryList.Count == 0) return;
             if(wordLibraryList[0].CodeType== CodeType.NoCode&& codeType == CodeType.UserDefinePhrase)
             {
                 codeType = CodeType.Pinyin;
