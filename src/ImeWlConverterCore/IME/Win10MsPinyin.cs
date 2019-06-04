@@ -147,12 +147,13 @@ candidate 第一个字节代表短语在候选框位置
             try
             {
                 wl.SetPinyinString(pyStr);
+                wl.CodeType = CodeType.Pinyin;
             }
             catch
             {
-                return null;
+                wl.CodeType = CodeType.NoCode;
             }
-            wl.CodeType = CodeType.Pinyin;
+         
             return wl;
         }
 
