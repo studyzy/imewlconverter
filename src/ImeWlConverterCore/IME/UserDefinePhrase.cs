@@ -15,6 +15,7 @@ namespace Studyzy.IMEWLConverter.IME
         public UserDefinePhrase()
         {
             PhraseFormat = "{1},{2}={0}"; //默认搜狗自定义短语的格式
+            DefaultRank = 1;
         }
 
         /// <summary>
@@ -24,11 +25,11 @@ namespace Studyzy.IMEWLConverter.IME
 
         public override CodeType CodeType
         {
-            get { return CodeType.UserDefinePhrase; }
+            get;set;
         }
 
 
-        public Encoding Encoding { get; set; }
+        public Encoding Encoding  => Encoding.UTF8;
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -43,7 +44,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public string ExportLine(WordLibrary wl)
         {
-            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(wl.Codes)[0], DefaultRank);
+            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(wl.Codes)[0], wl.Rank==0?DefaultRank:wl.Rank);
         }
 
         public WordLibraryList ImportText(string text)

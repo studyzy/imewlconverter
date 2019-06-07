@@ -226,7 +226,9 @@ namespace Studyzy.IMEWLConverter
             {
                 allWlList = RemoveEmptyCodeData(allWlList);
             }
-            ExportContents = export.Export(allWlList);
+
+            ReplaceAfterCode(allWlList);
+             ExportContents = export.Export(allWlList);
             this.timer.Stop();
             return string.Join("\r\n", ExportContents.ToArray());
         }
@@ -321,7 +323,9 @@ namespace Studyzy.IMEWLConverter
                     }
                     c += wlList.Count;
                     GenerateWordRank(wlList);
-                    ExportContents = export.Export(RemoveEmptyCodeData(wlList));
+                    wlList= RemoveEmptyCodeData(wlList);
+                    ReplaceAfterCode(wlList);
+                    ExportContents = export.Export(wlList);
                     for (var i = 0; i < ExportContents.Count; i++)
                     {
                         string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
@@ -369,7 +373,18 @@ namespace Studyzy.IMEWLConverter
 
             stream.Close();
         }
-
+        private void ReplaceAfterCode(WordLibraryList list)
+        {
+            foreach (WordLibrary wordLibrary in list)
+            {
+                if (ReplaceFilters != null)
+                    foreach (IReplaceFilter replaceFilter in ReplaceFilters)
+                    {
+                        if (replaceFilter.ReplaceAfterCode)
+                            replaceFilter.Replace(wordLibrary);
+                    }
+            }
+        }
         private WordLibraryList Filter(WordLibraryList list)
         {
             var result = new WordLibraryList();
@@ -380,7 +395,8 @@ namespace Studyzy.IMEWLConverter
                     if (ReplaceFilters != null)
                         foreach (IReplaceFilter replaceFilter in ReplaceFilters)
                         {
-                            replaceFilter.Replace(wordLibrary);
+                            if (!replaceFilter.ReplaceAfterCode)
+                                replaceFilter.Replace(wordLibrary);
                         }
                     if (wordLibrary.Word != string.Empty)
                         result.Add(wordLibrary);

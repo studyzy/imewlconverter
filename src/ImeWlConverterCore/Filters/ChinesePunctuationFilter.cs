@@ -8,6 +8,7 @@ namespace Studyzy.IMEWLConverter.Filters
     /// </summary>
     public class ChinesePunctuationFilter : ISingleFilter, IReplaceFilter
     {
+        public bool ReplaceAfterCode => false;
         #region ISingleFilter Members
 
         private static readonly Regex regex =

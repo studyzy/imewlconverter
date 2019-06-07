@@ -8,6 +8,7 @@ namespace Studyzy.IMEWLConverter.Filters
     /// </summary>
     public class SpaceFilter : ISingleFilter, IReplaceFilter
     {
+        public bool ReplaceAfterCode => false;
         #region ISingleFilter Members
 
         private readonly Regex regex = new Regex(@"\s");

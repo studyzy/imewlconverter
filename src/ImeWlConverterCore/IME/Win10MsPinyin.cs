@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -73,7 +74,10 @@ phrase_offsets[N] + offset + len(phrase) == phrase_offsets[N+1]
 candidate 第一个字节代表短语在候选框位置
 
     */
-
+        public PinyinType PinyinType
+        {
+            get;set;
+        }
         public Encoding Encoding
         {
             get { return Encoding.Unicode; }
@@ -86,7 +90,7 @@ candidate 第一个字节代表短语在候选框位置
 
         public CodeType CodeType
         {
-            get { return CodeType.UserDefinePhrase; }
+            get;set;
         }
 
         public WordLibraryList Import(string path)
@@ -166,6 +170,7 @@ candidate 第一个字节代表短语在候选框位置
         {
             //Win10拼音只支持最多32个字符的编码
             wlList = Filter(wlList);
+           
             string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音词库.dat";
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -188,6 +193,7 @@ candidate 第一个字节代表短语在候选框位置
                 var wl = wlList[i];
                 offset += 8 +8+ wl.Word.Length*2 + 2 + wl.GetPinYinLength()*2 + 2;
             }
+
             for (var i = 0; i < wlList.Count; i++)
             {
                 bw.Write(BitConverter.GetBytes(0x00100010)); //magic
@@ -198,6 +204,7 @@ candidate 第一个字节代表短语在候选框位置
                 bw.Write((byte) 0x6); //6不知道
                 bw.Write(BitConverter.GetBytes(0x00000000));//Unknown
                 bw.Write(BitConverter.GetBytes(0xE679CD20));//Unknown
+                
                 var py = wl.GetPinYinString("", BuildType.None);
                 bw.Write(Encoding.Unicode.GetBytes(py));
                 bw.Write(BitConverter.GetBytes((short) 0));
@@ -215,19 +222,29 @@ candidate 第一个字节代表短语在候选框位置
         private WordLibraryList Filter(WordLibraryList wlList)
         {
             var result = new WordLibraryList();
-            //var key = new List<string>();
+            IReplaceFilter replace = null;
+            if (PinyinType != PinyinType.FullPinyin)
+            {
+                if (PinyinType == PinyinType.XiaoheShuangpin)
+                //双拼方案，调用IReplace
+                {
+                    replace = new XiaoheShuangpinReplacer();
+                }
+            }
             foreach (var wl in wlList)
             {
+                if(replace!=null)
+                {
+                    replace.Replace(wl);
+                }
+
                 if (wl.GetPinYinLength() > 32)
                     continue;
                 if (wl.Word.Length > 64)
                     continue;
-                //var py = wl.GetPinYinString("", BuildType.None);
-                //if (!key.Contains(py))
-                //{
-                    result.Add(wl);
-                //    key.Add(py);
-                //}
+             
+                result.Add(wl);
+      
             }
             return result;
         }

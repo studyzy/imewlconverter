@@ -51,6 +51,7 @@ namespace Studyzy.IMEWLConverter
         public const string SHOUXIN_PINYIN = "手心输入法";
 		public const string CHAO_YIN="超音速录";
         public const string CHINESE_PYIM = "Chinese-pyim";
+        public const string EMOJI = "Emoji";
         //简码，控制台用
         public const string BAIDU_SHOUJI_C = "bdsj";
         public const string BAIDU_SHOUJI_ENG_C = "bdsje";
@@ -95,5 +96,6 @@ namespace Studyzy.IMEWLConverter
         public const string SHOUXIN_PINYIN_C = "sxpy";
 		public const string CHAO_YIN_C="cysl";
         public const string CHINESE_PYIM_C = "pyim";
+        public const string EMOJI_C = "emoji";
     }
 }

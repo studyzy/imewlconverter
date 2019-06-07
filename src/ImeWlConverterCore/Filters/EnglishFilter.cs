@@ -8,6 +8,7 @@ namespace Studyzy.IMEWLConverter.Filters
     /// </summary>
     public class EnglishFilter : ISingleFilter, IReplaceFilter
     {
+        public bool ReplaceAfterCode => false;
         private readonly Regex englishRegex = new Regex("[a-zA-Z]", RegexOptions.IgnoreCase);
 
         public void Replace(WordLibrary wl)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Studyzy.IMEWLConverter.Entities;
+using System;
 using System.Windows.Forms;
 
 namespace Studyzy.IMEWLConverter
@@ -7,8 +8,8 @@ namespace Studyzy.IMEWLConverter
     {
         private static int selectIndex;
         private static string userFormat = "编码<排序位置>短语";
-        private static int selectRank = 2;
-        private int defaultRank = 2;
+        private static CodeType selectCodeType = CodeType.UserDefinePhrase;
+
         private string phraseFormat;
 
         public PhraseFormatConfigForm()
@@ -21,9 +22,9 @@ namespace Studyzy.IMEWLConverter
             get { return phraseFormat; }
         }
 
-        public int DefaultRank
+        public CodeType SelectedCodeType
         {
-            get { return defaultRank; }
+            get { return selectCodeType; }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -48,10 +49,18 @@ namespace Studyzy.IMEWLConverter
                 phraseFormat = txbUserFormat.Text.Replace("短语", "{0}").Replace("编码", "{1}").Replace("排序位置", "{2}");
                 selectIndex = 100;
             }
-
-            defaultRank = (int) numRank.Value;
-
-            selectRank = defaultRank;
+            switch (cbxCodeType.Text)
+            {
+                case "用户自定义短语":
+                    selectCodeType = CodeType.UserDefinePhrase;break;
+                case "拼音":
+                    selectCodeType = CodeType.Pinyin;break;
+                case "五笔":
+                    selectCodeType = CodeType.Wubi98;break;
+                default:
+                    selectCodeType = CodeType.UserDefinePhrase; break;
+            }
+         
             userFormat = txbUserFormat.Text;
             DialogResult = DialogResult.OK;
         }
@@ -82,7 +91,13 @@ namespace Studyzy.IMEWLConverter
                     break;
             }
             txbUserFormat.Text = userFormat;
-            numRank.Value = selectRank;
+            switch (selectCodeType)
+            {
+                case CodeType.UserDefinePhrase:cbxCodeType.Text = "用户自定义短语";break;
+                case CodeType.Pinyin:cbxCodeType.Text = "拼音";break;
+                case CodeType.Wubi98:cbxCodeType.Text = "五笔";break;
+                default: cbxCodeType.Text = "用户自定义短语"; break;
+            }
         }
     }
 }

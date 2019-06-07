@@ -276,6 +276,10 @@ namespace Studyzy.IMEWLConverter
             {
                 filters.Add(new NumberFilter());
             }
+            if(cbxFrom.Text== ConstantString.EMOJI)
+            {
+                filters.Add(new EmojiReplacer(txbWLPath.Text));
+            }
             return filters;
         }
 

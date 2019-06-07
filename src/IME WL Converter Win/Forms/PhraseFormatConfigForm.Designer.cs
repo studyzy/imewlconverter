@@ -32,13 +32,12 @@
             this.rbtnSougouFormat = new System.Windows.Forms.RadioButton();
             this.rbtnQQFormat = new System.Windows.Forms.RadioButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.rbtnBaiduFormat = new System.Windows.Forms.RadioButton();
             this.rbtnUserFormat = new System.Windows.Forms.RadioButton();
             this.txbUserFormat = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
-            this.rbtnBaiduFormat = new System.Windows.Forms.RadioButton();
-            this.numRank = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numRank)).BeginInit();
+            this.cbxCodeType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // rbtnSougouFormat
@@ -63,6 +62,18 @@
             this.rbtnQQFormat.Text = "QQ：编码=排序位置,短语";
             this.toolTip1.SetToolTip(this.rbtnQQFormat, "QQ输入法自定义短语格式");
             this.rbtnQQFormat.UseVisualStyleBackColor = true;
+            // 
+            // rbtnBaiduFormat
+            // 
+            this.rbtnBaiduFormat.AutoSize = true;
+            this.rbtnBaiduFormat.Location = new System.Drawing.Point(21, 79);
+            this.rbtnBaiduFormat.Name = "rbtnBaiduFormat";
+            this.rbtnBaiduFormat.Size = new System.Drawing.Size(167, 16);
+            this.rbtnBaiduFormat.TabIndex = 5;
+            this.rbtnBaiduFormat.TabStop = true;
+            this.rbtnBaiduFormat.Text = "百度：排序位置,编码=短语";
+            this.toolTip1.SetToolTip(this.rbtnBaiduFormat, "QQ输入法自定义短语格式");
+            this.rbtnBaiduFormat.UseVisualStyleBackColor = true;
             // 
             // rbtnUserFormat
             // 
@@ -92,46 +103,34 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // rbtnBaiduFormat
-            // 
-            this.rbtnBaiduFormat.AutoSize = true;
-            this.rbtnBaiduFormat.Location = new System.Drawing.Point(21, 79);
-            this.rbtnBaiduFormat.Name = "rbtnBaiduFormat";
-            this.rbtnBaiduFormat.Size = new System.Drawing.Size(167, 16);
-            this.rbtnBaiduFormat.TabIndex = 5;
-            this.rbtnBaiduFormat.TabStop = true;
-            this.rbtnBaiduFormat.Text = "百度：排序位置,编码=短语";
-            this.toolTip1.SetToolTip(this.rbtnBaiduFormat, "QQ输入法自定义短语格式");
-            this.rbtnBaiduFormat.UseVisualStyleBackColor = true;
-            // 
-            // numRank
-            // 
-            this.numRank.Location = new System.Drawing.Point(116, 162);
-            this.numRank.Name = "numRank";
-            this.numRank.Size = new System.Drawing.Size(66, 21);
-            this.numRank.TabIndex = 6;
-            this.numRank.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(19, 171);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 12);
+            this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 7;
-            this.label1.Text = "默认排序位置：";
+            this.label1.Text = "默认编码：";
+            // 
+            // cbxCodeType
+            // 
+            this.cbxCodeType.FormattingEnabled = true;
+            this.cbxCodeType.Items.AddRange(new object[] {
+            "用户自定义短语",
+            "拼音",
+            "五笔"});
+            this.cbxCodeType.Location = new System.Drawing.Point(116, 168);
+            this.cbxCodeType.Name = "cbxCodeType";
+            this.cbxCodeType.Size = new System.Drawing.Size(140, 20);
+            this.cbxCodeType.TabIndex = 8;
             // 
             // PhraseFormatConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.cbxCodeType);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.numRank);
             this.Controls.Add(this.rbtnBaiduFormat);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txbUserFormat);
@@ -146,7 +145,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "自定义短语格式设置";
             this.Load += new System.EventHandler(this.PhraseFormatConfigForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numRank)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,7 +159,7 @@
         private System.Windows.Forms.TextBox txbUserFormat;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.RadioButton rbtnBaiduFormat;
-        private System.Windows.Forms.NumericUpDown numRank;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbxCodeType;
     }
 }

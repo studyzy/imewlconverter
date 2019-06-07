@@ -8,6 +8,7 @@ namespace Studyzy.IMEWLConverter.Filters
     /// </summary>
     public class NumberFilter : ISingleFilter, IReplaceFilter
     {
+        public bool ReplaceAfterCode => false;
         private readonly Regex regex = new Regex(@"\d");
 
         public void Replace(WordLibrary wl)

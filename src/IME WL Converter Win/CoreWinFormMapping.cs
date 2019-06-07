@@ -21,6 +21,7 @@ namespace Studyzy.IMEWLConverter
             imeFormMapping.Add(typeof (SelfDefining), new SelfDefiningConfigForm());
             imeFormMapping.Add(typeof (UserDefinePhrase), new PhraseFormatConfigForm());
             imeFormMapping.Add(typeof (XiaoxiaoErbi), new ErbiTypeForm());
+            imeFormMapping.Add(typeof(Win10MsPinyin), new PinyinConfigForm());
         }
 
 
@@ -52,13 +53,19 @@ namespace Studyzy.IMEWLConverter
                 new Dictionary<string, string>
                 {
                     {"PhraseFormat", "PhraseFormat"},
-                    {"DefaultRank", "DefaultRank"}
+                    {"SelectedCodeType", "CodeType"}
                 });
             formPropertityMapping.Add(typeof (ErbiTypeForm),
                 new Dictionary<string, string>
                 {
                     {"SelectedCodeType", "CodeType"}
                 });
+            formPropertityMapping.Add(typeof(PinyinConfigForm),
+              new Dictionary<string, string>
+              {
+                    {"SelectedPinyinType", "PinyinType"},
+                    { "SelectedCodeType", "CodeType"}
+        });
         }
 
 

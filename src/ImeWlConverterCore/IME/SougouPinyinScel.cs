@@ -52,19 +52,6 @@ namespace Studyzy.IMEWLConverter.IME
 
         public WordLibraryList ImportLine(string line)
         {
-            //if (line.IndexOf("'") == 0)
-            //{
-            //    string py = line.Split(' ')[0];
-            //    string word = line.Split(' ')[1];
-            //    var wl = new WordLibrary();
-            //    wl.Word = word;
-            //    wl.Count = 1;
-            //    wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
-            //    var wll = new WordLibraryList();
-            //    wll.Add(wl);
-            //    return wll;
-            //}
-            //return null;
             throw new Exception("Scel格式是二进制文件，不支持流转换");
         }
 
