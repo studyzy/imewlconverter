@@ -5,6 +5,7 @@
     <TargetFramework>net46</TargetFramework>
     <AssemblyName>ImeWlConverterCore</AssemblyName>
     <RootNamespace>ImeWlConverterCore</RootNamespace>
+    <Version>2.6.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
