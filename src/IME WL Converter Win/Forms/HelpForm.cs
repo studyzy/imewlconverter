@@ -32,9 +32,11 @@ namespace Studyzy.IMEWLConverter
             helpString += "2.2支持手心输入法和最新版Win10微软拼音（用户自定义短语）\r\n";
             helpString += "2.3支持Win10微软拼音（用户自定义短语）对其他输入法编码的支持\r\n";
             helpString += "2.4版增加了最新搜狗输入法备份词库的解析，目前解析后只有词语和词频，没有拼音，所以拼音是根据词语重新生成的。（感谢GitHub上的h4x3rotab提供python版的解析算法，感谢tmxkn1提供了C#版的实现）\r\n";
+            helpString += "2.5版支持微软五笔，支持Linux和macOS和更多命令行功能\r\n";
+            helpString += "2.6版增加了对Emoji颜文字的支持，微软拼音自定义短语支持小鹤双拼编码\r\n";
             helpString += "关于各种输入法的词库转换操作方法可以参见项目网站（https://github.com/studyzy/imewlconverter/）\r\n";
             helpString +=
-                "如果您觉得深蓝词库转换能够给您的生活带来了极大的方便，可以通过Paypal或者支付宝捐赠该软件(https://github.com/studyzy/imewlconverter/wiki/Donate)。\r\n";
+                "如果您觉得深蓝词库转换能够给您的生活带来了极大的方便，可以通过微信或者支付宝捐赠该软件(https://github.com/studyzy/imewlconverter/wiki/Donate)。\r\n";
             helpString += "有任何问题和建议请联系我：studyzy@163.com\r\n";
 
             richTextBox1.Text = helpString;

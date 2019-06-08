@@ -30,6 +30,7 @@ namespace Studyzy.IMEWLConverter
         private IWordRankGenerater wordRankGenerater;
         private Timer timer;
 
+
         public IList<string> ExportContents { get; set; } 
         public MainBody()
         {
@@ -157,7 +158,14 @@ namespace Studyzy.IMEWLConverter
 
         public IList<IBatchFilter> BatchFilters { get; set; }
 
-
+        public void StopNotice()
+        {
+            this.timer.Stop();
+        }
+        public void StartNotice()
+        {
+            this.timer.Start();
+        }
         //public List<string> GetRealPath(IList<string> filePathes)
         //{
         //    var list = new List<string>();
