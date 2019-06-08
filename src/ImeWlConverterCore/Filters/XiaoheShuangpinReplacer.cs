@@ -31,6 +31,10 @@ namespace Studyzy.IMEWLConverter.Filters
 
         public void Replace(WordLibrary wl)
         {
+            if(wl.CodeType!=CodeType.Pinyin)//必须是拼音才能被双拼替换
+            {
+                return;
+            }
            foreach(var code in wl.Codes)
             {
                 for(var i=0;i<code.Count;i++)

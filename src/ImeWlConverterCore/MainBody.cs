@@ -290,6 +290,11 @@ namespace Studyzy.IMEWLConverter
                 {
                     continue;
                 }
+                if (wordLibrary.CodeType == CodeType.English)
+                {
+                    wordLibrary.SetCode(CodeType.English, wordLibrary.Word.ToLower());
+                    continue;
+                }
                 try
                 {
                     generater.GetCodeOfWordLibrary(wordLibrary);

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -33,9 +34,19 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             wl.Word = line.Split('\t')[1];
             wl.CodeType = CodeType;
+            wl.IsEnglish = IsEnglish(wl.Word);
+            if (wl.IsEnglish)
+            {
+                wl.SetCode(CodeType.English, wl.Word);
+            }
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;
+        }
+        private static Regex regex = new Regex("^[a-zA-Z]+$");
+        private bool IsEnglish(string word)
+        {
+            return regex.IsMatch(word);
         }
 
         public WordLibraryList ImportText(string text)
