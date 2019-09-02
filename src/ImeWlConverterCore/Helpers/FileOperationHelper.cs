@@ -20,6 +20,10 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 return ConstantString.SOUGOU_XIBAO_SCEL;
             }
+            if (ext == ".qcel")
+            {
+                return ConstantString.QQ_PINYIN_QCEL;
+            }
             if (ext == ".bak")
             {
                 return ConstantString.TOUCH_PAL;

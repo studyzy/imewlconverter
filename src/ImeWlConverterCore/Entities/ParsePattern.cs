@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.Entities
         public ParsePattern()
         {
             Sort = new List<int> {1, 2, 3};
-            CodeType = CodeType.UserDefine;
+            CodeType = CodeType.Pinyin;
             IsPinyinFormat = true;
             LineSplitString = "\r\n";
             TextEncoding = Encoding.Default;

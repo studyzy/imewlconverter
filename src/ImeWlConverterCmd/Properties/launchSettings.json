@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ImeWlConverterCmd": {
+      "commandName": "Project",
+      "commandLineArgs": "-i:sgpybin .\\sgpy.bin -o:rime ./rime.txt"
+    }
+  }
+}

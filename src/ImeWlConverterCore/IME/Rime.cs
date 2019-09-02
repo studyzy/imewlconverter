@@ -17,7 +17,11 @@ namespace Studyzy.IMEWLConverter.IME
     public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
         private string lineSplitString;
-
+        public Rime()
+        {
+            CodeType = CodeType.Pinyin;
+            OS = OperationSystem.Windows;
+        }
 
         private OperationSystem os;
 

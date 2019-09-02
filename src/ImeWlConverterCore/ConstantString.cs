@@ -24,6 +24,7 @@ namespace Studyzy.IMEWLConverter
         public const string QQ_PINYIN = "QQ拼音";
         public const string LIBPINYIN = "libpinyin";
         public const string QQ_PINYIN_QPYD = "QQ分类词库qpyd";
+        public const string QQ_PINYIN_QCEL = "QQ分类词库qcel";
         public const string GOOGLE_PINYIN = "谷歌拼音";
         public const string YAHOO_KEYKEY = "雅虎奇摩";
         public const string ZIGUANG_PINYIN = "华宇紫光拼音";
@@ -66,6 +67,7 @@ namespace Studyzy.IMEWLConverter
         public const string WUBI98_C = "wb98";
         public const string QQ_PINYIN_C = "qqpy";
         public const string QQ_PINYIN_QPYD_C = "qpyd";
+        public const string QQ_PINYIN_QCEL_C = "qcel";
         public const string GOOGLE_PINYIN_C = "ggpy";
         public const string ZIGUANG_PINYIN_C = "zgpy";
         public const string ZIGUANG_PINYIN_UWL_C = "uwl";
