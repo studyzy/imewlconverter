@@ -8,5 +8,5 @@ script:
 # - dotnet restore ./src/ImeWlConverterDotnetCore/ImeWlConverterCmd
  - dotnet build ./src/ImeWlConverterCmd
  - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
- - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp2.2
+ - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp3.0
  - dotnet ./ImeWlConverterCmd.dll -?

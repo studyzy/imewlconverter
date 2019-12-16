@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
-    <Version>2.5.0</Version>
+    <TargetFrameworks>netcoreapp3.0;net46</TargetFrameworks>
+    <Version>2.6.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
     <EmbeddedResource Include="Resources\Zhengma.txt" />
     <EmbeddedResource Include="Resources\Zhuyin.txt" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
 </Project>
