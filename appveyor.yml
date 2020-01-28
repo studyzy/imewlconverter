@@ -3,13 +3,12 @@ os: Visual Studio 2019
 clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
 
-
+before_build:
+    - MSBuild -t:restore
 build_script:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
 
 # after_build:
-#   - go run build\ci.go archive -type zip -signer WINDOWS_SIGNING_KEY -upload ""
-#   - go run build\ci.go nsis -signer WINDOWS_SIGNING_KEY -upload ""
 
 test_script:
-   - MSTest "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj"
+   - nunit-console "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj"
