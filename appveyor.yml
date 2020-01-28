@@ -5,13 +5,11 @@ version: "{branch}.{build}"
 
 
 build_script:
-    - dotnet build ./src/ImeWlConverterCmd
-    - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp3.0
-    - dotnet ./ImeWlConverterCmd.dll -?
+    - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
 
 # after_build:
 #   - go run build\ci.go archive -type zip -signer WINDOWS_SIGNING_KEY -upload ""
 #   - go run build\ci.go nsis -signer WINDOWS_SIGNING_KEY -upload ""
 
 test_script:
-   - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
+   - MSTest "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj"
