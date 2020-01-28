@@ -4,7 +4,7 @@ clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
 
 before_build:
-    - MSBuild -t:restore
+    - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
 build_script:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
 
