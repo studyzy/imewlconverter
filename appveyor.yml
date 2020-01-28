@@ -2,9 +2,7 @@ os: Visual Studio 2019
 
 clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
-test:
-    assemblies:
-      - '**\*Test.dll'
+
 
 before_build:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
