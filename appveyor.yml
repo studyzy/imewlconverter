@@ -2,6 +2,9 @@ os: Visual Studio 2019
 
 clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
+test:
+    assemblies:
+      - '**\*Test.dll'
 
 before_build:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
@@ -9,8 +12,9 @@ build_script:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
 
 # after_build:
-before_test:
-    - nuget restore "C:\imewlconverter\src\IME WL Converter WinForm.sln"
-    - MSBuild "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" /t:Rebuild /p:Configuration=Release
+
+# before_test:
+#     - nuget restore "C:\imewlconverter\src\IME WL Converter WinForm.sln"
+#     - MSBuild "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" /t:Rebuild /p:Configuration=Release
 test_script:
-    - nunit3-console "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" -result=myresults.xml;format=AppVeyor
+    - nunit3-console ""C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net46\ImeWlConverterCoreTest.dll"" -result=myresults.xml;format=AppVeyor
