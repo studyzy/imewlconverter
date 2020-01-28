@@ -1,0 +1,17 @@
+os: Visual Studio 2019
+
+clone_folder: C:\imewlconverter
+version: "{branch}.{build}"
+
+
+build_script:
+    - dotnet build ./src/ImeWlConverterCmd
+    - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp3.0
+    - dotnet ./ImeWlConverterCmd.dll -?
+
+# after_build:
+#   - go run build\ci.go archive -type zip -signer WINDOWS_SIGNING_KEY -upload ""
+#   - go run build\ci.go nsis -signer WINDOWS_SIGNING_KEY -upload ""
+
+test_script:
+   - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
