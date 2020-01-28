@@ -11,4 +11,4 @@ build_script:
 # after_build:
 
 test_script:
-   - C:\Tools\NUnit3\nunit-console "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj"
+   - nunit3-console "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj"
