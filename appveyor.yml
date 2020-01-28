@@ -9,6 +9,8 @@ build_script:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
 
 # after_build:
-
+before_test:
+    - MSBuild "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" -t:restore
+    - MSBuild "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" /t:Rebuild /p:Configuration=Debug
 test_script:
-   - nunit3-console "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" -result=myresults.xml;format=AppVeyor
+    - nunit3-console "C:\imewlconverter\src\IME WL Converter Win Test\IME WL Converter Test.csproj" -result=myresults.xml;format=AppVeyor
