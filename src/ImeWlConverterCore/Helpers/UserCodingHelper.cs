@@ -49,6 +49,10 @@ namespace Studyzy.IMEWLConverter.Helpers
             foreach (string line in codingContent.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
             {
                 string[] l = line.Split('\t');
+                if(l.Length!=2)
+                {
+                    throw new Exception("无效的自定义编码格式："+line);
+                }
                 char c = l[0][0];
                 string code = l[1];
                 if (!dic.ContainsKey(c))
