@@ -1,7 +1,7 @@
 ﻿注意：该小工具基于C#开发，先只能在Windows下运行，现进行了改版，基于Dotnet Core，所以电脑上必须安装.NetCore Runtime 2.2或更高版本才能正常运行。
 
 Dotnet Core安装地址：
-https://dotnet.microsoft.com/download/dotnet-core/2.2
+https://dotnet.microsoft.com/download/dotnet-core
 安装了运行时后，运行以下命令可查看具体帮助：
 
 dotnet ImeWlConverterCmd.dll -?
