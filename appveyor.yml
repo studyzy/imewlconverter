@@ -11,11 +11,14 @@ for:
       build_script:
       - dotnet build ./src/ImeWlConverterCmd --configuration Release
       after_build:
+      - tar czvf ./imewlconverter_Linux.tar.gz ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
       - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
       - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
-      - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
-
+      - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
+      artifacts:
+        - path: imewlconverter_Linux.tar.gz
+          name: DotnetCore
     -
       matrix:
         only:
