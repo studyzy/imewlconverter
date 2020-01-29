@@ -14,6 +14,7 @@ for:
       after_build:
         - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
         - tar czvf ./imewlconverter_Linux.tar.gz *
+        - mv ./imewlconverter_Linux.tar.gz ~/imewlconverter
         - cd ~/imewlconverter
     #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
@@ -22,7 +23,7 @@ for:
         - cd ../..
         - dotnet test --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
       artifacts:
-        - path: ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0/imewlconverter_Linux.tar.gz
+        - path: imewlconverter_Linux.tar.gz
           name: DotnetCore
     -
       matrix:
