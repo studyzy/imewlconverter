@@ -1,0 +1,47 @@
+image:
+    - Visual Studio 2019
+    - Ubuntu
+
+version: "{branch}.{build}"
+for:
+    -
+      matrix:
+        only:
+          - image: Ubuntu
+      clone_folder: ~/imewlconverter
+      build_script:
+        - dotnet build ./src/ImeWlConverterCmd --configuration Release
+      after_build:
+        - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
+        - tar czvf ./imewlconverter_Linux.tar.gz *
+        - mv ./imewlconverter_Linux.tar.gz ~/imewlconverter
+        - cd ~/imewlconverter
+    #   - dotnet ./ImeWlConverterCmd.dll -?
+      test_script:
+        - cd ./src/ImeWlConverterCoreTest
+        - dotnet add ImeWlConverterCoreTest.csproj package Appveyor.TestLogger --version 2.0.0
+        - cd ../..
+        - dotnet test --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
+      artifacts:
+        - path: imewlconverter_Linux.tar.gz
+          name: DotnetCore
+    -
+      matrix:
+        only:
+          - image: Visual Studio 2019
+      clone_folder: C:\imewlconverter
+      before_build:
+        - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
+      build_script:
+        - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
+      after_build:
+        - 7z a imewlconverter_Windows.zip "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.exe" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\ImeWlConverterCore.dll" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\Readme.txt"
+      test_script:
+        - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net46\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
+      artifacts:
+        - path: imewlconverter_Windows.zip
+          name: WinForm
+
+
+
+
