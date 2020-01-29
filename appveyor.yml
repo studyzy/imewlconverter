@@ -8,12 +8,13 @@ for:
       matrix:
         only:
           - image: Ubuntu
+      clone_folder: ~/imewlconverter
       build_script:
         - dotnet build ./src/ImeWlConverterCmd --configuration Release
       after_build:
         - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
         - tar czvf ./imewlconverter_Linux.tar.gz *
-
+        - cd ~/imewlconverter
     #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
         - cd ./src/ImeWlConverterCoreTest
