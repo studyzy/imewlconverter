@@ -26,8 +26,8 @@ for:
         - path: imewlconverter_Linux_Mac.tar.gz
           name: DotnetCore
       deploy:
-        tag: $(appveyor_repo_tag_name)
-        release: imewlconverter-$(appveyor_repo_tag_name)
+        tag: $(APPVEYOR_REPO_TAG_NAME)
+        release: imewlconverter-$(APPVEYOR_REPO_TAG_NAME)
         description: 'New Release'
         provider: GitHub
         auth_token:
