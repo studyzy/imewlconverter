@@ -12,10 +12,10 @@ for:
       - dotnet build ./src/ImeWlConverterCmd --configuration Release
       after_build:
       - tar czvf ./imewlconverter_Linux.tar.gz ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
-      - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
-      - dotnet ./ImeWlConverterCmd.dll -?
+    #   - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
+    #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
-      - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
+      - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release --logger myresults.xml;format=AppVeyor
       artifacts:
         - path: imewlconverter_Linux.tar.gz
           name: DotnetCore
