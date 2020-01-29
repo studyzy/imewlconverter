@@ -13,8 +13,8 @@ for:
         - dotnet build ./src/ImeWlConverterCmd --configuration Release
       after_build:
         - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
-        - tar czvf ./imewlconverter_Linux.tar.gz *
-        - mv ./imewlconverter_Linux.tar.gz ~/imewlconverter
+        - tar czvf ./imewlconverter_Linux_Mac.tar.gz *
+        - mv ./imewlconverter_Linux_Mac.tar.gz ~/imewlconverter
         - cd ~/imewlconverter
     #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
@@ -23,8 +23,22 @@ for:
         - cd ../..
         - dotnet test --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
       artifacts:
-        - path: imewlconverter_Linux.tar.gz
+        - path: imewlconverter_Linux_Mac.tar.gz
           name: DotnetCore
+      deploy:
+        tag: $(appveyor_repo_tag_name)
+        release: imewlconverter-$(appveyor_repo_tag_name)
+        description: 'New Release'
+        provider: GitHub
+        auth_token:
+            secure: XLH30sjOKisCZ2+ehPEf+7NVmaKdH8khPqwfT8BOOg6X6TWo48ptjgj21SZPHrYl            # your encrypted token from GitHub
+        artifact: imewlconverter_Linux_Mac.tar.gz            # upload all NuGet packages to release assets
+        draft: false
+        prerelease: false
+        force_update: true
+        on:
+            branch: master                 # release from master branch only
+            APPVEYOR_REPO_TAG: true        # deploy on tag push only
     -
       matrix:
         only:
@@ -43,7 +57,7 @@ for:
           name: WinForm
       deploy:
         tag: $(appveyor_repo_tag_name)
-        release: Release-$(appveyor_repo_tag_name)
+        release: imewlconverter-$(appveyor_repo_tag_name)
         description: 'New Release'
         provider: GitHub
         auth_token:
