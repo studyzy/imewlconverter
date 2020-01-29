@@ -41,6 +41,18 @@ for:
       artifacts:
         - path: imewlconverter_Windows.zip
           name: WinForm
+      deploy:
+        release: Release-$(appveyor_repo_tag_name)
+        description: 'New Release'
+        provider: GitHub
+        auth_token:
+            secure: <GitHubKey> # your encrypted token from GitHub
+        artifact: imewlconverter_Windows.zip            # upload all NuGet packages to release assets
+        draft: true
+        prerelease: false
+        on:
+            branch: master                 # release from master branch only
+            APPVEYOR_REPO_TAG: true        # deploy on tag push only
 
 
 
