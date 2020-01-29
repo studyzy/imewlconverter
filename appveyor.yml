@@ -1,7 +1,7 @@
 image:
     - Visual Studio 2019
     - Ubuntu
-clone_folder: C:\imewlconverter
+
 version: "{branch}.{build}"
 for:
     -
@@ -20,6 +20,7 @@ for:
       matrix:
         only:
           - image: Visual Studio 2019
+      clone_folder: C:\imewlconverter
       before_build:
         - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
       build_script:
