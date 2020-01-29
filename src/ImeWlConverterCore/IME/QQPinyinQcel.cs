@@ -56,16 +56,16 @@ namespace Studyzy.IMEWLConverter.IME
 
             //调试用代码结束
 
-            int hzPosition = 0;
+            // int hzPosition = 0;
             fs.Read(str, 0, 128); //\x40\x15\x00\x00\x44\x43\x53\x01
-            if (str[4] == 0x44)
-            {
-                hzPosition = 0x2628;
-            }
-            if (str[4] == 0x45)
-            {
-                hzPosition = 0x26C4;
-            }
+            // if (str[4] == 0x44)
+            // {
+            //     hzPosition = 0x2628;
+            // }
+            // if (str[4] == 0x45)
+            // {
+            //     hzPosition = 0x26C4;
+            // }
 
             fs.Position = 0x124;
             CountWord = BinFileHelper.ReadInt32(fs);

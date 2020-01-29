@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,7 @@ namespace Studyzy.IMEWLConverter
         }
         private static void Help(List<ComboBoxShowAttribute> cbxImportItems)
         {
+            Console.WriteLine("当前版本：V"+Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Console.WriteLine("-i:输入的词库类型 词库路径1 词库路径2 词库路径3 -o:输出的词库类型 输出词库路径 -c:编码文件路径");
             Console.WriteLine("输入和输出的词库类型如下：");
             var defaultBColor = Console.BackgroundColor;
