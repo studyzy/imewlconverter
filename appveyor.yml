@@ -18,7 +18,7 @@ for:
         - cd ./src/ImeWlConverterCoreTest
         - dotnet add ImeWlConverterCoreTest.csproj package Appveyor.TestLogger --version 2.0.0
         - cd ../..
-        - dotnet test --no-build --no-restore --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
+        - dotnet test --no-build --no-restore --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
       artifacts:
         - path: imewlconverter_Linux.tar.gz
           name: DotnetCore
