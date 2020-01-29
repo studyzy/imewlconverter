@@ -46,9 +46,9 @@ for:
         description: 'New Release'
         provider: GitHub
         auth_token:
-            secure: <GitHubKey> # your encrypted token from GitHub
+            secure: ${GitHubKey} # your encrypted token from GitHub
         artifact: imewlconverter_Windows.zip            # upload all NuGet packages to release assets
-        draft: true
+        draft: false
         prerelease: false
         on:
             branch: master                 # release from master branch only
