@@ -16,7 +16,7 @@ for:
     #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
         - cd ./src/ImeWlConverterCoreTest
-        - dotnet add package Appveyor.TestLogger --version 2.0.0
+        - dotnet add ImeWlConverterCoreTest.csproj package Appveyor.TestLogger --version 2.0.0
         - cd ../..
         - dotnet test --no-build --no-restore --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest
       artifacts:
