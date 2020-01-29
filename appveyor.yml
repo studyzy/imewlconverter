@@ -3,8 +3,8 @@ os: Visual Studio 2019
 clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
 artifacts:
-    - path: imewlconverter.zip
-      name: imewlconverter.app
+    - path: Release_V$(version)_Windows.zip
+      name: WinForm
 
 before_build:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
@@ -12,7 +12,7 @@ build_script:
     - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
 
 after_build:
-    - 7z a imewlconverter.zip "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.*"
+    - 7z a Release_V$(version)_Windows.zip "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.exe" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\ImeWlConverterCore.dll" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\Readme.txt"
 
 # before_test:
 #     - nuget restore "C:\imewlconverter\src\IME WL Converter WinForm.sln"
