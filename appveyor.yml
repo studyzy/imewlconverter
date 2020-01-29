@@ -11,8 +11,9 @@ for:
       build_script:
         - dotnet build ./src/ImeWlConverterCmd --configuration Release
       after_build:
-        - tar czvf ./imewlconverter_Linux.tar.gz ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
-    #   - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
+        - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
+        - tar czvf ./imewlconverter_Linux.tar.gz *
+
     #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
         - cd ./src/ImeWlConverterCoreTest
@@ -20,7 +21,7 @@ for:
         - cd ../..
         - dotnet test --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release
       artifacts:
-        - path: imewlconverter_Linux.tar.gz
+        - path: ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0/imewlconverter_Linux.tar.gz
           name: DotnetCore
     -
       matrix:
@@ -38,7 +39,6 @@ for:
       artifacts:
         - path: imewlconverter_Windows.zip
           name: WinForm
-      
 
 
 
