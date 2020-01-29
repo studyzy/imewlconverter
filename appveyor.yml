@@ -15,7 +15,7 @@ for:
       - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
       - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
-for:
+
     -
       matrix:
         only:
