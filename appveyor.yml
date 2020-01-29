@@ -1,7 +1,25 @@
+image:
+    - Visual Studio 2019
+    - Ubuntu
 clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
-matrix:
-    - image: Visual Studio 2019
+for:
+    -
+      matrix:
+        only:
+          - image: Ubuntu
+      build_script:
+      - dotnet build ./src/ImeWlConverterCmd --configuration Release
+      after_build:
+      - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
+      - dotnet ./ImeWlConverterCmd.dll -?
+      test_script:
+      - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
+for:
+    -
+      matrix:
+        only:
+          - image: Visual Studio 2019
       before_build:
         - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
       build_script:
@@ -13,14 +31,7 @@ matrix:
       artifacts:
         - path: imewlconverter_Windows.zip
           name: WinForm
-    - image: Ubuntu
-      build_script:
-        - dotnet build ./src/ImeWlConverterCmd --configuration Release
-      after_build:
-        - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
-        - dotnet ./ImeWlConverterCmd.dll -?
-      test_script:
-        - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
+      
 
 
 
