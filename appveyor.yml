@@ -15,7 +15,10 @@ for:
     #   - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
     #   - dotnet ./ImeWlConverterCmd.dll -?
       test_script:
-      - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj --configuration Release --logger myresults.xml;format=AppVeyor
+      - cmd: cd ./src/ImeWlConverterCoreTest
+      - cmd: dotnet add package Appveyor.TestLogger --version 2.0.0
+      - cmd: cd ../..
+      - cmd: dotnet test --no-build --no-restore --test-adapter-path:. --logger:Appveyor ./src/ImeWlConverterCoreTest
       artifacts:
         - path: imewlconverter_Linux.tar.gz
           name: DotnetCore
