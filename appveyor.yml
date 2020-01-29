@@ -2,25 +2,25 @@ clone_folder: C:\imewlconverter
 version: "{branch}.{build}"
 matrix:
     - os: Visual Studio 2019
-    before_build:
-        - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
-    build_script:
-        - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
-    after_build:
-        - 7z a imewlconverter_Windows.zip "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.exe" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\ImeWlConverterCore.dll" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\Readme.txt"
-    test_script:
-        - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net46\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
-    artifacts:
-        - path: imewlconverter_Windows.zip
-            name: WinForm
+        before_build:
+            - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
+        build_script:
+            - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
+        after_build:
+            - 7z a imewlconverter_Windows.zip "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.exe" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\ImeWlConverterCore.dll" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\Readme.txt"
+        test_script:
+            - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net46\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
+        artifacts:
+            - path: imewlconverter_Windows.zip
+                name: WinForm
     - os: Ubuntu
-    build_script:
-        - dotnet build ./src/ImeWlConverterCmd
-    after_build:
-        - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp3.0
-        - dotnet ./ImeWlConverterCmd.dll -?
-    test_script:
-        - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
+        build_script:
+            - dotnet build ./src/ImeWlConverterCmd
+        after_build:
+            - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp3.0
+            - dotnet ./ImeWlConverterCmd.dll -?
+        test_script:
+            - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
 
 
 
