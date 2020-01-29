@@ -12,7 +12,7 @@ matrix:
         - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net46\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
       artifacts:
         - path: imewlconverter_Windows.zip
-            name: WinForm
+          name: WinForm
     - os: Ubuntu
       build_script:
         - dotnet build ./src/ImeWlConverterCmd
