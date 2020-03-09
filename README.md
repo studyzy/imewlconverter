@@ -29,6 +29,7 @@
 - [极点郑码](https://github.com/studyzy/imewlconverter/wiki/Jidian)
 - [小小输入法（拼音、五笔、郑码、二笔）](https://github.com/studyzy/imewlconverter/wiki/Xiaoxiao)
 - [FIT输入法(Mac)](https://github.com/studyzy/imewlconverter/wiki/FIT)
+- [MacOS自带简体拼音](https://github.com/studyzy/imewlconverter/wiki/MacPlist)
 - [Rime输入法(Linux中州韻、Windows小狼毫、Mac OS鼠鬚管)](https://github.com/studyzy/imewlconverter/wiki/Rime)
 - [雅虎奇摩输入法（注音）](https://github.com/studyzy/imewlconverter/wiki/Yahoo)
 - [灵格斯词库ld2](https://github.com/studyzy/imewlconverter/wiki/Lingoes_Ld2)
@@ -42,7 +43,7 @@
 - 谷歌拼音输入法
 
 该软件支持6种以上的输入法编码方法：
-- 拼音
+- 拼音（全拼、双拼）
 - 五笔（五笔86、五笔98）
 - 郑码
 - 二笔（超强二笔，青松二笔等）
@@ -50,4 +51,4 @@
 - 注音
 - 自定义
 
-本程序支持批量转换（一次拖拽多个词库文件，或者按住Ctrl选择多个文件），支持命令行模式（在命令行下使用-?命令查看帮助），支持Windows、Linux、macOS。
+本程序支持批量转换（一次拖拽多个词库文件，或者按住Ctrl选择多个文件），支持命令行模式（在命令行下使用-?命令查看帮助），支持Windows、Linux、MacOS。

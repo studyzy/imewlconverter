@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.0;net46</TargetFrameworks>
-    <Version>2.6.0</Version>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <Version>2.7.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ImeWlConverterCore-net46.csproj" />
     <None Remove="Resources\Cangjie5.txt" />
     <None Remove="Resources\ChaoyinCodeMapping.txt" />
     <None Remove="Resources\ChineseCode.txt" />
