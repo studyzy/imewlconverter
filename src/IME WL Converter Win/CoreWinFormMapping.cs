@@ -53,7 +53,8 @@ namespace Studyzy.IMEWLConverter
                 new Dictionary<string, string>
                 {
                     {"PhraseFormat", "PhraseFormat"},
-                    {"SelectedCodeType", "CodeType"}
+                    {"SelectedCodeType", "CodeType"},
+                    { "IsShortCode","IsShortCode"}
                 });
             formPropertityMapping.Add(typeof (ErbiTypeForm),
                 new Dictionary<string, string>

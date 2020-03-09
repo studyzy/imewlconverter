@@ -9,7 +9,7 @@ namespace Studyzy.IMEWLConverter
         private static int selectIndex;
         private static string userFormat = "编码<排序位置>短语";
         private static CodeType selectCodeType = CodeType.UserDefinePhrase;
-
+        private static bool isShortCode = false;
         private string phraseFormat;
 
         public PhraseFormatConfigForm()
@@ -25,6 +25,10 @@ namespace Studyzy.IMEWLConverter
         public CodeType SelectedCodeType
         {
             get { return selectCodeType; }
+        }
+        public bool IsShortCode
+        {
+            get { return isShortCode; }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -55,6 +59,10 @@ namespace Studyzy.IMEWLConverter
                     selectCodeType = CodeType.UserDefinePhrase;break;
                 case "拼音":
                     selectCodeType = CodeType.Pinyin;break;
+                case "拼音首字母":
+                    selectCodeType = CodeType.Pinyin;
+                    isShortCode = true;
+                    break;
                 case "五笔":
                     selectCodeType = CodeType.Wubi98;break;
                 default:
@@ -94,7 +102,13 @@ namespace Studyzy.IMEWLConverter
             switch (selectCodeType)
             {
                 case CodeType.UserDefinePhrase:cbxCodeType.Text = "用户自定义短语";break;
-                case CodeType.Pinyin:cbxCodeType.Text = "拼音";break;
+                case CodeType.Pinyin:
+                    cbxCodeType.Text = "拼音";
+                    if (isShortCode)
+                    {
+                        cbxCodeType.Text = "拼音首字母";
+                    }
+                    break;
                 case CodeType.Wubi98:cbxCodeType.Text = "五笔";break;
                 default: cbxCodeType.Text = "用户自定义短语"; break;
             }

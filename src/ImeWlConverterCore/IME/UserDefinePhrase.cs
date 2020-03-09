@@ -27,7 +27,10 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get;set;
         }
-
+        /// <summary>
+        /// 拼音编码时，是否只使用拼音首字母
+        /// </summary>
+        public bool IsShortCode { get; set; }
 
         public Encoding Encoding  => Encoding.UTF8;
 
@@ -44,7 +47,16 @@ namespace Studyzy.IMEWLConverter.IME
 
         public string ExportLine(WordLibrary wl)
         {
-            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(wl.Codes)[0], wl.Rank==0?DefaultRank:wl.Rank);
+            var codes = wl.Codes;
+            if (IsShortCode)
+            {
+                codes = new Code();
+                foreach (var c in wl.Codes)
+                {
+                    codes.Add(new List<string>() { c[0][0].ToString() });
+                }
+            }
+            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(codes)[0], wl.Rank==0?DefaultRank:wl.Rank);
         }
 
         public WordLibraryList ImportText(string text)
