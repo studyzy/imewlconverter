@@ -234,6 +234,11 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     replace = new XiaoheShuangpinReplacer();
                 }
+                if (PinyinType == PinyinType.MsShuangpin)
+                    //双拼方案，调用IReplace
+                {
+                    replace = new MsShuangpinReplacer();
+                }
             }
             foreach (var wl in wlList)
             {

@@ -15,6 +15,10 @@ namespace Studyzy.IMEWLConverter.Entities
         /// <summary>
         /// 小鹤双拼
         /// </summary>
-        XiaoheShuangpin
+        XiaoheShuangpin,
+        /// <summary>
+        /// 微软双拼
+        /// </summary>
+        MsShuangpin,
     }
 }
