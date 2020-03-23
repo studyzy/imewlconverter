@@ -78,7 +78,15 @@ namespace Studyzy.IMEWLConverter.IME
                 CurrentStatus = i;
                 if (line.Length > 0 && line[0] != '#')//注释行
                 {
-                    wlList.AddWordLibraryList(ImportLine(line));
+                    try
+                    {
+                        wlList.AddWordLibraryList(ImportLine(line));
+                    }
+                    catch(Exception ex)
+                    {
+                        var log = string.Format("[{0}] 不是一个有效的谷歌拼音词库格式，解析时抛出异常：{1}",line,ex.Message);
+                        throw new Exception(log);
+                    }
                 }
             }
             return wlList;

@@ -12,18 +12,18 @@ namespace Studyzy.IMEWLConverter.Filters
     /// <summary>
     /// 将普通的拼音编码替换成小鹤双拼
     /// </summary>
-    public abstract class ShuangpinReplacer : IReplaceFilter
+    public  class ShuangpinReplacer : IReplaceFilter
     {
-        protected abstract string ShuangpinMappingFile { get; }
+
         private Dictionary<string, string> mapping = new Dictionary<string, string>();
-        public ShuangpinReplacer()
+        public ShuangpinReplacer(PinyinType type)
         {
-            string pinyinMapping = DictionaryHelper.GetResourceContent(ShuangpinMappingFile);
+            string pinyinMapping = DictionaryHelper.GetResourceContent("Shuangpin.txt");
             foreach (var line in pinyinMapping.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 var arr = line.Split('\t');
                 var pinyin = arr[0];
-                var shuangpin = arr[1];
+                var shuangpin = arr[(int)type];
                 mapping[pinyin] = shuangpin;
             }
         }
@@ -53,18 +53,4 @@ namespace Studyzy.IMEWLConverter.Filters
         }
     }
 
-    public class XiaoheShuangpinReplacer : ShuangpinReplacer
-    {
-        protected override string ShuangpinMappingFile
-        {
-            get { return "XiaoheShuangpin.txt"; }
-        }
-    }
-    public class MsShuangpinReplacer : ShuangpinReplacer
-    {
-        protected override string ShuangpinMappingFile
-        {
-            get { return "MsShuangpin.txt"; }
-        }
-    }
 }

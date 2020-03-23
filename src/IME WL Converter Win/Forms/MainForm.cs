@@ -92,6 +92,7 @@ namespace Studyzy.IMEWLConverter
                 "百度分类词库|*.bcd",
                 "搜狗备份词库|*.bin",
                 "紫光分类词库|*.uwl",
+                "微软拼音词库|*.dat",
                 "灵格斯词库|*.ld2",
                 "所有文件|*.*"
             };

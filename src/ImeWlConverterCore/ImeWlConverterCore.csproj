@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
-    <Version>2.7.0</Version>
+    <Version>2.8.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,22 +12,20 @@
     <None Remove="Resources\ChaoyinCodeMapping.txt" />
     <None Remove="Resources\ChineseCode.txt" />
     <None Remove="Resources\Erbi.txt" />
+    <None Remove="Resources\Shuangpin.txt" />
     <None Remove="Resources\WordPinyin.txt" />
     <None Remove="Resources\Zhengma.txt" />
     <None Remove="Resources\Zhuyin.txt" />
-    <None Remove="Resources\MsShuangpin.txt" />
-    <None Remove="Resources\XiaoheShuangpin.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Cangjie5.txt" />
     <EmbeddedResource Include="Resources\ChaoyinCodeMapping.txt" />
     <EmbeddedResource Include="Resources\ChineseCode.txt" />
     <EmbeddedResource Include="Resources\Erbi.txt" />
+    <EmbeddedResource Include="Resources\Shuangpin.txt" />
     <EmbeddedResource Include="Resources\WordPinyin.txt" />
     <EmbeddedResource Include="Resources\Zhengma.txt" />
     <EmbeddedResource Include="Resources\Zhuyin.txt" />
-    <EmbeddedResource Include="Resources\MsShuangpin.txt" />
-    <EmbeddedResource Include="Resources\XiaoheShuangpin.txt" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
