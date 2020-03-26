@@ -10,32 +10,13 @@ namespace Studyzy.IMEWLConverter.IME
     /// 以前叫紫光输入法，现在改名叫华宇拼音输入法
     /// </summary>
     [ComboBoxShow(ConstantString.ZIGUANG_PINYIN, ConstantString.ZIGUANG_PINYIN_C, 170)]
-    public class ZiGuangPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class ZiGuangPinyin : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 3; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
 
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string py = line.Split('\t')[1];
             string word = line.Split('\t')[0];
@@ -85,7 +66,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryTextImport Members
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.Unicode; }
         }

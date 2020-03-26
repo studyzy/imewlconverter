@@ -10,7 +10,7 @@ namespace Studyzy.IMEWLConverter.IME
     ///     百度手机输入法支持单独的英语词库，格式“单词Tab词频”
     /// </summary>
     [ComboBoxShow(ConstantString.BAIDU_SHOUJI_ENG, ConstantString.BAIDU_SHOUJI_ENG_C, 1010)]
-    public class BaiduShoujiEng : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class BaiduShoujiEng : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
 
@@ -31,10 +31,7 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-        public Encoding Encoding
-        {
-            get { return Encoding.ASCII; }
-        }
+   
 
         public override CodeType CodeType
         {
@@ -42,31 +39,15 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         #endregion
-
+        public override Encoding Encoding
+        {
+            get { return Encoding.ASCII; }
+        }
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
 
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
 
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
-
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] wp = line.Split('\t');
 

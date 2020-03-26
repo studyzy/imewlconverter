@@ -11,7 +11,7 @@ namespace Studyzy.IMEWLConverter.IME
     ///     雅虎奇摩输入法
     /// </summary>
     [ComboBoxShow(ConstantString.YAHOO_KEYKEY, ConstantString.YAHOO_KEYKEY_C, 200)]
-    public class YahooKeyKey : BaseImport, IWordLibraryExport, IWordLibraryTextImport
+    public class YahooKeyKey : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
     {
         public override CodeType CodeType
         {
@@ -130,7 +130,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 ";
         //private readonly IWordCodeGenerater generater = new ZhuyinGenerater();
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
         }
@@ -198,31 +198,10 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                if (IsWordLine(line))
-                {
-                    wlList.AddWordLibraryList(ImportLine(line));
-                }
-            }
-            return wlList;
-        }
+   
 
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] c = line.Split('\t');
             var wl = new WordLibrary();
@@ -248,7 +227,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             return wll;
         }
 
-        private bool IsWordLine(string line)
+        protected override bool IsContent(string line)
         {
             return line.Split('\t').Length == 4;
         }

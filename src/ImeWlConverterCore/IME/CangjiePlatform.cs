@@ -11,18 +11,13 @@ namespace Studyzy.IMEWLConverter.IME
     /// 仓颉输入法，主要用于台湾
     /// </summary>
     [ComboBoxShow(ConstantString.CANGJIE_PLATFORM, ConstantString.CANGJIE_PLATFORM_C, 230)]
-    public class CangjiePlatform : BaseImport, IWordLibraryExport, IWordLibraryTextImport
+    public class CangjiePlatform : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
     {
         public override CodeType CodeType
         {
             get { return CodeType.Cangjie; }
         }
-
-        #region IWordLibraryExport 成员
-
-        //private readonly IWordCodeGenerater codeGenerater = new Cangjie5Generater();
-
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get
             {
@@ -37,6 +32,11 @@ namespace Studyzy.IMEWLConverter.IME
                 }
             }
         }
+        #region IWordLibraryExport 成员
+
+        //private readonly IWordCodeGenerater codeGenerater = new Cangjie5Generater();
+
+
 
         public string ExportLine(WordLibrary wl)
         {
@@ -74,28 +74,10 @@ namespace Studyzy.IMEWLConverter.IME
 
         private readonly IWordCodeGenerater pyGenerater = new PinyinGenerater();
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
+     
 
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] c = line.Split(' ');
             var wl = new WordLibrary();

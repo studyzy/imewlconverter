@@ -11,7 +11,7 @@ namespace Studyzy.IMEWLConverter.IME
     ///     极点五笔/郑码的词库格式为“编码 词语 词语 词语”\r\n
     /// </summary>
     [ComboBoxShow(ConstantString.JIDIAN, ConstantString.JIDIAN_C, 190)]
-    public class Jidian : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class Jidian : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         //protected virtual bool IsWubi
         //{
@@ -25,29 +25,8 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-        //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
-
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                wlList.AddWordLibraryList(ImportLine(line));
-                CurrentStatus = i;
-            }
-            return wlList;
-        }
-
-        public virtual WordLibraryList ImportLine(string line)
+      
+        public override WordLibraryList ImportLine(string line)
         {
             var wlList = new WordLibraryList();
             string[] strs = line.Split(' ');
@@ -110,7 +89,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.Unicode; }
         }

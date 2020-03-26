@@ -11,11 +11,11 @@ namespace Studyzy.IMEWLConverter.IME
     /// 
     /// </summary>
     [ComboBoxShow(ConstantString.PINYIN_JIAJIA, ConstantString.PINYIN_JIAJIA_C, 120)]
-    public class PinyinJiaJia : BaseImport, IWordLibraryExport, IWordLibraryTextImport
+    public class PinyinJiaJia : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
     {
         #region IWordLibraryExport 成员
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.Unicode; }
         }
@@ -68,32 +68,8 @@ namespace Studyzy.IMEWLConverter.IME
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] words = str.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = words.Length;
-            for (int i = 0; i < words.Length; i++)
-            {
-                CurrentStatus = i;
-                try
-                {
-                    wlList.AddWordLibraryList(ImportLine(words[i]));
-                }
-                catch
-                {
-                }
-            }
-            return wlList;
-        }
-
-        public WordLibraryList ImportLine(string word)
+     
+        public override WordLibraryList ImportLine(string word)
         {
             string hz = "";
             var py = new List<string>();

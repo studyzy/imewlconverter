@@ -8,7 +8,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.QQ_PINYIN, ConstantString.QQ_PINYIN_C, 50)]
-    public class QQPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class QQPinyin : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
 
@@ -62,14 +62,14 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.Unicode; }
         }
 
         #endregion
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             line = line.Split(',')[0]; //如果有逗号，就只取第一个
             string[] sp = line.Split(' ');
@@ -85,24 +85,5 @@ namespace Studyzy.IMEWLConverter.IME
             return wll;
         }
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
     }
 }

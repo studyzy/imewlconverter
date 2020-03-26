@@ -7,7 +7,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.SINA_PINYIN, ConstantString.SINA_PINYIN_C, 180)]
-    public class SinaPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class SinaPinyin : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
 
@@ -37,7 +37,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryTextImport Members
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get
             {
@@ -57,7 +57,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string py = line.Split(' ')[0];
             string word = line.Split(' ')[1];
@@ -68,27 +68,6 @@ namespace Studyzy.IMEWLConverter.IME
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;
-        }
-
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
         }
 
         #endregion

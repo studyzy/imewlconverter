@@ -10,39 +10,15 @@ namespace Studyzy.IMEWLConverter.IME
     ///     百度PC输入法，中文词库和英文词库放在同一个文件，中文词库比如“跨年	kua'nian'	1”，英文词库比如“Jira	1”
     /// </summary>
     [ComboBoxShow(ConstantString.BAIDU_PINYIN, ConstantString.BAIDU_PINYIN_C, 90)]
-    public class BaiduPinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class BaiduPinyin : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
+        public override Encoding Encoding
+        {
+            get { return Encoding.Unicode; }
+        }
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                try
-                {
-                    wlList.AddWordLibraryList(ImportLine(line));
-                }
-                catch
-                {
-                    SendImportLineErrorNotice("无效的词条："+line);
-                }
-            }
-            return wlList;
-        }
-
-
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             var wl = new WordLibrary();
             string[] array = line.Split('\t');
@@ -69,7 +45,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        public string ExportLine(WordLibrary wl)
+        public  string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
 
@@ -94,11 +70,6 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\r\n");
             }
             return new List<string>() { sb.ToString() };
-        }
-
-        public Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
         }
 
         #endregion

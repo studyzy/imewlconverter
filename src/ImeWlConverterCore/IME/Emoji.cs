@@ -15,21 +15,17 @@ namespace Studyzy.IMEWLConverter.IME
     /// 😀   汉字
     /// </summary>
     [ComboBoxShow(ConstantString.EMOJI, ConstantString.EMOJI_C, 999)]
-    public class Emoji : BaseImport, IWordLibraryTextImport
+    public class Emoji : BaseTextImport, IWordLibraryTextImport
     {
         public override CodeType CodeType
         {
             get { return CodeType.NoCode; }
         }
-        public Encoding Encoding => Encoding.UTF8;
+        public override Encoding Encoding => Encoding.UTF8;
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
+      
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             var wl = new WordLibrary();
             wl.Word = line.Split('\t')[1];
@@ -47,20 +43,6 @@ namespace Studyzy.IMEWLConverter.IME
         private bool IsEnglish(string word)
         {
             return regex.IsMatch(word);
-        }
-
-        public WordLibraryList ImportText(string text)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = text.Split(new[] { "\r","\n" }, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
         }
     }
 }

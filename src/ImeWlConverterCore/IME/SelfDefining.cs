@@ -11,7 +11,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.SELF_DEFINING, ConstantString.SELF_DEFINING_C, 2000)]
-    public class SelfDefining : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IStreamPrepare
+    public class SelfDefining : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, IStreamPrepare
     {
         private IWordCodeGenerater codeGenerater = null;
 
@@ -123,35 +123,14 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryTextImport Members
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return UserDefiningPattern.TextEncoding; }
         }
 
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path);
-            return ImportText(str);
-        }
 
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-                CurrentStatus = i;
-            }
-            return wlList;
-        }
-
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             var wlList = new WordLibraryList();
             WordLibrary wl = BuildWordLibrary(line);

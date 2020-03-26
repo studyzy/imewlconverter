@@ -10,7 +10,7 @@ namespace Studyzy.IMEWLConverter.IME
     ///     Google拼音输入法
     /// </summary>
     [ComboBoxShow(ConstantString.GOOGLE_PINYIN, ConstantString.GOOGLE_PINYIN_C, 110)]
-    public class GooglePinyin : BaseImport, IWordLibraryExport, IWordLibraryTextImport
+    public class GooglePinyin : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
     {
         #region IWordLibraryExport 成员
 
@@ -41,7 +41,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get
             {
@@ -61,39 +61,9 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                if (line.Length > 0 && line[0] != '#')//注释行
-                {
-                    try
-                    {
-                        wlList.AddWordLibraryList(ImportLine(line));
-                    }
-                    catch(Exception ex)
-                    {
-                        var log = string.Format("[{0}] 不是一个有效的谷歌拼音词库格式，解析时抛出异常：{1}",line,ex.Message);
-                        throw new Exception(log);
-                    }
-                }
-            }
-            return wlList;
-        }
 
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] c = line.Split('\t');
             var wl = new WordLibrary();

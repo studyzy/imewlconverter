@@ -8,7 +8,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.LIBPINYIN, ConstantString.LIBPINYIN_C, 175)]
-    public class Libpinyin : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class Libpinyin : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
 
@@ -51,14 +51,14 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-        public Encoding Encoding
+
+
+        #endregion
+        public override Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
         }
-
-        #endregion
-
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] sp = line.Split(' ');
             string py = sp[1];
@@ -73,24 +73,5 @@ namespace Studyzy.IMEWLConverter.IME
             return wll;
         }
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
     }
 }

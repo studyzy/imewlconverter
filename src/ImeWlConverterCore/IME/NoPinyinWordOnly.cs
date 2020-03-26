@@ -8,7 +8,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.WORD_ONLY, ConstantString.WORD_ONLY_C, 2010)]
-    public class NoPinyinWordOnly : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class NoPinyinWordOnly : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         //private IWordCodeGenerater pinyinFactory;
         public override CodeType CodeType
@@ -23,7 +23,7 @@ namespace Studyzy.IMEWLConverter.IME
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public virtual WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             //IList<string> py = pinyinFactory.GetCodeOfString(line);
             var wl = new WordLibrary();
@@ -35,43 +35,7 @@ namespace Studyzy.IMEWLConverter.IME
             return wll;
         }
 
-        /// <summary>
-        ///     通过搜狗细胞词库txt内容构造词库对象
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public virtual WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path);
-            return ImportText(str);
-        }
-
-        public virtual WordLibraryList ImportText(string str)
-        {
-            //pinyinFactory = new PinyinGenerater();
-
-            var wlList = new WordLibraryList();
-            string[] words = str.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = words.Length;
-            CurrentStatus = 0;
-            for (int i = 0; i < words.Length; i++)
-            {
-                try
-                {
-                    string word = words[i].Trim();
-                    if (word != string.Empty)
-                    {
-                        wlList.AddWordLibraryList(ImportLine(word));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-                CurrentStatus++;
-            }
-            return wlList;
-        }
+     
 
         #endregion
 
@@ -101,7 +65,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryTextImport Members
 
-        public virtual Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
         }

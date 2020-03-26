@@ -11,32 +11,13 @@ namespace Studyzy.IMEWLConverter.IME
     /// http://tumashu.github.io/chinese-pyim
     /// </summary>
     [ComboBoxShow(ConstantString.CHINESE_PYIM, ConstantString.CHINESE_PYIM_C, 177)]
-    public class ChinesePyim : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class ChinesePyim : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
+     
 
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
-
-
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             var array = line.Split(' ');
             var py = array[0].Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
@@ -88,13 +69,14 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryTextImport Members
 
-        public Encoding Encoding
+   
+        #endregion
+
+        #endregion     
+        public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
         }
 
-        #endregion
-
-        #endregion
     }
 }

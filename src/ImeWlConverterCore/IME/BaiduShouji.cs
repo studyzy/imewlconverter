@@ -8,7 +8,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.BAIDU_SHOUJI, ConstantString.BAIDU_SHOUJI_C, 1000)]
-    public class BaiduShouji : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class BaiduShouji : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
         /// <summary>
@@ -40,56 +40,32 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-        public Encoding Encoding
+
+
+        #endregion
+        public override Encoding Encoding
         {
             get { return Encoding.Unicode; }
         }
-
-        #endregion
-
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
 
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
 
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
-
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             var wll = new WordLibraryList();
-            try
-            {
-                var array1 = line.Split('(');
-                string word = array1[0];
-                string py = array1[1].Split(')')[0];
 
-                var wl = new WordLibrary();
-                wl.Word = word;
-                wl.Rank = 1;
-                wl.PinYin = py.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            var array1 = line.Split('(');
+            string word = array1[0];
+            string py = array1[1].Split(')')[0];
 
-                wll.Add(wl);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(line + "\t" + ex.Message);
-            }
+            var wl = new WordLibrary();
+            wl.Word = word;
+            wl.Rank = 1;
+            wl.PinYin = py.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+            wll.Add(wl);
+
             return wll;
         }
 

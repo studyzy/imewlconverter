@@ -10,7 +10,7 @@ namespace Studyzy.IMEWLConverter.IME
     ///     QQ拼音支持单独的英语词库，使用“英文单词,词频”的格式
     /// </summary>
     [ComboBoxShow(ConstantString.QQ_PINYIN_ENG, ConstantString.QQ_PINYIN_ENG_C, 80)]
-    public class QQPinyinEng : BaseImport, IWordLibraryTextImport, IWordLibraryExport
+    public class QQPinyinEng : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
     {
         #region IWordLibraryExport 成员
 
@@ -37,14 +37,14 @@ namespace Studyzy.IMEWLConverter.IME
             get { return CodeType.English; }
         }
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return Encoding.Unicode; }
         }
 
         #endregion
 
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] sp = line.Split(',');
 
@@ -60,24 +60,5 @@ namespace Studyzy.IMEWLConverter.IME
             return wll;
         }
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
     }
 }

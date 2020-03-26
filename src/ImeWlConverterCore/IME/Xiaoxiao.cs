@@ -13,7 +13,7 @@ namespace Studyzy.IMEWLConverter.IME
     /// 拼音（无分隔符）+空格+词语1+空格+词语2...
     /// </summary>
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
-    public class Xiaoxiao : BaseImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
+    public class Xiaoxiao : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
     {
         #region IWordLibraryExport 成员
 
@@ -31,7 +31,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
         }
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get
             {
@@ -170,32 +170,13 @@ namespace Studyzy.IMEWLConverter.IME
 //      }
 
         private readonly Regex regex = new Regex(@"[^\s#]+( [\u4E00-\u9FA5]+)+");
-
-        public WordLibraryList ImportText(string text)
+        protected override bool IsContent(string line)
         {
-            var list = new WordLibraryList();
-            string[] lines = text.Split(new[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            CurrentStatus = 0;
-            foreach (string s in lines)
-            {
-                CurrentStatus++;
-                if (IsContent(s))
-                {
-                    list.AddWordLibraryList(ImportLine(s));
-                }
-            }
-            return list;
-        }
-
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
+            return regex.IsMatch(line);
         }
 
         //private IWordCodeGenerater pyGenerater = new PinyinGenerater();
-        public WordLibraryList ImportLine(string str)
+        public override WordLibraryList ImportLine(string str)
         {
             var list = new WordLibraryList();
             string[] words = str.Split(' ');
@@ -212,9 +193,6 @@ namespace Studyzy.IMEWLConverter.IME
             return list;
         }
 
-        private bool IsContent(string line)
-        {
-            return regex.IsMatch(line);
-        }
+      
     }
 }

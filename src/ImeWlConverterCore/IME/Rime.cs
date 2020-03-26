@@ -14,7 +14,7 @@ namespace Studyzy.IMEWLConverter.IME
     /// 
     /// </summary>
     [ComboBoxShow(ConstantString.RIME, ConstantString.RIME_C, 150)]
-    public class Rime : BaseImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
+    public class Rime : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
         private string lineSplitString;
         public Rime()
@@ -135,7 +135,7 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
         }
@@ -144,32 +144,9 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-        public WordLibraryList Import(string path)
-        {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
-            return ImportText(str);
-        }
-
-        public WordLibraryList ImportText(string str)
-        {
-            var wlList = new WordLibraryList();
-            string[] lines = str.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
-            CountWord = lines.Length;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                CurrentStatus = i;
-                if (line.StartsWith("#"))
-                {
-                    continue;
-                }
-                wlList.AddWordLibraryList(ImportLine(line));
-            }
-            return wlList;
-        }
 
         //private IWordCodeGenerater pyGenerater=new PinyinGenerater();
-        public WordLibraryList ImportLine(string line)
+        public override WordLibraryList ImportLine(string line)
         {
             string[] lineArray = line.Split('\t');
 
