@@ -37,7 +37,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
         protected void SendImportLineErrorNotice(string msg)
         {
-            ImportLineErrorNotice(msg);
+            ImportLineErrorNotice?.Invoke(msg);
         }
     }
 }
