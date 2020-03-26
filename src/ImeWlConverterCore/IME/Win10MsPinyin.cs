@@ -16,6 +16,7 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.WIN10_MS_PINYIN, ConstantString.WIN10_MS_PINYIN_C, 130)]
     public class Win10MsPinyin : IWordLibraryExport, IWordLibraryImport
     {
+        public event Action<string> ImportLineErrorNotice;
         public Win10MsPinyin()
         {
             this.CodeType = CodeType.UserDefinePhrase;

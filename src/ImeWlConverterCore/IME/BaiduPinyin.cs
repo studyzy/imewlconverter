@@ -29,7 +29,14 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 string line = lines[i];
                 CurrentStatus = i;
-                wlList.AddWordLibraryList(ImportLine(line));
+                try
+                {
+                    wlList.AddWordLibraryList(ImportLine(line));
+                }
+                catch
+                {
+                    SendImportLineErrorNotice("无效的词条："+line);
+                }
             }
             return wlList;
         }

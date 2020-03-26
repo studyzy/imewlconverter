@@ -1,4 +1,5 @@
 ﻿using Studyzy.IMEWLConverter.Entities;
+using System;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -9,6 +10,7 @@ namespace Studyzy.IMEWLConverter.IME
             DefaultRank = 0;
             CodeType = CodeType.Pinyin;
         }
+        public event Action<string> ImportLineErrorNotice;
         /// <summary>
         /// 输入法编码类型
         /// </summary>
@@ -32,6 +34,10 @@ namespace Studyzy.IMEWLConverter.IME
         public virtual bool IsText
         {
             get { return true; }
+        }
+        protected void SendImportLineErrorNotice(string msg)
+        {
+            ImportLineErrorNotice(msg);
         }
     }
 }

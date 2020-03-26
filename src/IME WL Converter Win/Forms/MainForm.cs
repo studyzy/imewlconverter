@@ -229,8 +229,8 @@ namespace Studyzy.IMEWLConverter
                 mainBody.Filters = GetFilters();
                 mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
-                
-                mainBody.ProcessNotice+=new ProcessNotice((string notice) => {  RichTextBoxShow(notice); });
+                mainBody.Import.ImportLineErrorNotice += WriteErrorMessage; 
+                mainBody.ProcessNotice+=RichTextBoxShow;
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();
             }
@@ -551,13 +551,23 @@ namespace Studyzy.IMEWLConverter
                 richTextBox1.AppendText(msg + "\r\n");
             }
         }
+        private string errorMessages="";
+        private void WriteErrorMessage(string msg)
+        {
+            errorMessages += msg + "\r\n";
+        }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+            private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             timer1.Enabled = false;
             mainBody.StopNotice();
             toolStripProgressBar1.Value = toolStripProgressBar1.Maximum;
             ShowStatusMessage("转换完成", false);
+            if (this.errorMessages.Length > 0)
+            {
+                var errForm = new ErrorLogForm(errorMessages);
+                errForm.Show();
+            }
             if (e.Error != null)
             {
                 MessageBox.Show("不好意思，发生了错误：" + e.Error.Message);

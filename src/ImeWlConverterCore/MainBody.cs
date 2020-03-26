@@ -13,10 +13,9 @@ using System.Timers;
 
 namespace Studyzy.IMEWLConverter
 {
-    public delegate void ProcessNotice(string message);
     public class MainBody:IDisposable
     {
-        public event ProcessNotice ProcessNotice;
+        public event Action<string> ProcessNotice;
         private WordLibraryList allWlList = new WordLibraryList();
         private int count;
         private int countWord;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
@@ -7,6 +8,7 @@ namespace Studyzy.IMEWLConverter
 {
     public interface IWordLibraryImport
     {
+        event Action<string> ImportLineErrorNotice;
         int CountWord { get; set; }
         int CurrentStatus { get; set; }
         bool IsText { get; }

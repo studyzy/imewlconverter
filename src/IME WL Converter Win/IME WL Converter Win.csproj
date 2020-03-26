@@ -119,6 +119,12 @@
     <Compile Include="Forms\DonateForm.Designer.cs">
       <DependentUpon>DonateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ErrorLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorLogForm.Designer.cs">
+      <DependentUpon>ErrorLogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SelfDefiningConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DonateForm.resx">
       <DependentUpon>DonateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ErrorLogForm.resx">
+      <DependentUpon>ErrorLogForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SelfDefiningConfigForm.resx">
       <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
