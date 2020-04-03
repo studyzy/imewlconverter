@@ -199,7 +199,7 @@ namespace Studyzy.IMEWLConverter
                 return;
             }
             richTextBox1.Clear();
-
+            errorMessages = "";
             try
             {
                 if (streamExport)
@@ -591,7 +591,7 @@ namespace Studyzy.IMEWLConverter
                 richTextBox1.Text = fileContent;
                 //btnExport.Enabled = true;
             }
-            if (!mergeTo1File ||  export is Win10MsPinyin || export is Win10MsWubi)//微软拼音是二进制文件，不需要再提示保存
+            if (!mergeTo1File ||  export is Win10MsPinyin || export is Win10MsWubi|| export is Win10MsPinyinSelfStudy)//微软拼音是二进制文件，不需要再提示保存
             {
                 MessageBox.Show("转换完成!");
                 return;

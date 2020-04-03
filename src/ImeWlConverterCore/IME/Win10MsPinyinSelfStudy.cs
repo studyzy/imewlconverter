@@ -16,10 +16,443 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.WIN10_MS_PINYIN_SELF_STUDY, ConstantString.WIN10_MS_PINYIN_SELF_STUDY_C, 131)]
     public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
     {
+        #region Pinyin Map
+        private static Dictionary<string, short> pinyinMap;
+        private Dictionary<string, short> PinyinMap
+        {
+            get
+            {
+                if (pinyinMap == null)
+                {
+                    pinyinMap = new Dictionary<string, short>();
+                    for(short i =0;i<pinyinIndex.Length;i++)
+                    {
+                        pinyinMap[pinyinIndex[i]] = i;
+                    }
+                }
+                return pinyinMap;
+            }
+        }
+        private static string[] pinyinIndex = new string[] {"a",
+"ai",
+"an",
+"ang",
+"ao",
+"ba",
+"bai",
+"ban",
+"bang",
+"bao",
+"bei",
+"ben",
+"beng",
+"bi",
+"bian",
+"biao",
+"bie",
+"bin",
+"bing",
+"bo",
+"bu",
+"ca",
+"cai",
+"can",
+"cang",
+"cao",
+"ce",
+"cen",
+"ceng",
+"cha",
+"chai",
+"chan",
+"chang",
+"chao",
+"che",
+"chen",
+"cheng",
+"chi",
+"chong",
+"chou",
+"chu",
+"chua",
+"chuai",
+"chuan",
+"chuang",
+"chui",
+"chun",
+"chuo",
+"ci",
+"cong",
+"cou",
+"cu",
+"cuan",
+"cui",
+"cun",
+"cuo",
+"da",
+"dai",
+"dan",
+"dang",
+"dao",
+"de",
+"dei",
+"den",
+"deng",
+"di",
+"dia",
+"dian",
+"diao",
+"die",
+"ding",
+"diu",
+"dong",
+"dou",
+"du",
+"duan",
+"dui",
+"dun",
+"duo",
+"e",
+"ei",
+"en",
+"eng",
+"er",
+"fa",
+"fan",
+"fang",
+"fei",
+"fen",
+"feng",
+"fiao",
+"fo",
+"fou",
+"fu",
+"ga",
+"gai",
+"gan",
+"gang",
+"gao",
+"ge",
+"gei",
+"gen",
+"geng",
+"gong",
+"gou",
+"gu",
+"gua",
+"guai",
+"guan",
+"guang",
+"gui",
+"gun",
+"guo",
+"ha",
+"hai",
+"han",
+"hang",
+"hao",
+"he",
+"hei",
+"hen",
+"heng",
+"hong",
+"hou",
+"hu",
+"hua",
+"huai",
+"huan",
+"huang",
+"hui",
+"hun",
+"huo",
+"ji",
+"jia",
+"jian",
+"jiang",
+"jiao",
+"jie",
+"jin",
+"jing",
+"jiong",
+"jiu",
+"ju",
+"juan",
+"jue",
+"jun",
+"ka",
+"kai",
+"kan",
+"kang",
+"kao",
+"ke",
+"kei",
+"ken",
+"keng",
+"kong",
+"kou",
+"ku",
+"kua",
+"kuai",
+"kuan",
+"kuang",
+"kui",
+"kun",
+"kuo",
+"la",
+"lai",
+"lan",
+"lang",
+"lao",
+"le",
+"lei",
+"leng",
+"li",
+"lia",
+"lian",
+"liang",
+"liao",
+"lie",
+"lin",
+"ling",
+"liu",
+"lo",
+"long",
+"lou",
+"lu",
+"luan",
+"lue",
+"lun",
+"luo",
+"lv",
+"ma",
+"mai",
+"man",
+"mang",
+"mao",
+"me",
+"mei",
+"men",
+"meng",
+"mi",
+"mian",
+"miao",
+"mie",
+"min",
+"ming",
+"miu",
+"mo",
+"mou",
+"mu",
+"na",
+"nai",
+"nan",
+"nang",
+"nao",
+"ne",
+"nei",
+"nen",
+"neng",
+"ni",
+"nian",
+"niang",
+"niao",
+"nie",
+"nin",
+"ning",
+"niu",
+"nong",
+"nou",
+"nu",
+"nun",
+"nuan",
+"nue",
+"nuo",
+"nv",
+"o",
+"ou",
+"pa",
+"pai",
+"pan",
+"pang",
+"pao",
+"pei",
+"pen",
+"peng",
+"pi",
+"pian",
+"piao",
+"pie",
+"pin",
+"ping",
+"po",
+"pou",
+"pu",
+"qi",
+"qia",
+"qian",
+"qiang",
+"qiao",
+"qie",
+"qin",
+"qing",
+"qiong",
+"qiu",
+"qu",
+"quan",
+"que",
+"qun",
+"ran",
+"rang",
+"rao",
+"re",
+"ren",
+"reng",
+"ri",
+"rong",
+"rou",
+"ru",
+"rua",
+"ruan",
+"rui",
+"run",
+"ruo",
+"sa",
+"sai",
+"san",
+"sang",
+"sao",
+"se",
+"sen",
+"seng",
+"sha",
+"shai",
+"shan",
+"shang",
+"shao",
+"she",
+"shei",
+"shen",
+"sheng",
+"shi",
+"shou",
+"shu",
+"shua",
+"shuai",
+"shuan",
+"shuang",
+"shui",
+"shun",
+"shuo",
+"si",
+"song",
+"sou",
+"su",
+"suan",
+"sui",
+"sun",
+"suo",
+"ta",
+"tai",
+"tan",
+"tang",
+"tao",
+"te",
+"tei",
+"teng",
+"ti",
+"tian",
+"tiao",
+"tie",
+"ting",
+"tong",
+"tou",
+"tu",
+"tuan",
+"tui",
+"tun",
+"tuo",
+"wa",
+"wai",
+"wan",
+"wang",
+"wei",
+"wen",
+"weng",
+"wo",
+"wu",
+"xi",
+"xia",
+"xian",
+"xiang",
+"xiao",
+"xie",
+"xin",
+"xing",
+"xiong",
+"xiu",
+"xu",
+"xuan",
+"xue",
+"xun",
+"ya",
+"yan",
+"yang",
+"yao",
+"ye",
+"yi",
+"yin",
+"ying",
+"yo",
+"yong",
+"you",
+"yu",
+"yuan",
+"yue",
+"yun",
+"za",
+"zai",
+"zan",
+"zang",
+"zao",
+"ze",
+"zei",
+"zen",
+"zeng",
+"zha",
+"zhai",
+"zhan",
+"zhang",
+"zhao",
+"zhe",
+"zhei",
+"zhen",
+"zheng",
+"zhi",
+"zhong",
+"zhou",
+"zhu",
+"zhua",
+"zhuai",
+"zhuan",
+"zhuang",
+"zhui",
+"zhun",
+"zhuo",
+"zi",
+"zong",
+"zou",
+"zu",
+"zuan",
+"zui",
+"zun",
+"zuo",
+};
+        #endregion
+
         public event Action<string> ImportLineErrorNotice;
         public Win10MsPinyinSelfStudy()
         {
-            this.CodeType = CodeType.NoCode;
+            this.CodeType = CodeType.Pinyin;
             this.PinyinType = PinyinType.FullPinyin;
         }
       
@@ -83,125 +516,85 @@ namespace Studyzy.IMEWLConverter.IME
             return re;
         }
 
-      
-        private IList<int> ReadOffsets(FileStream fs, int count)
-        {
-            var result = new List<int>();
-
-            for (var i = 0; i < count; i++)
-            {
-                var offset = BinFileHelper.ReadInt32(fs);
-                result.Add(offset);
-            }
-            return result;
-        }
-
-        private WordLibrary ReadOnePhrase(FileStream fs, int nextStartPosition)
-        {
-            WordLibrary wl = new WordLibrary();
-            var magic = BinFileHelper.ReadInt32(fs);
-            var hanzi_offset = BinFileHelper.ReadInt16(fs);
-            wl.Rank = fs.ReadByte();
-            var x6 = fs.ReadByte(); //不知道干啥的
-            var unknown8 = BinFileHelper.ReadInt64(fs);//新增的，不知道什么意思
-            var pyBytesLen = hanzi_offset - 18;
-            var pyBytes = BinFileHelper.ReadArray(fs, pyBytesLen);
-            var pyStr = Encoding.Unicode.GetString(pyBytes);
-            var split = BinFileHelper.ReadInt16(fs); //00 00 分割拼音和汉字
-            var wordBytesLen = nextStartPosition - (int) fs.Position - 2; //结尾还有个00 00
-            var wordBytes = BinFileHelper.ReadArray(fs, wordBytesLen);
-            BinFileHelper.ReadInt16(fs); //00 00分割
-            var word = Encoding.Unicode.GetString(wordBytes);
-            wl.Word = word;
-            try
-            {
-                wl.SetPinyinString(pyStr);
-                wl.CodeType = CodeType.Pinyin;
-            }
-            catch
-            {
-                wl.CodeType = CodeType.NoCode;
-            }
-         
-            return wl;
-        }
-
+     
         public WordLibraryList ImportLine(string str)
         {
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
+        public string ExportFilePath { get; set; }
 
         public IList<string> Export(WordLibraryList wlList)
         {
             //Win10拼音只支持最多32个字符的编码
             wlList = Filter(wlList);
-           
-            string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音词库.dat";
+
+            string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音自学习词库.dat";
+            if (!string.IsNullOrEmpty(this.ExportFilePath))
+            {
+                tempPath = this.ExportFilePath;
+            }
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
             BinaryWriter bw = new BinaryWriter(fs);
-            bw.Write(Encoding.ASCII.GetBytes("mschxudp")); //proto8
-            bw.Write(BitConverter.GetBytes(0x00600002));//Unknown
-            bw.Write(BitConverter.GetBytes(1)); //version
-            bw.Write(BitConverter.GetBytes(0x40)); //phrase_offset_start
-            bw.Write(BitConverter.GetBytes(0x40 + 4*wlList.Count)); //phrase_start=phrase_offset_start + 4*phrase_count
-            bw.Write(BitConverter.GetBytes(0)); //phrase_end input after process all!
-            bw.Write(BitConverter.GetBytes(wlList.Count)); //phrase_count
-            bw.Write(BitConverter.GetBytes(DateTime.Now.Ticks)); //timestamp
-            bw.Write(BitConverter.GetBytes((long) 0)); //0
-            bw.Write(BitConverter.GetBytes((long) 0)); //0
-            bw.Write(BitConverter.GetBytes((long) 0)); //0
-            int offset = 0;
+
+            bw.Write(HexStringToByteArray("55AA88810200600055AA55AA"));//Unknown
+
+            bw.Write(BitConverter.GetBytes((long)wlList.Count)); //phrase_count
+            bw.Write(BitConverter.GetBytes((int)DateTime.Now.Ticks)); //timestamp
+            for (var i = 0; i < 9192; i++)
+            {
+                bw.Write((byte)0);
+            }
+            //0x2400词条开始
             for (var i = 0; i < wlList.Count; i++)
             {
-                bw.Write(BitConverter.GetBytes(offset));
                 var wl = wlList[i];
-                offset += 8 +8+ wl.Word.Length*2 + 2 + wl.GetPinYinLength()*2 + 2;
-            }
+                try
+                {
+                    // bw.Write(new byte[] { 0x6D, 0x1B });
+                    bw.Write(BitConverter.GetBytes((Int16)(i + 0x6D1B)));//Unknown
+                    bw.Write(new byte[] { 0x1A, 0x26 });//Unknown
+                    bw.Write(new byte[] { 0x00, 0x00, 0x00 }); //前3个字的拼音？
+                    bw.Write(new byte[] { 0x00, 0x00, 0x04 });
+                    bw.Write((byte)wl.Word.Length);
+                    bw.Write((byte)0x5A);
+                    bw.Write(Encoding.Unicode.GetBytes(wl.Word));
+                    foreach (string py1 in wl.PinYin)
+                    {
+                        var py1Index = PinyinMap[py1];
+                        bw.Write(py1Index);
+                    }
+                    var used = 12 + 4 * wl.Word.Length;
+                    //一个词条60字节，剩下的补0
+                    for (var j = used; j < 60; j++)
+                    {
+                        bw.Write((byte)0);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
 
-            for (var i = 0; i < wlList.Count; i++)
+            }
+            //最后一堆0,补到nK (n>=10)
+            var k =(int) Math.Ceiling(fs.Position / 1024.0);
+            while (fs.Position < k*1024)
             {
-                bw.Write(BitConverter.GetBytes(0x00100010)); //magic
-                var wl = wlList[i];
-                var hanzi_offset = 8 +8+ wl.GetPinYinLength()*2 + 2;
-                bw.Write(BitConverter.GetBytes((short) hanzi_offset));
-                bw.Write((byte) wl.Rank); //1是詞頻
-                bw.Write((byte) 0x6); //6不知道
-                bw.Write(BitConverter.GetBytes(0x00000000));//Unknown
-                bw.Write(BitConverter.GetBytes(0xE679CD20));//Unknown
-                
-                var py = wl.GetPinYinString("", BuildType.None);
-                bw.Write(Encoding.Unicode.GetBytes(py));
-                bw.Write(BitConverter.GetBytes((short) 0));
-                bw.Write(Encoding.Unicode.GetBytes(wl.Word));
-                bw.Write(BitConverter.GetBytes((short) 0));
+                bw.Write((byte)0);
             }
-
-            fs.Position = 0x18;
-            fs.Write(BitConverter.GetBytes(fs.Length), 0, 4);
 
             fs.Close();
-            return new List<string>() {"词库文件在：" + tempPath};
+            return new List<string>() { "词库文件在：" + tempPath };
         }
 
         private WordLibraryList Filter(WordLibraryList wlList)
         {
             var result = new WordLibraryList();
-            IReplaceFilter replace = null;
-            if (PinyinType != PinyinType.FullPinyin)
-            {
-                replace = new ShuangpinReplacer(PinyinType);
-            }
+
             foreach (var wl in wlList)
             {
-                if(replace!=null)
-                {
-                    replace.Replace(wl);
-                }
-
-                if (wl.GetPinYinLength() > 32)
-                    continue;
-                if (wl.Word.Length > 64)
+                if (wl.Word.Length > 12|| wl.Word.Length==1)//最多支持12个字
                     continue;
              
                 result.Add(wl);
@@ -214,6 +607,17 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
+        private byte[] HexStringToByteArray(string s)
+          {
+              s = s.Replace(" ", "");
+              byte[] buffer = new byte[s.Length / 2];
+              for (int i = 0; i<s.Length; i += 2)
+              {
+                  buffer[i / 2] = (byte) Convert.ToByte(s.Substring(i, 2), 16);
+              }
+  
+              return buffer;
+          }
     }
 }
  

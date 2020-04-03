@@ -17,7 +17,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public WordLibraryList Import(string path)
         {
-            string str = FileOperationHelper.ReadFile(path, Encoding);
+            string str = FileOperationHelper.ReadFile(path);
             return ImportText(str);
         }
         protected virtual  bool IsContent(string line)
