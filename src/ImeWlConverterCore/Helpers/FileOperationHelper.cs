@@ -8,6 +8,12 @@ namespace Studyzy.IMEWLConverter.Helpers
 {
     public static class FileOperationHelper
     {
+        public static string GetCurrentFolderPath()
+        {
+            var type = (new MainBody()).GetType();
+            return Path.GetDirectoryName(type.Assembly.Location);
+        }
+
         /// <summary>
         ///     根据词库的格式或内容判断源词库的类型
         /// </summary>

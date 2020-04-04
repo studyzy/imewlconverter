@@ -567,7 +567,7 @@ namespace Studyzy.IMEWLConverter.IME
             var fileList = "";
             for (var i = 0; i < list.Count; i++)
             {
-                string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音自学习词库"+i+".dat";
+                string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "Win10微软拼音自学习词库" + i + ".dat");
                 if (!string.IsNullOrEmpty(this.ExportFilePath))//For test
                 {
                     tempPath = this.ExportFilePath;

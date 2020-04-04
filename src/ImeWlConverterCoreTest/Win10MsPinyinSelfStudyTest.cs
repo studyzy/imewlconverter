@@ -20,7 +20,7 @@ namespace ImeWlConverterCoreTest
             wl.Add(wl1);
           
             var export = new Win10MsPinyinSelfStudy();
-            export.ExportFilePath = "c:\\Temp\\win10selfstudy5.dat";
+            //export.ExportFilePath = "c:\\Temp\\win10selfstudy5.dat";
             var filePath =export.Export(wl);
             Debug.WriteLine(filePath[0]);
         }
