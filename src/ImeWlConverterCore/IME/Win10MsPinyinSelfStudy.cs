@@ -11,7 +11,7 @@ using Studyzy.IMEWLConverter.Helpers;
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// Win10微软拼音
+    /// Win10微软拼音自学习词库
     /// </summary>
     [ComboBoxShow(ConstantString.WIN10_MS_PINYIN_SELF_STUDY, ConstantString.WIN10_MS_PINYIN_SELF_STUDY_C, 131)]
     public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
@@ -510,7 +510,16 @@ namespace Studyzy.IMEWLConverter.IME
                 fp.Seek(cur_idx + 12, SeekOrigin.Begin);
                 fp.Read(bytes, 0, wordLen * 2);
                 string word = Encoding.Unicode.GetString(bytes, 0, wordLen * 2);
-                re.Add(new WordLibrary() { Word=word,CodeType=this.CodeType, });
+                //get pinyin
+                var pinyin = new string[wordLen];
+                for(var j=0;j<wordLen;j++)
+                {
+                    var byte2 = new byte[2];
+                    fp.Read(byte2, 0, 2);
+                    var pyIndex = BitConverter.ToInt16(byte2,0);
+                    pinyin[j] = pinyinIndex[pyIndex];
+                }
+                re.Add(new WordLibrary() { Word=word,CodeType=this.CodeType,PinYin=pinyin });
             }
             fp.Close();
             return re;
@@ -522,17 +531,54 @@ namespace Studyzy.IMEWLConverter.IME
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
         public string ExportFilePath { get; set; }
-
+        /// <summary>
+        /// 最多支持2W条一个dat文件
+        /// </summary>
+        /// <param name="wlList"></param>
+        /// <returns></returns>
         public IList<string> Export(WordLibraryList wlList)
         {
-            //Win10拼音只支持最多32个字符的编码
+            //Win10拼音对词条长度有限制
             wlList = Filter(wlList);
-
-            string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音自学习词库.dat";
-            if (!string.IsNullOrEmpty(this.ExportFilePath))
+            var list = new List<WordLibraryList>();
+            if(wlList.Count>20000)
             {
-                tempPath = this.ExportFilePath;
+                throw new Exception("微软拼音自学习词库最多支持2万条记录的导入，当前词条数为："+wlList.Count+"，操过限制，请设置过滤条件或者更换词库源。");
+                //以后微软拼音放开2W限制了，再把这个异常取消吧。
+                var item20000 = new WordLibraryList();
+                for(var i=0;i<wlList.Count;i++)
+                {
+                    item20000.Add(wlList[i]);
+                    if(i%19999==0&& i!=0)
+                    {
+                        list.Add(item20000);
+                        item20000 = new WordLibraryList();
+                    }
+                }
+                if(item20000.Count!=0)
+                {
+                    list.Add(item20000);
+                }
             }
+            else
+            {
+                list.Add(wlList);
+            }
+            var fileList = "";
+            for (var i = 0; i < list.Count; i++)
+            {
+                string tempPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\Win10微软拼音自学习词库"+i+".dat";
+                if (!string.IsNullOrEmpty(this.ExportFilePath))//For test
+                {
+                    tempPath = this.ExportFilePath;
+                }
+                fileList += tempPath + "\r\n";
+                ExportTo1File(tempPath, list[i]);
+            }
+            return new List<string>() { "词库文件在：" + fileList };
+        }
+        private void ExportTo1File(string tempPath, WordLibraryList wlList)
+        {
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
             BinaryWriter bw = new BinaryWriter(fs);
@@ -552,7 +598,7 @@ namespace Studyzy.IMEWLConverter.IME
                 try
                 {
                     // bw.Write(new byte[] { 0x6D, 0x1B });
-                    bw.Write(BitConverter.GetBytes((Int16)(i + 0x6D1B)));//Unknown
+                    bw.Write(BitConverter.GetBytes((Int16)(i + 0x6D1B)));//Unknown，怀疑是词频
                     bw.Write(new byte[] { 0x1A, 0x26 });//Unknown
                     bw.Write(new byte[] { 0x00, 0x00, 0x00 }); //前3个字的拼音？
                     bw.Write(new byte[] { 0x00, 0x00, 0x04 });
@@ -571,21 +617,20 @@ namespace Studyzy.IMEWLConverter.IME
                         bw.Write((byte)0);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
 
             }
             //最后一堆0,补到nK (n>=10)
-            var k =(int) Math.Ceiling(fs.Position / 1024.0);
-            while (fs.Position < k*1024)
+            var k = (int)Math.Ceiling(fs.Position / 1024.0);
+            while (fs.Position < k * 1024)
             {
                 bw.Write((byte)0);
             }
 
             fs.Close();
-            return new List<string>() { "词库文件在：" + tempPath };
         }
 
         private WordLibraryList Filter(WordLibraryList wlList)
