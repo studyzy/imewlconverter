@@ -229,7 +229,8 @@ namespace Studyzy.IMEWLConverter
                 mainBody.Filters = GetFilters();
                 mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
-                mainBody.Import.ImportLineErrorNotice += WriteErrorMessage; 
+                mainBody.Import.ImportLineErrorNotice += WriteErrorMessage;
+                mainBody.Export.ExportErrorNotice += WriteErrorMessage;
                 mainBody.ProcessNotice+=RichTextBoxShow;
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();

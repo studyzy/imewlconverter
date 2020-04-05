@@ -531,6 +531,11 @@ namespace Studyzy.IMEWLConverter.IME
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
         public string ExportFilePath { get; set; }
+        public event Action<string> ExportErrorNotice;
+        protected void SendExportErrorNotice(string msg)
+        {
+            ExportErrorNotice?.Invoke(msg);
+        }
         /// <summary>
         /// 最多支持2W条一个dat文件
         /// </summary>
@@ -543,7 +548,7 @@ namespace Studyzy.IMEWLConverter.IME
             var list = new List<WordLibraryList>();
             if(wlList.Count>20000)
             {
-                throw new Exception("微软拼音自学习词库最多支持2万条记录的导入，当前词条数为："+wlList.Count+"，操过限制，请设置过滤条件或者更换词库源。");
+                SendExportErrorNotice("微软拼音自学习词库最多支持2万条记录的导入，当前词条数为："+wlList.Count+"，超过限制，请设置过滤条件或者更换词库源。");
                 //以后微软拼音放开2W限制了，再把这个异常取消吧。
                 var item20000 = new WordLibraryList();
                 for(var i=0;i<wlList.Count;i++)

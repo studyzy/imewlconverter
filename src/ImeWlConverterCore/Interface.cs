@@ -27,6 +27,7 @@ namespace Studyzy.IMEWLConverter
 
     public interface IWordLibraryExport
     {
+        event Action<string> ExportErrorNotice;
         Encoding Encoding { get; }
         CodeType CodeType { get; }
         /// <summary>

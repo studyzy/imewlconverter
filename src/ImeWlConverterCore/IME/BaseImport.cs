@@ -39,5 +39,11 @@ namespace Studyzy.IMEWLConverter.IME
         {
             ImportLineErrorNotice?.Invoke(msg);
         }
+
+        public event Action<string> ExportErrorNotice;
+        protected void SendExportErrorNotice(string msg)
+        {
+            ExportErrorNotice?.Invoke(msg);
+        }
     }
 }
