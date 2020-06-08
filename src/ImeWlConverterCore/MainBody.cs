@@ -66,7 +66,6 @@ namespace Studyzy.IMEWLConverter
             try
             {
                 ProcessNotice(this.processMessage);
-//                this.Invoke(new SetControlValue(SetTextBoxText), currentCount.ToString());
             }
             catch (Exception ex)
             {

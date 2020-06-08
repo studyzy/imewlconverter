@@ -10,7 +10,8 @@ namespace Studyzy.IMEWLConverter.Helpers
     {
         public static string GetCurrentFolderPath()
         {
-            var type = (new MainBody()).GetType();
+            var type = (new ConstantString()).GetType();
+
             return Path.GetDirectoryName(type.Assembly.Location);
         }
 

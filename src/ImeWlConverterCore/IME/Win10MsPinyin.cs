@@ -177,7 +177,7 @@ namespace Studyzy.IMEWLConverter.IME
             //Win10拼音只支持最多32个字符的编码
             wlList = Filter(wlList);
            
-            string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "\\Win10微软拼音词库.dat");
+            string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "Win10微软拼音词库.dat");
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
             BinaryWriter bw = new BinaryWriter(fs);

@@ -6,7 +6,7 @@ namespace Studyzy.IMEWLConverter
     /// <summary>
     ///     常量字符串
     /// </summary>
-    public static class ConstantString
+    public class ConstantString
     {
         public const string BAIDU_SHOUJI = "百度手机或Mac版百度拼音";
         public const string BAIDU_SHOUJI_ENG = "百度手机英文";
