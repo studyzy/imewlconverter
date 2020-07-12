@@ -11,7 +11,7 @@ namespace Studyzy.IMEWLConverter.IME
     /// Gboard输入法
     /// </summary>
     [ComboBoxShow(ConstantString.GBOARD, ConstantString.GBOARD_C, 111)]
-    public class Gboard : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
+    public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
     {
         #region IWordLibraryExport 成员
 
@@ -37,22 +37,12 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(ExportLine(wlList[i]));
                 sb.Append("\n");
             }
-            FileOperationHelper.WriteFile(tempPath, Encoding.UTF8, sb.ToString());
+            FileOperationHelper.WriteFile(tempPath, new UTF8Encoding(false), sb.ToString());
             string zipPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "Gboard词库.zip");
             if (File.Exists(zipPath)) { File.Delete(zipPath); }
             FileOperationHelper.ZipFile(tempPath, zipPath);
             return new List<string>() { "词库文件在：" + zipPath };
             //return new List<string>() { sb.ToString() };
-        }
-
-
-        public override Encoding Encoding
-        {
-            get
-            {
-                return Encoding.UTF8;
-
-            }
         }
 
         #endregion
@@ -61,18 +51,51 @@ namespace Studyzy.IMEWLConverter.IME
 
 
 
-        public override WordLibraryList ImportLine(string line)
+        public  WordLibraryList ImportLine(string line)
         {
             string[] c = line.Split('\t');
             var wl = new WordLibrary();
             wl.Word = c[1];
+            wl.CodeType = CodeType.UserDefinePhrase;
             //wl.Rank = Convert.ToInt32(c[1]);
             //wl.PinYin = c[2].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             wll.Add(wl);
             return wll;
         }
+
+        public WordLibraryList Import(string path)
+        {
+            var tempUnzipFolder = FileOperationHelper.GetCurrentFolderPath();
+            FileOperationHelper.UnZip(path, tempUnzipFolder);
+            var tempFilePath= Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "dictionary.txt");
+            string str = FileOperationHelper.ReadFile(tempFilePath,new UTF8Encoding(false));
+            File.Delete(tempFilePath);
+            return ImportText(str);
+        }
+        public WordLibraryList ImportText(string str)
+        {
+            var wlList = new WordLibraryList();
+            string[] lines = str.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            CountWord = lines.Length;
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                CurrentStatus = i;
+                try
+                {
+                    wlList.AddWordLibraryList(ImportLine(line));
+                }
+                catch
+                {
+                    SendImportLineErrorNotice("无效的词条，解析失败：" + line);
+                }
+            }
+            return wlList;
+        }
         public override CodeType CodeType { get => CodeType.UserDefinePhrase; set => base.CodeType = value; }
+
+        public Encoding Encoding => throw new NotImplementedException();
         #endregion
     }
 }

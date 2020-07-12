@@ -64,6 +64,10 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 return ConstantString.LINGOES_LD2;
             }
+            if (ext == ".zip")
+            {
+                return ConstantString.GBOARD;
+            }
             string example = "";
             Encoding code = GetEncodingType(filePath);
             using (var sr = new StreamReader(filePath, code))
@@ -645,16 +649,26 @@ namespace Studyzy.IMEWLConverter.Helpers
                             continue;
                         }
 
-                        fs = File.Create(fileName);
-                        int size = 2048;
-                        byte[] data = new byte[size];
-                        while (true)
+                        //fs = File.Create(fileName);
+                        //int size = 2048;
+                        //byte[] data = new byte[size];
+                        //while (true)
+                        //{
+                        //    size = zipStream.Read(data, 0, data.Length);
+                        //    if (size > 0)
+                        //        fs.Write(data, 0, data.Length);
+                        //    else
+                        //        break;
+                        //}
+                        using (FileStream streamWriter = File.Create(fileName))
                         {
-                            size = zipStream.Read(data, 0, data.Length);
-                            if (size > 0)
-                                fs.Write(data, 0, data.Length);
-                            else
-                                break;
+                            byte[] buffer = new byte[10240];
+                            int size = zipStream.Read(buffer, 0, buffer.Length);
+                            while (size > 0)
+                            {
+                                streamWriter.Write(buffer, 0, size);
+                                size = zipStream.Read(buffer, 0, buffer.Length);
+                            }
                         }
                     }
                 }

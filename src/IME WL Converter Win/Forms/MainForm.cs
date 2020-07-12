@@ -31,7 +31,7 @@ namespace Studyzy.IMEWLConverter
 
         private void LoadImeList()
         {
-            Assembly assembly =typeof(MainBody).Assembly;
+            Assembly assembly = typeof(MainBody).Assembly;
             Type[] d = assembly.GetTypes();
             var cbxImportItems = new List<ComboBoxShowAttribute>();
             var cbxExportItems = new List<ComboBoxShowAttribute>();
@@ -40,7 +40,7 @@ namespace Studyzy.IMEWLConverter
             {
                 if (type.Namespace != null && type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME"))
                 {
-                    object[] att = type.GetCustomAttributes(typeof (ComboBoxShowAttribute), false);
+                    object[] att = type.GetCustomAttributes(typeof(ComboBoxShowAttribute), false);
                     if (att.Length > 0)
                     {
                         var cbxa = att[0] as ComboBoxShowAttribute;
@@ -93,6 +93,7 @@ namespace Studyzy.IMEWLConverter
                 "搜狗备份词库|*.bin",
                 "紫光分类词库|*.uwl",
                 "微软拼音词库|*.dat",
+                "Gboard词库|*.zip",
                 "灵格斯词库|*.ld2",
                 "所有文件|*.*"
             };
@@ -140,7 +141,7 @@ namespace Studyzy.IMEWLConverter
         #endregion
 
         //private Encoding ld2WordEncoding=Encoding.UTF8;
-        private  MainBody mainBody;
+        private MainBody mainBody;
 
         private IWordLibraryExport export;
         private bool exportDirectly;
@@ -179,12 +180,12 @@ namespace Studyzy.IMEWLConverter
         }
         private bool CheckCanRun()
         {
-            if(import==null || export==null)
+            if (import == null || export == null)
             {
                 MessageBox.Show("请先选择导入词库类型和导出词库类型");
                 return false;
             }
-            if(this.txbWLPath.Text=="")
+            if (this.txbWLPath.Text == "")
             {
                 MessageBox.Show("请先选择源词库文件");
                 return false;
@@ -212,7 +213,7 @@ namespace Studyzy.IMEWLConverter
                         return;
                     }
                 }
-                
+
                 if (!mergeTo1File)
                 {
                     if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -220,7 +221,7 @@ namespace Studyzy.IMEWLConverter
                         outputDir = folderBrowserDialog1.SelectedPath;
                     }
                 }
-                mainBody=new MainBody();
+                mainBody = new MainBody();
                 mainBody.SelectedWordRankGenerater = wordRankGenerater;
                 mainBody.Import = import;
                 mainBody.Export = export;
@@ -231,7 +232,7 @@ namespace Studyzy.IMEWLConverter
                 mainBody.ReplaceFilters = GetReplaceFilters();
                 mainBody.Import.ImportLineErrorNotice += WriteErrorMessage;
                 mainBody.Export.ExportErrorNotice += WriteErrorMessage;
-                mainBody.ProcessNotice+=RichTextBoxShow;
+                mainBody.ProcessNotice += RichTextBoxShow;
                 timer1.Enabled = true;
                 backgroundWorker1.RunWorkerAsync();
             }
@@ -250,7 +251,7 @@ namespace Studyzy.IMEWLConverter
             }
             if (filterConfig.WordRankPercentage < 100)
             {
-                var filter = new RankPercentageFilter {Percentage = filterConfig.WordRankPercentage};
+                var filter = new RankPercentageFilter { Percentage = filterConfig.WordRankPercentage };
                 filters.Add(filter);
             }
             return filters;
@@ -276,7 +277,7 @@ namespace Studyzy.IMEWLConverter
             {
                 filters.Add(new NumberFilter());
             }
-            if(cbxFrom.Text== ConstantString.EMOJI)
+            if (cbxFrom.Text == ConstantString.EMOJI)
             {
                 filters.Add(new EmojiReplacer(txbWLPath.Text));
             }
@@ -370,7 +371,7 @@ namespace Studyzy.IMEWLConverter
 
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
-            var array = (Array) e.Data.GetData(DataFormats.FileDrop);
+            var array = (Array)e.Data.GetData(DataFormats.FileDrop);
             string files = "";
 
 
@@ -509,8 +510,8 @@ namespace Studyzy.IMEWLConverter
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            var files = FileOperationHelper.GetFilesPath( txbWLPath.Text);
-           
+            var files = FileOperationHelper.GetFilesPath(txbWLPath.Text);
+
 
             if (streamExport && import.IsText) //流转换,只有文本类型的才支持。
             {
@@ -527,7 +528,7 @@ namespace Studyzy.IMEWLConverter
                     {
                         fileContent = mainBody.Convert(files);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         mainBody.Dispose();
                         RichTextBoxShow(ex.Message);
@@ -552,13 +553,13 @@ namespace Studyzy.IMEWLConverter
                 richTextBox1.AppendText(msg + "\r\n");
             }
         }
-        private string errorMessages="";
+        private string errorMessages = "";
         private void WriteErrorMessage(string msg)
         {
             errorMessages += msg + "\r\n";
         }
 
-            private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             timer1.Enabled = false;
             mainBody.StopNotice();
@@ -587,12 +588,12 @@ namespace Studyzy.IMEWLConverter
             {
                 richTextBox1.Text = "为提高处理速度，“高级设置”中选中了“不显示结果，直接导出”，本文本框中不显示转换后的结果，若要查看转换后的结果再确定是否保存请取消该设置。";
             }
-            else if(mergeTo1File)
+            else if (mergeTo1File)
             {
                 richTextBox1.Text = fileContent;
                 //btnExport.Enabled = true;
             }
-            if (!mergeTo1File ||  export is Win10MsPinyin || export is Win10MsWubi|| export is Win10MsPinyinSelfStudy)//微软拼音是二进制文件，不需要再提示保存
+            if (!mergeTo1File || export is Win10MsPinyin || export is Win10MsWubi || export is Win10MsPinyinSelfStudy || export is Gboard)//微软拼音是二进制文件，不需要再提示保存
             {
                 MessageBox.Show("转换完成!");
                 return;
