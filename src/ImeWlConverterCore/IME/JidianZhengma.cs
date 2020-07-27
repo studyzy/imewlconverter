@@ -13,16 +13,16 @@ namespace Studyzy.IMEWLConverter.IME
 
         //private readonly IWordCodeGenerater factory = new ZhengmaGenerater();
 
-        public override string ExportLine(WordLibrary wl)
-        {
-            var sb = new StringBuilder();
-            sb.Append(wl.SingleCode);
-            //sb.Append(factory.GetCodeOfString(wl.Word)[0]);
-            sb.Append(" ");
-            sb.Append(wl.Word);
+        //public override string ExportLine(WordLibrary wl)
+        //{
+        //    var sb = new StringBuilder();
+        //    sb.Append(wl.SingleCode);
+        //    //sb.Append(factory.GetCodeOfString(wl.Word)[0]);
+        //    sb.Append(" ");
+        //    sb.Append(wl.Word);
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
 
         public override CodeType CodeType
         {

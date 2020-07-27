@@ -56,23 +56,20 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-       
+       public virtual string ExportLine(WordLibrary wl)
+        {
+            throw new NotImplementedException("极点输入法词库不支持流转换");
+        }
 
-        public virtual string ExportLine(WordLibrary wl)
+        public string ExportLine(string code,WordLibraryList wll)
         {
             var sb = new StringBuilder();
-            //if (string.IsNullOrEmpty(wl.WubiCode))
-            //{
-            //    sb.Append(wubiFactory.GetCodeOfString(wl.Word)[0]);
-            //}
-            //else
-            //{
-            //    sb.Append(wl.WubiCode);
-            //}
-            sb.Append(wl.SingleCode);
-            sb.Append(" ");
-            sb.Append(wl.Word);
-
+            sb.Append(code);
+            foreach (var wl in wll)
+            {
+                sb.Append(" ");
+                sb.Append(wl.Word);
+            }
             return sb.ToString();
         }
 
@@ -80,9 +77,23 @@ namespace Studyzy.IMEWLConverter.IME
         public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
+            var dict = new Dictionary<string, WordLibraryList>();
             for (int i = 0; i < wlList.Count; i++)
             {
-                sb.Append(ExportLine(wlList[i]));
+                var wl = wlList[i];
+                if(dict.ContainsKey(wl.SingleCode))
+                {
+                    dict[wl.SingleCode].Add(wl);
+                }
+                else
+                {
+                    dict.Add(wl.SingleCode, new WordLibraryList { wl});
+                }
+            }
+            foreach(var key in dict.Keys)
+            {
+
+                sb.Append(ExportLine(key,dict[key]));
                 sb.Append("\r\n");
             }
             return new List<string>() { sb.ToString() };
