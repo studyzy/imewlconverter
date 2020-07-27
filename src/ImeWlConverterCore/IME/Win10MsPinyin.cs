@@ -161,6 +161,7 @@ namespace Studyzy.IMEWLConverter.IME
             catch
             {
                 wl.CodeType = CodeType.NoCode;
+                ImportLineErrorNotice?.Invoke(wl.Word+" 的编码缺失");
             }
          
             return wl;

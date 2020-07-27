@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -13,8 +14,41 @@ namespace Studyzy.IMEWLConverter.IME
     [ComboBoxShow(ConstantString.GBOARD, ConstantString.GBOARD_C, 111)]
     public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
     {
+        public Gboard()
+        {
+            this.PinyinType = PinyinType.FullPinyin;
+        }
         #region IWordLibraryExport 成员
+        public PinyinType PinyinType
+        {
+            get; set;
+        }
+        private WordLibraryList Filter(WordLibraryList wlList)
+        {
+            var result = new WordLibraryList();
+            IReplaceFilter replace = null;
+            if (PinyinType != PinyinType.FullPinyin)
+            {
+                replace = new ShuangpinReplacer(PinyinType);
 
+            }
+            foreach (var wl in wlList)
+            {
+                if (replace != null)
+                {
+                    replace.Replace(wl);
+                }
+
+                //if (wl.GetPinYinLength() > 32)
+                //    continue;
+                //if (wl.Word.Length > 64)
+                //    continue;
+
+                result.Add(wl);
+
+            }
+            return result;
+        }
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();           
@@ -28,6 +62,8 @@ namespace Studyzy.IMEWLConverter.IME
 
         public IList<string> Export(WordLibraryList wlList)
         {
+            //对全拼方案进行编码转换
+            wlList = Filter(wlList);
             string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "dictionary.txt");
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var sb = new StringBuilder();

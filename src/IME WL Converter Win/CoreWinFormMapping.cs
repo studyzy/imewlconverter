@@ -22,41 +22,42 @@ namespace Studyzy.IMEWLConverter
             imeFormMapping.Add(typeof (UserDefinePhrase), new PhraseFormatConfigForm());
             imeFormMapping.Add(typeof (XiaoxiaoErbi), new ErbiTypeForm());
             imeFormMapping.Add(typeof(Win10MsPinyin), new PinyinConfigForm());
+            imeFormMapping.Add(typeof(Gboard), new PinyinConfigForm());
         }
 
 
         private void InitImportPropertityMapping()
         {
             formPropertityMapping = new Dictionary<Type, IDictionary<string, string>>();
-            formPropertityMapping.Add(typeof (RimeConfigForm),
+            formPropertityMapping.Add(typeof(RimeConfigForm),
                 new Dictionary<string, string>
                 {
                     {"SelectedCodeType", "CodeType"},
                     {"SelectedOS", "OS"}
                 });
-            formPropertityMapping.Add(typeof (Ld2EncodingConfigForm),
+            formPropertityMapping.Add(typeof(Ld2EncodingConfigForm),
                 new Dictionary<string, string>
                 {
                     {"SelectedEncoding", "WordEncoding"}
                 });
-            formPropertityMapping.Add(typeof (XiaoxiaoConfigForm),
+            formPropertityMapping.Add(typeof(XiaoxiaoConfigForm),
                 new Dictionary<string, string>
                 {
                     {"SelectedCodeType", "CodeType"}
                 });
-            formPropertityMapping.Add(typeof (SelfDefiningConfigForm),
+            formPropertityMapping.Add(typeof(SelfDefiningConfigForm),
                 new Dictionary<string, string>
                 {
                     {"SelectedParsePattern", "UserDefiningPattern"}
                 });
-            formPropertityMapping.Add(typeof (PhraseFormatConfigForm),
+            formPropertityMapping.Add(typeof(PhraseFormatConfigForm),
                 new Dictionary<string, string>
                 {
                     {"PhraseFormat", "PhraseFormat"},
                     {"SelectedCodeType", "CodeType"},
                     { "IsShortCode","IsShortCode"}
                 });
-            formPropertityMapping.Add(typeof (ErbiTypeForm),
+            formPropertityMapping.Add(typeof(ErbiTypeForm),
                 new Dictionary<string, string>
                 {
                     {"SelectedCodeType", "CodeType"}
