@@ -46,7 +46,7 @@ for:
       clone_folder: C:\imewlconverter
       before_build:
         - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" -t:restore
-        - ./nuget.exe restore "C:\imewlconverter\src\IME WL Converter WinForm.sln"
+        - C:\imewlconverter\nuget.exe restore "C:\imewlconverter\src\IME WL Converter WinForm.sln"
       build_script:
         - MSBuild "C:\imewlconverter\src\IME WL Converter WinForm.sln" /t:Rebuild /p:Configuration=Release
       after_build:
