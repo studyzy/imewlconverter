@@ -2,7 +2,8 @@
 ---
 [![Build Status](https://travis-ci.org/studyzy/imewlconverter.svg?branch=master)](https://travis-ci.org/studyzy/imewlconverter)
 [![Code Count](https://tokei.rs/b1/github/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter)
-[![version](https://img.shields.io/github/tag/studyzy/imewlconverter.svg)](https://github.com/studyzy/imewlconverter/releases/latest) 
+[![version](https://img.shields.io/github/tag/studyzy/imewlconverter.svg)](https://github.com/studyzy/imewlconverter/releases/latest) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter?ref=badge_shield)
+
 [![Join the chat at https://gitter.im/studyzy/imewlconverter](https://badges.gitter.im/studyzy/imewlconverter.svg)](https://gitter.im/studyzy/imewlconverter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ---
@@ -52,3 +53,7 @@
 - 自定义
 
 本程序支持批量转换（一次拖拽多个词库文件，或者按住Ctrl选择多个文件），支持命令行模式（在命令行下使用-?命令查看帮助），支持Windows、Linux、MacOS。
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter?ref=badge_large)
