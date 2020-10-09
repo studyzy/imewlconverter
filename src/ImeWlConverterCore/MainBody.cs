@@ -227,11 +227,11 @@ namespace Studyzy.IMEWLConverter
 
                 GenerateDestinationCode(allWlList, export.CodeType);
             }
-            count = allWlList.Count;
             if (export.CodeType != CodeType.NoCode)
             {
                 allWlList = RemoveEmptyCodeData(allWlList);
             }
+            count = allWlList.Count;
 
             ReplaceAfterCode(allWlList);
              ExportContents = export.Export(allWlList);
