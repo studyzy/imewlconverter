@@ -131,7 +131,21 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public override CodeType CodeType { get => CodeType.UserDefinePhrase; set => base.CodeType = value; }
 
-        public Encoding Encoding => throw new NotImplementedException();
+         public  Encoding Encoding
+        {
+            get
+            {
+                try
+                {
+                    return Encoding.GetEncoding("GBK");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message+ " Your system doesn't support GBK, try to use GB2312.");
+                    return Encoding.GetEncoding("GB2312");
+                }
+            }
+        }
         #endregion
     }
 }
