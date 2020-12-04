@@ -18900,7 +18900,7 @@ F097	饤	qnsh		ding4	0.13
 F098	饦	qnta		tuo1	0.16
 F099	饳	qnbm		duo4	0.33
 F09A	饸	qnwk		he2	0.17
-F09B	饹	qntk		ge1,he0	0.18
+F09B	饹	qntk		ge1,le0	0.18
 F09C	饻	qnye		xi1	0.01
 F09D	饾	qngu		dou4	0.29
 F09E	馂	qnct		jun4	0.7
