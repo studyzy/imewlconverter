@@ -65,6 +65,10 @@ namespace Studyzy.IMEWLConverter.Entities
         /// 紫光拼音
         /// </summary>
         ZiguangShuangpin = 9,
+        /// <summary>
+        /// 小月双拼
+        /// </summary>
+        XiaoyueShuangpin = 10,
 
                           
     }

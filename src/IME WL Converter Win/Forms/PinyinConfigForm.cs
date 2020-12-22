@@ -72,6 +72,9 @@ namespace Studyzy.IMEWLConverter
                 case "紫光拼音":
                     pinyinType = PinyinType.ZiguangShuangpin;
                     break;
+                case "小月双拼":
+                    pinyinType = PinyinType.XiaoyueShuangpin;
+                    break;
                 default: pinyinType = PinyinType.FullPinyin; codeType = CodeType.UserDefinePhrase; break;
             }
             this.DialogResult= DialogResult.OK;

@@ -74,6 +74,7 @@ namespace Studyzy.IMEWLConverter
             "大牛双拼",
             "小浪双拼",
             "紫光拼音",
+            "小月双拼"
             "用户自定义短语"});
             this.cbxPinyinType.Location = new System.Drawing.Point(133, 26);
             this.cbxPinyinType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
