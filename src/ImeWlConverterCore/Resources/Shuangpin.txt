@@ -1,422 +1,422 @@
-全拼	微软双拼	小鹤双拼	智能ABC	自然码	拼音加加	星空键道	大牛双拼	小浪双拼	紫光拼音
-ba	ba	ba	ba	ba	ba	ba	ba	ba	ba
-biao	bc	bn	bz	bc	bk	bp	bm	bc	bb
-ben	bf	bf	bf	bf	br	bk	bk	bm	bw
-beng	bg	bg	bg	bg	bt	bh	bj	bn	bt
-bang	bh	bh	bh	bh	bg	bf	bf	bh	bs
-bi	bi	bi	bi	bi	bi	bi	bi	bi	bi
-ban	bj	bj	bj	bj	bf	bd	bd	bj	br
-bao	bk	bc	bk	bk	bd	bs	bs	bs	bq
-bai	bl	bd	bl	bl	bs	bj	bh	bk	bp
-bian	bm	bm	bw	bm	bj	bm	bc	bf	bf
-bin	bn	b	bc	bn	bl	bb	bb	bd	by
-bo	bo	bo	bo	bo	bo	bo	bo	bo	bo
-bu	bu	bu	bu	bu	bu	bu	bu	bu	bu
-bie	bx	bp	bx	bx	bm	bc	bp	bp	bd
-bing	by	bk	by	by	bq	bg	bg	bv	bc
-bei	bz	bw	bq	bz	bw	bw	bw	bw	bk
-ca	ca	ca	ca	ca	ca	ca	ca	ca	ca
-cou	cb	cz	cb	cb	cp	ct	cr	cr	cz
-ce	ce	ce	ce	ce	ce	ce	ce	ce	ce
-cen	cf	cf	cf	cf	cr	ck	ck	cm	cw
-ceng	cg	cg	cg	cg	ct	ch	cj	cn	ct
-cang	ch	ch	ch	ch	cg	cf	cf	ch	cs
-ci	ci	ci	ci	ci	ci	ci	ci	ci	ci
-can	cj	cj	cj	cj	cf	cd	cd	cj	cr
-cao	ck	cc	ck	ck	cd	cs	cs	cs	cq
-cai	cl	cd	cl	cl	cs	cj	ch	ck	cp
-cuo	co	co	co	co	co	co	co	co	co
-cun	cp	cy	cn	cp	cz	cz	cy	cy	cm
-cuan	cr	cr	cp	cr	cc	cr	cz	cg	cl
-cong	cs	cs	cs	cs	cy	cl	cl	cl	ch
-cu	cu	cu	cu	cu	cu	cu	cu	cu	cu
-cui	cv	cv	cm	cv	cv	cy	cn	cd	cn
-da	da	da	da	da	da	da	da	da	da
-dou	db	dz	db	db	dp	dt	dr	dr	dz
-diao	dc	dn	dz	dc	dk	dp	dm	dc	db
-de	de	de	de	de	de	de	de	de	de
-den	df	df	df	df	dr	dk		dm	dw
-deng	dg	dg	dg	dg	dt	dh	dj	dn	dt
-dang	dh	dh	dh	dh	dg	df	df	dh	ds
-di	di	di	di	di	di	di	di	di	di
-dan	dj	dj	dj	dj	df	dd	dd	dj	dr
-dao	dk	dc	dk	dk	dd	ds	ds	ds	dq
-dai	dl	dd	dl	dl	ds	dj	dh		dp
-dian	dm	dm	dw	dm	dj	dm	dc	df	df
-duo	do	do	do	do	do	do	do	do	do
-dun	dp	dy	dn	dp	dz	dz	dy	dy	dm
-diu	dq	dq	dr	dq	dn	dq	dt	dt	dj
-duan	dr	dr	dp	dr	dc	dr	dz	dg	dl
-dong	ds	ds	ds	ds	dy	dl	dl	dl	dh
-du	du	du	du	du	du	du	du	du	du
-dui	dv	dv	dm	dv	dv	dy	dn	dd	dn
-dia	dw	dx	dd	dw	db	dx			dx
-die	dx	dp	dx	dx	dm	dc	dp	dp	dd
-ding	dy	dk	dy	dy	dq	dg	dg	dv	dc
-dei	dz	dw	dq	dz	dw	dw	dw	dw	dk
-fa	fa	fa	fa	fa	fa		fa	fa	fa
-fou	fb	fz	fb	fb	fp		fr	fr	fz
-fiao	fc	fn	fz	fc	fk	fp	fm	fc	fb
-fen	ff	ff	ff	ff	fr		fk	fm	fw
-feng	fg	fg	fg	fg	ft		fj	fn	ft
-fang	fh	fh	fh	fh	fg		ff	fh	fs
-fan	fj	fj	fj	fj	ff		fd	fj	fr
-fo	fo	fo	fo	fo	fo		fo	fo	fo
-fu	fu	fu	fu	fu	fu		fu	fu	fu
-fei	fz	fw	fq	fz	fw	fw	fw	fw	fk
-ga	ga	ga	ga	ga	ga	ga	ga	ga	ga
-gou	gb	gz	gb	gb	gp	gt	gr	gr	gz
-guang	gd	gl	gt	gd	gh	gn	gx	gz	gg
-ge	ge	ge	ge	ge	ge	ge	ge	ge	ge
-gen	gf	gf	gf	gf	gr	gk	gk	gm	gw
-geng	gg	gg	gg	gg	gt	gh	gj	gn	gt
-gang	gh	gh	gh	gh	gg	gf	gf	gh	gs
-gan	gj	gj	gj	gj	gf	gd	gd	gj	gr
-gao	gk	gc	gk	gk	gd	gs	gs	gs	gq
-gai	gl	gd	gl	gl	gs	gj	gh	gk	gp
-guo	go	go	go	go	go	go	go	go	go
-gun	gp	gy	gn	gp	gz	gz	gy	gy	gm
-guan	gr	gr	gp	gr	gc	gr	gz	gg	gl
-gong	gs	gs	gs	gs	gy	gl	gl	gl	gh
-gu	gu	gu	gu	gu	gu	gu	gu	gu	gu
-gui	gv	gv	gm	gv	gv	gy	gn	gd	gn
-gua	gw	gx	gd	gw	gb	gx	gq	gf	gx
-guai	gy	gk	gc	gy	gx	gg	gg	gv	gy
-gei	gz	gw	gq	gz	gw	gw	gw	gw	gk
-ha	ha	ha	ha	ha	ha	ha	ha	ha	ha
-hou	hb	hz	hb	hb	hp	ht	hr	hr	hz
-huang	hd	hl	ht	hd	hh	hn	hx	hz	hg
-he	he	he	he	he	he	he	he	he	he
-hen	hf	hf	hf	hf	hr	hk	hk	hm	hw
-heng	hg	hg	hg	hg	ht	hh	hj	hn	ht
-hang	hh	hh	hh	hh	hg	hf	hf	hh	hs
-han	hj	hj	hj	hj	hf	hd	hd	hj	hr
-hao	hk	hc	hk	hk	hd	hs	hs	hs	hq
-hai	hl	hd	hl	hl	hs	hj	hh	hk	hp
-huo	ho	ho	ho	ho	ho	ho	ho	ho	ho
-hun	hp	hy	hn	hp	hz	hz	hy	hy	hm
-huan	hr	hr	hp	hr	hc	hr	hz	hg	hl
-hong	hs	hs	hs	hs	hy	hl	hl	hl	hh
-hu	hu	hu	hu	hu	hu	hu	hu	hu	hu
-hui	hv	hv	hm	hv	hv	hy	hn	hd	hn
-hua	hw	hx	hd	hw	hb	hx	hq	hf	hx
-huai	hy	hk	hc	hy	hx	hg	hg	hv	hy
-hei	hz	hw	hq	hz	hw	hw	hw	hw	hk
-ch	i	i	e	i	u	j	i	i	a
-cha	ia	ia	ea	ia	ua	ja	ia	ia	aa
-chou	ib	iz	eb	ib	up	jt	ir	ir	az
-chuang	id	il	et	id	uh	wn	ix	iz	ag
-che	ie	ie	ee	ie	ue	je	ie	ie	ae
-chen	if	if	ef	if	ur	jk	ik	im	aw
-cheng	ig	ig	eg	ig	ut	jh	ij	in	at
-chang	ih	ih	eh	ih	ug	jf	if	ih	as
-chi	ii	ii	ei	ii	ui	wi	ii	ii	ai
-chan	ij	ij	ej	ij	uf	jd	id	ij	ar
-chao	ik	ic	ek	ik	ud	js	is	is	aq
-chai	il	id	el	il	us	jj	ih	ik	ap
-chuo	io	io	eo	io	uo	jo	io	io	ao
-chun	ip	iy	en	ip	uz	jz	iy	iy	am
-chuan	ir	ir	ep	ir	uc	wr	iz	ig	al
-chong	is	is	es	is	uy	wl	il	il	ah
-chu	iu	iu	eu	iu	uu	ju	iu	iu	au
-chui	iv	iv	em	iv	uv	wy	in	id	an
-chua	iw	ix	ed	iw	ub	wx	iq	if	ax
-chuai	iy	ik	ec	iy	ux	wg	ig	iv	ay
-jiao	jc	jn	jz	jc	jk	jp	jm	jc	jb
-jiang	jd	jl	jt	jd	jh	jn	jn	jm	jg
-ji	ji	ji	ji	ji	ji		ji	ji	ji
-jian	jm	jm	jw	jm	jj	jm	jc	jf	jf
-jin	jn	jb	jc	jn	jl	jb	jb	jd	jy
-jun	jp	jy	jn	jp	jz	jw	jw	jy	jm
-jiu	jq	jq	jr	jq	jn	jq	jt	jt	jj
-juan	jr	jr	jp	jr	jc		jj	jg	jl
-jiong	js	js	js	js	jy		jl	jj	jh
-jue	jt	jt	jm	jt	jx		jh	jb	jn
-ju	ju	ju	ju	ju	ju	jv	ju	ju	ju
-jue	jv	jt	jm	jt	jx		jh	jb	jn
-jia	jw	jx	jd	jw	jb		jk	jk	jx
-jie	jx	jp	jx	jx	jm	jc	jp	jp	jd
-jing	jy	jk	jy	jy	jq	jg	jg	jv	jc
-ka	ka	ka	ka	ka	ka	ka	ka	ka	ka
-kou	kb	kz	kb	kb	kp	kt	kr	kr	kz
-kuang	kd	kl	kt	kd	kh	kn	kx	kz	kg
-ke	ke	ke	ke	ke	ke	ke	ke	ke	ke
-ken	kf	kf	kf	kf	kr	kk	kk	km	kw
-keng	kg	kg	kg	kg	kt	kh	kj	kn	kt
-kang	kh	kh	kh	kh	kg	kf	kf	kh	ks
-kan	kj	kj	kj	kj	kf	kd	kd	kj	kr
-kao	kk	kc	kk	kk	kd	ks	ks	ks	kq
-kai	kl	kd	kl	kl	ks	kj	kh	kk	kp
-kuo	ko	ko	ko	ko	ko	ko	ko	ko	ko
-kun	kp	ky	kn	kp	kz	kz	ky	ky	km
-kuan	kr	kr	kp	kr	kc	kr	kz	kg	kl
-kong	ks	ks	ks	ks	ky	kl	kl	kl	kh
-ku	ku	ku	ku	ku	ku	ku	ku	ku	ku
-kui	kv	kv	km	kv	kv	ky	kn	kd	kn
-kua	kw	kx	kd	kw	kb	kx	kq	kf	kx
-kuai	ky	kk	kc	ky	kx	kg	kg	kv	ky
-kei	kz	kw	kq	kz	kw	kw	kw	kw	kk
-la	la	la	la	la	la	la	la	la	la
-lou	lb	lz	lb	lb	lp	lt	lr	lr	lz
-liao	lc	ln	lz	lc	lk	lp	lm	lc	lb
-liang	ld	ll	lt	ld	lh	ln	ln	lm	lg
-le	le	le	le	le	le	le	le	le	le
-leng	lg	lg	lg	lg	lt	lh	lj	ln	lt
-lang	lh	lh	lh	lh	lg	lf	lf	lh	ls
-li	li	li	li	li	li	li	li	li	li
-lan	lj	lj	lj	lj	lf	ld	ld	lj	lr
-lao	lk	lc	lk	lk	ld	ls	ls	ls	lq
-lai	ll	ld	ll	ll	ls	lj			lp
-lian	lm	lm	lw	lm	lj	lm	lc	lf	lf
-lin	ln	lb	lc	ln	ll	lb	lb	ld	ly
-luo	lo	lo	lo	lo	lo	lo	lo	lo	lo
-lun	lp	ly	ln	lp	lz	lz	ly	ly	lm
-liu	lq	lq	lr	lq	ln	lq	lt	lt	lj
-luan	lr	lr	lp	lr	lc	lr	lz	lg	ll
-long	ls	ls	ls	ls	ly	ll	ll	ll	lh
-lue	lt	lt	lm	lt	lx	ly	lx	lb	ln
-lu	lu	lu	lu	lu	lu	lu	lu	lu	lu
-lv	lv	lv	lv	lv	lv	lv	lv	lx	lv
-lia	lw	lx	ld	lw	lb	lx	lk		lx
-lie	lx	lp	lx	lx	lm	lc	lp	lp	ld
-ling	ly	lk	ly	ly	lq	lg	lg	lv	lc
-lei	lz	lw	lq	lz	lw	lw	lw	lw	lk
-ma	ma	ma	ma	ma	ma	ma	ma	ma	ma
-mou	mb	mz	mb	mb	mp	mt	mr	mr	mz
-miao	mc	mn	mz	mc	mk	mp	mm	mc	mb
-me	me	me	me	me	me	me	me	me	me
-men	mf	mf	mf	mf	mr	mk	mk	mm	mw
-meng	mg	mg	mg	mg	mt	mh	mj	mn	mt
-mang	mh	mh	mh	mh	mg	mf	mf	mh	ms
-mi	mi	mi	mi	mi	mi	mi	mi	mi	mi
-man	mj	mj	mj	mj	mf	md	md	mj	mr
-mao	mk	mc	mk	mk	md	ms	ms	ms	mq
-mai	ml	md	ml	ml	ms	mj	mh	mk	mp
-mian	mm	mm	mw	mm	mj	mm	mc	mf	mf
-min	mn	mb	mc	mn	ml	mb	mb	md	my
-mo	mo	mo	mo	mo	mo	mo	mo	mo	mo
-miu	mq	mq	mr	mq	mn	mq	mt	mt	mj
-mu	mu	mu	mu	mu	mu	mu	mu	mu	mu
-mie	mx	mp	mx	mx	mm	mc	mp	mp	md
-ming	my	mk	my	my	mq	mg	mg	mv	mc
-mei	mz	mw	mq	mz	mw	mw	mw	mw	mk
-na	na	na	na	na	na	na	na	na	na
-nou	nb	nz	nb	nb	np	nt	nr	nr	nz
-niao	nc	nn	nz	nc	nk	np	nm	nc	nb
-niang	nd	nl	nt	nd	nh	nn	nn		ng
-ne	ne	ne	ne	ne	ne	ne	ne	ne	ne
-nen	nf	nf	nf	nf	nr	nk	nk		nw
-neng	ng	ng	ng	ng	nt	nh	nj	nn	nt
-nang	nh	nh	nh	nh	ng	nf	nf	nh	ns
-ni	ni	ni	ni	ni	ni	ni	ni	ni	ni
-nan	nj	nj	nj	nj	nf	nd	nd	nj	nr
-nao	nk	nc	nk	nk	nd	ns	ns	ns	nq
-nai	nl	nd	nl	nl	ns	nj		nk	np
-nian	nm	nm	nw	nm	nj	nm	nc	nf	nf
-nin	nn	nb	nc	nn	nl	nb	nb	nd	ny
-nuo	no	no	no	no	no	no	no	no	no
-nun	np	ny	nn	np	nz	nz	ny	ny	nm
-niu	nq	nq	nr	nq	nn	nq	nt	nt	nj
-nuan	nr	nr	np	nr	nc	nr	nz	ng	nl
-nong	ns	ns	ns	ns	ny	nl	nl	nl	nh
-nue	nt	nt	nm	nt	nx	ny	nx	nb	nn
-nu	nu	nu	nu	nu	nu	nu	nu	nu	nu
-nv	nv	nv	nv	nv	nv	nv	nv	nx	nv
-nie	nx	np	nx	nx	nm	nc	np	np	nd
-ning	ny	nk	ny	ny	nq	ng	ng	nv	nc
-nei	nz	nw	nq	nz	nw	nw	nw	nw	nk
-a	oa	aa	oa	aa	aa	xa	ea	aa	oa
-ou	ob	ou	ob	eb	op	xt	er	ou	oz
-e	oe	ee	oe	ee	ee	xe	ee	u	oe
-en	of	en	of	ef	er	xk	ek		ow
-eng	og	eg	og	eg	et	xh	ej		ot
-ang	oh	ah	oh	ah	ag	xf	ef	ah	os
-an	oj	an	oj	an	af	xd	ed	an	or
-ao	ok	ao	ok	ao	ad	xs	es	ao	oq
-ai	ol	ai	ol	ai	as	xj	eh	ai	op
-o	oo	oo	oo	eo	oo	xo	eo	oo	oo
-er	or	er	or	er	eq	xu	eu	ur	oj
-ei	oz	ei	oq	ei	ew		ew	ui	ok
-pa	pa	pa	pa	pa	pa	pa	pa	pa	pa
-pou	pb	pz	pb	pb	pp	pt	pr	pr	pz
-piao	pc	pn	pz	pc	pk	pp	pm	pc	pb
-pen	pf	pf	pf	pf	pr	pk	pk	pm	pw
-peng	pg	pg	pg	pg	pt	ph	pj	pn	pt
-pang	ph	ph	ph	ph	pg	pf	pf	ph	ps
-pi	pi	pi	pi	pi	pi	pi	pi	pi	pi
-pan	pj	pj	pj	pj	pf	pd	pd	pj	pr
-pao	pk	pc	pk	pk	pd	ps	ps	ps	pq
-pai	pl	pd	pl	pl	ps	pj	ph	pk	pp
-pian	pm	pm	pw	pm	pj	pm	pc	pf	pf
-pin	pn	pb	pc	pn	pl	pb	pb	pd	py
-po	po	po	po	po	po	po	po	po	po
-pu	pu	pu	pu	pu	pu	pu	pu	pu	pu
-pie	px	pp	px	px	pm	pc	pp	pp	pd
-ping	py	pk	py	py	pq	pg	pg	pv	pc
-pei	pz	pw	pq	pz	pw	pw	pw	pw	pk
-qiao	qc	qn	qz	qc	qk	qp	qm	qc	qb
-qiang	qd	ql	qt	qd	qh		qn	qm	qg
-qi	qi	qi	qi	qi	qi		qi	qi	qi
-qian	qm	qm	qw	qm	qj	qm	qc	qf	qf
-qin	qn	qb	qc	qn	ql	qb	qb	qd	qy
-qun	qp	qy	qn	qp	qz		qw	qy	qm
-qiu	qq	qq	qr	qq	qn	qq	qt	qt	qj
-quan	qr	qr	qp	qr	qc		qj	qg	ql
-qiong	qs	qs	qs	qs	qy		ql	qj	qh
-que	qt	qt	qm	qt	qx		qh	qb	qn
-qu	qu	qu	qu	qu	qu	qv	qu	qu	qu
-que	qv	qt	qm	qt	qx		qh	qb	qn
-qia	qw	qx	qd	qw	qb		qk	qk	qx
-qie	qx	qp	qx	qx	qm	qc	qp	qp	qd
-qing	qy	qk	qy	qy	qq		qg	qv	qc
-rou	rb	rz	rb	rb	rp	rt	rr	rr	rz
-re	re	re	re	re	re	re	re	re	re
-ren	rf	rf	rf	rf	rr	rk	rk	rm	rw
-reng	rg	rg	rg	rg	rt	rh	rj	rn	rt
-rang	rh	rh	rh	rh	rg	rf	rf	rh	rs
-ri	ri	ri	ri	ri	ri	ri	ri	ri	ri
-ran	rj	rj	rj	rj	rf	rd	rd	rj	rr
-rao	rk	rc	rk	rk	rd	rs	rs	rs	rq
-ruo	ro	ro	ro	ro	ro	ro	ro	ro	ro
-run	rp	ry	rn	rp	rz	rz	ry	ry	rm
-ruan	rr	rr	rp	rr	rc	rr	rz	rg	rl
-rong	rs	rs	rs	rs	ry	rl	rl	rl	rh
-ru	ru	ru	ru	ru	ru	ru	ru	ru	ru
-rui	rv	rv	rm	rv	rv	ry	rn	rd	rn
-rua	rw	rx	rd	rw	rb	rx	rq	rf	rx
-sa	sa	sa	sa	sa	sa	sa	sa	sa	sa
-sou	sb	sz	sb	sb	sp	st	sr	sr	sz
-se	se	se	se	se	se	se	se	se	se
-sen	sf	sf	sf	sf	sr	sk	sk	sm	sw
-seng	sg	sg	sg	sg	st	sh	sj	sn	st
-sang	sh	sh	sh	sh	sg	sf	sf	sh	ss
-si	si	si	si	si	si	si	si	si	si
-san	sj	sj	sj	sj	sf	sd	sd	sj	sr
-sao	sk	sc	sk	sk	sd	ss	ss	ss	sq
-sai	sl	sd	sl	sl	ss	sj	sh	sk	sp
-suo	so	so	so	so	so	so	so	so	so
-sun	sp	sy	sn	sp	sz	sz	sy	sy	sm
-suan	sr	sr	sp	sr	sc	sr	sz	sg	sl
-song	ss	ss	ss	ss	sy	sl	sl	sl	sh
-su	su	su	su	su	su	su	su	su	su
-sui	sv	sv	sm	sv	sv	sy	sn	sd	sn
-ta	ta	ta	ta	ta	ta	ta	ta	ta	ta
-tou	tb	tz	tb	tb	tp	tt	tr	tr	tz
-tiao	tc	tn	tz	tc	tk	tp	tm	tc	tb
-te	te	te	te	te	te	te	te	te	te
-teng	tg	tg	tg	tg	tt	th	tj	tn	tt
-tang	th	th	th	th	tg	tf	tf	th	ts
-ti	ti	ti	ti	ti	ti	ti	ti	ti	ti
-tan	tj	tj	tj	tj	tf	td	td	tj	tr
-tao	tk	tc	tk	tk	td	ts	ts	ts	tq
-tai	tl	td	tl	tl	ts	tj	th	tk	tp
-tian	tm	tm	tw	tm	tj	tm	tc	tf	tf
-tuo	to	to	to	to	to	to	to	to	to
-tun	tp	ty	tn	tp	tz	tz	ty	ty	tm
-tuan	tr	tr	tp	tr	tc	tr	tz	tg	tl
-tong	ts	ts	ts	ts	ty	tl	tl	tl	th
-tu	tu	tu	tu	tu	tu	tu	tu	tu	tu
-tui	tv	tv	tm	tv	tv	ty	tn	td	tn
-tie	tx	tp	tx	tx	tm	tc	tp	tp	td
-ting	ty	td	ty	ty	tq	tg	tg	tv	tc
-tei	tz	tw	tq	tz	tw	tw	tw	tw	tk
-sh	u	u	v	u	i	e	u	v	i
-sha	ua	ua	va	ua	ia	ea	ua	va	ia
-shou	ub	uz	vb	ub	ip	et	ur	vr	iz
-shuang	ud	ul	vt	ud	ih	en	ux	vz	ig
-she	ue	ue	ve	ue	ie	ee	ue	ve	ie
-shen	uf	uf	vf	uf	ir	ek	uk	vm	iw
-sheng	ug	ug	vg	ug	it	eh	uj	vn	it
-shang	uh	uh	vh	uh	ig	ef	uf	vh	is
-shi	ui	ui	vi	ui	ii	ei	ui	vi	ii
-shan	uj	uj	vj	uj	if	ed	ud	vj	ir
-shao	uk	uc	vk	uk	id	es	us	vs	iq
-shai	ul	ud	vl	ul	is	ej	uh	vk	ip
-shuo	uo	uo	vo	uo	io	eo	uo	vo	io
-shun	up	uy	vn	up	iz	ez	uy	vy	im
-shuan	ur	ur	vp	ur	ic	er	uz	vg	il
-shu	uu	uu	vu	uu	iu	eu	uu	vu	iu
-shui	uv	uv	vm	uv	iv	ey	un	vd	in
-shua	uw	ux	vd	uw	ib	ex	uq	vf	ix
-shuai	uy	uk	vc	uy	ix	eg	ug	vv	iy
-shei	uz	uw	vq	uz	iw	ew	uw	vw	ik
-zh	v	v	a	v	v	f	a	e	u
-zha	va	va	aa	va	va	qa	aa	ea	ua
-zhou	vb	vz	ab	vb	vp	qt	ar	er	uz
-zhuang	vd	vl	at	vd	vh	fn	ax	ez	ug
-zhe	ve	ve	ae	ve	ve	fe	ae		ue
-zhen	vf	vf	af	vf	vr	qk	ak	em	uw
-zheng	vg	vg	ag	vg	vt	qh	aj	en	ut
-zhang	vh	vh	ah	vh	vg	qf	af	eh	us
-zhi	vi	vi	ai	vi	vi	fi	ai		ui
-zhan	vj	vj	aj	vj	vf	qd	ad	ej	ur
-zhao	vk	vc	ak	vk	vd	fs	as	es	uq
-zhai	vl	vd	al	vl	vs	fj	ah	ek	up
-zhuo	vo	vo	ao	vo	vo	qo	ao	eo	uo
-zhun	vp	vy	an	vp	vz	fz	ay	ey	um
-zhuan	vr	vr	ap	vr	vc	fr	az	eg	ul
-zhong	vs	vs	as	vs	vy		al	el	uh
-zhu	vu	vu	au	vu	vu	qu	au	eu	uu
-zhui	vv	vv	am	vv	vv	fy	an	ed	un
-zhua	vw	vx	ad	vw	vb	fx	aq	ef	ux
-zhuai	vy	vk	ac	vy	vx	fg	ag	ev	uy
-zhei	vz	vw	aq	vz	vw				uk
-wa	wa	wa	wa	wa	wa		wa	wa	wa
-wen	wf	wf	wf	wf	wr		wk	wm	ww
-weng	wg	wg	wg	wg	wt		wj	wn	wt
-wang	wh	wh	wh	wh	wg		wf	wh	ws
-wan	wj	wj	wj	wj	wf		wd	wj	wr
-wai	wl	wd	wl	wl	ws		wh	wk	wp
-wo	wo	wo	wo	wo	wo		wo	wo	wo
-wu	wu	wu	wu	wu	wu		wu	wu	wu
-wei	wz	ww	wq	wz	ww	ww	ww	ww	wk
-xiao	xc	xn	xz	xc	xk	xp	xm	xc	xb
-xiang	xd	xl	xt	xd	xh	xn	xn	xm	xg
-xi	xi	xi	xi	xi	xi	xi	xi	xi	xi
-xian	xm	xm	xw	xm	xj	xm	xc	xf	xf
-xin	xn	xb	xc	xn	xl	xb	xb	xd	xy
-xun	xp	xy	xn	xp	xz		xw	xy	xm
-xiu	xq	xq	xr	xq	xn	xq	xt	xt	xj
-xuan	xr	xr	xp	xr	xc	xr	xj	xg	xl
-xiong	xs	xs	xs	xs	xy	xl	xl	xj	xh
-xue	xt	xt	xm	xt	xx	xy	xh	xb	xn
-xu	xu	xu	xu	xu	xu	xv	xu	xu	xu
-xue	xv	xt	xm	xt	xx	xy	xh	xb	xn
-xia	xw	xx	xd	xw	xb	xx	xk	xk	xx
-xie	xx	xp	xx	xx	xm	xc	xp	xp	xd
-xing	xy	xk	xy	xy	xq	xg	xg	xv	xc
-ya	ya	ya	ya	ya	ya	ya	ya	ya	ya
-you	yb	yz	yb	yb	yp	yt	yr	yr	yz
-ye	ye	ye	ye	ye	ye	ye	ye	ye	ye
-yang	yh	yh	yh	yh	yg	yf	yf	yh	ys
-yi	yi	yi	yi	yi	yi	yi	yi	yi	yi
-yan	yj	yj	yj	yj	yf	yd	yd	yj	yr
-yao	yk	yc	yk	yk	yd	ys	ys	ys	yq
-yin	yn	yb	yc	yn	yl	yb	yb	yd	yy
-yo	yo	yo	yo	yo	yo	yo	yo	yo	yo
-yun	yp	yy	yn	yp	yz	yw	yw	yy	ym
-yuan	yr	yr	yp	yr	yc	yr	yj	yg	yl
-yong	ys	ys	ys	ys	yy	yl	yl	yl	yh
-yue	yt	yt	ym	yt	yx	yy	yh	yb	yn
-yu	yu	yu	yu	yu	yu	yv	yu	yu	yu
-yue	yv	yt	ym	yt	yx	yy	yh	yb	yn
-ying	yy	yk	yy	yy	yq	yg	yg	yv	yc
-za	za	za	za	za	za	za	za	za	za
-zou	zb	zz	zb	zb	zp	zt	zr	zr	zz
-ze	ze	ze	ze	ze	ze	ze	ze	ze	ze
-zen	zf	zf	zf	zf	zr	zk	zk	zm	zw
-zeng	zg	zg	zg	zg	zt	zh	zj	zn	zt
-zang	zh	zh	zh	zh	zg	zf	zf	zh	zs
-zi	zi	zi	zi	zi	zi	zi	zi	zi	zi
-zan	zj	zj	zj	zj	zf	zd	zd	zj	zr
-zao	zk	zc	zk	zk	zd	zs	zs	zs	zq
-zai	zl	zd	zl	zl	zs	zj	zh	zk	zp
-zuo	zo	zo	zo	zo	zo	zo	zo	zo	zo
-zun	zp	zy	zn	zp	zz	zz	zy	zy	zm
-zuan	zr	zr	zp	zr	zc	zr	zz	zg	zl
-zong	zs	zs	zs	zs	zy	zl	zl	zl	zh
-zu	zu	zu	zu	zu	zu	zu	zu	zu	zu
-zui	zv	zv	zm	zv	zv	zy	zn	zd	zn
-zei	zz	zw	zq	zz	zw	zw	zw	zw	zk
-nue	nv	nt	nm	nt	nx	ny	nx	nb	nn
-lue	lv	lt	lm	lt	lx	ly	lx	lb	ln
+全拼	微软双拼	小鹤双拼	智能ABC	自然码	拼音加加	星空键道	大牛双拼	小浪双拼	紫光拼音	小月双拼
+ba	ba	ba	ba	ba	ba	ba	ba	ba	ba	ba
+biao	bc	bn	bz	bc	bk	bp	bm	bc	bb	bn
+ben	bf	bf	bf	bf	br	bk	bk	bm	bw	bm
+beng	bg	bg	bg	bg	bt	bh	bj	bn	bt	bz
+bang	bh	bh	bh	bh	bg	bf	bf	bh	bs	bh
+bi	bi	bi	bi	bi	bi	bi	bi	bi	bi	bi
+ban	bj	bj	bj	bj	bf	bd	bd	bj	br	bj
+bao	bk	bc	bk	bk	bd	bs	bs	bs	bq	bs
+bai	bl	bd	bl	bl	bs	bj	bh	bk	bp	bk
+bian	bm	bm	bw	bm	bj	bm	bc	bf	bf	bc
+bin	bn	b	bc	bn	bl	bb	bb	bd	by	bd
+bo	bo	bo	bo	bo	bo	bo	bo	bo	bo	bo
+bu	bu	bu	bu	bu	bu	bu	bu	bu	bu	bu
+bie	bx	bp	bx	bx	bm	bc	bp	bp	bd	bp
+bing	by	bk	by	by	bq	bg	bg	bv	bc	bf
+bei	bz	bw	bq	bz	bw	bw	bw	bw	bk	bw
+ca	ca	ca	ca	ca	ca	ca	ca	ca	ca	ca
+cou	cb	cz	cb	cb	cp	ct	cr	cr	cz	cr
+ce	ce	ce	ce	ce	ce	ce	ce	ce	ce	ce
+cen	cf	cf	cf	cf	cr	ck	ck	cm	cw	cm
+ceng	cg	cg	cg	cg	ct	ch	cj	cn	ct	cz
+cang	ch	ch	ch	ch	cg	cf	cf	ch	cs	ch
+ci	ci	ci	ci	ci	ci	ci	ci	ci	ci	ci
+can	cj	cj	cj	cj	cf	cd	cd	cj	cr	cj
+cao	ck	cc	ck	ck	cd	cs	cs	cs	cq	cs
+cai	cl	cd	cl	cl	cs	cj	ch	ck	cp	ck
+cuo	co	co	co	co	co	co	co	co	co	co
+cun	cp	cy	cn	cp	cz	cz	cy	cy	cm	cy
+cuan	cr	cr	cp	cr	cc	cr	cz	cg	cl	cg
+cong	cs	cs	cs	cs	cy	cl	cl	cl	ch	cl
+cu	cu	cu	cu	cu	cu	cu	cu	cu	cu	cu
+cui	cv	cv	cm	cv	cv	cy	cn	cd	cn	cd
+da	da	da	da	da	da	da	da	da	da	da
+dou	db	dz	db	db	dp	dt	dr	dr	dz	dr
+diao	dc	dn	dz	dc	dk	dp	dm	dc	db	dn
+de	de	de	de	de	de	de	de	de	de	de
+den	df	df	df	df	dr	dk		dm	dw	dm
+deng	dg	dg	dg	dg	dt	dh	dj	dn	dt	dz
+dang	dh	dh	dh	dh	dg	df	df	dh	ds	dh
+di	di	di	di	di	di	di	di	di	di	di
+dan	dj	dj	dj	dj	df	dd	dd	dj	dr	dj
+dao	dk	dc	dk	dk	dd	ds	ds	ds	dq	ds
+dai	dl	dd	dl	dl	ds	dj	dh		dp	dk
+dian	dm	dm	dw	dm	dj	dm	dc	df	df	dc
+duo	do	do	do	do	do	do	do	do	do	do
+dun	dp	dy	dn	dp	dz	dz	dy	dy	dm	dy
+diu	dq	dq	dr	dq	dn	dq	dt	dt	dj	dt
+duan	dr	dr	dp	dr	dc	dr	dz	dg	dl	dg
+dong	ds	ds	ds	ds	dy	dl	dl	dl	dh	dl
+du	du	du	du	du	du	du	du	du	du	du
+dui	dv	dv	dm	dv	dv	dy	dn	dd	dn	dd
+dia	dw	dx	dd	dw	db	dx			dx	dx
+die	dx	dp	dx	dx	dm	dc	dp	dp	dd	dp
+ding	dy	dk	dy	dy	dq	dg	dg	dv	dc	df
+dei	dz	dw	dq	dz	dw	dw	dw	dw	dk	dw
+fa	fa	fa	fa	fa	fa		fa	fa	fa	fa
+fou	fb	fz	fb	fb	fp		fr	fr	fz	fr
+fiao	fc	fn	fz	fc	fk	fp	fm	fc	fb	fn
+fen	ff	ff	ff	ff	fr		fk	fm	fw	fm
+feng	fg	fg	fg	fg	ft		fj	fn	ft	fz
+fang	fh	fh	fh	fh	fg		ff	fh	fs	fh
+fan	fj	fj	fj	fj	ff		fd	fj	fr	fj
+fo	fo	fo	fo	fo	fo		fo	fo	fo	fo
+fu	fu	fu	fu	fu	fu		fu	fu	fu	fu
+fei	fz	fw	fq	fz	fw	fw	fw	fw	fk	fw
+ga	ga	ga	ga	ga	ga	ga	ga	ga	ga	ga
+gou	gb	gz	gb	gb	gp	gt	gr	gr	gz	gr
+guang	gd	gl	gt	gd	gh	gn	gx	gz	gg	gv
+ge	ge	ge	ge	ge	ge	ge	ge	ge	ge	ge
+gen	gf	gf	gf	gf	gr	gk	gk	gm	gw	gm
+geng	gg	gg	gg	gg	gt	gh	gj	gn	gt	gz
+gang	gh	gh	gh	gh	gg	gf	gf	gh	gs	gh
+gan	gj	gj	gj	gj	gf	gd	gd	gj	gr	gj
+gao	gk	gc	gk	gk	gd	gs	gs	gs	gq	gs
+gai	gl	gd	gl	gl	gs	gj	gh	gk	gp	gk
+guo	go	go	go	go	go	go	go	go	go	go
+gun	gp	gy	gn	gp	gz	gz	gy	gy	gm	gy
+guan	gr	gr	gp	gr	gc	gr	gz	gg	gl	gg
+gong	gs	gs	gs	gs	gy	gl	gl	gl	gh	gl
+gu	gu	gu	gu	gu	gu	gu	gu	gu	gu	gu
+gui	gv	gv	gm	gv	gv	gy	gn	gd	gn	gd
+gua	gw	gx	gd	gw	gb	gx	gq	gf	gx	gf
+guai	gy	gk	gc	gy	gx	gg	gg	gv	gy	gc
+gei	gz	gw	gq	gz	gw	gw	gw	gw	gk	gw
+ha	ha	ha	ha	ha	ha	ha	ha	ha	ha	ha
+hou	hb	hz	hb	hb	hp	ht	hr	hr	hz	hr
+huang	hd	hl	ht	hd	hh	hn	hx	hz	hg	hv
+he	he	he	he	he	he	he	he	he	he	he
+hen	hf	hf	hf	hf	hr	hk	hk	hm	hw	hm
+heng	hg	hg	hg	hg	ht	hh	hj	hn	ht	hz
+hang	hh	hh	hh	hh	hg	hf	hf	hh	hs	hh
+han	hj	hj	hj	hj	hf	hd	hd	hj	hr	hj
+hao	hk	hc	hk	hk	hd	hs	hs	hs	hq	hs
+hai	hl	hd	hl	hl	hs	hj	hh	hk	hp	hk
+huo	ho	ho	ho	ho	ho	ho	ho	ho	ho	ho
+hun	hp	hy	hn	hp	hz	hz	hy	hy	hm	hy
+huan	hr	hr	hp	hr	hc	hr	hz	hg	hl	hg
+hong	hs	hs	hs	hs	hy	hl	hl	hl	hh	hl
+hu	hu	hu	hu	hu	hu	hu	hu	hu	hu	hu
+hui	hv	hv	hm	hv	hv	hy	hn	hd	hn	hd
+hua	hw	hx	hd	hw	hb	hx	hq	hf	hx	hf
+huai	hy	hk	hc	hy	hx	hg	hg	hv	hy	hc
+hei	hz	hw	hq	hz	hw	hw	hw	hw	hk	hw
+ch	i	i	e	i	u	j	i	i	a	i
+cha	ia	ia	ea	ia	ua	ja	ia	ia	aa	ia
+chou	ib	iz	eb	ib	up	jt	ir	ir	az	ir
+chuang	id	il	et	id	uh	wn	ix	iz	ag	iv
+che	ie	ie	ee	ie	ue	je	ie	ie	ae	ie
+chen	if	if	ef	if	ur	jk	ik	im	aw	im
+cheng	ig	ig	eg	ig	ut	jh	ij	in	at	iz
+chang	ih	ih	eh	ih	ug	jf	if	ih	as	ih
+chi	ii	ii	ei	ii	ui	wi	ii	ii	ai	ii
+chan	ij	ij	ej	ij	uf	jd	id	ij	ar	ij
+chao	ik	ic	ek	ik	ud	js	is	is	aq	is
+chai	il	id	el	il	us	jj	ih	ik	ap	ik
+chuo	io	io	eo	io	uo	jo	io	io	ao	io
+chun	ip	iy	en	ip	uz	jz	iy	iy	am	iy
+chuan	ir	ir	ep	ir	uc	wr	iz	ig	al	ig
+chong	is	is	es	is	uy	wl	il	il	ah	il
+chu	iu	iu	eu	iu	uu	ju	iu	iu	au	iu
+chui	iv	iv	em	iv	uv	wy	in	id	an	id
+chua	iw	ix	ed	iw	ub	wx	iq	if	ax	if
+chuai	iy	ik	ec	iy	ux	wg	ig	iv	ay	ic
+jiao	jc	jn	jz	jc	jk	jp	jm	jc	jb	jn
+jiang	jd	jl	jt	jd	jh	jn	jn	jm	jg	jv
+ji	ji	ji	ji	ji	ji		ji	ji	ji	ji
+jian	jm	jm	jw	jm	jj	jm	jc	jf	jf	jc
+jin	jn	jb	jc	jn	jl	jb	jb	jd	jy	jd
+jun	jp	jy	jn	jp	jz	jw	jw	jy	jm	jy
+jiu	jq	jq	jr	jq	jn	jq	jt	jt	jj	jt
+juan	jr	jr	jp	jr	jc		jj	jg	jl	jg
+jiong	js	js	js	js	jy		jl	jj	jh	jj
+jue	jt	jt	jm	jt	jx		jh	jb	jn	jb
+ju	ju	ju	ju	ju	ju	jv	ju	ju	ju	ju
+jue	jv	jt	jm	jt	jx		jh	jb	jn	jb
+jia	jw	jx	jd	jw	jb		jk	jk	jx	jx
+jie	jx	jp	jx	jx	jm	jc	jp	jp	jd	jp
+jing	jy	jk	jy	jy	jq	jg	jg	jv	jc	jf
+ka	ka	ka	ka	ka	ka	ka	ka	ka	ka	ka
+kou	kb	kz	kb	kb	kp	kt	kr	kr	kz	kr
+kuang	kd	kl	kt	kd	kh	kn	kx	kz	kg	kv
+ke	ke	ke	ke	ke	ke	ke	ke	ke	ke	ke
+ken	kf	kf	kf	kf	kr	kk	kk	km	kw	km
+keng	kg	kg	kg	kg	kt	kh	kj	kn	kt	kz
+kang	kh	kh	kh	kh	kg	kf	kf	kh	ks	kh
+kan	kj	kj	kj	kj	kf	kd	kd	kj	kr	kj
+kao	kk	kc	kk	kk	kd	ks	ks	ks	kq	ks
+kai	kl	kd	kl	kl	ks	kj	kh	kk	kp	kk
+kuo	ko	ko	ko	ko	ko	ko	ko	ko	ko	ko
+kun	kp	ky	kn	kp	kz	kz	ky	ky	km	ky
+kuan	kr	kr	kp	kr	kc	kr	kz	kg	kl	kg
+kong	ks	ks	ks	ks	ky	kl	kl	kl	kh	kl
+ku	ku	ku	ku	ku	ku	ku	ku	ku	ku	ku
+kui	kv	kv	km	kv	kv	ky	kn	kd	kn	kd
+kua	kw	kx	kd	kw	kb	kx	kq	kf	kx	kf
+kuai	ky	kk	kc	ky	kx	kg	kg	kv	ky	kc
+kei	kz	kw	kq	kz	kw	kw	kw	kw	kk	kw
+la	la	la	la	la	la	la	la	la	la	la
+lou	lb	lz	lb	lb	lp	lt	lr	lr	lz	lr
+liao	lc	ln	lz	lc	lk	lp	lm	lc	lb	ln
+liang	ld	ll	lt	ld	lh	ln	ln	lm	lg	lv
+le	le	le	le	le	le	le	le	le	le	le
+leng	lg	lg	lg	lg	lt	lh	lj	ln	lt	lz
+lang	lh	lh	lh	lh	lg	lf	lf	lh	ls	lh
+li	li	li	li	li	li	li	li	li	li	li
+lan	lj	lj	lj	lj	lf	ld	ld	lj	lr	lj
+lao	lk	lc	lk	lk	ld	ls	ls	ls	lq	ls
+lai	ll	ld	ll	ll	ls	lj			lp	lk
+lian	lm	lm	lw	lm	lj	lm	lc	lf	lf	lc
+lin	ln	lb	lc	ln	ll	lb	lb	ld	ly	ld
+luo	lo	lo	lo	lo	lo	lo	lo	lo	lo	lo
+lun	lp	ly	ln	lp	lz	lz	ly	ly	lm	ly
+liu	lq	lq	lr	lq	ln	lq	lt	lt	lj	lt
+luan	lr	lr	lp	lr	lc	lr	lz	lg	ll	lg
+long	ls	ls	ls	ls	ly	ll	ll	ll	lh	ll
+lue	lt	lt	lm	lt	lx	ly	lx	lb	ln	lb
+lu	lu	lu	lu	lu	lu	lu	lu	lu	lu	lu
+lv	lv	lv	lv	lv	lv	lv	lv	lx	lv	lq
+lia	lw	lx	ld	lw	lb	lx	lk		lx	lx
+lie	lx	lp	lx	lx	lm	lc	lp	lp	ld	lp
+ling	ly	lk	ly	ly	lq	lg	lg	lv	lc	lf
+lei	lz	lw	lq	lz	lw	lw	lw	lw	lk	lw
+ma	ma	ma	ma	ma	ma	ma	ma	ma	ma	ma
+mou	mb	mz	mb	mb	mp	mt	mr	mr	mz	mr
+miao	mc	mn	mz	mc	mk	mp	mm	mc	mb	mn
+me	me	me	me	me	me	me	me	me	me	me
+men	mf	mf	mf	mf	mr	mk	mk	mm	mw	mm
+meng	mg	mg	mg	mg	mt	mh	mj	mn	mt	mz
+mang	mh	mh	mh	mh	mg	mf	mf	mh	ms	mh
+mi	mi	mi	mi	mi	mi	mi	mi	mi	mi	mi
+man	mj	mj	mj	mj	mf	md	md	mj	mr	mj
+mao	mk	mc	mk	mk	md	ms	ms	ms	mq	ms
+mai	ml	md	ml	ml	ms	mj	mh	mk	mp	mk
+mian	mm	mm	mw	mm	mj	mm	mc	mf	mf	mc
+min	mn	mb	mc	mn	ml	mb	mb	md	my	md
+mo	mo	mo	mo	mo	mo	mo	mo	mo	mo	mo
+miu	mq	mq	mr	mq	mn	mq	mt	mt	mj	mt
+mu	mu	mu	mu	mu	mu	mu	mu	mu	mu	mu
+mie	mx	mp	mx	mx	mm	mc	mp	mp	md	mp
+ming	my	mk	my	my	mq	mg	mg	mv	mc	mf
+mei	mz	mw	mq	mz	mw	mw	mw	mw	mk	mw
+na	na	na	na	na	na	na	na	na	na	na
+nou	nb	nz	nb	nb	np	nt	nr	nr	nz	nr
+niao	nc	nn	nz	nc	nk	np	nm	nc	nb	nn
+niang	nd	nl	nt	nd	nh	nn	nn		ng	nv
+ne	ne	ne	ne	ne	ne	ne	ne	ne	ne	ne
+nen	nf	nf	nf	nf	nr	nk	nk		nw	nm
+neng	ng	ng	ng	ng	nt	nh	nj	nn	nt	nz
+nang	nh	nh	nh	nh	ng	nf	nf	nh	ns	nh
+ni	ni	ni	ni	ni	ni	ni	ni	ni	ni	ni
+nan	nj	nj	nj	nj	nf	nd	nd	nj	nr	nj
+nao	nk	nc	nk	nk	nd	ns	ns	ns	nq	ns
+nai	nl	nd	nl	nl	ns	nj		nk	np	nk
+nian	nm	nm	nw	nm	nj	nm	nc	nf	nf	nc
+nin	nn	nb	nc	nn	nl	nb	nb	nd	ny	nd
+nuo	no	no	no	no	no	no	no	no	no	no
+nun	np	ny	nn	np	nz	nz	ny	ny	nm	ny
+niu	nq	nq	nr	nq	nn	nq	nt	nt	nj	nt
+nuan	nr	nr	np	nr	nc	nr	nz	ng	nl	ng
+nong	ns	ns	ns	ns	ny	nl	nl	nl	nh	nl
+nue	nt	nt	nm	nt	nx	ny	nx	nb	nn	nb
+nu	nu	nu	nu	nu	nu	nu	nu	nu	nu	nu
+nv	nv	nv	nv	nv	nv	nv	nv	nx	nv	nq
+nie	nx	np	nx	nx	nm	nc	np	np	nd	np
+ning	ny	nk	ny	ny	nq	ng	ng	nv	nc	nf
+nei	nz	nw	nq	nz	nw	nw	nw	nw	nk	nw
+a	oa	aa	oa	aa	aa	xa	ea	aa	oa	aa
+ou	ob	ou	ob	eb	op	xt	er	ou	oz	ou
+e	oe	ee	oe	ee	ee	xe	ee	u	oe	ee
+en	of	en	of	ef	er	xk	ek		ow	en
+eng	og	eg	og	eg	et	xh	ej		ot	ez
+ang	oh	ah	oh	ah	ag	xf	ef	ah	os	ah
+an	oj	an	oj	an	af	xd	ed	an	or	an
+ao	ok	ao	ok	ao	ad	xs	es	ao	oq	ao
+ai	ol	ai	ol	ai	as	xj	eh	ai	op	ai
+o	oo	oo	oo	eo	oo	xo	eo	oo	oo	oo
+er	or	er	or	er	eq	xu	eu	ur	oj	er
+ei	oz	ei	oq	ei	ew		ew	ui	ok	ei
+pa	pa	pa	pa	pa	pa	pa	pa	pa	pa	pa
+pou	pb	pz	pb	pb	pp	pt	pr	pr	pz	pr
+piao	pc	pn	pz	pc	pk	pp	pm	pc	pb	pn
+pen	pf	pf	pf	pf	pr	pk	pk	pm	pw	pm
+peng	pg	pg	pg	pg	pt	ph	pj	pn	pt	pz
+pang	ph	ph	ph	ph	pg	pf	pf	ph	ps	ph
+pi	pi	pi	pi	pi	pi	pi	pi	pi	pi	pi
+pan	pj	pj	pj	pj	pf	pd	pd	pj	pr	pj
+pao	pk	pc	pk	pk	pd	ps	ps	ps	pq	ps
+pai	pl	pd	pl	pl	ps	pj	ph	pk	pp	pk
+pian	pm	pm	pw	pm	pj	pm	pc	pf	pf	pc
+pin	pn	pb	pc	pn	pl	pb	pb	pd	py	pd
+po	po	po	po	po	po	po	po	po	po	po
+pu	pu	pu	pu	pu	pu	pu	pu	pu	pu	pu
+pie	px	pp	px	px	pm	pc	pp	pp	pd	pp
+ping	py	pk	py	py	pq	pg	pg	pv	pc	pf
+pei	pz	pw	pq	pz	pw	pw	pw	pw	pk	pw
+qiao	qc	qn	qz	qc	qk	qp	qm	qc	qb	qn
+qiang	qd	ql	qt	qd	qh		qn	qm	qg	qv
+qi	qi	qi	qi	qi	qi		qi	qi	qi	qi
+qian	qm	qm	qw	qm	qj	qm	qc	qf	qf	qc
+qin	qn	qb	qc	qn	ql	qb	qb	qd	qy	qd
+qun	qp	qy	qn	qp	qz		qw	qy	qm	qy
+qiu	qq	qq	qr	qq	qn	qq	qt	qt	qj	qt
+quan	qr	qr	qp	qr	qc		qj	qg	ql	qg
+qiong	qs	qs	qs	qs	qy		ql	qj	qh	qj
+que	qt	qt	qm	qt	qx		qh	qb	qn	qb
+qu	qu	qu	qu	qu	qu	qv	qu	qu	qu	qu
+que	qv	qt	qm	qt	qx		qh	qb	qn	qb
+qia	qw	qx	qd	qw	qb		qk	qk	qx	qx
+qie	qx	qp	qx	qx	qm	qc	qp	qp	qd	qp
+qing	qy	qk	qy	qy	qq		qg	qv	qc	qf
+rou	rb	rz	rb	rb	rp	rt	rr	rr	rz	rr
+re	re	re	re	re	re	re	re	re	re	re
+ren	rf	rf	rf	rf	rr	rk	rk	rm	rw	rm
+reng	rg	rg	rg	rg	rt	rh	rj	rn	rt	rz
+rang	rh	rh	rh	rh	rg	rf	rf	rh	rs	rh
+ri	ri	ri	ri	ri	ri	ri	ri	ri	ri	ri
+ran	rj	rj	rj	rj	rf	rd	rd	rj	rr	rj
+rao	rk	rc	rk	rk	rd	rs	rs	rs	rq	rs
+ruo	ro	ro	ro	ro	ro	ro	ro	ro	ro	ro
+run	rp	ry	rn	rp	rz	rz	ry	ry	rm	ry
+ruan	rr	rr	rp	rr	rc	rr	rz	rg	rl	rg
+rong	rs	rs	rs	rs	ry	rl	rl	rl	rh	rl
+ru	ru	ru	ru	ru	ru	ru	ru	ru	ru	ru
+rui	rv	rv	rm	rv	rv	ry	rn	rd	rn	rd
+rua	rw	rx	rd	rw	rb	rx	rq	rf	rx	rf
+sa	sa	sa	sa	sa	sa	sa	sa	sa	sa	sa
+sou	sb	sz	sb	sb	sp	st	sr	sr	sz	sr
+se	se	se	se	se	se	se	se	se	se	se
+sen	sf	sf	sf	sf	sr	sk	sk	sm	sw	sm
+seng	sg	sg	sg	sg	st	sh	sj	sn	st	sz
+sang	sh	sh	sh	sh	sg	sf	sf	sh	ss	sh
+si	si	si	si	si	si	si	si	si	si	si
+san	sj	sj	sj	sj	sf	sd	sd	sj	sr	sj
+sao	sk	sc	sk	sk	sd	ss	ss	ss	sq	ss
+sai	sl	sd	sl	sl	ss	sj	sh	sk	sp	sk
+suo	so	so	so	so	so	so	so	so	so	so
+sun	sp	sy	sn	sp	sz	sz	sy	sy	sm	sy
+suan	sr	sr	sp	sr	sc	sr	sz	sg	sl	sg
+song	ss	ss	ss	ss	sy	sl	sl	sl	sh	sl
+su	su	su	su	su	su	su	su	su	su	su
+sui	sv	sv	sm	sv	sv	sy	sn	sd	sn	sd
+ta	ta	ta	ta	ta	ta	ta	ta	ta	ta	ta
+tou	tb	tz	tb	tb	tp	tt	tr	tr	tz	tr
+tiao	tc	tn	tz	tc	tk	tp	tm	tc	tb	tn
+te	te	te	te	te	te	te	te	te	te	te
+teng	tg	tg	tg	tg	tt	th	tj	tn	tt	tz
+tang	th	th	th	th	tg	tf	tf	th	ts	th
+ti	ti	ti	ti	ti	ti	ti	ti	ti	ti	ti
+tan	tj	tj	tj	tj	tf	td	td	tj	tr	tj
+tao	tk	tc	tk	tk	td	ts	ts	ts	tq	ts
+tai	tl	td	tl	tl	ts	tj	th	tk	tp	tk
+tian	tm	tm	tw	tm	tj	tm	tc	tf	tf	tc
+tuo	to	to	to	to	to	to	to	to	to	to
+tun	tp	ty	tn	tp	tz	tz	ty	ty	tm	ty
+tuan	tr	tr	tp	tr	tc	tr	tz	tg	tl	tg
+tong	ts	ts	ts	ts	ty	tl	tl	tl	th	tl
+tu	tu	tu	tu	tu	tu	tu	tu	tu	tu	tu
+tui	tv	tv	tm	tv	tv	ty	tn	td	tn	td
+tie	tx	tp	tx	tx	tm	tc	tp	tp	td	tp
+ting	ty	td	ty	ty	tq	tg	tg	tv	tc	tf
+tei	tz	tw	tq	tz	tw	tw	tw	tw	tk	tw
+sh	u	u	v	u	i	e	u	v	i	u
+sha	ua	ua	va	ua	ia	ea	ua	va	ia	ua
+shou	ub	uz	vb	ub	ip	et	ur	vr	iz	ur
+shuang	ud	ul	vt	ud	ih	en	ux	vz	ig	uv
+she	ue	ue	ve	ue	ie	ee	ue	ve	ie	ue
+shen	uf	uf	vf	uf	ir	ek	uk	vm	iw	um
+sheng	ug	ug	vg	ug	it	eh	uj	vn	it	uz
+shang	uh	uh	vh	uh	ig	ef	uf	vh	is	uh
+shi	ui	ui	vi	ui	ii	ei	ui	vi	ii	ui
+shan	uj	uj	vj	uj	if	ed	ud	vj	ir	uj
+shao	uk	uc	vk	uk	id	es	us	vs	iq	us
+shai	ul	ud	vl	ul	is	ej	uh	vk	ip	uk
+shuo	uo	uo	vo	uo	io	eo	uo	vo	io	uo
+shun	up	uy	vn	up	iz	ez	uy	vy	im	uy
+shuan	ur	ur	vp	ur	ic	er	uz	vg	il	ug
+shu	uu	uu	vu	uu	iu	eu	uu	vu	iu	uu
+shui	uv	uv	vm	uv	iv	ey	un	vd	in	ud
+shua	uw	ux	vd	uw	ib	ex	uq	vf	ix	uf
+shuai	uy	uk	vc	uy	ix	eg	ug	vv	iy	uc
+shei	uz	uw	vq	uz	iw	ew	uw	vw	ik	uw
+zh	v	v	a	v	v	f	a	e	u	v
+zha	va	va	aa	va	va	qa	aa	ea	ua	va
+zhou	vb	vz	ab	vb	vp	qt	ar	er	uz	vr
+zhuang	vd	vl	at	vd	vh	fn	ax	ez	ug	vv
+zhe	ve	ve	ae	ve	ve	fe	ae		ue	ve
+zhen	vf	vf	af	vf	vr	qk	ak	em	uw	vm
+zheng	vg	vg	ag	vg	vt	qh	aj	en	ut	vz
+zhang	vh	vh	ah	vh	vg	qf	af	eh	us	vh
+zhi	vi	vi	ai	vi	vi	fi	ai		ui	vi
+zhan	vj	vj	aj	vj	vf	qd	ad	ej	ur	vj
+zhao	vk	vc	ak	vk	vd	fs	as	es	uq	vs
+zhai	vl	vd	al	vl	vs	fj	ah	ek	up	vk
+zhuo	vo	vo	ao	vo	vo	qo	ao	eo	uo	vo
+zhun	vp	vy	an	vp	vz	fz	ay	ey	um	vy
+zhuan	vr	vr	ap	vr	vc	fr	az	eg	ul	vg
+zhong	vs	vs	as	vs	vy		al	el	uh	vl
+zhu	vu	vu	au	vu	vu	qu	au	eu	uu	vu
+zhui	vv	vv	am	vv	vv	fy	an	ed	un	vd
+zhua	vw	vx	ad	vw	vb	fx	aq	ef	ux	vf
+zhuai	vy	vk	ac	vy	vx	fg	ag	ev	uy	vc
+zhei	vz	vw	aq	vz	vw				uk	vw
+wa	wa	wa	wa	wa	wa		wa	wa	wa	wa
+wen	wf	wf	wf	wf	wr		wk	wm	ww	wm
+weng	wg	wg	wg	wg	wt		wj	wn	wt	wz
+wang	wh	wh	wh	wh	wg		wf	wh	ws	wh
+wan	wj	wj	wj	wj	wf		wd	wj	wr	wj
+wai	wl	wd	wl	wl	ws		wh	wk	wp	wk
+wo	wo	wo	wo	wo	wo		wo	wo	wo	wo
+wu	wu	wu	wu	wu	wu		wu	wu	wu	wu
+wei	wz	ww	wq	wz	ww	ww	ww	ww	wk	ww
+xiao	xc	xn	xz	xc	xk	xp	xm	xc	xb	xn
+xiang	xd	xl	xt	xd	xh	xn	xn	xm	xg	xv
+xi	xi	xi	xi	xi	xi	xi	xi	xi	xi	xi
+xian	xm	xm	xw	xm	xj	xm	xc	xf	xf	xc
+xin	xn	xb	xc	xn	xl	xb	xb	xd	xy	xd
+xun	xp	xy	xn	xp	xz		xw	xy	xm	xy
+xiu	xq	xq	xr	xq	xn	xq	xt	xt	xj	xt
+xuan	xr	xr	xp	xr	xc	xr	xj	xg	xl	xg
+xiong	xs	xs	xs	xs	xy	xl	xl	xj	xh	xj
+xue	xt	xt	xm	xt	xx	xy	xh	xb	xn	xb
+xu	xu	xu	xu	xu	xu	xv	xu	xu	xu	xu
+xue	xv	xt	xm	xt	xx	xy	xh	xb	xn	xb
+xia	xw	xx	xd	xw	xb	xx	xk	xk	xx	xx
+xie	xx	xp	xx	xx	xm	xc	xp	xp	xd	xp
+xing	xy	xk	xy	xy	xq	xg	xg	xv	xc	xf
+ya	ya	ya	ya	ya	ya	ya	ya	ya	ya	ya
+you	yb	yz	yb	yb	yp	yt	yr	yr	yz	yr
+ye	ye	ye	ye	ye	ye	ye	ye	ye	ye	ye
+yang	yh	yh	yh	yh	yg	yf	yf	yh	ys	yh
+yi	yi	yi	yi	yi	yi	yi	yi	yi	yi	yi
+yan	yj	yj	yj	yj	yf	yd	yd	yj	yr	yj
+yao	yk	yc	yk	yk	yd	ys	ys	ys	yq	ys
+yin	yn	yb	yc	yn	yl	yb	yb	yd	yy	yd
+yo	yo	yo	yo	yo	yo	yo	yo	yo	yo	yo
+yun	yp	yy	yn	yp	yz	yw	yw	yy	ym	yy
+yuan	yr	yr	yp	yr	yc	yr	yj	yg	yl	yg
+yong	ys	ys	ys	ys	yy	yl	yl	yl	yh	yl
+yue	yt	yt	ym	yt	yx	yy	yh	yb	yn	yb
+yu	yu	yu	yu	yu	yu	yv	yu	yu	yu	yu
+yue	yv	yt	ym	yt	yx	yy	yh	yb	yn	yb
+ying	yy	yk	yy	yy	yq	yg	yg	yv	yc	yf
+za	za	za	za	za	za	za	za	za	za	za
+zou	zb	zz	zb	zb	zp	zt	zr	zr	zz	zr
+ze	ze	ze	ze	ze	ze	ze	ze	ze	ze	ze
+zen	zf	zf	zf	zf	zr	zk	zk	zm	zw	zm
+zeng	zg	zg	zg	zg	zt	zh	zj	zn	zt	zz
+zang	zh	zh	zh	zh	zg	zf	zf	zh	zs	zh
+zi	zi	zi	zi	zi	zi	zi	zi	zi	zi	zi
+zan	zj	zj	zj	zj	zf	zd	zd	zj	zr	zj
+zao	zk	zc	zk	zk	zd	zs	zs	zs	zq	zs
+zai	zl	zd	zl	zl	zs	zj	zh	zk	zp	zk
+zuo	zo	zo	zo	zo	zo	zo	zo	zo	zo	zo
+zun	zp	zy	zn	zp	zz	zz	zy	zy	zm	zy
+zuan	zr	zr	zp	zr	zc	zr	zz	zg	zl	zg
+zong	zs	zs	zs	zs	zy	zl	zl	zl	zh	zl
+zu	zu	zu	zu	zu	zu	zu	zu	zu	zu	zu
+zui	zv	zv	zm	zv	zv	zy	zn	zd	zn	zd
+zei	zz	zw	zq	zz	zw	zw	zw	zw	zk	zw
+nue	nv	nt	nm	nt	nx	ny	nx	nb	nn	nb
+lue	lv	lt	lm	lt	lx	ly	lx	lb	ln	lb
