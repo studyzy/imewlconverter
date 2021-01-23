@@ -73,7 +73,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public WordLibraryList ImportLine(string line)
         {
-            throw new NotImplementedException("搜狗Bin文件为二进制文件，不支持");
+            throw new NotImplementedException("华宇紫光uwl文件为二进制文件，不支持");
         }
     }
 

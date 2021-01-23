@@ -45,6 +45,7 @@ namespace Studyzy.IMEWLConverter.Entities
         public bool IgnoreNumber { get; set; }
         public bool IgnoreSpace { get; set; }
         public bool IgnorePunctuation { get; set; }
+        public bool IgnoreNoAlphabetCode { get; set; }
 
         public bool ReplaceNumber { get; set; }
         public bool ReplaceEnglish { get; set; }

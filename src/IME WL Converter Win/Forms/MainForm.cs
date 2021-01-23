@@ -169,7 +169,8 @@ namespace Studyzy.IMEWLConverter
         private string fileContent;
         private FilterConfig filterConfig = new FilterConfig();
         //private ParsePattern fromUserSetPattern;
-
+        private SortType sortType=SortType.Default;
+        private bool sortDesc = false;
 
         private IWordLibraryImport import;
 
@@ -245,6 +246,8 @@ namespace Studyzy.IMEWLConverter
                 mainBody.SelectedTranslate = this.translate;
                 mainBody.SelectedConverter = this.chineseConverter;
                 mainBody.Filters = GetFilters();
+                mainBody.SortType = this.sortType;
+                mainBody.SortDesc = this.sortDesc;
                 mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
                 mainBody.Import.ImportLineErrorNotice += WriteErrorMessage;
@@ -340,7 +343,10 @@ namespace Studyzy.IMEWLConverter
             {
                 filters.Add(new NumberFilter());
             }
-
+            if (filterConfig.IgnoreNoAlphabetCode)
+            {
+                filters.Add(new NoAlphabetCodeFilter());
+            }
             return filters;
         }
 

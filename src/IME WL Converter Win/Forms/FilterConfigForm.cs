@@ -50,6 +50,7 @@ namespace Studyzy.IMEWLConverter
             filterConfig.IgnoreSpace = cbxFilterSpace.Checked;
             filterConfig.IgnorePunctuation = cbxFilterPunctuation.Checked;
             filterConfig.IgnoreNumber = cbxFilterNumber.Checked;
+            filterConfig.IgnoreNoAlphabetCode = cbxFilterNoAlphabetCode.Checked;
             filterConfig.NoFilter = cbxNoFilter.Checked;
 
             filterConfig.ReplaceNumber = cbxReplaceNumber.Checked;
@@ -75,6 +76,7 @@ namespace Studyzy.IMEWLConverter
             cbxReplaceNumber.Checked = filterConfig.ReplaceNumber;
             cbxReplacePunctuation.Checked = filterConfig.ReplacePunctuation;
             cbxReplaceSpace.Checked = filterConfig.ReplaceSpace;
+            cbxFilterNoAlphabetCode.Checked = filterConfig.IgnoreNoAlphabetCode;
         }
     }
 }

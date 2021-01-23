@@ -170,7 +170,8 @@ namespace Studyzy.IMEWLConverter
         public IList<IReplaceFilter> ReplaceFilters { get; set; }
 
         public IList<ISingleFilter> Filters { get; set; }
-
+        public SortType SortType { get; set; }
+        public bool SortDesc { get; set; }
         public IList<IBatchFilter> BatchFilters { get; set; }
 
         public void StopNotice()
@@ -213,7 +214,7 @@ namespace Studyzy.IMEWLConverter
         public string Convert(IList<string> filePathes)
         {
             this.timer.Start();
-            ExportContents=new List<string>();
+            ExportContents = new List<string>();
             allWlList.Clear();
             isImportProgress = true;
 
@@ -251,7 +252,21 @@ namespace Studyzy.IMEWLConverter
             count = allWlList.Count;
 
             ReplaceAfterCode(allWlList);
-             ExportContents = export.Export(allWlList);
+            //Sort
+            //var wlDict = new Dictionary<string, WordLibrary>();
+            //var sorted = allWlList.Distinct().OrderBy(w => w.PinYinString).ToList();
+            //allWlList = new WordLibraryList();
+            //foreach (var wl in sorted)
+            //{
+            //    if (!wlDict.ContainsKey(wl.Word))
+            //    {
+            //        wlDict.Add(wl.Word, wl);
+            //        allWlList.Add(wl);
+            //    }
+            //}
+            ExportContents = export.Export(allWlList);
+
+
             this.timer.Stop();
             return string.Join("\r\n", ExportContents.ToArray());
         }
