@@ -27,9 +27,11 @@ namespace Studyzy.IMEWLConverter.Entities
             WordRankTo = 999999;
             WordRankPercentage = 100;
             IgnoreFirstCJK = true;
-       //     ReplaceSpace = true;
-       //     ReplacePunctuation = true;
-       //     ReplaceNumber = true;
+            //     ReplaceSpace = true;
+            //     ReplacePunctuation = true;
+            //     ReplaceNumber = true;
+            KeepSpace_ = true;
+            KeepSpace = true;
             NoFilter = false;
             KeepEnglish = true;
             KeepNumber_ = true;
@@ -64,7 +66,8 @@ namespace Studyzy.IMEWLConverter.Entities
         public bool KeepPunctuation_ { get; set; }
         public bool ChsNumber { get; set; }
         public bool PrefixEnglish { get; set; }
-
+        public bool KeepSpace_ { get; set; }
+        public bool KeepSpace { get; set; }
         public bool needEnglishTag() { return PrefixEnglish; }
     }
 }

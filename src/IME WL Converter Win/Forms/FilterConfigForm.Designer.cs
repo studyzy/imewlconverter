@@ -78,6 +78,8 @@ namespace Studyzy.IMEWLConverter
             this.cbxKeepPunctuation_ = new System.Windows.Forms.CheckBox();
             this.cbxKeepPunctuation = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbxKeepSpace_ = new System.Windows.Forms.CheckBox();
+            this.cbxKeepSpace = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordRankFrom)).BeginInit();
@@ -88,7 +90,7 @@ namespace Studyzy.IMEWLConverter
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(752, 431);
+            this.btnOK.Location = new System.Drawing.Point(752, 443);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 29);
@@ -386,9 +388,9 @@ namespace Studyzy.IMEWLConverter
             this.cbxFilterFirstCJK.Location = new System.Drawing.Point(22, 431);
             this.cbxFilterFirstCJK.Margin = new System.Windows.Forms.Padding(4);
             this.cbxFilterFirstCJK.Name = "cbxFilterFirstCJK";
-            this.cbxFilterFirstCJK.Size = new System.Drawing.Size(224, 19);
+            this.cbxFilterFirstCJK.Size = new System.Drawing.Size(269, 19);
             this.cbxFilterFirstCJK.TabIndex = 20;
-            this.cbxFilterFirstCJK.Text = "首字位于中日韩统一表义符区";
+            this.cbxFilterFirstCJK.Text = "过滤首字非中日韩统一表义字符的词";
             this.cbxFilterFirstCJK.UseVisualStyleBackColor = true;
             // 
             // cbxKeepNumber_
@@ -419,6 +421,8 @@ namespace Studyzy.IMEWLConverter
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbxKeepSpace);
+            this.groupBox1.Controls.Add(this.cbxKeepSpace_);
             this.groupBox1.Controls.Add(this.cbxChsNumber);
             this.groupBox1.Controls.Add(this.cbxPrefixEnglish);
             this.groupBox1.Controls.Add(this.cbxKeepPunctuation_);
@@ -429,7 +433,7 @@ namespace Studyzy.IMEWLConverter
             this.groupBox1.Controls.Add(this.cbxKeepEnglish);
             this.groupBox1.Location = new System.Drawing.Point(423, 155);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(471, 234);
+            this.groupBox1.Size = new System.Drawing.Size(471, 269);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "词条分段处理";
@@ -437,7 +441,7 @@ namespace Studyzy.IMEWLConverter
             // cbxChsNumber
             // 
             this.cbxChsNumber.AutoSize = true;
-            this.cbxChsNumber.Location = new System.Drawing.Point(14, 181);
+            this.cbxChsNumber.Location = new System.Drawing.Point(235, 229);
             this.cbxChsNumber.Margin = new System.Windows.Forms.Padding(4);
             this.cbxChsNumber.Name = "cbxChsNumber";
             this.cbxChsNumber.Size = new System.Drawing.Size(194, 19);
@@ -451,7 +455,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxPrefixEnglish.AutoSize = true;
             this.cbxPrefixEnglish.Checked = true;
             this.cbxPrefixEnglish.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxPrefixEnglish.Location = new System.Drawing.Point(235, 181);
+            this.cbxPrefixEnglish.Location = new System.Drawing.Point(14, 229);
             this.cbxPrefixEnglish.Margin = new System.Windows.Forms.Padding(4);
             this.cbxPrefixEnglish.Name = "cbxPrefixEnglish";
             this.cbxPrefixEnglish.Size = new System.Drawing.Size(218, 19);
@@ -465,7 +469,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxKeepPunctuation_.AutoSize = true;
             this.cbxKeepPunctuation_.Checked = true;
             this.cbxKeepPunctuation_.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxKeepPunctuation_.Location = new System.Drawing.Point(14, 135);
+            this.cbxKeepPunctuation_.Location = new System.Drawing.Point(14, 181);
             this.cbxKeepPunctuation_.Margin = new System.Windows.Forms.Padding(4);
             this.cbxKeepPunctuation_.Name = "cbxKeepPunctuation_";
             this.cbxKeepPunctuation_.Size = new System.Drawing.Size(164, 19);
@@ -477,7 +481,7 @@ namespace Studyzy.IMEWLConverter
             // cbxKeepPunctuation
             // 
             this.cbxKeepPunctuation.AutoSize = true;
-            this.cbxKeepPunctuation.Location = new System.Drawing.Point(235, 135);
+            this.cbxKeepPunctuation.Location = new System.Drawing.Point(235, 181);
             this.cbxKeepPunctuation.Margin = new System.Windows.Forms.Padding(4);
             this.cbxKeepPunctuation.Name = "cbxKeepPunctuation";
             this.cbxKeepPunctuation.Size = new System.Drawing.Size(194, 19);
@@ -490,10 +494,32 @@ namespace Studyzy.IMEWLConverter
             // 
             this.groupBox2.Location = new System.Drawing.Point(210, 155);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 234);
+            this.groupBox2.Size = new System.Drawing.Size(200, 269);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "词条字符替换";
+            // 
+            // cbxKeepSpace_
+            // 
+            this.cbxKeepSpace_.AutoSize = true;
+            this.cbxKeepSpace_.Location = new System.Drawing.Point(14, 135);
+            this.cbxKeepSpace_.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxKeepSpace_.Name = "cbxKeepSpace_";
+            this.cbxKeepSpace_.Size = new System.Drawing.Size(164, 19);
+            this.cbxKeepSpace_.TabIndex = 27;
+            this.cbxKeepSpace_.Text = "词条中的空格不编码";
+            this.cbxKeepSpace_.UseVisualStyleBackColor = true;
+            // 
+            // cbxKeepSpace
+            // 
+            this.cbxKeepSpace.AutoSize = true;
+            this.cbxKeepSpace.Location = new System.Drawing.Point(235, 135);
+            this.cbxKeepSpace.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxKeepSpace.Name = "cbxKeepSpace";
+            this.cbxKeepSpace.Size = new System.Drawing.Size(194, 19);
+            this.cbxKeepSpace.TabIndex = 28;
+            this.cbxKeepSpace.Text = "编码时保留字母后的空格";
+            this.cbxKeepSpace.UseVisualStyleBackColor = true;
             // 
             // FilterConfigForm
             // 
@@ -580,5 +606,7 @@ namespace Studyzy.IMEWLConverter
         private System.Windows.Forms.CheckBox cbxPrefixEnglish;
         private System.Windows.Forms.CheckBox cbxKeepPunctuation_;
         private System.Windows.Forms.CheckBox cbxChsNumber;
+        private System.Windows.Forms.CheckBox cbxKeepSpace_;
+        private System.Windows.Forms.CheckBox cbxKeepSpace;
     }
 }

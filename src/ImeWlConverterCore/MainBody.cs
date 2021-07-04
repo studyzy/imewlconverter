@@ -503,9 +503,11 @@ namespace Studyzy.IMEWLConverter
                 return;
             countWord = wordLibraryList.Count;
             currentStatus = 0;
-            Regex numberRegex = new Regex("[0-9]+", RegexOptions.IgnoreCase);
-            Regex englishRegex = new Regex("[a-zA-Z]+", RegexOptions.IgnoreCase);
-            Regex punctuationRegex = new Regex("[-・·&%']", RegexOptions.IgnoreCase);
+            Regex spaceRegex = new Regex("(?=[^a-zA-Z])\\s+");
+            Regex numberRegex = new Regex("[0-9]+");
+            Regex englishRegex = new Regex("[a-z]+", RegexOptions.IgnoreCase);
+           // Regex punctuationRegex = new Regex("[-・·&%']");
+            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00d7\u00f7\u2000-\u2bff\u3000-\u303f]");
 
 
             foreach (WordLibrary wordLibrary in wordLibraryList)
@@ -533,6 +535,15 @@ namespace Studyzy.IMEWLConverter
                     if (FilterConfig.KeepEnglish_)
                     {
                         word = englishRegex.Replace(word, "");
+                    }
+
+                    if (FilterConfig.KeepSpace_)
+                    {
+                        if (FilterConfig.KeepSpace == false)
+                            word = word.Replace(" ", "");
+                        else
+                            word = spaceRegex.Replace(word, "");
+
                     }
 
                     if (FilterConfig.KeepPunctuation_)
@@ -567,10 +578,15 @@ namespace Studyzy.IMEWLConverter
                             else if (c >= 0x61 && c <= 0x7a)
                             {
                                 type = 2;
-                            }
-                            else if (" - ・ &  %  '".Contains(c))
+                            }else if (c == 0x20 && FilterConfig.KeepSpace && clipType==2)
                             {
-
+                                type = 2;
+                            }
+                            else if ("-・&%'".Contains(c))
+                            {
+                                type = 3;
+                            }else if (punctuationRegex.IsMatch(c.ToString()))
+                            {
                                 type = 3;
                             }
                             else

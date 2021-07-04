@@ -72,6 +72,9 @@ namespace Studyzy.IMEWLConverter
 
             filterConfig.IgnoreFirstCJK = cbxFilterFirstCJK.Checked;
 
+            filterConfig.KeepSpace_ = cbxKeepSpace_.Checked;
+            filterConfig.KeepSpace = cbxKeepSpace.Checked;
+
             DialogResult = DialogResult.OK;
         }
 
@@ -101,6 +104,8 @@ namespace Studyzy.IMEWLConverter
             cbxKeepPunctuation_.Checked = filterConfig.KeepPunctuation_;
             cbxChsNumber.Checked = filterConfig.ChsNumber;
             cbxPrefixEnglish.Checked = filterConfig.PrefixEnglish;
+            cbxKeepSpace_.Checked = filterConfig.KeepSpace_;
+            cbxKeepSpace.Checked = filterConfig.KeepSpace;
         }
 
         private void cbxKeepNumber_CheckedChanged(object sender, EventArgs e)
