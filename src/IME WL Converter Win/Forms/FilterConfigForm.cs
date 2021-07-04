@@ -57,6 +57,24 @@ namespace Studyzy.IMEWLConverter
             filterConfig.ReplaceEnglish = cbxReplaceEnglish.Checked;
             filterConfig.ReplaceSpace = cbxReplaceSpace.Checked;
             filterConfig.ReplacePunctuation = cbxReplacePunctuation.Checked;
+
+            filterConfig.KeepEnglish = cbxKeepEnglish.Checked;
+            filterConfig.KeepNumber = cbxKeepNumber.Checked;
+            filterConfig.KeepPunctuation = cbxKeepPunctuation.Checked;
+
+            filterConfig.KeepEnglish_ = cbxKeepEnglish_.Checked;
+            filterConfig.KeepNumber_ = cbxKeepNumber_.Checked;
+
+            filterConfig.KeepPunctuation_ = cbxKeepPunctuation_.Checked;
+
+            filterConfig.ChsNumber = cbxChsNumber.Checked;
+            filterConfig.PrefixEnglish = cbxPrefixEnglish.Checked;
+
+            filterConfig.IgnoreFirstCJK = cbxFilterFirstCJK.Checked;
+
+            filterConfig.KeepSpace_ = cbxKeepSpace_.Checked;
+            filterConfig.KeepSpace = cbxKeepSpace.Checked;
+
             DialogResult = DialogResult.OK;
         }
 
@@ -77,6 +95,88 @@ namespace Studyzy.IMEWLConverter
             cbxReplacePunctuation.Checked = filterConfig.ReplacePunctuation;
             cbxReplaceSpace.Checked = filterConfig.ReplaceSpace;
             cbxFilterNoAlphabetCode.Checked = filterConfig.IgnoreNoAlphabetCode;
+            cbxKeepEnglish.Checked = filterConfig.KeepEnglish;
+            cbxKeepNumber.Checked = filterConfig.KeepNumber;
+            cbxKeepEnglish_.Checked = filterConfig.KeepEnglish_;
+            cbxKeepNumber_.Checked = filterConfig.KeepNumber_;
+            cbxFilterFirstCJK.Checked = filterConfig.IgnoreFirstCJK;
+            cbxKeepPunctuation.Checked = filterConfig.KeepPunctuation;
+            cbxKeepPunctuation_.Checked = filterConfig.KeepPunctuation_;
+            cbxChsNumber.Checked = filterConfig.ChsNumber;
+            cbxPrefixEnglish.Checked = filterConfig.PrefixEnglish;
+            cbxKeepSpace_.Checked = filterConfig.KeepSpace_;
+            cbxKeepSpace.Checked = filterConfig.KeepSpace;
+        }
+
+        private void cbxKeepNumber_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxKeepNumber.Checked)
+            {
+                cbxKeepNumber_.Checked = false;
+                cbxChsNumber.Checked = false;
+            }
+        }
+
+        private void cbxKeepNumber__CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxKeepNumber_.Checked)
+            {
+            cbxKeepNumber.Checked = false;
+            cbxChsNumber.Checked = false;
+            }
+
+        }
+
+        private void cbxKeepEnglish_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxKeepEnglish.Checked)
+            {
+                cbxKeepEnglish_.Checked = false;
+            }
+
+        }
+
+        private void cbxKeepEnglish__CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxKeepEnglish_.Checked) {
+                cbxKeepEnglish.Checked = false;
+                cbxPrefixEnglish.Checked = false;
+            }
+
+        }
+
+        private void cbxPrefixEnglish_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxPrefixEnglish.Checked)
+            {
+                cbxKeepEnglish_.Checked = false;
+                cbxKeepEnglish.Checked = true;
+            }
+        }
+
+        private void cbxKeepPunctuator_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxKeepPunctuation.Checked)
+            {
+                cbxKeepPunctuation_.Checked = false;
+            }
+        }
+
+        private void cbxKeepPunctuation__CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxKeepPunctuation_.Checked)
+            {
+                cbxKeepPunctuation.Checked = false;
+            }
+        }
+
+        private void cbxChsNumber_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxChsNumber.Checked)
+            {
+                cbxKeepNumber.Checked = false;
+                cbxKeepNumber_.Checked = false;
+            }
         }
     }
 }

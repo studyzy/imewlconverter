@@ -79,6 +79,7 @@ namespace Studyzy.IMEWLConverter
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.toolStripMenuItemShowLess = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -86,7 +87,7 @@ namespace Studyzy.IMEWLConverter
             // btnConvert
             // 
             this.btnConvert.Location = new System.Drawing.Point(620, 34);
-            this.btnConvert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnConvert.Margin = new System.Windows.Forms.Padding(4);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(100, 64);
             this.btnConvert.TabIndex = 0;
@@ -98,7 +99,7 @@ namespace Studyzy.IMEWLConverter
             // 
             this.richTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.richTextBox1.Location = new System.Drawing.Point(16, 109);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(703, 385);
             this.richTextBox1.TabIndex = 1;
@@ -107,7 +108,7 @@ namespace Studyzy.IMEWLConverter
             // txbWLPath
             // 
             this.txbWLPath.Location = new System.Drawing.Point(16, 34);
-            this.txbWLPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txbWLPath.Margin = new System.Windows.Forms.Padding(4);
             this.txbWLPath.Name = "txbWLPath";
             this.txbWLPath.Size = new System.Drawing.Size(527, 25);
             this.txbWLPath.TabIndex = 2;
@@ -124,7 +125,7 @@ namespace Studyzy.IMEWLConverter
             // btnOpenFileDialog
             // 
             this.btnOpenFileDialog.Location = new System.Drawing.Point(552, 32);
-            this.btnOpenFileDialog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOpenFileDialog.Margin = new System.Windows.Forms.Padding(4);
             this.btnOpenFileDialog.Name = "btnOpenFileDialog";
             this.btnOpenFileDialog.Size = new System.Drawing.Size(44, 29);
             this.btnOpenFileDialog.TabIndex = 3;
@@ -138,7 +139,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxFrom.DropDownWidth = 150;
             this.cbxFrom.FormattingEnabled = true;
             this.cbxFrom.Location = new System.Drawing.Point(16, 72);
-            this.cbxFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbxFrom.Margin = new System.Windows.Forms.Padding(4);
             this.cbxFrom.Name = "cbxFrom";
             this.cbxFrom.Size = new System.Drawing.Size(260, 23);
             this.cbxFrom.TabIndex = 4;
@@ -149,7 +150,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTo.FormattingEnabled = true;
             this.cbxTo.Location = new System.Drawing.Point(335, 72);
-            this.cbxTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbxTo.Margin = new System.Windows.Forms.Padding(4);
             this.cbxTo.Name = "cbxTo";
             this.cbxTo.Size = new System.Drawing.Size(260, 23);
             this.cbxTo.TabIndex = 4;
@@ -173,7 +174,6 @@ namespace Studyzy.IMEWLConverter
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.Size = new System.Drawing.Size(732, 30);
             this.menuStrip1.TabIndex = 7;
@@ -185,38 +185,39 @@ namespace Studyzy.IMEWLConverter
             this.toolStripMenuItemFilterConfig,
             this.ToolStripMenuItemRankGenerate,
             this.toolStripSeparator2,
+            this.toolStripMenuItemShowLess,
             this.toolStripMenuItemExportDirectly,
             this.toolStripMenuItemStreamExport,
             this.toolStripMenuItemMergeToOneFile,
             this.ToolStripMenuItemChineseTransConfig});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(83, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(84, 26);
             this.toolStripMenuItem1.Text = "高级设置";
             // 
             // toolStripMenuItemFilterConfig
             // 
             this.toolStripMenuItemFilterConfig.Name = "toolStripMenuItemFilterConfig";
-            this.toolStripMenuItemFilterConfig.Size = new System.Drawing.Size(242, 26);
+            this.toolStripMenuItemFilterConfig.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemFilterConfig.Text = "词条过滤设置";
             this.toolStripMenuItemFilterConfig.Click += new System.EventHandler(this.toolStripMenuItemFilterConfig_Click);
             // 
             // ToolStripMenuItemRankGenerate
             // 
             this.ToolStripMenuItemRankGenerate.Name = "ToolStripMenuItemRankGenerate";
-            this.ToolStripMenuItemRankGenerate.Size = new System.Drawing.Size(242, 26);
+            this.ToolStripMenuItemRankGenerate.Size = new System.Drawing.Size(277, 26);
             this.ToolStripMenuItemRankGenerate.Text = "词频生成设置";
             this.ToolStripMenuItemRankGenerate.Click += new System.EventHandler(this.ToolStripMenuItemRankGenerate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(239, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(274, 6);
             // 
             // toolStripMenuItemExportDirectly
             // 
             this.toolStripMenuItemExportDirectly.CheckOnClick = true;
             this.toolStripMenuItemExportDirectly.Name = "toolStripMenuItemExportDirectly";
-            this.toolStripMenuItemExportDirectly.Size = new System.Drawing.Size(242, 26);
+            this.toolStripMenuItemExportDirectly.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemExportDirectly.Text = "不显示结果，直接导出";
             this.toolStripMenuItemExportDirectly.Click += new System.EventHandler(this.toolStripMenuItemExportDirectly_Click);
             // 
@@ -224,7 +225,7 @@ namespace Studyzy.IMEWLConverter
             // 
             this.toolStripMenuItemStreamExport.CheckOnClick = true;
             this.toolStripMenuItemStreamExport.Name = "toolStripMenuItemStreamExport";
-            this.toolStripMenuItemStreamExport.Size = new System.Drawing.Size(242, 26);
+            this.toolStripMenuItemStreamExport.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemStreamExport.Text = "一边读取，一边导出";
             this.toolStripMenuItemStreamExport.ToolTipText = "目前只有文本格式的词库才能支持该功能";
             this.toolStripMenuItemStreamExport.Click += new System.EventHandler(this.toolStripMenuItemStreamExport_Click);
@@ -235,14 +236,14 @@ namespace Studyzy.IMEWLConverter
             this.toolStripMenuItemMergeToOneFile.CheckOnClick = true;
             this.toolStripMenuItemMergeToOneFile.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItemMergeToOneFile.Name = "toolStripMenuItemMergeToOneFile";
-            this.toolStripMenuItemMergeToOneFile.Size = new System.Drawing.Size(242, 26);
+            this.toolStripMenuItemMergeToOneFile.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemMergeToOneFile.Text = "合并多词库到一个文件";
             this.toolStripMenuItemMergeToOneFile.Click += new System.EventHandler(this.toolStripMenuItemMergeToOneFile_Click);
             // 
             // ToolStripMenuItemChineseTransConfig
             // 
             this.ToolStripMenuItemChineseTransConfig.Name = "ToolStripMenuItemChineseTransConfig";
-            this.ToolStripMenuItemChineseTransConfig.Size = new System.Drawing.Size(242, 26);
+            this.ToolStripMenuItemChineseTransConfig.Size = new System.Drawing.Size(277, 26);
             this.ToolStripMenuItemChineseTransConfig.Text = "简繁体转换设置";
             this.ToolStripMenuItemChineseTransConfig.Click += new System.EventHandler(this.ToolStripMenuItemChineseTransConfig_Click);
             // 
@@ -257,54 +258,54 @@ namespace Studyzy.IMEWLConverter
             this.ToolStripMenuItemSplitFile,
             this.ToolStripMenuItemMergeWL});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(54, 26);
             this.关于ToolStripMenuItem.Text = "帮助";
             // 
             // ToolStripMenuItemDonate
             // 
             this.ToolStripMenuItemDonate.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripMenuItemDonate.Image")));
             this.ToolStripMenuItemDonate.Name = "ToolStripMenuItemDonate";
-            this.ToolStripMenuItemDonate.Size = new System.Drawing.Size(182, 26);
+            this.ToolStripMenuItemDonate.Size = new System.Drawing.Size(184, 26);
             this.ToolStripMenuItemDonate.Text = "捐贈";
             this.ToolStripMenuItemDonate.Click += new System.EventHandler(this.ToolStripMenuItemDonate_Click);
             // 
             // ToolStripMenuItemHelp
             // 
             this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
-            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(182, 26);
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(184, 26);
             this.ToolStripMenuItemHelp.Text = "帮助";
             this.ToolStripMenuItemHelp.Click += new System.EventHandler(this.ToolStripMenuItemHelp_Click);
             // 
             // ToolStripMenuItemAbout
             // 
             this.ToolStripMenuItemAbout.Name = "ToolStripMenuItemAbout";
-            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(182, 26);
+            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(184, 26);
             this.ToolStripMenuItemAbout.Text = "关于";
             this.ToolStripMenuItemAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // ToolStripMenuItemAccessWebSite
             // 
             this.ToolStripMenuItemAccessWebSite.Name = "ToolStripMenuItemAccessWebSite";
-            this.ToolStripMenuItemAccessWebSite.Size = new System.Drawing.Size(182, 26);
+            this.ToolStripMenuItemAccessWebSite.Size = new System.Drawing.Size(184, 26);
             this.ToolStripMenuItemAccessWebSite.Text = "查看最新版本";
             this.ToolStripMenuItemAccessWebSite.Click += new System.EventHandler(this.ToolStripMenuItemAccessWebSite_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(179, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
             // 
             // ToolStripMenuItemSplitFile
             // 
             this.ToolStripMenuItemSplitFile.Name = "ToolStripMenuItemSplitFile";
-            this.ToolStripMenuItemSplitFile.Size = new System.Drawing.Size(182, 26);
+            this.ToolStripMenuItemSplitFile.Size = new System.Drawing.Size(184, 26);
             this.ToolStripMenuItemSplitFile.Text = "文件分割";
             this.ToolStripMenuItemSplitFile.Click += new System.EventHandler(this.ToolStripMenuItemSplitFile_Click);
             // 
             // ToolStripMenuItemMergeWL
             // 
             this.ToolStripMenuItemMergeWL.Name = "ToolStripMenuItemMergeWL";
-            this.ToolStripMenuItemMergeWL.Size = new System.Drawing.Size(182, 26);
+            this.ToolStripMenuItemMergeWL.Size = new System.Drawing.Size(184, 26);
             this.ToolStripMenuItemMergeWL.Text = "词库合并";
             this.ToolStripMenuItemMergeWL.Click += new System.EventHandler(this.ToolStripMenuItemMergeWL_Click);
             // 
@@ -314,22 +315,22 @@ namespace Studyzy.IMEWLConverter
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 502);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 500);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(732, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(732, 28);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(133, 18);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(133, 20);
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(189, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(190, 22);
             this.toolStripStatusLabel1.Text = "欢迎使用深蓝词库转换工具";
             // 
             // timer1
@@ -341,6 +342,15 @@ namespace Studyzy.IMEWLConverter
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // toolStripMenuItemShowLess
+            // 
+            this.toolStripMenuItemShowLess.Checked = true;
+            this.toolStripMenuItemShowLess.CheckOnClick = true;
+            this.toolStripMenuItemShowLess.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripMenuItemShowLess.Name = "toolStripMenuItemShowLess";
+            this.toolStripMenuItemShowLess.Size = new System.Drawing.Size(277, 26);
+            this.toolStripMenuItemShowLess.Text = "结果只显示首、末10万字符";
             // 
             // MainForm
             // 
@@ -359,7 +369,7 @@ namespace Studyzy.IMEWLConverter
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -410,6 +420,7 @@ namespace Studyzy.IMEWLConverter
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemMergeWL;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemRankGenerate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowLess;
     }
 }
 

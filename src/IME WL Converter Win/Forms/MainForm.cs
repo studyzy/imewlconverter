@@ -250,6 +250,7 @@ namespace Studyzy.IMEWLConverter
                 mainBody.SortDesc = this.sortDesc;
                 mainBody.BatchFilters = GetBatchFilters();
                 mainBody.ReplaceFilters = GetReplaceFilters();
+                mainBody.FilterConfig = filterConfig;
                 mainBody.Import.ImportLineErrorNotice += WriteErrorMessage;
                 mainBody.Export.ExportErrorNotice += WriteErrorMessage;
                 mainBody.ProcessNotice += RichTextBoxShow;
@@ -304,6 +305,7 @@ namespace Studyzy.IMEWLConverter
             return filters;
         }
 
+
         private IList<ISingleFilter> GetFilters()
         {
             var filters = new List<ISingleFilter>();
@@ -314,6 +316,10 @@ namespace Studyzy.IMEWLConverter
             if (filterConfig.IgnoreEnglish)
             {
                 filters.Add(new EnglishFilter());
+            }
+            if (filterConfig.IgnoreFirstCJK)
+            {
+                filters.Add(new FirstCJKFilter());
             }
             var lenFilter = new LengthFilter();
             lenFilter.MinLength = filterConfig.WordLengthFrom;
@@ -613,7 +619,13 @@ namespace Studyzy.IMEWLConverter
             }
             else if (mergeTo1File)
             {
-                richTextBox1.Text = fileContent;
+                if (toolStripMenuItemShowLess.Checked && (fileContent.Length > 200000))
+                {
+                    richTextBox1.Text = "为避免输出时卡死，“高级设置”中选中了“结果只显示首、末10万字”，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
+                     + fileContent.Substring(0, 100000) + "\n\n\n...\n\n\n"+  fileContent.Substring(fileContent.Length - 100000);
+                }
+                else
+                     richTextBox1.Text = fileContent;
                 //btnExport.Enabled = true;
             }
             if (!mergeTo1File || export is Win10MsPinyin || export is Win10MsWubi || export is Win10MsPinyinSelfStudy || export is Gboard)//微软拼音是二进制文件，不需要再提示保存
