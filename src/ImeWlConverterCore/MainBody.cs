@@ -507,7 +507,7 @@ namespace Studyzy.IMEWLConverter
             Regex numberRegex = new Regex("[0-9]+");
             Regex englishRegex = new Regex("[a-z]+", RegexOptions.IgnoreCase);
            // Regex punctuationRegex = new Regex("[-・·&%']");
-            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00d7\u00f7\u2000-\u2bff\u3000-\u303f]");
+            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00a0-\u00bf\u00d7\u00f7\u2000-\u2bff\u3000-\u303f\u30a0\u30fb]");
 
 
             foreach (WordLibrary wordLibrary in wordLibraryList)
