@@ -26,14 +26,21 @@ namespace Studyzy.IMEWLConverter.Entities
             WordRankFrom = 1;
             WordRankTo = 999999;
             WordRankPercentage = 100;
-            IgnoreEnglish = true;
-            IgnoreSpace = true;
-            IgnorePunctuation = true;
-            IgnoreNumber = true;
+            IgnoreFirstCJK = true;
+            //     ReplaceSpace = true;
+            //     ReplacePunctuation = true;
+            //     ReplaceNumber = true;
+            KeepSpace_ = true;
+            KeepSpace = true;
             NoFilter = false;
+            KeepEnglish = true;
+            KeepNumber_ = true;
+            PrefixEnglish = true;
+            KeepPunctuation_ = true;
         }
 
         public bool NoFilter { get; set; }
+        public bool KeepEnglish { get;  set; }
         public int WordLengthFrom { get; set; }
         public int WordLengthTo { get; set; }
 
@@ -51,5 +58,16 @@ namespace Studyzy.IMEWLConverter.Entities
         public bool ReplaceEnglish { get; set; }
         public bool ReplaceSpace { get; set; }
         public bool ReplacePunctuation { get; set; }
+        public bool KeepNumber { get; set; }
+        public bool IgnoreFirstCJK { get; set; }
+        public bool KeepNumber_ { get; set; }
+        public bool KeepEnglish_ { get; set; }
+        public bool KeepPunctuation { get; set; }
+        public bool KeepPunctuation_ { get; set; }
+        public bool ChsNumber { get; set; }
+        public bool PrefixEnglish { get; set; }
+        public bool KeepSpace_ { get; set; }
+        public bool KeepSpace { get; set; }
+        public bool needEnglishTag() { return PrefixEnglish; }
     }
 }

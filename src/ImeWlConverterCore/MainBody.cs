@@ -27,10 +27,11 @@ using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.Language;
 using System.Linq;
 using System.Timers;
+using System.Text.RegularExpressions;
 
 namespace Studyzy.IMEWLConverter
 {
-    public class MainBody:IDisposable
+    public class MainBody : IDisposable
     {
         public event Action<string> ProcessNotice;
         private WordLibraryList allWlList = new WordLibraryList();
@@ -47,7 +48,7 @@ namespace Studyzy.IMEWLConverter
         private Timer timer;
 
 
-        public IList<string> ExportContents { get; set; } 
+        public IList<string> ExportContents { get; set; }
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
@@ -169,6 +170,8 @@ namespace Studyzy.IMEWLConverter
 
         public IList<IReplaceFilter> ReplaceFilters { get; set; }
 
+        public FilterConfig FilterConfig { get; set; }
+
         public IList<ISingleFilter> Filters { get; set; }
         public SortType SortType { get; set; }
         public bool SortDesc { get; set; }
@@ -266,9 +269,10 @@ namespace Studyzy.IMEWLConverter
             //}
             ExportContents = export.Export(allWlList);
 
-
             this.timer.Stop();
+
             return string.Join("\r\n", ExportContents.ToArray());
+
         }
 
         private WordLibraryList RemoveEmptyCodeData(WordLibraryList wordLibraryList)
@@ -291,7 +295,7 @@ namespace Studyzy.IMEWLConverter
             currentStatus = 0;
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
-                if (wordLibrary.Rank == 0|| wordRankGenerater.ForceUse )
+                if (wordLibrary.Rank == 0 || wordRankGenerater.ForceUse)
                 {
                     wordLibrary.Rank = wordRankGenerater.GetRank(wordLibrary.Word);
                 }
@@ -299,11 +303,198 @@ namespace Studyzy.IMEWLConverter
                 processMessage = "生成词频：" + currentStatus + "/" + countWord;
             }
         }
+        /// 把字符串中的数字转换为汉字. 当数字不以0开头，并且以多个0结尾时，按照x千x百的方式转换。否则直接读挨个数字。
+        private String TranslateChineseNumber(String str)
+        {
+            StringBuilder builder = new StringBuilder();
+            StringBuilder buffer = new StringBuilder();
+
+            foreach (Char c in str)
+            {
+                if (c <= '9' && c >= '0')
+                {
+                    buffer.Append(c);
+                }
+                else
+                {
+                    if (buffer.Length > 0)
+                    {
+                        builder.Append(Num2Chs(buffer.ToString()));
+                        buffer = new StringBuilder();
+                    }
+                    builder.Append(c);
+                }
+            }
+
+            if (buffer.Length > 0)
+                builder.Append(Num2Chs(buffer.ToString()));
+
+            return builder.ToString();
+        }
+
+        private String Num2Chs(String str)
+        {
+            Regex regex = new Regex("[1-9].+(0{2,100})");
+            if (regex.IsMatch(str))
+                return Int2Chs(long.Parse(str));
+
+            Char[] chars = new Char[str.Length];
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                chars[i] = Num2Char(str[i]);
+            }
+
+            return new String(chars);
+
+        }
+
+        private char Num2Char(Char c)
+        {
+            switch (c)
+            {
+                case '1':
+                    return '一';
+                case '2':
+                    return '二';
+                case '3':
+                    return '三';
+                case '4':
+                    return '四';
+                case '5':
+                    return '五';
+                case '6':
+                    return '六';
+                case '7':
+                    return '七';
+                case '8':
+                    return '八';
+                case '9':
+                    return '九';
+            }
+            return '零';
+        }
+
+        // 十位以上的数字转换汉字, 来自这里 https://blog.csdn.net/iplayvs2008/article/details/89517321
+        private static string Int2Chs(long input)
+        {
+            string ret = null;
+            long input2 = Math.Abs(input);
+            string resource = "零一二三四五六七八九";
+            string unit = "个十百千万亿兆京垓秭穰沟涧正载极";
+            if (input > Math.Pow(10, 4 * (unit.Length - unit.IndexOf('万'))))
+            {
+                throw new Exception("the input is too big,input:" + input);
+            }
+            Func<long, List<List<int>>> splitNumFunc = (val) =>
+            {
+                int i = 0;
+                int mod;
+                long val_ = val;
+                List<List<int>> splits = new List<List<int>>();
+                List<int> splitNums;
+                do
+                {
+                    mod = (int)(val_ % 10);
+                    val_ /= 10;
+                    if (i % 4 == 0)
+                    {
+                        splitNums = new List<int>();
+                        splitNums.Add(mod);
+                        if (splits.Count == 0)
+                        {
+                            splits.Add(splitNums);
+                        }
+                        else
+                        {
+                            splits.Insert(0, splitNums);
+                        }
+                    }
+                    else
+                    {
+                        splitNums = splits[0];
+                        splitNums.Insert(0, mod);
+                    }
+                    i++;
+                } while (val_ > 0);
+                return splits;
+            };
+            Func<List<List<int>>, string> hommizationFunc = (data) =>
+            {
+                List<StringBuilder> builders = new List<StringBuilder>();
+                for (int i = 0; i < data.Count; i++)
+                {
+                    List<int> data2 = data[i];
+                    StringBuilder newVal = new StringBuilder();
+                    for (int j = 0; j < data2.Count;)
+                    {
+                        if (data2[j] == 0)
+                        {
+                            int k = j + 1;
+                            for (; k < data2.Count && data2[k] == 0; k++) ;
+                            //个位不是0，前面补一个零
+                            newVal.Append('零');
+                            j = k;
+                        }
+                        else
+                        {
+                            newVal.Append(resource[data2[j]]).Append(unit[data2.Count - 1 - j]);
+                            j++;
+                        }
+                    }
+                    if (newVal[newVal.Length - 1] == '零' && newVal.Length > 1)
+                    {
+                        newVal.Remove(newVal.Length - 1, 1);
+                    }
+                    else if (newVal[newVal.Length - 1] == '个')
+                    {
+                        newVal.Remove(newVal.Length - 1, 1);
+                    }
+
+                    if (i == 0 && newVal.Length > 1 && newVal[0] == '一' && newVal[1] == '十')
+                    {//一十 --> 十
+                        newVal.Remove(0, 1);
+                    }
+                    builders.Add(newVal);
+                }
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < builders.Count; i++)
+                {//拼接
+                    if (builders.Count == 1)
+                    {//个位数
+                        sb.Append(builders[i]);
+                    }
+                    else
+                    {
+                        if (i == builders.Count - 1)
+                        {//万位以下的
+                            if (builders[i][builders[i].Length - 1] != '零')
+                            {//十位以上的不拼接"零"
+                                sb.Append(builders[i]);
+                            }
+                        }
+                        else
+                        {//万位以上的
+                            if (builders[i][0] != '零')
+                            {//零万零亿之类的不拼接
+                                sb.Append(builders[i]).Append(unit[unit.IndexOf('千') + builders.Count - 1 - i]);
+                            }
+                        }
+                    }
+                }
+                return sb.ToString();
+            };
+            List<List<int>> ret_split = splitNumFunc(input2);
+            ret = hommizationFunc(ret_split);
+            if (input < 0) ret = "-" + ret;
+            return ret;
+        }
+
 
         private void GenerateDestinationCode(WordLibraryList wordLibraryList, CodeType codeType)
         {
             if (wordLibraryList.Count == 0) return;
-            if(wordLibraryList[0].CodeType== CodeType.NoCode&& codeType == CodeType.UserDefinePhrase)
+            if (wordLibraryList[0].CodeType == CodeType.NoCode && codeType == CodeType.UserDefinePhrase)
             {
                 codeType = CodeType.Pinyin;
             }
@@ -312,6 +503,13 @@ namespace Studyzy.IMEWLConverter
                 return;
             countWord = wordLibraryList.Count;
             currentStatus = 0;
+            Regex spaceRegex = new Regex("(?=[^a-zA-Z])\\s+");
+            Regex numberRegex = new Regex("[0-9]+");
+            Regex englishRegex = new Regex("[a-z]+", RegexOptions.IgnoreCase);
+           // Regex punctuationRegex = new Regex("[-・·&%']");
+            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00a0-\u00bf\u00d7\u00f7\u2000-\u2bff\u3000-\u303f\u30a0\u30fb]");
+
+
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
                 currentStatus++;
@@ -327,11 +525,157 @@ namespace Studyzy.IMEWLConverter
                 }
                 try
                 {
-                    generater.GetCodeOfWordLibrary(wordLibrary);
+                    string word_0 = wordLibrary.Word;
+                    string word = wordLibrary.Word;
+                    if (FilterConfig.KeepNumber_)
+                    {
+                        word = numberRegex.Replace(word, "");
+                    }
+
+                    if (FilterConfig.KeepEnglish_)
+                    {
+                        word = englishRegex.Replace(word, "");
+                    }
+
+                    if (FilterConfig.KeepSpace_)
+                    {
+                        if (FilterConfig.KeepSpace == false)
+                            word = word.Replace(" ", "");
+                        else
+                            word = spaceRegex.Replace(word, "");
+
+                    }
+
+                    if (FilterConfig.KeepPunctuation_)
+                    {
+                        word = punctuationRegex.Replace(word, "");
+                    }
+
+                    if (FilterConfig.ChsNumber)
+                    {
+                        word = TranslateChineseNumber(word);
+                    }
+
+                    if ((englishRegex.IsMatch(word) && FilterConfig.KeepEnglish) || (numberRegex.IsMatch(word) && FilterConfig.KeepNumber) || (punctuationRegex.IsMatch(word) && FilterConfig.KeepPunctuation))
+                    {
+
+                        StringBuilder input = new StringBuilder();
+                        List<IList<string>> output = new List<IList<string>>();
+
+                        int clipType = -1; int type = 0;
+
+                        foreach (char c in word)
+                        {
+
+                            if (c >= 0x30 && c <= 0x39)
+                            {
+                                type = 1;
+                            }
+                            else if (c >= 0x41 && c <= 0x5a)
+                            {
+                                type = 2;
+                            }
+                            else if (c >= 0x61 && c <= 0x7a)
+                            {
+                                type = 2;
+                            }else if (c == 0x20 && FilterConfig.KeepSpace && clipType==2)
+                            {
+                                type = 2;
+                            }
+                            else if ("-・&%'".Contains(c))
+                            {
+                                type = 3;
+                            }else if (punctuationRegex.IsMatch(c.ToString()))
+                            {
+                                type = 3;
+                            }
+                            else
+                            {
+                                type = 0;
+                            }
+                            if (input.Length < 1)
+                            {
+                                clipType = type;
+                                input.Append(c);
+                            }
+                            else if (type == clipType)
+                            {
+                                input.Append(c);
+                            }
+
+                            else
+                            {
+
+                                if (clipType == 2 && FilterConfig.KeepEnglish)
+                                {
+                                    if (FilterConfig.needEnglishTag())
+                                        output.Add(new List<string> { '_' + input.ToString() });
+                                    else
+                                        output.Add(new List<string> { input.ToString() });
+
+                                }
+                                else if ((clipType == 1 && FilterConfig.KeepNumber) || (clipType == 3 && FilterConfig.KeepPunctuation))
+                                {
+                                    output.Add(new List<string> { input.ToString() });
+                                }
+                                else
+                                {
+                                    wordLibrary.Word = input.ToString();
+                                    wordLibrary.CodeType = CodeType.NoCode;
+                                    generater.GetCodeOfWordLibrary(wordLibrary);
+                                    output.AddRange(wordLibrary.Codes);
+                                }
+                                input.Clear();
+                                input.Append(c);
+                                clipType = type;
+
+                            }
+                        }
+
+                        if (input.Length > 0)
+                        {
+                            if (clipType == 2 && FilterConfig.KeepEnglish)
+                            {
+                                if (FilterConfig.needEnglishTag())
+                                    output.Add(new List<string> { '_' + input.ToString() });
+                                else
+                                    output.Add(new List<string> { input.ToString() });
+
+                            }
+                            else if ((clipType == 1 && FilterConfig.KeepNumber) || (clipType == 3 && FilterConfig.KeepPunctuation))
+                            {
+                                output.Add(new List<string> { input.ToString() });
+                            }
+                            else
+                            {
+                                wordLibrary.Word = input.ToString();
+                                wordLibrary.CodeType = CodeType.NoCode;
+                                generater.GetCodeOfWordLibrary(wordLibrary);
+                                output.AddRange(wordLibrary.Codes);
+                            }
+                        }
+
+                        wordLibrary.Word = word_0;
+                        wordLibrary.Codes = new Code(output);
+
+                    }
+                    else
+                    {
+                        if (word.Equals(word_0))
+                            generater.GetCodeOfWordLibrary(wordLibrary);
+                        else
+                        {
+                            wordLibrary.Word = word;
+                            generater.GetCodeOfWordLibrary(wordLibrary);
+                            wordLibrary.Word = word_0;
+
+                        }
+                    }
+
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("生成编码失败"+ex.Message);
+                    Debug.WriteLine("生成编码失败" + ex.Message);
                 }
                 if (codeType != CodeType.Unknown)
                     wordLibrary.CodeType = codeType;
@@ -346,7 +690,7 @@ namespace Studyzy.IMEWLConverter
         public void Convert(IList<string> filePathes, string outputDir)
         {
             this.timer.Start();
-            ExportContents=new List<string>();
+            ExportContents = new List<string>();
             int c = 0;
 
             //filePathes = GetRealPath(filePathes);
@@ -366,7 +710,7 @@ namespace Studyzy.IMEWLConverter
                     }
                     c += wlList.Count;
                     GenerateWordRank(wlList);
-                    wlList= RemoveEmptyCodeData(wlList);
+                    wlList = RemoveEmptyCodeData(wlList);
                     ReplaceAfterCode(wlList);
                     ExportContents = export.Export(wlList);
                     for (var i = 0; i < ExportContents.Count; i++)
