@@ -40,6 +40,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         public static string AutoMatchSourceWLType(string filePath)
         {
+            
             string ext = Path.GetExtension(filePath);
             if (ext == ".scel")
             {
@@ -85,7 +86,12 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 return ConstantString.GBOARD;
             }
-            string example = "";
+            if (Directory.Exists(filePath))
+            {
+                return "";
+            }
+
+                string example = "";
             Encoding code = GetEncodingType(filePath);
             using (var sr = new StreamReader(filePath, code))
             {
@@ -381,6 +387,18 @@ namespace Studyzy.IMEWLConverter.Helpers
                 result.AddRange(GetFilesPathFor1(path.Trim()));
             }
             return result;
+        }
+        /// <summary>
+        /// 获取文件大小
+        /// </summary>
+        /// <param name="sFullName"></param>
+        /// <returns></returns>
+        public static long GetFileSize(string sFullName)
+        {
+            long lSize = 0;
+            if (File.Exists(sFullName))
+                lSize = new FileInfo(sFullName).Length;
+            return lSize;
         }
 
         /// <summary>

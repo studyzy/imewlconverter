@@ -29,7 +29,10 @@ namespace Studyzy.IMEWLConverter.Entities
         /// </summary>
         Wubi,
         Wubi98,
-
+        /// <summary>
+        /// 五笔新世纪
+        /// </summary>
+        WubiNewAge,
         /// <summary>
         ///     郑码
         /// </summary>

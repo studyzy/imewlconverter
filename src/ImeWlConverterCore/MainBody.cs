@@ -225,9 +225,22 @@ namespace Studyzy.IMEWLConverter
 
             foreach (string file in filePathes)
             {
-                WordLibraryList wlList = import.Import(file);
-                wlList = Filter(wlList);
-                allWlList.AddRange(wlList);
+                if (FileOperationHelper.GetFileSize(file) == 0)
+                {
+                    ProcessNotice("词库（" + Path.GetFileName(file) + "）为空，请检查");
+                    continue;
+                }
+                Debug.WriteLine("start process file:" + file);
+                try
+                {
+                    WordLibraryList wlList = import.Import(file);
+                    wlList = Filter(wlList);
+                    allWlList.AddRange(wlList);
+                }
+                catch(Exception ex)
+                {
+                    ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：" + ex.Message);
+                }
 
             }
             isImportProgress = false;

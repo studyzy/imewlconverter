@@ -38,6 +38,7 @@ namespace Studyzy.IMEWLConverter
         public const string SOUGOU_PINYIN_BIN = "搜狗拼音备份词库bin";
         public const string WUBI86 = "五笔86版";
         public const string WUBI98 = "五笔98版";
+        public const string WUBI_NEWAGE = "五笔新世纪版";
         public const string QQ_PINYIN = "QQ拼音";
         public const string LIBPINYIN = "libpinyin";
         public const string QQ_PINYIN_QPYD = "QQ分类词库qpyd";
@@ -86,6 +87,7 @@ namespace Studyzy.IMEWLConverter
         public const string SOUGOU_PINYIN_BIN_C = "sgpybin";
         public const string WUBI86_C = "wb86";
         public const string WUBI98_C = "wb98";
+        public const string WUBI_NEWAGE_C = "wbnewage";
         public const string QQ_PINYIN_C = "qqpy";
         public const string QQ_PINYIN_QPYD_C = "qpyd";
         public const string QQ_PINYIN_QCEL_C = "qcel";
