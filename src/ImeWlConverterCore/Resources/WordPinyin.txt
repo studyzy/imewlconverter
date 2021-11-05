@@ -24,6 +24,7 @@
 'xian'zhu 显著
 'fa'xing 发行
 'chang'de 长的
+'chang'men 长门
 'bu'liao 不了
 'zi'jue 自觉
 'zi'xing 自行
@@ -75,6 +76,7 @@
 'chi'bang 翅膀
 'qing'diao 情调
 'fan'tan 反弹
+'fan'dan'dao 反弹道
 'diao'du 调度
 'chang'tu 长途
 'hai'dei 还得
@@ -845,6 +847,7 @@
 'tan'gang'qin 弹钢琴
 'pai'ji'pao 迫击炮
 'jue'dou'shi 角斗士
+'jue'dou 角斗
 'xing'de'tong 行得通
 'yi'chang'chuan 一长串
 'suan'de'liao 算得了
@@ -1128,6 +1131,7 @@
 'shi'zai'bi'xing 势在必行
 'shen'wu'tong'jue 深恶痛绝
 'nan'shui'bei'diao 南水北调
+‘nan’mo 南无
 'shen'ti'li'xing 身体力行
 'ling'xing'jin'zhi 令行禁止
 'wei'yu'chou'mou 未雨绸缪
