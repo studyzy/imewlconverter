@@ -64,6 +64,8 @@ namespace Studyzy.IMEWLConverter.Entities
         public bool KeepEnglish_ { get; set; }
         public bool KeepPunctuation { get; set; }
         public bool KeepPunctuation_ { get; set; }
+
+        public bool FullWidth { get; set; }
         public bool ChsNumber { get; set; }
         public bool PrefixEnglish { get; set; }
         public bool KeepSpace_ { get; set; }
