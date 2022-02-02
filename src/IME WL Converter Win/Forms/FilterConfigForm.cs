@@ -67,6 +67,7 @@ namespace Studyzy.IMEWLConverter
 
             filterConfig.KeepPunctuation_ = cbxKeepPunctuation_.Checked;
 
+            filterConfig.FullWidth = cbxFullWidth.Checked;
             filterConfig.ChsNumber = cbxChsNumber.Checked;
             filterConfig.PrefixEnglish = cbxPrefixEnglish.Checked;
 
@@ -102,6 +103,7 @@ namespace Studyzy.IMEWLConverter
             cbxFilterFirstCJK.Checked = filterConfig.IgnoreFirstCJK;
             cbxKeepPunctuation.Checked = filterConfig.KeepPunctuation;
             cbxKeepPunctuation_.Checked = filterConfig.KeepPunctuation_;
+            cbxFullWidth.Checked = filterConfig.FullWidth;
             cbxChsNumber.Checked = filterConfig.ChsNumber;
             cbxPrefixEnglish.Checked = filterConfig.PrefixEnglish;
             cbxKeepSpace_.Checked = filterConfig.KeepSpace_;
