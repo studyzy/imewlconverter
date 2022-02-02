@@ -37,6 +37,7 @@ namespace Studyzy.IMEWLConverter.Entities
             KeepNumber_ = true;
             PrefixEnglish = true;
             KeepPunctuation_ = true;
+            FullWidth = true;
         }
 
         public bool NoFilter { get; set; }

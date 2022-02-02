@@ -443,6 +443,8 @@ namespace Studyzy.IMEWLConverter
             // cbxFullWidth
             // 
             this.cbxFullWidth.AutoSize = true;
+            this.cbxFullWidth.Checked = true;
+            this.cbxFullWidth.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxFullWidth.Location = new System.Drawing.Point(14, 276);
             this.cbxFullWidth.Margin = new System.Windows.Forms.Padding(4);
             this.cbxFullWidth.Name = "cbxFullWidth";
