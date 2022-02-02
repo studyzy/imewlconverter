@@ -261,6 +261,7 @@
 'xing'jiang 行将
 'zhao'xi 朝夕
 'meng'de 猛地
+'meng'shan'du 孟山都
 'xing'wen 行文
 'su'ming 宿命
 'dei'ren 得人
@@ -1131,7 +1132,7 @@
 'shi'zai'bi'xing 势在必行
 'shen'wu'tong'jue 深恶痛绝
 'nan'shui'bei'diao 南水北调
-‘nan’mo 南无
+‘na’mo 南无
 'shen'ti'li'xing 身体力行
 'ling'xing'jin'zhi 令行禁止
 'wei'yu'chou'mou 未雨绸缪
