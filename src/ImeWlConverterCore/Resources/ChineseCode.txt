@@ -547,7 +547,7 @@
 83E7	冪	pajh		mi4	0
 83E8	冭	duu		tai4	0
 83E9	冮	uag		gang1	0
-83EA	冴	uaht		hu4	0
+83EA	冴	uaht		ya4,hu4	0
 83EB	冸	uufh	uugh	pan4	0
 83EC	冹	udcy		fu2	0
 83ED	冺	unan		min3	0
