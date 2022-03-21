@@ -572,7 +572,9 @@ namespace Studyzy.IMEWLConverter
                         word = TranslateChineseNumber(word);
                     }
 
-                    if ((englishRegex.IsMatch(word) && FilterConfig.KeepEnglish) || (numberRegex.IsMatch(word) && FilterConfig.KeepNumber) || (punctuationRegex.IsMatch(word) && FilterConfig.KeepPunctuation))
+                    if ((FilterConfig.KeepEnglish && englishRegex.IsMatch(word)) 
+                        || (FilterConfig.KeepNumber && numberRegex.IsMatch(word)) 
+                        || (FilterConfig.KeepPunctuation && punctuationRegex.IsMatch(word)))
                     {
 
                         StringBuilder input = new StringBuilder();
@@ -594,7 +596,7 @@ namespace Studyzy.IMEWLConverter
                             else if (c >= 0x61 && c <= 0x7a)
                             {
                                 type = 2;
-                            }else if (c == 0x20 && FilterConfig.KeepSpace && clipType==2)
+                            }else if (FilterConfig.KeepSpace && c == 0x20 && clipType==2)
                             {
                                 type = 2;
                             }
@@ -622,7 +624,7 @@ namespace Studyzy.IMEWLConverter
                             else
                             {
 
-                                if (clipType == 2 && FilterConfig.KeepEnglish)
+                                if (FilterConfig.KeepEnglish && clipType == 2)
                                 {
                                     if (FilterConfig.needEnglishTag())
                                         output.Add(new List<string> { '_' + input.ToString() });
@@ -630,7 +632,7 @@ namespace Studyzy.IMEWLConverter
                                         output.Add(new List<string> { input.ToString() });
 
                                 }
-                                else if ((clipType == 1 && FilterConfig.KeepNumber) || (clipType == 3 && FilterConfig.KeepPunctuation))
+                                else if ((FilterConfig.KeepNumber && clipType == 1) || (FilterConfig.KeepPunctuation && clipType == 3))
                                 {
                                     output.Add(new List<string> { input.ToString() });
                                 }
@@ -650,7 +652,7 @@ namespace Studyzy.IMEWLConverter
 
                         if (input.Length > 0)
                         {
-                            if (clipType == 2 && FilterConfig.KeepEnglish)
+                            if (FilterConfig.KeepEnglish && clipType == 2)
                             {
                                 if (FilterConfig.needEnglishTag())
                                     output.Add(new List<string> { '_' + input.ToString() });
@@ -658,7 +660,7 @@ namespace Studyzy.IMEWLConverter
                                     output.Add(new List<string> { input.ToString() });
 
                             }
-                            else if ((clipType == 1 && FilterConfig.KeepNumber) || (clipType == 3 && FilterConfig.KeepPunctuation))
+                            else if ((FilterConfig.KeepNumber && clipType == 1) || (FilterConfig.KeepPunctuation && clipType == 3))
                             {
                                 output.Add(new List<string> { input.ToString() });
                             }
