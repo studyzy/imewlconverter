@@ -1,23 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{736D1A59-B755-4805-B0C7-F62EC12EB704}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Studyzy.IMEWLConverter</RootNamespace>
     <AssemblyName>深蓝词库转换</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <ApplicationIcon>app.ico</ApplicationIcon>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Documents and Settings\zengyi\桌面\词库测试\</PublishUrl>
     <Install>true</Install>
@@ -35,35 +22,11 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>D023E0A7D1F29511E571C5D888823CF5150F5061</ManifestCertificateThumbprint>
@@ -78,230 +41,25 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>True</NoWin32Manifest>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6\System.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreWinFormMapping.cs" />
-    <Compile Include="Forms\AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\DonateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DonateForm.Designer.cs">
-      <DependentUpon>DonateForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ErrorLogForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ErrorLogForm.Designer.cs">
-      <DependentUpon>ErrorLogForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ResultSortForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ResultSortForm.Designer.cs">
-      <DependentUpon>ResultSortForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SelfDefiningConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SelfDefiningConfigForm.Designer.cs">
-      <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ErbiTypeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ErbiTypeForm.Designer.cs">
-      <DependentUpon>ErbiTypeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EncodingComboBox.cs">
+    <Compile Update="EncodingComboBox.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\FilterConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FilterConfigForm.Designer.cs">
-      <DependentUpon>FilterConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\PinyinConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PinyinConfigForm.Designer.cs">
-      <DependentUpon>PinyinConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Language\OfficeComponent.cs" />
-    <Compile Include="Forms\Ld2EncodingConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Ld2EncodingConfigForm.Designer.cs">
-      <DependentUpon>Ld2EncodingConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MergeWLForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MergeWLForm.Designer.cs">
-      <DependentUpon>MergeWLForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\PhraseFormatConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PhraseFormatConfigForm.Designer.cs">
-      <DependentUpon>PhraseFormatConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\RimeConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\RimeConfigForm.Designer.cs">
-      <DependentUpon>RimeConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ChineseConverterSelectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ChineseConverterSelectForm.Designer.cs">
-      <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\HelpForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\HelpForm.Designer.cs">
-      <DependentUpon>HelpForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Forms\SplitFileForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SplitFileForm.Designer.cs">
-      <DependentUpon>SplitFileForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\WordRankGenerateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\WordRankGenerateForm.Designer.cs">
-      <DependentUpon>WordRankGenerateForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\XiaoxiaoConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\XiaoxiaoConfigForm.Designer.cs">
-      <DependentUpon>XiaoxiaoConfigForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Forms\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ChineseConverterSelectForm.resx">
-      <DependentUpon>ChineseConverterSelectForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DonateForm.resx">
-      <DependentUpon>DonateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ErrorLogForm.resx">
-      <DependentUpon>ErrorLogForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ResultSortForm.resx">
-      <DependentUpon>ResultSortForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SelfDefiningConfigForm.resx">
-      <DependentUpon>SelfDefiningConfigForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ErbiTypeForm.resx">
-      <DependentUpon>ErbiTypeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FilterConfigForm.resx">
-      <DependentUpon>FilterConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Ld2EncodingConfigForm.resx">
-      <DependentUpon>Ld2EncodingConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MergeWLForm.resx">
-      <DependentUpon>MergeWLForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PhraseFormatConfigForm.resx">
-      <DependentUpon>PhraseFormatConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RimeConfigForm.resx">
-      <DependentUpon>RimeConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\HelpForm.resx">
-      <DependentUpon>HelpForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PinyinConfigForm.resx">
-      <DependentUpon>PinyinConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="Forms\SplitFileForm.resx">
-      <DependentUpon>SplitFileForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\WordRankGenerateForm.resx">
-      <DependentUpon>WordRankGenerateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\XiaoxiaoConfigForm.resx">
-      <DependentUpon>XiaoxiaoConfigForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -309,9 +67,6 @@
     <Content Include="Readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\alipayQR.jpg" />
-    <None Include="Resources\微信打赏码.png" />
-    <None Include="Resources\支付宝收钱码.png" />
     <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -332,18 +87,27 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore-net46.csproj">
-      <Project>{0d5f11e7-fab1-4660-99a3-5cdaf4ac72e8}</Project>
-      <Name>ImeWlConverterCore-net46</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore-net46.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.0\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
-  </Target>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.310801">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Costura.Fody" Version="5.7.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Forms\CreatePinyinWLForm.cs" />
+    <Compile Remove="Forms\CreatePinyinWLForm.Designer.cs" />
+    <Compile Remove="Forms\SelfDefiningConfigFormExport.cs" />
+    <Compile Remove="Forms\SelfDefiningConfigFormImport.cs" />
+    <Compile Remove="Language\MsVbComponent.cs" />
+    <Compile Remove="Resource1.Designer.cs" />
+    <Compile Remove="WPF\App.xaml.cs" />
+    <Compile Remove="WPF\MainWindow.xaml.cs" />
+    <EmbeddedResource Remove="Forms\CreatePinyinWLForm.resx" />
+    <EmbeddedResource Remove="Forms\SelfDefiningConfigFormExport.resx" />
+    <EmbeddedResource Remove="Forms\SelfDefiningConfigFormImport.resx" />
+    <EmbeddedResource Remove="Resource1.resx" />
+  </ItemGroup>
 </Project>

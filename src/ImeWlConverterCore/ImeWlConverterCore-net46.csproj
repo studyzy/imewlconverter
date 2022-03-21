@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ImeWlConverterCore</AssemblyName>
     <RootNamespace>ImeWlConverterCore</RootNamespace>
     <Version>2.9.1</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="ImeWlConverterCore.csproj" />
     <None Remove="Resources\Cangjie5.txt" />
@@ -33,5 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="1.2.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.310801">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>
