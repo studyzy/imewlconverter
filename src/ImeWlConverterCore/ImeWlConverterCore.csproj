@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <Version>2.8.0</Version>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
