@@ -86,6 +86,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxEncoding.Name = "cbxEncoding";
             this.cbxEncoding.Size = new System.Drawing.Size(121, 20);
             this.cbxEncoding.TabIndex = 4;
+            this.cbxEncoding.SelectedIndex = 1; // UTF-8
             // 
             // Ld2EncodingConfigForm
             // 

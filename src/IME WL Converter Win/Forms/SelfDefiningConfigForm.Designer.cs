@@ -320,6 +320,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxTextEncoding.Name = "cbxTextEncoding";
             this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
             this.cbxTextEncoding.TabIndex = 14;
+            this.cbxTextEncoding.SelectedIndex = 1; // UTF-8
             this.cbxTextEncoding.Visible = false;
             // 
             // groupBox4
