@@ -318,7 +318,6 @@ namespace Studyzy.IMEWLConverter
             "ASCII"});
             this.cbxTextEncoding.Location = new System.Drawing.Point(423, 52);
             this.cbxTextEncoding.Name = "cbxTextEncoding";
-            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
             this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
             this.cbxTextEncoding.TabIndex = 14;
             this.cbxTextEncoding.Visible = false;
