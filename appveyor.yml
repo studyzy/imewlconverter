@@ -1,5 +1,5 @@
 image:
-    - Visual Studio 2019
+    - Visual Studio 2022
     - Ubuntu
 
 version: "{branch}.{build}"
