@@ -29,6 +29,8 @@ namespace Studyzy.IMEWLConverter
         {
             if (!isInit)
             {
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
                 Items.Clear();
                 Items.AddRange(new object[]
                 {

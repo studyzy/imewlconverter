@@ -56,6 +56,9 @@ namespace Studyzy.IMEWLConverter
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;
             wordRankGenerater = new DefaultWordRankGenerater();
+
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
             InitTimer();
         }
         /// <summary>
