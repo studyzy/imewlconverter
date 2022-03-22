@@ -87,7 +87,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore-net46.csproj" />
+    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.310801">
