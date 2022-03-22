@@ -133,7 +133,7 @@ namespace Studyzy.IMEWLConverter.Test
             selfDefining.UserDefiningPattern.MappingTablePath = "Test\\array30.txt";
             var str = selfDefining.Export(new WordLibraryList() { WlData });
             Debug.WriteLine(str);
-            //Assert.IsNotNullOrEmpty(str);
+            //Assert.That(str, Is.Not.Null.And.Not.Empty);
         }
         //[Test]
         //public void TestWLWithoutPinyinExportException()
@@ -160,7 +160,7 @@ namespace Studyzy.IMEWLConverter.Test
             selfDefining.UserDefiningPattern.MappingTablePath = "Test\\array30.txt";
             var x = selfDefining.Export(list);
             Debug.WriteLine(x);
-            Assert.IsNotNullOrEmpty(str);
+            Assert.That(str, Is.Not.Null.And.Not.Empty);
         }
         [Test]
         public void TestImportTxt()
@@ -177,7 +177,7 @@ namespace Studyzy.IMEWLConverter.Test
    
             var x = selfDefining.ImportLine(txt);
             Debug.WriteLine(x[0].ToString());
-            Assert.IsNotNullOrEmpty(x[0].Word,"深藍");
+            Assert.That(x[0].Word, Is.Not.Null.And.Not.Empty, "深藍");
         }
 
 

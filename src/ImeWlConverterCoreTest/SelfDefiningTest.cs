@@ -147,7 +147,7 @@ namespace Studyzy.IMEWLConverter.Test
             selfDefining.UserDefiningPattern.MappingTablePath = "./Test/array30.txt";
             var str = selfDefining.Export(new WordLibraryList() { WlData });
             Debug.WriteLine(str);
-            //Assert.IsNotNullOrEmpty(str);
+            //Assert.That(str, Is.Not.Null.And.Not.Empty);
         }
         //[Test]
         //public void TestWLWithoutPinyinExportException()
