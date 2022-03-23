@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>ImeWlConverterCore</AssemblyName>
     <RootNamespace>ImeWlConverterCore</RootNamespace>
     <Version>2.9.1</Version>
