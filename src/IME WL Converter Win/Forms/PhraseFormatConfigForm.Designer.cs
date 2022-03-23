@@ -149,6 +149,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxCodeType.Name = "cbxCodeType";
             this.cbxCodeType.Size = new System.Drawing.Size(185, 23);
             this.cbxCodeType.TabIndex = 8;
+            this.cbxCodeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // PhraseFormatConfigForm
             // 

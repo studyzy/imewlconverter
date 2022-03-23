@@ -81,6 +81,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxPinyinType.Size = new System.Drawing.Size(180, 23);
             this.cbxPinyinType.TabIndex = 1;
             this.cbxPinyinType.Text = "全拼";
+            this.cbxPinyinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // btnOK
             // 

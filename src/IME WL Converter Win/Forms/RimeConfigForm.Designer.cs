@@ -67,6 +67,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxCodeType.Size = new System.Drawing.Size(82, 21);
             this.cbxCodeType.TabIndex = 0;
             this.cbxCodeType.Text = "拼音";
+            this.cbxCodeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // label1
             // 
