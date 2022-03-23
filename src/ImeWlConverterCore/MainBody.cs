@@ -679,7 +679,7 @@ namespace Studyzy.IMEWLConverter
                     }
                     else
                     {
-                        if (word.Equals(word_0))
+                        if (word == word_0)
                             generater.GetCodeOfWordLibrary(wordLibrary);
                         else
                         {
