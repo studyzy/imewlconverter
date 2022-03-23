@@ -84,6 +84,7 @@ namespace Studyzy.IMEWLConverter
         /// <param name="e"></param>
         private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
         {
+            if (String.IsNullOrEmpty(this.processMessage)) return;
             try
             {
                 ProcessNotice(this.processMessage);
