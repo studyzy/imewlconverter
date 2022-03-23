@@ -200,12 +200,12 @@ namespace Studyzy.IMEWLConverter
         {
             if (import == null || export == null)
             {
-                MessageBox.Show("请先选择导入词库类型和导出词库类型");
+                MessageBox.Show("请先选择导入词库类型和导出词库类型", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             if (this.txbWLPath.Text == "")
             {
-                MessageBox.Show("请先选择源词库文件");
+                MessageBox.Show("请先选择源词库文件", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -259,7 +259,7 @@ namespace Studyzy.IMEWLConverter
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -387,7 +387,7 @@ namespace Studyzy.IMEWLConverter
             toolStripStatusLabel1.Text = statusMessage;
             if (showMessageBox)
             {
-                MessageBox.Show(statusMessage);
+                MessageBox.Show(statusMessage, "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -597,7 +597,7 @@ namespace Studyzy.IMEWLConverter
             }
             if (e.Error != null)
             {
-                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message);
+                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (e.Error.InnerException != null)
                 {
                     RichTextBoxShow(e.Error.InnerException.ToString());
@@ -626,7 +626,7 @@ namespace Studyzy.IMEWLConverter
             }
             if (!mergeTo1File || export is Win10MsPinyin || export is Win10MsWubi || export is Win10MsPinyinSelfStudy || export is Gboard)//微软拼音是二进制文件，不需要再提示保存
             {
-                MessageBox.Show("转换完成!");
+                MessageBox.Show("转换完成!", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             if (

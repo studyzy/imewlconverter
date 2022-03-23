@@ -76,7 +76,7 @@ namespace Studyzy.IMEWLConverter
             {
                 if (string.IsNullOrEmpty(txbFilePath.Text) || !File.Exists(txbFilePath.Text))
                 {
-                    MessageBox.Show("未指定字符编码映射文件，无法对词库进行自定义编码的生成");
+                    MessageBox.Show("未指定字符编码映射文件，无法对词库进行自定义编码的生成", "自定义编码", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
                 SelectedParsePattern.TextEncoding = cbxTextEncoding.SelectedEncoding;
