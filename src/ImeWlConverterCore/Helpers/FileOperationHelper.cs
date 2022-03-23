@@ -64,7 +64,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             if (ext == ".dat")
             {
-                return ConstantString.WIN10_MS_PINYIN_SELF_STUDY;
+                return ConstantString.WIN10_MS_PINYIN;
             }
             if (ext == ".bcd")
             {
