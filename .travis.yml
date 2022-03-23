@@ -3,10 +3,10 @@ dist: xenial
 sudo: required
 language: csharp
 mono: none
-dotnet: 3.1
+dotnet: 6.0
 script:
 # - dotnet restore ./src/ImeWlConverterDotnetCore/ImeWlConverterCmd
  - dotnet build ./src/ImeWlConverterCmd
  - dotnet test ./src/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
- - cd ./src/ImeWlConverterCmd/bin/Debug/netcoreapp3.0
+ - cd ./src/ImeWlConverterCmd/bin/Debug/net6.0
  - dotnet ./ImeWlConverterCmd.dll -?

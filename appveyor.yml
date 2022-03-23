@@ -12,7 +12,7 @@ for:
       build_script:
         - dotnet build ./src/ImeWlConverterCmd --configuration Release
       after_build:
-        - cd ./src/ImeWlConverterCmd/bin/Release/netcoreapp3.0
+        - cd ./src/ImeWlConverterCmd/bin/Release/net6.0
         - tar czvf ./imewlconverter_Linux_Mac.tar.gz *
         - mv ./imewlconverter_Linux_Mac.tar.gz ~/imewlconverter
         - cd ~/imewlconverter
@@ -52,7 +52,7 @@ for:
       after_build:
         - 7z a imewlconverter_Windows.zip "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.exe" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\ImeWlConverterCore.dll" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\Readme.txt" "C:\imewlconverter\src\IME WL Converter Win\bin\Release\*.manifest"
       test_script:
-        - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net46\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
+        - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net6.0\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
       artifacts:
         - path: imewlconverter_Windows.zip
           name: WinForm
