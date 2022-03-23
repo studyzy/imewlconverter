@@ -420,8 +420,7 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemSplitFile_Click(object sender, EventArgs e)
         {
-            var form = new SplitFileForm();
-            form.Show();
+            new SplitFileForm().ShowDialog();
         }
 
         private ChineseTranslate translate = ChineseTranslate.NotTrans;
@@ -449,20 +448,18 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemDonate_Click(object sender, EventArgs e)
         {
-            new DonateForm().Show();
+            new DonateForm().ShowDialog();
             //Process.Start("https://github.com/studyzy/imewlconverter/wiki/Donate");
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
         {
-            var a = new AboutBox();
-            a.Show();
+            new AboutBox().ShowDialog();
         }
 
         private void ToolStripMenuItemHelp_Click(object sender, EventArgs e)
         {
-            var help = new HelpForm();
-            help.Show();
+            new HelpForm().ShowDialog();
         }
 
         private void toolStripMenuItemStreamExport_Click(object sender, EventArgs e)
@@ -495,8 +492,7 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemMergeWL_Click(object sender, EventArgs e)
         {
-            var form = new MergeWLForm();
-            form.Show();
+            new MergeWLForm().ShowDialog();
         }
 
         private void ToolStripMenuItemRankGenerate_Click(object sender, EventArgs e)
