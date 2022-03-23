@@ -27,7 +27,7 @@ namespace Studyzy.IMEWLConverter.Test
     {
         #region SetUp/Teardown
 
-        [SetUp]
+        [OneTimeSetUp]
         public override void InitData()
         {
             exporter = new GooglePinyin();

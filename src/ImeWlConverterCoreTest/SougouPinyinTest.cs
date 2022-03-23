@@ -24,7 +24,7 @@ namespace Studyzy.IMEWLConverter.Test
     [TestFixture]
     internal class SougouPinyinTest : BaseTest
     {
-        [SetUp]
+        [OneTimeSetUp]
         public override void InitData()
         {
             importer = new SougouPinyin();

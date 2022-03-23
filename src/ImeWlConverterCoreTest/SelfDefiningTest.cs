@@ -29,7 +29,7 @@ namespace Studyzy.IMEWLConverter.Test
     public class SelfDefiningTest
     {
         //private SelfDefining selfDefining;
-        //[SetUp]
+        //[OneTimeSetUp]
         //public void Init()
         //{
         //    selfDefining=new SelfDefining();

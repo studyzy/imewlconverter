@@ -28,7 +28,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
     class ErbiTest
     {
         private IWordCodeGenerater generater;
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             generater = new QingsongErbiGenerater();

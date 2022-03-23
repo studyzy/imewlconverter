@@ -47,7 +47,7 @@ namespace Studyzy.IMEWLConverter.Test
             get { throw new NotImplementedException(); }
         }
 
-        [SetUp]
+        [OneTimeSetUp]
         public override void InitData()
         {
             importer = new LingoesLd2();

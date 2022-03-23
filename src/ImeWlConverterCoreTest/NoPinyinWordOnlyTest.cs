@@ -25,7 +25,7 @@ namespace Studyzy.IMEWLConverter.Test
     [TestFixture]
     public class NoPinyinWordOnlyTest : BaseTest
     {
-        [SetUp]
+        [OneTimeSetUp]
         public override void InitData()
         {
             importer = new NoPinyinWordOnly();

@@ -25,7 +25,7 @@ namespace Studyzy.IMEWLConverter.Test
     [TestFixture]
     internal class RimeTest : BaseTest
     {
-        [SetUp]
+        [OneTimeSetUp]
         public override void InitData()
         {
             exporter = new Rime();
