@@ -33,6 +33,7 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
         [TestCase("Test/QQPinyin.txt", "Unicode")]
         public void TestGetFileEncoding(string path,string encoding)
         {
+            path = GetFullPath(path);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var e = FileOperationHelper.GetEncodingType(path);
             Assert.AreEqual(e.EncodingName, Encoding.GetEncoding(encoding).EncodingName);
@@ -42,11 +43,15 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
         [Test]
         public void TestWriteFile()
         {
-            string path = "WriteTest.txt";
+            string path = GetFullPath("WriteTest.txt");
             string content = "Hello Word!";
             Assert.IsTrue(FileOperationHelper.WriteFile(path, Encoding.UTF8, content));
             Assert.IsTrue(File.Exists(path));
             File.Delete(path);
+        }
+        protected string GetFullPath(string fileName)
+        {
+            return Path.Combine(TestContext.CurrentContext.TestDirectory, fileName);
         }
     }
 }

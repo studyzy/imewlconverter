@@ -2,6 +2,10 @@ image:
     - Visual Studio 2022
     - Ubuntu
 
+# fix issue https://github.com/nunit/nunit-console/issues/1101, .NET 6.0 support in 3.15.0 or later.
+# the script from: https://help.appveyor.com/discussions/questions/47366-nunit-console-runner-version
+#init:
+
 version: "{branch}.{build}"
 for:
     -
@@ -42,9 +46,24 @@ for:
     -
       matrix:
         only:
-          - image: Visual Studio 2019
+          - image: Visual Studio 2022
       clone_folder: C:\imewlconverter
       before_build:
+        - ps: |
+           # nunit
+           $nunitPath = "$env:SYSTEMDRIVE\Tools\NUnit3"
+           Remove-Item $nunitPath -Recurse -Force
+           $zipPath = "$env:TEMP\NUnit.Console-3.15.0.zip"
+           $tempPath = "$env:TEMP\NUnit.Console"
+           (New-Object Net.WebClient).DownloadFile('https://github.com/nunit/nunit-console/releases/download/3.15.0/NUnit.Console-3.15.0.zip', $zipPath)
+           7z x $zipPath -y -o"$tempPath" | Out-Null
+           [IO.Directory]::Move("$tempPath\bin\net6.0", $nunitPath)
+           # logger
+           $zipPath = "$env:TEMP\Appveyor.NUnit3Logger.zip"
+           (New-Object Net.WebClient).DownloadFile('https://www.appveyor.com/downloads/Appveyor.NUnit3Logger.zip', $zipPath)
+           7z x $zipPath -y -o"$nunitPath\addins" | Out-Null
+           Move-Item "$nunitPath\addins\appveyor.addins" "$nunitPath\appveyor.addins"
+
         - SET SLNPATH=%APPVEYOR_BUILD_FOLDER%\src\IME WL Converter WinForm.sln
         - SET DIST=%APPVEYOR_BUILD_FOLDER%\src\IME WL Converter Win\bin\Release\net6.0-windows
       
@@ -55,7 +74,7 @@ for:
         - 7z a imewlconverter_Windows.zip "%DIST%\*.exe" "%DIST%\*.dll" "%DIST%\Readme.txt" "%DIST%\*.runtimeconfig.json"
       after_build:
       test_script:
-        - nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net6.0\ImeWlConverterCoreTest.dll" -result=myresults.xml;format=AppVeyor
+        - C:\Tools\NUnit3\nunit3-console "C:\imewlconverter\src\ImeWlConverterCoreTest\bin\Release\net6.0\ImeWlConverterCoreTest.dll" -result=myresults.xml
       artifacts:
         - path: imewlconverter_Windows.zip
           name: WinForm

@@ -32,7 +32,7 @@ namespace Studyzy.IMEWLConverter.Test
         {
             string ld2File = GetFullPath(file);
 
-            WordLibraryList reult = importer.Import(ld2File);
+            WordLibraryList reult = importer.Import(GetFullPath(ld2File));
 
             Assert.IsNotNull(reult);
             Assert.Greater(reult.Count, 0);

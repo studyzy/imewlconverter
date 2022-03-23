@@ -17,6 +17,7 @@
 
 using System;
 using System.IO;
+using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Test
@@ -51,7 +52,7 @@ namespace Studyzy.IMEWLConverter.Test
 
         protected string GetFullPath(string fileName)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Test", fileName);
+            return Path.Combine(TestContext.CurrentContext.TestDirectory, "Test", fileName);
         }
     }
 }
