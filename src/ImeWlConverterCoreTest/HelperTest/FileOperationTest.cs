@@ -33,8 +33,9 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
         [TestCase("Test\\QQPinyin.txt", "Unicode")]
         public void TestGetFileEncoding(string path,string encoding)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var e = FileOperationHelper.GetEncodingType(path);
-            Assert.AreEqual(e.ToString(),Encoding.GetEncoding(encoding).ToString());
+            Assert.AreEqual(e.EncodingName, Encoding.GetEncoding(encoding).EncodingName);
             var txt = FileOperationHelper.ReadFile(path);
             Debug.WriteLine(txt);
         }
