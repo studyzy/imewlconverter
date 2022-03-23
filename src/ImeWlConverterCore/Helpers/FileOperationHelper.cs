@@ -341,6 +341,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 if (s1 < 0x80 || (s < 0xE0 || s > 0xF0))
                 {
                     //return Encoding.GetEncoding("GB18030");
+                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     try
                     {
                         return Encoding.GetEncoding("GB18030");

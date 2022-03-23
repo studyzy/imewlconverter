@@ -56,6 +56,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get
             {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 try
                 {
                     return Encoding.GetEncoding("GBK");

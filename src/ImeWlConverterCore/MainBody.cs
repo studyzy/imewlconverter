@@ -761,6 +761,7 @@ namespace Studyzy.IMEWLConverter
                                Path.GetFileNameWithoutExtension(filePath) + (i == 0 ? "" : i.ToString()) + ".txt";
                 FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
             }
+            ExportContents = new List<string>();
         }
 
         public void StreamConvert(IList<string> filePathes, string outPath)
