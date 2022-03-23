@@ -166,7 +166,6 @@ namespace Studyzy.IMEWLConverter
         protected string exportFileName;
         private string exportPath = "";
         //private bool isFolderBatchConvert = false;
-        private string fileContent;
         private FilterConfig filterConfig = new FilterConfig();
         //private ParsePattern fromUserSetPattern;
         private SortType sortType=SortType.Default;
@@ -551,7 +550,7 @@ namespace Studyzy.IMEWLConverter
                 {
                     try
                     {
-                        fileContent = mainBody.Convert(files);
+                        mainBody.Convert(files);
                     }
                     catch (Exception ex)
                     {
@@ -615,13 +614,14 @@ namespace Studyzy.IMEWLConverter
             }
             else if (mergeTo1File)
             {
-                if (toolStripMenuItemShowLess.Checked && (fileContent.Length > 200000))
+                var dataText=string.Join("\r\n", mainBody.ExportContents);
+                if (toolStripMenuItemShowLess.Checked && (dataText.Length > 200000))
                 {
                     richTextBox1.Text = "为避免输出时卡死，“高级设置”中选中了“结果只显示首、末10万字”，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
-                     + fileContent.Substring(0, 100000) + "\n\n\n...\n\n\n"+  fileContent.Substring(fileContent.Length - 100000);
+                     + dataText.Substring(0, 100000) + "\n\n\n...\n\n\n" + dataText.Substring(dataText.Length - 100000);
                 }
                 else
-                     richTextBox1.Text = fileContent;
+                    richTextBox1.Text = dataText;
                 //btnExport.Enabled = true;
             }
             if (!mergeTo1File || export is Win10MsPinyin || export is Win10MsWubi || export is Win10MsPinyinSelfStudy || export is Gboard)//微软拼音是二进制文件，不需要再提示保存

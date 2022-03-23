@@ -34,7 +34,6 @@ namespace Studyzy.IMEWLConverter
     public class MainBody : IDisposable
     {
         public event Action<string> ProcessNotice;
-        private WordLibraryList allWlList = new WordLibraryList();
         private int count;
         private int countWord;
         private int currentStatus;
@@ -213,6 +212,7 @@ namespace Studyzy.IMEWLConverter
         //    return list;
         //}
 
+        
         /// <summary>
         /// 转换多个文件成一个文件
         /// </summary>
@@ -220,9 +220,10 @@ namespace Studyzy.IMEWLConverter
         /// <returns></returns>
         public string Convert(IList<string> filePathes)
         {
+            var allWlList = new WordLibraryList();
+
             this.timer.Start();
             ExportContents = new List<string>();
-            allWlList.Clear();
             isImportProgress = true;
 
             //filePathes = GetRealPath(filePathes);
@@ -289,7 +290,6 @@ namespace Studyzy.IMEWLConverter
             this.timer.Stop();
 
             return string.Join("\r\n", ExportContents.ToArray());
-
         }
 
         private WordLibraryList RemoveEmptyCodeData(WordLibraryList wordLibraryList)
@@ -739,6 +739,7 @@ namespace Studyzy.IMEWLConverter
                                             ".txt";
                         FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
                     }
+                    ExportContents = new List<string>();
                     var costSeconds = (DateTime.Now - start).TotalSeconds;
                     ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t转换完成，耗时：" +
                                           costSeconds + "秒\r\n");
