@@ -321,7 +321,7 @@ namespace Studyzy.IMEWLConverter
             }
         }
         /// 把字符串中的数字转换为汉字. 当数字不以0开头，并且以多个0结尾时，按照x千x百的方式转换。否则直接读挨个数字。
-        private String TranslateChineseNumber(String str)
+        private static String TranslateChineseNumber(String str)
         {
             StringBuilder builder = new StringBuilder();
             StringBuilder buffer = new StringBuilder();
@@ -349,10 +349,10 @@ namespace Studyzy.IMEWLConverter
             return builder.ToString();
         }
 
-        private String Num2Chs(String str)
+        private static readonly Regex Num2ChsRegex = new Regex("[1-9].+(0{2,100})");
+        private static String Num2Chs(String str)
         {
-            Regex regex = new Regex("[1-9].+(0{2,100})");
-            if (regex.IsMatch(str))
+            if (Num2ChsRegex.IsMatch(str))
                 return Int2Chs(long.Parse(str));
 
             Char[] chars = new Char[str.Length];
@@ -366,7 +366,7 @@ namespace Studyzy.IMEWLConverter
 
         }
 
-        private char Num2Char(Char c)
+        private static char Num2Char(Char c)
         {
             switch (c)
             {

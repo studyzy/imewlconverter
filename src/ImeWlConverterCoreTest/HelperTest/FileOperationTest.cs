@@ -49,7 +49,7 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             Assert.IsTrue(File.Exists(path));
             File.Delete(path);
         }
-        protected string GetFullPath(string fileName)
+        protected static string GetFullPath(string fileName)
         {
             return Path.Combine(TestContext.CurrentContext.TestDirectory, fileName);
         }
