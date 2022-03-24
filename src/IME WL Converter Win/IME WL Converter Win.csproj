@@ -106,13 +106,6 @@
     <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.310801">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Costura.Fody" Version="5.7.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Forms\CreatePinyinWLForm.cs" />
     <Compile Remove="Forms\CreatePinyinWLForm.Designer.cs" />
     <Compile Remove="Forms\SelfDefiningConfigFormExport.cs" />
