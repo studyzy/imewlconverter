@@ -159,7 +159,7 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     Debug.WriteLine(ex.Message);
                 }
-                if (fs.Length == fs.Position) //判断文件结束
+                if (CurrentStatus == CountWord || fs.Length == fs.Position) //判断文件结束
                 {
                     fs.Close();
                     break;
