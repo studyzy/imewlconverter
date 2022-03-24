@@ -41,6 +41,13 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             Debug.WriteLine(txt);
         }
         [Test]
+        public void TestCodePagesEncodingProviderRequired()
+        {
+            Assert.Catch(Type.GetType("System.ArgumentException"), () => Encoding.GetEncoding("GB2312").ToString());
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Assert.AreEqual("Chinese Simplified (GB2312)", Encoding.GetEncoding("GB2312").EncodingName);
+        }
+        [Test]
         public void TestWriteFile()
         {
             string path = GetFullPath("WriteTest.txt");
