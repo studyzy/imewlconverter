@@ -620,16 +620,17 @@ namespace Studyzy.IMEWLConverter
                     richTextBox1.Text = "为避免输出时卡死，“高级设置”中选中了“结果只显示首、末10万字”，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
                      + dataText.Substring(0, 100000) + "\n\n\n...\n\n\n" + dataText.Substring(dataText.Length - 100000);
                 }
-                else
+                else if (dataText.Length > 0) {
                     richTextBox1.Text = dataText;
-                //btnExport.Enabled = true;
+                    //btnExport.Enabled = true;
+                }
             }
             if (!mergeTo1File || export is Win10MsPinyin || export is Win10MsWubi || export is Win10MsPinyinSelfStudy || export is Gboard)//微软拼音是二进制文件，不需要再提示保存
             {
                 MessageBox.Show("转换完成!", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (
+            if (mainBody.Count > 0 &&
                 MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
