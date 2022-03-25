@@ -48,8 +48,7 @@ namespace Studyzy.IMEWLConverter.Test
                 importer.ImportLine("test");
             }, "Scel格式是二进制文件，不支持流转换");
         }
-        [Ignore("较慢，按需启用")]
-        [TestCase("诗词名句大全.scel")]
+        [TestCase("诗词名句大全.scel"), Description("较慢，按需启用"), Explicit()]
         public void TestImportBigScel(string filePath)
         {
             var lib = importer.Import(GetFullPath(filePath));
@@ -95,8 +94,8 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.True(info["Sample"].Contains("张九龄 侧见双翠鸟"));
         }
 
-        [Ignore("按需使用。下载1MB，用时1秒")]
         [TestCase("https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D%E3%80%90%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E3%80%91&f=detail")]
+        [Description("按需使用。下载1MB，用时1秒"), Explicit()]
         public void TestLatestScelOnWeb(string url)
         {
             var filePath = Path.GetTempFileName();

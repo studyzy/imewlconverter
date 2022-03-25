@@ -26,8 +26,7 @@ namespace Studyzy.IMEWLConverter.Test
 {
     class PerformanceTest
     {
-        [Ignore("需要的时候再启用")]
-        [Test]
+        [Test, Explicit()]
         public void TestLoadHugeNumberWL()
         {
             Debug.WriteLine("Start:" + DateTime.Now.ToString());
