@@ -101,9 +101,7 @@ namespace Studyzy.IMEWLConverter.Test
             var filePath = Path.GetTempFileName();
             WebClient dl = new WebClient();
             dl.DownloadFile(url, filePath);
-
             var info = SougouPinyinScel.ReadScelInfo(GetFullPath(filePath));
-            Assert.That(info, Is.Not.Null.And.Not.Empty);
             foreach (var item in info)
                 TestContext.WriteLine(item.Key + ": " + item.Value);
             Assert.Greater(info["CountWord"], "10000");
@@ -113,7 +111,7 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.That(info["Sample"], Is.Not.Null.And.Not.Empty);
 
             var lib = importer.Import(GetFullPath(filePath));
-            Assert.Greater(lib.Count, 0);
+            Assert.AreEqual(info["CountWord"], lib.Count);
             Assert.That(lib[0].Word, Is.Not.Null.And.Not.Empty);
         }
     }
