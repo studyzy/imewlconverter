@@ -237,6 +237,11 @@ namespace Studyzy.IMEWLConverter
                     {
                         outputDir = folderBrowserDialog1.SelectedPath;
                     }
+                    else
+                    {
+                        ShowStatusMessage("请选择词库保存的路径，否则将无法进行词库导出", true);
+                        return;
+                    }
                 }
                 mainBody = new MainBody();
                 mainBody.SelectedWordRankGenerater = wordRankGenerater;

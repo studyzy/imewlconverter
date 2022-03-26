@@ -750,6 +750,8 @@ namespace Studyzy.IMEWLConverter
                 {
                     ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t处理时发生异常：" +
                                          ex.Message + "\r\n");
+                    count = c;
+                    this.timer.Stop();
                 }
             }
             count = c;
