@@ -630,10 +630,10 @@ namespace Studyzy.IMEWLConverter
                 MessageBox.Show("转换完成!", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (mainBody.Count > 0 &&
-                MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+            if (mainBody.Count > 0)
             {
+                if (MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？",
+                    "是否保存", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) return;
                 if (!string.IsNullOrEmpty(exportFileName))
                 {
                     saveFileDialog1.FileName = exportFileName;
@@ -656,6 +656,9 @@ namespace Studyzy.IMEWLConverter
                     ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
 
                 }
+            }
+            else {
+                MessageBox.Show("转换失败，没有找到词条", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
