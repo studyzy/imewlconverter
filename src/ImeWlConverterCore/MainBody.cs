@@ -244,7 +244,7 @@ namespace Studyzy.IMEWLConverter
                 }
                 catch(Exception ex)
                 {
-                    ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：" + ex.Message);
+                    ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：\n\t" + ex.Message);
                     isImportProgress = false;
                     this.timer.Stop();
                     return "";

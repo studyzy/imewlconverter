@@ -41,6 +41,7 @@ namespace Studyzy.IMEWLConverter.IME
         #endregion
 
         private Dictionary<int, string> pyDic = new Dictionary<int, string>();
+        private static char[] a2zchar => "abcdefghijklmnopqrstuvwxyz".ToCharArray();
 
         #region IWordLibraryImport Members
 
@@ -55,7 +56,10 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new Exception("Qcel格式是二进制文件，不支持流转换");
         }
-
+        public static Dictionary<string, string> ReadQcelInfo(string path)
+        {
+            return SougouPinyinScel.ReadScelInfo(path);
+        }
         private WordLibraryList ReadQcel(string path)
         {
             pyDic = new Dictionary<int, string>();
@@ -88,22 +92,6 @@ namespace Studyzy.IMEWLConverter.IME
             CountWord = BinFileHelper.ReadInt32(fs);
             CurrentStatus = 0;
 
-            //fs.Position = 0x130;
-            //fs.Read(str, 0, 64);
-            //string txt = Encoding.Unicode.GetString(str);
-            ////Console.WriteLine("字库名称:" + txt);
-            //fs.Position = 0x338;
-            //fs.Read(str, 0, 64);
-            ////Console.WriteLine("字库类别:" + Encoding.Unicode.GetString(str));
-
-            //fs.Position = 0x540;
-            //fs.Read(str, 0, 64);
-            ////Console.WriteLine("字库信息:" + Encoding.Unicode.GetString(str));
-
-            //fs.Position = 0xd40;
-            //fs.Read(str, 0, 64);
-            ////Console.WriteLine("字库示例:" + Encoding.Unicode.GetString(str));
-
             fs.Position = 0x1540;
             str = new byte[4];
             fs.Read(str, 0, 4); //\x9D\x01\x00\x00
@@ -119,6 +107,7 @@ namespace Studyzy.IMEWLConverter.IME
                 pyDic.Add(mark, py);
                 if (py == "zuo") //最后一个拼音
                 {
+                    Debug.WriteLine(fs.Position);
                     break;
                 }
             }
@@ -130,20 +119,23 @@ namespace Studyzy.IMEWLConverter.IME
             Debug.WriteLine(s.ToString());
 
 
-            fs.Position = 0x2628;
+            //fs.Position = 0x2628;
             //fs.Position = hzPosition;
 
             while (true)
             {
                 try
                 {
-                    pyAndWord.AddRange(ReadAPinyinWord(fs));
+                    var data = ReadAPinyinWord(fs);
+                    if (data is null) break;
+                    
+                    pyAndWord.AddRange(data);
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    throw ex;
                 }
-                if (fs.Length == fs.Position) //判断文件结束
+                if (CurrentStatus == CountWord || fs.Length == fs.Position) //判断文件结束
                 {
                     fs.Close();
                     break;
@@ -174,7 +166,12 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 0; i < pinyinLen / 2; i++)
             {
                 int key = str[i * 2] + str[i * 2 + 1] * 256;
-                wordPY.Add(pyDic[key]);
+                //Debug.Assert(key < pyDic.Count);
+                if(key < pyDic.Count)
+                    wordPY.Add(pyDic[key]);
+                else
+                    wordPY.Add(a2zchar[key - pyDic.Count].ToString());
+                    //return null; // 用于调试，忽略编码异常的记录，不中止运行
             }
             //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号
             //接下来读词语
