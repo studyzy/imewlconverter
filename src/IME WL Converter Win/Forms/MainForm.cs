@@ -161,7 +161,7 @@ namespace Studyzy.IMEWLConverter
         private MainBody mainBody;
 
         private IWordLibraryExport export;
-        private bool exportDirectly;
+        private bool exportDirectly => toolStripMenuItemExportDirectly.Checked;
         //private int defaultRank = 10;
         protected string exportFileName;
         private string exportPath = "";
@@ -173,9 +173,9 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryImport import;
 
-        private bool mergeTo1File = true;
+        private bool mergeTo1File => toolStripMenuItemMergeToOneFile.Checked;
 
-        private bool streamExport;
+        private bool streamExport => toolStripMenuItemStreamExport.Checked;
         private IWordRankGenerater wordRankGenerater = new DefaultWordRankGenerater();
 
         private void btnOpenFileDialog_Click(object sender, EventArgs e)
@@ -439,12 +439,6 @@ namespace Studyzy.IMEWLConverter
             Process.Start("https://github.com/studyzy/imewlconverter/releases");
         }
 
-        private void toolStripMenuItemExportDirectly_Click(object sender, EventArgs e)
-        {
-            exportDirectly = toolStripMenuItemExportDirectly.Checked;
-        }
-
-
         private void ToolStripMenuItemDonate_Click(object sender, EventArgs e)
         {
             new DonateForm().ShowDialog();
@@ -461,21 +455,11 @@ namespace Studyzy.IMEWLConverter
             new HelpForm().ShowDialog();
         }
 
-        private void toolStripMenuItemStreamExport_Click(object sender, EventArgs e)
-        {
-            streamExport = toolStripMenuItemStreamExport.Checked;
-        }
-
         //private void ToolStripMenuItemCreatePinyinWL_Click(object sender, EventArgs e)
         //{
         //    var f = new CreatePinyinWLForm();
         //    f.Show();
         //}
-
-        private void toolStripMenuItemMergeToOneFile_Click(object sender, EventArgs e)
-        {
-            mergeTo1File = toolStripMenuItemMergeToOneFile.Checked;
-        }
 
         private void toolStripMenuItemFilterConfig_Click(object sender, EventArgs e)
         {

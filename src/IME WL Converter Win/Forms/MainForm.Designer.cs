@@ -219,7 +219,6 @@ namespace Studyzy.IMEWLConverter
             this.toolStripMenuItemExportDirectly.Name = "toolStripMenuItemExportDirectly";
             this.toolStripMenuItemExportDirectly.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemExportDirectly.Text = "不显示结果，直接导出";
-            this.toolStripMenuItemExportDirectly.Click += new System.EventHandler(this.toolStripMenuItemExportDirectly_Click);
             // 
             // toolStripMenuItemStreamExport
             // 
@@ -228,7 +227,6 @@ namespace Studyzy.IMEWLConverter
             this.toolStripMenuItemStreamExport.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemStreamExport.Text = "一边读取，一边导出";
             this.toolStripMenuItemStreamExport.ToolTipText = "目前只有文本格式的词库才能支持该功能";
-            this.toolStripMenuItemStreamExport.Click += new System.EventHandler(this.toolStripMenuItemStreamExport_Click);
             // 
             // toolStripMenuItemMergeToOneFile
             // 
@@ -238,7 +236,6 @@ namespace Studyzy.IMEWLConverter
             this.toolStripMenuItemMergeToOneFile.Name = "toolStripMenuItemMergeToOneFile";
             this.toolStripMenuItemMergeToOneFile.Size = new System.Drawing.Size(277, 26);
             this.toolStripMenuItemMergeToOneFile.Text = "合并多词库到一个文件";
-            this.toolStripMenuItemMergeToOneFile.Click += new System.EventHandler(this.toolStripMenuItemMergeToOneFile_Click);
             // 
             // ToolStripMenuItemChineseTransConfig
             // 
