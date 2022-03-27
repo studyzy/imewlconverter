@@ -41,7 +41,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         public static string AutoMatchSourceWLType(string filePath)
         {
             
-            string ext = Path.GetExtension(filePath);
+            string ext = Path.GetExtension(filePath).ToLower();
             if (ext == ".scel")
             {
                 return ConstantString.SOUGOU_XIBAO_SCEL;
@@ -85,6 +85,10 @@ namespace Studyzy.IMEWLConverter.Helpers
             if (ext == ".zip")
             {
                 return ConstantString.GBOARD;
+            }
+            if (ext == ".mb")
+            {
+                return ConstantString.JIDIAN_MBDICT;
             }
             if (Directory.Exists(filePath))
             {
