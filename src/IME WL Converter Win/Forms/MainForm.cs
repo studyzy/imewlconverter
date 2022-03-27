@@ -581,7 +581,7 @@ namespace Studyzy.IMEWLConverter
             if (this.errorMessages.Length > 0)
             {
                 var errForm = new ErrorLogForm(errorMessages);
-                errForm.Show();
+                errForm.ShowDialog();
             }
             if (e.Error != null)
             {
