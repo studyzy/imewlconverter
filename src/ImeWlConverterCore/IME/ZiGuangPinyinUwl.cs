@@ -215,8 +215,8 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-        private readonly IList<byte> LenDic = new List<byte>
-        {0x05, 0x87, 0x09, 0x8B, 0x0D, 0x8F, 0x11, 0x13, 0x15, 0x17, 0x19};
+        //private readonly IList<byte> LenDic = new List<byte>
+        //{0x05, 0x87, 0x09, 0x8B, 0x0D, 0x8F, 0x11, 0x13, 0x15, 0x17, 0x19};
 
         public Segment(Stream stream)
         {
@@ -254,20 +254,20 @@ namespace Studyzy.IMEWLConverter.IME
                 Debug.WriteLine("Debug");
             }
             var wl = new WordLibrary();
+            int lenWord = stream.ReadByte();
             int lenCode = stream.ReadByte();
-            int len = LenDic.IndexOf((byte) lenCode) + 2;
-            lenByte = len*4 + 4;
-            var rankB = new byte[4];
-            for (int i = 0; i < 3; i++)
-            {
-                var b = (byte) stream.ReadByte();
-                rankB[i] = b;
-            }
-            wl.Rank = (BitConverter.ToInt32(rankB, 0) - 1)/32;
+            lenCode = lenCode%0x10*2 + lenWord/0x80;
+            lenWord = lenWord%0x80 -1;
+            lenByte = 4 + lenWord + lenCode*2;
+
+            var rankB = new byte[2];
+            int rank = stream.Read(rankB,0,2);
+            wl.Rank = rank;
+
             //py
-            int pyLen = Math.Min(8, len); //拼音最大支持8个字的拼音
-            var wlPinYin = new string[pyLen];
-            for (int i = 0; i < pyLen; i++)
+            //int pyLen = Math.Min(8, len); //拼音最大支持8个字的拼音
+            var wlPinYin = new string[lenCode];
+            for (int i = 0; i < lenCode; i++)
             {
                 int smB = stream.ReadByte();
                 int ymB = stream.ReadByte();
@@ -292,8 +292,8 @@ namespace Studyzy.IMEWLConverter.IME
             }
             wl.PinYin = wlPinYin;
             //hz
-            var hzB = new byte[len*2];
-            stream.Read(hzB, 0, len*2);
+            var hzB = new byte[lenWord];
+            stream.Read(hzB, 0, lenWord);
             wl.Word = Encoding.Unicode.GetString(hzB);
 
             return wl;
