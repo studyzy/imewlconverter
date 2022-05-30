@@ -547,7 +547,7 @@
 83E7	冪	pajh		mi4	0
 83E8	冭	duu		tai4	0
 83E9	冮	uag		gang1	0
-83EA	冴	uaht		hu4	0
+83EA	冴	uaht		ya4,hu4	0
 83EB	冸	uufh	uugh	pan4	0
 83EC	冹	udcy		fu2	0
 83ED	冺	unan		min3	0
@@ -19738,7 +19738,7 @@ F4E5	翦	uejn		jian3	14.56
 F4E6	翩	ynmn		pian1	27.56
 F4E7	翮	gkmn		he2	3.47
 F4E8	翳	atdn		yi4	8.84
-F4E9	糸	xiu		mi4,jiao3,jiao3,si1	0
+F4E9	糸	xiu		si1,mi4,jiao3,jiao3	0
 F4EA	絷	rvyi		zhi2	4.08
 F4EB	綦	adwi	dwxi	qi2	5.94
 F4EC	綮	ynti		qi3	1.13

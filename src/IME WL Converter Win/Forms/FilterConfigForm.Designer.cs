@@ -73,13 +73,14 @@ namespace Studyzy.IMEWLConverter
             this.cbxKeepNumber_ = new System.Windows.Forms.CheckBox();
             this.cbxKeepEnglish_ = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxFullWidth = new System.Windows.Forms.CheckBox();
+            this.cbxKeepSpace = new System.Windows.Forms.CheckBox();
+            this.cbxKeepSpace_ = new System.Windows.Forms.CheckBox();
             this.cbxChsNumber = new System.Windows.Forms.CheckBox();
             this.cbxPrefixEnglish = new System.Windows.Forms.CheckBox();
             this.cbxKeepPunctuation_ = new System.Windows.Forms.CheckBox();
             this.cbxKeepPunctuation = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbxKeepSpace_ = new System.Windows.Forms.CheckBox();
-            this.cbxKeepSpace = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordLengthTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWordRankFrom)).BeginInit();
@@ -90,7 +91,7 @@ namespace Studyzy.IMEWLConverter
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(752, 443);
+            this.btnOK.Location = new System.Drawing.Point(794, 29);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 29);
@@ -421,6 +422,7 @@ namespace Studyzy.IMEWLConverter
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbxFullWidth);
             this.groupBox1.Controls.Add(this.cbxKeepSpace);
             this.groupBox1.Controls.Add(this.cbxKeepSpace_);
             this.groupBox1.Controls.Add(this.cbxChsNumber);
@@ -433,10 +435,45 @@ namespace Studyzy.IMEWLConverter
             this.groupBox1.Controls.Add(this.cbxKeepEnglish);
             this.groupBox1.Location = new System.Drawing.Point(423, 155);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(471, 269);
+            this.groupBox1.Size = new System.Drawing.Size(471, 318);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "词条分段处理";
+            // 
+            // cbxFullWidth
+            // 
+            this.cbxFullWidth.AutoSize = true;
+            this.cbxFullWidth.Checked = true;
+            this.cbxFullWidth.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxFullWidth.Location = new System.Drawing.Point(14, 276);
+            this.cbxFullWidth.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxFullWidth.Name = "cbxFullWidth";
+            this.cbxFullWidth.Size = new System.Drawing.Size(329, 19);
+            this.cbxFullWidth.TabIndex = 29;
+            this.cbxFullWidth.Text = "全角英语数字和基本符号先转半角再进行编码";
+            this.cbxFullWidth.UseVisualStyleBackColor = true;
+            // 
+            // cbxKeepSpace
+            // 
+            this.cbxKeepSpace.AutoSize = true;
+            this.cbxKeepSpace.Location = new System.Drawing.Point(235, 135);
+            this.cbxKeepSpace.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxKeepSpace.Name = "cbxKeepSpace";
+            this.cbxKeepSpace.Size = new System.Drawing.Size(194, 19);
+            this.cbxKeepSpace.TabIndex = 28;
+            this.cbxKeepSpace.Text = "编码时保留字母后的空格";
+            this.cbxKeepSpace.UseVisualStyleBackColor = true;
+            // 
+            // cbxKeepSpace_
+            // 
+            this.cbxKeepSpace_.AutoSize = true;
+            this.cbxKeepSpace_.Location = new System.Drawing.Point(14, 135);
+            this.cbxKeepSpace_.Margin = new System.Windows.Forms.Padding(4);
+            this.cbxKeepSpace_.Name = "cbxKeepSpace_";
+            this.cbxKeepSpace_.Size = new System.Drawing.Size(164, 19);
+            this.cbxKeepSpace_.TabIndex = 27;
+            this.cbxKeepSpace_.Text = "词条中的空格不编码";
+            this.cbxKeepSpace_.UseVisualStyleBackColor = true;
             // 
             // cbxChsNumber
             // 
@@ -494,32 +531,10 @@ namespace Studyzy.IMEWLConverter
             // 
             this.groupBox2.Location = new System.Drawing.Point(210, 155);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 269);
+            this.groupBox2.Size = new System.Drawing.Size(200, 221);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "词条字符替换";
-            // 
-            // cbxKeepSpace_
-            // 
-            this.cbxKeepSpace_.AutoSize = true;
-            this.cbxKeepSpace_.Location = new System.Drawing.Point(14, 135);
-            this.cbxKeepSpace_.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxKeepSpace_.Name = "cbxKeepSpace_";
-            this.cbxKeepSpace_.Size = new System.Drawing.Size(164, 19);
-            this.cbxKeepSpace_.TabIndex = 27;
-            this.cbxKeepSpace_.Text = "词条中的空格不编码";
-            this.cbxKeepSpace_.UseVisualStyleBackColor = true;
-            // 
-            // cbxKeepSpace
-            // 
-            this.cbxKeepSpace.AutoSize = true;
-            this.cbxKeepSpace.Location = new System.Drawing.Point(235, 135);
-            this.cbxKeepSpace.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxKeepSpace.Name = "cbxKeepSpace";
-            this.cbxKeepSpace.Size = new System.Drawing.Size(194, 19);
-            this.cbxKeepSpace.TabIndex = 28;
-            this.cbxKeepSpace.Text = "编码时保留字母后的空格";
-            this.cbxKeepSpace.UseVisualStyleBackColor = true;
             // 
             // FilterConfigForm
             // 
@@ -608,5 +623,6 @@ namespace Studyzy.IMEWLConverter
         private System.Windows.Forms.CheckBox cbxChsNumber;
         private System.Windows.Forms.CheckBox cbxKeepSpace_;
         private System.Windows.Forms.CheckBox cbxKeepSpace;
+        private System.Windows.Forms.CheckBox cbxFullWidth;
     }
 }

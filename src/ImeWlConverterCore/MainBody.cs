@@ -517,10 +517,12 @@ namespace Studyzy.IMEWLConverter
             countWord = wordLibraryList.Count;
             currentStatus = 0;
             Regex spaceRegex = new Regex("(?=[^a-zA-Z])\\s+");
-            Regex numberRegex = new Regex("[0-9]+");
-            Regex englishRegex = new Regex("[a-z]+", RegexOptions.IgnoreCase);
-           // Regex punctuationRegex = new Regex("[-・·&%']");
-            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00a0-\u00bf\u00d7\u00f7\u2000-\u2bff\u3000-\u303f\u30a0\u30fb]");
+            Regex numberRegex = new Regex("[0-9０-９]+");
+            Regex englishRegex = new Regex("[a-zA-Zａ-ｚＡ-Ｚ]+");
+            Regex fullWidthRegex = new Regex("[\uff00-\uff5e]+");
+            // Regex fullWidthRegex = new Regex("[ａ-ｚＡ-Ｚ０-９]+");
+            // Regex punctuationRegex = new Regex("[-・·&%']");
+            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00a0-\u00bf\u00d7\u00f7\u2000-\u2bff\u3000-\u303f\u30a0\u30fb\uff01-\uff0f\uff1a-\uff20\uff5b-\uff65]");
 
 
             foreach (WordLibrary wordLibrary in wordLibraryList)
@@ -540,6 +542,18 @@ namespace Studyzy.IMEWLConverter
                 {
                     string word_0 = wordLibrary.Word;
                     string word = wordLibrary.Word;
+
+                    if (FilterConfig.FullWidth && fullWidthRegex.IsMatch(word))
+                    {
+                        char[] c = word.ToCharArray();
+                        for (int i = 0; i < c.Length; i++)
+                        {
+                            if (c[i] <= 0xff5e && c[i] >= 0xff00)
+                                c[i] = (char)(c[i] - 65248);
+                        }
+                        word = new String(c);
+                    }
+
                     if (FilterConfig.KeepNumber_)
                     {
                         word = numberRegex.Replace(word, "");
