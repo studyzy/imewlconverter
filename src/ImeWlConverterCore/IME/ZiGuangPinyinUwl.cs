@@ -260,9 +260,8 @@ namespace Studyzy.IMEWLConverter.IME
             lenWord = lenWord%0x80 -1;
             lenByte = 4 + lenWord + lenCode*2;
 
-            var rankB = new byte[2];
-            int rank = stream.Read(rankB,0,2);
-            wl.Rank = rank;
+            wl.Rank += stream.ReadByte();
+            wl.Rank += stream.ReadByte()<<8;
 
             //py
             //int pyLen = Math.Min(8, len); //拼音最大支持8个字的拼音
