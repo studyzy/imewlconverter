@@ -161,12 +161,11 @@ namespace Studyzy.IMEWLConverter
         private MainBody mainBody;
 
         private IWordLibraryExport export;
-        private bool exportDirectly;
+        private bool exportDirectly => toolStripMenuItemExportDirectly.Checked;
         //private int defaultRank = 10;
         protected string exportFileName;
         private string exportPath = "";
         //private bool isFolderBatchConvert = false;
-        private string fileContent;
         private FilterConfig filterConfig = new FilterConfig();
         //private ParsePattern fromUserSetPattern;
         private SortType sortType=SortType.Default;
@@ -174,9 +173,9 @@ namespace Studyzy.IMEWLConverter
 
         private IWordLibraryImport import;
 
-        private bool mergeTo1File = true;
+        private bool mergeTo1File => toolStripMenuItemMergeToOneFile.Checked;
 
-        private bool streamExport;
+        private bool streamExport => toolStripMenuItemStreamExport.Checked;
         private IWordRankGenerater wordRankGenerater = new DefaultWordRankGenerater();
 
         private void btnOpenFileDialog_Click(object sender, EventArgs e)
@@ -200,12 +199,12 @@ namespace Studyzy.IMEWLConverter
         {
             if (import == null || export == null)
             {
-                MessageBox.Show("请先选择导入词库类型和导出词库类型");
+                MessageBox.Show("请先选择导入词库类型和导出词库类型", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             if (this.txbWLPath.Text == "")
             {
-                MessageBox.Show("请先选择源词库文件");
+                MessageBox.Show("请先选择源词库文件", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -238,6 +237,11 @@ namespace Studyzy.IMEWLConverter
                     {
                         outputDir = folderBrowserDialog1.SelectedPath;
                     }
+                    else
+                    {
+                        ShowStatusMessage("请选择词库保存的路径，否则将无法进行词库导出", true);
+                        return;
+                    }
                 }
                 mainBody = new MainBody();
                 mainBody.SelectedWordRankGenerater = wordRankGenerater;
@@ -259,7 +263,7 @@ namespace Studyzy.IMEWLConverter
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -387,7 +391,7 @@ namespace Studyzy.IMEWLConverter
             toolStripStatusLabel1.Text = statusMessage;
             if (showMessageBox)
             {
-                MessageBox.Show(statusMessage);
+                MessageBox.Show(statusMessage, "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -420,8 +424,7 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemSplitFile_Click(object sender, EventArgs e)
         {
-            var form = new SplitFileForm();
-            form.Show();
+            new SplitFileForm().ShowDialog();
         }
 
         private ChineseTranslate translate = ChineseTranslate.NotTrans;
@@ -441,33 +444,20 @@ namespace Studyzy.IMEWLConverter
             Process.Start("https://github.com/studyzy/imewlconverter/releases");
         }
 
-        private void toolStripMenuItemExportDirectly_Click(object sender, EventArgs e)
-        {
-            exportDirectly = toolStripMenuItemExportDirectly.Checked;
-        }
-
-
         private void ToolStripMenuItemDonate_Click(object sender, EventArgs e)
         {
-            new DonateForm().Show();
+            new DonateForm().ShowDialog();
             //Process.Start("https://github.com/studyzy/imewlconverter/wiki/Donate");
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
         {
-            var a = new AboutBox();
-            a.Show();
+            new AboutBox().ShowDialog();
         }
 
         private void ToolStripMenuItemHelp_Click(object sender, EventArgs e)
         {
-            var help = new HelpForm();
-            help.Show();
-        }
-
-        private void toolStripMenuItemStreamExport_Click(object sender, EventArgs e)
-        {
-            streamExport = toolStripMenuItemStreamExport.Checked;
+            new HelpForm().ShowDialog();
         }
 
         //private void ToolStripMenuItemCreatePinyinWL_Click(object sender, EventArgs e)
@@ -475,11 +465,6 @@ namespace Studyzy.IMEWLConverter
         //    var f = new CreatePinyinWLForm();
         //    f.Show();
         //}
-
-        private void toolStripMenuItemMergeToOneFile_Click(object sender, EventArgs e)
-        {
-            mergeTo1File = toolStripMenuItemMergeToOneFile.Checked;
-        }
 
         private void toolStripMenuItemFilterConfig_Click(object sender, EventArgs e)
         {
@@ -495,8 +480,7 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemMergeWL_Click(object sender, EventArgs e)
         {
-            var form = new MergeWLForm();
-            form.Show();
+            new MergeWLForm().ShowDialog();
         }
 
         private void ToolStripMenuItemRankGenerate_Click(object sender, EventArgs e)
@@ -555,7 +539,7 @@ namespace Studyzy.IMEWLConverter
                 {
                     try
                     {
-                        fileContent = mainBody.Convert(files);
+                        mainBody.Convert(files);
                     }
                     catch (Exception ex)
                     {
@@ -597,11 +581,11 @@ namespace Studyzy.IMEWLConverter
             if (this.errorMessages.Length > 0)
             {
                 var errForm = new ErrorLogForm(errorMessages);
-                errForm.Show();
+                errForm.ShowDialog();
             }
             if (e.Error != null)
             {
-                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message);
+                MessageBox.Show("不好意思，发生了错误：" + e.Error.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (e.Error.InnerException != null)
                 {
                     RichTextBoxShow(e.Error.InnerException.ToString());
@@ -619,24 +603,26 @@ namespace Studyzy.IMEWLConverter
             }
             else if (mergeTo1File)
             {
-                if (toolStripMenuItemShowLess.Checked && (fileContent.Length > 200000))
+                var dataText=string.Join("\r\n", mainBody.ExportContents);
+                if (toolStripMenuItemShowLess.Checked && (dataText.Length > 200000))
                 {
                     richTextBox1.Text = "为避免输出时卡死，“高级设置”中选中了“结果只显示首、末10万字”，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
-                     + fileContent.Substring(0, 100000) + "\n\n\n...\n\n\n"+  fileContent.Substring(fileContent.Length - 100000);
+                     + dataText.Substring(0, 100000) + "\n\n\n...\n\n\n" + dataText.Substring(dataText.Length - 100000);
                 }
-                else
-                     richTextBox1.Text = fileContent;
-                //btnExport.Enabled = true;
+                else if (dataText.Length > 0) {
+                    richTextBox1.Text = dataText;
+                    //btnExport.Enabled = true;
+                }
             }
             if (!mergeTo1File || export is Win10MsPinyin || export is Win10MsWubi || export is Win10MsPinyinSelfStudy || export is Gboard)//微软拼音是二进制文件，不需要再提示保存
             {
-                MessageBox.Show("转换完成!");
+                MessageBox.Show("转换完成!", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (
-                MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+            if (mainBody.Count > 0)
             {
+                if (MessageBox.Show("是否将导入的" + mainBody.Count + "条词库保存到本地硬盘上？",
+                    "是否保存", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) return;
                 if (!string.IsNullOrEmpty(exportFileName))
                 {
                     saveFileDialog1.FileName = exportFileName;
@@ -659,6 +645,9 @@ namespace Studyzy.IMEWLConverter
                     ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
 
                 }
+            }
+            else {
+                MessageBox.Show("转换失败，没有找到词条", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

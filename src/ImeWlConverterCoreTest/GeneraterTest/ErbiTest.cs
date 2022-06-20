@@ -28,7 +28,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
     class ErbiTest
     {
         private IWordCodeGenerater generater;
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             generater = new QingsongErbiGenerater();
@@ -50,8 +50,8 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
             Assert.Fail("not matched code,"+c);
             
         }
-        [Ignore("数据量太大，手动启动")]
-        [Test]
+        
+        [Test, Description("数据量太大，手动启动"), Explicit()]
         public void BatchTest()
         {
             //var txt = FileOperationHelper.ReadFile("erbi.txt");

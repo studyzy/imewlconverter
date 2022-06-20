@@ -29,6 +29,7 @@ namespace Studyzy.IMEWLConverter.Language
 
         public string ToChs(string cht)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Encoding gb2312 = Encoding.GetEncoding(936);
             byte[] src = gb2312.GetBytes(cht);
             var dest = new byte[src.Length];

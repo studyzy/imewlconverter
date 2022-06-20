@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <Version>2.8.0</Version>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +32,6 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SharpZipLib" Version="1.2.0" />
+    <PackageReference Include="SharpZipLib" Version="1.3.3" />
   </ItemGroup>
 </Project>

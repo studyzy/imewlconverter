@@ -29,7 +29,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
     class PinyinTest
     {
         private IWordCodeGenerater generater;
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             generater = new PinyinGenerater();

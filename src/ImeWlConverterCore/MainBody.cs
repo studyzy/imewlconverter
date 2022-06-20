@@ -34,7 +34,6 @@ namespace Studyzy.IMEWLConverter
     public class MainBody : IDisposable
     {
         public event Action<string> ProcessNotice;
-        private WordLibraryList allWlList = new WordLibraryList();
         private int count;
         private int countWord;
         private int currentStatus;
@@ -56,6 +55,9 @@ namespace Studyzy.IMEWLConverter
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;
             wordRankGenerater = new DefaultWordRankGenerater();
+
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
             InitTimer();
         }
         /// <summary>
@@ -81,6 +83,7 @@ namespace Studyzy.IMEWLConverter
         /// <param name="e"></param>
         private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
         {
+            if (String.IsNullOrEmpty(this.processMessage)) return;
             try
             {
                 ProcessNotice(this.processMessage);
@@ -209,6 +212,7 @@ namespace Studyzy.IMEWLConverter
         //    return list;
         //}
 
+        
         /// <summary>
         /// 转换多个文件成一个文件
         /// </summary>
@@ -216,9 +220,10 @@ namespace Studyzy.IMEWLConverter
         /// <returns></returns>
         public string Convert(IList<string> filePathes)
         {
+            var allWlList = new WordLibraryList();
+
             this.timer.Start();
             ExportContents = new List<string>();
-            allWlList.Clear();
             isImportProgress = true;
 
             //filePathes = GetRealPath(filePathes);
@@ -239,9 +244,11 @@ namespace Studyzy.IMEWLConverter
                 }
                 catch(Exception ex)
                 {
-                    ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：" + ex.Message);
+                    ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：\n\t" + ex.Message);
+                    isImportProgress = false;
+                    this.timer.Stop();
+                    return "";
                 }
-
             }
             isImportProgress = false;
             if (selectedTranslate != ChineseTranslate.NotTrans)
@@ -285,7 +292,6 @@ namespace Studyzy.IMEWLConverter
             this.timer.Stop();
 
             return string.Join("\r\n", ExportContents.ToArray());
-
         }
 
         private WordLibraryList RemoveEmptyCodeData(WordLibraryList wordLibraryList)
@@ -317,7 +323,7 @@ namespace Studyzy.IMEWLConverter
             }
         }
         /// 把字符串中的数字转换为汉字. 当数字不以0开头，并且以多个0结尾时，按照x千x百的方式转换。否则直接读挨个数字。
-        private String TranslateChineseNumber(String str)
+        private static String TranslateChineseNumber(String str)
         {
             StringBuilder builder = new StringBuilder();
             StringBuilder buffer = new StringBuilder();
@@ -345,10 +351,10 @@ namespace Studyzy.IMEWLConverter
             return builder.ToString();
         }
 
-        private String Num2Chs(String str)
+        private static readonly Regex Num2ChsRegex = new Regex("[1-9].+(0{2,100})");
+        private static String Num2Chs(String str)
         {
-            Regex regex = new Regex("[1-9].+(0{2,100})");
-            if (regex.IsMatch(str))
+            if (Num2ChsRegex.IsMatch(str))
                 return Int2Chs(long.Parse(str));
 
             Char[] chars = new Char[str.Length];
@@ -362,7 +368,7 @@ namespace Studyzy.IMEWLConverter
 
         }
 
-        private char Num2Char(Char c)
+        private static char Num2Char(Char c)
         {
             switch (c)
             {
@@ -583,7 +589,9 @@ namespace Studyzy.IMEWLConverter
                         word = TranslateChineseNumber(word);
                     }
 
-                    if ((englishRegex.IsMatch(word) && FilterConfig.KeepEnglish) || (numberRegex.IsMatch(word) && FilterConfig.KeepNumber) || (punctuationRegex.IsMatch(word) && FilterConfig.KeepPunctuation))
+                    if ((FilterConfig.KeepEnglish && englishRegex.IsMatch(word)) 
+                        || (FilterConfig.KeepNumber && numberRegex.IsMatch(word)) 
+                        || (FilterConfig.KeepPunctuation && punctuationRegex.IsMatch(word)))
                     {
 
                         StringBuilder input = new StringBuilder();
@@ -605,7 +613,7 @@ namespace Studyzy.IMEWLConverter
                             else if (c >= 0x61 && c <= 0x7a)
                             {
                                 type = 2;
-                            }else if (c == 0x20 && FilterConfig.KeepSpace && clipType==2)
+                            }else if (FilterConfig.KeepSpace && c == 0x20 && clipType==2)
                             {
                                 type = 2;
                             }
@@ -633,7 +641,7 @@ namespace Studyzy.IMEWLConverter
                             else
                             {
 
-                                if (clipType == 2 && FilterConfig.KeepEnglish)
+                                if (FilterConfig.KeepEnglish && clipType == 2)
                                 {
                                     if (FilterConfig.needEnglishTag())
                                         output.Add(new List<string> { '_' + input.ToString() });
@@ -641,7 +649,7 @@ namespace Studyzy.IMEWLConverter
                                         output.Add(new List<string> { input.ToString() });
 
                                 }
-                                else if ((clipType == 1 && FilterConfig.KeepNumber) || (clipType == 3 && FilterConfig.KeepPunctuation))
+                                else if ((FilterConfig.KeepNumber && clipType == 1) || (FilterConfig.KeepPunctuation && clipType == 3))
                                 {
                                     output.Add(new List<string> { input.ToString() });
                                 }
@@ -661,7 +669,7 @@ namespace Studyzy.IMEWLConverter
 
                         if (input.Length > 0)
                         {
-                            if (clipType == 2 && FilterConfig.KeepEnglish)
+                            if (FilterConfig.KeepEnglish && clipType == 2)
                             {
                                 if (FilterConfig.needEnglishTag())
                                     output.Add(new List<string> { '_' + input.ToString() });
@@ -669,7 +677,7 @@ namespace Studyzy.IMEWLConverter
                                     output.Add(new List<string> { input.ToString() });
 
                             }
-                            else if ((clipType == 1 && FilterConfig.KeepNumber) || (clipType == 3 && FilterConfig.KeepPunctuation))
+                            else if ((FilterConfig.KeepNumber && clipType == 1) || (FilterConfig.KeepPunctuation && clipType == 3))
                             {
                                 output.Add(new List<string> { input.ToString() });
                             }
@@ -688,7 +696,7 @@ namespace Studyzy.IMEWLConverter
                     }
                     else
                     {
-                        if (word.Equals(word_0))
+                        if (word == word_0)
                             generater.GetCodeOfWordLibrary(wordLibrary);
                         else
                         {
@@ -747,6 +755,7 @@ namespace Studyzy.IMEWLConverter
                                             ".txt";
                         FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
                     }
+                    ExportContents = new List<string>();
                     var costSeconds = (DateTime.Now - start).TotalSeconds;
                     ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t转换完成，耗时：" +
                                           costSeconds + "秒\r\n");
@@ -755,6 +764,8 @@ namespace Studyzy.IMEWLConverter
                 {
                     ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t处理时发生异常：" +
                                          ex.Message + "\r\n");
+                    count = c;
+                    this.timer.Stop();
                 }
             }
             count = c;
@@ -769,6 +780,7 @@ namespace Studyzy.IMEWLConverter
                                Path.GetFileNameWithoutExtension(filePath) + (i == 0 ? "" : i.ToString()) + ".txt";
                 FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
             }
+            ExportContents = new List<string>();
         }
 
         public void StreamConvert(IList<string> filePathes, string outPath)

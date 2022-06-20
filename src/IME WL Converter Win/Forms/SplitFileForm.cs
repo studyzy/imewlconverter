@@ -42,12 +42,12 @@ namespace Studyzy.IMEWLConverter
         {
             if (txbFilePath.Text == "")
             {
-                MessageBox.Show("请先选择要分割的文件");
+                MessageBox.Show("请先选择要分割的文件", "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (!File.Exists(txbFilePath.Text))
             {
-                MessageBox.Show(txbFilePath.Text + "，该文件不存在");
+                MessageBox.Show(txbFilePath.Text + "，该文件不存在", "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             rtbLogs.Clear();
@@ -63,7 +63,7 @@ namespace Studyzy.IMEWLConverter
             {
                 SplitFileByLength((int) numdMaxLength.Value);
             }
-            MessageBox.Show("恭喜你，文件分割完成!");
+            MessageBox.Show("恭喜你，文件分割完成!", "分割", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void SplitFileByLine(int maxLine)
@@ -85,7 +85,7 @@ namespace Studyzy.IMEWLConverter
                 }
                 else
                 {
-                    MessageBox.Show("不能找到行分隔符");
+                    MessageBox.Show("不能找到行分隔符", "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }

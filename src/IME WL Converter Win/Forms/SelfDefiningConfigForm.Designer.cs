@@ -229,6 +229,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxCodeType.TabIndex = 19;
             this.cbxCodeType.Text = "拼音编码";
             this.cbxCodeType.SelectedIndexChanged += new System.EventHandler(this.cbxCodeType_SelectedIndexChanged);
+            this.cbxCodeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // label8
             // 
@@ -252,6 +253,7 @@ namespace Studyzy.IMEWLConverter
             this.cbxCodeFormat.TabIndex = 17;
             this.cbxCodeFormat.Text = "拼音规则";
             this.cbxCodeFormat.SelectedIndexChanged += new System.EventHandler(this.cbxCodeFormat_SelectedIndexChanged);
+            this.cbxCodeFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // rtbCodeFormat
             // 
@@ -273,55 +275,14 @@ namespace Studyzy.IMEWLConverter
             "GBK",
             "Big5",
             "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
-            "ASCII",
-            "Unicode",
-            "UTF-8",
-            "GB18030",
-            "GBK",
-            "Big5",
-            "UnicodeFFFE",
             "ASCII"});
             this.cbxTextEncoding.Location = new System.Drawing.Point(423, 52);
             this.cbxTextEncoding.Name = "cbxTextEncoding";
-            this.cbxTextEncoding.SelectedEncoding = ((System.Text.Encoding)(resources.GetObject("cbxTextEncoding.SelectedEncoding")));
             this.cbxTextEncoding.Size = new System.Drawing.Size(89, 21);
             this.cbxTextEncoding.TabIndex = 14;
+            this.cbxTextEncoding.SelectedIndex = 1; // UTF-8
             this.cbxTextEncoding.Visible = false;
+            this.cbxTextEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // groupBox4
             // 
@@ -402,6 +363,7 @@ namespace Studyzy.IMEWLConverter
             this.cbbxSplitString.TabIndex = 18;
             this.cbbxSplitString.Text = "空格";
             this.cbbxSplitString.SelectedIndexChanged += new System.EventHandler(this.cbbxSplitString_SelectedIndexChanged);
+            this.cbbxSplitString.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // label5
             // 
@@ -577,7 +539,6 @@ namespace Studyzy.IMEWLConverter
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "自定义词库编码";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelfDefiningConverterForm_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

@@ -56,6 +56,7 @@ namespace Studyzy.IMEWLConverter
         public const string IFLY_IME = "讯飞输入法";
         public const string JIDIAN = "极点五笔";
         public const string JIDIAN_ZHENGMA = "极点郑码";
+        public const string JIDIAN_MBDICT = "极点五笔.mb文件";
         public const string XIAOYA_WUBI = "小鸭五笔";
         public const string MS_PINYIN = "微软拼音";
         public const string WIN10_MS_PINYIN = "Win10微软拼音（自定义短语）";
@@ -101,6 +102,7 @@ namespace Studyzy.IMEWLConverter
         public const string SINA_PINYIN_C = "xlpy";
         public const string SELF_DEFINING_C = "self";
         public const string JIDIAN_C = "jd";
+        public const string JIDIAN_MBDICT_C = "jdmb";
         public const string IFLY_IME_C = "ifly";
         public const string MS_PINYIN_C = "mspy";
         public const string WIN10_MS_PINYIN_C = "win10mspy";

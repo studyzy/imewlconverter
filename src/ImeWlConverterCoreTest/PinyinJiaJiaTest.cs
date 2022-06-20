@@ -26,7 +26,7 @@ namespace Studyzy.IMEWLConverter.Test
     {
         #region SetUp/Teardown
 
-        [SetUp]
+        [OneTimeSetUp]
         public override void InitData()
         {
             importer = new PinyinJiaJia();

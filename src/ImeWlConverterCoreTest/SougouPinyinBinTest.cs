@@ -25,7 +25,7 @@
 //    [TestFixture]
 //    internal class SougouPinyinBinTest : BaseTest
 //    {
-//        [SetUp]
+//        [OneTimeSetUp]
 //        public override void InitData()
 //        {
 //            importer = new SougouPinyinBinFromPython();

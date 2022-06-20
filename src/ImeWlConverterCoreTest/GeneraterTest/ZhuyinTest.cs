@@ -29,7 +29,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
     class ZhuyinTest
     {
         private IWordCodeGenerater generater;
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             generater = new ZhuyinGenerater();

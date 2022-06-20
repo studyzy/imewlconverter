@@ -80,6 +80,6 @@
     <EmbeddedResource Include="Resources\PinyinJiajia.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore-net46.csproj" />
+    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj" />
   </ItemGroup>
 </Project>

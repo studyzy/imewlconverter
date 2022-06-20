@@ -47,6 +47,7 @@ namespace Studyzy.IMEWLConverter.Forms
             this.cbxSortOptions.Size = new System.Drawing.Size(137, 20);
             this.cbxSortOptions.TabIndex = 0;
             this.cbxSortOptions.Text = "默认";
+            this.cbxSortOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             // 
             // btnOK
             // 
