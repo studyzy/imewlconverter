@@ -51,6 +51,7 @@ namespace Studyzy.IMEWLConverter
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
+            FilterConfig = new FilterConfig();
             BatchFilters = new List<IBatchFilter>();
             selectedConverter = new SystemKernel();
             selectedTranslate = ChineseTranslate.NotTrans;

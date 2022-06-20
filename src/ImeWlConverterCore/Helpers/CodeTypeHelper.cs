@@ -55,6 +55,8 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new Wubi86Generater();
                 case CodeType.Wubi98:
                     return new Wubi98Generater();
+                case CodeType.WubiNewAge:
+                    return new WubiNewAgeGenerater();
                 case CodeType.QingsongErbi:
                     return new QingsongErbiGenerater();
                 case CodeType.ChaoqiangErbi:

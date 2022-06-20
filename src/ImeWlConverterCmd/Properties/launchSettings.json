@@ -2,7 +2,7 @@
   "profiles": {
     "ImeWlConverterCmd": {
       "commandName": "Project",
-      "commandLineArgs": "-i:scel ./leshan.scel -o:erbi ./erbi.txt"
+      "commandLineArgs": " -i:word ./zy.txt -o:wbnewage ./wubi.txt"
     }
   }
 }

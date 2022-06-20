@@ -175,7 +175,7 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
-                if (CodeType == CodeType.Wubi||CodeType==CodeType.Wubi98)
+                if (CodeType == CodeType.Wubi||CodeType==CodeType.Wubi98||CodeType==CodeType.WubiNewAge)
                 {
                     return Codes[0][0];
                 }

@@ -27,7 +27,9 @@ namespace Studyzy.IMEWLConverter.Helpers
         private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
         private static IDictionary<string, string> wubiDic;
         private static IDictionary<string, string> wordWubiDic;
-
+        /// <summary>
+        /// 以五笔编码为Key，字或者词为Value的字典
+        /// </summary>
         private static IDictionary<string, string> WubiWordDic
         {
             get
@@ -57,7 +59,9 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return wubiDic;
             }
         }
-
+        /// <summary>
+        /// 以汉字或者词语为Key，对应的五笔编码为Value的字典
+        /// </summary>
         private static IDictionary<string, string> WordWubiDic
         {
             get
@@ -106,9 +110,9 @@ namespace Studyzy.IMEWLConverter.Helpers
 
 
         /// <summary>
-        ///     根据字获得对应的五笔编码
+        /// 根据字获得对应的五笔编码
         /// </summary>
-        /// <param name="zhuyin"></param>
+        /// <param name="word"></param>
         /// <returns></returns>
         public static string GetWubiCode(string word)
         {
