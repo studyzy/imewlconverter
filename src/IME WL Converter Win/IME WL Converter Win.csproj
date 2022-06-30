@@ -119,4 +119,7 @@
     <EmbeddedResource Remove="Forms\SelfDefiningConfigFormImport.resx" />
     <EmbeddedResource Remove="Resource1.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
+  </ItemGroup>
 </Project>
