@@ -48,6 +48,10 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var pyAndWord = new WordLibraryList();
             var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            fs.Position = 0x02;
+            int enc = fs.ReadByte();
+            Encoding encoding = (enc == 0x09) ? Encoding.Unicode : Encoding.GetEncoding("GB18030");
+            
             fs.Position = 0x44;
             CountWord = BinFileHelper.ReadInt32(fs);
             int segmentCount = BinFileHelper.ReadInt32(fs); //分为几段
@@ -57,7 +61,7 @@ namespace Studyzy.IMEWLConverter.IME
                 try
                 {
                     fs.Position = 0xC00 + 1024*i;
-                    var segment = new Segment(fs);
+                    var segment = new Segment(fs, encoding);
                     pyAndWord.AddWordLibraryList(segment.WordLibraryList);
                     CurrentStatus += segment.WordLibraryList.Count;
                 }
@@ -218,8 +222,9 @@ namespace Studyzy.IMEWLConverter.IME
         //private readonly IList<byte> LenDic = new List<byte>
         //{0x05, 0x87, 0x09, 0x8B, 0x0D, 0x8F, 0x11, 0x13, 0x15, 0x17, 0x19};
 
-        public Segment(Stream stream)
+        public Segment(Stream stream,Encoding encoding)
         {
+            UwlEncoding = encoding;
             IndexNumber = BinFileHelper.ReadInt32(stream);
             int ff = BinFileHelper.ReadInt32(stream);
             WordLenEnums = BinFileHelper.ReadInt32(stream);
@@ -244,6 +249,7 @@ namespace Studyzy.IMEWLConverter.IME
         //FF
         public int WordLenEnums { get; set; }
         public int WordByteLen { get; set; }
+        public Encoding UwlEncoding { get; set; }
 
         public WordLibraryList WordLibraryList { get; set; }
 
@@ -293,7 +299,7 @@ namespace Studyzy.IMEWLConverter.IME
             //hz
             var hzB = new byte[lenWord];
             stream.Read(hzB, 0, lenWord);
-            wl.Word = Encoding.Unicode.GetString(hzB);
+            wl.Word = UwlEncoding.GetString(hzB);
 
             return wl;
         }
