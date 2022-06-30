@@ -286,6 +286,17 @@ namespace Studyzy.IMEWLConverter.Helpers
         {
             DetectionResult result = CharsetDetector.DetectFromFile(fileName);
             DetectionDetail resultDetected = result.Detected;
+            if (resultDetected.Confidence < 0.7)
+            {
+                try
+                {
+                    return Encoding.GetEncoding("GB18030");
+                }
+                catch
+                {
+                    return Encoding.GetEncoding("GB2312");
+                }
+            }
             Encoding encoding = resultDetected.Encoding;
             return encoding;
         }
