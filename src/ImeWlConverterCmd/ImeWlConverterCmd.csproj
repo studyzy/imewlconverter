@@ -5,6 +5,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Version>2.8.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj">
     </ProjectReference>
