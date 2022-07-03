@@ -52,7 +52,9 @@ namespace Studyzy.IMEWLConverter
             helpString += "2.5版支持微软五笔，支持Linux和macOS和更多命令行功能\r\n";
             helpString += "2.6版增加了对Emoji颜文字的支持，微软拼音自定义短语支持小鹤双拼编码\r\n";
             helpString += "2.7版增加了对QQ拼音新细胞词库qcel格式的支持，增加了MacOS原生拼音自定义短语plist的支持。升级dotnet core到3.1。\r\n";
-            helpString += "2.8版增加了对微软拼音自学习词库的导入导出功能，增强了微软拼音自定义短语对双拼的支持，增加错误日志输出，启用新的CI和CD。";
+            helpString += "2.8版增加了对微软拼音自学习词库的导入导出功能，增强了微软拼音自定义短语对双拼的支持，增加错误日志输出，启用新的CI和CD。\r\n";
+            helpString += "2.9版增加了对GBoard手机输入法的词库导入导出功能。\r\n";
+            helpString += "3.0版增加了新世纪五笔的支持，并升级了依赖库版本和dotnet到6.0，修复了多个发现的Bug。\r\n";
             helpString += "关于各种输入法的词库转换操作方法或提交新的Issue，请前往项目网站（https://github.com/studyzy/imewlconverter/）\r\n";
             helpString +=
                 "如果您觉得深蓝词库转换能够给您的生活带来了极大的方便，可以通过微信或者支付宝捐赠该软件(https://github.com/studyzy/imewlconverter/wiki/Donate)。\r\n";
