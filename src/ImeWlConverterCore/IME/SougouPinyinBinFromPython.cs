@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
@@ -22,7 +23,7 @@ namespace Studyzy.IMEWLConverter.IME
     {
         const int UserDictHeaderSize = 80;
 
-        public override CodeType CodeType { get =>CodeType.NoCode;  set => base.CodeType = value; }
+        public override CodeType CodeType { get => CodeType.NoCode; set => base.CodeType = value; }
 
         public WordLibraryList Import(string path)
         {
@@ -92,7 +93,7 @@ namespace Studyzy.IMEWLConverter.IME
             // The stream pointer should be at where header ends.
             Debug.Assert(uintP4 + 8 + headerSize == fs.Position);
             userDict.DsBasePos = fs.Position;
-            
+
             return userDict;
         }
 
@@ -229,10 +230,13 @@ namespace Studyzy.IMEWLConverter.IME
 
         private WordLibrary GetPyAndWord(FileStream fs, SougouPinyinDict dict, long attriPos1, long attriPos2, SougouPinyinUserHeader userHeader)
         {
+            fs.Seek(attriPos1, SeekOrigin.Begin);
+            var pos = BinFileHelper.ReadUInt32(fs);
+            var pinyin = decryptPinyin(fs, dict.GetPyPosition(pos));
             var word = new Word()
             {
-                PyPosition = dict.GetPyPosition(attriPos1 - dict.DsBasePos),
-                Attribute = new WordAttribute()
+                Attribute = new WordAttribute(),
+                Pinyin = pinyin
             };
             fs.Seek(attriPos2, SeekOrigin.Begin);
             word.Attribute.Parse(fs);
@@ -240,23 +244,84 @@ namespace Studyzy.IMEWLConverter.IME
             var dataId = dict.GetDataIdByAttriId(dict.KeyList[0].AttrIdx);
             fs.Seek(dict.GetDataPosition(dataId, word.Attribute.Offset), SeekOrigin.Begin);
             word.WordByte = decryptWords(fs, word.Attribute.P1, userHeader.P2, userHeader.P3);
-            var wordLibrary = new WordLibrary() { Word = word.WordString,Rank=(int)word.Attribute.Frequency,CodeType=CodeType.NoCode };
+            var wordLibrary = new WordLibrary() { Word = word.WordString, Rank = (int)word.Attribute.Frequency, PinYin = word.Pinyin };
 
             return wordLibrary;
         }
 
+        #region decryptPinyin
+        private string[] decryptPinyin(FileStream fs, long offset)
+        {
+            fs.Seek(offset, SeekOrigin.Begin);
+
+            var n = BinFileHelper.ReadUInt16(fs) / 2;
+            var pinyin = new List<string>();
+            for (var i = 0; i < n; i++)
+            {
+                var p = BinFileHelper.ReadUInt16(fs);
+                pinyin.Add(PinyinData[p]);
+            }
+            return pinyin.ToArray();
+        }
+
+        string[] PinyinData = {
+    "a", "ai", "an", "ang", "ao", "ba", "bai", "ban",
+    "bang", "bao", "bei", "ben", "beng", "bi", "bian", "biao", "bie", "bin",
+    "bing", "bo", "bu", "ca", "cai", "can", "cang", "cao", "ce", "cen", "ceng",
+    "cha", "chai", "chan", "chang", "chao", "che", "chen", "cheng", "chi",
+    "chong", "chou", "chu", "chua", "chuai", "chuan", "chuang", "chui", "chun",
+    "chuo", "ci", "cong", "cou", "cu", "cuan", "cui", "cun", "cuo", "da",
+    "dai", "dan", "dang", "dao", "de", "dei", "den", "deng", "di", "dia",
+    "dian", "diao", "die", "ding", "diu", "dong", "dou", "du", "duan", "dui",
+    "dun", "duo", "e", "ei", "en", "eng", "er", "fa", "fan", "fang", "fei",
+    "fen", "feng", "fiao", "fo", "fou", "fu", "ga", "gai", "gan", "gang", "gao",
+    "ge", "gei", "gen", "geng", "gong", "gou", "gu", "gua", "guai", "guan",
+    "guang", "gui", "gun", "guo", "ha", "hai", "han", "hang", "hao", "he",
+    "hei", "hen", "heng", "hong", "hou", "hu", "hua", "huai", "huan", "huang",
+    "hui", "hun", "huo", "ji", "jia", "jian", "jiang", "jiao", "jie", "jin",
+    "jing", "jiong", "jiu", "ju", "juan", "jue", "jun", "ka", "kai", "kan",
+    "kang", "kao", "ke", "kei", "ken", "keng", "kong", "kou", "ku", "kua", "kuai",
+    "kuan", "kuang", "kui", "kun", "kuo", "la", "lai", "lan", "lang", "lao",
+    "le", "lei", "leng", "li", "lia", "lian", "liang", "liao", "lie", "lin",
+    "ling", "liu", "lo", "long", "lou", "lu", "luan", "lve", "lun", "luo", "lv",
+    "ma", "mai", "man", "mang", "mao", "me", "mei", "men", "meng", "mi", "mian",
+    "miao", "mie", "min", "ming", "miu", "mo", "mou", "mu", "na", "nai", "nan",
+    "nang", "nao", "ne", "nei", "nen", "neng", "ni", "nian", "niang", "niao",
+    "nie", "nin", "ning", "niu", "nong", "nou", "nu", "nuan", "nve", "nun", "nuo",
+    "nv", "o", "ou", "pa", "pai", "pan", "pang", "pao", "pei", "pen", "peng",
+    "pi", "pian", "piao", "pie", "pin", "ping", "po", "pou", "pu", "qi", "qia",
+    "qian", "qiang", "qiao", "qie", "qin", "qing", "qiong", "qiu", "qu", "quan",
+    "que", "qun", "ran", "rang", "rao", "re", "ren", "reng", "ri", "rong", "rou",
+    "ru", "rua", "ruan", "rui", "run", "ruo", "sa", "sai", "san", "sang", "sao",
+    "se", "sen", "seng", "sha", "shai", "shan", "shang", "shao", "she", "shei",
+    "shen", "sheng", "shi", "shou", "shu", "shua", "shuai", "shuan", "shuang",
+    "shui", "shun", "shuo", "si", "song", "sou", "su", "suan", "sui", "sun", "suo",
+    "ta", "tai", "tan", "tang", "tao", "te", "ten", "teng", "ti", "tian", "tiao",
+    "tie", "ting", "tong", "tou", "tu", "tuan", "tui", "tun", "tuo", "wa", "wai",
+    "wan", "wang", "wei", "wen", "weng", "wo", "wu", "xi", "xia", "xian", "xiang",
+    "xiao", "xie", "xin", "xing", "xiong", "xiu", "xu", "xuan", "xue", "xun", "ya",
+    "yan", "yang", "yao", "ye", "yi", "yin", "ying", "yo", "yong", "you", "yu",
+    "yuan", "yue", "yun", "za", "zai", "zan", "zang", "zao", "ze", "zei", "zen",
+    "zeng", "zha", "zhai", "zhan", "zhang", "zhao", "zhe", "zhei", "zhen", "zheng",
+    "zhi", "zhong", "zhou", "zhu", "zhua", "zhuai", "zhuan", "zhuang", "zhui",
+    "zhun", "zhuo", "zi", "zong", "zou", "zu", "zuan", "zui", "zun", "zuo",
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+    "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
+    "6", "7", "8", "9", "#"};
+        #endregion
+
         private byte[] decryptWords(FileStream fs, uint p1, uint p2, uint p3)
         {
             var xk = (((p1 + p2) << 2) + ((p1 + p3) << 2)) & 0xffff;
-            var n = BinFileHelper.ReadUInt16(fs)/2;
-            var decwords = new byte[n*4];
+            var n = BinFileHelper.ReadUInt16(fs) / 2;
+            var decwords = new byte[n * 4];
             for (var i = 0; i < n; i++)
             {
                 var shift = (int)(p2 % 8);
                 var ch = BinFileHelper.ReadUInt16(fs);
                 var dch = (ch << (16 - (shift % 8)) | (ch >> shift)) & 0xffff;
                 dch ^= (int)xk;
-                Buffer.BlockCopy(BitConverter.GetBytes(dch), 0, decwords, i*4, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(dch), 0, decwords, i * 4, 4);
             }
 
             return decwords;
@@ -326,11 +391,11 @@ namespace Studyzy.IMEWLConverter.IME
             public byte[] WordByte;
             public string WordString => Encoding.UTF32.GetString(WordByte);
             public WordAttribute Attribute;
-            public long PyPosition;
+            public string[] Pinyin;
 
             public override string ToString()
             {
-                return $"{WordString}, frequency {Attribute.Frequency}, pinyin {PyPosition}";
+                return $"{WordString}, frequency {Attribute.Frequency}, pinyin {String.Join("'", Pinyin)}";
             }
         }
         #endregion
