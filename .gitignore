@@ -113,3 +113,4 @@ App_Data/*.mdf
 App_Data/*.ldf
 .vs/
 .idea/
+/src/IME WL Converter Win/Properties/PublishProfiles
