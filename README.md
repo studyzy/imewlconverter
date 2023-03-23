@@ -57,3 +57,7 @@
 
 ## License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter?ref=badge_large)
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=studyzy/imewlconverter&type=Date)](https://star-history.com/#studyzy/imewlconverter&Date)
+
