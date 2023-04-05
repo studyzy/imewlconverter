@@ -87,7 +87,7 @@ namespace Studyzy.IMEWLConverter.IME
                 fs.Read(str, 0, wordSize);
                 string word = Encoding.Unicode.GetString(str);
                 var wordLibrary = new WordLibrary() { Word = word, Rank = (int)freq, PinYin = pinyin.ToArray() };
-                Console.WriteLine(wordLibrary);
+                // Console.WriteLine(wordLibrary);
                 wordList.Add(wordLibrary);
             }
             return wordList;
