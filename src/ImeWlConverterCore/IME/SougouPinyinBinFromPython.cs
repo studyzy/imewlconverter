@@ -3,7 +3,7 @@
  * Copyright h4x3rotab
  * Licensed under the GNU General Public License v3.0.
  //
- * This work contains codes translated from the original work dtool by nopdan (https://github.com/imetool/dtool)
+ * This work contains codes translated from the original work rose by nopdan (https://github.com/flowerime/rose)
  * Copyright nopdan
  * Licensed under the GNU General Public License v3.0.
  */
