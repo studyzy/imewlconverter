@@ -16,7 +16,6 @@
  */
 
 using System;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -60,7 +59,8 @@ namespace Studyzy.IMEWLConverter
                 {
                     return Encoding.GetEncoding(Text);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     MessageBox.Show(ex.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return Encoding.Default;
                 }

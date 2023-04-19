@@ -82,7 +82,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                                 }
                                 else
                                 {
-                                    pyDictionary.Add(hz, new List<string> {py});
+                                    pyDictionary.Add(hz, new List<string> { py });
                                 }
                             }
                         }

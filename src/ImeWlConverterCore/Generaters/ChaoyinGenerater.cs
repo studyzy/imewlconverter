@@ -15,11 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -29,7 +27,7 @@ namespace Studyzy.IMEWLConverter.Generaters
     {
 
 
-        protected  PinyinGenerater pinyinGenerater = new PinyinGenerater();
+        protected PinyinGenerater pinyinGenerater = new PinyinGenerater();
 
         public bool Is1Char1Code
         {
@@ -66,7 +64,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         public IList<string> GetAllCodesOfChar(char str)
         {
             var pyCode = pinyinGenerater.GetAllCodesOfChar(str);
-            var result=new List<string>();
+            var result = new List<string>();
             foreach (var py in pyCode)
             {
                 result.Add(ChaoyinHelper.GetChaoyin(py));

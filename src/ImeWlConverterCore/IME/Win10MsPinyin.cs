@@ -15,15 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Helpers;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -98,7 +96,7 @@ namespace Studyzy.IMEWLConverter.IME
             */
         public PinyinType PinyinType
         {
-            get;set;
+            get; set;
         }
         public Encoding Encoding
         {
@@ -112,7 +110,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public CodeType CodeType
         {
-            get;set;
+            get; set;
         }
 
         public WordLibraryList Import(string path)
@@ -165,7 +163,7 @@ namespace Studyzy.IMEWLConverter.IME
             var pyBytes = BinFileHelper.ReadArray(fs, pyBytesLen);
             var pyStr = Encoding.Unicode.GetString(pyBytes);
             var split = BinFileHelper.ReadInt16(fs); //00 00 分割拼音和汉字
-            var wordBytesLen = nextStartPosition - (int) fs.Position - 2; //结尾还有个00 00
+            var wordBytesLen = nextStartPosition - (int)fs.Position - 2; //结尾还有个00 00
             var wordBytes = BinFileHelper.ReadArray(fs, wordBytesLen);
             BinFileHelper.ReadInt16(fs); //00 00分割
             var word = Encoding.Unicode.GetString(wordBytes);
@@ -178,9 +176,9 @@ namespace Studyzy.IMEWLConverter.IME
             catch
             {
                 wl.CodeType = CodeType.NoCode;
-                ImportLineErrorNotice?.Invoke(wl.Word+" 的编码缺失");
+                ImportLineErrorNotice?.Invoke(wl.Word + " 的编码缺失");
             }
-         
+
             return wl;
         }
 
@@ -189,12 +187,12 @@ namespace Studyzy.IMEWLConverter.IME
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
         public event Action<string> ExportErrorNotice;
-      
+
         public IList<string> Export(WordLibraryList wlList)
         {
             //Win10拼音只支持最多32个字符的编码
             wlList = Filter(wlList);
-           
+
             string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "Win10微软拼音词库.dat");
             if (File.Exists(tempPath)) { File.Delete(tempPath); }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -203,44 +201,44 @@ namespace Studyzy.IMEWLConverter.IME
             bw.Write(BitConverter.GetBytes(0x00600002));//Unknown
             bw.Write(BitConverter.GetBytes(1)); //version
             bw.Write(BitConverter.GetBytes(0x40)); //phrase_offset_start
-            bw.Write(BitConverter.GetBytes(0x40 + 4*wlList.Count)); //phrase_start=phrase_offset_start + 4*phrase_count
+            bw.Write(BitConverter.GetBytes(0x40 + 4 * wlList.Count)); //phrase_start=phrase_offset_start + 4*phrase_count
             bw.Write(BitConverter.GetBytes(0)); //phrase_end input after process all!
             bw.Write(BitConverter.GetBytes(wlList.Count)); //phrase_count
             bw.Write(BitConverter.GetBytes(DateTime.Now.Ticks)); //timestamp
-            bw.Write(BitConverter.GetBytes((long) 0)); //0
-            bw.Write(BitConverter.GetBytes((long) 0)); //0
-            bw.Write(BitConverter.GetBytes((long) 0)); //0
+            bw.Write(BitConverter.GetBytes((long)0)); //0
+            bw.Write(BitConverter.GetBytes((long)0)); //0
+            bw.Write(BitConverter.GetBytes((long)0)); //0
             int offset = 0;
             for (var i = 0; i < wlList.Count; i++)
             {
                 bw.Write(BitConverter.GetBytes(offset));
                 var wl = wlList[i];
-                offset += 8 +8+ wl.Word.Length*2 + 2 + wl.GetPinYinLength()*2 + 2;
+                offset += 8 + 8 + wl.Word.Length * 2 + 2 + wl.GetPinYinLength() * 2 + 2;
             }
 
             for (var i = 0; i < wlList.Count; i++)
             {
                 bw.Write(BitConverter.GetBytes(0x00100010)); //magic
                 var wl = wlList[i];
-                var hanzi_offset = 8 +8+ wl.GetPinYinLength()*2 + 2;
-                bw.Write(BitConverter.GetBytes((short) hanzi_offset));
-                bw.Write((byte) wl.Rank); //1是詞頻
-                bw.Write((byte) 0x6); //6不知道
+                var hanzi_offset = 8 + 8 + wl.GetPinYinLength() * 2 + 2;
+                bw.Write(BitConverter.GetBytes((short)hanzi_offset));
+                bw.Write((byte)wl.Rank); //1是詞頻
+                bw.Write((byte)0x6); //6不知道
                 bw.Write(BitConverter.GetBytes(0x00000000));//Unknown
                 bw.Write(BitConverter.GetBytes(0xE679CD20));//Unknown
-                
+
                 var py = wl.GetPinYinString("", BuildType.None);
                 bw.Write(Encoding.Unicode.GetBytes(py));
-                bw.Write(BitConverter.GetBytes((short) 0));
+                bw.Write(BitConverter.GetBytes((short)0));
                 bw.Write(Encoding.Unicode.GetBytes(wl.Word));
-                bw.Write(BitConverter.GetBytes((short) 0));
+                bw.Write(BitConverter.GetBytes((short)0));
             }
 
             fs.Position = 0x18;
             fs.Write(BitConverter.GetBytes(fs.Length), 0, 4);
 
             fs.Close();
-            return new List<string>() {"词库文件在：" + tempPath};
+            return new List<string>() { "词库文件在：" + tempPath };
         }
 
         private WordLibraryList Filter(WordLibraryList wlList)
@@ -250,11 +248,11 @@ namespace Studyzy.IMEWLConverter.IME
             if (PinyinType != PinyinType.FullPinyin)
             {
                 replace = new ShuangpinReplacer(PinyinType);
-          
+
             }
             foreach (var wl in wlList)
             {
-                if(replace!=null)
+                if (replace != null)
                 {
                     replace.Replace(wl);
                 }
@@ -263,9 +261,9 @@ namespace Studyzy.IMEWLConverter.IME
                     continue;
                 if (wl.Word.Length > 64)
                     continue;
-             
+
                 result.Add(wl);
-      
+
             }
             return result;
         }
@@ -276,4 +274,3 @@ namespace Studyzy.IMEWLConverter.IME
         }
     }
 }
- 

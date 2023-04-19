@@ -67,7 +67,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void ImportWithPinyinPart()
         {
-            WordLibraryList wl = ((IWordLibraryTextImport) importer).ImportText(StringData);
+            WordLibraryList wl = ((IWordLibraryTextImport)importer).ImportText(StringData);
             Assert.AreEqual(wl.Count, 10);
             Assert.AreEqual(wl[0].PinYinString, "ren'min'hen'xing");
             Assert.AreEqual(wl[0].Word, "人民很行");

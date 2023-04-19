@@ -16,7 +16,6 @@
  */
 
 using ICSharpCode.SharpZipLib.Zip;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -41,7 +40,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         public static string AutoMatchSourceWLType(string filePath)
         {
-            
+
             string ext = Path.GetExtension(filePath).ToLower();
             if (ext == ".scel")
             {
@@ -96,7 +95,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return "";
             }
 
-                string example = "";
+            string example = "";
             Encoding code = GetEncodingType(filePath);
             using (var sr = new StreamReader(filePath, code))
             {
@@ -368,7 +367,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             if (File.Exists(input))//文件
             {
-                return new List<string>() {input};
+                return new List<string>() { input };
             }
             return new List<string>();
         }

@@ -83,10 +83,10 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return new ZhuyinGenerater();
                 case CodeType.NoCode:
                     return null;
-                    //case CodeType.UserDefine:
-                    //    {
-                    //        return SelfDefiningCodeGenerater();
-                    //    }
+                //case CodeType.UserDefine:
+                //    {
+                //        return SelfDefiningCodeGenerater();
+                //    }
                 default:
                     return new SelfDefiningCodeGenerater();
             }

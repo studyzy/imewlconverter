@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Reflection;
-using Microsoft.Office.Interop.Word;
 
 namespace Studyzy.IMEWLConverter.Language
 {

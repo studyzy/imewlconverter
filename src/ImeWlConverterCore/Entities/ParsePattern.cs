@@ -15,10 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
 {
@@ -30,14 +29,14 @@ namespace Studyzy.IMEWLConverter.Entities
 
         public ParsePattern()
         {
-            Sort = new List<int> {1, 2, 3};
+            Sort = new List<int> { 1, 2, 3 };
             CodeType = CodeType.Pinyin;
             IsPinyinFormat = true;
             LineSplitString = "\r\n";
             TextEncoding = Encoding.Default;
             ContainCode = true;
             ContainRank = true;
-            CodeSplitType=BuildType.None;
+            CodeSplitType = BuildType.None;
         }
 
         /// <summary>

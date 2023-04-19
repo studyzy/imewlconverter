@@ -33,11 +33,11 @@ namespace Studyzy.IMEWLConverter.Filters
         public bool IsKeep(WordLibrary wl)
         {
             //return wl.Word.IndexOf(' ') < 0;
-            foreach(var code in wl.Codes)
+            foreach (var code in wl.Codes)
             {
-                foreach(var c1 in code)
+                foreach (var c1 in code)
                 {
-                    foreach(var c in c1)
+                    foreach (var c in c1)
                     {
                         if (c < 'a' || c > 'z')
                         {

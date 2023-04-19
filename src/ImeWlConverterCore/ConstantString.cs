@@ -15,9 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-using System.Windows;
-
 namespace Studyzy.IMEWLConverter
 {
     /// <summary>
@@ -72,7 +69,7 @@ namespace Studyzy.IMEWLConverter
         public const string LINGOES_LD2 = "灵格斯ld2";
         public const string USER_PHRASE = "用户自定义短语";
         public const string SHOUXIN_PINYIN = "手心输入法";
-		public const string CHAO_YIN="超音速录";
+        public const string CHAO_YIN = "超音速录";
         public const string CHINESE_PYIM = "Chinese-pyim";
         public const string EMOJI = "Emoji";
         public const string MAC_PLIST = "Mac简体拼音";
@@ -123,7 +120,7 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_ERBI_C = "erbi";
         public const string LIBPINYIN_C = "libpy";
         public const string SHOUXIN_PINYIN_C = "sxpy";
-		public const string CHAO_YIN_C="cysl";
+        public const string CHAO_YIN_C = "cysl";
         public const string CHINESE_PYIM_C = "pyim";
         public const string EMOJI_C = "emoji";
         public const string MAC_PLIST_C = "plist";

@@ -4,17 +4,17 @@
  * Licensed under the GNU General Public License v3.0.
  */
 
+using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     public class SougouPinyinDict
     {
-        public static readonly ReadOnlyCollection<int> DatatypeHashSize = new List<int> {0, 27, 414, 512, -1, -1, 512, 0}.AsReadOnly();
+        public static readonly ReadOnlyCollection<int> DatatypeHashSize = new List<int> { 0, 27, 414, 512, -1, -1, 512, 0 }.AsReadOnly();
         public static readonly ReadOnlyCollection<int> KeyItemDataTypeSize = new List<int> { 4, 1, 1, 2, 1, 2, 2, 4, 4, 8, 4, 4, 4, 0, 0, 0 }.AsReadOnly();
 
         #region structures
@@ -224,7 +224,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var val = 0;
             for (var i = key.DataType.Count - AttributeList[key.AttrIdx].Count;
-                i < key.DataType.Count; 
+                i < key.DataType.Count;
                 i++)
             {
                 val += KeyItemDataTypeSize[key.DataType[i]];

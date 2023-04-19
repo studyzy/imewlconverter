@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -53,15 +53,15 @@ namespace Studyzy.IMEWLConverter
             rtbLogs.Clear();
             if (rbtnSplitByLine.Checked)
             {
-                SplitFileByLine((int) numdMaxLine.Value);
+                SplitFileByLine((int)numdMaxLine.Value);
             }
             else if (rbtnSplitBySize.Checked)
             {
-                SplitFileBySize((int) numdMaxSize.Value);
+                SplitFileBySize((int)numdMaxSize.Value);
             }
             else
             {
-                SplitFileByLength((int) numdMaxLength.Value);
+                SplitFileByLength((int)numdMaxLength.Value);
             }
             MessageBox.Show("恭喜你，文件分割完成!", "分割", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -89,7 +89,7 @@ namespace Studyzy.IMEWLConverter
                     return;
                 }
             }
-            string[] list = str.Split(new[] {splitLineChar}, StringSplitOptions.RemoveEmptyEntries);
+            string[] list = str.Split(new[] { splitLineChar }, StringSplitOptions.RemoveEmptyEntries);
 
             var fileContent = new StringBuilder();
             int fileIndex = 1;
@@ -97,7 +97,7 @@ namespace Studyzy.IMEWLConverter
             {
                 fileContent.Append(list[i]);
                 fileContent.Append(splitLineChar);
-                if ((i+1)%maxLine == 0 || i == list.Length - 1)
+                if ((i + 1) % maxLine == 0 || i == list.Length - 1)
                 {
                     if (i != 0)
                     {
@@ -116,7 +116,7 @@ namespace Studyzy.IMEWLConverter
 
 
             int fileIndex = 1;
-            int size = (maxSize - 10)*1024; //10K的Buffer
+            int size = (maxSize - 10) * 1024; //10K的Buffer
             var inFile = new FileStream(txbFilePath.Text, FileMode.Open, FileAccess.Read);
 
             do
@@ -145,7 +145,7 @@ namespace Studyzy.IMEWLConverter
                         }
                         if (b != -1) //文件已经读完
                         {
-                            outFile.WriteByte((byte) b);
+                            outFile.WriteByte((byte)b);
                         }
                         else
                         {

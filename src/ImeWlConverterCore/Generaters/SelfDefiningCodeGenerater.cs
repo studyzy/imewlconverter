@@ -15,18 +15,17 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
     /// <summary>
     /// 根据提供的外部字典，格式，生成编码的类
     /// </summary>
-    public class SelfDefiningCodeGenerater :BaseCodeGenerater, IWordCodeGenerater
+    public class SelfDefiningCodeGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
 
@@ -90,7 +89,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             //一词一码，按组词规则生成
             var list = new List<string>();
             string result = "";
-            string[] arr = MutiWordCodeFormat.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] arr = MutiWordCodeFormat.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var format = new Dictionary<string, string>();
 
             foreach (string line in arr)
@@ -124,7 +123,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 result = GetStringCode(str, f);
             }
             list.Add(result);
-            return new Code(list,false);
+            return new Code(list, false);
         }
 
 

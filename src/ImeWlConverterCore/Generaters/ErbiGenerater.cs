@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -30,9 +30,9 @@ namespace Studyzy.IMEWLConverter.Generaters
 　　多字词（四字以上词）：取前三字和最后一字的第一码（前三末一）。
      */
 
-    public abstract class ErbiGenerater :BaseCodeGenerater, IWordCodeGenerater
+    public abstract class ErbiGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
-     
+
         /// <summary>
         ///     二笔的编码可能是一字多码的
         /// </summary>
@@ -53,7 +53,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string txt = Helpers.DictionaryHelper.GetResourceContent("Erbi.txt");
 
                     erbiDic = new Dictionary<char, IList<string>>();
-                    foreach (string line in txt.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (string line in txt.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         string[] arr = line.Split('\t');
                         if (arr[0].Length == 0)
@@ -76,11 +76,11 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
 
-       
+
 
         #region IWordCodeGenerater Members
 
-        protected  PinyinGenerater pinyinGenerater = new PinyinGenerater();
+        protected PinyinGenerater pinyinGenerater = new PinyinGenerater();
 
         public bool Is1Char1Code
         {
@@ -94,7 +94,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             var code = pinyinGenerater.GetCodeOfString(str);
             IList<IList<string>> codes = GetErbiCode(str, code.GetDefaultCode());
             IList<string> result = CollectionHelper.Descartes(codes);
-            return new Code(result,false);
+            return new Code(result, false);
         }
 
         public IList<string> GetAllCodesOfChar(char str)
@@ -158,12 +158,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                 else if (str.Length == 3)
                 {
                     codes.Add(Get1CharCode(str[0], py[0]));
-                    codes.Add(new List<string> {py[1][0].ToString()});
-                    codes.Add(new List<string> {py[2][0].ToString()});
+                    codes.Add(new List<string> { py[1][0].ToString() });
+                    codes.Add(new List<string> { py[2][0].ToString() });
                 }
                 else
                 {
-                    codes.Add(new List<string> {py[0][0].ToString() + py[1][0] + py[2][0] + py[str.Length - 1][0]});
+                    codes.Add(new List<string> { py[0][0].ToString() + py[1][0] + py[2][0] + py[str.Length - 1][0] });
                 }
             }
             catch (Exception ex)

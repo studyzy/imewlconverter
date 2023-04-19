@@ -15,14 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -34,7 +33,7 @@ namespace Studyzy.IMEWLConverter.IME
         //public bool OnlySinglePinyin { get; set; }
 
         public WordLibraryList Import(string path)
-        {           
+        {
             return ReadQcel(path);
         }
 
@@ -128,7 +127,7 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     var data = ReadAPinyinWord(fs);
                     if (data is null) break;
-                    
+
                     pyAndWord.AddRange(data);
                 }
                 catch (Exception ex)
@@ -167,11 +166,11 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 int key = str[i * 2] + str[i * 2 + 1] * 256;
                 //Debug.Assert(key < pyDic.Count);
-                if(key < pyDic.Count)
+                if (key < pyDic.Count)
                     wordPY.Add(pyDic[key]);
                 else
                     wordPY.Add(a2zchar[key - pyDic.Count].ToString());
-                    //return null; // 用于调试，忽略编码异常的记录，不中止运行
+                //return null; // 用于调试，忽略编码异常的记录，不中止运行
             }
             //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号
             //接下来读词语

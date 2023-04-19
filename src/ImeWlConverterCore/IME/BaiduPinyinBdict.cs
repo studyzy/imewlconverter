@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -216,8 +216,8 @@ namespace Studyzy.IMEWLConverter.IME
                 }
             }
             wordLibrary.PinYin = pinyinList.ToArray();
-            temp = new byte[2*len];
-            fs.Read(temp, 0, 2*len);
+            temp = new byte[2 * len];
+            fs.Read(temp, 0, 2 * len);
             wordLibrary.Word = Encoding.Unicode.GetString(temp);
             //for (var i = 0; i < wordLibrary.Word.Length;i++ )
             //{
@@ -237,11 +237,11 @@ namespace Studyzy.IMEWLConverter.IME
             short pinyinLen = BitConverter.ToInt16(temp, 0);
             fs.Read(temp, 0, 2);
             short wordLen = BitConverter.ToInt16(temp, 0);
-            temp = new byte[pinyinLen*2];
-            fs.Read(temp, 0, pinyinLen*2);
+            temp = new byte[pinyinLen * 2];
+            fs.Read(temp, 0, pinyinLen * 2);
             string pinyinString = Encoding.Unicode.GetString(temp);
-            temp = new byte[wordLen*2];
-            fs.Read(temp, 0, wordLen*2);
+            temp = new byte[wordLen * 2];
+            fs.Read(temp, 0, wordLen * 2);
             string word = Encoding.Unicode.GetString(temp);
             var wordLibrary = new WordLibrary();
             wordLibrary.Word = word;

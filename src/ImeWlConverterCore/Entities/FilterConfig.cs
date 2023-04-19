@@ -41,7 +41,7 @@ namespace Studyzy.IMEWLConverter.Entities
         }
 
         public bool NoFilter { get; set; }
-        public bool KeepEnglish { get;  set; }
+        public bool KeepEnglish { get; set; }
         public int WordLengthFrom { get; set; }
         public int WordLengthTo { get; set; }
 

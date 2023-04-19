@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Text;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.Test
 {
@@ -55,7 +55,7 @@ namespace Studyzy.IMEWLConverter.Test
         [Test]
         public void TestImport()
         {
-            WordLibraryList wl = ((IWordLibraryTextImport) importer).ImportText(StringData);
+            WordLibraryList wl = ((IWordLibraryTextImport)importer).ImportText(StringData);
             Assert.AreEqual(wl.Count, 10);
         }
 

@@ -73,19 +73,19 @@ namespace Studyzy.IMEWLConverter
             switch (cbxCodeType.Text)
             {
                 case "用户自定义短语":
-                    selectCodeType = CodeType.UserDefinePhrase;break;
+                    selectCodeType = CodeType.UserDefinePhrase; break;
                 case "拼音":
-                    selectCodeType = CodeType.Pinyin;break;
+                    selectCodeType = CodeType.Pinyin; break;
                 case "拼音首字母":
                     selectCodeType = CodeType.Pinyin;
                     isShortCode = true;
                     break;
                 case "五笔":
-                    selectCodeType = CodeType.Wubi98;break;
+                    selectCodeType = CodeType.Wubi98; break;
                 default:
                     selectCodeType = CodeType.UserDefinePhrase; break;
             }
-         
+
             userFormat = txbUserFormat.Text;
             DialogResult = DialogResult.OK;
         }
@@ -95,30 +95,30 @@ namespace Studyzy.IMEWLConverter
             switch (selectIndex)
             {
                 case 0:
-                {
-                    rbtnSougouFormat.Checked = true;
-                }
+                    {
+                        rbtnSougouFormat.Checked = true;
+                    }
                     break;
                 case 1:
-                {
-                    rbtnQQFormat.Checked = true;
-                }
+                    {
+                        rbtnQQFormat.Checked = true;
+                    }
                     break;
                 case 2:
-                {
-                    rbtnBaiduFormat.Checked = true;
-                }
+                    {
+                        rbtnBaiduFormat.Checked = true;
+                    }
                     break;
                 default:
-                {
-                    rbtnUserFormat.Checked = true;
-                }
+                    {
+                        rbtnUserFormat.Checked = true;
+                    }
                     break;
             }
             txbUserFormat.Text = userFormat;
             switch (selectCodeType)
             {
-                case CodeType.UserDefinePhrase:cbxCodeType.Text = "用户自定义短语";break;
+                case CodeType.UserDefinePhrase: cbxCodeType.Text = "用户自定义短语"; break;
                 case CodeType.Pinyin:
                     cbxCodeType.Text = "拼音";
                     if (isShortCode)
@@ -126,7 +126,7 @@ namespace Studyzy.IMEWLConverter
                         cbxCodeType.Text = "拼音首字母";
                     }
                     break;
-                case CodeType.Wubi98:cbxCodeType.Text = "五笔";break;
+                case CodeType.Wubi98: cbxCodeType.Text = "五笔"; break;
                 default: cbxCodeType.Text = "用户自定义短语"; break;
             }
         }

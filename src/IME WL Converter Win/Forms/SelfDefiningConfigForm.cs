@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.IME;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -52,7 +52,7 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.ContainCode = true;
             SelectedParsePattern.CodeSplitString = ",";
             SelectedParsePattern.CodeSplitType = BuildType.None;
-            SelectedParsePattern.Sort = new List<int> {1, 2, 3};
+            SelectedParsePattern.Sort = new List<int> { 1, 2, 3 };
             SelectedParsePattern.SplitString = " ";
 
 
@@ -154,10 +154,10 @@ namespace Studyzy.IMEWLConverter
         private WordLibraryList SampleWL()
         {
             var list = new WordLibraryList();
-            string[] lines = rtbFrom.Text.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = rtbFrom.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines)
             {
-                list.Add(new WordLibrary {Word = line, Rank = 1234, CodeType = CodeType.NoCode});
+                list.Add(new WordLibrary { Word = line, Rank = 1234, CodeType = CodeType.NoCode });
             }
             return list;
         }
@@ -229,9 +229,9 @@ namespace Studyzy.IMEWLConverter
         private List<int> GetSort()
         {
             var sort = new List<int>();
-            int a = (int) numOrderPinyin.Value*10;
-            int b = (int) numOrderHanzi.Value*10 + 1; //善重复键值问题
-            int c = (int) numOrderCipin.Value*10 + 2; //善重复键值问题
+            int a = (int)numOrderPinyin.Value * 10;
+            int b = (int)numOrderHanzi.Value * 10 + 1; //善重复键值问题
+            int c = (int)numOrderCipin.Value * 10 + 2; //善重复键值问题
             sort.Add(a);
             sort.Add(b);
             sort.Add(c);

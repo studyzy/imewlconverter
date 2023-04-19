@@ -15,12 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -42,7 +40,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-      
+
         public override WordLibraryList ImportLine(string line)
         {
             var wlList = new WordLibraryList();
@@ -73,12 +71,12 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-       public virtual string ExportLine(WordLibrary wl)
+        public virtual string ExportLine(WordLibrary wl)
         {
             throw new NotImplementedException("极点输入法词库不支持流转换");
         }
 
-        public string ExportLine(string code,WordLibraryList wll)
+        public string ExportLine(string code, WordLibraryList wll)
         {
             var sb = new StringBuilder();
             sb.Append(code);
@@ -98,19 +96,19 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 0; i < wlList.Count; i++)
             {
                 var wl = wlList[i];
-                if(dict.ContainsKey(wl.SingleCode))
+                if (dict.ContainsKey(wl.SingleCode))
                 {
                     dict[wl.SingleCode].Add(wl);
                 }
                 else
                 {
-                    dict.Add(wl.SingleCode, new WordLibraryList { wl});
+                    dict.Add(wl.SingleCode, new WordLibraryList { wl });
                 }
             }
-            foreach(var key in dict.Keys)
+            foreach (var key in dict.Keys)
             {
 
-                sb.Append(ExportLine(key,dict[key]));
+                sb.Append(ExportLine(key, dict[key]));
                 sb.Append("\r\n");
             }
             return new List<string>() { sb.ToString() };

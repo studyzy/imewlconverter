@@ -19,13 +19,10 @@ using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Studyzy.IMEWLConverter.Filters
 {
-    public class EmojiReplacer: IReplaceFilter
+    public class EmojiReplacer : IReplaceFilter
     {
         private Dictionary<string, string> mapping = new Dictionary<string, string>();
         public EmojiReplacer(string path)

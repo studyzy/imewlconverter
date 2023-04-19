@@ -37,7 +37,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                     zhuyinDic = new Dictionary<string, string>();
                     foreach (
                         string line in
-                            Helpers.DictionaryHelper.GetResourceContent("Zhuyin.txt").Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries))
+                            Helpers.DictionaryHelper.GetResourceContent("Zhuyin.txt").Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         string[] arr = line.Split('\t');
 
@@ -67,7 +67,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                     pinyinDic = new Dictionary<string, string>();
                     foreach (
                         string line in
-                            Helpers.DictionaryHelper.GetResourceContent("Zhuyin.txt").Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries))
+                            Helpers.DictionaryHelper.GetResourceContent("Zhuyin.txt").Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         string[] arr = line.Split('\t');
 

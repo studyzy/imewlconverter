@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -42,14 +42,14 @@ namespace Studyzy.IMEWLConverter.IME
 
         public override CodeType CodeType
         {
-            get;set;
+            get; set;
         }
         /// <summary>
         /// 拼音编码时，是否只使用拼音首字母
         /// </summary>
         public bool IsShortCode { get; set; }
 
-        public Encoding Encoding  => Encoding.UTF8;
+        public Encoding Encoding => Encoding.UTF8;
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -73,7 +73,7 @@ namespace Studyzy.IMEWLConverter.IME
                     codes.Add(new List<string>() { c[0][0].ToString() });
                 }
             }
-            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(codes)[0], wl.Rank==0?DefaultRank:wl.Rank);
+            return string.Format(PhraseFormat, wl.Word, CollectionHelper.Descartes(codes)[0], wl.Rank == 0 ? DefaultRank : wl.Rank);
         }
 
         public WordLibraryList ImportText(string text)

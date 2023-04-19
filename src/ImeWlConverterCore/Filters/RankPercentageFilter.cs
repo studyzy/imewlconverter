@@ -29,7 +29,7 @@ namespace Studyzy.IMEWLConverter.Filters
             {
                 return list;
             }
-            int count = list.Count*Percentage/100;
+            int count = list.Count * Percentage / 100;
             list.Sort((a, b) => a.Rank - b.Rank);
             var result = new WordLibraryList();
             for (int i = 0; i < count; i++)

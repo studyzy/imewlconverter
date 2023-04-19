@@ -15,14 +15,14 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -61,7 +61,7 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Rank = count;
-            wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
+            wl.PinYin = py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
             var wll = new WordLibraryList();
             if (!string.IsNullOrEmpty(py))
             {

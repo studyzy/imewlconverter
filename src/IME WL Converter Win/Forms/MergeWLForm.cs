@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -85,7 +85,7 @@ namespace Studyzy.IMEWLConverter
 
         private Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
         {
-            string[] lines = txt.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = txt.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var mainDict = new Dictionary<string, List<string>>();
             foreach (string line in lines)
             {

@@ -15,12 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Studyzy.IMEWLConverter.Entities
 {
     public enum PinyinType
@@ -28,19 +22,19 @@ namespace Studyzy.IMEWLConverter.Entities
         /// <summary>
         /// 全拼
         /// </summary>
-        FullPinyin=0,
+        FullPinyin = 0,
         /// <summary>
         /// 微软双拼
         /// </summary>
-        MsShuangpin=1,
+        MsShuangpin = 1,
         /// <summary>
         /// 小鹤双拼
         /// </summary>
-        XiaoheShuangpin=2,
+        XiaoheShuangpin = 2,
         /// <summary>
         /// 智能ABC
         /// </summary>
-        SmartABCShuangpin=3,
+        SmartABCShuangpin = 3,
         /// <summary>
         /// 自然码
         /// </summary>
@@ -66,6 +60,6 @@ namespace Studyzy.IMEWLConverter.Entities
         /// </summary>
         ZiguangShuangpin = 9,
 
-                          
+
     }
 }
