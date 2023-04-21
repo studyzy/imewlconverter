@@ -65,13 +65,10 @@ namespace Studyzy.IMEWLConverter.IME
                 fs.Seek(idxBegin + 4 * i, 0);
 
                 var idx = BinFileHelper.ReadUInt32(fs);
-
-                if (idx == 0 && i != 0)
-                    break;
-
                 fs.Seek(idx + dictBegin, 0);
-                var freq = BinFileHelper.ReadUInt32(fs);
-                fs.Seek(5, SeekOrigin.Current);  // 00 00 FE 07 02
+                var freq = BinFileHelper.ReadUInt16(fs);
+                fs.Seek(2, SeekOrigin.Current);
+                fs.Seek(5, SeekOrigin.Current);  // unknown 5 bytes, same in every entry
 
                 var n = BinFileHelper.ReadUInt16(fs) / 2; // pinyin size / 2
                 var pinyin = new List<string>();
