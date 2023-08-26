@@ -349,7 +349,7 @@ namespace Studyzy.IMEWLConverter.IME
     "se", "sen", "seng", "sha", "shai", "shan", "shang", "shao", "she", "shei",
     "shen", "sheng", "shi", "shou", "shu", "shua", "shuai", "shuan", "shuang",
     "shui", "shun", "shuo", "si", "song", "sou", "su", "suan", "sui", "sun", "suo",
-    "ta", "tai", "tan", "tang", "tao", "te", "ten", "teng", "ti", "tian", "tiao",
+    "ta", "tai", "tan", "tang", "tao", "te", "tei", "teng", "ti", "tian", "tiao",
     "tie", "ting", "tong", "tou", "tu", "tuan", "tui", "tun", "tuo", "wa", "wai",
     "wan", "wang", "wei", "wen", "weng", "wo", "wu", "xi", "xia", "xian", "xiang",
     "xiao", "xie", "xin", "xing", "xiong", "xiu", "xu", "xuan", "xue", "xun", "ya",
