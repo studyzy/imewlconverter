@@ -2,6 +2,10 @@
  * This work contains codes translated from the original work Sogou-User-Dict-Converter by h4x3rotab (https://github.com/h4x3rotab/Sogou-User-Dict-Converter)
  * Copyright h4x3rotab
  * Licensed under the GNU General Public License v3.0.
+ //
+ * This work contains codes translated from the original work rose by nopdan (https://github.com/flowerime/rose)
+ * Copyright nopdan
+ * Licensed under the GNU General Public License v3.0.
  */
 
 using Studyzy.IMEWLConverter.Entities;
@@ -29,13 +33,62 @@ namespace Studyzy.IMEWLConverter.IME
             var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
             // file check sum
-            var fileChecksum_unused = BinFileHelper.ReadUInt32(fs);
+            var header = BinFileHelper.ReadUInt32(fs);
+            if (header == 0x55504753)
+            {
+                return NewParser(fs);
+            }
+
             uint checksum = 0;
 
             var userDict = InitialiseUserDict(fs, ref checksum);
             var userHeader = ReadUserHeader(fs);
             return ReadAllWords(fs, userDict, userHeader);
         }
+
+        #region new format @nopdan
+        private WordLibraryList NewParser(FileStream fs)
+        {
+            var wordList = new WordLibraryList();
+
+            fs.Seek(0x38, SeekOrigin.Begin);
+            var idxBegin = BinFileHelper.ReadUInt32(fs); // index begin
+            var idxSize = BinFileHelper.ReadUInt32(fs);  // index size
+            var wordCount = BinFileHelper.ReadUInt32(fs);
+            var dictBegin = BinFileHelper.ReadUInt32(fs);    // = idxBegin + idxSize
+            var dictTotalSize = BinFileHelper.ReadUInt32(fs); // file total size - dictBegin
+            var dictSize = BinFileHelper.ReadUInt32(fs);    // effective dict size
+
+            for (var i = 0; i < wordCount; i++)
+            {
+                fs.Seek(idxBegin + 4 * i, 0);
+
+                var idx = BinFileHelper.ReadUInt32(fs);
+                fs.Seek(idx + dictBegin, 0);
+                var freq = BinFileHelper.ReadUInt16(fs);
+                fs.Seek(2, SeekOrigin.Current);
+                fs.Seek(5, SeekOrigin.Current);  // unknown 5 bytes, same in every entry
+
+                var n = BinFileHelper.ReadUInt16(fs) / 2; // pinyin size / 2
+                var pinyin = new List<string>();
+                for (var j = 0; j < n; j++)
+                {
+                    var p = BinFileHelper.ReadUInt16(fs);
+                    pinyin.Add(PinyinData[p]);
+                }
+
+                fs.Seek(2, SeekOrigin.Current); // word size + code size（include idx）
+                var wordSize = BinFileHelper.ReadUInt16(fs);
+                var str = new byte[wordSize];
+                fs.Read(str, 0, wordSize);
+                string word = Encoding.Unicode.GetString(str);
+                var wordLibrary = new WordLibrary() { Word = word, Rank = (int)freq, PinYin = pinyin.ToArray() };
+                // Console.WriteLine(wordLibrary);
+                wordList.Add(wordLibrary);
+            }
+            return wordList;
+        }
+        #endregion
 
         #region private methods
         private SougouPinyinDict InitialiseUserDict(FileStream fs, ref uint checksum)
@@ -295,7 +348,7 @@ namespace Studyzy.IMEWLConverter.IME
     "se", "sen", "seng", "sha", "shai", "shan", "shang", "shao", "she", "shei",
     "shen", "sheng", "shi", "shou", "shu", "shua", "shuai", "shuan", "shuang",
     "shui", "shun", "shuo", "si", "song", "sou", "su", "suan", "sui", "sun", "suo",
-    "ta", "tai", "tan", "tang", "tao", "te", "ten", "teng", "ti", "tian", "tiao",
+    "ta", "tai", "tan", "tang", "tao", "te", "tei", "teng", "ti", "tian", "tiao",
     "tie", "ting", "tong", "tou", "tu", "tuan", "tui", "tun", "tuo", "wa", "wai",
     "wan", "wang", "wei", "wen", "weng", "wo", "wu", "xi", "xia", "xian", "xiang",
     "xiao", "xie", "xin", "xing", "xiong", "xiu", "xu", "xuan", "xue", "xun", "ya",

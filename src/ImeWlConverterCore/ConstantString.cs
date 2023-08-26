@@ -64,6 +64,7 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_ERBI = "二笔输入法";
         public const string FIT = "FIT输入法";
         public const string RIME = "Rime中州韵";
+        public const string RIME_USERDB = "Rime UserDb 用户词典";
         public const string CANGJIE_PLATFORM = "仓颉平台";
         public const string BING_PINYIN = "必应输入法";
         public const string LINGOES_LD2 = "灵格斯ld2";
