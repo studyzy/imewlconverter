@@ -54,6 +54,8 @@
 
 本程序支持批量转换（一次拖拽多个词库文件，或者按住 Ctrl 选择多个文件），支持命令行模式（在命令行下使用-?命令查看帮助），支持 Windows、Linux、MacOS。
 
+# 使用教程
+Linux：[如何在Linux上使用深蓝词库转换（以Google colab为例——基于Ubuntu）](https://forum.beginner.center/t/topic/719)
 
 ## License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter?ref=badge_large)
