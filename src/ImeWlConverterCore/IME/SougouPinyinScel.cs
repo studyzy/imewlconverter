@@ -112,41 +112,26 @@ namespace Studyzy.IMEWLConverter.IME
             var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             var str = new byte[128];
             var outstr = new byte[128];
-            byte[] num;
 
-            int hzPosition = 0;
-            fs.Read(str, 0, 128); //\x40\x15\x00\x00\x44\x43\x53\x01
-            if (str[4] == 0x44)
-            {
-                hzPosition = 0x2628;
-            }
-            if (str[4] == 0x45)
-            {
-                hzPosition = 0x26C4;
-            }
+            // 未展开的词条数（同音词算1个
+            fs.Position = 0x120;
+            var dictLen = BinFileHelper.ReadInt32(fs);
 
-            fs.Position = 0x124;
-            CountWord = BinFileHelper.ReadInt32(fs);
-            CurrentStatus = 0;
-
+            // 拼音表的长度
             fs.Position = 0x1540;
+            var pyDicLen = BinFileHelper.ReadInt32(fs);
+
             str = new byte[4];
-            fs.Read(str, 0, 4); //\x9D\x01\x00\x00
-            while (true)
+            for (int i = 0; i < pyDicLen; i++)
             {
-                num = new byte[4];
-                fs.Read(num, 0, 4);
-                int mark = num[0] + num[1] * 256;
-                str = new byte[128];
-                fs.Read(str, 0, (num[2]));
+                var idx = BinFileHelper.ReadInt16(fs);
+                var size = BinFileHelper.ReadInt16(fs);
+                str = new byte[size];
+                fs.Read(str, 0, size);
                 string py = Encoding.Unicode.GetString(str);
-                py = py.Substring(0, py.IndexOf('\0'));
-                pyDic.Add(mark, py);
-                if (py == "zuo") //最后一个拼音
-                {
-                    break;
-                }
+                pyDic.Add(idx, py);
             }
+
             var s = new StringBuilder();
             foreach (string value in pyDic.Values)
             {
@@ -154,11 +139,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             Debug.WriteLine(s.ToString());
 
-
-            //fs.Position = 0x2628;
-            fs.Position = hzPosition;
-
-            while (true)
+            for (int i = 0; i < dictLen; i++)
             {
                 try
                 {
@@ -168,12 +149,8 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     Debug.WriteLine(ex.Message);
                 }
-                if (CurrentStatus == CountWord || fs.Length == fs.Position) //判断文件结束
-                {
-                    fs.Close();
-                    break;
-                }
             }
+
             return pyAndWord;
             //var sb = new StringBuilder();
             //foreach (WordLibrary w in pyAndWord)
