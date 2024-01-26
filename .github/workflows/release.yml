@@ -23,11 +23,7 @@ jobs:
         run: dotnet publish --configuration Release --output ./publish "./src/IME WL Converter Win"
 
       - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          type: "zip"
-          filename: "imewlconverter_windows.zip"
-          directory: "publish"
+        run: 7z a -tzip imewlconverter_Windows.zip publish/
 
       - name: Update CHANGELOG
         id: changelog
@@ -41,7 +37,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "imewlconverter_Windows.zip"
-          prerelease: true
+          allowUpdates: true
           body: |
             ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -66,10 +62,21 @@ jobs:
         run: dotnet publish --configuration Release --output ./publish ./src/ImeWlConverterCmd
 
       - name: Archive Release
-        run: tar -czf imewlconverter-${{ runner.os }}.tar.gz publish/*
+        run: tar -czf imewlconverter_${{ runner.os }}.tar.gz publish/*
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          writeToFile: false
+          includeInvalidCommits: true
 
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "imewlconverter_${{ runner.os }}.tar.gz"
-          # prerelease: true
+          allowUpdates: true
+          body: |
+            ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
