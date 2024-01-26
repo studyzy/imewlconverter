@@ -80,3 +80,39 @@ jobs:
           body: |
             ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-mac-arm64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore ./src/ImeWlConverterCmd
+
+      - name: Publish
+        run: dotnet publish --configuration Release --output ./publish ./src/ImeWlConverterCmd -a arm64
+
+      - name: Archive Release
+        run: tar -czf imewlconverter_${{ runner.os }}-aarch64.tar.gz publish/*
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          writeToFile: false
+          includeInvalidCommits: true
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "imewlconverter_${{ runner.os }}-aarch64.tar.gz"
+          allowUpdates: true
+          body: |
+            ${{ steps.changelog.outputs.changes }}
+          token: ${{ secrets.GITHUB_TOKEN }}
