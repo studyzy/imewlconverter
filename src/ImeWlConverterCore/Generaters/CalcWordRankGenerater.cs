@@ -30,7 +30,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 double freq = DictionaryHelper.GetCode(c).Freq;
                 x += freq;
             }
-            return (int) x;
+            return (int)x;
         }
     }
 }

@@ -15,16 +15,16 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class Cangjie5Generater :BaseCodeGenerater, IWordCodeGenerater
+    public class Cangjie5Generater : BaseCodeGenerater, IWordCodeGenerater
     {
         #region IWordCodeGenerater Members
 
@@ -80,7 +80,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string txt = Helpers.DictionaryHelper.GetResourceContent("Cangjie5.txt");
                     dictionary = new Dictionary<char, IList<Cangjie>>();
 
-                    foreach (string line in txt.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (string line in txt.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         string[] arr = line.Split('\t');
                         try
@@ -98,7 +98,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                             }
                             else
                             {
-                                dictionary.Add(word, new List<Cangjie> {cj});
+                                dictionary.Add(word, new List<Cangjie> { cj });
                             }
                         }
                         catch (Exception ex)
@@ -119,7 +119,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public override Code GetCodeOfString(string str)
         {
-            
+
             foreach (char c in str)
             {
                 if (!Dictionary.ContainsKey(c))
@@ -135,7 +135,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     c.Add(cangjy.Code);
                 }
 
-                return new Code(c,false);
+                return new Code(c, false);
             }
             IList<IList<string>> codes = new List<IList<string>>();
             var sb = new StringBuilder();
@@ -184,7 +184,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
             IList<string> result = CollectionHelper.Descartes(codes);
 
-            return new Code(result,false);
+            return new Code(result, false);
         }
 
         public IList<string> GetAllCodesOfChar(char str)
@@ -214,7 +214,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -245,7 +245,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -264,7 +264,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();
@@ -293,7 +293,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             if (OneCodeChar.ContainsKey(c))
             {
-                return new List<string> {OneCodeChar[c]};
+                return new List<string> { OneCodeChar[c] };
             }
             IList<Cangjie> x = Dictionary[c];
             var result = new List<string>();

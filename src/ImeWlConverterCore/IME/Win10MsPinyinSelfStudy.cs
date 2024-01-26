@@ -15,15 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Filters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -42,7 +40,7 @@ namespace Studyzy.IMEWLConverter.IME
                 if (pinyinMap == null)
                 {
                     pinyinMap = new Dictionary<string, short>();
-                    for(short i =0;i<pinyinIndex.Length;i++)
+                    for (short i = 0; i < pinyinIndex.Length; i++)
                     {
                         pinyinMap[pinyinIndex[i]] = i;
                     }
@@ -472,10 +470,10 @@ namespace Studyzy.IMEWLConverter.IME
             this.CodeType = CodeType.Pinyin;
             this.PinyinType = PinyinType.FullPinyin;
         }
-      
+
         public PinyinType PinyinType
         {
-            get;set;
+            get; set;
         }
         public Encoding Encoding
         {
@@ -489,7 +487,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public CodeType CodeType
         {
-            get;set;
+            get; set;
         }
         /// <summary>
         /// 小端数字到int
@@ -529,20 +527,20 @@ namespace Studyzy.IMEWLConverter.IME
                 string word = Encoding.Unicode.GetString(bytes, 0, wordLen * 2);
                 //get pinyin
                 var pinyin = new string[wordLen];
-                for(var j=0;j<wordLen;j++)
+                for (var j = 0; j < wordLen; j++)
                 {
                     var byte2 = new byte[2];
                     fp.Read(byte2, 0, 2);
-                    var pyIndex = BitConverter.ToInt16(byte2,0);
+                    var pyIndex = BitConverter.ToInt16(byte2, 0);
                     pinyin[j] = pinyinIndex[pyIndex];
                 }
-                re.Add(new WordLibrary() { Word=word,CodeType=this.CodeType,PinYin=pinyin });
+                re.Add(new WordLibrary() { Word = word, CodeType = this.CodeType, PinYin = pinyin });
             }
             fp.Close();
             return re;
         }
 
-     
+
         public WordLibraryList ImportLine(string str)
         {
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
@@ -563,21 +561,21 @@ namespace Studyzy.IMEWLConverter.IME
             //Win10拼音对词条长度有限制
             wlList = Filter(wlList);
             var list = new List<WordLibraryList>();
-            if(wlList.Count>20000)
+            if (wlList.Count > 20000)
             {
-                SendExportErrorNotice("微软拼音自学习词库最多支持2万条记录的导入，当前词条数为："+wlList.Count+"，超过限制，请设置过滤条件或者更换词库源。");
+                SendExportErrorNotice("微软拼音自学习词库最多支持2万条记录的导入，当前词条数为：" + wlList.Count + "，超过限制，请设置过滤条件或者更换词库源。");
                 //以后微软拼音放开2W限制了，再把这个异常取消吧。
                 var item20000 = new WordLibraryList();
-                for(var i=0;i<wlList.Count;i++)
+                for (var i = 0; i < wlList.Count; i++)
                 {
                     item20000.Add(wlList[i]);
-                    if(i%19999==0&& i!=0)
+                    if (i % 19999 == 0 && i != 0)
                     {
                         list.Add(item20000);
                         item20000 = new WordLibraryList();
                     }
                 }
-                if(item20000.Count!=0)
+                if (item20000.Count != 0)
                 {
                     list.Add(item20000);
                 }
@@ -661,11 +659,11 @@ namespace Studyzy.IMEWLConverter.IME
 
             foreach (var wl in wlList)
             {
-                if (wl.Word.Length > 12|| wl.Word.Length==1)//最多支持12个字
+                if (wl.Word.Length > 12 || wl.Word.Length == 1)//最多支持12个字
                     continue;
-             
+
                 result.Add(wl);
-      
+
             }
             return result;
         }
@@ -675,16 +673,15 @@ namespace Studyzy.IMEWLConverter.IME
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
         private byte[] HexStringToByteArray(string s)
-          {
-              s = s.Replace(" ", "");
-              byte[] buffer = new byte[s.Length / 2];
-              for (int i = 0; i<s.Length; i += 2)
-              {
-                  buffer[i / 2] = (byte) Convert.ToByte(s.Substring(i, 2), 16);
-              }
-  
-              return buffer;
-          }
+        {
+            s = s.Replace(" ", "");
+            byte[] buffer = new byte[s.Length / 2];
+            for (int i = 0; i < s.Length; i += 2)
+            {
+                buffer[i / 2] = (byte)Convert.ToByte(s.Substring(i, 2), 16);
+            }
+
+            return buffer;
+        }
     }
 }
- 

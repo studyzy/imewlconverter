@@ -39,7 +39,7 @@ namespace Studyzy.IMEWLConverter
             if (args.Length > 0)
             {
                 AttachConsole(ATTACH_PARENT_PROCESS);
-                var consoleRun = new ConsoleRun(args,Help);
+                var consoleRun = new ConsoleRun(args, Help);
                 consoleRun.Run();
             }
             else

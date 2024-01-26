@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Filters;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Filters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -68,7 +68,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public string ExportLine(WordLibrary wl)
         {
-            var sb = new StringBuilder();           
+            var sb = new StringBuilder();
             sb.Append(wl.GetPinYinString("", BuildType.None));
             sb.Append("\t");
             sb.Append(wl.Word);
@@ -104,7 +104,7 @@ namespace Studyzy.IMEWLConverter.IME
 
 
 
-        public  WordLibraryList ImportLine(string line)
+        public WordLibraryList ImportLine(string line)
         {
             string[] c = line.Split('\t');
             var wl = new WordLibrary();
@@ -121,8 +121,8 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var tempUnzipFolder = FileOperationHelper.GetCurrentFolderPath();
             FileOperationHelper.UnZip(path, tempUnzipFolder);
-            var tempFilePath= Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "dictionary.txt");
-            string str = FileOperationHelper.ReadFile(tempFilePath,new UTF8Encoding(false));
+            var tempFilePath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "dictionary.txt");
+            string str = FileOperationHelper.ReadFile(tempFilePath, new UTF8Encoding(false));
             File.Delete(tempFilePath);
             return ImportText(str);
         }
@@ -148,7 +148,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public override CodeType CodeType { get => CodeType.UserDefinePhrase; set => base.CodeType = value; }
 
-         public  Encoding Encoding
+        public Encoding Encoding
         {
             get
             {
@@ -159,7 +159,7 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message+ " Your system doesn't support GBK, try to use GB2312.");
+                    Console.WriteLine(ex.Message + " Your system doesn't support GBK, try to use GB2312.");
                     return Encoding.GetEncoding("GB2312");
                 }
             }

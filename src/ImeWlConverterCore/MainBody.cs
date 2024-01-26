@@ -15,19 +15,19 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.Language;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Timers;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Timers;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -213,7 +213,7 @@ namespace Studyzy.IMEWLConverter
         //    return list;
         //}
 
-        
+
         /// <summary>
         /// 转换多个文件成一个文件
         /// </summary>
@@ -243,7 +243,7 @@ namespace Studyzy.IMEWLConverter
                     wlList = Filter(wlList);
                     allWlList.AddRange(wlList);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：\n\t" + ex.Message);
                     isImportProgress = false;
@@ -590,8 +590,8 @@ namespace Studyzy.IMEWLConverter
                         word = TranslateChineseNumber(word);
                     }
 
-                    if ((FilterConfig.KeepEnglish && englishRegex.IsMatch(word)) 
-                        || (FilterConfig.KeepNumber && numberRegex.IsMatch(word)) 
+                    if ((FilterConfig.KeepEnglish && englishRegex.IsMatch(word))
+                        || (FilterConfig.KeepNumber && numberRegex.IsMatch(word))
                         || (FilterConfig.KeepPunctuation && punctuationRegex.IsMatch(word)))
                     {
 
@@ -614,14 +614,16 @@ namespace Studyzy.IMEWLConverter
                             else if (c >= 0x61 && c <= 0x7a)
                             {
                                 type = 2;
-                            }else if (FilterConfig.KeepSpace && c == 0x20 && clipType==2)
+                            }
+                            else if (FilterConfig.KeepSpace && c == 0x20 && clipType == 2)
                             {
                                 type = 2;
                             }
                             else if ("-・&%'".Contains(c))
                             {
                                 type = 3;
-                            }else if (punctuationRegex.IsMatch(c.ToString()))
+                            }
+                            else if (punctuationRegex.IsMatch(c.ToString()))
                             {
                                 type = 3;
                             }

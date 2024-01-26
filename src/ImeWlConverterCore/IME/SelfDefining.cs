@@ -15,15 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -98,10 +96,10 @@ namespace Studyzy.IMEWLConverter.IME
             if (wl.CodeType != CodeType)
             {
                 codeGenerater.GetCodeOfWordLibrary(wl);
-                            }
+            }
             string word = wl.Word;
             int rank = wl.Rank;
-            foreach (string code in wl.Codes.ToCodeString(UserDefiningPattern.CodeSplitString,UserDefiningPattern.CodeSplitType))
+            foreach (string code in wl.Codes.ToCodeString(UserDefiningPattern.CodeSplitString, UserDefiningPattern.CodeSplitType))
             {
                 string line = String.Format(lineFormat, code, word, rank);
                 lines.Add(line);
@@ -168,7 +166,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var wl = new WordLibrary();
             wl.CodeType = UserDefiningPattern.CodeType;
-            string[] strlist = line.Split(new[] {UserDefiningPattern.SplitString}, StringSplitOptions.RemoveEmptyEntries);
+            string[] strlist = line.Split(new[] { UserDefiningPattern.SplitString }, StringSplitOptions.RemoveEmptyEntries);
             var newSort = new List<int>(UserDefiningPattern.Sort);
             newSort.Sort();
             string code = "", word = "";
@@ -225,9 +223,9 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 if (UserDefiningPattern.IsPinyinFormat)
                 {
-                    string[] codes = code.Split(new[] {UserDefiningPattern.CodeSplitString},
+                    string[] codes = code.Split(new[] { UserDefiningPattern.CodeSplitString },
                         StringSplitOptions.RemoveEmptyEntries);
-                    wl.SetCode(UserDefiningPattern.CodeType, new List<string>(codes),UserDefiningPattern.IsPinyinFormat);
+                    wl.SetCode(UserDefiningPattern.CodeType, new List<string>(codes), UserDefiningPattern.IsPinyinFormat);
                 }
                 else
                 {

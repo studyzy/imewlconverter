@@ -15,12 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -85,7 +83,7 @@ namespace Studyzy.IMEWLConverter.IME
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-     
+
         public override WordLibraryList ImportLine(string word)
         {
             string hz = "";

@@ -15,13 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Studyzy.IMEWLConverter.Generaters;
 using NUnit.Framework;
-using Studyzy.IMEWLConverter.Helpers;
+using Studyzy.IMEWLConverter.Generaters;
+using System.Linq;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest
 {
@@ -37,16 +33,16 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
         [Test]
         public void TestGetOneWordPinyin()
         {
-            
+
         }
         [TestCase("曾毅", "ㄗㄥ,ㄧˋ")]
         [TestCase("北京吃饭", "ㄅㄟˇ,ㄐㄧㄥ,ㄔ,ㄈㄢˋ")]
         [TestCase("煤矿", "ㄇㄟˊ,ㄎㄨㄤˋ")]
         [TestCase("故乡", "ㄍㄨˋ,ㄒㄧㄤ")]
-        public void TestGetLongWordsPinyin(string str,string py)
+        public void TestGetLongWordsPinyin(string str, string py)
         {
             var result = generater.GetCodeOfString(str).ToCodeString(",");
-            Assert.Contains(py,result.ToArray());
+            Assert.Contains(py, result.ToArray());
         }
     }
 }

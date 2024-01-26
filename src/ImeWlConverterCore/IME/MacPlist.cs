@@ -15,26 +15,26 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Xml;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     [ComboBoxShow(ConstantString.MAC_PLIST, ConstantString.MAC_PLIST_C, 150)]
     public class MacPlist : BaseImport, IWordLibraryTextImport, IWordLibraryExport
     {
-        private string Header="<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><array>";
-        private string Footer="</array></plist>";
+        private string Header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><array>";
+        private string Footer = "</array></plist>";
         #region IWordLibraryExport 成员
 
         public string ExportLine(WordLibrary wl)
         {
-            var format="<dict><key>phrase</key><string>{0}</string><key>shortcut</key><string>{1}</string></dict>";
+            var format = "<dict><key>phrase</key><string>{0}</string><key>shortcut</key><string>{1}</string></dict>";
             try
             {
                 string py = wl.GetPinYinString("", BuildType.None);
@@ -42,7 +42,7 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     return "";
                 }
-                return string.Format(format,wl.Word,py);
+                return string.Format(format, wl.Word, py);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #endregion
 
-//<dict><key>phrase</key><string>马上到！</string><key>shortcut</key><string>msd</string></dict>
+        //<dict><key>phrase</key><string>马上到！</string><key>shortcut</key><string>msd</string></dict>
 
         public WordLibraryList Import(string path)
         {
@@ -90,7 +90,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(str);
-           
+
             var wlList = new WordLibraryList();
             XmlNodeList xns = xmlDoc.SelectNodes("//plist/array/dict");
             CountWord = xns.Count;
@@ -98,7 +98,7 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 XmlNode xn = xns[i];
                 var nodes = xn.SelectNodes("string");
-                
+
                 var wl = new WordLibrary();
                 wl.Word = nodes[0].InnerText;
                 wl.Rank = 1;

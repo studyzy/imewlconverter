@@ -15,10 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
@@ -31,6 +27,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         }
 
         public abstract Code GetCodeOfString(string str);
-  
+
     }
 }

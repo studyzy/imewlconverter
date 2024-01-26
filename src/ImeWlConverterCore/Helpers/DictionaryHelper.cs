@@ -33,7 +33,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 if (dictionary.Count == 0)
                 {
                     string allPinYin = GetResourceContent("ChineseCode.txt");
-                    string[] pyList = allPinYin.Split(new[] {"\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] pyList = allPinYin.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < pyList.Length; i++)
                     {
                         string[] hzpy = pyList[i].Split('\t');
@@ -56,11 +56,11 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         public static ChineseCode GetCode(char c)
         {
-            if(Dict.ContainsKey(c))
-            return Dict[c];
+            if (Dict.ContainsKey(c))
+                return Dict[c];
             else
             {
-                throw new Exception("给定关键字不在字典中，【"+c+"】");
+                throw new Exception("给定关键字不在字典中，【" + c + "】");
             }
         }
 
@@ -76,7 +76,7 @@ namespace Studyzy.IMEWLConverter.Helpers
 
             using (var stream = assembly.GetManifestResourceStream("ImeWlConverterCore.Resources." + fileName))
             {
-                using (var reader = new StreamReader(stream,true))
+                using (var reader = new StreamReader(stream, true))
                 {
                     file = reader.ReadToEnd();
                 }

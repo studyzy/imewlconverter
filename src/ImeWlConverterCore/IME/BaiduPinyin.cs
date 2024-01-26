@@ -15,11 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -49,7 +48,7 @@ namespace Studyzy.IMEWLConverter.IME
             else
             {
                 string py = line.Split('\t')[1];
-                wl.PinYin = py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
                 wl.Rank = Convert.ToInt32(array[2]);
             }
 
@@ -62,7 +61,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        public  string ExportLine(WordLibrary wl)
+        public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
 

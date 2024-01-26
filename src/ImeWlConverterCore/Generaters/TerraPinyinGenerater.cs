@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -46,9 +46,9 @@ namespace Studyzy.IMEWLConverter.Generaters
                 {
                     result.Add(PinyinHelper.AddToneToPinyin(str[i], p));
                 }
-              
+
             }
-            return new Code( result,true);
+            return new Code(result, true);
         }
 
         public override void GetCodeOfWordLibrary(WordLibrary wl)
@@ -66,13 +66,13 @@ namespace Studyzy.IMEWLConverter.Generaters
                     for (int j = 0; j < row.Count; j++)
                     {
                         string s = row[j];
-                        string py =PinyinHelper.AddToneToPinyin(wl.Word[i], s); //add tone
+                        string py = PinyinHelper.AddToneToPinyin(wl.Word[i], s); //add tone
                         wl.Codes[i][j] = py;
                     }
                 }
 
-               
-                return ;
+
+                return;
             }
             base.GetCodeOfWordLibrary(wl);
         }

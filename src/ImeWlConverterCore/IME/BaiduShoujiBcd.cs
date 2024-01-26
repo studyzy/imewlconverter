@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -179,8 +179,8 @@ namespace Studyzy.IMEWLConverter.IME
                 pinyinList.Add(Shengmu[temp[0]] + Yunmu[temp[1]]);
             }
             wordLibrary.PinYin = pinyinList.ToArray();
-            temp = new byte[2*len];
-            fs.Read(temp, 0, 2*len);
+            temp = new byte[2 * len];
+            fs.Read(temp, 0, 2 * len);
             wordLibrary.Word = Encoding.Unicode.GetString(temp);
             //for (var i = 0; i < wordLibrary.Word.Length;i++ )
             //{

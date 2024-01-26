@@ -15,7 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME

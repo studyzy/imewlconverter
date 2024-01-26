@@ -15,21 +15,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
 using Studyzy.IMEWLConverter.Helpers;
 using Studyzy.IMEWLConverter.IME;
 using Studyzy.IMEWLConverter.Language;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -168,7 +165,7 @@ namespace Studyzy.IMEWLConverter
         //private bool isFolderBatchConvert = false;
         private FilterConfig filterConfig = new FilterConfig();
         //private ParsePattern fromUserSetPattern;
-        private SortType sortType=SortType.Default;
+        private SortType sortType = SortType.Default;
         private bool sortDesc = false;
 
         private IWordLibraryImport import;
@@ -603,13 +600,14 @@ namespace Studyzy.IMEWLConverter
             }
             else if (mergeTo1File)
             {
-                var dataText=string.Join("\r\n", mainBody.ExportContents);
+                var dataText = string.Join("\r\n", mainBody.ExportContents);
                 if (toolStripMenuItemShowLess.Checked && (dataText.Length > 200000))
                 {
                     richTextBox1.Text = "为避免输出时卡死，“高级设置”中选中了“结果只显示首、末10万字”，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
                      + dataText.Substring(0, 100000) + "\n\n\n...\n\n\n" + dataText.Substring(dataText.Length - 100000);
                 }
-                else if (dataText.Length > 0) {
+                else if (dataText.Length > 0)
+                {
                     richTextBox1.Text = dataText;
                     //btnExport.Enabled = true;
                 }
@@ -646,7 +644,8 @@ namespace Studyzy.IMEWLConverter
 
                 }
             }
-            else {
+            else
+            {
                 MessageBox.Show("转换失败，没有找到词条", "深蓝词库转换", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

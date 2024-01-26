@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -37,7 +37,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public virtual IList<string> GetAllCodesOfChar(char str)
         {
-            return new List<string> {DictionaryHelper.GetCode(str).Wubi86};
+            return new List<string> { DictionaryHelper.GetCode(str).Wubi86 };
         }
 
         public bool Is1CharMutiCode

@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -103,7 +103,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 {
                     zyrow.Add(ZhuyinHelper.GetZhuyin(py));
                 }
-               
+
                 result.Add(zyrow);
             }
             return new Code(result);

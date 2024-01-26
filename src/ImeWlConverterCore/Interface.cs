@@ -15,11 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -54,7 +53,7 @@ namespace Studyzy.IMEWLConverter
         /// <returns></returns>
         IList<string> Export(WordLibraryList wlList);
         string ExportLine(WordLibrary wl);
-      
+
     }
 
     public interface IMultiCodeType

@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -51,7 +51,7 @@ namespace Studyzy.IMEWLConverter.IME
             fs.Position = 0x02;
             int enc = fs.ReadByte();
             Encoding encoding = (enc == 0x09) ? Encoding.Unicode : Encoding.GetEncoding("GB18030");
-            
+
             fs.Position = 0x44;
             CountWord = BinFileHelper.ReadInt32(fs);
             int segmentCount = BinFileHelper.ReadInt32(fs); //分为几段
@@ -60,7 +60,7 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 try
                 {
-                    fs.Position = 0xC00 + 1024*i;
+                    fs.Position = 0xC00 + 1024 * i;
                     var segment = new Segment(fs, encoding);
                     pyAndWord.AddWordLibraryList(segment.WordLibraryList);
                     CurrentStatus += segment.WordLibraryList.Count;
@@ -222,7 +222,7 @@ namespace Studyzy.IMEWLConverter.IME
         //private readonly IList<byte> LenDic = new List<byte>
         //{0x05, 0x87, 0x09, 0x8B, 0x0D, 0x8F, 0x11, 0x13, 0x15, 0x17, 0x19};
 
-        public Segment(Stream stream,Encoding encoding)
+        public Segment(Stream stream, Encoding encoding)
         {
             UwlEncoding = encoding;
             IndexNumber = BinFileHelper.ReadInt32(stream);
@@ -262,12 +262,12 @@ namespace Studyzy.IMEWLConverter.IME
             var wl = new WordLibrary();
             int lenWord = stream.ReadByte();
             int lenCode = stream.ReadByte();
-            lenCode = lenCode%0x10*2 + lenWord/0x80;
-            lenWord = lenWord%0x80 -1;
-            lenByte = 4 + lenWord + lenCode*2;
+            lenCode = lenCode % 0x10 * 2 + lenWord / 0x80;
+            lenWord = lenWord % 0x80 - 1;
+            lenByte = 4 + lenWord + lenCode * 2;
 
             wl.Rank += stream.ReadByte();
-            wl.Rank += stream.ReadByte()<<8;
+            wl.Rank += stream.ReadByte() << 8;
 
             //py
             //int pyLen = Math.Min(8, len); //拼音最大支持8个字的拼音

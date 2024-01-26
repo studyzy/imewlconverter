@@ -16,15 +16,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Filters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -49,7 +47,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public PinyinType PinyinType
         {
-            get;set;
+            get; set;
         }
         public Encoding Encoding
         {
@@ -63,7 +61,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public CodeType CodeType
         {
-            get;set;
+            get; set;
         }
 
         public WordLibraryList Import(string path)
@@ -105,13 +103,13 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return pyAndWord;
         }
-        
+
         private WordLibrary ReadOnePhrase(FileStream fs, DictCodeType type)
         {
             WordLibrary wl = new WordLibrary();
             var codeBytesLen = fs.ReadByte();
             var wordBytesLen = fs.ReadByte();
-            var split  = fs.ReadByte();
+            var split = fs.ReadByte();
             // 0x64对应正常词组（包含中英混拼，如"阿Q"）。
             Debug.Assert(split.Equals(0x64) || split.Equals(0x32)
                 || split.Equals(0x10) || split.Equals(0x66)
@@ -124,7 +122,7 @@ namespace Studyzy.IMEWLConverter.IME
 
             if (split.Equals(0x32)) // 如“醃(腌)”，后者是相应简化字？
             {
-                word = word.Substring(0,1); // 暂定只取首字
+                word = word.Substring(0, 1); // 暂定只取首字
             }
             Debug.Assert(word.IndexOf("(") < 0);
             wl.Word = word;
@@ -136,7 +134,7 @@ namespace Studyzy.IMEWLConverter.IME
                     wl.SetPinyinString(codeStr);
                 }
                 else if (type == DictCodeType.Wubi98)
-                { 
+                {
                     wl.CodeType = CodeType.Wubi98;
                     wl.SetCode(CodeType.Wubi98, codeStr);
                 }
@@ -144,7 +142,7 @@ namespace Studyzy.IMEWLConverter.IME
             catch
             {
                 wl.CodeType = CodeType.NoCode;
-                ImportLineErrorNotice?.Invoke(wl.Word+" 的编码缺失");
+                ImportLineErrorNotice?.Invoke(wl.Word + " 的编码缺失");
             }
             return wl;
         }
@@ -154,7 +152,7 @@ namespace Studyzy.IMEWLConverter.IME
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
         public event Action<string> ExportErrorNotice;
-      
+
         public IList<string> Export(WordLibraryList wlList)
         {
             throw new NotImplementedException("暂不支持");
@@ -166,4 +164,3 @@ namespace Studyzy.IMEWLConverter.IME
         }
     }
 }
- 

@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Generaters;
 using System;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -39,7 +39,7 @@ namespace Studyzy.IMEWLConverter
         {
             if (rbtnDefault.Checked)
             {
-                wordRankGenerater = new DefaultWordRankGenerater {Rank = (int) numRank.Value};
+                wordRankGenerater = new DefaultWordRankGenerater { Rank = (int)numRank.Value };
             }
             else if (rbtnGoogle.Checked)
             {

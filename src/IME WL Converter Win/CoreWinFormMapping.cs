@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.IME;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
-using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -32,12 +32,12 @@ namespace Studyzy.IMEWLConverter
         private void InitImportFormMapping()
         {
             imeFormMapping = new Dictionary<Type, Form>();
-            imeFormMapping.Add(typeof (Rime), new RimeConfigForm());
-            imeFormMapping.Add(typeof (LingoesLd2), new Ld2EncodingConfigForm());
-            imeFormMapping.Add(typeof (Xiaoxiao), new XiaoxiaoConfigForm());
-            imeFormMapping.Add(typeof (SelfDefining), new SelfDefiningConfigForm());
-            imeFormMapping.Add(typeof (UserDefinePhrase), new PhraseFormatConfigForm());
-            imeFormMapping.Add(typeof (XiaoxiaoErbi), new ErbiTypeForm());
+            imeFormMapping.Add(typeof(Rime), new RimeConfigForm());
+            imeFormMapping.Add(typeof(LingoesLd2), new Ld2EncodingConfigForm());
+            imeFormMapping.Add(typeof(Xiaoxiao), new XiaoxiaoConfigForm());
+            imeFormMapping.Add(typeof(SelfDefining), new SelfDefiningConfigForm());
+            imeFormMapping.Add(typeof(UserDefinePhrase), new PhraseFormatConfigForm());
+            imeFormMapping.Add(typeof(XiaoxiaoErbi), new ErbiTypeForm());
             imeFormMapping.Add(typeof(Win10MsPinyin), new PinyinConfigForm());
             imeFormMapping.Add(typeof(Gboard), new PinyinConfigForm());
         }

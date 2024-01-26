@@ -15,8 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
+using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -59,7 +59,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         /// </summary>
         /// <param name="wl"></param>
         /// <returns></returns>
-       void GetCodeOfWordLibrary(WordLibrary wl);
+        void GetCodeOfWordLibrary(WordLibrary wl);
 
         /// <summary>
         ///     获得一个字的所有编码。比如多音字，一字多码

@@ -15,14 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.ComponentModel;
-using System.IO;
-using System.Net;
-using System.Text;
 using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
+using System;
 
 namespace Studyzy.IMEWLConverter.Test
 {

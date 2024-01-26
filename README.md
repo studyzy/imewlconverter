@@ -3,9 +3,9 @@
 # 深蓝词库转换
 
 [![Stars](https://img.shields.io/github/stars/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter/stargazers)
-![Actions Check](https://badgen.net/github/checks/studyzy/imewlconverter)
-![License](https://badgen.net/github/license/studyzy/imewlconverter)
-![GitHub repo size](https://img.shields.io/github/repo-size/studyzy/imewlconverter)
+![Actions Check](https://github.com/studyzy/imewlconverter/actions/workflows/winform.yml/badge.svg)
+![License](https://img.shields.io/github/license/studyzy/imewlconverter)
+![Repo size](https://img.shields.io/github/repo-size/studyzy/imewlconverter)
 [![Code Count](https://tokei.rs/b1/github/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter)
 
 [![Join the chat](https://badges.gitter.im/studyzy/imewlconverter.svg)](https://gitter.im/studyzy/imewlconverter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

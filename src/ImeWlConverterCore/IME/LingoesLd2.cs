@@ -15,16 +15,16 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using ICSharpCode.SharpZipLib.Zip.Compression;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -163,7 +163,7 @@ namespace Studyzy.IMEWLConverter.IME
             int inflatedWordsIndexLength = BinFileHelper.ReadInt32(fs);
             int inflatedWordsLength = BinFileHelper.ReadInt32(fs);
             int inflatedXmlLength = BinFileHelper.ReadInt32(fs);
-            int definitions = (offsetCompressedDataHeader - offsetIndex)/4;
+            int definitions = (offsetCompressedDataHeader - offsetIndex) / 4;
             var deflateStreams = new List<int>();
             fs.Position = offsetCompressedDataHeader + 8;
             int offset = BinFileHelper.ReadInt32(fs);
@@ -186,7 +186,7 @@ namespace Studyzy.IMEWLConverter.IME
                             + inflatedWordsLength.ToString("x") + " B");
             Debug.WriteLine("XML地址/大小（解压缩后）：0x" + (inflatedWordsIndexLength + inflatedWordsLength).ToString("x")
                             + " / " + inflatedXmlLength.ToString("x") + " B");
-            Debug.WriteLine("文件大小（解压缩后）：" + (inflatedWordsIndexLength + inflatedWordsLength + inflatedXmlLength)/1024
+            Debug.WriteLine("文件大小（解压缩后）：" + (inflatedWordsIndexLength + inflatedWordsLength + inflatedXmlLength) / 1024
                             + " KB");
 
             byte[] inflatedFile = Inflate(fs, offsetCompressedData, deflateStreams);
@@ -235,12 +235,12 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var t = new List<byte>();
             var inflator = new Inflater();
-            Stream stream = CopyStream(data, offset, (int) length);
-            var in1 = new InflaterInputStream(stream, inflator, 1024*8);
+            Stream stream = CopyStream(data, offset, (int)length);
+            var in1 = new InflaterInputStream(stream, inflator, 1024 * 8);
 
-            var buffer = new byte[1024*8];
+            var buffer = new byte[1024 * 8];
             int len;
-            while ((len = in1.Read(buffer, 0, 1024*8)) > 0)
+            while ((len = in1.Read(buffer, 0, 1024 * 8)) > 0)
             {
                 for (int i = 0; i < len; i++)
                 {
@@ -329,7 +329,7 @@ namespace Studyzy.IMEWLConverter.IME
         private IList<string> Extract(byte[] dataRawBytes, int offsetDefs, int offsetXml)
         {
             int dataLen = 10;
-            int defTotal = offsetDefs/dataLen - 1;
+            int defTotal = offsetDefs / dataLen - 1;
             CountWord = defTotal;
             var words = new string[defTotal];
 #if DEBUG
@@ -384,7 +384,7 @@ namespace Studyzy.IMEWLConverter.IME
             Encoding xmlStringDecoder, int i)
         {
             var idxData = new int[6];
-            GetIdxData(inflatedBytes, dataLen*i, idxData);
+            GetIdxData(inflatedBytes, dataLen * i, idxData);
             int lastWordPos = idxData[0];
             int lastXmlPos = idxData[1];
             int flags = idxData[2];
@@ -398,7 +398,7 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 int position = (offsetWords + lastWordPos);
                 int ref1 = BitConverter.ToInt32(inflatedBytes, position);
-                GetIdxData(inflatedBytes, dataLen*ref1, idxData);
+                GetIdxData(inflatedBytes, dataLen * ref1, idxData);
                 lastXmlPos = idxData[1];
                 currenXmlOffset = idxData[5];
                 if (string.IsNullOrEmpty(xml))

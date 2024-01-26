@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -215,7 +215,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 
         #region IWordLibraryImport 成员
 
-   
+
 
 
         public override WordLibraryList ImportLine(string line)

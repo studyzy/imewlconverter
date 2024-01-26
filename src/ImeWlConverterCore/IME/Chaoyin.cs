@@ -15,12 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Text;
-using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -34,7 +32,7 @@ namespace Studyzy.IMEWLConverter.IME
         public Chaoyin()
         {
             DefaultRank = 1;
-            CodeType=CodeType.Chaoyin;
+            CodeType = CodeType.Chaoyin;
         }
         //#region IWordLibraryImport 成员
 

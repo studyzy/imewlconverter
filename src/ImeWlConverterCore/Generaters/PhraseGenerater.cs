@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
+using System;
+using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -29,7 +29,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 　　多字词（四字以上词）：取前三字和最后一字的第一码（前三末一）。
      */
 
-    public class PhraseGenerater :BaseCodeGenerater, IWordCodeGenerater
+    public class PhraseGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         public bool IsBaseOnOldCode
         {
@@ -58,15 +58,15 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public override void GetCodeOfWordLibrary(WordLibrary wl)
         {
-            if(wl.CodeType== CodeType.English)
+            if (wl.CodeType == CodeType.English)
             {
                 wl.SetCode(CodeType.UserDefinePhrase, wl.Word);
             }
             else if (wl.CodeType == CodeType.Pinyin)
             {
-                wl.SetCode(CodeType.UserDefinePhrase,wl.GetPinYinString("", BuildType.None));
+                wl.SetCode(CodeType.UserDefinePhrase, wl.GetPinYinString("", BuildType.None));
             }
-            var codes= CollectionHelper.Descartes(wl.Codes);
+            var codes = CollectionHelper.Descartes(wl.Codes);
             wl.SetCode(CodeType.UserDefinePhrase, codes[0]);
         }
         public override Code GetCodeOfString(string str)

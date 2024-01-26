@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -76,7 +76,7 @@ namespace Studyzy.IMEWLConverter.IME
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-            if (this.CodeType == wl.CodeType&&this.CodeType!= CodeType.Pinyin&&CodeType!=CodeType.TerraPinyin)
+            if (this.CodeType == wl.CodeType && this.CodeType != CodeType.Pinyin && CodeType != CodeType.TerraPinyin)
             {
                 return wl.Word + "\t" + wl.Codes[0][0] + "\t" + wl.Rank;
             }
@@ -94,7 +94,7 @@ namespace Studyzy.IMEWLConverter.IME
                 Debug.Fail(ex.Message);
                 return null;
             }
-           
+
 
             if (codeGenerater.Is1CharMutiCode)
             {
@@ -175,7 +175,7 @@ namespace Studyzy.IMEWLConverter.IME
             // wl.Rank = Convert.ToInt32(lineArray[2]);
             if (CodeType == CodeType.Pinyin)
             {
-                wl.PinYin = code.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = code.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             }
             else
             {

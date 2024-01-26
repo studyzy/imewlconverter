@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -61,14 +61,14 @@ namespace Studyzy.IMEWLConverter.IME
 
             const int MAX_COUNT = 16000;
             var result = new List<string>();
-            int fileCount = (int) Math.Ceiling(1.0*wlList.Count/MAX_COUNT);
+            int fileCount = (int)Math.Ceiling(1.0 * wlList.Count / MAX_COUNT);
             for (int count = 1; count <= fileCount; count++)
             {
                 var sb = new StringBuilder();
                 int rowCount = 0;
-                for (int i = 0; i < (count == fileCount ? wlList.Count%MAX_COUNT : MAX_COUNT); i++)
+                for (int i = 0; i < (count == fileCount ? wlList.Count % MAX_COUNT : MAX_COUNT); i++)
                 {
-                    var wl = wlList[(count-1)*MAX_COUNT+i];
+                    var wl = wlList[(count - 1) * MAX_COUNT + i];
                     if (wl.Word.Length > 1 && wl.Word.Length < 17)
                     {
                         sb.Append(wl.Word);

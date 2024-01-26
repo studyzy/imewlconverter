@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -147,7 +147,7 @@ namespace Studyzy.IMEWLConverter.IME
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Rank = 1;
-                wl.PinYin = py.Split(new[] {' ', '1', '2', '3', '4'}, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = py.Split(new[] { ' ', '1', '2', '3', '4' }, StringSplitOptions.RemoveEmptyEntries);
                 CurrentStatus = i;
                 wlList.Add(wl);
             }

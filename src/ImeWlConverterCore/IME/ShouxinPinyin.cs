@@ -15,12 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -38,7 +36,7 @@ namespace Studyzy.IMEWLConverter.IME
             var sb = new StringBuilder();
 
             sb.Append(wl.Word);
-         
+
             sb.Append("\t");
             sb.Append(wl.GetPinYinString("'", BuildType.None));
             sb.Append("\t");
@@ -69,7 +67,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryImport 成员
 
-       
+
 
         public override WordLibraryList ImportLine(string line)
         {

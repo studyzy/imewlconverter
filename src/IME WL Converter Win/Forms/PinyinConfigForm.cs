@@ -17,13 +17,6 @@
 
 using Studyzy.IMEWLConverter.Entities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Studyzy.IMEWLConverter
@@ -43,10 +36,11 @@ namespace Studyzy.IMEWLConverter
             codeType = CodeType.Pinyin;
             switch (cbxPinyinType.Text)
             {
-                case "全拼":pinyinType = PinyinType.FullPinyin;
+                case "全拼":
+                    pinyinType = PinyinType.FullPinyin;
                     break;
                 case "微软双拼":
-                    pinyinType = PinyinType.MsShuangpin; 
+                    pinyinType = PinyinType.MsShuangpin;
                     break;
                 case "小鹤双拼":
                     pinyinType = PinyinType.XiaoheShuangpin;
@@ -74,7 +68,7 @@ namespace Studyzy.IMEWLConverter
                     break;
                 default: pinyinType = PinyinType.FullPinyin; codeType = CodeType.UserDefinePhrase; break;
             }
-            this.DialogResult= DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

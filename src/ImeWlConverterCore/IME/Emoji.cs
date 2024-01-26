@@ -15,15 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -40,7 +34,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public override Encoding Encoding => Encoding.UTF8;
 
-      
+
 
         public override WordLibraryList ImportLine(string line)
         {

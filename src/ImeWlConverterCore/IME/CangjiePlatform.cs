@@ -15,12 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -92,7 +91,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         private readonly IWordCodeGenerater pyGenerater = new PinyinGenerater();
 
-     
+
 
 
         public override WordLibraryList ImportLine(string line)

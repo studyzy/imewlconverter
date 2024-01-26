@@ -15,20 +15,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.IME;
 using System;
 using System.IO;
 using System.Net;
-using System.Text;
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter.Test
 {
     [TestFixture]
     internal class SougouPinyinScelTest : BaseTest
     {
-        
+
         [OneTimeSetUp]
         public override void InitData()
         {

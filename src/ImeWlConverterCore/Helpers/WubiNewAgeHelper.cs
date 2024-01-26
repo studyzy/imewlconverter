@@ -98,13 +98,13 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         public static string GetWord(string wubiCode)
         {
-           
+
             if (!WubiWordDic.ContainsKey(wubiCode))
             {
                 Debug.WriteLine("Can not find word by wubi code=" + wubiCode);
                 return null;
             }
-          
+
             return WubiWordDic[wubiCode];
         }
 

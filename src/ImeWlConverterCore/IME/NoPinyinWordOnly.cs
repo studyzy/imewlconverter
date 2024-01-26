@@ -15,12 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -52,7 +49,7 @@ namespace Studyzy.IMEWLConverter.IME
             return wll;
         }
 
-     
+
 
         #endregion
 
@@ -74,8 +71,8 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append(wlList[i].Word);
                 sb.Append("\r\n");
             }
-           
-            return new List<string>() { sb.ToString()};
+
+            return new List<string>() { sb.ToString() };
         }
 
         #endregion

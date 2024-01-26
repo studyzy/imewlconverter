@@ -15,24 +15,21 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-    public class PinyinGenerater :BaseCodeGenerater, IWordCodeGenerater
+    public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         private static Dictionary<string, List<string>> mutiPinYinWord;
 
         #region IWordCodeGenerater Members
 
-    
+
 
         public override void GetCodeOfWordLibrary(WordLibrary wl)
         {
@@ -55,9 +52,9 @@ namespace Studyzy.IMEWLConverter.Generaters
                 return;
             }
             //不是拼音，就调用GetCode生成拼音
-            var code= GetCodeOfString(wl.Word);
+            var code = GetCodeOfString(wl.Word);
             wl.Codes = code;
-            wl.CodeType=CodeType.Pinyin;
+            wl.CodeType = CodeType.Pinyin;
         }
 
         /// <summary>
@@ -80,11 +77,11 @@ namespace Studyzy.IMEWLConverter.Generaters
                         pyList[i] = PinyinHelper.GetDefaultPinyin(str[i]);
                     }
                 }
-                return new Code(pyList,true);
+                return new Code(pyList, true);
             }
             try
             {
-                return new Code( PinyinHelper.GetDefaultPinyin(str),true);
+                return new Code(PinyinHelper.GetDefaultPinyin(str), true);
             }
             catch (Exception ex)
             {
@@ -118,7 +115,7 @@ namespace Studyzy.IMEWLConverter.Generaters
             if (mutiPinYinWord == null)
             {
                 var wlList = new Dictionary<string, List<string>>();
-                string[] lines = GetMutiPinyin().Split(new[] {"\r","\n"}, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = GetMutiPinyin().Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string line = lines[i];
@@ -126,7 +123,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string py = line.Split(' ')[0];
                     string word = line.Split(' ')[1];
 
-                    var pinyin = new List<string>(py.Split(new[] {'\''}, StringSplitOptions.RemoveEmptyEntries));
+                    var pinyin = new List<string>(py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries));
                     wlList.Add(word, pinyin);
                 }
                 mutiPinYinWord = wlList;
