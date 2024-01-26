@@ -13,7 +13,7 @@ bin	bn	b	bc	bn	bl	bb	bb	bd	by
 bo	bo	bo	bo	bo	bo	bo	bo	bo	bo
 bu	bu	bu	bu	bu	bu	bu	bu	bu	bu
 bie	bx	bp	bx	bx	bm	bc	bp	bp	bd
-bing	by	bk	by	by	bq	bg	bg	bv	bc
+bing	b;	bk	by	by	bq	bg	bg	bv	bc
 bei	bz	bw	bq	bz	bw	bw	bw	bw	bk
 ca	ca	ca	ca	ca	ca	ca	ca	ca	ca
 cou	cb	cz	cb	cb	cp	ct	cr	cr	cz
@@ -52,7 +52,7 @@ du	du	du	du	du	du	du	du	du	du
 dui	dv	dv	dm	dv	dv	dy	dn	dd	dn
 dia	dw	dx	dd	dw	db	dx			dx
 die	dx	dp	dx	dx	dm	dc	dp	dp	dd
-ding	dy	dk	dy	dy	dq	dg	dg	dv	dc
+ding	d;	dk	dy	dy	dq	dg	dg	dv	dc
 dei	dz	dw	dq	dz	dw	dw	dw	dw	dk
 fa	fa	fa	fa	fa	fa		fa	fa	fa
 fou	fb	fz	fb	fb	fp		fr	fr	fz
@@ -136,7 +136,7 @@ ju	ju	ju	ju	ju	ju	jv	ju	ju	ju
 jue	jv	jt	jm	jt	jx		jh	jb	jn
 jia	jw	jx	jd	jw	jb		jk	jk	jx
 jie	jx	jp	jx	jx	jm	jc	jp	jp	jd
-jing	jy	jk	jy	jy	jq	jg	jg	jv	jc
+jing	j;	jk	jy	jy	jq	jg	jg	jv	jc
 ka	ka	ka	ka	ka	ka	ka	ka	ka	ka
 kou	kb	kz	kb	kb	kp	kt	kr	kr	kz
 kuang	kd	kl	kt	kd	kh	kn	kx	kz	kg
@@ -179,7 +179,7 @@ lu	lu	lu	lu	lu	lu	lu	lu	lu	lu
 lv	lv	lv	lv	lv	lv	lv	lv	lx	lv
 lia	lw	lx	ld	lw	lb	lx	lk		lx
 lie	lx	lp	lx	lx	lm	lc	lp	lp	ld
-ling	ly	lk	ly	ly	lq	lg	lg	lv	lc
+ling	l;	lk	ly	ly	lq	lg	lg	lv	lc
 lei	lz	lw	lq	lz	lw	lw	lw	lw	lk
 ma	ma	ma	ma	ma	ma	ma	ma	ma	ma
 mou	mb	mz	mb	mb	mp	mt	mr	mr	mz
@@ -198,7 +198,7 @@ mo	mo	mo	mo	mo	mo	mo	mo	mo	mo
 miu	mq	mq	mr	mq	mn	mq	mt	mt	mj
 mu	mu	mu	mu	mu	mu	mu	mu	mu	mu
 mie	mx	mp	mx	mx	mm	mc	mp	mp	md
-ming	my	mk	my	my	mq	mg	mg	mv	mc
+ming	m;	mk	my	my	mq	mg	mg	mv	mc
 mei	mz	mw	mq	mz	mw	mw	mw	mw	mk
 na	na	na	na	na	na	na	na	na	na
 nou	nb	nz	nb	nb	np	nt	nr	nr	nz
@@ -223,7 +223,7 @@ nue	nt	nt	nm	nt	nx	ny	nx	nb	nn
 nu	nu	nu	nu	nu	nu	nu	nu	nu	nu
 nv	nv	nv	nv	nv	nv	nv	nv	nx	nv
 nie	nx	np	nx	nx	nm	nc	np	np	nd
-ning	ny	nk	ny	ny	nq	ng	ng	nv	nc
+ning	n;	nk	ny	ny	nq	ng	ng	nv	nc
 nei	nz	nw	nq	nz	nw	nw	nw	nw	nk
 a	oa	aa	oa	aa	aa	xa	ea	aa	oa
 ou	ob	ou	ob	eb	op	xt	er	ou	oz
@@ -252,7 +252,7 @@ pin	pn	pb	pc	pn	pl	pb	pb	pd	py
 po	po	po	po	po	po	po	po	po	po
 pu	pu	pu	pu	pu	pu	pu	pu	pu	pu
 pie	px	pp	px	px	pm	pc	pp	pp	pd
-ping	py	pk	py	py	pq	pg	pg	pv	pc
+ping	p;	pk	py	py	pq	pg	pg	pv	pc
 pei	pz	pw	pq	pz	pw	pw	pw	pw	pk
 qiao	qc	qn	qz	qc	qk	qp	qm	qc	qb
 qiang	qd	ql	qt	qd	qh		qn	qm	qg
@@ -268,7 +268,7 @@ qu	qu	qu	qu	qu	qu	qv	qu	qu	qu
 que	qv	qt	qm	qt	qx		qh	qb	qn
 qia	qw	qx	qd	qw	qb		qk	qk	qx
 qie	qx	qp	qx	qx	qm	qc	qp	qp	qd
-qing	qy	qk	qy	qy	qq		qg	qv	qc
+qing	q;	qk	qy	qy	qq		qg	qv	qc
 rou	rb	rz	rb	rb	rp	rt	rr	rr	rz
 re	re	re	re	re	re	re	re	re	re
 ren	rf	rf	rf	rf	rr	rk	rk	rm	rw
@@ -318,7 +318,7 @@ tong	ts	ts	ts	ts	ty	tl	tl	tl	th
 tu	tu	tu	tu	tu	tu	tu	tu	tu	tu
 tui	tv	tv	tm	tv	tv	ty	tn	td	tn
 tie	tx	tp	tx	tx	tm	tc	tp	tp	td
-ting	ty	td	ty	ty	tq	tg	tg	tv	tc
+ting	t;	td	ty	ty	tq	tg	tg	tv	tc
 tei	tz	tw	tq	tz	tw	tw	tw	tw	tk
 sh	u	u	v	u	i	e	u	v	i
 sha	ua	ua	va	ua	ia	ea	ua	va	ia
@@ -384,7 +384,7 @@ xu	xu	xu	xu	xu	xu	xv	xu	xu	xu
 xue	xv	xt	xm	xt	xx	xy	xh	xb	xn
 xia	xw	xx	xd	xw	xb	xx	xk	xk	xx
 xie	xx	xp	xx	xx	xm	xc	xp	xp	xd
-xing	xy	xk	xy	xy	xq	xg	xg	xv	xc
+xing	x;	xk	xy	xy	xq	xg	xg	xv	xc
 ya	ya	ya	ya	ya	ya	ya	ya	ya	ya
 you	yb	yz	yb	yb	yp	yt	yr	yr	yz
 ye	ye	ye	ye	ye	ye	ye	ye	ye	ye
@@ -400,7 +400,7 @@ yong	ys	ys	ys	ys	yy	yl	yl	yl	yh
 yue	yt	yt	ym	yt	yx	yy	yh	yb	yn
 yu	yu	yu	yu	yu	yu	yv	yu	yu	yu
 yue	yv	yt	ym	yt	yx	yy	yh	yb	yn
-ying	yy	yk	yy	yy	yq	yg	yg	yv	yc
+ying	y;	yk	yy	yy	yq	yg	yg	yv	yc
 za	za	za	za	za	za	za	za	za	za
 zou	zb	zz	zb	zb	zp	zt	zr	zr	zz
 ze	ze	ze	ze	ze	ze	ze	ze	ze	ze
