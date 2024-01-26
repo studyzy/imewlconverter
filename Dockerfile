@@ -34,4 +34,4 @@ RUN set -ex \
 
 ENTRYPOINT ["ImeWlConverterCmd"]
 
-CMD ["-?"]
+CMD ["-h"]

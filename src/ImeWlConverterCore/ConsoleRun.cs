@@ -70,7 +70,7 @@ namespace Studyzy.IMEWLConverter
         {
             if (Args.Length == 0)
             {
-                Console.WriteLine("输入 -? 可获取帮助");
+                Console.WriteLine("输入 -h 可获取帮助");
                 return;
             }
             for (int i = 0; i < Args.Length; i++)
@@ -143,7 +143,7 @@ namespace Studyzy.IMEWLConverter
                 }
                 Console.WriteLine("转换完成,共转换" + mainBody.Count + "个");
             }
-            Console.WriteLine("输入 -? 可获取帮助");
+            Console.WriteLine("输入 -h 可获取帮助");
         }
 
         private void MainBody_ProcessNotice(string message)
@@ -153,7 +153,7 @@ namespace Studyzy.IMEWLConverter
 
         private CommandType RunCommand(string command)
         {
-            if (command == "--help" || command == "-?")
+            if (command == "--help" || command == "-h")
             {
                 showHelp(this.cbxImportItems);
                 return CommandType.Help;
