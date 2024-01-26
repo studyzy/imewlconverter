@@ -56,10 +56,10 @@ namespace Studyzy.IMEWLConverter
         public const string JIDIAN_MBDICT = "极点五笔.mb文件";
         public const string XIAOYA_WUBI = "小鸭五笔";
         public const string MS_PINYIN = "微软拼音";
-        public const string WIN10_MS_PINYIN = "Win10微软拼音（自定义短语）";
-        public const string WIN10_MS_PINYIN_SELF_STUDY = "Win10微软拼音（自学习词库）";
+        public const string WIN10_MS_PINYIN = "Win10微软拼音（用户自定义短语）";
+        public const string WIN10_MS_PINYIN_SELF_STUDY = "Win10微软拼音（自学习词汇）";
 
-        public const string WIN10_MS_WUBI = "Win10微软五笔（自定义短语）";
+        public const string WIN10_MS_WUBI = "Win10微软五笔（用户自定义短语）";
         public const string XIAOXIAO = "小小输入法";
         public const string XIAOXIAO_ERBI = "二笔输入法";
         public const string FIT = "FIT输入法";
