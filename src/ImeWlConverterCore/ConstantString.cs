@@ -109,6 +109,7 @@ namespace Studyzy.IMEWLConverter
         public const string XIAOXIAO_C = "xiaoxiao";
         public const string FIT_C = "fit";
         public const string RIME_C = "rime";
+        public const string RIME_USERDB_C = "rimedb";
         public const string BING_PINYIN_C = "bing";
         public const string LINGOES_LD2_C = "ld2";
         public const string BAIDU_PINYIN_C = "bdpy";
