@@ -22,6 +22,8 @@ namespace Studyzy.IMEWLConverter
     /// </summary>
     public class ConstantString
     {
+        public const string VERSION = "3.1.0.0";
+
         public const string BAIDU_SHOUJI = "百度手机或Mac版百度拼音";
         public const string BAIDU_SHOUJI_ENG = "百度手机英文";
         public const string BAIDU_BDICT = "百度分类词库bdict";
