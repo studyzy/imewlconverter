@@ -753,9 +753,9 @@ namespace Studyzy.IMEWLConverter
                     ExportContents = export.Export(wlList);
                     for (var i = 0; i < ExportContents.Count; i++)
                     {
-                        string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
-                                            Path.GetFileNameWithoutExtension(file) + (i == 0 ? "" : i.ToString()) +
-                                            ".txt";
+                        if (!Directory.Exists(outputDir)) Directory.CreateDirectory(outputDir);
+                        string exportPath = Path.Combine(outputDir,
+                            Path.GetFileNameWithoutExtension(file) + (i == 0 ? "" : i.ToString()) + ".txt");
                         FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
                     }
                     ExportContents = new List<string>();
@@ -779,8 +779,9 @@ namespace Studyzy.IMEWLConverter
             var outputDir = Path.GetDirectoryName(filePath);
             for (var i = 0; i < ExportContents.Count; i++)
             {
-                string exportPath = outputDir + (outputDir.EndsWith("\\") ? "" : "\\") +
-                               Path.GetFileNameWithoutExtension(filePath) + (i == 0 ? "" : i.ToString()) + ".txt";
+                if (!Directory.Exists(outputDir)) Directory.CreateDirectory(outputDir);
+                string exportPath = Path.Combine(outputDir,
+                    Path.GetFileNameWithoutExtension(filePath) + (i == 0 ? "" : i.ToString()) + ".txt");
                 FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
             }
             ExportContents = new List<string>();
