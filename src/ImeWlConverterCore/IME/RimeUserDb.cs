@@ -16,11 +16,7 @@
  */
 
 using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
 namespace Studyzy.IMEWLConverter.IME
@@ -31,7 +27,7 @@ namespace Studyzy.IMEWLConverter.IME
     /// 
     /// </summary>
     [ComboBoxShow(ConstantString.RIME_USERDB, ConstantString.RIME_USERDB_C, 150)]
-    public class RimeUserDb : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
+    public class RimeUserDb : BaseTextImport, IWordLibraryTextImport, IMultiCodeType
     {
         private string lineSplitString;
         public RimeUserDb()
@@ -67,100 +63,12 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return "\r\n";
         }
-
-        #region IWordLibraryExport 成员
-
-        private IWordCodeGenerater codeGenerater;
-        //private RimeConfigForm form;
-
-        public string ExportLine(WordLibrary wl)
-        {
-            var sb = new StringBuilder();
-            if (this.CodeType == wl.CodeType && this.CodeType != CodeType.Pinyin && CodeType != CodeType.TerraPinyin)
-            {
-                return wl.Word + "\t" + wl.Codes[0][0] + "\t" + wl.Rank;
-            }
-
-            if (codeGenerater == null)
-            {
-                codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
-            }
-            try
-            {
-                codeGenerater.GetCodeOfWordLibrary(wl);
-            }
-            catch (Exception ex)
-            {
-                Debug.Fail(ex.Message);
-                return null;
-            }
-
-
-            if (codeGenerater.Is1CharMutiCode)
-            {
-                IList<string> codes = codeGenerater.GetCodeOfString(wl.Word).ToCodeString(" ");
-                int i = 0;
-                foreach (string code in codes)
-                {
-                    sb.Append(wl.Word);
-                    sb.Append("\t");
-                    sb.Append(code);
-                    sb.Append("\t");
-                    sb.Append(wl.Rank);
-                    i++;
-                    if (i != codes.Count)
-                        sb.Append(lineSplitString);
-                }
-            }
-            else
-            {
-                sb.Append(wl.Word);
-                sb.Append("\t");
-                if (CodeType == CodeType.Pinyin || CodeType == CodeType.TerraPinyin)
-                {
-                    sb.Append(wl.GetPinYinString(" ", BuildType.None));
-                }
-                else if (CodeType == wl.CodeType)
-                {
-                    sb.Append(wl.Codes[0][0]);
-                }
-                else
-                {
-
-                    sb.Append(wl.Codes.ToCodeString(" ")[0]);
-                }
-                sb.Append("\t");
-                sb.Append(wl.Rank);
-            }
-            return sb.ToString();
-        }
-
-
-        public IList<string> Export(WordLibraryList wlList)
-        {
-            codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
-            var sb = new StringBuilder();
-            for (int i = 0; i < wlList.Count; i++)
-            {
-                var line = ExportLine(wlList[i]);
-                if (!string.IsNullOrEmpty(line))
-                {
-                    sb.Append(line);
-                    sb.Append(lineSplitString);
-                }
-            }
-            return new List<string>() { sb.ToString() };
-        }
-
         public override Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
         }
 
-        #endregion
-
         #region IWordLibraryImport 成员
-
 
         //private IWordCodeGenerater pyGenerater=new PinyinGenerater();
         public override WordLibraryList ImportLine(string line)
