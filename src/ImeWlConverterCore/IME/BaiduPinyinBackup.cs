@@ -42,14 +42,15 @@ namespace Studyzy.IMEWLConverter.IME
                     if (bytes[0] == 0x0A && bytes[1] == 0x00) break;
                     lineBytes.AddRange(bytes);
                 } while (true);
-                var line = Decode(lineBytes.ToArray());
-                var theLine = Encoding.Unicode.GetString(line);
+                var decoded = Decode(lineBytes.ToArray());
+                var line = Encoding.Unicode.GetString(decoded);
                 // 忽略英文单词
-                if (cnFlag && (theLine == "<enword>" || theLine == "<sysusrword>")) break;
-                if (theLine == "<cnword>") { cnFlag = true; continue; }
+                if (cnFlag && (line == "<enword>" || line == "<sysusrword>")) break;
+                if (line == "<cnword>") { cnFlag = true; continue; }
+                if (!cnFlag) continue;
                 // 每一行的格式
                 // 百度输入法(bai|du|shu|ru|fa) 2 24 1703756731 N N
-                var array = theLine.Split(" ");
+                var array = line.Split(" ");
                 if (array.Length < 2) continue;
                 var rank = Convert.ToInt32(array[1]);
                 // 用正则分离词组和拼音
