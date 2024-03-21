@@ -29,6 +29,7 @@ namespace Studyzy.IMEWLConverter
         public const string BAIDU_BDICT = "百度分类词库bdict";
         public const string BAIDU_BCD = "百度手机词库bcd";
         public const string BAIDU_PINYIN = "百度拼音";
+        public const string BAIDU_PINYIN_BACKUP = "百度拼音备份词库bin";
         public const string QQ_PINYIN_ENG = "QQ拼音英文";
         public const string QQ_SHOUJI = "QQ手机";
         public const string QQ_WUBI = "QQ五笔";
@@ -81,6 +82,8 @@ namespace Studyzy.IMEWLConverter
         public const string BAIDU_SHOUJI_ENG_C = "bdsje";
         public const string BAIDU_BDICT_C = "bdict";
         public const string BAIDU_BCD_C = "bcd";
+        public const string BAIDU_PINYIN_C = "bdpy";
+        public const string BAIDU_PINYIN_BACKUP_C = "bdpybin";
         public const string QQ_SHOUJI_C = "qqsj";
         public const string QQ_WUBI_C = "qqwb";
         public const string TOUCH_PAL_C = "cbsj";
@@ -114,7 +117,6 @@ namespace Studyzy.IMEWLConverter
         public const string RIME_USERDB_C = "rimedb";
         public const string BING_PINYIN_C = "bing";
         public const string LINGOES_LD2_C = "ld2";
-        public const string BAIDU_PINYIN_C = "bdpy";
         public const string QQ_PINYIN_ENG_C = "qqpye";
         public const string XIAOYA_WUBI_C = "xywb";
         public const string CANGJIE_PLATFORM_C = "cjpt";
