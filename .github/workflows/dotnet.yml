@@ -29,7 +29,7 @@ jobs:
         run: dotnet publish --configuration Release --output ./publish ./src/ImeWlConverterCmd
 
       - name: Archive artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Cmd
           path: ./publish
