@@ -1,0 +1,7 @@
+[*.cs]
+
+# CA1416: 验证平台兼容性
+dotnet_diagnostic.CA1416.severity = none
+
+# CS0067: 从未使用过事件“event”
+dotnet_diagnostic.CS0067.severity = none

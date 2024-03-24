@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -56,6 +57,7 @@ namespace Studyzy.IMEWLConverter
         private IWordRankGenerater wordRankGenerater = new DefaultWordRankGenerater();
         private IList<ISingleFilter> filters = new List<ISingleFilter>();
 
+        [RequiresUnreferencedCode("Calls LoadImeList()")]
         public ConsoleRun(string[] args, ShowHelp showHelp)
         {
             Args = args;
@@ -367,6 +369,7 @@ namespace Studyzy.IMEWLConverter
             return CommandType.Other;
         }
 
+        [RequiresUnreferencedCode("Calls System.Reflection.Assembly.GetTypes()")]
         private void LoadImeList()
         {
             Assembly assembly = GetType().Assembly;
@@ -391,7 +394,7 @@ namespace Studyzy.IMEWLConverter
                             cbxImportItems.Add(cbxa);
                             imports.Add(
                                 cbxa.ShortCode,
-                                assembly.CreateInstance(type.FullName) as IWordLibraryImport
+                                Type.GetType(type.FullName) as IWordLibraryImport
                             );
                         }
                         if (type.GetInterface("IWordLibraryExport") != null)
@@ -400,7 +403,7 @@ namespace Studyzy.IMEWLConverter
                             cbxExportItems.Add(cbxa);
                             exports.Add(
                                 cbxa.ShortCode,
-                                assembly.CreateInstance(type.FullName) as IWordLibraryExport
+                                Type.GetType(type.FullName) as IWordLibraryExport
                             );
                         }
                     }

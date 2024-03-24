@@ -328,7 +328,7 @@ namespace Studyzy.IMEWLConverter.Generaters
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    throw ex;
+                    throw;
                 }
             }
             return result;

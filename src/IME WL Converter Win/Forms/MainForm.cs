@@ -575,7 +575,7 @@ namespace Studyzy.IMEWLConverter
                     {
                         mainBody.Dispose();
                         RichTextBoxShow(ex.Message);
-                        throw ex;
+                        throw;
                     }
                 }
             }

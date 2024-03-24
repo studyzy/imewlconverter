@@ -16,7 +16,7 @@
  */
 
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace Studyzy.IMEWLConverter.Helpers
@@ -31,12 +31,9 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         public static string GetHtml(string url, Encoding encoding)
         {
-            WebRequest wrt;
-            wrt = WebRequest.Create(url);
-            wrt.Credentials = CredentialCache.DefaultCredentials;
-            WebResponse wrp;
-            wrp = wrt.GetResponse();
-            return new StreamReader(wrp.GetResponseStream(), encoding).ReadToEnd();
+            var client = new HttpClient();
+            var resp = client.GetStreamAsync(url).GetAwaiter().GetResult();
+            return new StreamReader(resp, encoding).ReadToEnd();
         }
 
         //public string GetHtml(string URL, out string cookie)

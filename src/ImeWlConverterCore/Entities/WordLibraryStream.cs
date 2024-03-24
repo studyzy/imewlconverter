@@ -86,7 +86,7 @@ namespace Studyzy.IMEWLConverter.Entities
                 {
                     Debug.WriteLine(ex.Message);
 #if DEBUG
-                    throw ex;
+                    throw;
 #endif
                 }
             }

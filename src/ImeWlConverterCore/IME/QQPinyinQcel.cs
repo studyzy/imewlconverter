@@ -132,9 +132,9 @@ namespace Studyzy.IMEWLConverter.IME
 
                     pyAndWord.AddRange(data);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
                 if (CurrentStatus == CountWord || fs.Length == fs.Position) //判断文件结束
                 {
