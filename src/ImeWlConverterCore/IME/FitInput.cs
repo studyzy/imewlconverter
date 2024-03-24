@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -50,13 +50,12 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-
-
         #endregion
         public override Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
         }
+
         #region IWordLibraryImport 成员
 
         public override WordLibraryList ImportLine(string line)

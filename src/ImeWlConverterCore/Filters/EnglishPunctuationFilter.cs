@@ -15,8 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Filters
 {
@@ -26,9 +26,12 @@ namespace Studyzy.IMEWLConverter.Filters
     public class EnglishPunctuationFilter : ISingleFilter, IReplaceFilter
     {
         public bool ReplaceAfterCode => false;
+
         #region ISingleFilter Members
 
-        private static readonly Regex regex = new Regex("[-,~.?:;'\"" + @"!`\^]|(-{2})|(/.{3})|(/(/))|(/[/])|({})");
+        private static readonly Regex regex = new Regex(
+            "[-,~.?:;'\"" + @"!`\^]|(-{2})|(/.{3})|(/(/))|(/[/])|({})"
+        );
 
         public void Replace(WordLibrary wl)
         {

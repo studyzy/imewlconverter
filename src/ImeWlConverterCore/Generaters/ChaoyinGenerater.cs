@@ -15,18 +15,14 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
-using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
-
-
     public class ChaoyinGenerater : IWordCodeGenerater
     {
-
-
         protected PinyinGenerater pinyinGenerater = new PinyinGenerater();
 
         public bool Is1Char1Code
@@ -34,12 +30,10 @@ namespace Studyzy.IMEWLConverter.Generaters
             get { return false; }
         }
 
-
         public bool Is1CharMutiCode
         {
             get { return true; }
         }
-
 
         public Code GetCodeOfString(string str)
         {

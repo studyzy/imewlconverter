@@ -15,8 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Filters
 {
@@ -26,10 +26,12 @@ namespace Studyzy.IMEWLConverter.Filters
     public class ChinesePunctuationFilter : ISingleFilter, IReplaceFilter
     {
         public bool ReplaceAfterCode => false;
+
         #region ISingleFilter Members
 
-        private static readonly Regex regex =
-            new Regex(@"[\u3002\uff1b\uff0c\uff1a\u201c\u201d\uff08\uff09\u3001\uff1f\u300a\u300b]");
+        private static readonly Regex regex = new Regex(
+            @"[\u3002\uff1b\uff0c\uff1a\u201c\u201d\uff08\uff09\u3001\uff1f\u300a\u300b]"
+        );
 
         public void Replace(WordLibrary wl)
         {

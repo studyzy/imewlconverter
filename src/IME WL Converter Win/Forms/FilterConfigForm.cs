@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -126,7 +126,6 @@ namespace Studyzy.IMEWLConverter
                 cbxKeepNumber.Checked = false;
                 cbxChsNumber.Checked = false;
             }
-
         }
 
         private void cbxKeepEnglish_CheckedChanged(object sender, EventArgs e)
@@ -135,7 +134,6 @@ namespace Studyzy.IMEWLConverter
             {
                 cbxKeepEnglish_.Checked = false;
             }
-
         }
 
         private void cbxKeepEnglish__CheckedChanged(object sender, EventArgs e)
@@ -145,7 +143,6 @@ namespace Studyzy.IMEWLConverter
                 cbxKeepEnglish.Checked = false;
                 cbxPrefixEnglish.Checked = false;
             }
-
         }
 
         private void cbxPrefixEnglish_CheckedChanged(object sender, EventArgs e)

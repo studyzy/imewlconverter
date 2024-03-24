@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Microsoft.Office.Interop.Word;
 using System;
 using System.Reflection;
+using Microsoft.Office.Interop.Word;
 
 namespace Studyzy.IMEWLConverter.Language
 {
@@ -29,7 +29,11 @@ namespace Studyzy.IMEWLConverter.Language
         {
             var doc = new Document();
             doc.Content.Text = cht;
-            doc.Content.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC, true, true);
+            doc.Content.TCSCConverter(
+                WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC,
+                true,
+                true
+            );
             string des = doc.Content.Text;
             object saveChanges = false;
             object originalFormat = Missing.Value;
@@ -43,7 +47,11 @@ namespace Studyzy.IMEWLConverter.Language
         {
             var doc = new Document();
             doc.Content.Text = chs;
-            doc.Content.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC, true, true);
+            doc.Content.TCSCConverter(
+                WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC,
+                true,
+                true
+            );
             string des = doc.Content.Text;
             object saveChanges = false;
             object originalFormat = Missing.Value;
@@ -65,7 +73,7 @@ namespace Studyzy.IMEWLConverter.Language
             //appWord.Quit(ref saveChange, ref originalFormat, ref routeDocument);
             //doc = null;
             //appWord = null;
-            GC.Collect(); //进程资源释放 
+            GC.Collect(); //进程资源释放
         }
 
         #endregion

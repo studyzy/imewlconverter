@@ -15,25 +15,26 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
     /// RIME是一个输入法框架，支持多种输入法编码，词库规则是：
     /// 词语+Tab+编码（拼音空格隔开）+Tab+词频
-    /// 
+    ///
     /// </summary>
     [ComboBoxShow(ConstantString.RIME, ConstantString.RIME_C, 150)]
     public class Rime : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, IMultiCodeType
     {
         private string lineSplitString;
+
         public Rime()
         {
             CodeType = CodeType.Pinyin;
@@ -71,12 +72,17 @@ namespace Studyzy.IMEWLConverter.IME
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
+
         //private RimeConfigForm form;
 
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
-            if (this.CodeType == wl.CodeType && this.CodeType != CodeType.Pinyin && CodeType != CodeType.TerraPinyin)
+            if (
+                this.CodeType == wl.CodeType
+                && this.CodeType != CodeType.Pinyin
+                && CodeType != CodeType.TerraPinyin
+            )
             {
                 return wl.Word + "\t" + wl.Codes[0][0] + "\t" + wl.Rank;
             }
@@ -94,7 +100,6 @@ namespace Studyzy.IMEWLConverter.IME
                 Debug.Fail(ex.Message);
                 return null;
             }
-
 
             if (codeGenerater.Is1CharMutiCode)
             {
@@ -126,7 +131,6 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 else
                 {
-
                     sb.Append(wl.Codes.ToCodeString(" ")[0]);
                 }
                 sb.Append("\t");
@@ -134,7 +138,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return sb.ToString();
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -181,7 +184,6 @@ namespace Studyzy.IMEWLConverter.IME
                 //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
                 wl.SetCode(CodeType, code);
             }
-
 
             var wll = new WordLibraryList();
             wll.Add(wl);

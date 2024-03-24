@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.Generaters;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest
 {
@@ -33,7 +33,8 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
             generater.MappingDictionary.Add('蓝', new[] { "lan" });
             generater.Is1Char1Code = false;
 
-            generater.MutiWordCodeFormat = @"code_e2=p11+p12+p21+p22
+            generater.MutiWordCodeFormat =
+                @"code_e2=p11+p12+p21+p22
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";
             var result = generater.GetCodeOfString("深蓝").GetTop1Code();
@@ -43,6 +44,7 @@ code_a4=p11+p21+p31+n11";
             result = generater.GetCodeOfString("深蓝深蓝").GetTop1Code();
             Assert.AreEqual(result, "slsl");
         }
+
         [Test]
         public void TestGeneratePinyinFormatCode()
         {
@@ -57,7 +59,6 @@ code_a4=p11+p21+p31+n11";
 
             //var codes = generater.GetCodeOfString("蓝深", ",");
             //Assert.AreEqual(codes[0], "ajtl,ipws");
-
         }
 
         [Test]
@@ -74,7 +75,6 @@ code_a4=p11+p21+p31+n11";
 
             //var codes = generater.GetCodeOfString("蓝深", ",");
             //Assert.AreEqual(codes[0], "ajtl,ipws");
-
         }
     }
 }

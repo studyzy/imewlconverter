@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -37,7 +37,8 @@ namespace Studyzy.IMEWLConverter.IME
 
         #region IWordLibraryExport 成员
 
-        private static string END_STRING = @"
+        private static string END_STRING =
+            @"
 # What follows is the Automatic Learning database, do not remove this
 <database>
 7c7b5c2bfd227076f056b3ea475ff6470400010120402020f69be92ab0f5
@@ -145,6 +146,7 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
 4ec63bf0b064eaff58fc9805
 </database>
 ";
+
         //private readonly IWordCodeGenerater generater = new ZhuyinGenerater();
 
         public override Encoding Encoding
@@ -189,7 +191,6 @@ b348405ef9a3aebf9328958712e2d0048e97e51bd7e2ab633571cbc51f86
             sb.Append("0.0");
             return sb.ToString();
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {

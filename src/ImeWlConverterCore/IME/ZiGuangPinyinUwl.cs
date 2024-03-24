@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -70,7 +70,6 @@ namespace Studyzy.IMEWLConverter.IME
                     Debug.WriteLine(e.Message);
                 }
             }
-
 
             return pyAndWord;
         }
@@ -246,6 +245,7 @@ namespace Studyzy.IMEWLConverter.IME
         }
 
         public int IndexNumber { get; set; }
+
         //FF
         public int WordLenEnums { get; set; }
         public int WordByteLen { get; set; }

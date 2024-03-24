@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -67,7 +67,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
         public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
@@ -93,6 +92,5 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return Encoding.UTF8; }
         }
-
     }
 }

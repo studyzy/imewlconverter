@@ -15,25 +15,25 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
     /// 超音速录输入法
     /// </summary>
-	[ComboBoxShow(ConstantString.CHAO_YIN, ConstantString.CHAO_YIN_C, 190)]
+    [ComboBoxShow(ConstantString.CHAO_YIN, ConstantString.CHAO_YIN_C, 190)]
     public class Chaoyin : BaseImport, IWordLibraryExport
     {
-
         public Chaoyin()
         {
             DefaultRank = 1;
             CodeType = CodeType.Chaoyin;
         }
+
         //#region IWordLibraryImport 成员
 
         //public WordLibraryList Import(string path)
@@ -82,6 +82,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         //#endregion
         private readonly IWordCodeGenerater generater = new ChaoyinGenerater();
+
         #region IWordLibraryExport 成员
         /// <summary>
         /// Code+空格+=+空格+词频+逗号+词语
@@ -100,7 +101,6 @@ namespace Studyzy.IMEWLConverter.IME
 
             return sb.ToString();
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {

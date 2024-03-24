@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -29,11 +29,16 @@ namespace Studyzy.IMEWLConverter.IME
     /// 拼音（无分隔符）+空格+词语1+空格+词语2...
     /// </summary>
     [ComboBoxShow(ConstantString.XIAOXIAO, ConstantString.XIAOXIAO_C, 100)]
-    public class Xiaoxiao : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport, IMultiCodeType
+    public class Xiaoxiao
+        : BaseTextImport,
+            IWordLibraryExport,
+            IWordLibraryTextImport,
+            IMultiCodeType
     {
         #region IWordLibraryExport 成员
 
         private IWordCodeGenerater codeGenerater;
+
         //private XiaoxiaoConfigForm form;
         private IWordCodeGenerater CodeGenerater
         {
@@ -111,8 +116,6 @@ namespace Studyzy.IMEWLConverter.IME
                     var list = codes.ToCodeString();
                     foreach (var code in list)
                     {
-
-
                         if (xiaoxiaoDic.ContainsKey(code))
                         {
                             xiaoxiaoDic[code] += " " + value;
@@ -121,10 +124,8 @@ namespace Studyzy.IMEWLConverter.IME
                         {
                             xiaoxiaoDic.Add(code, value);
                         }
-
                     }
                 }
-
 
                 if (xiaoxiaoDic.ContainsKey(key))
                 {
@@ -187,6 +188,7 @@ namespace Studyzy.IMEWLConverter.IME
         //      }
 
         private readonly Regex regex = new Regex(@"[^\s#]+( [\u4E00-\u9FA5]+)+");
+
         protected override bool IsContent(string line)
         {
             return regex.IsMatch(line);
@@ -209,7 +211,5 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return list;
         }
-
-
     }
 }

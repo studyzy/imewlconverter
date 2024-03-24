@@ -23,6 +23,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             Rank = 1;
         }
+
         public bool ForceUse { get; set; }
         public int Rank { get; set; }
 

@@ -27,6 +27,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
         private static IDictionary<string, string> wubiDic;
         private static IDictionary<string, string> wordWubiDic;
+
         /// <summary>
         /// 以五笔编码为Key，字或者词为Value的字典
         /// </summary>
@@ -38,8 +39,10 @@ namespace Studyzy.IMEWLConverter.Helpers
                 {
                     wubiDic = new Dictionary<string, string>();
                     foreach (
-                        string line in
-                            Helpers.DictionaryHelper.GetResourceContent("WubiNewAge.txt").Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                        string line in Helpers
+                            .DictionaryHelper.GetResourceContent("WubiNewAge.txt")
+                            .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                    )
                     {
                         string[] arr = line.Split('\t');
 
@@ -59,6 +62,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return wubiDic;
             }
         }
+
         /// <summary>
         /// 以汉字或者词语为Key，对应的五笔编码为Value的字典
         /// </summary>
@@ -70,8 +74,10 @@ namespace Studyzy.IMEWLConverter.Helpers
                 {
                     wordWubiDic = new Dictionary<string, string>();
                     foreach (
-                        string line in
-                            Helpers.DictionaryHelper.GetResourceContent("WubiNewAge.txt").Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                        string line in Helpers
+                            .DictionaryHelper.GetResourceContent("WubiNewAge.txt")
+                            .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                    )
                     {
                         string[] arr = line.Split('\t');
 
@@ -91,6 +97,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return wordWubiDic;
             }
         }
+
         /// <summary>
         /// 根据五笔编码获得对应的字或词语
         /// </summary>
@@ -98,7 +105,6 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         public static string GetWord(string wubiCode)
         {
-
             if (!WubiWordDic.ContainsKey(wubiCode))
             {
                 Debug.WriteLine("Can not find word by wubi code=" + wubiCode);
@@ -107,7 +113,6 @@ namespace Studyzy.IMEWLConverter.Helpers
 
             return WubiWordDic[wubiCode];
         }
-
 
         /// <summary>
         /// 根据字获得对应的五笔编码

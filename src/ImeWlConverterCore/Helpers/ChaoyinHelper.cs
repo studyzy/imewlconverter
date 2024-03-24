@@ -101,7 +101,9 @@ namespace Studyzy.IMEWLConverter.Helpers
                 {
                     pinyinCodeMapping = new Dictionary<string, string>();
                     //todo
-                    var lines = DictionaryHelper.GetResourceContent("ChaoyinCodeMapping.txt").Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var lines = DictionaryHelper
+                        .GetResourceContent("ChaoyinCodeMapping.txt")
+                        .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in lines)
                     {
                         var array = line.Split('\t');
@@ -115,8 +117,6 @@ namespace Studyzy.IMEWLConverter.Helpers
                 return pinyinCodeMapping;
             }
         }
-
-
 
         /// <summary>
         /// 获得一个拼音对应的超音编码
@@ -134,7 +134,6 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 yindiao = Convert.ToInt32(pinyin[pinyin.Length - 1].ToString());
                 pinyin = pinyin.Substring(0, pinyin.Length - 1);
-
             }
 
             if (!PinyinCodeMapping.ContainsKey(pinyin))
@@ -146,6 +145,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             Debug.WriteLine("Pinyin:" + pinyin + ",Chaoyin:" + zy);
             return zy;
         }
+
         /// <summary>
         /// 获得一个词语的超音编码
         /// </summary>
@@ -222,7 +222,6 @@ namespace Studyzy.IMEWLConverter.Helpers
                 result.Append(PinyinCodeMapping[pinyins[2]][0]);
                 result.Append(PinyinCodeMapping[pinyins[3]][0]);
                 result.Append(PinyinCodeMapping[pinyins[4]][0]);
-
             }
             else
             {
@@ -271,6 +270,5 @@ namespace Studyzy.IMEWLConverter.Helpers
                     return 1;
             }
         }
-
     }
 }

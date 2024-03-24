@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -115,7 +115,8 @@ namespace Studyzy.IMEWLConverter.Generaters
             if (mutiPinYinWord == null)
             {
                 var wlList = new Dictionary<string, List<string>>();
-                string[] lines = GetMutiPinyin().Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = GetMutiPinyin()
+                    .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string line = lines[i];
@@ -123,7 +124,9 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string py = line.Split(' ')[0];
                     string word = line.Split(' ')[1];
 
-                    var pinyin = new List<string>(py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries));
+                    var pinyin = new List<string>(
+                        py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries)
+                    );
                     wlList.Add(word, pinyin);
                 }
                 mutiPinYinWord = wlList;

@@ -40,7 +40,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         //{
         //    get { return dictionary; }
         //    set { dictionary = value; }
-        //} 
+        //}
 
         //public static string GetCharCoding(char c, string codingFilePath = null)
         //{
@@ -59,11 +59,19 @@ namespace Studyzy.IMEWLConverter.Helpers
         //    }
         //}
 
-        public static IDictionary<char, IList<string>> GetCodingDict(string filePath, Encoding encoding)
+        public static IDictionary<char, IList<string>> GetCodingDict(
+            string filePath,
+            Encoding encoding
+        )
         {
             string codingContent = FileOperationHelper.ReadFile(filePath, encoding);
             var dic = new Dictionary<char, IList<string>>();
-            foreach (string line in codingContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (
+                string line in codingContent.Split(
+                    new[] { '\r', '\n' },
+                    StringSplitOptions.RemoveEmptyEntries
+                )
+            )
             {
                 string[] l = line.Split('\t');
                 if (l.Length != 2)

@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
 using System;
 using System.Text;
+using NUnit.Framework;
 
 namespace ImeWlConverterCoreTest
 {

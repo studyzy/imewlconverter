@@ -26,19 +26,19 @@ namespace Studyzy.IMEWLConverter.Forms
         public SelfDefiningConfigFormExport()
         {
             InitializeComponent();
-       }
+        }
+
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
+            //
             // SelfDefiningConfigFormExport
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.ClientSize = new System.Drawing.Size(551, 491);
             this.Name = "SelfDefiningConfigFormExport";
             this.Load += new System.EventHandler(this.SelfDefiningConfigFormExport_Load);
             this.ResumeLayout(false);
-
         }
 
         private void SelfDefiningConfigFormExport_Load(object sender, EventArgs e)

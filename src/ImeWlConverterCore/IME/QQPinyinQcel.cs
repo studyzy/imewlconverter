@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -55,10 +55,12 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new Exception("Qcel格式是二进制文件，不支持流转换");
         }
+
         public static Dictionary<string, string> ReadQcelInfo(string path)
         {
             return SougouPinyinScel.ReadScelInfo(path);
         }
+
         private WordLibraryList ReadQcel(string path)
         {
             pyDic = new Dictionary<int, string>();
@@ -117,7 +119,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             Debug.WriteLine(s.ToString());
 
-
             //fs.Position = 0x2628;
             //fs.Position = hzPosition;
 
@@ -126,7 +127,8 @@ namespace Studyzy.IMEWLConverter.IME
                 try
                 {
                     var data = ReadAPinyinWord(fs);
-                    if (data is null) break;
+                    if (data is null)
+                        break;
 
                     pyAndWord.AddRange(data);
                 }
@@ -185,7 +187,14 @@ namespace Studyzy.IMEWLConverter.IME
                 string word = Encoding.Unicode.GetString(str);
                 short unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
                 int unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频
-                pyAndWord.Add(new WordLibrary { Word = word, PinYin = wordPY.ToArray(), Rank = DefaultRank });
+                pyAndWord.Add(
+                    new WordLibrary
+                    {
+                        Word = word,
+                        PinYin = wordPY.ToArray(),
+                        Rank = DefaultRank
+                    }
+                );
                 CurrentStatus++;
                 //接下来10个字节什么意思呢？暂时先忽略了
                 var temp = new byte[6];

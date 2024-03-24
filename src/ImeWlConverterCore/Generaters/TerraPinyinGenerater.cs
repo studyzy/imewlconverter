@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -28,7 +28,6 @@ namespace Studyzy.IMEWLConverter.Generaters
     public class TerraPinyinGenerater : PinyinGenerater
     {
         private static readonly Regex regex = new Regex(@"^[a-zA-Z]+\d$");
-
 
         public override IList<string> GetAllCodesOfChar(char str)
         {
@@ -46,7 +45,6 @@ namespace Studyzy.IMEWLConverter.Generaters
                 {
                     result.Add(PinyinHelper.AddToneToPinyin(str[i], p));
                 }
-
             }
             return new Code(result, true);
         }
@@ -59,7 +57,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             if (wl.CodeType == CodeType.Pinyin) //如果本来就是拼音输入法导入的，那么就用其拼音，不过得加上音调
             {
-
                 for (int i = 0; i < wl.Codes.Count; i++)
                 {
                     var row = wl.Codes[i];
@@ -70,7 +67,6 @@ namespace Studyzy.IMEWLConverter.Generaters
                         wl.Codes[i][j] = py;
                     }
                 }
-
 
                 return;
             }

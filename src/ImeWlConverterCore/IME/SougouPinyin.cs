@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -35,7 +35,6 @@ namespace Studyzy.IMEWLConverter.IME
 
             return str;
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {
@@ -62,7 +61,9 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message + " Your system doesn't support GBK, try to use GB2312.");
+                    Console.WriteLine(
+                        ex.Message + " Your system doesn't support GBK, try to use GB2312."
+                    );
                     return Encoding.GetEncoding("GB2312");
                 }
             }
@@ -88,7 +89,6 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return null;
         }
-
 
         #endregion
     }

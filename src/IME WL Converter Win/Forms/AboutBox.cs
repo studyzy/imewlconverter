@@ -41,8 +41,9 @@ namespace Studyzy.IMEWLConverter
         {
             get
             {
-                object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                object[] attributes = Assembly
+                    .GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
                     var titleAttribute = (AssemblyTitleAttribute)attributes[0];
@@ -64,8 +65,9 @@ namespace Studyzy.IMEWLConverter
         {
             get
             {
-                object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+                object[] attributes = Assembly
+                    .GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -78,8 +80,9 @@ namespace Studyzy.IMEWLConverter
         {
             get
             {
-                object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                object[] attributes = Assembly
+                    .GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -92,8 +95,9 @@ namespace Studyzy.IMEWLConverter
         {
             get
             {
-                object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                object[] attributes = Assembly
+                    .GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -106,8 +110,9 @@ namespace Studyzy.IMEWLConverter
         {
             get
             {
-                object[] attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+                object[] attributes = Assembly
+                    .GetExecutingAssembly()
+                    .GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";

@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Test.HelperTest
 {
@@ -41,6 +41,7 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             Assert.Contains("a,d,f", array);
             Assert.AreEqual(result.Count, 6);
         }
+
         [Test]
         public void TestCartesianProduct2()
         {

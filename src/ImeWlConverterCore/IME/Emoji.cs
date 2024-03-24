@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System.Text;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -34,8 +34,6 @@ namespace Studyzy.IMEWLConverter.IME
         }
         public override Encoding Encoding => Encoding.UTF8;
 
-
-
         public override WordLibraryList ImportLine(string line)
         {
             var wl = new WordLibrary();
@@ -50,7 +48,9 @@ namespace Studyzy.IMEWLConverter.IME
             wll.Add(wl);
             return wll;
         }
+
         private static Regex regex = new Regex("^[a-zA-Z]+$");
+
         private bool IsEnglish(string word)
         {
             return regex.IsMatch(word);

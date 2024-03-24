@@ -25,8 +25,10 @@ namespace Studyzy.IMEWLConverter.Helpers
     {
         #region Init
 
-        private static readonly Dictionary<char, List<string>> dictionary = new Dictionary<char, List<string>>();
-        private static readonly Dictionary<char, IList<string>> pyDictionary = new Dictionary<char, IList<string>>();
+        private static readonly Dictionary<char, List<string>> dictionary =
+            new Dictionary<char, List<string>>();
+        private static readonly Dictionary<char, IList<string>> pyDictionary =
+            new Dictionary<char, IList<string>>();
 
         /// <summary>
         ///     字的拼音(包括音调)
@@ -174,8 +176,14 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 foreach (string pinyin in allpinyin.Split(','))
                 {
-                    if (pinyin == py + "0" || pinyin == py + "1" || pinyin == py + "2" || pinyin == py + "3" ||
-                        pinyin == py + "4" || pinyin == py + "5")
+                    if (
+                        pinyin == py + "0"
+                        || pinyin == py + "1"
+                        || pinyin == py + "2"
+                        || pinyin == py + "3"
+                        || pinyin == py + "4"
+                        || pinyin == py + "5"
+                    )
                     {
                         return pinyin;
                     }

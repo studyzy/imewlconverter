@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
-using System.Collections.Generic;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -67,7 +67,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 ㄩ	yu / u / ü
 ㄩ	yun / un
 ㄩ	yong / iong
-     * 
+     *
     注音符号和汉语拼音大致能直接转换，但部分例子略有差异，其重点如下：
 
     “ㄜ”对应于汉语拼音中的e，而“ㄝ”则对应于汉语拼音中的ê。可是除了独用外，其他情况ê都改写成“e”，所以使辨识上不及注音符号的“ㄝ”来得容易。在汉语拼音的写法中，“ㄝ”永远是复韵母的最后一个，这点可以用来根据汉语拼音辨别两者。另一个特殊情况是“ㄦ”汉语拼音写作“er”，但作韵尾时仅写“r”。
@@ -118,7 +118,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         //        for (int j = 0; j < row.Count; j++)
         //        {
         //            string s = row[j];
-        //            string zy = ZhuyinHelper.GetZhuyin(s); 
+        //            string zy = ZhuyinHelper.GetZhuyin(s);
         //            wl.Codes[i][j] = zy;
         //        }
         //    }

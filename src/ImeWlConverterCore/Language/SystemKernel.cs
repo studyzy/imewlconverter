@@ -53,11 +53,15 @@ namespace Studyzy.IMEWLConverter.Language
         #endregion
 
         [DllImport("kernel32.dll", EntryPoint = "LCMapStringA")]
-        public static extern int LCMapString(int Locale, int dwMapFlags, byte[] lpSrcStr, int cchSrc, byte[] lpDestStr,
-            int cchDest);
+        public static extern int LCMapString(
+            int Locale,
+            int dwMapFlags,
+            byte[] lpSrcStr,
+            int cchSrc,
+            byte[] lpDestStr,
+            int cchDest
+        );
 
-        public void Init()
-        {
-        }
+        public void Init() { }
     }
 }

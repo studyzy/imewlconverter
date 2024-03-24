@@ -15,14 +15,14 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -84,7 +84,6 @@ namespace Studyzy.IMEWLConverter.IME
 
             fs.Position = startAddress;
             var zipStream = new InflaterInputStream(fs);
-
 
             int bufferSize = 2048; //缓冲区大小
             int readCount = 0; //读入缓冲区的实际字节

@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Linq;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Generaters;
-using System.Linq;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest
 {
@@ -25,16 +25,16 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
     class ZhuyinTest
     {
         private IWordCodeGenerater generater;
+
         [OneTimeSetUp]
         public void SetUp()
         {
             generater = new ZhuyinGenerater();
         }
-        [Test]
-        public void TestGetOneWordPinyin()
-        {
 
-        }
+        [Test]
+        public void TestGetOneWordPinyin() { }
+
         [TestCase("曾毅", "ㄗㄥ,ㄧˋ")]
         [TestCase("北京吃饭", "ㄅㄟˇ,ㄐㄧㄥ,ㄔ,ㄈㄢˋ")]
         [TestCase("煤矿", "ㄇㄟˊ,ㄎㄨㄤˋ")]

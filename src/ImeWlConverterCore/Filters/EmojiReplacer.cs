@@ -15,20 +15,23 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Filters
 {
     public class EmojiReplacer : IReplaceFilter
     {
         private Dictionary<string, string> mapping = new Dictionary<string, string>();
+
         public EmojiReplacer(string path)
         {
             string str = FileOperationHelper.ReadFile(path);
-            foreach (var line in str.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (
+                var line in str.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            )
             {
                 var arr = line.Split('\t');
                 var emoji = arr[0];

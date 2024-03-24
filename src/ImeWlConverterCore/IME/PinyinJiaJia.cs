@@ -15,15 +15,15 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [ComboBoxShow(ConstantString.PINYIN_JIAJIA, ConstantString.PINYIN_JIAJIA_C, 120)]
     public class PinyinJiaJia : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
@@ -75,7 +75,6 @@ namespace Studyzy.IMEWLConverter.IME
         #region IWordLibraryImport 成员
 
         private readonly IWordCodeGenerater single = new PinyinGenerater();
-
 
         /// <summary>
         ///     形如：冷血xue动物

@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -50,7 +50,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
         public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
@@ -67,13 +66,12 @@ namespace Studyzy.IMEWLConverter.IME
             return new List<string>() { sb.ToString() };
         }
 
-
-
         #endregion
         public override Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
         }
+
         public override WordLibraryList ImportLine(string line)
         {
             string[] sp = line.Split(' ');
@@ -88,6 +86,5 @@ namespace Studyzy.IMEWLConverter.IME
             wll.Add(wl);
             return wll;
         }
-
     }
 }

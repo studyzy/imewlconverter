@@ -102,7 +102,7 @@ namespace Studyzy.IMEWLConverter.Helpers
 
         //    //httpWebRequest.ProtocolVersion = HttpVersion.Version10;
         //    httpWebRequest.CookieContainer  = SetCookie(cookie);;
-        //    httpWebRequest.ServicePoint.Expect100Continue = false;   
+        //    httpWebRequest.ServicePoint.Expect100Continue = false;
         //    httpWebRequest.ContentType = "application/x-www-form-urlencoded";
         //    httpWebRequest.Accept = "text/html, application/xhtml+xml, */*";
         //        //"text/html, application/xhtml+xml, image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";

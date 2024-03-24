@@ -18,8 +18,10 @@ namespace Studyzy.IMEWLConverter.WPF
             LoadImeList();
         }
 
-        private readonly IDictionary<string, IWordLibraryExport> exports = new Dictionary<string, IWordLibraryExport>();
-        private readonly IDictionary<string, IWordLibraryImport> imports = new Dictionary<string, IWordLibraryImport>();
+        private readonly IDictionary<string, IWordLibraryExport> exports =
+            new Dictionary<string, IWordLibraryExport>();
+        private readonly IDictionary<string, IWordLibraryImport> imports =
+            new Dictionary<string, IWordLibraryImport>();
 
         #region Init
 
@@ -33,7 +35,10 @@ namespace Studyzy.IMEWLConverter.WPF
 
             foreach (Type type in d)
             {
-                if (type.Namespace != null && type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME"))
+                if (
+                    type.Namespace != null
+                    && type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME")
+                )
                 {
                     object[] att = type.GetCustomAttributes(typeof(ComboBoxShowAttribute), false);
                     if (att.Length > 0)
@@ -45,13 +50,19 @@ namespace Studyzy.IMEWLConverter.WPF
                         {
                             Debug.WriteLine("Import!!!!" + type.FullName);
                             cbxImportItems.Add(cbxa);
-                            imports.Add(cbxa.Name, assembly.CreateInstance(type.FullName) as IWordLibraryImport);
+                            imports.Add(
+                                cbxa.Name,
+                                assembly.CreateInstance(type.FullName) as IWordLibraryImport
+                            );
                         }
                         if (type.GetInterface("IWordLibraryExport") != null)
                         {
                             Debug.WriteLine("Export!!!!" + type.FullName);
                             cbxExportItems.Add(cbxa);
-                            exports.Add(cbxa.Name, assembly.CreateInstance(type.FullName) as IWordLibraryExport);
+                            exports.Add(
+                                cbxa.Name,
+                                assembly.CreateInstance(type.FullName) as IWordLibraryExport
+                            );
                         }
                     }
                 }

@@ -1,16 +1,16 @@
 /*!
- * This work contains codes translated from the original work 
+ * This work contains codes translated from the original work
  * by stevenlele (https://github.com/studyzy/imewlconverter/issues/204#issuecomment-2011007855)
  * translate to csharp by nopdan
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -39,34 +39,45 @@ namespace Studyzy.IMEWLConverter.IME
                 {
                     fs.Read(bytes, 0, 2);
                     // 遇到换行符结束读取
-                    if (bytes[0] == 0x0A && bytes[1] == 0x00) break;
+                    if (bytes[0] == 0x0A && bytes[1] == 0x00)
+                        break;
                     lineBytes.AddRange(bytes);
                 } while (true);
                 var decoded = Decode(lineBytes.ToArray());
                 var line = Encoding.Unicode.GetString(decoded);
                 // 忽略英文单词
-                if (cnFlag && (line == "<enword>" || line == "<sysusrword>")) break;
-                if (line == "<cnword>") { cnFlag = true; continue; }
-                if (!cnFlag) continue;
+                if (cnFlag && (line == "<enword>" || line == "<sysusrword>"))
+                    break;
+                if (line == "<cnword>")
+                {
+                    cnFlag = true;
+                    continue;
+                }
+                if (!cnFlag)
+                    continue;
                 // 每一行的格式
                 // 百度输入法(bai|du|shu|ru|fa) 2 24 1703756731 N N
                 var array = line.Split(" ");
-                if (array.Length < 2) continue;
+                if (array.Length < 2)
+                    continue;
                 var rank = Convert.ToInt32(array[1]);
                 // 用正则分离词组和拼音
                 var pattern = @"([^\(]+)\((.+)\)";
                 var match = Regex.Match(array[0], pattern);
-                if (match.Groups.Count != 3) continue;
+                if (match.Groups.Count != 3)
+                    continue;
                 var word = match.Groups[1].Value;
                 var py = match.Groups[2].Value;
                 var pinyin = py.Split("|");
 
-                wordLibraryList.Add(new WordLibrary
-                {
-                    Rank = rank,
-                    Word = word,
-                    PinYin = pinyin
-                });
+                wordLibraryList.Add(
+                    new WordLibrary
+                    {
+                        Rank = rank,
+                        Word = word,
+                        PinYin = pinyin
+                    }
+                );
             }
             return wordLibraryList;
         }
@@ -76,7 +87,9 @@ namespace Studyzy.IMEWLConverter.IME
         #region 解码算法
 
         private const uint MASK = 0x2D382324;
-        private static readonly byte[] TABLE = Encoding.ASCII.GetBytes("qogjOuCRNkfil5p4SQ3LAmxGKZTdesvB6z_YPahMI9t80rJyHW1DEwFbc7nUVX2-");
+        private static readonly byte[] TABLE = Encoding.ASCII.GetBytes(
+            "qogjOuCRNkfil5p4SQ3LAmxGKZTdesvB6z_YPahMI9t80rJyHW1DEwFbc7nUVX2-"
+        );
         private static byte[] DECODE_TABLE;
 
         public BaiduPinyinBackup()
@@ -126,7 +139,6 @@ namespace Studyzy.IMEWLConverter.IME
                 }
             }
             var result = transformed.ToArray();
-
 
             List<byte> finalResult = new List<byte>();
             for (int i = 0; i < result.Length / 4 * 4; i += 4)

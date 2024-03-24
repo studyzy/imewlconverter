@@ -15,8 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Filters
 {
@@ -26,6 +26,7 @@ namespace Studyzy.IMEWLConverter.Filters
     public class SpaceFilter : ISingleFilter, IReplaceFilter
     {
         public bool ReplaceAfterCode => false;
+
         #region ISingleFilter Members
 
         private readonly Regex regex = new Regex(@"\s");

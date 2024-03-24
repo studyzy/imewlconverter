@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Filters
 {
@@ -28,12 +28,17 @@ namespace Studyzy.IMEWLConverter.Filters
     /// </summary>
     public class ShuangpinReplacer : IReplaceFilter
     {
-
         private Dictionary<string, string> mapping = new Dictionary<string, string>();
+
         public ShuangpinReplacer(PinyinType type)
         {
             string pinyinMapping = DictionaryHelper.GetResourceContent("Shuangpin.txt");
-            foreach (var line in pinyinMapping.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (
+                var line in pinyinMapping.Split(
+                    new[] { '\r', '\n' },
+                    StringSplitOptions.RemoveEmptyEntries
+                )
+            )
             {
                 var arr = line.Split('\t');
                 var pinyin = arr[0];
@@ -46,7 +51,7 @@ namespace Studyzy.IMEWLConverter.Filters
 
         public void Replace(WordLibrary wl)
         {
-            if (wl.CodeType != CodeType.Pinyin)//必须是拼音才能被双拼替换
+            if (wl.CodeType != CodeType.Pinyin) //必须是拼音才能被双拼替换
             {
                 return;
             }
@@ -66,5 +71,4 @@ namespace Studyzy.IMEWLConverter.Filters
             }
         }
     }
-
 }

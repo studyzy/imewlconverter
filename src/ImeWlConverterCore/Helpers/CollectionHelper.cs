@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Helpers
 {
@@ -46,7 +46,6 @@ namespace Studyzy.IMEWLConverter.Helpers
         public static string GetString(IEnumerable<string> list, string split, BuildType buildType)
         {
             var sb = new StringBuilder();
-
 
             if (list == null)
             {
@@ -86,7 +85,12 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// </summary>
         /// <param name="codes"></param>
         /// <returns></returns>
-        private static string Descartes(IList<IList<string>> list, int count, IList<string> result, string data)
+        private static string Descartes(
+            IList<IList<string>> list,
+            int count,
+            IList<string> result,
+            string data
+        )
         {
             string temp = data;
             //获取当前数组
@@ -153,10 +157,15 @@ namespace Studyzy.IMEWLConverter.Helpers
             return result;
         }
 
-        public static IList<string> CartesianProduct(IList<IList<string>> codes, String split, BuildType buildType)
+        public static IList<string> CartesianProduct(
+            IList<IList<string>> codes,
+            String split,
+            BuildType buildType
+        )
         {
             IList<string> list = CartesianProduct(codes, split);
-            if (buildType == BuildType.None) return list;
+            if (buildType == BuildType.None)
+                return list;
             var result = new List<string>();
             foreach (string line in list)
             {

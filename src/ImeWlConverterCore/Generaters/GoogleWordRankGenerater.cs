@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -27,6 +27,7 @@ namespace Studyzy.IMEWLConverter.Generaters
         private static string API = "https://www.google.com/search?q={0}";
         private static readonly Regex regex = new Regex("estimatedResultCount: \"(\\d+)\"");
         public bool ForceUse { get; set; }
+
         public int GetRank(string word)
         {
             try

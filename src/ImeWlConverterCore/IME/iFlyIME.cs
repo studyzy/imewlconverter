@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -29,7 +29,6 @@ namespace Studyzy.IMEWLConverter.IME
         {
             get { return Encoding.UTF8; }
         }
-
 
         public override WordLibraryList ImportLine(string line)
         {
@@ -66,7 +65,11 @@ namespace Studyzy.IMEWLConverter.IME
             {
                 var sb = new StringBuilder();
                 int rowCount = 0;
-                for (int i = 0; i < (count == fileCount ? wlList.Count % MAX_COUNT : MAX_COUNT); i++)
+                for (
+                    int i = 0;
+                    i < (count == fileCount ? wlList.Count % MAX_COUNT : MAX_COUNT);
+                    i++
+                )
                 {
                     var wl = wlList[(count - 1) * MAX_COUNT + i];
                     if (wl.Word.Length > 1 && wl.Word.Length < 17)
@@ -81,6 +84,5 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return result;
         }
-
     }
 }

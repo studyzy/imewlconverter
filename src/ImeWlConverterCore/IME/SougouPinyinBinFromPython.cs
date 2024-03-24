@@ -9,13 +9,13 @@
  */
 
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -54,11 +54,11 @@ namespace Studyzy.IMEWLConverter.IME
 
             fs.Seek(0x38, SeekOrigin.Begin);
             var idxBegin = BinFileHelper.ReadUInt32(fs); // index begin
-            var idxSize = BinFileHelper.ReadUInt32(fs);  // index size
+            var idxSize = BinFileHelper.ReadUInt32(fs); // index size
             var wordCount = BinFileHelper.ReadUInt32(fs);
-            var dictBegin = BinFileHelper.ReadUInt32(fs);    // = idxBegin + idxSize
+            var dictBegin = BinFileHelper.ReadUInt32(fs); // = idxBegin + idxSize
             var dictTotalSize = BinFileHelper.ReadUInt32(fs); // file total size - dictBegin
-            var dictSize = BinFileHelper.ReadUInt32(fs);    // effective dict size
+            var dictSize = BinFileHelper.ReadUInt32(fs); // effective dict size
 
             for (var i = 0; i < wordCount; i++)
             {
@@ -68,7 +68,7 @@ namespace Studyzy.IMEWLConverter.IME
                 fs.Seek(idx + dictBegin, 0);
                 var freq = BinFileHelper.ReadUInt16(fs);
                 fs.Seek(2, SeekOrigin.Current);
-                fs.Seek(5, SeekOrigin.Current);  // unknown 5 bytes, same in every entry
+                fs.Seek(5, SeekOrigin.Current); // unknown 5 bytes, same in every entry
 
                 var n = BinFileHelper.ReadUInt16(fs) / 2; // pinyin size / 2
                 var pinyin = new List<string>();
@@ -83,7 +83,12 @@ namespace Studyzy.IMEWLConverter.IME
                 var str = new byte[wordSize];
                 fs.Read(str, 0, wordSize);
                 string word = Encoding.Unicode.GetString(str);
-                var wordLibrary = new WordLibrary() { Word = word, Rank = (int)freq, PinYin = pinyin.ToArray() };
+                var wordLibrary = new WordLibrary()
+                {
+                    Word = word,
+                    Rank = (int)freq,
+                    PinYin = pinyin.ToArray()
+                };
                 // Console.WriteLine(wordLibrary);
                 wordList.Add(wordLibrary);
             }
@@ -118,13 +123,21 @@ namespace Studyzy.IMEWLConverter.IME
             var userDict = new SougouPinyinDict(
                 ReadKeys(fs, uintP8),
                 ReadAttributes(fs, uintP12),
-                ReadAInts(fs, uintP16));
+                ReadAInts(fs, uintP16)
+            );
 
             // All data in sec8 have been processed.
             // The stream pointer should be at uintP4 + 8.
             Debug.Assert(fs.Position == uintP4 + 8);
 
-            var headerSize = 12 * ((userDict.AttributeList.Count) + userDict.AIntList.Count + userDict.KeyList.Count) + 24;
+            var headerSize =
+                12
+                    * (
+                        (userDict.AttributeList.Count)
+                        + userDict.AIntList.Count
+                        + userDict.KeyList.Count
+                    )
+                + 24;
 
             // Version & format, not in use; therefore, skip ahead.
             // var b2Version = BinFileHelper.ReadUInt32(fs);
@@ -182,13 +195,15 @@ namespace Studyzy.IMEWLConverter.IME
             var list = new List<SougouPinyinDict.AttrItem>();
             for (var i = 0; i < length; i++)
             {
-                list.Add(new SougouPinyinDict.AttrItem()
-                {
-                    Count = BinFileHelper.ReadInt32(fs),
-                    A2 = BinFileHelper.ReadUInt32(fs),
-                    DataId = BinFileHelper.ReadInt32(fs),
-                    B2 = BinFileHelper.ReadUInt32(fs)
-                });
+                list.Add(
+                    new SougouPinyinDict.AttrItem()
+                    {
+                        Count = BinFileHelper.ReadInt32(fs),
+                        A2 = BinFileHelper.ReadUInt32(fs),
+                        DataId = BinFileHelper.ReadInt32(fs),
+                        B2 = BinFileHelper.ReadUInt32(fs)
+                    }
+                );
             }
 
             return list;
@@ -205,7 +220,11 @@ namespace Studyzy.IMEWLConverter.IME
             return list;
         }
 
-        private List<SougouPinyinDict.HeaderItem> ReadHeaderItems(FileStream fs, uint length, ref uint checksum)
+        private List<SougouPinyinDict.HeaderItem> ReadHeaderItems(
+            FileStream fs,
+            uint length,
+            ref uint checksum
+        )
         {
             var list = new List<SougouPinyinDict.HeaderItem>();
             for (var i = 0; i < length; i++)
@@ -228,7 +247,11 @@ namespace Studyzy.IMEWLConverter.IME
             return userHeader;
         }
 
-        private WordLibraryList ReadAllWords(FileStream fs, SougouPinyinDict dict, SougouPinyinUserHeader userHeader)
+        private WordLibraryList ReadAllWords(
+            FileStream fs,
+            SougouPinyinDict dict,
+            SougouPinyinUserHeader userHeader
+        )
         {
             var wordList = new WordLibraryList();
             var size = fs.Length;
@@ -240,7 +263,8 @@ namespace Studyzy.IMEWLConverter.IME
             hashStore.EndPosition = fs.Position;
 
             var attrHeader = dict.HeaderItemsAttrList[key.AttrIdx];
-            var attrCount = attrHeader.UsedDataSize == 0 ? attrHeader.DataSize : attrHeader.UsedDataSize;//总条数
+            var attrCount =
+                attrHeader.UsedDataSize == 0 ? attrHeader.DataSize : attrHeader.UsedDataSize; //总条数
             this.CountWord = attrCount;
             var hashStoreCount = dict.BaseHashSize[keyId];
 
@@ -252,10 +276,16 @@ namespace Studyzy.IMEWLConverter.IME
                 fs.Seek(hashStore.EndPosition, SeekOrigin.Begin);
                 hashStore = new HashStore();
                 hashStore.Parse(fs);
-                Debug.WriteLine($"Hash store [offset: {hashStore.Offset}, count: {hashStore.Count}]");
+                Debug.WriteLine(
+                    $"Hash store [offset: {hashStore.Offset}, count: {hashStore.Count}]"
+                );
                 for (var ia = 0; ia < hashStore.Count; ia++)
                 {
-                    var attrBasePos = dict.GetAttriStorePositionFromIndex(keyId, ia, hashStore.Offset);
+                    var attrBasePos = dict.GetAttriStorePositionFromIndex(
+                        keyId,
+                        ia,
+                        hashStore.Offset
+                    );
                     fs.Seek(attrBasePos + dict.DataTypeSize[keyId] - 4, SeekOrigin.Begin);
                     var offset = BinFileHelper.ReadInt32(fs);
                     for (var ia2 = 0; ia2 < attrCount; ia2++)
@@ -281,23 +311,30 @@ namespace Studyzy.IMEWLConverter.IME
             return wordList;
         }
 
-        private WordLibrary GetPyAndWord(FileStream fs, SougouPinyinDict dict, long attriPos1, long attriPos2, SougouPinyinUserHeader userHeader)
+        private WordLibrary GetPyAndWord(
+            FileStream fs,
+            SougouPinyinDict dict,
+            long attriPos1,
+            long attriPos2,
+            SougouPinyinUserHeader userHeader
+        )
         {
             fs.Seek(attriPos1, SeekOrigin.Begin);
             var pos = BinFileHelper.ReadUInt32(fs);
             var pinyin = decryptPinyin(fs, dict.GetPyPosition(pos));
-            var word = new Word()
-            {
-                Attribute = new WordAttribute(),
-                Pinyin = pinyin
-            };
+            var word = new Word() { Attribute = new WordAttribute(), Pinyin = pinyin };
             fs.Seek(attriPos2, SeekOrigin.Begin);
             word.Attribute.Parse(fs);
 
             var dataId = dict.GetDataIdByAttriId(dict.KeyList[0].AttrIdx);
             fs.Seek(dict.GetDataPosition(dataId, word.Attribute.Offset), SeekOrigin.Begin);
             word.WordByte = decryptWords(fs, word.Attribute.P1, userHeader.P2, userHeader.P3);
-            var wordLibrary = new WordLibrary() { Word = word.WordString, Rank = (int)word.Attribute.Frequency, PinYin = word.Pinyin };
+            var wordLibrary = new WordLibrary()
+            {
+                Word = word.WordString,
+                Rank = (int)word.Attribute.Frequency,
+                PinYin = word.Pinyin
+            };
 
             return wordLibrary;
         }
@@ -317,50 +354,459 @@ namespace Studyzy.IMEWLConverter.IME
             return pinyin.ToArray();
         }
 
-        string[] PinyinData = {
-    "a", "ai", "an", "ang", "ao", "ba", "bai", "ban",
-    "bang", "bao", "bei", "ben", "beng", "bi", "bian", "biao", "bie", "bin",
-    "bing", "bo", "bu", "ca", "cai", "can", "cang", "cao", "ce", "cen", "ceng",
-    "cha", "chai", "chan", "chang", "chao", "che", "chen", "cheng", "chi",
-    "chong", "chou", "chu", "chua", "chuai", "chuan", "chuang", "chui", "chun",
-    "chuo", "ci", "cong", "cou", "cu", "cuan", "cui", "cun", "cuo", "da",
-    "dai", "dan", "dang", "dao", "de", "dei", "den", "deng", "di", "dia",
-    "dian", "diao", "die", "ding", "diu", "dong", "dou", "du", "duan", "dui",
-    "dun", "duo", "e", "ei", "en", "eng", "er", "fa", "fan", "fang", "fei",
-    "fen", "feng", "fiao", "fo", "fou", "fu", "ga", "gai", "gan", "gang", "gao",
-    "ge", "gei", "gen", "geng", "gong", "gou", "gu", "gua", "guai", "guan",
-    "guang", "gui", "gun", "guo", "ha", "hai", "han", "hang", "hao", "he",
-    "hei", "hen", "heng", "hong", "hou", "hu", "hua", "huai", "huan", "huang",
-    "hui", "hun", "huo", "ji", "jia", "jian", "jiang", "jiao", "jie", "jin",
-    "jing", "jiong", "jiu", "ju", "juan", "jue", "jun", "ka", "kai", "kan",
-    "kang", "kao", "ke", "kei", "ken", "keng", "kong", "kou", "ku", "kua", "kuai",
-    "kuan", "kuang", "kui", "kun", "kuo", "la", "lai", "lan", "lang", "lao",
-    "le", "lei", "leng", "li", "lia", "lian", "liang", "liao", "lie", "lin",
-    "ling", "liu", "lo", "long", "lou", "lu", "luan", "lve", "lun", "luo", "lv",
-    "ma", "mai", "man", "mang", "mao", "me", "mei", "men", "meng", "mi", "mian",
-    "miao", "mie", "min", "ming", "miu", "mo", "mou", "mu", "na", "nai", "nan",
-    "nang", "nao", "ne", "nei", "nen", "neng", "ni", "nian", "niang", "niao",
-    "nie", "nin", "ning", "niu", "nong", "nou", "nu", "nuan", "nve", "nun", "nuo",
-    "nv", "o", "ou", "pa", "pai", "pan", "pang", "pao", "pei", "pen", "peng",
-    "pi", "pian", "piao", "pie", "pin", "ping", "po", "pou", "pu", "qi", "qia",
-    "qian", "qiang", "qiao", "qie", "qin", "qing", "qiong", "qiu", "qu", "quan",
-    "que", "qun", "ran", "rang", "rao", "re", "ren", "reng", "ri", "rong", "rou",
-    "ru", "rua", "ruan", "rui", "run", "ruo", "sa", "sai", "san", "sang", "sao",
-    "se", "sen", "seng", "sha", "shai", "shan", "shang", "shao", "she", "shei",
-    "shen", "sheng", "shi", "shou", "shu", "shua", "shuai", "shuan", "shuang",
-    "shui", "shun", "shuo", "si", "song", "sou", "su", "suan", "sui", "sun", "suo",
-    "ta", "tai", "tan", "tang", "tao", "te", "tei", "teng", "ti", "tian", "tiao",
-    "tie", "ting", "tong", "tou", "tu", "tuan", "tui", "tun", "tuo", "wa", "wai",
-    "wan", "wang", "wei", "wen", "weng", "wo", "wu", "xi", "xia", "xian", "xiang",
-    "xiao", "xie", "xin", "xing", "xiong", "xiu", "xu", "xuan", "xue", "xun", "ya",
-    "yan", "yang", "yao", "ye", "yi", "yin", "ying", "yo", "yong", "you", "yu",
-    "yuan", "yue", "yun", "za", "zai", "zan", "zang", "zao", "ze", "zei", "zen",
-    "zeng", "zha", "zhai", "zhan", "zhang", "zhao", "zhe", "zhei", "zhen", "zheng",
-    "zhi", "zhong", "zhou", "zhu", "zhua", "zhuai", "zhuan", "zhuang", "zhui",
-    "zhun", "zhuo", "zi", "zong", "zou", "zu", "zuan", "zui", "zun", "zuo",
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
-    "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
-    "6", "7", "8", "9", "#"};
+        string[] PinyinData =
+        {
+            "a",
+            "ai",
+            "an",
+            "ang",
+            "ao",
+            "ba",
+            "bai",
+            "ban",
+            "bang",
+            "bao",
+            "bei",
+            "ben",
+            "beng",
+            "bi",
+            "bian",
+            "biao",
+            "bie",
+            "bin",
+            "bing",
+            "bo",
+            "bu",
+            "ca",
+            "cai",
+            "can",
+            "cang",
+            "cao",
+            "ce",
+            "cen",
+            "ceng",
+            "cha",
+            "chai",
+            "chan",
+            "chang",
+            "chao",
+            "che",
+            "chen",
+            "cheng",
+            "chi",
+            "chong",
+            "chou",
+            "chu",
+            "chua",
+            "chuai",
+            "chuan",
+            "chuang",
+            "chui",
+            "chun",
+            "chuo",
+            "ci",
+            "cong",
+            "cou",
+            "cu",
+            "cuan",
+            "cui",
+            "cun",
+            "cuo",
+            "da",
+            "dai",
+            "dan",
+            "dang",
+            "dao",
+            "de",
+            "dei",
+            "den",
+            "deng",
+            "di",
+            "dia",
+            "dian",
+            "diao",
+            "die",
+            "ding",
+            "diu",
+            "dong",
+            "dou",
+            "du",
+            "duan",
+            "dui",
+            "dun",
+            "duo",
+            "e",
+            "ei",
+            "en",
+            "eng",
+            "er",
+            "fa",
+            "fan",
+            "fang",
+            "fei",
+            "fen",
+            "feng",
+            "fiao",
+            "fo",
+            "fou",
+            "fu",
+            "ga",
+            "gai",
+            "gan",
+            "gang",
+            "gao",
+            "ge",
+            "gei",
+            "gen",
+            "geng",
+            "gong",
+            "gou",
+            "gu",
+            "gua",
+            "guai",
+            "guan",
+            "guang",
+            "gui",
+            "gun",
+            "guo",
+            "ha",
+            "hai",
+            "han",
+            "hang",
+            "hao",
+            "he",
+            "hei",
+            "hen",
+            "heng",
+            "hong",
+            "hou",
+            "hu",
+            "hua",
+            "huai",
+            "huan",
+            "huang",
+            "hui",
+            "hun",
+            "huo",
+            "ji",
+            "jia",
+            "jian",
+            "jiang",
+            "jiao",
+            "jie",
+            "jin",
+            "jing",
+            "jiong",
+            "jiu",
+            "ju",
+            "juan",
+            "jue",
+            "jun",
+            "ka",
+            "kai",
+            "kan",
+            "kang",
+            "kao",
+            "ke",
+            "kei",
+            "ken",
+            "keng",
+            "kong",
+            "kou",
+            "ku",
+            "kua",
+            "kuai",
+            "kuan",
+            "kuang",
+            "kui",
+            "kun",
+            "kuo",
+            "la",
+            "lai",
+            "lan",
+            "lang",
+            "lao",
+            "le",
+            "lei",
+            "leng",
+            "li",
+            "lia",
+            "lian",
+            "liang",
+            "liao",
+            "lie",
+            "lin",
+            "ling",
+            "liu",
+            "lo",
+            "long",
+            "lou",
+            "lu",
+            "luan",
+            "lve",
+            "lun",
+            "luo",
+            "lv",
+            "ma",
+            "mai",
+            "man",
+            "mang",
+            "mao",
+            "me",
+            "mei",
+            "men",
+            "meng",
+            "mi",
+            "mian",
+            "miao",
+            "mie",
+            "min",
+            "ming",
+            "miu",
+            "mo",
+            "mou",
+            "mu",
+            "na",
+            "nai",
+            "nan",
+            "nang",
+            "nao",
+            "ne",
+            "nei",
+            "nen",
+            "neng",
+            "ni",
+            "nian",
+            "niang",
+            "niao",
+            "nie",
+            "nin",
+            "ning",
+            "niu",
+            "nong",
+            "nou",
+            "nu",
+            "nuan",
+            "nve",
+            "nun",
+            "nuo",
+            "nv",
+            "o",
+            "ou",
+            "pa",
+            "pai",
+            "pan",
+            "pang",
+            "pao",
+            "pei",
+            "pen",
+            "peng",
+            "pi",
+            "pian",
+            "piao",
+            "pie",
+            "pin",
+            "ping",
+            "po",
+            "pou",
+            "pu",
+            "qi",
+            "qia",
+            "qian",
+            "qiang",
+            "qiao",
+            "qie",
+            "qin",
+            "qing",
+            "qiong",
+            "qiu",
+            "qu",
+            "quan",
+            "que",
+            "qun",
+            "ran",
+            "rang",
+            "rao",
+            "re",
+            "ren",
+            "reng",
+            "ri",
+            "rong",
+            "rou",
+            "ru",
+            "rua",
+            "ruan",
+            "rui",
+            "run",
+            "ruo",
+            "sa",
+            "sai",
+            "san",
+            "sang",
+            "sao",
+            "se",
+            "sen",
+            "seng",
+            "sha",
+            "shai",
+            "shan",
+            "shang",
+            "shao",
+            "she",
+            "shei",
+            "shen",
+            "sheng",
+            "shi",
+            "shou",
+            "shu",
+            "shua",
+            "shuai",
+            "shuan",
+            "shuang",
+            "shui",
+            "shun",
+            "shuo",
+            "si",
+            "song",
+            "sou",
+            "su",
+            "suan",
+            "sui",
+            "sun",
+            "suo",
+            "ta",
+            "tai",
+            "tan",
+            "tang",
+            "tao",
+            "te",
+            "tei",
+            "teng",
+            "ti",
+            "tian",
+            "tiao",
+            "tie",
+            "ting",
+            "tong",
+            "tou",
+            "tu",
+            "tuan",
+            "tui",
+            "tun",
+            "tuo",
+            "wa",
+            "wai",
+            "wan",
+            "wang",
+            "wei",
+            "wen",
+            "weng",
+            "wo",
+            "wu",
+            "xi",
+            "xia",
+            "xian",
+            "xiang",
+            "xiao",
+            "xie",
+            "xin",
+            "xing",
+            "xiong",
+            "xiu",
+            "xu",
+            "xuan",
+            "xue",
+            "xun",
+            "ya",
+            "yan",
+            "yang",
+            "yao",
+            "ye",
+            "yi",
+            "yin",
+            "ying",
+            "yo",
+            "yong",
+            "you",
+            "yu",
+            "yuan",
+            "yue",
+            "yun",
+            "za",
+            "zai",
+            "zan",
+            "zang",
+            "zao",
+            "ze",
+            "zei",
+            "zen",
+            "zeng",
+            "zha",
+            "zhai",
+            "zhan",
+            "zhang",
+            "zhao",
+            "zhe",
+            "zhei",
+            "zhen",
+            "zheng",
+            "zhi",
+            "zhong",
+            "zhou",
+            "zhu",
+            "zhua",
+            "zhuai",
+            "zhuan",
+            "zhuang",
+            "zhui",
+            "zhun",
+            "zhuo",
+            "zi",
+            "zong",
+            "zou",
+            "zu",
+            "zuan",
+            "zui",
+            "zun",
+            "zuo",
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "#"
+        };
         #endregion
 
         private byte[] decryptWords(FileStream fs, uint p1, uint p2, uint p3)
@@ -379,7 +825,6 @@ namespace Studyzy.IMEWLConverter.IME
 
             return decwords;
         }
-
 
         public WordLibraryList ImportLine(string str)
         {

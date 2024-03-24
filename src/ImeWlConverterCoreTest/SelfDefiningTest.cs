@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.IME;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter.Test
 {
@@ -71,7 +71,12 @@ namespace Studyzy.IMEWLConverter.Test
                 CodeType = CodeType.Pinyin,
                 Sort = new List<int>() { 2, 1, 3 }
             };
-            WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.Pinyin };
+            WordLibrary wl = new WordLibrary()
+            {
+                Word = "深蓝",
+                Rank = 123,
+                CodeType = CodeType.Pinyin
+            };
             wl.Codes = new Code();
             wl.Codes.Add(new[] { "shen" });
             wl.Codes.Add(new[] { "lan" });
@@ -80,6 +85,7 @@ namespace Studyzy.IMEWLConverter.Test
             var str = selfDefining.ExportLine(wl);
             Assert.AreEqual(str, "深蓝|,shen,lan,|123");
         }
+
         [Test]
         public void TestGeneratePinyinThen2String()
         {
@@ -96,7 +102,12 @@ namespace Studyzy.IMEWLConverter.Test
                 Sort = new List<int>() { 2, 1, 3 }
             };
             WordLibraryList wll = new WordLibraryList();
-            WordLibrary wl = new WordLibrary() { Word = "深蓝", Rank = 123, CodeType = CodeType.UserDefine };
+            WordLibrary wl = new WordLibrary()
+            {
+                Word = "深蓝",
+                Rank = 123,
+                CodeType = CodeType.UserDefine
+            };
             wl.Codes = new Code();
             wl.Codes.Add(new[] { "sn" });
             wl.Codes.Add(new[] { "ln" });
@@ -106,6 +117,7 @@ namespace Studyzy.IMEWLConverter.Test
             var str = selfDefining.Export(wll);
             Assert.AreEqual(str[0], "深蓝|~shen~lan~|123\r");
         }
+
         private WordLibrary WlData
         {
             get
@@ -139,6 +151,7 @@ namespace Studyzy.IMEWLConverter.Test
             Console.WriteLine(str1[0]);
             Assert.AreEqual(str1[0], "深蓝测试$shen_lan_ce_shi\r\n");
         }
+
         [Test]
         public void TestExportExtCodeWL()
         {
@@ -149,6 +162,7 @@ namespace Studyzy.IMEWLConverter.Test
             Debug.WriteLine(str);
             //Assert.That(str, Is.Not.Null.And.Not.Empty);
         }
+
         //[Test]
         //public void TestWLWithoutPinyinExportException()
         //{
@@ -166,7 +180,14 @@ namespace Studyzy.IMEWLConverter.Test
             foreach (var c in str)
             {
                 ts += c;
-                list.Add(new WordLibrary() { Rank = 10, IsEnglish = false, Word = ts });
+                list.Add(
+                    new WordLibrary()
+                    {
+                        Rank = 10,
+                        IsEnglish = false,
+                        Word = ts
+                    }
+                );
             }
 
             var selfDefining = new SelfDefining();
@@ -176,6 +197,7 @@ namespace Studyzy.IMEWLConverter.Test
             Debug.WriteLine(x);
             Assert.IsNotNull(str);
         }
+
         [Test]
         public void TestImportTxt()
         {
@@ -195,11 +217,11 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.AreEqual(x[0].Word, "深藍");
         }
 
-
         private ParsePattern InitPattern()
         {
             ParsePattern pp = new ParsePattern();
-            pp.MutiWordCodeFormat = @"code_e2=p11+p12+p21+p22
+            pp.MutiWordCodeFormat =
+                @"code_e2=p11+p12+p21+p22
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";
             pp.IsPinyinFormat = false;
@@ -210,6 +232,5 @@ code_a4=p11+p21+p31+n11";
             pp.CodeType = CodeType.UserDefine;
             return pp;
         }
-
     }
 }

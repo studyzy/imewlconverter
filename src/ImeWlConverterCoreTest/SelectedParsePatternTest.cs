@@ -20,8 +20,6 @@ namespace Studyzy.IMEWLConverter.Test
     internal class SelectedParsePatternTest
     {
 
-
-
         //        [Test]
         //        public void TestCodeString2WL()
         //        {

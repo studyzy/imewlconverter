@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using ICSharpCode.SharpZipLib.Zip;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using ICSharpCode.SharpZipLib.Zip;
 using UtfUnknown;
 
 namespace Studyzy.IMEWLConverter.Helpers
@@ -40,7 +40,6 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         public static string AutoMatchSourceWLType(string filePath)
         {
-
             string ext = Path.GetExtension(filePath).ToLower();
             if (ext == ".scel")
             {
@@ -319,6 +318,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                 fs.WriteByte(0xFF);
             }
         }
+
         /// <summary>
         /// 根据文本框输入的一个路径，返回文件列表
         /// </summary>
@@ -334,6 +334,7 @@ namespace Studyzy.IMEWLConverter.Helpers
             }
             return result;
         }
+
         /// <summary>
         /// 获取文件大小
         /// </summary>
@@ -354,8 +355,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         /// <returns></returns>
         private static IList<string> GetFilesPathFor1(string input)
         {
-
-            if (input.Contains("*"))//正则匹配模式
+            if (input.Contains("*")) //正则匹配模式
             {
                 var dic = Path.GetDirectoryName(input);
                 var filen = Path.GetFileName(input);
@@ -365,12 +365,13 @@ namespace Studyzy.IMEWLConverter.Helpers
             {
                 return Directory.GetFiles(input, "*.*", SearchOption.AllDirectories);
             }
-            if (File.Exists(input))//文件
+            if (File.Exists(input)) //文件
             {
                 return new List<string>() { input };
             }
             return new List<string>();
         }
+
         //public static bool IsUnicode(Encoding encoding)
         //{
         //    int codepage = encoding.CodePage;
@@ -533,12 +534,12 @@ namespace Studyzy.IMEWLConverter.Helpers
         //            return new StreamReader(fs);
         //    }
         //}
-        /// <summary>   
-        /// 压缩文件   
-        /// </summary>   
-        /// <param name="fileToZip">要压缩的文件全名</param>   
-        /// <param name="zipedFile">压缩后的文件名</param>   
-        /// <returns>压缩结果</returns>   
+        /// <summary>
+        /// 压缩文件
+        /// </summary>
+        /// <param name="fileToZip">要压缩的文件全名</param>
+        /// <param name="zipedFile">压缩后的文件名</param>
+        /// <returns>压缩结果</returns>
         public static bool ZipFile(string fileToZip, string zipedFile)
         {
             bool result = true;
@@ -564,7 +565,6 @@ namespace Studyzy.IMEWLConverter.Helpers
                 zipStream.SetLevel(6);
 
                 zipStream.Write(buffer, 0, buffer.Length);
-
             }
             catch
             {
@@ -593,12 +593,12 @@ namespace Studyzy.IMEWLConverter.Helpers
             return result;
         }
 
-        /// <summary>   
-        /// 解压功能(解压压缩文件到指定目录)   
-        /// </summary>   
-        /// <param name="fileToUnZip">待解压的文件</param>   
-        /// <param name="zipedFolder">指定解压目标目录</param>   
-        /// <returns>解压结果</returns>   
+        /// <summary>
+        /// 解压功能(解压压缩文件到指定目录)
+        /// </summary>
+        /// <param name="fileToUnZip">待解压的文件</param>
+        /// <param name="zipedFolder">指定解压目标目录</param>
+        /// <returns>解压结果</returns>
         public static bool UnZip(string fileToUnZip, string zipedFolder)
         {
             bool result = true;
@@ -622,7 +622,7 @@ namespace Studyzy.IMEWLConverter.Helpers
                     if (!string.IsNullOrEmpty(ent.Name))
                     {
                         fileName = Path.Combine(zipedFolder, ent.Name);
-                        fileName = fileName.Replace('/', '\\');//change by Mr.HopeGi   
+                        fileName = fileName.Replace('/', '\\'); //change by Mr.HopeGi
 
                         if (fileName.EndsWith("\\"))
                         {

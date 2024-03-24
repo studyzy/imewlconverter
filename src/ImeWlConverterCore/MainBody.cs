@@ -15,11 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Filters;
-using Studyzy.IMEWLConverter.Generaters;
-using Studyzy.IMEWLConverter.Helpers;
-using Studyzy.IMEWLConverter.Language;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,6 +23,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Filters;
+using Studyzy.IMEWLConverter.Generaters;
+using Studyzy.IMEWLConverter.Helpers;
+using Studyzy.IMEWLConverter.Language;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -46,8 +46,8 @@ namespace Studyzy.IMEWLConverter
         private IWordRankGenerater wordRankGenerater;
         private Timer timer;
 
-
         public IList<string> ExportContents { get; set; }
+
         public MainBody()
         {
             Filters = new List<ISingleFilter>();
@@ -61,6 +61,7 @@ namespace Studyzy.IMEWLConverter
 
             InitTimer();
         }
+
         /// <summary>
         /// 初始化Timer控件
         /// </summary>
@@ -84,7 +85,8 @@ namespace Studyzy.IMEWLConverter
         /// <param name="e"></param>
         private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (String.IsNullOrEmpty(this.processMessage)) return;
+            if (String.IsNullOrEmpty(this.processMessage))
+                return;
             try
             {
                 ProcessNotice(this.processMessage);
@@ -185,10 +187,12 @@ namespace Studyzy.IMEWLConverter
         {
             this.timer.Stop();
         }
+
         public void StartNotice()
         {
             this.timer.Start();
         }
+
         //public List<string> GetRealPath(IList<string> filePathes)
         //{
         //    var list = new List<string>();
@@ -300,8 +304,7 @@ namespace Studyzy.IMEWLConverter
             var list = new WordLibraryList();
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
-
-                if (!string.IsNullOrEmpty(wordLibrary.SingleCode))//没有编码，则不保留
+                if (!string.IsNullOrEmpty(wordLibrary.SingleCode)) //没有编码，则不保留
                 {
                     list.Add(wordLibrary);
                 }
@@ -323,6 +326,7 @@ namespace Studyzy.IMEWLConverter
                 processMessage = "生成词频：" + currentStatus + "/" + countWord;
             }
         }
+
         /// 把字符串中的数字转换为汉字. 当数字不以0开头，并且以多个0结尾时，按照x千x百的方式转换。否则直接读挨个数字。
         private static String TranslateChineseNumber(String str)
         {
@@ -353,6 +357,7 @@ namespace Studyzy.IMEWLConverter
         }
 
         private static readonly Regex Num2ChsRegex = new Regex("[1-9].+(0{2,100})");
+
         private static String Num2Chs(String str)
         {
             if (Num2ChsRegex.IsMatch(str))
@@ -366,7 +371,6 @@ namespace Studyzy.IMEWLConverter
             }
 
             return new String(chars);
-
         }
 
         private static char Num2Char(Char c)
@@ -446,12 +450,13 @@ namespace Studyzy.IMEWLConverter
                 {
                     List<int> data2 = data[i];
                     StringBuilder newVal = new StringBuilder();
-                    for (int j = 0; j < data2.Count;)
+                    for (int j = 0; j < data2.Count; )
                     {
                         if (data2[j] == 0)
                         {
                             int k = j + 1;
-                            for (; k < data2.Count && data2[k] == 0; k++) ;
+                            for (; k < data2.Count && data2[k] == 0; k++)
+                                ;
                             //个位不是0，前面补一个零
                             newVal.Append('零');
                             j = k;
@@ -472,32 +477,33 @@ namespace Studyzy.IMEWLConverter
                     }
 
                     if (i == 0 && newVal.Length > 1 && newVal[0] == '一' && newVal[1] == '十')
-                    {//一十 --> 十
+                    { //一十 --> 十
                         newVal.Remove(0, 1);
                     }
                     builders.Add(newVal);
                 }
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < builders.Count; i++)
-                {//拼接
+                { //拼接
                     if (builders.Count == 1)
-                    {//个位数
+                    { //个位数
                         sb.Append(builders[i]);
                     }
                     else
                     {
                         if (i == builders.Count - 1)
-                        {//万位以下的
+                        { //万位以下的
                             if (builders[i][builders[i].Length - 1] != '零')
-                            {//十位以上的不拼接"零"
+                            { //十位以上的不拼接"零"
                                 sb.Append(builders[i]);
                             }
                         }
                         else
-                        {//万位以上的
+                        { //万位以上的
                             if (builders[i][0] != '零')
-                            {//零万零亿之类的不拼接
-                                sb.Append(builders[i]).Append(unit[unit.IndexOf('千') + builders.Count - 1 - i]);
+                            { //零万零亿之类的不拼接
+                                sb.Append(builders[i])
+                                    .Append(unit[unit.IndexOf('千') + builders.Count - 1 - i]);
                             }
                         }
                     }
@@ -506,15 +512,19 @@ namespace Studyzy.IMEWLConverter
             };
             List<List<int>> ret_split = splitNumFunc(input2);
             ret = hommizationFunc(ret_split);
-            if (input < 0) ret = "-" + ret;
+            if (input < 0)
+                ret = "-" + ret;
             return ret;
         }
 
-
         private void GenerateDestinationCode(WordLibraryList wordLibraryList, CodeType codeType)
         {
-            if (wordLibraryList.Count == 0) return;
-            if (wordLibraryList[0].CodeType == CodeType.NoCode && codeType == CodeType.UserDefinePhrase)
+            if (wordLibraryList.Count == 0)
+                return;
+            if (
+                wordLibraryList[0].CodeType == CodeType.NoCode
+                && codeType == CodeType.UserDefinePhrase
+            )
             {
                 codeType = CodeType.Pinyin;
             }
@@ -529,8 +539,9 @@ namespace Studyzy.IMEWLConverter
             Regex fullWidthRegex = new Regex("[\uff00-\uff5e]+");
             // Regex fullWidthRegex = new Regex("[ａ-ｚＡ-Ｚ０-９]+");
             // Regex punctuationRegex = new Regex("[-・·&%']");
-            Regex punctuationRegex = new Regex("[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00a0-\u00bf\u00d7\u00f7\u2000-\u2bff\u3000-\u303f\u30a0\u30fb\uff01-\uff0f\uff1a-\uff20\uff5b-\uff65]");
-
+            Regex punctuationRegex = new Regex(
+                "[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u008f\u00a0-\u00bf\u00d7\u00f7\u2000-\u2bff\u3000-\u303f\u30a0\u30fb\uff01-\uff0f\uff1a-\uff20\uff5b-\uff65]"
+            );
 
             foreach (WordLibrary wordLibrary in wordLibraryList)
             {
@@ -577,7 +588,6 @@ namespace Studyzy.IMEWLConverter
                             word = word.Replace(" ", "");
                         else
                             word = spaceRegex.Replace(word, "");
-
                     }
 
                     if (FilterConfig.KeepPunctuation_)
@@ -590,19 +600,20 @@ namespace Studyzy.IMEWLConverter
                         word = TranslateChineseNumber(word);
                     }
 
-                    if ((FilterConfig.KeepEnglish && englishRegex.IsMatch(word))
+                    if (
+                        (FilterConfig.KeepEnglish && englishRegex.IsMatch(word))
                         || (FilterConfig.KeepNumber && numberRegex.IsMatch(word))
-                        || (FilterConfig.KeepPunctuation && punctuationRegex.IsMatch(word)))
+                        || (FilterConfig.KeepPunctuation && punctuationRegex.IsMatch(word))
+                    )
                     {
-
                         StringBuilder input = new StringBuilder();
                         List<IList<string>> output = new List<IList<string>>();
 
-                        int clipType = -1; int type = 0;
+                        int clipType = -1;
+                        int type = 0;
 
                         foreach (char c in word)
                         {
-
                             if (c >= 0x30 && c <= 0x39)
                             {
                                 type = 1;
@@ -640,19 +651,19 @@ namespace Studyzy.IMEWLConverter
                             {
                                 input.Append(c);
                             }
-
                             else
                             {
-
                                 if (FilterConfig.KeepEnglish && clipType == 2)
                                 {
                                     if (FilterConfig.needEnglishTag())
                                         output.Add(new List<string> { '_' + input.ToString() });
                                     else
                                         output.Add(new List<string> { input.ToString() });
-
                                 }
-                                else if ((FilterConfig.KeepNumber && clipType == 1) || (FilterConfig.KeepPunctuation && clipType == 3))
+                                else if (
+                                    (FilterConfig.KeepNumber && clipType == 1)
+                                    || (FilterConfig.KeepPunctuation && clipType == 3)
+                                )
                                 {
                                     output.Add(new List<string> { input.ToString() });
                                 }
@@ -666,7 +677,6 @@ namespace Studyzy.IMEWLConverter
                                 input.Clear();
                                 input.Append(c);
                                 clipType = type;
-
                             }
                         }
 
@@ -678,9 +688,11 @@ namespace Studyzy.IMEWLConverter
                                     output.Add(new List<string> { '_' + input.ToString() });
                                 else
                                     output.Add(new List<string> { input.ToString() });
-
                             }
-                            else if ((FilterConfig.KeepNumber && clipType == 1) || (FilterConfig.KeepPunctuation && clipType == 3))
+                            else if (
+                                (FilterConfig.KeepNumber && clipType == 1)
+                                || (FilterConfig.KeepPunctuation && clipType == 3)
+                            )
                             {
                                 output.Add(new List<string> { input.ToString() });
                             }
@@ -695,7 +707,6 @@ namespace Studyzy.IMEWLConverter
 
                         wordLibrary.Word = word_0;
                         wordLibrary.Codes = new Code(output);
-
                     }
                     else
                     {
@@ -706,10 +717,8 @@ namespace Studyzy.IMEWLConverter
                             wordLibrary.Word = word;
                             generater.GetCodeOfWordLibrary(wordLibrary);
                             wordLibrary.Word = word_0;
-
                         }
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -753,20 +762,45 @@ namespace Studyzy.IMEWLConverter
                     ExportContents = export.Export(wlList);
                     for (var i = 0; i < ExportContents.Count; i++)
                     {
-                        if (!Directory.Exists(outputDir)) Directory.CreateDirectory(outputDir);
-                        string exportPath = Path.Combine(outputDir,
-                            Path.GetFileNameWithoutExtension(file) + (i == 0 ? "" : i.ToString()) + ".txt");
-                        FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
+                        if (!Directory.Exists(outputDir))
+                            Directory.CreateDirectory(outputDir);
+                        string exportPath = Path.Combine(
+                            outputDir,
+                            Path.GetFileNameWithoutExtension(file)
+                                + (i == 0 ? "" : i.ToString())
+                                + ".txt"
+                        );
+                        FileOperationHelper.WriteFile(
+                            exportPath,
+                            export.Encoding,
+                            ExportContents[i]
+                        );
                     }
                     ExportContents = new List<string>();
                     var costSeconds = (DateTime.Now - start).TotalSeconds;
-                    ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t转换完成，耗时：" +
-                                          costSeconds + "秒\r\n");
+                    ProcessNotice?.Invoke(
+                        fileProcessed
+                            + "/"
+                            + fileCount
+                            + "\t"
+                            + Path.GetFileName(file)
+                            + "\t转换完成，耗时："
+                            + costSeconds
+                            + "秒\r\n"
+                    );
                 }
                 catch (Exception ex)
                 {
-                    ProcessNotice?.Invoke(fileProcessed + "/" + fileCount + "\t" + Path.GetFileName(file) + "\t处理时发生异常：" +
-                                         ex.Message + "\r\n");
+                    ProcessNotice?.Invoke(
+                        fileProcessed
+                            + "/"
+                            + fileCount
+                            + "\t"
+                            + Path.GetFileName(file)
+                            + "\t处理时发生异常："
+                            + ex.Message
+                            + "\r\n"
+                    );
                     count = c;
                     this.timer.Stop();
                 }
@@ -774,14 +808,20 @@ namespace Studyzy.IMEWLConverter
             count = c;
             this.timer.Stop();
         }
+
         public void ExportToFile(string filePath)
         {
             var outputDir = Path.GetDirectoryName(filePath);
             for (var i = 0; i < ExportContents.Count; i++)
             {
-                if (!Directory.Exists(outputDir)) Directory.CreateDirectory(outputDir);
-                string exportPath = Path.Combine(outputDir,
-                    Path.GetFileNameWithoutExtension(filePath) + (i == 0 ? "" : i.ToString()) + ".txt");
+                if (!Directory.Exists(outputDir))
+                    Directory.CreateDirectory(outputDir);
+                string exportPath = Path.Combine(
+                    outputDir,
+                    Path.GetFileNameWithoutExtension(filePath)
+                        + (i == 0 ? "" : i.ToString())
+                        + ".txt"
+                );
                 FileOperationHelper.WriteFile(exportPath, export.Encoding, ExportContents[i]);
             }
             ExportContents = new List<string>();
@@ -797,12 +837,19 @@ namespace Studyzy.IMEWLConverter
             StreamWriter stream = FileOperationHelper.GetWriteFileStream(outPath, export.Encoding);
             foreach (string filePath in filePathes)
             {
-                var wlStream = new WordLibraryStream(import, export, filePath, textImport.Encoding, stream);
+                var wlStream = new WordLibraryStream(
+                    import,
+                    export,
+                    filePath,
+                    textImport.Encoding,
+                    stream
+                );
                 wlStream.ConvertWordLibrary(w => IsKeep(w));
             }
 
             stream.Close();
         }
+
         private void ReplaceAfterCode(WordLibraryList list)
         {
             foreach (WordLibrary wordLibrary in list)
@@ -815,6 +862,7 @@ namespace Studyzy.IMEWLConverter
                     }
             }
         }
+
         private WordLibraryList Filter(WordLibraryList list)
         {
             var result = new WordLibraryList();

@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -30,7 +30,7 @@ namespace Studyzy.IMEWLConverter
             InitializeComponent();
         }
 
-        //private Dictionary<string,List<string>> main 
+        //private Dictionary<string,List<string>> main
         private void btnSelectMainWLFile_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -73,12 +73,21 @@ namespace Studyzy.IMEWLConverter
             string result = Dict2String(mainDict);
             richTextBox1.Text = result;
             if (
-                MessageBox.Show("是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？", "是否保存", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+                MessageBox.Show(
+                    "是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？",
+                    "是否保存",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                ) == DialogResult.Yes
+            )
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    FileOperationHelper.WriteFile(saveFileDialog1.FileName, Encoding.Unicode, result);
+                    FileOperationHelper.WriteFile(
+                        saveFileDialog1.FileName,
+                        Encoding.Unicode,
+                        result
+                    );
                 }
             }
         }
@@ -104,7 +113,10 @@ namespace Studyzy.IMEWLConverter
             return mainDict;
         }
 
-        private void Merge2Dict(Dictionary<string, List<string>> d1, Dictionary<string, List<string>> d2)
+        private void Merge2Dict(
+            Dictionary<string, List<string>> d1,
+            Dictionary<string, List<string>> d2
+        )
         {
             foreach (var pair in d2)
             {
@@ -146,7 +158,8 @@ namespace Studyzy.IMEWLConverter
 
         private void MergeWLForm_Load(object sender, EventArgs e)
         {
-            richTextBox1.Text = "请保证主词库和附加词库中每一行的格式为：\r\n编码 词1 词2 词3\r\n不要保留任何注释备注等。\r\n主词库只可选择一个，附加词库可多选";
+            richTextBox1.Text =
+                "请保证主词库和附加词库中每一行的格式为：\r\n编码 词1 词2 词3\r\n不要保留任何注释备注等。\r\n主词库只可选择一个，附加词库可多选";
         }
     }
 }

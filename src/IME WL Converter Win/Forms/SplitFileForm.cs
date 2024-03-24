@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -47,7 +47,12 @@ namespace Studyzy.IMEWLConverter
             }
             if (!File.Exists(txbFilePath.Text))
             {
-                MessageBox.Show(txbFilePath.Text + "，该文件不存在", "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    txbFilePath.Text + "，该文件不存在",
+                    "分割",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
             rtbLogs.Clear();
@@ -89,7 +94,10 @@ namespace Studyzy.IMEWLConverter
                     return;
                 }
             }
-            string[] list = str.Split(new[] { splitLineChar }, StringSplitOptions.RemoveEmptyEntries);
+            string[] list = str.Split(
+                new[] { splitLineChar },
+                StringSplitOptions.RemoveEmptyEntries
+            );
 
             var fileContent = new StringBuilder();
             int fileIndex = 1;
@@ -114,7 +122,6 @@ namespace Studyzy.IMEWLConverter
         {
             Encoding encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
 
-
             int fileIndex = 1;
             int size = (maxSize - 10) * 1024; //10K的Buffer
             var inFile = new FileStream(txbFilePath.Text, FileMode.Open, FileAccess.Read);
@@ -122,8 +129,7 @@ namespace Studyzy.IMEWLConverter
             do
             {
                 string newFile = GetWriteFilePath(fileIndex++);
-                var outFile = new FileStream(newFile, FileMode.OpenOrCreate,
-                    FileAccess.Write);
+                var outFile = new FileStream(newFile, FileMode.OpenOrCreate, FileAccess.Write);
                 if (fileIndex != 2) //不是第一个文件，那么就要写文件头
                 {
                     FileOperationHelper.WriteFileHeader(outFile, encoding);
@@ -177,7 +183,6 @@ namespace Studyzy.IMEWLConverter
             } while (true);
         }
 
-
         private void SplitFileByLength(int length)
         {
             //Encoding encoding = null;
@@ -211,8 +216,11 @@ namespace Studyzy.IMEWLConverter
         private string GetWriteFilePath(int i)
         {
             string path = txbFilePath.Text;
-            return Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(path) + i.ToString("00") +
-                   Path.GetExtension(path);
+            return Path.GetDirectoryName(path)
+                + "\\"
+                + Path.GetFileNameWithoutExtension(path)
+                + i.ToString("00")
+                + Path.GetExtension(path);
         }
     }
 }

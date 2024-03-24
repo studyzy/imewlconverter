@@ -16,13 +16,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -39,16 +39,16 @@ namespace Studyzy.IMEWLConverter.IME
             Pinyin = 1,
             Wubi98 = 2
         }
+
         public event Action<string> ImportLineErrorNotice;
+
         public Jidian_MBDict()
         {
             this.CodeType = CodeType.UserDefinePhrase;
             this.PinyinType = PinyinType.FullPinyin;
         }
-        public PinyinType PinyinType
-        {
-            get; set;
-        }
+
+        public PinyinType PinyinType { get; set; }
         public Encoding Encoding
         {
             get { return Encoding.Unicode; }
@@ -59,10 +59,7 @@ namespace Studyzy.IMEWLConverter.IME
 
         public bool IsText => false;
 
-        public CodeType CodeType
-        {
-            get; set;
-        }
+        public CodeType CodeType { get; set; }
 
         public WordLibraryList Import(string path)
         {
@@ -111,9 +108,13 @@ namespace Studyzy.IMEWLConverter.IME
             var wordBytesLen = fs.ReadByte();
             var split = fs.ReadByte();
             // 0x64对应正常词组（包含中英混拼，如"阿Q"）。
-            Debug.Assert(split.Equals(0x64) || split.Equals(0x32)
-                || split.Equals(0x10) || split.Equals(0x66)
-                || split.Equals(0x67)); // 0x67: "$X[计算器]calc"
+            Debug.Assert(
+                split.Equals(0x64)
+                    || split.Equals(0x32)
+                    || split.Equals(0x10)
+                    || split.Equals(0x66)
+                    || split.Equals(0x67)
+            ); // 0x67: "$X[计算器]calc"
             var codeBytes = BinFileHelper.ReadArray(fs, codeBytesLen);
             var codeStr = Encoding.ASCII.GetString(codeBytes);
 
@@ -151,6 +152,7 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
+
         public event Action<string> ExportErrorNotice;
 
         public IList<string> Export(WordLibraryList wlList)

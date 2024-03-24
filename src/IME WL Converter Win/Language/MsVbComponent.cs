@@ -35,8 +35,6 @@ namespace Studyzy.IMEWLConverter.Language
 
         #endregion
 
-        public void Init()
-        {
-        }
+        public void Init() { }
     }
 }

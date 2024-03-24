@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -49,8 +49,6 @@ namespace Studyzy.IMEWLConverter.IME
             return wll;
         }
 
-
-
         #endregion
 
         #region IWordLibraryExport 成员
@@ -61,7 +59,6 @@ namespace Studyzy.IMEWLConverter.IME
         {
             return wl.Word;
         }
-
 
         public virtual IList<string> Export(WordLibraryList wlList)
         {

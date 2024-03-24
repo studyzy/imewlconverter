@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Diagnostics;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
-using System.Diagnostics;
 
 namespace ImeWlConverterCoreTest
 {
@@ -28,7 +28,12 @@ namespace ImeWlConverterCoreTest
         public void TestExport1()
         {
             WordLibraryList wl = new WordLibraryList();
-            var wl1 = new WordLibrary() { Word = "曾毅曾诚", PinYin = new string[] { "zeng", "yi", "zeng", "cheng" }, CodeType = CodeType.Pinyin };
+            var wl1 = new WordLibrary()
+            {
+                Word = "曾毅曾诚",
+                PinYin = new string[] { "zeng", "yi", "zeng", "cheng" },
+                CodeType = CodeType.Pinyin
+            };
             wl.Add(wl1);
 
             var export = new Win10MsPinyinSelfStudy();

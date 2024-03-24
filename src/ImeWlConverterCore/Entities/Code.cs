@@ -15,8 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
 {
@@ -29,8 +29,9 @@ namespace Studyzy.IMEWLConverter.Entities
                 this.Add(c);
             }
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="code"></param>
         /// <param name="is1Char1Code">是否是单拼音这样的一字一码，如果不是则表示为一词多码</param>
@@ -48,8 +49,9 @@ namespace Studyzy.IMEWLConverter.Entities
                 this.Add(code);
             }
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="code">五笔这种一词一码类型</param>
         public Code(string code)
@@ -57,10 +59,8 @@ namespace Studyzy.IMEWLConverter.Entities
             this.Add(new List<string>() { code });
         }
 
-        public Code()
-        {
+        public Code() { }
 
-        }
         /// <summary>
         /// 取得每个字的编码的第一个编码
         /// </summary>
@@ -75,7 +75,10 @@ namespace Studyzy.IMEWLConverter.Entities
             return result;
         }
 
-        public IList<string> ToCodeString(string codeSplit = "", BuildType buildType = BuildType.None)
+        public IList<string> ToCodeString(
+            string codeSplit = "",
+            BuildType buildType = BuildType.None
+        )
         {
             return CollectionHelper.CartesianProduct(this, codeSplit, buildType);
         }

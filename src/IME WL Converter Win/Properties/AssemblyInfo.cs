@@ -24,16 +24,16 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("深蓝词库转换")]
-[assembly:
-    AssemblyDescription(
-        "随手写的一个词库转换小工具，支持主流的电脑和手机输入法，希望大家喜欢。\r\n有问题请联系我：studyzy@163.com\r\nGitHub: https://github.com/studyzy/imewlconverter")]
+[assembly: AssemblyDescription(
+    "随手写的一个词库转换小工具，支持主流的电脑和手机输入法，希望大家喜欢。\r\n有问题请联系我：studyzy@163.com\r\nGitHub: https://github.com/studyzy/imewlconverter"
+)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("深蓝 http://studyzy.cnblogs.com")]
 [assembly: AssemblyProduct("深蓝词库转换")]
 [assembly: AssemblyCopyright("Copyright ©  2010-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("IME WL Converter Test")]//单元测试的时候可以访问内部对象
+[assembly: InternalsVisibleTo("IME WL Converter Test")] //单元测试的时候可以访问内部对象
 // 将 ComVisible 设置为 false 使此程序集中的类型
 // 对 COM 组件不可见。如果需要从 COM 访问此程序集中的类型，
 // 则将该类型上的 ComVisible 属性设置为 true。
@@ -47,7 +47,7 @@ using System.Runtime.InteropServices;
 // 程序集的版本信息由下面四个值组成:
 //
 //      主版本
-//      次版本 
+//      次版本
 //      内部版本号
 //      修订号
 //

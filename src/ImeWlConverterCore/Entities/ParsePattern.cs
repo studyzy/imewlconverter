@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
 {
@@ -26,7 +26,6 @@ namespace Studyzy.IMEWLConverter.Entities
     /// </summary>
     public class ParsePattern
     {
-
         public ParsePattern()
         {
             Sort = new List<int> { 1, 2, 3 };
@@ -125,8 +124,11 @@ namespace Studyzy.IMEWLConverter.Entities
             {
                 if (IsPinyinFormat)
                 {
-                    code = CollectionHelper.GetString(CollectionHelper.DescarteIndex1(wl.Codes), CodeSplitString,
-                        CodeSplitType);
+                    code = CollectionHelper.GetString(
+                        CollectionHelper.DescarteIndex1(wl.Codes),
+                        CodeSplitString,
+                        CodeSplitType
+                    );
                 }
                 else //多字一码，根据用户设置的编码规则，生成编码
                 {

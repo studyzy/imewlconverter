@@ -29,10 +29,12 @@ namespace Studyzy.IMEWLConverter.Entities
         /// </summary>
         Wubi,
         Wubi98,
+
         /// <summary>
         /// 五笔新世纪
         /// </summary>
         WubiNewAge,
+
         /// <summary>
         ///     郑码
         /// </summary>
@@ -102,14 +104,15 @@ namespace Studyzy.IMEWLConverter.Entities
         ///     地球拼音
         /// </summary>
         TerraPinyin,
+
         /// <summary>
         /// 超音速写
         /// </summary>
         Chaoyin,
+
         /// <summary>
         ///     无编码
         /// </summary>
         NoCode
-
     }
 }

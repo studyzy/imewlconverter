@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Test.HelperTest
 {
@@ -39,13 +39,21 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             var txt = FileOperationHelper.ReadFile(path);
             Debug.WriteLine(txt);
         }
+
         [Test]
         public void TestCodePagesEncodingProviderRequired()
         {
-            Assert.Catch(Type.GetType("System.ArgumentException"), () => Encoding.GetEncoding("GB2312").ToString());
+            Assert.Catch(
+                Type.GetType("System.ArgumentException"),
+                () => Encoding.GetEncoding("GB2312").ToString()
+            );
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Assert.AreEqual("Chinese Simplified (GB2312)", Encoding.GetEncoding("GB2312").EncodingName);
+            Assert.AreEqual(
+                "Chinese Simplified (GB2312)",
+                Encoding.GetEncoding("GB2312").EncodingName
+            );
         }
+
         [Test]
         public void TestWriteFile()
         {
@@ -55,6 +63,7 @@ namespace Studyzy.IMEWLConverter.Test.HelperTest
             Assert.IsTrue(File.Exists(path));
             File.Delete(path);
         }
+
         protected static string GetFullPath(string fileName)
         {
             return Path.Combine(TestContext.CurrentContext.TestDirectory, fileName);

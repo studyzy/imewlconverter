@@ -26,6 +26,7 @@ namespace Studyzy.IMEWLConverter.Filters
     public class NoAlphabetCodeFilter : ISingleFilter
     {
         public bool ReplaceAfterCode => false;
+
         #region ISingleFilter Members
 
         //private readonly Regex regex = new Regex(@"\s");
@@ -50,7 +51,5 @@ namespace Studyzy.IMEWLConverter.Filters
         }
 
         #endregion
-
-
     }
 }

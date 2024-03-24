@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Language;
 using System;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Language;
 
 namespace Studyzy.IMEWLConverter
 {

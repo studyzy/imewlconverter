@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Filters;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Filters;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -35,11 +35,10 @@ namespace Studyzy.IMEWLConverter.IME
         {
             this.PinyinType = PinyinType.FullPinyin;
         }
+
         #region IWordLibraryExport 成员
-        public PinyinType PinyinType
-        {
-            get; set;
-        }
+        public PinyinType PinyinType { get; set; }
+
         private WordLibraryList Filter(WordLibraryList wlList)
         {
             var result = new WordLibraryList();
@@ -47,7 +46,6 @@ namespace Studyzy.IMEWLConverter.IME
             if (PinyinType != PinyinType.FullPinyin)
             {
                 replace = new ShuangpinReplacer(PinyinType);
-
             }
             foreach (var wl in wlList)
             {
@@ -62,10 +60,10 @@ namespace Studyzy.IMEWLConverter.IME
                 //    continue;
 
                 result.Add(wl);
-
             }
             return result;
         }
+
         public string ExportLine(WordLibrary wl)
         {
             var sb = new StringBuilder();
@@ -76,13 +74,18 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
         public IList<string> Export(WordLibraryList wlList)
         {
             //对全拼方案进行编码转换
             wlList = Filter(wlList);
-            string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "dictionary.txt");
-            if (File.Exists(tempPath)) { File.Delete(tempPath); }
+            string tempPath = Path.Combine(
+                FileOperationHelper.GetCurrentFolderPath(),
+                "dictionary.txt"
+            );
+            if (File.Exists(tempPath))
+            {
+                File.Delete(tempPath);
+            }
             var sb = new StringBuilder();
             sb.Append("# Gboard Dictionary version:1\n");
             for (int i = 0; i < wlList.Count; i++)
@@ -91,8 +94,14 @@ namespace Studyzy.IMEWLConverter.IME
                 sb.Append("\n");
             }
             FileOperationHelper.WriteFile(tempPath, new UTF8Encoding(false), sb.ToString());
-            string zipPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "Gboard词库.zip");
-            if (File.Exists(zipPath)) { File.Delete(zipPath); }
+            string zipPath = Path.Combine(
+                FileOperationHelper.GetCurrentFolderPath(),
+                "Gboard词库.zip"
+            );
+            if (File.Exists(zipPath))
+            {
+                File.Delete(zipPath);
+            }
             FileOperationHelper.ZipFile(tempPath, zipPath);
             return new List<string>() { "词库文件在：" + zipPath };
             //return new List<string>() { sb.ToString() };
@@ -121,11 +130,15 @@ namespace Studyzy.IMEWLConverter.IME
         {
             var tempUnzipFolder = FileOperationHelper.GetCurrentFolderPath();
             FileOperationHelper.UnZip(path, tempUnzipFolder);
-            var tempFilePath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "dictionary.txt");
+            var tempFilePath = Path.Combine(
+                FileOperationHelper.GetCurrentFolderPath(),
+                "dictionary.txt"
+            );
             string str = FileOperationHelper.ReadFile(tempFilePath, new UTF8Encoding(false));
             File.Delete(tempFilePath);
             return ImportText(str);
         }
+
         public WordLibraryList ImportText(string str)
         {
             var wlList = new WordLibraryList();
@@ -146,7 +159,12 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return wlList;
         }
-        public override CodeType CodeType { get => CodeType.UserDefinePhrase; set => base.CodeType = value; }
+
+        public override CodeType CodeType
+        {
+            get => CodeType.UserDefinePhrase;
+            set => base.CodeType = value;
+        }
 
         public Encoding Encoding
         {
@@ -159,7 +177,9 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message + " Your system doesn't support GBK, try to use GB2312.");
+                    Console.WriteLine(
+                        ex.Message + " Your system doesn't support GBK, try to use GB2312."
+                    );
                     return Encoding.GetEncoding("GB2312");
                 }
             }

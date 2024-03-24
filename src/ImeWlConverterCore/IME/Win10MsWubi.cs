@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -31,6 +31,7 @@ namespace Studyzy.IMEWLConverter.IME
     public class Win10MsWubi : IWordLibraryExport, IWordLibraryImport
     {
         public event Action<string> ImportLineErrorNotice;
+
         /*
          * _X 做后缀的字段表示 win10 1703 与 1607 有改动的部分
 
@@ -149,7 +150,7 @@ namespace Studyzy.IMEWLConverter.IME
             var hanzi_offset = BinFileHelper.ReadInt16(fs);
             wl.Rank = fs.ReadByte();
             var x6 = fs.ReadByte(); //不知道干啥的
-            var unknown8 = BinFileHelper.ReadInt64(fs);//新增的，不知道什么意思
+            var unknown8 = BinFileHelper.ReadInt64(fs); //新增的，不知道什么意思
             var pyBytesLen = hanzi_offset - 18;
             var pyBytes = BinFileHelper.ReadArray(fs, pyBytesLen);
             var wubiStr = Encoding.Unicode.GetString(pyBytes);
@@ -175,17 +176,25 @@ namespace Studyzy.IMEWLConverter.IME
         {
             throw new NotImplementedException("二进制文件不支持单个词汇的转换");
         }
+
         public event Action<string> ExportErrorNotice;
+
         public IList<string> Export(WordLibraryList wlList)
         {
             //Win10拼音只支持最多32个字符的编码
             wlList = Filter(wlList);
-            string tempPath = Path.Combine(FileOperationHelper.GetCurrentFolderPath(), "Win10微软五笔词库.dat");
-            if (File.Exists(tempPath)) { File.Delete(tempPath); }
+            string tempPath = Path.Combine(
+                FileOperationHelper.GetCurrentFolderPath(),
+                "Win10微软五笔词库.dat"
+            );
+            if (File.Exists(tempPath))
+            {
+                File.Delete(tempPath);
+            }
             var fs = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.Write);
             BinaryWriter bw = new BinaryWriter(fs);
             bw.Write(Encoding.ASCII.GetBytes("mschxudp")); //proto8
-            bw.Write(BitConverter.GetBytes(0x00600002));//Unknown
+            bw.Write(BitConverter.GetBytes(0x00600002)); //Unknown
             bw.Write(BitConverter.GetBytes(1)); //version
             bw.Write(BitConverter.GetBytes(0x40)); //phrase_offset_start
             bw.Write(BitConverter.GetBytes(0x40 + 4 * wlList.Count)); //phrase_start=phrase_offset_start + 4*phrase_count
@@ -210,8 +219,8 @@ namespace Studyzy.IMEWLConverter.IME
                 bw.Write(BitConverter.GetBytes((short)hanzi_offset));
                 bw.Write((byte)wl.Rank); //1是詞頻
                 bw.Write((byte)0x6); //6不知道
-                bw.Write(BitConverter.GetBytes(0x00000000));//Unknown
-                bw.Write(BitConverter.GetBytes(0xE679CD20));//Unknown
+                bw.Write(BitConverter.GetBytes(0x00000000)); //Unknown
+                bw.Write(BitConverter.GetBytes(0xE679CD20)); //Unknown
                 var py = wl.GetPinYinString("", BuildType.None);
                 bw.Write(Encoding.Unicode.GetBytes(py));
                 bw.Write(BitConverter.GetBytes((short)0));

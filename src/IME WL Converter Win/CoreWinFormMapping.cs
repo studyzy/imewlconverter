@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.IME;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -42,51 +42,51 @@ namespace Studyzy.IMEWLConverter
             imeFormMapping.Add(typeof(Gboard), new PinyinConfigForm());
         }
 
-
         private void InitImportPropertityMapping()
         {
             formPropertityMapping = new Dictionary<Type, IDictionary<string, string>>();
-            formPropertityMapping.Add(typeof(RimeConfigForm),
+            formPropertityMapping.Add(
+                typeof(RimeConfigForm),
                 new Dictionary<string, string>
                 {
-                    {"SelectedCodeType", "CodeType"},
-                    {"SelectedOS", "OS"}
-                });
-            formPropertityMapping.Add(typeof(Ld2EncodingConfigForm),
+                    { "SelectedCodeType", "CodeType" },
+                    { "SelectedOS", "OS" }
+                }
+            );
+            formPropertityMapping.Add(
+                typeof(Ld2EncodingConfigForm),
+                new Dictionary<string, string> { { "SelectedEncoding", "WordEncoding" } }
+            );
+            formPropertityMapping.Add(
+                typeof(XiaoxiaoConfigForm),
+                new Dictionary<string, string> { { "SelectedCodeType", "CodeType" } }
+            );
+            formPropertityMapping.Add(
+                typeof(SelfDefiningConfigForm),
+                new Dictionary<string, string> { { "SelectedParsePattern", "UserDefiningPattern" } }
+            );
+            formPropertityMapping.Add(
+                typeof(PhraseFormatConfigForm),
                 new Dictionary<string, string>
                 {
-                    {"SelectedEncoding", "WordEncoding"}
-                });
-            formPropertityMapping.Add(typeof(XiaoxiaoConfigForm),
+                    { "PhraseFormat", "PhraseFormat" },
+                    { "SelectedCodeType", "CodeType" },
+                    { "IsShortCode", "IsShortCode" }
+                }
+            );
+            formPropertityMapping.Add(
+                typeof(ErbiTypeForm),
+                new Dictionary<string, string> { { "SelectedCodeType", "CodeType" } }
+            );
+            formPropertityMapping.Add(
+                typeof(PinyinConfigForm),
                 new Dictionary<string, string>
                 {
-                    {"SelectedCodeType", "CodeType"}
-                });
-            formPropertityMapping.Add(typeof(SelfDefiningConfigForm),
-                new Dictionary<string, string>
-                {
-                    {"SelectedParsePattern", "UserDefiningPattern"}
-                });
-            formPropertityMapping.Add(typeof(PhraseFormatConfigForm),
-                new Dictionary<string, string>
-                {
-                    {"PhraseFormat", "PhraseFormat"},
-                    {"SelectedCodeType", "CodeType"},
-                    { "IsShortCode","IsShortCode"}
-                });
-            formPropertityMapping.Add(typeof(ErbiTypeForm),
-                new Dictionary<string, string>
-                {
-                    {"SelectedCodeType", "CodeType"}
-                });
-            formPropertityMapping.Add(typeof(PinyinConfigForm),
-              new Dictionary<string, string>
-              {
-                    {"SelectedPinyinType", "PinyinType"},
-                    { "SelectedCodeType", "CodeType"}
-        });
+                    { "SelectedPinyinType", "PinyinType" },
+                    { "SelectedCodeType", "CodeType" }
+                }
+            );
         }
-
 
         private void form_Closed(object sender, EventArgs e)
         {
@@ -107,7 +107,6 @@ namespace Studyzy.IMEWLConverter
                 }
             }
         }
-
 
         public Form GetImportForm(IWordLibraryImport import)
         {

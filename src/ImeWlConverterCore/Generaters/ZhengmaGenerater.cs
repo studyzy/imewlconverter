@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
@@ -35,7 +35,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string txt = Helpers.DictionaryHelper.GetResourceContent("Zhengma.txt");
 
                     zhengmaDic = new Dictionary<char, Zhengma>();
-                    foreach (string line in txt.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (
+                        string line in txt.Split(
+                            new[] { "\r", "\n" },
+                            StringSplitOptions.RemoveEmptyEntries
+                        )
+                    )
                     {
                         string[] arr = line.Split('\t');
                         if (arr[0].Length == 0)
@@ -104,7 +109,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             return ZhengmaDic[str].Code;
         }
 
-
         public bool Is1CharMutiCode
         {
             get { return false; }
@@ -147,6 +151,5 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ZhengmaDic[c].ShortCode[0].ToString();
         }
-
     }
 }

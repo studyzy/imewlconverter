@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -46,15 +46,17 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
         public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
             sb.Append(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<ns1:Dictionary xmlns:ns1=\"http://www.microsoft.com/ime/dctx\">");
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<ns1:Dictionary xmlns:ns1=\"http://www.microsoft.com/ime/dctx\">"
+            );
             sb.Append(
                 @"<ns1:DictionaryHeader>
-    <ns1:DictionaryGUID>{" + Guid.NewGuid() + @"}</ns1:DictionaryGUID>
+    <ns1:DictionaryGUID>{"
+                    + Guid.NewGuid()
+                    + @"}</ns1:DictionaryGUID>
     <ns1:DictionaryLanguage>zh-cn</ns1:DictionaryLanguage>
     <ns1:FormatVersion>0</ns1:FormatVersion>
     <ns1:DictionaryVersion>1</ns1:DictionaryVersion>
@@ -83,7 +85,8 @@ namespace Studyzy.IMEWLConverter.IME
     <ns1:CommentInsertion>true</ns1:CommentInsertion>
     <ns1:IconID>25</ns1:IconID>
   </ns1:DictionaryHeader>
-");
+"
+            );
             for (int i = 0; i < wlList.Count; i++)
             {
                 try
@@ -91,9 +94,7 @@ namespace Studyzy.IMEWLConverter.IME
                     sb.Append(ExportLine(wlList[i]));
                     sb.Append("\r\n");
                 }
-                catch
-                {
-                }
+                catch { }
             }
             sb.Append("</ns1:Dictionary>");
             return new List<string>() { sb.ToString() };
@@ -137,7 +138,10 @@ namespace Studyzy.IMEWLConverter.IME
             var namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             namespaceManager.AddNamespace("ns1", "http://www.microsoft.com/ime/dctx");
             var wlList = new WordLibraryList();
-            XmlNodeList xns = xmlDoc.SelectNodes("//ns1:Dictionary/ns1:DictionaryEntry", namespaceManager);
+            XmlNodeList xns = xmlDoc.SelectNodes(
+                "//ns1:Dictionary/ns1:DictionaryEntry",
+                namespaceManager
+            );
             CountWord = xns.Count;
             for (int i = 0; i < xns.Count; i++)
             {
@@ -147,14 +151,16 @@ namespace Studyzy.IMEWLConverter.IME
                 var wl = new WordLibrary();
                 wl.Word = word;
                 wl.Rank = 1;
-                wl.PinYin = py.Split(new[] { ' ', '1', '2', '3', '4' }, StringSplitOptions.RemoveEmptyEntries);
+                wl.PinYin = py.Split(
+                    new[] { ' ', '1', '2', '3', '4' },
+                    StringSplitOptions.RemoveEmptyEntries
+                );
                 CurrentStatus = i;
                 wlList.Add(wl);
             }
 
             return wlList;
         }
-
 
         public WordLibraryList ImportLine(string line)
         {

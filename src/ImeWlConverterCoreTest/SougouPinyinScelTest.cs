@@ -15,18 +15,17 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.IME;
 using System;
 using System.IO;
 using System.Net;
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter.Test
 {
     [TestFixture]
     internal class SougouPinyinScelTest : BaseTest
     {
-
         [OneTimeSetUp]
         public override void InitData()
         {
@@ -41,11 +40,15 @@ namespace Studyzy.IMEWLConverter.Test
         [TestCase]
         public void TestImportLine()
         {
-            Assert.Catch(() =>
-            {
-                importer.ImportLine("test");
-            }, "Scel格式是二进制文件，不支持流转换");
+            Assert.Catch(
+                () =>
+                {
+                    importer.ImportLine("test");
+                },
+                "Scel格式是二进制文件，不支持流转换"
+            );
         }
+
         [TestCase("诗词名句大全.scel"), Description("较慢，按需启用"), Explicit()]
         public void TestImportBigScel(string filePath)
         {
@@ -61,6 +64,7 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.AreEqual(lib[0].SingleCode, "a");
             Assert.AreEqual(lib[0].Word, "阿秤亦闻有笔端");
         }
+
         [TestCase("唐诗300首【官方推荐】.scel")]
         public void TestImportSmallScel(string filePath)
         {
@@ -77,6 +81,7 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.AreEqual(lib[0].Word, "哀江头");
             Assert.AreEqual(lib[0].WubiCode, null);
         }
+
         [TestCase("唐诗300首【官方推荐】.scel")]
         public void TestListScelInfo(string filePath)
         {
@@ -92,7 +97,9 @@ namespace Studyzy.IMEWLConverter.Test
             Assert.True(info["Sample"].Contains("张九龄 侧见双翠鸟"));
         }
 
-        [TestCase("https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D%E3%80%90%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E3%80%91&f=detail")]
+        [TestCase(
+            "https://pinyin.sogou.com/d/dict/download_cell.php?id=4&name=%E7%BD%91%E7%BB%9C%E6%B5%81%E8%A1%8C%E6%96%B0%E8%AF%8D%E3%80%90%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90%E3%80%91&f=detail"
+        )]
         [Description("按需使用。下载1MB，用时1秒"), Explicit()]
         public void TestLatestScelOnWeb(string url)
         {

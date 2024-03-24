@@ -15,24 +15,23 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters
 {
     /*
      * 二字词：取每个字的前两位编码。例如“计算”取“JP”+“SQ”，即：“JPSQ”。
-　　三字词：取第一字的前二位编码和最后两个字的第一码。例如“计算机”取“JPSJ”。
-　　四字词：取每个字的第一码。例如“兴高采烈”取“XGCL”。
-　　多字词（四字以上词）：取前三字和最后一字的第一码（前三末一）。
+三字词：取第一字的前二位编码和最后两个字的第一码。例如“计算机”取“JPSJ”。
+四字词：取每个字的第一码。例如“兴高采烈”取“XGCL”。
+多字词（四字以上词）：取前三字和最后一字的第一码（前三末一）。
      */
 
     public abstract class ErbiGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
-
         /// <summary>
         ///     二笔的编码可能是一字多码的
         /// </summary>
@@ -53,7 +52,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                     string txt = Helpers.DictionaryHelper.GetResourceContent("Erbi.txt");
 
                     erbiDic = new Dictionary<char, IList<string>>();
-                    foreach (string line in txt.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (
+                        string line in txt.Split(
+                            new[] { "\r\n" },
+                            StringSplitOptions.RemoveEmptyEntries
+                        )
+                    )
                     {
                         string[] arr = line.Split('\t');
                         if (arr[0].Length == 0)
@@ -75,9 +79,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
         }
 
-
-
-
         #region IWordCodeGenerater Members
 
         protected PinyinGenerater pinyinGenerater = new PinyinGenerater();
@@ -86,8 +87,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             get { return false; }
         }
-
-
 
         public override Code GetCodeOfString(string str)
         {
@@ -101,7 +100,6 @@ namespace Studyzy.IMEWLConverter.Generaters
         {
             return ErbiDic[str];
         }
-
 
         public bool Is1CharMutiCode
         {
@@ -143,7 +141,6 @@ namespace Studyzy.IMEWLConverter.Generaters
             }
             var codes = new List<IList<string>>();
 
-
             try
             {
                 if (str.Length == 1)
@@ -163,7 +160,12 @@ namespace Studyzy.IMEWLConverter.Generaters
                 }
                 else
                 {
-                    codes.Add(new List<string> { py[0][0].ToString() + py[1][0] + py[2][0] + py[str.Length - 1][0] });
+                    codes.Add(
+                        new List<string>
+                        {
+                            py[0][0].ToString() + py[1][0] + py[2][0] + py[str.Length - 1][0]
+                        }
+                    );
                 }
             }
             catch (Exception ex)

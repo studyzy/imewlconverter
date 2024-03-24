@@ -4,18 +4,46 @@
  * Licensed under the GNU General Public License v3.0.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     public class SougouPinyinDict
     {
-        public static readonly ReadOnlyCollection<int> DatatypeHashSize = new List<int> { 0, 27, 414, 512, -1, -1, 512, 0 }.AsReadOnly();
-        public static readonly ReadOnlyCollection<int> KeyItemDataTypeSize = new List<int> { 4, 1, 1, 2, 1, 2, 2, 4, 4, 8, 4, 4, 4, 0, 0, 0 }.AsReadOnly();
+        public static readonly ReadOnlyCollection<int> DatatypeHashSize = new List<int>
+        {
+            0,
+            27,
+            414,
+            512,
+            -1,
+            -1,
+            512,
+            0
+        }.AsReadOnly();
+        public static readonly ReadOnlyCollection<int> KeyItemDataTypeSize = new List<int>
+        {
+            4,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            4,
+            4,
+            8,
+            4,
+            4,
+            4,
+            0,
+            0,
+            0
+        }.AsReadOnly();
 
         #region structures
         public struct KeyItem
@@ -69,7 +97,11 @@ namespace Studyzy.IMEWLConverter.IME
         #region constructors
         public SougouPinyinDict() { }
 
-        public SougouPinyinDict(List<KeyItem> keyList, List<AttrItem> attributeList, List<uint> aIntList)
+        public SougouPinyinDict(
+            List<KeyItem> keyList,
+            List<AttrItem> attributeList,
+            List<uint> aIntList
+        )
         {
             KeyList = keyList;
             AttributeList = attributeList;
@@ -118,7 +150,9 @@ namespace Studyzy.IMEWLConverter.IME
             Debug.Assert(offset <= header.DataSize);
             if (header.UsedDataSize > 0 && offset > header.UsedDataSize)
             {
-                Debug.WriteLine($"GetData overflow data_id: {dataId} offset: {offset}\nheader [ used: {header.UsedDataSize} size: {header.DataSize} ]");
+                Debug.WriteLine(
+                    $"GetData overflow data_id: {dataId} offset: {offset}\nheader [ used: {header.UsedDataSize} size: {header.DataSize} ]"
+                );
             }
 
             return GetDataStorePosition(dataId) + offset;
@@ -223,9 +257,11 @@ namespace Studyzy.IMEWLConverter.IME
         private int GetAttributeDataSize(KeyItem key)
         {
             var val = 0;
-            for (var i = key.DataType.Count - AttributeList[key.AttrIdx].Count;
+            for (
+                var i = key.DataType.Count - AttributeList[key.AttrIdx].Count;
                 i < key.DataType.Count;
-                i++)
+                i++
+            )
             {
                 val += KeyItemDataTypeSize[key.DataType[i]];
             }

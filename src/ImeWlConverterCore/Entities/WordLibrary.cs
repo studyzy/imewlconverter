@@ -15,10 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Helpers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Entities
 {
@@ -67,7 +67,6 @@ namespace Studyzy.IMEWLConverter.Entities
             set { rank = value; }
         }
 
-
         public CodeType CodeType { get; set; }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
-                if (Codes == null)//Code生成失败
+                if (Codes == null) //Code生成失败
                 {
                     return null;
                 }
@@ -113,8 +112,14 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
-                if ((CodeType == CodeType.Pinyin || CodeType == CodeType.Zhuyin || CodeType == CodeType.TerraPinyin) &&
-                    Codes.Count > 0)
+                if (
+                    (
+                        CodeType == CodeType.Pinyin
+                        || CodeType == CodeType.Zhuyin
+                        || CodeType == CodeType.TerraPinyin
+                    )
+                    && Codes.Count > 0
+                )
                 {
                     var result = new string[Codes.Count];
                     int i = 0;
@@ -153,8 +158,8 @@ namespace Studyzy.IMEWLConverter.Entities
             else
                 len = Codes[0][0].Length;
             return len;
-
         }
+
         /// <summary>
         ///     词的拼音字符串，可以单独设置的一个属性，如果没有设置该属性，而获取该属性，则返回PinYin属性和“'”组合的字符串
         /// </summary>
@@ -175,7 +180,11 @@ namespace Studyzy.IMEWLConverter.Entities
         {
             get
             {
-                if (CodeType == CodeType.Wubi || CodeType == CodeType.Wubi98 || CodeType == CodeType.WubiNewAge)
+                if (
+                    CodeType == CodeType.Wubi
+                    || CodeType == CodeType.Wubi98
+                    || CodeType == CodeType.WubiNewAge
+                )
                 {
                     return Codes[0][0];
                 }
@@ -193,6 +202,7 @@ namespace Studyzy.IMEWLConverter.Entities
             CodeType = type;
             Codes = new Code(str);
         }
+
         /// <summary>
         /// 设置没有任何分隔符的拼音，由系统重新分割开
         /// </summary>
@@ -205,7 +215,7 @@ namespace Studyzy.IMEWLConverter.Entities
                 var match = false;
                 foreach (var cpy in pys)
                 {
-                    if (pinyin.StartsWith(cpy))//拼音匹配正确
+                    if (pinyin.StartsWith(cpy)) //拼音匹配正确
                     {
                         match = true;
                         pinyin = pinyin.Substring(cpy.Length);
@@ -218,8 +228,8 @@ namespace Studyzy.IMEWLConverter.Entities
                     Codes.Add(pys);
                 }
             }
-
         }
+
         /// <summary>
         ///     设置无多音字的词的编码
         /// </summary>
@@ -242,6 +252,7 @@ namespace Studyzy.IMEWLConverter.Entities
             CodeType = type;
             Codes = new Code(str);
         }
+
         public void SetCode(CodeType type, Code code)
         {
             CodeType = type;
@@ -273,7 +284,12 @@ namespace Studyzy.IMEWLConverter.Entities
         public override string ToString()
         {
             var codesList = Codes.ToCodeString(",");
-            return "WordLibrary 汉字：" + word + " Codes:" + string.Join(";", codesList.ToArray()) + " 词频：" + rank;
+            return "WordLibrary 汉字："
+                + word
+                + " Codes:"
+                + string.Join(";", codesList.ToArray())
+                + " 词频："
+                + rank;
         }
 
         #endregion

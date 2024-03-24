@@ -15,11 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.Generaters;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -44,11 +44,14 @@ namespace Studyzy.IMEWLConverter.IME
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message + " Your system doesn't support GBK, try to use GB2312.");
+                    Console.WriteLine(
+                        ex.Message + " Your system doesn't support GBK, try to use GB2312."
+                    );
                     return Encoding.GetEncoding("GB2312");
                 }
             }
         }
+
         #region IWordLibraryExport 成员
 
         //private readonly IWordCodeGenerater codeGenerater = new Cangjie5Generater();
@@ -73,7 +76,6 @@ namespace Studyzy.IMEWLConverter.IME
             return sb.ToString();
         }
 
-
         public IList<string> Export(WordLibraryList wlList)
         {
             var sb = new StringBuilder();
@@ -90,9 +92,6 @@ namespace Studyzy.IMEWLConverter.IME
         #region IWordLibraryImport 成员
 
         private readonly IWordCodeGenerater pyGenerater = new PinyinGenerater();
-
-
-
 
         public override WordLibraryList ImportLine(string line)
         {

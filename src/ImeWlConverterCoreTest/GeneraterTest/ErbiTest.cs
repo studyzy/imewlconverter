@@ -15,21 +15,23 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using NUnit.Framework;
-using Studyzy.IMEWLConverter.Generaters;
 using System.Collections.Generic;
 using System.Diagnostics;
+using NUnit.Framework;
+using Studyzy.IMEWLConverter.Generaters;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest
 {
     class ErbiTest
     {
         private IWordCodeGenerater generater;
+
         [OneTimeSetUp]
         public void SetUp()
         {
             generater = new QingsongErbiGenerater();
         }
+
         [TestCase("中国人民", "zgrm")]
         [TestCase("中华人民共和国", "zhrg")]
         public void TestOneWord(string c, string code)
@@ -45,7 +47,6 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
                 }
             }
             Assert.Fail("not matched code," + c);
-
         }
 
         [Test, Description("数据量太大，手动启动"), Explicit()]
@@ -75,6 +76,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest
             //    }
             //}
         }
+
         private bool IsContain(IList<string> str, string code)
         {
             foreach (var s in str)

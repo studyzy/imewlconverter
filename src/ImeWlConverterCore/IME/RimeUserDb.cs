@@ -15,21 +15,22 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
     /// <summary>
     /// RIME是一个输入法框架，支持多种输入法编码，词库规则是：
     /// 词语+Tab+编码（拼音空格隔开）+Tab+词频
-    /// 
+    ///
     /// </summary>
     [ComboBoxShow(ConstantString.RIME_USERDB, ConstantString.RIME_USERDB_C, 150)]
     public class RimeUserDb : BaseTextImport, IWordLibraryTextImport, IMultiCodeType
     {
         private string lineSplitString;
+
         public RimeUserDb()
         {
             CodeType = CodeType.Pinyin;
@@ -63,6 +64,7 @@ namespace Studyzy.IMEWLConverter.IME
             }
             return "\r\n";
         }
+
         public override Encoding Encoding
         {
             get { return new UTF8Encoding(false); }
@@ -90,7 +92,6 @@ namespace Studyzy.IMEWLConverter.IME
                 //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
                 wl.SetCode(CodeType, code);
             }
-
 
             var wll = new WordLibraryList();
             wll.Add(wl);

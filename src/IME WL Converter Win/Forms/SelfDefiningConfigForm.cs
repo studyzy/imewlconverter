@@ -15,13 +15,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
-using Studyzy.IMEWLConverter.IME;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Studyzy.IMEWLConverter.Entities;
+using Studyzy.IMEWLConverter.IME;
 
 namespace Studyzy.IMEWLConverter
 {
@@ -30,6 +30,7 @@ namespace Studyzy.IMEWLConverter
         private readonly List<string> fromWords = new List<string>();
 
         private readonly SelfDefining ime = new SelfDefining();
+
         //private bool isImport = true;
 
         public SelfDefiningConfigForm()
@@ -44,7 +45,6 @@ namespace Studyzy.IMEWLConverter
         /// </summary>
         public ParsePattern SelectedParsePattern { get; set; }
 
-
         private void InitParsePattern()
         {
             SelectedParsePattern = new ParsePattern();
@@ -54,7 +54,6 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.CodeSplitType = BuildType.None;
             SelectedParsePattern.Sort = new List<int> { 1, 2, 3 };
             SelectedParsePattern.SplitString = " ";
-
 
             ShowSample();
         }
@@ -71,12 +70,18 @@ namespace Studyzy.IMEWLConverter
             SelectedParsePattern.LineSplitString = GetLineSplitString();
             SelectedParsePattern.SplitString = GetSplitString(cbbxSplitString.Text);
 
-            SelectedParsePattern.CodeType = cbxCodeType.Text == "拼音编码" ? CodeType.Pinyin : CodeType.UserDefine;
+            SelectedParsePattern.CodeType =
+                cbxCodeType.Text == "拼音编码" ? CodeType.Pinyin : CodeType.UserDefine;
             if (cbxCodeType.Text != "拼音编码")
             {
                 if (string.IsNullOrEmpty(txbFilePath.Text) || !File.Exists(txbFilePath.Text))
                 {
-                    MessageBox.Show("未指定字符编码映射文件，无法对词库进行自定义编码的生成", "自定义编码", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "未指定字符编码映射文件，无法对词库进行自定义编码的生成",
+                        "自定义编码",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
                     return false;
                 }
                 SelectedParsePattern.TextEncoding = cbxTextEncoding.SelectedEncoding;
@@ -101,7 +106,6 @@ namespace Studyzy.IMEWLConverter
                     return cbxLineSplitString.Text;
             }
         }
-
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -134,7 +138,6 @@ namespace Studyzy.IMEWLConverter
             }
         }
 
-
         private void cbxIncludePinyin_CheckedChanged(object sender, EventArgs e)
         {
             SelectedParsePattern.ContainCode = cbxIncludePinyin.Checked;
@@ -154,10 +157,20 @@ namespace Studyzy.IMEWLConverter
         private WordLibraryList SampleWL()
         {
             var list = new WordLibraryList();
-            string[] lines = rtbFrom.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = rtbFrom.Text.Split(
+                new[] { '\r', '\n' },
+                StringSplitOptions.RemoveEmptyEntries
+            );
             foreach (string line in lines)
             {
-                list.Add(new WordLibrary { Word = line, Rank = 1234, CodeType = CodeType.NoCode });
+                list.Add(
+                    new WordLibrary
+                    {
+                        Word = line,
+                        Rank = 1234,
+                        CodeType = CodeType.NoCode
+                    }
+                );
             }
             return list;
         }
@@ -248,7 +261,8 @@ namespace Studyzy.IMEWLConverter
         {
             if (cbxCodeFormat.Text == "五笔规则")
             {
-                rtbCodeFormat.Text = @"code_e2=p11+p12+p21+p22
+                rtbCodeFormat.Text =
+                    @"code_e2=p11+p12+p21+p22
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";
             }

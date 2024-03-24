@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using Studyzy.IMEWLConverter.Entities;
 using System.Collections.Generic;
 using System.Text;
+using Studyzy.IMEWLConverter.Entities;
 
 namespace Studyzy.IMEWLConverter.IME
 {
@@ -54,7 +54,6 @@ namespace Studyzy.IMEWLConverter.IME
             sb.Append(wl.Word);
             return sb.ToString();
         }
-
 
         public IList<string> Export(WordLibraryList wlList)
         {
