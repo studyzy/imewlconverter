@@ -43,7 +43,7 @@ namespace Studyzy.IMEWLConverter.IME
                         break;
                     lineBytes.AddRange(bytes);
                 } while (true);
-                var decoded = Decode(lineBytes.ToArray());
+                var decoded = Decode(lineBytes);
                 var line = Encoding.Unicode.GetString(decoded);
                 // 忽略英文单词
                 if (cnFlag && (line == "<enword>" || line == "<sysusrword>"))
@@ -95,38 +95,34 @@ namespace Studyzy.IMEWLConverter.IME
         public BaiduPinyinBackup()
         {
             DECODE_TABLE = new byte[256];
-            for (var i = 0; i < 256; i++)
-            {
-                DECODE_TABLE[i] = (byte)i;
-            }
             for (var i = 0; i < TABLE.Length; i++)
             {
                 DECODE_TABLE[TABLE[i]] = (byte)i;
             }
         }
 
-        public static byte[] Decode(byte[] data)
+        public static byte[] Decode(List<byte> data)
         {
-            if (data.Length % 4 != 2)
+            if (data.Count % 4 != 2)
                 throw new ArgumentException("Invalid data length");
 
-            byte base64Remainder = (byte)(data[data.Length - 2] - 65);
-            if (base64Remainder < 0 || base64Remainder > 2 || data[data.Length - 1] != 0)
+            byte base64Remainder = (byte)(data[data.Count - 2] - 65);
+            if (base64Remainder > 2 || data[data.Count - 1] != 0)
                 throw new ArgumentException("Invalid padding");
 
-            byte[] newData = new byte[data.Length - 2];
-            for (int i = 0; i < data.Length - 2; i++)
+            // 映射魔改过的 base64 编码表
+            for (int i = 0; i < data.Count - 2; i++)
             {
-                newData[i] = DECODE_TABLE[data[i]];
+                data[i] = DECODE_TABLE[data[i]];
             }
-
-            var transformed = new List<byte>();
-            for (int i = 0; i < newData.Length - 2; i += 4)
+            // 将每 4 个字节转换为 3 个字节
+            var transformed = new List<byte>(capacity: data.Count / 4 * 3);
+            for (int i = 0; i < data.Count - 2; i += 4)
             {
-                byte highBits = newData[i + 3];
-                transformed.Add((byte)(newData[i] | (highBits & 0b110000) << 2));
-                transformed.Add((byte)(newData[i + 1] | (highBits & 0b1100) << 4));
-                transformed.Add((byte)(newData[i + 2] | (highBits & 0b11) << 6));
+                byte highBits = data[i + 3];
+                transformed.Add((byte)(data[i] | (highBits & 0b110000) << 2));
+                transformed.Add((byte)(data[i + 1] | (highBits & 0b1100) << 4));
+                transformed.Add((byte)(data[i + 2] | (highBits & 0b11) << 6));
             }
 
             if (base64Remainder > 0)
@@ -138,29 +134,24 @@ namespace Studyzy.IMEWLConverter.IME
                     transformed.RemoveAt(transformed.Count - 1);
                 }
             }
+
             var result = transformed.ToArray();
-
-            List<byte> finalResult = new List<byte>();
-            for (int i = 0; i < result.Length / 4 * 4; i += 4)
+            for (int i = 0; i < result.Length; i += 4)
             {
-                uint chunk = MASK ^ BitConverter.ToUInt32(result, i);
-                chunk = (chunk & 0x1FFFFFFF) << 3 | chunk >> 29;
-                finalResult.AddRange(BitConverter.GetBytes(chunk));
-            }
-
-            if (result.Length % 4 != 0)
-            {
-                byte[] bytes = result.Skip(result.Length / 4 * 4).ToArray();
-                int num = 0;
-                for (int i = 0; i < bytes.Length; i++)
+                uint chunk;
+                if (i + 4 > result.Length)
                 {
-                    num |= bytes[i] << (i * 8);
+                    var chunkBytes = new byte[4];
+                    Array.Copy(result, i, chunkBytes, 0, result.Length - i);
+                    chunk = MASK ^ BitConverter.ToUInt32(chunkBytes, 0);
+                    Buffer.BlockCopy(BitConverter.GetBytes(chunk), 0, result, i, result.Length - i);
+                    break;
                 }
-                uint chunk = MASK ^ (uint)num;
-                finalResult.AddRange(BitConverter.GetBytes(chunk).Take(result.Length % 4));
+                chunk = MASK ^ BitConverter.ToUInt32(result, i);
+                chunk = (chunk & 0x1FFFFFFF) << 3 | chunk >> 29;
+                Buffer.BlockCopy(BitConverter.GetBytes(chunk), 0, result, i, 4);
             }
-
-            return finalResult.ToArray();
+            return result;
         }
 
         #endregion
