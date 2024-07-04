@@ -77,6 +77,7 @@ namespace Studyzy.IMEWLConverter
         public const string CHINESE_PYIM = "Chinese-pyim";
         public const string EMOJI = "Emoji";
         public const string MAC_PLIST = "Mac简体拼音";
+        public const string LIBIME_TEXT = "LibIME 拼音词库（文本格式）";
 
         //简码，控制台用
         public const string BAIDU_SHOUJI_C = "bdsj";
@@ -131,5 +132,6 @@ namespace Studyzy.IMEWLConverter
         public const string CHINESE_PYIM_C = "pyim";
         public const string EMOJI_C = "emoji";
         public const string MAC_PLIST_C = "plist";
+        public const string LIBIME_TEXT_C = "libimetxt";
     }
 }

@@ -394,7 +394,7 @@ namespace Studyzy.IMEWLConverter
                             cbxImportItems.Add(cbxa);
                             imports.Add(
                                 cbxa.ShortCode,
-                                Type.GetType(type.FullName) as IWordLibraryImport
+                                assembly.CreateInstance(type.FullName) as IWordLibraryImport
                             );
                         }
                         if (type.GetInterface("IWordLibraryExport") != null)
@@ -403,7 +403,7 @@ namespace Studyzy.IMEWLConverter
                             cbxExportItems.Add(cbxa);
                             exports.Add(
                                 cbxa.ShortCode,
-                                Type.GetType(type.FullName) as IWordLibraryExport
+                                assembly.CreateInstance(type.FullName) as IWordLibraryExport
                             );
                         }
                     }
