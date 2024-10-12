@@ -3,7 +3,7 @@
 # 深蓝词库转换
 
 [![Stars](https://img.shields.io/github/stars/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter/stargazers)
-![Actions Check](https://github.com/studyzy/imewlconverter/actions/workflows/winform.yml/badge.svg)
+![Actions Check](https://github.com/studyzy/imewlconverter/actions/workflows/commit.yml/badge.svg)
 ![License](https://img.shields.io/github/license/studyzy/imewlconverter)
 ![Repo size](https://img.shields.io/github/repo-size/studyzy/imewlconverter)
 [![Code Count](https://tokei.rs/b1/github/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter)
