@@ -44,9 +44,6 @@ jobs:
 
   macos:
     runs-on: macos-latest
-    strategy:
-      matrix:
-        arch: [x64, arm64]
     steps:
       - uses: actions/checkout@v4
 
@@ -68,14 +65,18 @@ jobs:
         run: dotnet restore ./src/ImeWlConverterCmd
 
       - name: Publish
-        run: dotnet publish --configuration Release --output ./publish-${{ matrix.arch }} ./src/ImeWlConverterCmd -a ${{ matrix.arch }}
+        run: |
+          dotnet publish --configuration Release --output ./publish-x64 ./src/ImeWlConverterCmd -a x64
+          dotnet publish --configuration Release --output ./publish-arm64 ./src/ImeWlConverterCmd -a arm64
 
       - name: Archive
-        run: tar -czf imewlconverter_macOS-${{ matrix.arch }}.tar.gz publish-${{ matrix.arch }}/*
+        run: |
+          tar -czf imewlconverter_macOS-x64.tar.gz publish-x64/*
+          tar -czf imewlconverter_macOS-arm64.tar.gz publish-arm64/*
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "imewlconverter_macOS-${{ matrix.arch }}.tar.gz"
+          artifacts: "imewlconverter_macOS-x64.tar.gz,imewlconverter_macOS-arm64.tar.gz"
           allowUpdates: true
           body: |
             ${{ steps.changelog.outputs.changes }}

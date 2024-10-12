@@ -22,14 +22,11 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "imewlconverter_Linux.tar.gz"
+          name: "imewlconverter_Linux"
           path: ./publish
 
   macos:
     runs-on: macos-latest
-    strategy:
-      matrix:
-        arch: [x64, arm64]
     steps:
       - uses: actions/checkout@v4
 
@@ -42,13 +39,21 @@ jobs:
         run: dotnet restore ./src/ImeWlConverterCmd
 
       - name: Publish
-        run: dotnet publish --configuration Release --output ./publish-${{ matrix.arch }} ./src/ImeWlConverterCmd -a ${{ matrix.arch }}
+        run: |
+          dotnet publish --configuration Release --output ./publish-x64 ./src/ImeWlConverterCmd -a x64
+          dotnet publish --configuration Release --output ./publish-arm64 ./src/ImeWlConverterCmd -a arm64
 
-      - name: Upload Artifact
+      - name: Upload Artifact (x64)
         uses: actions/upload-artifact@v4
         with:
-          name: "imewlconverter_macOS-${{ matrix.arch }}"
-          path: ./publish-${{ matrix.arch }}
+          name: "imewlconverter_macOS-x64"
+          path: ./publish-x64
+
+      - name: Upload Artifact (arm64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: "imewlconverter_macOS-arm64"
+          path: ./publish-arm64
 
   windows:
     runs-on: windows-latest
