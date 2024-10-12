@@ -36,7 +36,9 @@ namespace Studyzy.IMEWLConverter.IME
 
             sb.Append(wl.Word);
             sb.Append(" ");
-            sb.Append(wl.GetPinYinString("'", BuildType.None));
+            sb.Append(wl.GetPinYinString("'", BuildType.None)
+                .Replace("lue", "lve")
+                .Replace("nue", "nve"));
             sb.Append(" ");
             sb.Append(wl.Rank);
 
