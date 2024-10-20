@@ -474,13 +474,18 @@ namespace Studyzy.IMEWLConverter
 
         private void ToolStripMenuItemAccessWebSite_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/studyzy/imewlconverter/releases");
+            Process.Start(
+                new ProcessStartInfo("https://github.com/studyzy/imewlconverter/releases")
+                {
+                    UseShellExecute = true
+                }
+            );
         }
 
         private void ToolStripMenuItemDonate_Click(object sender, EventArgs e)
         {
             new DonateForm().ShowDialog();
-            //Process.Start("https://github.com/studyzy/imewlconverter/wiki/Donate");
+            //Process.Start(new ProcessStartInfo"https://github.com/studyzy/imewlconverter/wiki/Donate") { UseShellExecute = true });
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
