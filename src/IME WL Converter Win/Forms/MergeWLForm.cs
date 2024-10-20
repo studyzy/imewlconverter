@@ -92,9 +92,9 @@ namespace Studyzy.IMEWLConverter
             }
         }
 
-        private Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
+        private static Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
         {
-            string[] lines = txt.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = txt.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
             var mainDict = new Dictionary<string, List<string>>();
             foreach (string line in lines)
             {
@@ -102,7 +102,7 @@ namespace Studyzy.IMEWLConverter
                 string key = array[0];
                 if (!mainDict.ContainsKey(key))
                 {
-                    mainDict.Add(key, new List<string>());
+                    mainDict.Add(key, []);
                 }
                 for (int i = 1; i < array.Length; i++)
                 {
@@ -113,20 +113,19 @@ namespace Studyzy.IMEWLConverter
             return mainDict;
         }
 
-        private void Merge2Dict(
+        private static void Merge2Dict(
             Dictionary<string, List<string>> d1,
             Dictionary<string, List<string>> d2
         )
         {
             foreach (var pair in d2)
             {
-                if (!d1.ContainsKey(pair.Key))
+                if (!d1.TryGetValue(pair.Key, out List<string> v))
                 {
                     d1.Add(pair.Key, pair.Value);
                 }
                 else
                 {
-                    List<string> v = d1[pair.Key];
                     foreach (string word in pair.Value)
                     {
                         if (!v.Contains(word))
@@ -143,14 +142,17 @@ namespace Studyzy.IMEWLConverter
             richTextBox1.AppendText(message + "\r\n");
         }
 
-        private string Dict2String(Dictionary<string, List<string>> dictionary)
+        private static string Dict2String(Dictionary<string, List<string>> dictionary)
         {
             var sb = new StringBuilder();
             foreach (var pair in dictionary)
             {
                 sb.Append(pair.Key);
-                sb.Append(" ");
-                sb.Append(string.Join(" ", pair.Value.ToArray()));
+                if (pair.Value != null && pair.Value.Count > 0)
+                {
+                    sb.Append(' ');
+                    sb.Append(string.Join(" ", [.. pair.Value]));
+                }
                 sb.Append("\r\n");
             }
             return sb.ToString();
