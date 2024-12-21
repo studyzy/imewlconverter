@@ -536,7 +536,8 @@ namespace Studyzy.IMEWLConverter.IME
                     var byte2 = new byte[2];
                     fp.Read(byte2, 0, 2);
                     var pyIndex = BitConverter.ToInt16(byte2, 0);
-                    pinyin[j] = pinyinIndex[pyIndex];
+                    if (pyIndex >= 0 && pyIndex < pinyinIndex.Length)
+                        pinyin[j] = pinyinIndex[pyIndex];
                 }
                 re.Add(
                     new WordLibrary()
