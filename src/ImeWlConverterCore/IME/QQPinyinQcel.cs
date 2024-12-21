@@ -40,7 +40,6 @@ namespace Studyzy.IMEWLConverter.IME
         #endregion
 
         private Dictionary<int, string> pyDic = new Dictionary<int, string>();
-        private static char[] a2zchar => "abcdefghijklmnopqrstuvwxyz".ToCharArray();
 
         #region IWordLibraryImport Members
 
@@ -171,7 +170,7 @@ namespace Studyzy.IMEWLConverter.IME
                 if (key < pyDic.Count)
                     wordPY.Add(pyDic[key]);
                 else
-                    wordPY.Add(a2zchar[key - pyDic.Count].ToString());
+                    wordPY.Add(((char)(key - pyDic.Count + 97)).ToString());
                 //return null; // 用于调试，忽略编码异常的记录，不中止运行
             }
             //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号

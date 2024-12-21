@@ -179,7 +179,10 @@ namespace Studyzy.IMEWLConverter.IME
             for (int i = 0; i < count / 2; i++)
             {
                 int key = str[i * 2] + str[i * 2 + 1] * 256;
-                wordPY.Add(pyDic[key]);
+                if (key < pyDic.Count)
+                    wordPY.Add(pyDic[key]);
+                else
+                    wordPY.Add(((char)(key - pyDic.Count + 97)).ToString());
             }
             //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号
             //接下来读词语
