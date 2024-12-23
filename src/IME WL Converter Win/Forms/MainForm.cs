@@ -104,6 +104,8 @@ namespace Studyzy.IMEWLConverter
         {
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             Text = "深蓝词库转换" + v.Major + "." + v.Minor;
+            if (v.Revision != 0)
+                Text += "." + v.Revision;
         }
 
         private void InitOpenFileDialogFilter(string select)
