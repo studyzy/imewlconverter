@@ -827,13 +827,13 @@
 'shen'ling 参苓
 'shen'zhu 参术
 'ku'shen 苦参
-di'shen' 地参
+'di'shen 地参
 'zi'shen 紫参
 'shen'xiu 参宿
 'zi'xiu 觜宿
 'ban'shen 板参
 'quan'shen 拳参
-shen'shang' 参商
+'shen'shang 参商
 'e'zhu 莪术
 'bai'zhu 白术
 'cang'zhu 苍术
@@ -924,7 +924,7 @@ shen'shang' 参商
 'bie'zhi'shen 别直参
 'hai'er'shen 孩儿参
 'tai'zi'shen 太子参
-guai'gun'shen' 拐棍参
+'guai'gun'shen 拐棍参
 'gao'li'shen 高丽参
 'hua'qi'shen 花旗参
 'bu'de'liao 不得了
