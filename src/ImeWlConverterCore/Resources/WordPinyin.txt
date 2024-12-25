@@ -808,6 +808,7 @@
 'zang'pi 臧否
 'pi'ji 否极
 'pi'lai 否来
+'pi'gua 否卦
 'xiao'xu 小畜
 'da'xu 大畜
 'zeng'shen 曾参
