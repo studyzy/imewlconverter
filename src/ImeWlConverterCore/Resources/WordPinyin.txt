@@ -263,6 +263,14 @@
 'zhao'xi 朝夕
 'meng'de 猛地
 'meng'shan'du 孟山都
+'du'shi 都市
+'du'cheng 都城
+'cheng'du 成都
+'du'yun 都匀
+'gu'du 古都
+'gu'du 故都
+'du'jiang'yan 都江堰
+'jing'du 京都
 'xing'wen 行文
 'su'ming 宿命
 'dei'ren 得人
