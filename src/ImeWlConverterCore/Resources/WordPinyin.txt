@@ -708,6 +708,8 @@
 'xin'zhu 新著
 'ji'chang 极长
 'chong'hui 重会
+'kuai'ji 会计
+'cai'kuai 财会
 'chang'sheng 长声
 'xie'shu 解数
 'liao'zhang 了账
