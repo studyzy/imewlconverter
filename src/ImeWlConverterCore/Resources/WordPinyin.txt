@@ -67,7 +67,16 @@
 'ju'zhang 局长
 'ting'zhang 厅长
 'fan'xing 反省
-'xing'wu 醒悟
+'xing'wu 省悟
+'xing'qin 省亲
+'xing'shi 省视
+'xing'wen 省问
+'shen'xing 深省
+'bu'xing'ren'shi 不省人事
+'san'xing'wu'sheng 三省吾身
+'xing'cha 省察
+'zi'xing 自省
+'nei'xing 内省
 'yi'jiao 一觉
 'lan'jiao 懒觉
 'shui'jiao 睡觉
