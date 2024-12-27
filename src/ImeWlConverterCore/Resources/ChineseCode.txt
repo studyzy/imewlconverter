@@ -14058,7 +14058,7 @@ D6F4	拄	rygg		zhu3	8.87
 D6F5	瞩	hnty		zhu3	15.27
 D6F6	嘱	knty		zhu3	88.18
 D6F7	主	ygd		zhu3	4882.94
-D6F8	著	aftj		zhu4zhuo2,zhe5	635.73
+D6F8	著	aftj		zhu4,zhuo2,zhe5	635.73
 D6F9	柱	sygg		zhu4	164.46
 D6FA	助	egln	eget	zhu4	778.15
 D6FB	蛀	jygg		zhu4	6.29
