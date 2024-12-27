@@ -61,6 +61,10 @@
 'xian'zhang 县长
 'sheng'zhang 省长
 'wei'yuan'zhang 委员长
+'chu'zhang 处长
+'ke'zhang 科长
+'ju'zhang 局长
+'ting'zhang 厅长
 'fan'xing 反省
 'xing'wu 醒悟
 'yi'jiao 一觉
