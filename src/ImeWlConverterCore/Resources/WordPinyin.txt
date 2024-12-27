@@ -4,7 +4,7 @@
 'gai'lv 概率
 'ji'lv 几率
 'hui'lv 汇率
-'xiu'wei 臭味
+'xiu'wei'xiang'tou 臭味相投
 'tong'xiu 铜臭
 'ning'xi 苎烯
 'xu'shi 圩市
