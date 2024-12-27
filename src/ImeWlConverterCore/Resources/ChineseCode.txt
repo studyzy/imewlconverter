@@ -1,4 +1,4 @@
-﻿8140	丂	gnv		kao3,yu2	0
+8140	丂	gnv		kao3,yu2	0
 8141	丄	hgd		shang4	0
 8142	丅	ghk		xia4	0
 8143	丆	dgt		shi2	0
@@ -896,7 +896,7 @@
 85C8	吶	kmty		na4	0
 85C9	吷	knwy		jue2,xue4	0
 85CA	吺	kmcy	kwcy	dou1,ru2	0
-85CB	吽	krhh	ktgh	hou3,ou1	0
+85CB	吽	krhh	ktgh	hong1,hou3	0
 85CC	吿	rhkf	tgkf	gao4	0
 85CD	呁	kqug		jun4	0
 85CE	呂	ktkf		lv3	0
@@ -1701,7 +1701,7 @@
 89F5	夣	yclq		meng4	0
 89F6	夦	adwq	dwnq	chen3	0
 89F7	夨	gnyi	ngyi	ze4	0
-89F8	夬	nwi		jue2,guai4	0
+89F8	夬	nwi		guai4,jue2	0
 89F9	夰	djj		gao3	0
 89FA	夲	dfj		tao1	0
 89FB	夳	dff		tai4	0
@@ -6752,7 +6752,7 @@ B09E	盀	hlf		qi3	0
 B09F	盁	elf	blf	ying2	0
 B0A0	盃	gilf	dhlf	bei1	0
 B0A1	啊	kbsk		a1	523.86
-B0A2	阿	bskg		a1	1083.94
+B0A2	阿	bskg		a1,e1	1083.94
 B0A3	埃	fctd		ai1	286.59
 B0A4	挨	rctd		ai2	89.73
 B0A5	哎	kaqy	kary	ai1	53.56
@@ -7176,7 +7176,7 @@ B2CA	彩	eset		cai3	325.55
 B2CB	菜	aesu		cai4	256.41
 B2CC	蔡	awfi		cai4	155.65
 B2CD	餐	hqce	hqcv	can1	168.08
-B2CE	参	cder		can1	1093.82
+B2CE	参	cder		can1,shen1,xiu4	1093.82
 B2CF	蚕	gdju		can2	48.3
 B2D0	残	gqgt	gqga	can2	323.91
 B2D1	惭	nlrh		can2	52.76
@@ -7324,7 +7324,7 @@ B3A0	碃	dgeg		qing4	0.03
 B3A1	场	fnrt		chang3	1892
 B3A2	尝	ipfc		chang2	350.91
 B3A3	常	ipkh		chang2	2777.15
-B3A4	长	tayi		zhang3,chang2	4356.08
+B3A4	长	tayi		chang2,zhang3	4356.08
 B3A5	偿	wipc		chang2	203.64
 B3A6	肠	enrt		chang2	118.99
 B3A7	厂	dgt		chang3,an1	352.48
@@ -7404,7 +7404,7 @@ B3F0	仇	wvn		chou2	224.72
 B3F1	绸	xmfk		chou2	47.41
 B3F2	瞅	htoy		chou3	31.28
 B3F3	丑	nfd	nhgg	chou3	264.6
-B3F4	臭	thdu		chou4	79.01
+B3F4	臭	thdu		chou4,xiu4	79.01
 B3F5	初	puvn	puvt	chu1	1168.23
 B3F6	出	bmk		chu1	9534.81
 B3F7	橱	sdgf		chu2	20.87
@@ -7715,7 +7715,7 @@ B5AB	但	wjgg		dan4	4076.19
 B5AC	惮	nujf		dan4	37.24
 B5AD	淡	iooy		dan4	228.12
 B5AE	诞	ythp		dan4	102.56
-B5AF	弹	xujf		dan4,tan2,tan5	687.62
+B5AF	弹	xujf		tan2,dan4	687.62
 B5B0	蛋	nhju		dan4	171.47
 B5B1	当	ivf		dang1	5315.49
 B5B2	挡	rivg		dang3	95.58
@@ -8161,7 +8161,7 @@ B7ED	讽	ymqy	ywry	feng3	67.41
 B7EE	奉	dwfh	dwgj	feng4	565.57
 B7EF	凤	mci	wci	feng4	349.76
 B7F0	佛	wxjh		fo2	611.98
-B7F1	否	gikf	dhkf	fou3	732.29
+B7F1	否	gikf	dhkf	fou3,pi3	732.29
 B7F2	夫	fwi	gggy	fu1	2141.98
 B7F3	敷	geht	syty	fu1	54.95
 B7F4	肤	efwy	egy	fu1	105.67
@@ -8352,7 +8352,7 @@ B8EE	割	pdhj		ge1	160.05
 B8EF	革	afj		ge2	853.81
 B8F0	葛	ajqn		ge3	143.19
 B8F1	格	stkg		ge2	1455.17
-B8F2	蛤	jwgk		ha2	10.68
+B8F2	蛤	jwgk		ha2,ge2	10.68
 B8F3	阁	utkd		ge2	274.01
 B8F4	隔	bgkh		ge2	242.86
 B8F5	铬	qtkg		ge4	4.82
@@ -8905,7 +8905,7 @@ BBDD	惠	gjhn		hui4	273.18
 BBDE	晦	jtxu	jtxy	hui4	53.62
 BBDF	贿	mdeg		hui4	54.38
 BBE0	秽	tmqy		hui4	33.5
-BBE1	会	wfcu		hui4	7994.5
+BBE1	会	wfcu		hui4,kuai4	7994.5
 BBE2	烩	owfc		hui4	2.77
 BBE3	汇	ian		hui4	238.69
 BBE4	讳	yfnh		hui4	55.21
@@ -9279,7 +9279,7 @@ BDD7	阶	bwjh		jie1	583.59
 BDD8	截	fawy		jie2	155.72
 BDD9	劫	fcln	fcet	jie2	152.43
 BDDA	节	abj		jie2	1304.87
-BDDB	桔	sfkg		ju2	15.55
+BDDB	桔	sfkg		jie2,ju2	15.55
 BDDC	杰	sou		jie2	308.15
 BDDD	捷	rgvh		jie2	141.23
 BDDE	睫	hgvh		jie2	13.01
@@ -9495,7 +9495,7 @@ BEF1	抉	rnwy		jue2	11.55
 BEF2	掘	rnbm		jue2	73.37
 BEF3	倔	wnbm		jue4	11.98
 BEF4	爵	elvf		jue2	242.2
-BEF5	觉	ipmq		jiao4,jue2	1569.03
+BEF5	觉	ipmq		jue2,jiao4	1569.03
 BEF6	决	unwy		jue2	1743.91
 BEF7	诀	ynwy		jue2	40.4
 BEF8	绝	xqcn		jue2	953.63
@@ -10212,7 +10212,7 @@ C2C6	缕	xovg		lv5	42.74
 C2C7	虑	hani	hni	lv4	466.37
 C2C8	氯	rnvi	rvii	lv4	28.65
 C2C9	律	tvfh	tvgh	lv4	914.51
-C2CA	率	yxif		lv4	928.35
+C2CA	率	yxif		shuai4,lv4	928.35
 C2CB	滤	ihan	ihny	lv4	21.14
 C2CC	绿	xviy		lv4	345.28
 C2CD	峦	yomj		luan2	20.5
@@ -10553,7 +10553,7 @@ C49F	臒	eawc		wo4	0.11
 C4A0	臓	eadt	eadh		0.05
 C4A1	摹	ajdr		mo2	39.59
 C4A2	蘑	aysd	aosd	mo2	10.32
-C4A3	模	sajd		mo2	614.61
+C4A3	模	sajd		mo2,mu2	614.61
 C4A4	膜	eajd		mo2	78.48
 C4A5	磨	yssd	ossd	mo2	167.58
 C4A6	摩	yssr	ossr	mo2,ma1	260.77
@@ -11132,7 +11132,7 @@ C7A8	迁	tfpk		qian1	437.36
 C7A9	签	twgi	twgg	qian1	234.03
 C7AA	仟	wtfh		qian1	1.65
 C7AB	谦	yuvo	yuvw	qian1	125.71
-C7AC	乾	fjtn		gan5,qian2	188.94
+C7AC	乾	fjtn		qian2,gan5	188.94
 C7AD	黔	lfon		qian2	19.27
 C7AE	钱	qgt	qgay	qian2	1133.34
 C7AF	钳	qafg	qfg	qian2	17.96
@@ -11515,7 +11515,7 @@ C9AB	色	qcb		se4,shai3	1780.66
 C9AC	涩	ivyh		se4	29.15
 C9AD	森	sssu		sen1	311.65
 C9AE	僧	wulj		seng1	288.19
-C9AF	莎	aiit		sha1	64.63
+C9AF	莎	aiit		sha1,suo1	64.63
 C9B0	砂	ditt		sha1	42.8
 C9B1	杀	qsu	rsu	sha1	1261.92
 C9B2	刹	qsjh	rsjh	cha4,sha1	65.59
@@ -11691,7 +11691,7 @@ CA9D	蕽	amae		nong2	0.06
 CA9E	蕿	aoec		xuan1	0.17
 CA9F	薀	aill		yun4,wen1	0.11
 CAA0	薁	atmd		yu4	0.57
-CAA1	省	ithf		sheng3	930.07
+CAA1	省	ithf		sheng3,xing3	930.07
 CAA2	盛	dnnl	dnlf	sheng4,cheng2	416.98
 CAA3	剩	tuxj		sheng4	192.44
 CAA4	胜	etgg		sheng4	768.39
@@ -11766,7 +11766,7 @@ CAE8	疏	nhyq	nhyk	shu1	275.3
 CAE9	书	nnhy		shu1	2947.16
 CAEA	赎	mfnd		shu2	52.87
 CAEB	孰	ybvy		shu2	43.22
-CAEC	熟	ybvo		shu2	359.07
+CAEC	熟	ybvo		shu2,shou2	359.07
 CAED	薯	alfj		shu3	12.36
 CAEE	暑	jftj		shu3	54.3
 CAEF	曙	jlfj		shu3	18.11
@@ -11918,7 +11918,7 @@ CBC2	寺	ffu		si4	259.99
 CBC3	嗣	kmak		si4	179.78
 CBC4	四	lhng		si4	3426.45
 CBC5	伺	wngk		si4	72.71
-CBC6	似	wnyw		shi4,si4	1194.41
+CBC6	似	wnyw		si4,shi4	1194.41
 CBC7	饲	qnnk		si4	87.31
 CBC8	巳	nngn		si4	171.43
 CBC9	松	swcy		song1	513.34
@@ -12675,7 +12675,7 @@ CFBF	峡	mguw	mgud	xia2	123.48
 CFC0	侠	wguw	wgud	xia2	240.35
 CFC1	狭	qtgw	qtgd	xia2	90.96
 CFC2	下	ghi		xia4	8906.02
-CFC3	厦	ddht		sha4	59.69
+CFC3	厦	ddht		sha4,xia4	59.69
 CFC4	夏	dhtu		xia4	541.88
 CFC5	吓	kghy		xia4	193.67
 CFC6	掀	rrqw		xian1	54.14
@@ -12878,7 +12878,7 @@ D0CC	刑	gajh		xing2	478.65
 D0CD	型	gajf		xing2	740.9
 D0CE	形	gaet		xing2	1778.42
 D0CF	邢	gabh		xing2,geng3	52.36
-D0D0	行	tfhh	tgsh	hang2,xing4	6936.12
+D0D0	行	tfhh	tgsh	xing2,hang2,heng2	6936.12
 D0D1	醒	sgjg		xing3	345.97
 D0D2	幸	fufj		xing4	634.98
 D0D3	杏	skf		xing4	61.56
@@ -12913,7 +12913,7 @@ D0EF	酗	sgqb	sgrb	xu4	5.94
 D0F0	叙	wtcy	wgsc	xu4	187.68
 D0F1	旭	vjd		xu4	43.51
 D0F2	序	ycbk	ocnh	xu4	474.13
-D0F3	畜	yxlf		chu4	112.34
+D0F3	畜	yxlf		chu4,xu4	112.34
 D0F4	恤	ntlg		xu4	56.7
 D0F5	絮	vkxi		xu4	33.81
 D0F6	婿	vnhe		xu4	65.73
@@ -14058,7 +14058,7 @@ D6F4	拄	rygg		zhu3	8.87
 D6F5	瞩	hnty		zhu3	15.27
 D6F6	嘱	knty		zhu3	88.18
 D6F7	主	ygd		zhu3	4882.94
-D6F8	著	aftj		zhe5,zhu4,zhuo2,zhuo2	635.73
+D6F8	著	aftj		zhu4,zhuo2,zhe5	635.73
 D6F9	柱	sygg		zhu4	164.46
 D6FA	助	egln	eget	zhu4	778.15
 D6FB	蛀	jygg		zhu4	6.29
@@ -14539,7 +14539,7 @@ D9A0	贍	mqdy		shan4	0.01
 D9A1	佟	wtuy		tong2	33.17
 D9A2	佗	wpxn		tuo2	10.53
 D9A3	伲	wnxn		ni4	29.38
-D9A4	伽	wlkg	wekg	ga1,qie2	43.92
+D9A4	伽	wlkg	wekg	jia1,ga1,qie2	43.92
 D9A5	佶	wfkg		ji2	4.36
 D9A6	佴	wbg		er4	0.49
 D9A7	侑	wdeg		you4	5.99
@@ -15154,7 +15154,7 @@ DCCD	芡	aqwu		qian4	6.64
 DCCE	芪	aqab		qi2	11.36
 DCCF	芟	amcu	awcu	shan1	7.49
 DCD0	苄	ayhu		bian4	5.99
-DCD1	苎	apgf		zhu4	4.95
+DCD1	苎	apgf		zhu4,ning2	4.95
 DCD2	芤	abnb		kou1	9.79
 DCD3	苡	anyw		yi3	8.6
 DCD4	茉	agsu		mo4	16.94
@@ -15194,7 +15194,7 @@ DCF5	荃	awgf		quan2	9.83
 DCF6	荟	awfc		hui4	7.13
 DCF7	荀	aqjf		xun2	31.79
 DCF8	茗	aqkf		ming2	14.35
-DCF9	荠	ayjj		qi2,ji4	2.23
+DCF9	荠	ayjj		ji4,qi2	2.23
 DCFA	茭	auqu	auru	jiao1	1.81
 DCFB	茺	aycq		chong1	0.19
 DCFC	茳	aiaf		jiang1	0.02
@@ -15715,7 +15715,7 @@ DFC4	吣	kny		qin4	7.17
 DFC5	吲	kxhh		yin3	1.08
 DFC6	咂	kamh		za1	11.3
 DFC7	咔	khhy		ka1	11.6
-DFC8	呷	klh		ga1	14.59
+DFC8	呷	klh		xia1	14.59
 DFC9	呱	krcy		gua1,pai4,pai4	16.39
 DFCA	呤	kwyc		ling4	13.92
 DFCB	咚	ktuy		dong1	27.33
@@ -15908,7 +15908,7 @@ E0C7	嗲	kwqq	kwrq	dia3	8.41
 E0C8	嗳	kepc		ai4	23.34
 E0C9	嗌	kuwl		ai4	7.6
 E0CA	嗍	kube		suo1	11.15
-E0CB	嗨	kitu	kitx	hei1	20.14
+E0CB	嗨	kitu	kitx	hai1	20.14
 E0CC	嗵	kcep		tong1	6.56
 E0CD	嗤	kbhj		chi1	26.15
 E0CE	辔	xlxk		pei4	22.99
@@ -17444,7 +17444,7 @@ E8D7	枳	skwy		zhi3	4.58
 E8D8	柝	sryy		tuo4	1.66
 E8D9	栀	srgb		zhi1	1.86
 E8DA	柃	swyc		ling2	0.34
-E8DB	枸	sqkg		gou3	3.54
+E8DB	枸	sqkg		gou3,ju3	3.54
 E8DC	柢	sqay		di3	2.2
 E8DD	栎	sqiy	stni	li4	6.37
 E8DE	柁	spxn		tuo2,duo4	0.97
@@ -17823,7 +17823,7 @@ EAD6	曛	jtgo		xun1	11.38
 EAD7	曜	jnwy		yao4	33.34
 EAD8	曦	jugt	jugy	xi1	14.52
 EAD9	曩	jyke		nang3	9.9
-EADA	贲	famu		ben1,bi4	22.05
+EADA	贲	famu		bi4,ben1	22.05
 EADB	贳	anmu		shi4	2.56
 EADC	贶	mkqn		kuang4	4.25
 EADD	贻	mckg		yi2	31.06
@@ -18202,7 +18202,7 @@ ECD5	煺	ovep	ovpy	tui4	3.57
 ECD6	熘	oqyl		liu1	17.25
 ECD7	熳	ojlc		man4	14.17
 ECD8	熵	oumk	oyuk	shang1	4.77
-ECD9	熨	nfio		yun4	5.1
+ECD9	熨	nfio		yun4,yu4	5.1
 ECDA	熠	onrg		yi4	5.83
 ECDB	燠	otmd		yu4	2.54
 ECDC	燔	otol		fan2	11.82
@@ -19856,7 +19856,7 @@ F59D	鯘	qotv		nei3	0.14
 F59E	鯙	qoyb		chun2	0.09
 F59F	鯚	qotb		ji4	0.06
 F5A0	鯛	qomk		diao1	0.08
-F5A1	酢	sgtf		zuo4	23.17
+F5A1	酢	sgtf		cu4,zuo4	23.17
 F5A2	酡	sgpx		tuo2	0.78
 F5A3	酰	sgtq		xian1	51.11
 F5A4	酩	sgqk		ming3	3.35
