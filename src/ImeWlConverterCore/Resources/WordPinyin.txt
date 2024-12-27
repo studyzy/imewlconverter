@@ -10,6 +10,7 @@
 'jiao'chou 校雠
 'jiao'chang 校场
 'fan'er'bu'jiao 犯而不校
+'mu'zi 模子
 'mu'yang 模样
 'yi'mu'yi'yang 一模一样
 'yu'tie 熨帖
