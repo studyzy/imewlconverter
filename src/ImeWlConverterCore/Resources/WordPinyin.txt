@@ -73,7 +73,7 @@
 'xing'wen 省问
 'shen'xing 深省
 'bu'xing'ren'shi 不省人事
-'san'xing'wu'sheng 三省吾身
+'san'xing'wu'shen 三省吾身
 'xing'cha 省察
 'zi'xing 自省
 'nei'xing 内省
