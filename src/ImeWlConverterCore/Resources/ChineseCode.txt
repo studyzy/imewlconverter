@@ -7544,7 +7544,7 @@ B4BE	淳	iybg		chun2	67.47
 B4BF	纯	xgbn		chun2	303.09
 B4C0	蠢	dwjj		chun3	67.05
 B4C1	戳	nwya		chuo1	30.29
-B4C2	绰	xhjh		chao1,chuo4,chuo5	51.72
+B4C2	绰	xhjh		chuo4,chao1,chuo5	51.72
 B4C3	疵	uhxv		ci1	13.48
 B4C4	茨	auqw		ci2	87.53
 B4C5	磁	duxx		ci2	102.61
@@ -12844,7 +12844,7 @@ D0AA	歇	jqww		xie1	160.61
 D0AB	蝎	jjqn		xie1	9.08
 D0AC	鞋	afff		xie2	140.95
 D0AD	协	flwy	fewy	xie2	554.52
-D0AE	挟	rguw	rgud	jia1,xie2	50.61
+D0AE	挟	rguw	rgud	xie2,jia1	50.61
 D0AF	携	rwye	rwyb	xie2	121.36
 D0B0	邪	ahtb		xie2	265.28
 D0B1	斜	wtuf	wgsf	xie2	140.39
