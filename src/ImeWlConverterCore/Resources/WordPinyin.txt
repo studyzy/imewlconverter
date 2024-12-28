@@ -931,8 +931,10 @@ chong'you 重游
 'fu'li 佛戾
 'shi'jia'mu'ni 释迦牟尼
 'jia'pi 加被
+'fan'bai 梵呗
 'zha'ruo 乍爇
 'qian'cao 茜草
+'lang'dang 莨菪
 'gou'qi 枸杞
 'zhu'er'shen 珠儿参
 'zhu'jie'shen 竹节参
@@ -973,7 +975,8 @@ chong'you 重游
 'wu'nan'wu'bei 无南无北
 'jiang'nan'wu'lu 江南无路
 'na'mo 南无
-'yi'qiu'zhi'he 一丘之貉
+'gu'gu'zhui'di 呱呱坠地
+'gu'gu'er'qi 呱呱而泣
 'pai'ji'pao 迫击炮
 'ge'lao'zu 仡佬族
 'zha'liang'yong 查良镛
