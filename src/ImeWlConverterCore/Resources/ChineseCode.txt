@@ -7153,7 +7153,7 @@ B2B3	渤	ifpl	ifpe	bo2	24.5
 B2B4	泊	irg		bo2,po1	103.01
 B2B5	驳	cqqy	cgrr	bo2	90.57
 B2B6	捕	rgey	rsy	bu3	270.61
-B2B7	卜	hhy		bo5,bu3	143.32
+B2B7	卜	hhy		bu3,bo5	143.32
 B2B8	哺	kgey	ksy	bu3	35.45
 B2B9	补	puhy		bu3	493.52
 B2BA	埠	fwnf	ftnf	bu4	17.74
@@ -11942,7 +11942,7 @@ CBDA	粟	sou		su4	71.2
 CBDB	僳	wsoy		su4	1.56
 CBDC	塑	ubtf		su4	72.82
 CBDD	溯	iube		su4	31.52
-CBDE	宿	pwdj		xiu3,su4	264.06
+CBDE	宿	pwdj		su4,xiu3,xiu4	264.06
 CBDF	诉	yryy		su4	781.54
 CBE0	肃	vijk	vhjw	su4	248.93
 CBE1	酸	sgct		suan1	166.04
@@ -12512,7 +12512,7 @@ CEDA	乌	qngd	tnng	wu1	330.34
 CEDB	污	ifnn		wu1	188.3
 CEDC	诬	yaww		wu1	57.02
 CEDD	屋	ngcf		wu1	526.59
-CEDE	无	fqv		wu2	5497.39
+CEDE	无	fqv		wu2,mo2	5497.39
 CEDF	芜	afqb		wu2	27.63
 CEE0	梧	sgkg		wu2	32.06
 CEE1	吾	gkf		wu2	589.01
