@@ -4,6 +4,7 @@
 'jiao'ding 校订
 'jiao'dian 校点
 'jiao'kan 校勘
+'kan'jiao 勘校
 'jiao'zhun 校准
 'can'jiao 参校
 'jiao'zhu 校注
