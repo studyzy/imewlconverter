@@ -650,6 +650,14 @@
 'lou'qie 露怯
 'lou'ma'jiao 露马脚
 'lou'yi'shou 露一手
+'liu'fen 陆分
+'liu'jiao 陆角
+'liu'yuan 陆元
+'liu'shi 陆拾
+'liu'bai 陆佰
+'liu'qian 陆仟
+'liu'wan 陆万
+'liu'yi 陆亿
 'dui'chen 对称
 'chen'zhi 称职
 'xiang'chen 相称
