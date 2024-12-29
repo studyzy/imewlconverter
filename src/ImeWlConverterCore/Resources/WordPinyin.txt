@@ -253,9 +253,7 @@
 'zhu'diao 主调
 'zhuan'diao 转调
 'zi'diao 字调
-'gu'diao'bu'dan 古调不弹
-'jiu'diao'chong'tan 旧调重弹
-'lao'diao'zhong'dan 老调重弹
+'gu'diao'bu'tan 古调不弹
 'ye'diao'wu'qiang 野调无腔
 'chang'gao'diao 唱高调
 'gao'ping'diao 高平调
@@ -391,7 +389,7 @@
 'chong'ji 重寄
 'chong'luo 重落
 'chong'shi 重适
-'chong'dan 重弹
+'chong'tan 重弹
 'chong'hang 重行
 'chong'yi 重译
 'chong'yin 重印
@@ -402,7 +400,6 @@
 'chong'you 重游
 'jiu'shi'chong'ti 旧事重提
 'juan'tu'chong'lai 卷土重来
-'lao'diao'chong'dan 老调重弹
 'chong'cha 重茬
 'chong'chu 重出
 'chong'jian 重茧
