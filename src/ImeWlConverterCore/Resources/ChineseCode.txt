@@ -12833,7 +12833,7 @@ D09F	袩	puhk		zhe2,chan1	0.13
 D0A0	袪	pufc		qu1	0.8
 D0A1	小	ihty		xiao3	5524.32
 D0A2	孝	ftbf		xiao4	392.99
-D0A3	校	suqy	sury	xiao4	862.67
+D0A3	校	suqy	sury	xiao4,jiao4	862.67
 D0A4	肖	ief		xiao1	86.93
 D0A5	啸	kvij	kvhw	xiao4	61.3
 D0A6	笑	ttdu		xiao4	1734.4
