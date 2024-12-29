@@ -93,7 +93,7 @@
 'tai'hang'shan 太行山
 'jing'hang 景行
 'jing'hang'xing'zhi 景行行止
-yi'hang'hang 一行行
+'yi'hang'hang 一行行
 'hang'hang'chu'zhuang'yuan 行行出状元
 'hang'lie 行列
 'cheng'hang 成行
@@ -399,8 +399,7 @@ yi'hang'hang 一行行
 'chong'yuan 重圆
 'chong'zhang 重张
 'gu'ji'chong'yan 故伎重演
-chong'feng 重逢
-chong'you 重游
+'chong'you 重游
 'jiu'shi'chong'ti 旧事重提
 'juan'tu'chong'lai 卷土重来
 'lao'diao'chong'dan 老调重弹
@@ -707,7 +706,7 @@ chong'you 重游
 'hu'po 湖泊
 'jing'po'hu 镜泊湖
 'shui'po'liang'shan 水泊梁山
-xia'zhuan 侠传
+'xia'zhuan 侠传
 'wai'zhuan 外传
 'zi'zhuan 自传
 'yan'gui'zheng'zhuan 言归正传
