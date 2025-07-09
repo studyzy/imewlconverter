@@ -35,7 +35,6 @@
     <None Remove="Resources\Erbi.txt" />
     <None Remove="Resources\Shuangpin.txt" />
     <None Remove="Resources\WordPinyin.txt" />
-	  <None Remove="Resources\WubiNewAge.txt" />
     <None Remove="Resources\Zhengma.txt" />
     <None Remove="Resources\Zhuyin.txt" />
   </ItemGroup>
@@ -46,7 +45,6 @@
     <EmbeddedResource Include="Resources\Erbi.txt" />
     <EmbeddedResource Include="Resources\Shuangpin.txt" />
     <EmbeddedResource Include="Resources\WordPinyin.txt" />
-	  <EmbeddedResource Include="Resources\WubiNewAge.txt" />
     <EmbeddedResource Include="Resources\Zhengma.txt" />
     <EmbeddedResource Include="Resources\Zhuyin.txt" />
   </ItemGroup>

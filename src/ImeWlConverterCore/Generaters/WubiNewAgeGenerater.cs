@@ -27,12 +27,12 @@ namespace Studyzy.IMEWLConverter.Generaters
     {
         public override string GetDefaultCodeOfChar(char str)
         {
-            return WubiNewAgeHelper.GetWubiCode(str.ToString());
+            return DictionaryHelper.GetCode(str).WubiNewAge;
         }
 
         public override IList<string> GetAllCodesOfChar(char str)
         {
-            return new List<string> { WubiNewAgeHelper.GetWubiCode(str.ToString()) };
+            return [DictionaryHelper.GetCode(str).WubiNewAge];
         }
     }
 }

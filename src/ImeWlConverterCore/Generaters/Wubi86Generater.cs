@@ -37,7 +37,7 @@ namespace Studyzy.IMEWLConverter.Generaters
 
         public virtual IList<string> GetAllCodesOfChar(char str)
         {
-            return new List<string> { DictionaryHelper.GetCode(str).Wubi86 };
+            return [DictionaryHelper.GetCode(str).Wubi86];
         }
 
         public bool Is1CharMutiCode

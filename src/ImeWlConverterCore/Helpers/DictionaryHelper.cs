@@ -50,9 +50,10 @@ namespace Studyzy.IMEWLConverter.Helpers
                                 Code = hzpy[0],
                                 Word = hzpy[1][0],
                                 Wubi86 = hzpy[2],
-                                Wubi98 = (hzpy[3] == "" ? hzpy[2] : hzpy[3]),
-                                Pinyins = hzpy[4],
-                                Freq = Convert.ToDouble(hzpy[5])
+                                Wubi98 = hzpy[3],
+                                WubiNewAge = hzpy[4],
+                                Pinyins = hzpy[5],
+                                Freq = Convert.ToDouble(hzpy[6])
                             }
                         );
                     }
@@ -102,6 +103,7 @@ namespace Studyzy.IMEWLConverter.Helpers
         public char Word { get; set; }
         public string Wubi86 { get; set; }
         public string Wubi98 { get; set; }
+        public string WubiNewAge { get; set; }
         public string Pinyins { get; set; }
         public double Freq { get; set; }
     }
