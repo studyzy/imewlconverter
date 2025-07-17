@@ -17,14 +17,13 @@
 
 using System.Windows.Forms;
 
-namespace Studyzy.IMEWLConverter
+namespace Studyzy.IMEWLConverter;
+
+public partial class ErrorLogForm : Form
 {
-    public partial class ErrorLogForm : Form
+    public ErrorLogForm(string message)
     {
-        public ErrorLogForm(string message)
-        {
-            InitializeComponent();
-            this.richTextBox1.Text = message;
-        }
+        InitializeComponent();
+        richTextBox1.Text = message;
     }
 }

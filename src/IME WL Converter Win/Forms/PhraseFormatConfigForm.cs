@@ -19,133 +19,122 @@ using System;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter
+namespace Studyzy.IMEWLConverter;
+
+public partial class PhraseFormatConfigForm : Form
 {
-    public partial class PhraseFormatConfigForm : Form
+    private static int selectIndex;
+    private static string userFormat = "编码<排序位置>短语";
+    private static CodeType selectCodeType = CodeType.UserDefinePhrase;
+    private static bool isShortCode;
+
+    public PhraseFormatConfigForm()
     {
-        private static int selectIndex;
-        private static string userFormat = "编码<排序位置>短语";
-        private static CodeType selectCodeType = CodeType.UserDefinePhrase;
-        private static bool isShortCode = false;
-        private string phraseFormat;
+        InitializeComponent();
+    }
 
-        public PhraseFormatConfigForm()
+    public string PhraseFormat { get; private set; }
+
+    public CodeType SelectedCodeType => selectCodeType;
+
+    public bool IsShortCode => isShortCode;
+
+    private void btnOK_Click(object sender, EventArgs e)
+    {
+        if (rbtnSougouFormat.Checked)
         {
-            InitializeComponent();
+            PhraseFormat = "{1},{2}={0}";
+            selectIndex = 0;
+        }
+        else if (rbtnQQFormat.Checked)
+        {
+            PhraseFormat = "{1}={2},{0}";
+            selectIndex = 1;
+        }
+        else if (rbtnBaiduFormat.Checked)
+        {
+            PhraseFormat = "{2},{1}={0}";
+            selectIndex = 2;
+        }
+        else
+        {
+            PhraseFormat = txbUserFormat
+                .Text.Replace("短语", "{0}")
+                .Replace("编码", "{1}")
+                .Replace("排序位置", "{2}");
+            selectIndex = 100;
         }
 
-        public string PhraseFormat
+        switch (cbxCodeType.Text)
         {
-            get { return phraseFormat; }
+            case "用户自定义短语":
+                selectCodeType = CodeType.UserDefinePhrase;
+                break;
+            case "拼音":
+                selectCodeType = CodeType.Pinyin;
+                break;
+            case "拼音首字母":
+                selectCodeType = CodeType.Pinyin;
+                isShortCode = true;
+                break;
+            case "五笔":
+                selectCodeType = CodeType.Wubi98;
+                break;
+            default:
+                selectCodeType = CodeType.UserDefinePhrase;
+                break;
         }
 
-        public CodeType SelectedCodeType
-        {
-            get { return selectCodeType; }
-        }
-        public bool IsShortCode
-        {
-            get { return isShortCode; }
-        }
+        userFormat = txbUserFormat.Text;
+        DialogResult = DialogResult.OK;
+    }
 
-        private void btnOK_Click(object sender, EventArgs e)
+    private void PhraseFormatConfigForm_Load(object sender, EventArgs e)
+    {
+        switch (selectIndex)
         {
-            if (rbtnSougouFormat.Checked)
-            {
-                phraseFormat = "{1},{2}={0}";
-                selectIndex = 0;
-            }
-            else if (rbtnQQFormat.Checked)
-            {
-                phraseFormat = "{1}={2},{0}";
-                selectIndex = 1;
-            }
-            else if (rbtnBaiduFormat.Checked)
-            {
-                phraseFormat = "{2},{1}={0}";
-                selectIndex = 2;
-            }
-            else
-            {
-                phraseFormat = txbUserFormat
-                    .Text.Replace("短语", "{0}")
-                    .Replace("编码", "{1}")
-                    .Replace("排序位置", "{2}");
-                selectIndex = 100;
-            }
-            switch (cbxCodeType.Text)
-            {
-                case "用户自定义短语":
-                    selectCodeType = CodeType.UserDefinePhrase;
-                    break;
-                case "拼音":
-                    selectCodeType = CodeType.Pinyin;
-                    break;
-                case "拼音首字母":
-                    selectCodeType = CodeType.Pinyin;
-                    isShortCode = true;
-                    break;
-                case "五笔":
-                    selectCodeType = CodeType.Wubi98;
-                    break;
-                default:
-                    selectCodeType = CodeType.UserDefinePhrase;
-                    break;
-            }
+            case 0:
 
-            userFormat = txbUserFormat.Text;
-            DialogResult = DialogResult.OK;
+            {
+                rbtnSougouFormat.Checked = true;
+            }
+                break;
+            case 1:
+
+            {
+                rbtnQQFormat.Checked = true;
+            }
+                break;
+            case 2:
+
+            {
+                rbtnBaiduFormat.Checked = true;
+            }
+                break;
+            default:
+
+            {
+                rbtnUserFormat.Checked = true;
+            }
+                break;
         }
 
-        private void PhraseFormatConfigForm_Load(object sender, EventArgs e)
+        txbUserFormat.Text = userFormat;
+        switch (selectCodeType)
         {
-            switch (selectIndex)
-            {
-                case 0:
-
-                    {
-                        rbtnSougouFormat.Checked = true;
-                    }
-                    break;
-                case 1:
-
-                    {
-                        rbtnQQFormat.Checked = true;
-                    }
-                    break;
-                case 2:
-
-                    {
-                        rbtnBaiduFormat.Checked = true;
-                    }
-                    break;
-                default:
-
-                    {
-                        rbtnUserFormat.Checked = true;
-                    }
-                    break;
-            }
-            txbUserFormat.Text = userFormat;
-            switch (selectCodeType)
-            {
-                case CodeType.UserDefinePhrase:
-                    cbxCodeType.Text = "用户自定义短语";
-                    break;
-                case CodeType.Pinyin:
-                    cbxCodeType.Text = "拼音";
-                    if (isShortCode)
-                    {
-                        cbxCodeType.Text = "拼音首字母";
-                    }
-                    break;
-                case CodeType.Wubi98:
-                    cbxCodeType.Text = "五笔";
-                    break;
-                default:
-                    cbxCodeType.Text = "用户自定义短语";
-                    break;
-            }
+            case CodeType.UserDefinePhrase:
+                cbxCodeType.Text = "用户自定义短语";
+                break;
+            case CodeType.Pinyin:
+                cbxCodeType.Text = "拼音";
+                if (isShortCode) cbxCodeType.Text = "拼音首字母";
+                break;
+            case CodeType.Wubi98:
+                cbxCodeType.Text = "五笔";
+                break;
+            default:
+                cbxCodeType.Text = "用户自定义短语";
+                break;
         }
     }
 }

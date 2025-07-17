@@ -1,35 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <Version>1.0.0</Version>
-    <Trimming>full</Trimming>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Version>1.0.0</Version>
+        <Trimming>full</Trimming>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj">
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Program.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj">
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Program.cs">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Readme.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 </Project>

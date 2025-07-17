@@ -18,21 +18,20 @@
 using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.Generaters
-{
-    /// <summary>
-    /// 五笔新世纪
-    /// </summary>
-    public class WubiNewAgeGenerater : Wubi86Generater
-    {
-        public override string GetDefaultCodeOfChar(char str)
-        {
-            return DictionaryHelper.GetCode(str).WubiNewAge;
-        }
+namespace Studyzy.IMEWLConverter.Generaters;
 
-        public override IList<string> GetAllCodesOfChar(char str)
-        {
-            return [DictionaryHelper.GetCode(str).WubiNewAge];
-        }
+/// <summary>
+///     五笔新世纪
+/// </summary>
+public class WubiNewAgeGenerater : Wubi86Generater
+{
+    public override string GetDefaultCodeOfChar(char str)
+    {
+        return DictionaryHelper.GetCode(str).WubiNewAge;
+    }
+
+    public override IList<string> GetAllCodesOfChar(char str)
+    {
+        return [DictionaryHelper.GetCode(str).WubiNewAge];
     }
 }

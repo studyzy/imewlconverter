@@ -23,197 +23,184 @@ using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.IME
+namespace Studyzy.IMEWLConverter.IME;
+
+/// <summary>
+///     搜狗细胞词库
+/// </summary>
+[ComboBoxShow(ConstantString.SOUGOU_XIBAO_SCEL, ConstantString.SOUGOU_XIBAO_SCEL_C, 20)]
+public class SougouPinyinScel : BaseImport, IWordLibraryImport
 {
-    /// <summary>
-    ///     搜狗细胞词库
-    /// </summary>
-    [ComboBoxShow(ConstantString.SOUGOU_XIBAO_SCEL, ConstantString.SOUGOU_XIBAO_SCEL_C, 20)]
-    public class SougouPinyinScel : BaseImport, IWordLibraryImport
+    private Dictionary<int, string> pyDic = new();
+
+    #region IWordLibraryImport 成员
+
+    //public bool OnlySinglePinyin { get; set; }
+
+    public WordLibraryList Import(string path)
     {
-        #region IWordLibraryImport 成员
+        //var str = ReadScel(path);
+        //var wlList = new WordLibraryList();
+        //string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+        //CountWord = lines.Length;
+        //for (int i = 0; i < lines.Length; i++)
+        //{
+        //    CurrentStatus = i;
+        //    string line = lines[i];
+        //    if (line.IndexOf("'") == 0)
+        //    {
+        //        wlList.AddWordLibraryList(ImportLine(line));
+        //    }
+        //}
+        //return wlList;
+        return ReadScel(path);
+    }
 
-        //public bool OnlySinglePinyin { get; set; }
+    #endregion
 
-        public WordLibraryList Import(string path)
+    #region IWordLibraryImport Members
+
+    public override bool IsText => false;
+
+    #endregion
+
+    public WordLibraryList ImportLine(string line)
+    {
+        throw new Exception("Scel格式是二进制文件，不支持流转换");
+    }
+
+    public static Dictionary<string, string> ReadScelInfo(string path)
+    {
+        var info = new Dictionary<string, string>();
+        var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+        fs.Position = 0x124;
+        var CountWord = BinFileHelper.ReadInt32(fs);
+        info.Add("CountWord", CountWord.ToString());
+
+        info.Add("Name", readScelFieldText(fs, 0x130));
+        info.Add("Type", readScelFieldText(fs, 0x338));
+        info.Add("Info", readScelFieldText(fs, 0x540, 1024));
+        info.Add("Sample", readScelFieldText(fs, 0xd40, 1024));
+
+        fs.Close();
+        return info;
+    }
+
+    private static string readScelFieldText(FileStream fs, long seek, int length = 64)
+    {
+        var oldSeek = fs.Position;
+        if (seek > fs.Length)
+            throw new ArgumentException("地址超过文件长度");
+        fs.Seek(seek, SeekOrigin.Begin);
+        var bytes = new byte[length];
+        fs.Read(bytes, 0, length);
+        var value = Encoding.Unicode.GetString(bytes);
+        var end = value.IndexOf('\0');
+        if (end < 0)
+            throw new ArgumentException("未找到\\0，可能索求长度不足");
+        var text = value.Substring(0, end);
+        fs.Position = oldSeek;
+        return text;
+    }
+
+    private WordLibraryList ReadScel(string path)
+    {
+        pyDic = new Dictionary<int, string>();
+        //Dictionary<string, string> pyAndWord = new Dictionary<string, string>();
+        var pyAndWord = new WordLibraryList();
+        var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+        var str = new byte[128];
+        var outstr = new byte[128];
+
+        // 未展开的词条数（同音词算1个
+        fs.Position = 0x120;
+        var dictLen = BinFileHelper.ReadInt32(fs);
+
+        // 拼音表的长度
+        fs.Position = 0x1540;
+        var pyDicLen = BinFileHelper.ReadInt32(fs);
+
+        str = new byte[4];
+        for (var i = 0; i < pyDicLen; i++)
         {
-            //var str = ReadScel(path);
-            //var wlList = new WordLibraryList();
-            //string[] lines = str.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            //CountWord = lines.Length;
-            //for (int i = 0; i < lines.Length; i++)
-            //{
-            //    CurrentStatus = i;
-            //    string line = lines[i];
-            //    if (line.IndexOf("'") == 0)
-            //    {
-            //        wlList.AddWordLibraryList(ImportLine(line));
-            //    }
-            //}
-            //return wlList;
-            return ReadScel(path);
+            var idx = BinFileHelper.ReadInt16(fs);
+            var size = BinFileHelper.ReadInt16(fs);
+            str = new byte[size];
+            fs.Read(str, 0, size);
+            var py = Encoding.Unicode.GetString(str);
+            pyDic.Add(idx, py);
         }
 
-        #endregion
+        var s = new StringBuilder();
+        foreach (var value in pyDic.Values) s.Append(value + "\",\"");
+        Debug.WriteLine(s.ToString());
 
-        private Dictionary<int, string> pyDic = new Dictionary<int, string>();
-
-        #region IWordLibraryImport Members
-
-        public override bool IsText
-        {
-            get { return false; }
-        }
-
-        #endregion
-
-        public WordLibraryList ImportLine(string line)
-        {
-            throw new Exception("Scel格式是二进制文件，不支持流转换");
-        }
-
-        public static Dictionary<string, string> ReadScelInfo(string path)
-        {
-            Dictionary<string, string> info = new Dictionary<string, string>();
-            var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-            fs.Position = 0x124;
-            var CountWord = BinFileHelper.ReadInt32(fs);
-            info.Add("CountWord", CountWord.ToString());
-
-            info.Add("Name", readScelFieldText(fs, 0x130));
-            info.Add("Type", readScelFieldText(fs, 0x338));
-            info.Add("Info", readScelFieldText(fs, 0x540, 1024));
-            info.Add("Sample", readScelFieldText(fs, 0xd40, 1024));
-
-            fs.Close();
-            return info;
-        }
-
-        private static string readScelFieldText(FileStream fs, long seek, int length = 64)
-        {
-            long oldSeek = fs.Position;
-            if (seek > fs.Length)
-                throw new ArgumentException("地址超过文件长度");
-            fs.Seek(seek, SeekOrigin.Begin);
-            var bytes = new byte[length];
-            fs.Read(bytes, 0, length);
-            string value = Encoding.Unicode.GetString(bytes);
-            int end = value.IndexOf('\0');
-            if (end < 0)
-                throw new ArgumentException("未找到\\0，可能索求长度不足");
-            string text = value.Substring(0, end);
-            fs.Position = oldSeek;
-            return text;
-        }
-
-        private WordLibraryList ReadScel(string path)
-        {
-            pyDic = new Dictionary<int, string>();
-            //Dictionary<string, string> pyAndWord = new Dictionary<string, string>();
-            var pyAndWord = new WordLibraryList();
-            var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            var str = new byte[128];
-            var outstr = new byte[128];
-
-            // 未展开的词条数（同音词算1个
-            fs.Position = 0x120;
-            var dictLen = BinFileHelper.ReadInt32(fs);
-
-            // 拼音表的长度
-            fs.Position = 0x1540;
-            var pyDicLen = BinFileHelper.ReadInt32(fs);
-
-            str = new byte[4];
-            for (int i = 0; i < pyDicLen; i++)
+        for (var i = 0; i < dictLen; i++)
+            try
             {
-                var idx = BinFileHelper.ReadInt16(fs);
-                var size = BinFileHelper.ReadInt16(fs);
-                str = new byte[size];
-                fs.Read(str, 0, size);
-                string py = Encoding.Unicode.GetString(str);
-                pyDic.Add(idx, py);
+                pyAndWord.AddRange(ReadAPinyinWord(fs));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
 
-            var s = new StringBuilder();
-            foreach (string value in pyDic.Values)
-            {
-                s.Append(value + "\",\"");
-            }
-            Debug.WriteLine(s.ToString());
+        return pyAndWord;
+        //var sb = new StringBuilder();
+        //foreach (WordLibrary w in pyAndWord)
+        //{
+        //    sb.AppendLine("'" + w.PinYinString + " " + w.Word); //以搜狗文本词库的方式返回
+        //}
+        //return sb.ToString();
+    }
 
-            for (int i = 0; i < dictLen; i++)
-            {
-                try
+    private IList<WordLibrary> ReadAPinyinWord(FileStream fs)
+    {
+        var num = new byte[4];
+        fs.Read(num, 0, 4);
+        var samePYcount = num[0] + num[1] * 256;
+        var count = num[2] + num[3] * 256;
+        //接下来读拼音
+        var str = new byte[256];
+        for (var i = 0; i < count; i++) str[i] = (byte)fs.ReadByte();
+        var wordPY = new List<string>();
+        for (var i = 0; i < count / 2; i++)
+        {
+            var key = str[i * 2] + str[i * 2 + 1] * 256;
+            if (key < pyDic.Count)
+                wordPY.Add(pyDic[key]);
+            else
+                wordPY.Add(((char)(key - pyDic.Count + 97)).ToString());
+        }
+
+        //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号
+        //接下来读词语
+        var pyAndWord = new List<WordLibrary>();
+        for (var s = 0; s < samePYcount; s++) //同音词，使用前面相同的拼音
+        {
+            num = new byte[2];
+            fs.Read(num, 0, 2);
+            var hzBytecount = num[0] + num[1] * 256;
+            str = new byte[hzBytecount];
+            fs.Read(str, 0, hzBytecount);
+            var word = Encoding.Unicode.GetString(str);
+            var unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
+            var unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频
+            pyAndWord.Add(
+                new WordLibrary
                 {
-                    pyAndWord.AddRange(ReadAPinyinWord(fs));
+                    Word = word,
+                    PinYin = wordPY.ToArray(),
+                    Rank = DefaultRank
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
-
-            return pyAndWord;
-            //var sb = new StringBuilder();
-            //foreach (WordLibrary w in pyAndWord)
-            //{
-            //    sb.AppendLine("'" + w.PinYinString + " " + w.Word); //以搜狗文本词库的方式返回
-            //}
-            //return sb.ToString();
+            );
+            CurrentStatus++;
+            //接下来10个字节什么意思呢？暂时先忽略了
+            var temp = new byte[6];
+            for (var i = 0; i < 6; i++) temp[i] = (byte)fs.ReadByte();
         }
 
-        private IList<WordLibrary> ReadAPinyinWord(FileStream fs)
-        {
-            var num = new byte[4];
-            fs.Read(num, 0, 4);
-            int samePYcount = num[0] + num[1] * 256;
-            int count = num[2] + num[3] * 256;
-            //接下来读拼音
-            var str = new byte[256];
-            for (int i = 0; i < count; i++)
-            {
-                str[i] = (byte)fs.ReadByte();
-            }
-            var wordPY = new List<string>();
-            for (int i = 0; i < count / 2; i++)
-            {
-                int key = str[i * 2] + str[i * 2 + 1] * 256;
-                if (key < pyDic.Count)
-                    wordPY.Add(pyDic[key]);
-                else
-                    wordPY.Add(((char)(key - pyDic.Count + 97)).ToString());
-            }
-            //wordPY = wordPY.Remove(wordPY.Length - 1); //移除最后一个单引号
-            //接下来读词语
-            var pyAndWord = new List<WordLibrary>();
-            for (int s = 0; s < samePYcount; s++) //同音词，使用前面相同的拼音
-            {
-                num = new byte[2];
-                fs.Read(num, 0, 2);
-                int hzBytecount = num[0] + num[1] * 256;
-                str = new byte[hzBytecount];
-                fs.Read(str, 0, hzBytecount);
-                string word = Encoding.Unicode.GetString(str);
-                short unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
-                int unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频
-                pyAndWord.Add(
-                    new WordLibrary
-                    {
-                        Word = word,
-                        PinYin = wordPY.ToArray(),
-                        Rank = DefaultRank
-                    }
-                );
-                CurrentStatus++;
-                //接下来10个字节什么意思呢？暂时先忽略了
-                var temp = new byte[6];
-                for (int i = 0; i < 6; i++)
-                {
-                    temp[i] = (byte)fs.ReadByte();
-                }
-            }
-            return pyAndWord;
-        }
+        return pyAndWord;
     }
 }

@@ -22,51 +22,50 @@ using System.Text;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.Test.HelperTest
+namespace Studyzy.IMEWLConverter.Test.HelperTest;
+
+internal class FileOperationTest
 {
-    class FileOperationTest
+    [TestCase("Test/u8nobomzy.txt", "UTF-8")]
+    [TestCase("Test/luna_pinyin_export.txt", "UTF-8")]
+    [TestCase("Test/gbzy.txt", "GB18030")]
+    [TestCase("Test/QQPinyin.txt", "Unicode")]
+    public void TestGetFileEncoding(string path, string encoding)
     {
-        [TestCase("Test/u8nobomzy.txt", "UTF-8")]
-        [TestCase("Test/luna_pinyin_export.txt", "UTF-8")]
-        [TestCase("Test/gbzy.txt", "GB18030")]
-        [TestCase("Test/QQPinyin.txt", "Unicode")]
-        public void TestGetFileEncoding(string path, string encoding)
-        {
-            path = GetFullPath(path);
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var e = FileOperationHelper.GetEncodingType(path);
-            Assert.AreEqual(e.EncodingName, Encoding.GetEncoding(encoding).EncodingName);
-            var txt = FileOperationHelper.ReadFile(path);
-            Debug.WriteLine(txt);
-        }
+        path = GetFullPath(path);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        var e = FileOperationHelper.GetEncodingType(path);
+        Assert.AreEqual(e.EncodingName, Encoding.GetEncoding(encoding).EncodingName);
+        var txt = FileOperationHelper.ReadFile(path);
+        Debug.WriteLine(txt);
+    }
 
-        [Test]
-        public void TestCodePagesEncodingProviderRequired()
-        {
-            Assert.Catch(
-                Type.GetType("System.ArgumentException"),
-                () => Encoding.GetEncoding("GB2312").ToString()
-            );
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Assert.AreEqual(
-                "Chinese Simplified (GB2312)",
-                Encoding.GetEncoding("GB2312").EncodingName
-            );
-        }
+    [Test]
+    public void TestCodePagesEncodingProviderRequired()
+    {
+        Assert.Catch(
+            Type.GetType("System.ArgumentException"),
+            () => Encoding.GetEncoding("GB2312").ToString()
+        );
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        Assert.AreEqual(
+            "Chinese Simplified (GB2312)",
+            Encoding.GetEncoding("GB2312").EncodingName
+        );
+    }
 
-        [Test]
-        public void TestWriteFile()
-        {
-            string path = GetFullPath("WriteTest.txt");
-            string content = "Hello Word!";
-            Assert.IsTrue(FileOperationHelper.WriteFile(path, Encoding.UTF8, content));
-            Assert.IsTrue(File.Exists(path));
-            File.Delete(path);
-        }
+    [Test]
+    public void TestWriteFile()
+    {
+        var path = GetFullPath("WriteTest.txt");
+        var content = "Hello Word!";
+        Assert.IsTrue(FileOperationHelper.WriteFile(path, Encoding.UTF8, content));
+        Assert.IsTrue(File.Exists(path));
+        File.Delete(path);
+    }
 
-        protected static string GetFullPath(string fileName)
-        {
-            return Path.Combine(TestContext.CurrentContext.TestDirectory, fileName);
-        }
+    protected static string GetFullPath(string fileName)
+    {
+        return Path.Combine(TestContext.CurrentContext.TestDirectory, fileName);
     }
 }

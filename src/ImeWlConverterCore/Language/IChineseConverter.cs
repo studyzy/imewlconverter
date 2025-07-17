@@ -15,12 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Language
+namespace Studyzy.IMEWLConverter.Language;
+
+public interface IChineseConverter
 {
-    public interface IChineseConverter
-    {
-        string ToChs(string cht);
-        string ToCht(string chs);
-        //void Init();
-    }
+    string ToChs(string cht);
+
+    string ToCht(string chs);
+    //void Init();
 }

@@ -17,31 +17,26 @@
 
 using System;
 using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+[TestFixture]
+internal class RimeTest : BaseTest
 {
-    [TestFixture]
-    internal class RimeTest : BaseTest
+    [OneTimeSetUp]
+    public override void InitData()
     {
-        [OneTimeSetUp]
-        public override void InitData()
-        {
-            exporter = new Rime();
-            importer = new Rime();
-        }
+        exporter = new Rime();
+        importer = new Rime();
+    }
 
-        protected override string StringData
-        {
-            get { throw new NotImplementedException(); }
-        }
+    protected override string StringData => throw new NotImplementedException();
 
-        [TestCase("luna_pinyin_export.txt")]
-        public void TestImport(string path)
-        {
-            WordLibraryList wl = importer.Import(GetFullPath(path));
-            Assert.Greater(wl.Count, 0);
-        }
+    [TestCase("luna_pinyin_export.txt")]
+    public void TestImport(string path)
+    {
+        var wl = importer.Import(GetFullPath(path));
+        Assert.Greater(wl.Count, 0);
     }
 }

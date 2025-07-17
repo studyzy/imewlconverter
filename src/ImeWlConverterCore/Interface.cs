@@ -20,50 +20,51 @@ using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter
+namespace Studyzy.IMEWLConverter;
+
+public interface IWordLibraryImport
 {
-    public interface IWordLibraryImport
-    {
-        event Action<string> ImportLineErrorNotice;
-        int CountWord { get; set; }
-        int CurrentStatus { get; set; }
-        bool IsText { get; }
-        CodeType CodeType { get; }
+    int CountWord { get; set; }
+    int CurrentStatus { get; set; }
+    bool IsText { get; }
+    CodeType CodeType { get; }
+    event Action<string> ImportLineErrorNotice;
 
-        //int DefaultRank { get; set; }
-        WordLibraryList Import(string path);
-        WordLibraryList ImportLine(string str);
-        //Form ImportConfigForm { get; }
-    }
+    //int DefaultRank { get; set; }
+    WordLibraryList Import(string path);
 
-    public interface IWordLibraryTextImport : IWordLibraryImport
-    {
-        Encoding Encoding { get; }
-        WordLibraryList ImportText(string text);
-    }
+    WordLibraryList ImportLine(string str);
+    //Form ImportConfigForm { get; }
+}
 
-    public interface IWordLibraryExport
-    {
-        event Action<string> ExportErrorNotice;
-        Encoding Encoding { get; }
-        CodeType CodeType { get; }
+public interface IWordLibraryTextImport : IWordLibraryImport
+{
+    Encoding Encoding { get; }
+    WordLibraryList ImportText(string text);
+}
 
-        /// <summary>
-        /// 导出成多个文件
-        /// </summary>
-        /// <param name="wlList"></param>
-        /// <returns></returns>
-        IList<string> Export(WordLibraryList wlList);
-        string ExportLine(WordLibrary wl);
-    }
+public interface IWordLibraryExport
+{
+    Encoding Encoding { get; }
+    CodeType CodeType { get; }
+    event Action<string> ExportErrorNotice;
 
-    public interface IMultiCodeType
-    {
-        CodeType CodeType { get; }
-    }
+    /// <summary>
+    ///     导出成多个文件
+    /// </summary>
+    /// <param name="wlList"></param>
+    /// <returns></returns>
+    IList<string> Export(WordLibraryList wlList);
 
-    public interface IStreamPrepare
-    {
-        void Prepare();
-    }
+    string ExportLine(WordLibrary wl);
+}
+
+public interface IMultiCodeType
+{
+    CodeType CodeType { get; }
+}
+
+public interface IStreamPrepare
+{
+    void Prepare();
 }

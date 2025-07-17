@@ -1,90 +1,90 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+        <IsPackable>false</IsPackable>
 
-    <Platforms>AnyCPU;x86</Platforms>
-  </PropertyGroup>
+        <Platforms>AnyCPU;x86</Platforms>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Include="nunit" Version="3.13.3" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
+        <PackageReference Include="nunit" Version="3.13.3"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.2.1"/>
+        <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0"/>
+        <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\GooglePinyin.txt" />
-    <None Remove="Resources\NoPinyinWordOnly.txt" />
-    <None Remove="Resources\PinyinJiajia.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Test\array30.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\g.ld2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\sougoubak.bin">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\QQPinyin_English.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\QQPinyin.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\gbzy.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\i.ld2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\luna_pinyin_export.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\movie.bdict">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\travel.bdict">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\u8nobomzy.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\唐诗300首【官方推荐】.scel">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\成语.qpyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\星际战甲.qcel">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\纯汉字.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Test\诗词名句大全.scel">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="BaseTest.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="SelfDefiningTest.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\GooglePinyin.txt" />
-    <EmbeddedResource Include="Resources\NoPinyinWordOnly.txt" />
-    <EmbeddedResource Include="Resources\PinyinJiajia.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Resources\GooglePinyin.txt"/>
+        <None Remove="Resources\NoPinyinWordOnly.txt"/>
+        <None Remove="Resources\PinyinJiajia.txt"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Test\array30.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\g.ld2">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\sougoubak.bin">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\QQPinyin_English.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\QQPinyin.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\gbzy.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\i.ld2">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\luna_pinyin_export.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\movie.bdict">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\travel.bdict">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\u8nobomzy.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\唐诗300首【官方推荐】.scel">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\成语.qpyd">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\星际战甲.qcel">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\纯汉字.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\诗词名句大全.scel">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="BaseTest.cs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Compile>
+        <Compile Update="SelfDefiningTest.cs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\GooglePinyin.txt"/>
+        <EmbeddedResource Include="Resources\NoPinyinWordOnly.txt"/>
+        <EmbeddedResource Include="Resources\PinyinJiajia.txt"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj"/>
+    </ItemGroup>
 </Project>

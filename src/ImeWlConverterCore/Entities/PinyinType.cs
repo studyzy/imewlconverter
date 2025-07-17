@@ -15,58 +15,57 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Entities
+namespace Studyzy.IMEWLConverter.Entities;
+
+public enum PinyinType
 {
-    public enum PinyinType
-    {
-        /// <summary>
-        /// 全拼
-        /// </summary>
-        FullPinyin = 0,
+    /// <summary>
+    ///     全拼
+    /// </summary>
+    FullPinyin = 0,
 
-        /// <summary>
-        /// 小鹤双拼
-        /// </summary>
-        XiaoheShuangpin = 1,
+    /// <summary>
+    ///     小鹤双拼
+    /// </summary>
+    XiaoheShuangpin = 1,
 
-        /// <summary>
-        /// 自然码
-        /// </summary>
-        NatureCode = 2,
+    /// <summary>
+    ///     自然码
+    /// </summary>
+    NatureCode = 2,
 
-        /// <summary>
-        /// 微软双拼
-        /// </summary>
-        MsShuangpin = 3,
+    /// <summary>
+    ///     微软双拼
+    /// </summary>
+    MsShuangpin = 3,
 
-        /// <summary>
-        /// 智能ABC
-        /// </summary>
-        SmartABCShuangpin = 4,
+    /// <summary>
+    ///     智能ABC
+    /// </summary>
+    SmartABCShuangpin = 4,
 
-        /// <summary>
-        /// 紫光拼音
-        /// </summary>
-        ZiguangShuangpin = 5,
+    /// <summary>
+    ///     紫光拼音
+    /// </summary>
+    ZiguangShuangpin = 5,
 
-        /// <summary>
-        /// 拼音加加
-        /// </summary>
-        PinyinJiajia = 6,
+    /// <summary>
+    ///     拼音加加
+    /// </summary>
+    PinyinJiajia = 6,
 
-        /// <summary>
-        /// 星空键道
-        /// </summary>
-        XingkongJiandao = 7,
+    /// <summary>
+    ///     星空键道
+    /// </summary>
+    XingkongJiandao = 7,
 
-        /// <summary>
-        /// 大牛双拼
-        /// </summary>
-        DaniuShuangpin = 8,
+    /// <summary>
+    ///     大牛双拼
+    /// </summary>
+    DaniuShuangpin = 8,
 
-        /// <summary>
-        /// 小浪双拼
-        /// </summary>
-        XiaolangShuangpin = 9,
-    }
+    /// <summary>
+    ///     小浪双拼
+    /// </summary>
+    XiaolangShuangpin = 9
 }

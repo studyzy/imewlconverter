@@ -17,53 +17,48 @@
 
 using System.Text;
 using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+[TestFixture]
+public class NoPinyinWordOnlyTest : BaseTest
 {
-    [TestFixture]
-    public class NoPinyinWordOnlyTest : BaseTest
+    [OneTimeSetUp]
+    public override void InitData()
     {
-        [OneTimeSetUp]
-        public override void InitData()
-        {
-            importer = new NoPinyinWordOnly();
-            exporter = new NoPinyinWordOnly();
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
+        importer = new NoPinyinWordOnly();
+        exporter = new NoPinyinWordOnly();
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+    }
 
-        protected override string StringData
-        {
-            get { return Resource4Test.NoPinyinWordOnly; }
-        }
+    protected override string StringData => Resource4Test.NoPinyinWordOnly;
 
-        [Test]
-        public void TestExport()
-        {
-            string txt = exporter.Export(WlListData)[0];
-            Assert.AreEqual(txt, "深蓝测试\r\n词库转换\r\n");
-        }
+    [Test]
+    public void TestExport()
+    {
+        var txt = exporter.Export(WlListData)[0];
+        Assert.AreEqual(txt, "深蓝测试\r\n词库转换\r\n");
+    }
 
-        [Test]
-        public void TestExportLine()
-        {
-            string txt = exporter.ExportLine(WlData);
-            Assert.AreEqual(txt, "深蓝测试");
-        }
+    [Test]
+    public void TestExportLine()
+    {
+        var txt = exporter.ExportLine(WlData);
+        Assert.AreEqual(txt, "深蓝测试");
+    }
 
-        [Test]
-        public void TestImport()
-        {
-            WordLibraryList wl = ((IWordLibraryTextImport)importer).ImportText(StringData);
-            Assert.AreEqual(wl.Count, 10);
-        }
+    [Test]
+    public void TestImport()
+    {
+        var wl = ((IWordLibraryTextImport)importer).ImportText(StringData);
+        Assert.AreEqual(wl.Count, 10);
+    }
 
-        [Test]
-        public void TestImportFile()
-        {
-            WordLibraryList wll = importer.Import(GetFullPath("纯汉字.txt"));
-            Assert.Greater(wll.Count, 0);
-        }
+    [Test]
+    public void TestImportFile()
+    {
+        var wll = importer.Import(GetFullPath("纯汉字.txt"));
+        Assert.Greater(wll.Count, 0);
     }
 }

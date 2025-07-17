@@ -17,39 +17,34 @@
 
 using System;
 using NUnit.Framework;
-using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+[TestFixture]
+internal class Ld2ParseTest : BaseTest
 {
-    [TestFixture]
-    internal class Ld2ParseTest : BaseTest
+    [OneTimeSetUp]
+    public override void InitData()
     {
-        [TestCase("g.ld2")]
-        [TestCase("i.ld2")]
-        public void TestParseLd2(string file)
-        {
-            string ld2File = GetFullPath(file);
-
-            WordLibraryList reult = importer.Import(GetFullPath(ld2File));
-
-            Assert.IsNotNull(reult);
-            Assert.Greater(reult.Count, 0);
-            //foreach (WordLibrary wordLibrary in reult)
-            //{
-            //    Debug.WriteLine(wordLibrary);
-            //}
-        }
-
-        protected override string StringData
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        [OneTimeSetUp]
-        public override void InitData()
-        {
-            importer = new LingoesLd2();
-        }
+        importer = new LingoesLd2();
     }
+
+    [TestCase("g.ld2")]
+    [TestCase("i.ld2")]
+    public void TestParseLd2(string file)
+    {
+        var ld2File = GetFullPath(file);
+
+        var reult = importer.Import(GetFullPath(ld2File));
+
+        Assert.IsNotNull(reult);
+        Assert.Greater(reult.Count, 0);
+        //foreach (WordLibrary wordLibrary in reult)
+        //{
+        //    Debug.WriteLine(wordLibrary);
+        //}
+    }
+
+    protected override string StringData => throw new NotImplementedException();
 }

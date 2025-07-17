@@ -19,24 +19,22 @@ using System;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.IME;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+[TestFixture]
+internal class SougouPinyinTest : BaseTest
 {
-    [TestFixture]
-    internal class SougouPinyinTest : BaseTest
+    [OneTimeSetUp]
+    public override void InitData()
     {
-        [OneTimeSetUp]
-        public override void InitData()
-        {
-            importer = new SougouPinyin();
-            exporter = new SougouPinyin();
-        }
+        importer = new SougouPinyin();
+        exporter = new SougouPinyin();
+    }
 
-        protected override string StringData
-        {
-            get { throw new NotImplementedException(); }
-        }
+    protected override string StringData => throw new NotImplementedException();
 
-        [Test]
-        public void TestImport() { }
+    [Test]
+    public void TestImport()
+    {
     }
 }

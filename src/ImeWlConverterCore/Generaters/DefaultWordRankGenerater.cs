@@ -15,21 +15,21 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Generaters
+namespace Studyzy.IMEWLConverter.Generaters;
+
+public class DefaultWordRankGenerater : IWordRankGenerater
 {
-    public class DefaultWordRankGenerater : IWordRankGenerater
+    public DefaultWordRankGenerater()
     {
-        public DefaultWordRankGenerater()
-        {
-            Rank = 1;
-        }
+        Rank = 1;
+    }
 
-        public bool ForceUse { get; set; }
-        public int Rank { get; set; }
+    public int Rank { get; set; }
 
-        public int GetRank(string word)
-        {
-            return Rank;
-        }
+    public bool ForceUse { get; set; }
+
+    public int GetRank(string word)
+    {
+        return Rank;
     }
 }

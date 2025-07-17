@@ -20,34 +20,30 @@ using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.Filters
+namespace Studyzy.IMEWLConverter.Filters;
+
+public class EmojiReplacer : IReplaceFilter
 {
-    public class EmojiReplacer : IReplaceFilter
+    private readonly Dictionary<string, string> mapping = new();
+
+    public EmojiReplacer(string path)
     {
-        private Dictionary<string, string> mapping = new Dictionary<string, string>();
-
-        public EmojiReplacer(string path)
+        var str = FileOperationHelper.ReadFile(path);
+        foreach (
+            var line in str.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+        )
         {
-            string str = FileOperationHelper.ReadFile(path);
-            foreach (
-                var line in str.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-            )
-            {
-                var arr = line.Split('\t');
-                var emoji = arr[0];
-                var word = arr[1];
-                mapping[word] = emoji;
-            }
+            var arr = line.Split('\t');
+            var emoji = arr[0];
+            var word = arr[1];
+            mapping[word] = emoji;
         }
+    }
 
-        public bool ReplaceAfterCode => true;
+    public bool ReplaceAfterCode => true;
 
-        public void Replace(WordLibrary wl)
-        {
-            if (mapping.ContainsKey(wl.Word))
-            {
-                wl.Word = mapping[wl.Word];
-            }
-        }
+    public void Replace(WordLibrary wl)
+    {
+        if (mapping.ContainsKey(wl.Word)) wl.Word = mapping[wl.Word];
     }
 }

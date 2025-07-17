@@ -18,18 +18,17 @@
 using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.Generaters
-{
-    public class Wubi98Generater : Wubi86Generater
-    {
-        public override string GetDefaultCodeOfChar(char str)
-        {
-            return DictionaryHelper.GetCode(str).Wubi98;
-        }
+namespace Studyzy.IMEWLConverter.Generaters;
 
-        public override IList<string> GetAllCodesOfChar(char str)
-        {
-            return [DictionaryHelper.GetCode(str).Wubi98];
-        }
+public class Wubi98Generater : Wubi86Generater
+{
+    public override string GetDefaultCodeOfChar(char str)
+    {
+        return DictionaryHelper.GetCode(str).Wubi98;
+    }
+
+    public override IList<string> GetAllCodesOfChar(char str)
+    {
+        return [DictionaryHelper.GetCode(str).Wubi98];
     }
 }

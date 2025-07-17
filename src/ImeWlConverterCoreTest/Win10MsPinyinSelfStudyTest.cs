@@ -20,26 +20,25 @@ using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
 
-namespace ImeWlConverterCoreTest
-{
-    public class Win10MsPinyinSelfStudyTest
-    {
-        [Test]
-        public void TestExport1()
-        {
-            WordLibraryList wl = new WordLibraryList();
-            var wl1 = new WordLibrary()
-            {
-                Word = "曾毅曾诚",
-                PinYin = new string[] { "zeng", "yi", "zeng", "cheng" },
-                CodeType = CodeType.Pinyin
-            };
-            wl.Add(wl1);
+namespace ImeWlConverterCoreTest;
 
-            var export = new Win10MsPinyinSelfStudy();
-            //export.ExportFilePath = "c:\\Temp\\win10selfstudy5.dat";
-            var filePath = export.Export(wl);
-            Debug.WriteLine(filePath[0]);
-        }
+public class Win10MsPinyinSelfStudyTest
+{
+    [Test]
+    public void TestExport1()
+    {
+        var wl = new WordLibraryList();
+        var wl1 = new WordLibrary
+        {
+            Word = "曾毅曾诚",
+            PinYin = new[] { "zeng", "yi", "zeng", "cheng" },
+            CodeType = CodeType.Pinyin
+        };
+        wl.Add(wl1);
+
+        var export = new Win10MsPinyinSelfStudy();
+        //export.ExportFilePath = "c:\\Temp\\win10selfstudy5.dat";
+        var filePath = export.Export(wl);
+        Debug.WriteLine(filePath[0]);
     }
 }

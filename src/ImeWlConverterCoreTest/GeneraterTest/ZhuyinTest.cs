@@ -19,30 +19,31 @@ using System.Linq;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Generaters;
 
-namespace Studyzy.IMEWLConverter.Test.GeneraterTest
+namespace Studyzy.IMEWLConverter.Test.GeneraterTest;
+
+[TestFixture]
+internal class ZhuyinTest
 {
-    [TestFixture]
-    class ZhuyinTest
+    [OneTimeSetUp]
+    public void SetUp()
     {
-        private IWordCodeGenerater generater;
+        generater = new ZhuyinGenerater();
+    }
 
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            generater = new ZhuyinGenerater();
-        }
+    private IWordCodeGenerater generater;
 
-        [Test]
-        public void TestGetOneWordPinyin() { }
+    [Test]
+    public void TestGetOneWordPinyin()
+    {
+    }
 
-        [TestCase("曾毅", "ㄗㄥ,ㄧˋ")]
-        [TestCase("北京吃饭", "ㄅㄟˇ,ㄐㄧㄥ,ㄔ,ㄈㄢˋ")]
-        [TestCase("煤矿", "ㄇㄟˊ,ㄎㄨㄤˋ")]
-        [TestCase("故乡", "ㄍㄨˋ,ㄒㄧㄤ")]
-        public void TestGetLongWordsPinyin(string str, string py)
-        {
-            var result = generater.GetCodeOfString(str).ToCodeString(",");
-            Assert.Contains(py, result.ToArray());
-        }
+    [TestCase("曾毅", "ㄗㄥ,ㄧˋ")]
+    [TestCase("北京吃饭", "ㄅㄟˇ,ㄐㄧㄥ,ㄔ,ㄈㄢˋ")]
+    [TestCase("煤矿", "ㄇㄟˊ,ㄎㄨㄤˋ")]
+    [TestCase("故乡", "ㄍㄨˋ,ㄒㄧㄤ")]
+    public void TestGetLongWordsPinyin(string str, string py)
+    {
+        var result = generater.GetCodeOfString(str).ToCodeString(",");
+        Assert.Contains(py, result.ToArray());
     }
 }

@@ -1,137 +1,139 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>Studyzy.IMEWLConverter</RootNamespace>
-    <AssemblyName>深蓝词库转换</AssemblyName>
-    <ApplicationIcon>app.ico</ApplicationIcon>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Documents and Settings\zengyi\桌面\词库测试\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NoStdLib>False</NoStdLib>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Platforms>AnyCPU;x86</Platforms>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>D023E0A7D1F29511E571C5D888823CF5150F5061</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>IME WL Converter_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>True</NoWin32Manifest>
-    <NeutralLanguage>zh-Hans</NeutralLanguage>
-    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/studyzy/imewlconverter</RepositoryUrl>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <BaseAddress>4194304</BaseAddress>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'=='x86'">
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <BaseAddress>4194304</BaseAddress>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'=='x64'">
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <BaseAddress>4194304</BaseAddress>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="EncodingComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="app.ico" />
-    <Content Include="Readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Forms\CreatePinyinWLForm.cs" />
-    <Compile Remove="Forms\CreatePinyinWLForm.Designer.cs" />
-    <Compile Remove="Forms\SelfDefiningConfigFormExport.cs" />
-    <Compile Remove="Forms\SelfDefiningConfigFormImport.cs" />
-    <Compile Remove="Language\MsVbComponent.cs" />
-    <Compile Remove="Resource1.Designer.cs" />
-    <Compile Remove="WPF\App.xaml.cs" />
-    <Compile Remove="WPF\MainWindow.xaml.cs" />
-    <EmbeddedResource Remove="Forms\CreatePinyinWLForm.resx" />
-    <EmbeddedResource Remove="Forms\SelfDefiningConfigFormExport.resx" />
-    <EmbeddedResource Remove="Forms\SelfDefiningConfigFormImport.resx" />
-    <EmbeddedResource Remove="Resource1.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows7.0</TargetFramework>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>Studyzy.IMEWLConverter</RootNamespace>
+        <AssemblyName>深蓝词库转换</AssemblyName>
+        <ApplicationIcon>app.ico</ApplicationIcon>
+        <IsWebBootstrapper>false</IsWebBootstrapper>
+        <PublishUrl>C:\Documents and Settings\zengyi\桌面\词库测试\</PublishUrl>
+        <Install>true</Install>
+        <InstallFrom>Disk</InstallFrom>
+        <UpdateEnabled>false</UpdateEnabled>
+        <UpdateMode>Foreground</UpdateMode>
+        <UpdateInterval>7</UpdateInterval>
+        <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+        <UpdatePeriodically>false</UpdatePeriodically>
+        <UpdateRequired>false</UpdateRequired>
+        <MapFileExtensions>true</MapFileExtensions>
+        <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
+        <ApplicationRevision>1</ApplicationRevision>
+        <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+        <UseApplicationTrust>false</UseApplicationTrust>
+        <PublishWizardCompleted>true</PublishWizardCompleted>
+        <BootstrapperEnabled>true</BootstrapperEnabled>
+        <NoStdLib>False</NoStdLib>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+        <Platforms>AnyCPU;x86</Platforms>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ManifestCertificateThumbprint>D023E0A7D1F29511E571C5D888823CF5150F5061</ManifestCertificateThumbprint>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ManifestKeyFile>IME WL Converter_TemporaryKey.pfx</ManifestKeyFile>
+    </PropertyGroup>
+    <PropertyGroup>
+        <GenerateManifests>true</GenerateManifests>
+    </PropertyGroup>
+    <PropertyGroup>
+        <SignManifests>false</SignManifests>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyOriginatorKeyFile>
+        </AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWin32Manifest>True</NoWin32Manifest>
+        <NeutralLanguage>zh-Hans</NeutralLanguage>
+        <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/studyzy/imewlconverter</RepositoryUrl>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+        <BaseAddress>4194304</BaseAddress>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Platform)'=='x86'">
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+        <BaseAddress>4194304</BaseAddress>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Platform)'=='x64'">
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+        <BaseAddress>4194304</BaseAddress>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+            <EmbedInteropTypes>True</EmbedInteropTypes>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="EncodingComboBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="app.ico"/>
+        <Content Include="Readme.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll"/>
+    </ItemGroup>
+    <ItemGroup>
+        <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+            <Visible>False</Visible>
+            <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+            <Install>false</Install>
+        </BootstrapperPackage>
+        <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+            <Visible>False</Visible>
+            <ProductName>.NET Framework 3.5 SP1</ProductName>
+            <Install>true</Install>
+        </BootstrapperPackage>
+        <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+            <Visible>False</Visible>
+            <ProductName>Windows Installer 3.1</ProductName>
+            <Install>true</Install>
+        </BootstrapperPackage>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Forms\CreatePinyinWLForm.cs"/>
+        <Compile Remove="Forms\CreatePinyinWLForm.Designer.cs"/>
+        <Compile Remove="Forms\SelfDefiningConfigFormExport.cs"/>
+        <Compile Remove="Forms\SelfDefiningConfigFormImport.cs"/>
+        <Compile Remove="Language\MsVbComponent.cs"/>
+        <Compile Remove="Resource1.Designer.cs"/>
+        <Compile Remove="WPF\App.xaml.cs"/>
+        <Compile Remove="WPF\MainWindow.xaml.cs"/>
+        <EmbeddedResource Remove="Forms\CreatePinyinWLForm.resx"/>
+        <EmbeddedResource Remove="Forms\SelfDefiningConfigFormExport.resx"/>
+        <EmbeddedResource Remove="Forms\SelfDefiningConfigFormImport.resx"/>
+        <EmbeddedResource Remove="Resource1.resx"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
+    </ItemGroup>
 </Project>

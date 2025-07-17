@@ -18,38 +18,30 @@
 
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.Filters
+namespace Studyzy.IMEWLConverter.Filters;
+
+/// <summary>
+///     过滤包含非英文字母做编码的词
+/// </summary>
+public class NoAlphabetCodeFilter : ISingleFilter
 {
-    /// <summary>
-    ///     过滤包含非英文字母做编码的词
-    /// </summary>
-    public class NoAlphabetCodeFilter : ISingleFilter
+    public bool ReplaceAfterCode => false;
+
+    #region ISingleFilter Members
+
+    //private readonly Regex regex = new Regex(@"\s");
+
+    public bool IsKeep(WordLibrary wl)
     {
-        public bool ReplaceAfterCode => false;
+        //return wl.Word.IndexOf(' ') < 0;
+        foreach (var code in wl.Codes)
+        foreach (var c1 in code)
+        foreach (var c in c1)
+            if (c < 'a' || c > 'z')
+                return false;
 
-        #region ISingleFilter Members
-
-        //private readonly Regex regex = new Regex(@"\s");
-
-        public bool IsKeep(WordLibrary wl)
-        {
-            //return wl.Word.IndexOf(' ') < 0;
-            foreach (var code in wl.Codes)
-            {
-                foreach (var c1 in code)
-                {
-                    foreach (var c in c1)
-                    {
-                        if (c < 'a' || c > 'z')
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-
-        #endregion
+        return true;
     }
+
+    #endregion
 }

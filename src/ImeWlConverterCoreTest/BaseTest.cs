@@ -19,47 +19,47 @@ using System.IO;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+public abstract class BaseTest
 {
-    public abstract class BaseTest
+    protected IWordLibraryExport exporter;
+    protected IWordLibraryImport importer;
+
+    /// <summary>
+    ///     深蓝测试
+    /// </summary>
+    protected WordLibrary WlData = new()
     {
-        /// <summary>
-        /// 深蓝测试
-        /// </summary>
-        protected WordLibrary WlData = new WordLibrary
-        {
-            Rank = 10,
-            PinYin = new[] { "shen", "lan", "ce", "shi" },
-            Word = "深蓝测试"
-        };
+        Rank = 10,
+        PinYin = new[] { "shen", "lan", "ce", "shi" },
+        Word = "深蓝测试"
+    };
 
-        protected IWordLibraryExport exporter;
-        protected IWordLibraryImport importer;
-        protected abstract string StringData { get; }
+    protected abstract string StringData { get; }
 
-        /// <summary>
-        /// 深蓝测试
-        /// 词库转换
-        /// </summary>
-        protected WordLibraryList WlListData
+    /// <summary>
+    ///     深蓝测试
+    ///     词库转换
+    /// </summary>
+    protected WordLibraryList WlListData
+    {
+        get
         {
-            get
+            var wordLibrary = new WordLibrary
             {
-                var wordLibrary = new WordLibrary
-                {
-                    Rank = 80,
-                    PinYin = new[] { "ci", "ku", "zhuan", "huan" },
-                    Word = "词库转换"
-                };
-                return new WordLibraryList { WlData, wordLibrary };
-            }
+                Rank = 80,
+                PinYin = new[] { "ci", "ku", "zhuan", "huan" },
+                Word = "词库转换"
+            };
+            return new WordLibraryList { WlData, wordLibrary };
         }
+    }
 
-        public abstract void InitData();
+    public abstract void InitData();
 
-        protected string GetFullPath(string fileName)
-        {
-            return Path.Combine(TestContext.CurrentContext.TestDirectory, "Test", fileName);
-        }
+    protected string GetFullPath(string fileName)
+    {
+        return Path.Combine(TestContext.CurrentContext.TestDirectory, "Test", fileName);
     }
 }

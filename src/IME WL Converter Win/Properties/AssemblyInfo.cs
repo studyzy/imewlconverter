@@ -18,6 +18,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Studyzy.IMEWLConverter;
 
 // 有关程序集的常规信息通过下列属性集
 // 控制。更改这些属性值可修改
@@ -55,5 +56,5 @@ using System.Runtime.InteropServices;
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion(Studyzy.IMEWLConverter.ConstantString.VERSION)]
-[assembly: AssemblyFileVersion(Studyzy.IMEWLConverter.ConstantString.VERSION)]
+[assembly: AssemblyVersion(ConstantString.VERSION)]
+[assembly: AssemblyFileVersion(ConstantString.VERSION)]

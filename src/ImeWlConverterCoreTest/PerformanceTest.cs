@@ -20,18 +20,18 @@ using System.Diagnostics;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.IME;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+internal class PerformanceTest
 {
-    class PerformanceTest
+    [Test]
+    [Explicit]
+    public void TestLoadHugeNumberWL()
     {
-        [Test, Explicit()]
-        public void TestLoadHugeNumberWL()
-        {
-            Debug.WriteLine("Start:" + DateTime.Now.ToString());
-            IWordLibraryImport importer = new SougouPinyinScel();
-            var wls = importer.Import("Test/诗词名句大全.scel");
-            Debug.WriteLine("Load Words count:" + wls.Count);
-            Debug.WriteLine("End:" + DateTime.Now.ToString());
-        }
+        Debug.WriteLine("Start:" + DateTime.Now);
+        IWordLibraryImport importer = new SougouPinyinScel();
+        var wls = importer.Import("Test/诗词名句大全.scel");
+        Debug.WriteLine("Load Words count:" + wls.Count);
+        Debug.WriteLine("End:" + DateTime.Now);
     }
 }

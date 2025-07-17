@@ -19,85 +19,77 @@ using System;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.IME
+namespace Studyzy.IMEWLConverter.IME;
+
+/// <summary>
+///     RIME是一个输入法框架，支持多种输入法编码，词库规则是：
+///     词语+Tab+编码（拼音空格隔开）+Tab+词频
+/// </summary>
+[ComboBoxShow(ConstantString.RIME_USERDB, ConstantString.RIME_USERDB_C, 150)]
+public class RimeUserDb : BaseTextImport, IWordLibraryTextImport, IMultiCodeType
 {
-    /// <summary>
-    /// RIME是一个输入法框架，支持多种输入法编码，词库规则是：
-    /// 词语+Tab+编码（拼音空格隔开）+Tab+词频
-    ///
-    /// </summary>
-    [ComboBoxShow(ConstantString.RIME_USERDB, ConstantString.RIME_USERDB_C, 150)]
-    public class RimeUserDb : BaseTextImport, IWordLibraryTextImport, IMultiCodeType
+    private string lineSplitString;
+
+    private OperationSystem os;
+
+    public RimeUserDb()
     {
-        private string lineSplitString;
+        CodeType = CodeType.Pinyin;
+        OS = OperationSystem.Windows;
+    }
 
-        public RimeUserDb()
+    public OperationSystem OS
+    {
+        get => os;
+        set
         {
-            CodeType = CodeType.Pinyin;
-            OS = OperationSystem.Windows;
+            os = value;
+            lineSplitString = GetLineSplit(os);
+        }
+    }
+
+    public override Encoding Encoding => new UTF8Encoding(false);
+
+    #region IWordLibraryImport 成员
+
+    //private IWordCodeGenerater pyGenerater=new PinyinGenerater();
+    public override WordLibraryList ImportLine(string line)
+    {
+        var lineArray = line.Split('\t');
+
+        var code = lineArray[0];
+        var word = lineArray[1];
+        var wl = new WordLibrary();
+        wl.Word = word;
+        // userdb.txt 的词频不通用, 注释掉
+        // wl.Rank = Convert.ToInt32(lineArray[2]);
+        if (CodeType == CodeType.Pinyin)
+            wl.PinYin = code.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        else
+            //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
+            wl.SetCode(CodeType, code);
+
+        var wll = new WordLibraryList();
+        wll.Add(wl);
+        return wll;
+    }
+
+    #endregion
+
+    private string GetLineSplit(OperationSystem os)
+    {
+        switch (os)
+        {
+            case OperationSystem.Windows:
+                return "\r\n";
+
+            case OperationSystem.MacOS:
+                return "\r";
+
+            case OperationSystem.Linux:
+                return "\n";
         }
 
-        private OperationSystem os;
-
-        public OperationSystem OS
-        {
-            get { return os; }
-            set
-            {
-                os = value;
-                lineSplitString = GetLineSplit(os);
-            }
-        }
-
-        private string GetLineSplit(OperationSystem os)
-        {
-            switch (os)
-            {
-                case OperationSystem.Windows:
-                    return "\r\n";
-
-                case OperationSystem.MacOS:
-                    return "\r";
-
-                case OperationSystem.Linux:
-                    return "\n";
-            }
-            return "\r\n";
-        }
-
-        public override Encoding Encoding
-        {
-            get { return new UTF8Encoding(false); }
-        }
-
-        #region IWordLibraryImport 成员
-
-        //private IWordCodeGenerater pyGenerater=new PinyinGenerater();
-        public override WordLibraryList ImportLine(string line)
-        {
-            string[] lineArray = line.Split('\t');
-
-            string code = lineArray[0];
-            string word = lineArray[1];
-            var wl = new WordLibrary();
-            wl.Word = word;
-            // userdb.txt 的词频不通用, 注释掉
-            // wl.Rank = Convert.ToInt32(lineArray[2]);
-            if (CodeType == CodeType.Pinyin)
-            {
-                wl.PinYin = code.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            }
-            else
-            {
-                //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
-                wl.SetCode(CodeType, code);
-            }
-
-            var wll = new WordLibraryList();
-            wll.Add(wl);
-            return wll;
-        }
-
-        #endregion
+        return "\r\n";
     }
 }

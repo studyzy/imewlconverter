@@ -21,54 +21,47 @@ using System.Diagnostics;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.Filters
+namespace Studyzy.IMEWLConverter.Filters;
+
+/// <summary>
+///     将普通的拼音编码替换成小鹤双拼
+/// </summary>
+public class ShuangpinReplacer : IReplaceFilter
 {
-    /// <summary>
-    /// 将普通的拼音编码替换成小鹤双拼
-    /// </summary>
-    public class ShuangpinReplacer : IReplaceFilter
+    private readonly Dictionary<string, string> mapping = new();
+
+    public ShuangpinReplacer(PinyinType type)
     {
-        private Dictionary<string, string> mapping = new Dictionary<string, string>();
-
-        public ShuangpinReplacer(PinyinType type)
-        {
-            string pinyinMapping = DictionaryHelper.GetResourceContent("Shuangpin.txt");
-            foreach (
-                var line in pinyinMapping.Split(
-                    new[] { '\r', '\n' },
-                    StringSplitOptions.RemoveEmptyEntries
-                )
+        var pinyinMapping = DictionaryHelper.GetResourceContent("Shuangpin.txt");
+        foreach (
+            var line in pinyinMapping.Split(
+                new[] { '\r', '\n' },
+                StringSplitOptions.RemoveEmptyEntries
             )
-            {
-                var arr = line.Split('\t');
-                var pinyin = arr[0];
-                var shuangpin = arr[(int)type];
-                mapping[pinyin] = shuangpin;
-            }
-        }
-
-        public bool ReplaceAfterCode => true;
-
-        public void Replace(WordLibrary wl)
+        )
         {
-            if (wl.CodeType != CodeType.Pinyin) //必须是拼音才能被双拼替换
-            {
-                return;
-            }
-            foreach (var code in wl.Codes)
-            {
-                for (var i = 0; i < code.Count; i++)
-                {
-                    try
-                    {
-                        code[i] = mapping[code[i]];
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message + " " + code[i]);
-                    }
-                }
-            }
+            var arr = line.Split('\t');
+            var pinyin = arr[0];
+            var shuangpin = arr[(int)type];
+            mapping[pinyin] = shuangpin;
         }
+    }
+
+    public bool ReplaceAfterCode => true;
+
+    public void Replace(WordLibrary wl)
+    {
+        if (wl.CodeType != CodeType.Pinyin) //必须是拼音才能被双拼替换
+            return;
+        foreach (var code in wl.Codes)
+            for (var i = 0; i < code.Count; i++)
+                try
+                {
+                    code[i] = mapping[code[i]];
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message + " " + code[i]);
+                }
     }
 }

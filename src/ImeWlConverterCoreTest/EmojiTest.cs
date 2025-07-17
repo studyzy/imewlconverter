@@ -19,17 +19,16 @@ using System;
 using System.Text;
 using NUnit.Framework;
 
-namespace ImeWlConverterCoreTest
-{
-    class EmojiTest
-    {
-        [Test]
-        public void TestGenerateEmojiFile()
-        {
-            //var sw = FileOperationHelper.WriteFile("emoji.txt", Encoding.Unicode);
+namespace ImeWlConverterCoreTest;
 
-            var b = Encoding.UTF8.GetBytes("😀");
-            Console.WriteLine("Hex:{0:x}", b);
-        }
+internal class EmojiTest
+{
+    [Test]
+    public void TestGenerateEmojiFile()
+    {
+        //var sw = FileOperationHelper.WriteFile("emoji.txt", Encoding.Unicode);
+
+        var b = Encoding.UTF8.GetBytes("😀");
+        Console.WriteLine("Hex:{0:x}", b);
     }
 }

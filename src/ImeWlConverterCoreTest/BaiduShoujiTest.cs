@@ -19,28 +19,22 @@ using System;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.IME;
 
-namespace Studyzy.IMEWLConverter.Test
+namespace Studyzy.IMEWLConverter.Test;
+
+[TestFixture]
+public class BaiduShoujiTest : BaseTest
 {
-    [TestFixture]
-    public class BaiduShoujiTest : BaseTest
+    [OneTimeSetUp]
+    public override void InitData()
     {
-        #region SetUp/Teardown
+        exporter = new BaiduShouji();
+        importer = new BaiduShouji();
+    }
 
-        [OneTimeSetUp]
-        public override void InitData()
-        {
-            exporter = new BaiduShouji();
-            importer = new BaiduShouji();
-        }
+    protected override string StringData => throw new NotImplementedException();
 
-        #endregion
-
-        protected override string StringData
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        [Test]
-        public void TestExport() { }
+    [Test]
+    public void TestExport()
+    {
     }
 }

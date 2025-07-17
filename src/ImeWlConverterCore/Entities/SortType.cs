@@ -15,13 +15,12 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Entities
+namespace Studyzy.IMEWLConverter.Entities;
+
+public enum SortType
 {
-    public enum SortType
-    {
-        Default,
-        ByWord,
-        ByCode,
-        ByRank
-    }
+    Default,
+    ByWord,
+    ByCode,
+    ByRank
 }

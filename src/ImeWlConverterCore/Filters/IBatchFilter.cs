@@ -17,10 +17,9 @@
 
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.Filters
+namespace Studyzy.IMEWLConverter.Filters;
+
+public interface IBatchFilter
 {
-    public interface IBatchFilter
-    {
-        WordLibraryList Filter(WordLibraryList list);
-    }
+    WordLibraryList Filter(WordLibraryList list);
 }

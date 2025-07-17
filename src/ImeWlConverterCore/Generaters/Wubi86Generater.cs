@@ -19,72 +19,62 @@ using System.Collections.Generic;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
-namespace Studyzy.IMEWLConverter.Generaters
+namespace Studyzy.IMEWLConverter.Generaters;
+
+public class Wubi86Generater : IWordCodeGenerater
 {
-    public class Wubi86Generater : IWordCodeGenerater
+    public virtual void GetCodeOfWordLibrary(WordLibrary wl)
     {
-        #region IWordCodeGenerater Members
+        wl.Codes = GetCodeOfString(wl.Word);
+    }
 
-        public virtual string GetDefaultCodeOfChar(char str)
+    private string GetStringWubiCode(string str)
+    {
+        if (str.Length == 1) return GetDefaultCodeOfChar(str[0]);
+        if (str.Length == 2)
         {
-            return DictionaryHelper.GetCode(str).Wubi86;
+            var code1 = GetDefaultCodeOfChar(str[0]);
+            var code2 = GetDefaultCodeOfChar(str[1]);
+            return code1.Substring(0, 2) + code2.Substring(0, 2);
         }
 
-        public Code GetCodeOfString(string str)
+        if (str.Length == 3)
         {
-            return new Code(GetStringWubiCode(str));
+            var code1 = GetDefaultCodeOfChar(str[0]);
+            var code2 = GetDefaultCodeOfChar(str[1]);
+            var code3 = GetDefaultCodeOfChar(str[2]);
+            return code1[0].ToString() + code2[0] + code3.Substring(0, 2);
         }
-
-        public virtual IList<string> GetAllCodesOfChar(char str)
+        else
         {
-            return [DictionaryHelper.GetCode(str).Wubi86];
-        }
-
-        public bool Is1CharMutiCode
-        {
-            get { return false; }
-        }
-
-        public bool Is1Char1Code
-        {
-            get { return false; }
-        }
-
-        #endregion
-
-
-        public virtual void GetCodeOfWordLibrary(WordLibrary wl)
-        {
-            wl.Codes = GetCodeOfString(wl.Word);
-        }
-
-        private string GetStringWubiCode(string str)
-        {
-            if (str.Length == 1)
-            {
-                return GetDefaultCodeOfChar(str[0]);
-            }
-            if (str.Length == 2)
-            {
-                string code1 = GetDefaultCodeOfChar(str[0]);
-                string code2 = GetDefaultCodeOfChar(str[1]);
-                return code1.Substring(0, 2) + code2.Substring(0, 2);
-            }
-            if (str.Length == 3)
-            {
-                string code1 = GetDefaultCodeOfChar(str[0]);
-                string code2 = GetDefaultCodeOfChar(str[1]);
-                string code3 = GetDefaultCodeOfChar(str[2]);
-                return code1[0].ToString() + code2[0] + code3.Substring(0, 2);
-            }
-            else
-            {
-                string code1 = GetDefaultCodeOfChar(str[0]);
-                string code2 = GetDefaultCodeOfChar(str[1]);
-                string code3 = GetDefaultCodeOfChar(str[2]);
-                string code4 = GetDefaultCodeOfChar(str[str.Length - 1]);
-                return code1[0].ToString() + code2[0] + code3[0] + code4[0];
-            }
+            var code1 = GetDefaultCodeOfChar(str[0]);
+            var code2 = GetDefaultCodeOfChar(str[1]);
+            var code3 = GetDefaultCodeOfChar(str[2]);
+            var code4 = GetDefaultCodeOfChar(str[str.Length - 1]);
+            return code1[0].ToString() + code2[0] + code3[0] + code4[0];
         }
     }
+
+    #region IWordCodeGenerater Members
+
+    public virtual string GetDefaultCodeOfChar(char str)
+    {
+        return DictionaryHelper.GetCode(str).Wubi86;
+    }
+
+    public Code GetCodeOfString(string str)
+    {
+        return new Code(GetStringWubiCode(str));
+    }
+
+    public virtual IList<string> GetAllCodesOfChar(char str)
+    {
+        return [DictionaryHelper.GetCode(str).Wubi86];
+    }
+
+    public bool Is1CharMutiCode => false;
+
+    public bool Is1Char1Code => false;
+
+    #endregion
 }

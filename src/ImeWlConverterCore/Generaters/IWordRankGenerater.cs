@@ -15,15 +15,14 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Generaters
-{
-    public interface IWordRankGenerater
-    {
-        int GetRank(string word);
+namespace Studyzy.IMEWLConverter.Generaters;
 
-        /// <summary>
-        /// 是否忽略源词库的词频，强制使用新词频？
-        /// </summary>
-        bool ForceUse { get; set; }
-    }
+public interface IWordRankGenerater
+{
+    /// <summary>
+    ///     是否忽略源词库的词频，强制使用新词频？
+    /// </summary>
+    bool ForceUse { get; set; }
+
+    int GetRank(string word);
 }

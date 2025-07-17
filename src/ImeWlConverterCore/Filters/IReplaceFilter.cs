@@ -17,11 +17,10 @@
 
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.Filters
+namespace Studyzy.IMEWLConverter.Filters;
+
+public interface IReplaceFilter
 {
-    public interface IReplaceFilter
-    {
-        bool ReplaceAfterCode { get; }
-        void Replace(WordLibrary wl);
-    }
+    bool ReplaceAfterCode { get; }
+    void Replace(WordLibrary wl);
 }

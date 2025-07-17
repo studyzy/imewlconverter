@@ -15,13 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Generaters
+namespace Studyzy.IMEWLConverter.Generaters;
+
+public class ChaoqiangErbiGenerater : ErbiGenerater
 {
-    public class ChaoqiangErbiGenerater : ErbiGenerater
-    {
-        protected override int DicColumnIndex
-        {
-            get { return 3; }
-        }
-    }
+    protected override int DicColumnIndex => 3;
 }

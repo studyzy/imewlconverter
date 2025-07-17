@@ -15,13 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Generaters
+namespace Studyzy.IMEWLConverter.Generaters;
+
+public class QingsongErbiGenerater : ErbiGenerater
 {
-    public class QingsongErbiGenerater : ErbiGenerater
-    {
-        protected override int DicColumnIndex
-        {
-            get { return 4; }
-        }
-    }
+    protected override int DicColumnIndex => 4;
 }

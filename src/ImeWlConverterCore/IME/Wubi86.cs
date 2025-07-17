@@ -21,80 +21,69 @@ using System.Diagnostics;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.IME
+namespace Studyzy.IMEWLConverter.IME;
+
+/// <summary>
+///     搜狗五笔的词库格式为“五笔编码 词语”\r\n
+/// </summary>
+[ComboBoxShow(ConstantString.WUBI86, ConstantString.WUBI86_C, 210)]
+public class Wubi86 : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
 {
-    /// <summary>
-    /// 搜狗五笔的词库格式为“五笔编码 词语”\r\n
-    /// </summary>
-    [ComboBoxShow(ConstantString.WUBI86, ConstantString.WUBI86_C, 210)]
-    public class Wubi86 : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
+    public override CodeType CodeType => CodeType.Wubi;
+
+    #region IWordLibraryImport 成员
+
+    public override WordLibraryList ImportLine(string line)
     {
-        public override CodeType CodeType
-        {
-            get { return CodeType.Wubi; }
-        }
-
-        #region IWordLibraryExport 成员
-
-        //private readonly IWordCodeGenerater wubiGenerater = new Wubi86Generater();
-
-        public string ExportLine(WordLibrary wl)
-        {
-            var sb = new StringBuilder();
-
-            sb.Append(wl.WubiCode);
-            sb.Append(" ");
-            sb.Append(wl.Word);
-
-            return sb.ToString();
-        }
-
-        public IList<string> Export(WordLibraryList wlList)
-        {
-            var sb = new StringBuilder();
-            for (int i = 0; i < wlList.Count; i++)
-            {
-                try
-                {
-                    sb.Append(ExportLine(wlList[i]));
-                    sb.Append("\r\n");
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
-            return new List<string>() { sb.ToString() };
-        }
-
-        public override Encoding Encoding
-        {
-            get { return Encoding.Unicode; }
-        }
-
-        #endregion
-
-        #region IWordLibraryImport 成员
-
-        public override WordLibraryList ImportLine(string line)
-        {
-            string code = line.Split(' ')[0];
-            string word = line.Split(' ')[1];
-            var wl = new WordLibrary();
-            wl.Word = word;
-            wl.Rank = DefaultRank;
-            wl.SetCode(CodeType.Wubi, code);
-            //wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
-            var wll = new WordLibraryList();
-            if (wl.PinYin.Length > 0)
-            {
-                wll.Add(wl);
-            }
-            return wll;
-        }
-
-        #endregion
-
-        //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
+        var code = line.Split(' ')[0];
+        var word = line.Split(' ')[1];
+        var wl = new WordLibrary();
+        wl.Word = word;
+        wl.Rank = DefaultRank;
+        wl.SetCode(CodeType.Wubi, code);
+        //wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
+        var wll = new WordLibraryList();
+        if (wl.PinYin.Length > 0) wll.Add(wl);
+        return wll;
     }
+
+    #endregion
+
+    #region IWordLibraryExport 成员
+
+    //private readonly IWordCodeGenerater wubiGenerater = new Wubi86Generater();
+
+    public string ExportLine(WordLibrary wl)
+    {
+        var sb = new StringBuilder();
+
+        sb.Append(wl.WubiCode);
+        sb.Append(" ");
+        sb.Append(wl.Word);
+
+        return sb.ToString();
+    }
+
+    public IList<string> Export(WordLibraryList wlList)
+    {
+        var sb = new StringBuilder();
+        for (var i = 0; i < wlList.Count; i++)
+            try
+            {
+                sb.Append(ExportLine(wlList[i]));
+                sb.Append("\r\n");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+        return new List<string> { sb.ToString() };
+    }
+
+    public override Encoding Encoding => Encoding.Unicode;
+
+    #endregion
+
+    //private readonly IWordCodeGenerater pinyinFactory = new PinyinGenerater();
 }

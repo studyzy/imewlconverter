@@ -1,58 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Version>2.8.0</Version>
-    <Platforms>AnyCPU;x86</Platforms>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFrameworks>net8.0</TargetFrameworks>
+        <Version>2.8.0</Version>
+        <Platforms>AnyCPU;x86</Platforms>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
-    <DebugType>embedded</DebugType>
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+        <DebugType>embedded</DebugType>
+        <IsTrimmable>True</IsTrimmable>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x86'">
-    <DebugType>embedded</DebugType>
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x86'">
+        <DebugType>embedded</DebugType>
+        <IsTrimmable>True</IsTrimmable>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
-    <DebugType>embedded</DebugType>
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+        <DebugType>embedded</DebugType>
+        <IsTrimmable>True</IsTrimmable>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x86'">
-    <DebugType>embedded</DebugType>
-    <IsTrimmable>True</IsTrimmable>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x86'">
+        <DebugType>embedded</DebugType>
+        <IsTrimmable>True</IsTrimmable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="ImeWlConverterCore-net46.csproj" />
-    <None Remove="Resources\Cangjie5.txt" />
-    <None Remove="Resources\ChaoyinCodeMapping.txt" />
-    <None Remove="Resources\ChineseCode.txt" />
-    <None Remove="Resources\Erbi.txt" />
-    <None Remove="Resources\Shuangpin.txt" />
-    <None Remove="Resources\WordPinyin.txt" />
-    <None Remove="Resources\Zhengma.txt" />
-    <None Remove="Resources\Zhuyin.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Cangjie5.txt" />
-    <EmbeddedResource Include="Resources\ChaoyinCodeMapping.txt" />
-    <EmbeddedResource Include="Resources\ChineseCode.txt" />
-    <EmbeddedResource Include="Resources\Erbi.txt" />
-    <EmbeddedResource Include="Resources\Shuangpin.txt" />
-    <EmbeddedResource Include="Resources\WordPinyin.txt" />
-    <EmbeddedResource Include="Resources\Zhengma.txt" />
-    <EmbeddedResource Include="Resources\Zhuyin.txt" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
-  </ItemGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="ImeWlConverterCore-net46.csproj"/>
+        <None Remove="Resources\Cangjie5.txt"/>
+        <None Remove="Resources\ChaoyinCodeMapping.txt"/>
+        <None Remove="Resources\ChineseCode.txt"/>
+        <None Remove="Resources\Erbi.txt"/>
+        <None Remove="Resources\Shuangpin.txt"/>
+        <None Remove="Resources\WordPinyin.txt"/>
+        <None Remove="Resources\Zhengma.txt"/>
+        <None Remove="Resources\Zhuyin.txt"/>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\Cangjie5.txt"/>
+        <EmbeddedResource Include="Resources\ChaoyinCodeMapping.txt"/>
+        <EmbeddedResource Include="Resources\ChineseCode.txt"/>
+        <EmbeddedResource Include="Resources\Erbi.txt"/>
+        <EmbeddedResource Include="Resources\Shuangpin.txt"/>
+        <EmbeddedResource Include="Resources\WordPinyin.txt"/>
+        <EmbeddedResource Include="Resources\Zhengma.txt"/>
+        <EmbeddedResource Include="Resources\Zhuyin.txt"/>
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+        <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="SharpZipLib" Version="1.4.2"/>
+        <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
+    </ItemGroup>
 </Project>

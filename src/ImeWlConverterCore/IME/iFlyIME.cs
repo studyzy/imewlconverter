@@ -20,29 +20,23 @@ using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.IME
+namespace Studyzy.IMEWLConverter.IME;
+
+[ComboBoxShow(ConstantString.IFLY_IME, ConstantString.IFLY_IME_C, 1050)]
+public class iFlyIME : NoPinyinWordOnly
 {
-    [ComboBoxShow(ConstantString.IFLY_IME, ConstantString.IFLY_IME_C, 1050)]
-    public class iFlyIME : NoPinyinWordOnly
+    public override Encoding Encoding => Encoding.UTF8;
+
+    public override WordLibraryList ImportLine(string line)
     {
-        public override Encoding Encoding
-        {
-            get { return Encoding.UTF8; }
-        }
+        if (line.Length == 0 || line[0] == '#') return null;
+        return base.ImportLine(line.Split(' ')[0]);
+    }
 
-        public override WordLibraryList ImportLine(string line)
-        {
-            if (line.Length == 0 || line[0] == '#')
-            {
-                return null;
-            }
-            return base.ImportLine(line.Split(' ')[0]);
-        }
-
-        public override IList<string> Export(WordLibraryList wlList)
-        {
-            string headFormat =
-                @"###注释部分，请勿修改###
+    public override IList<string> Export(WordLibraryList wlList)
+    {
+        var headFormat =
+            @"###注释部分，请勿修改###
 #此文本文件为讯飞输入法用户词库导出所生成
 #版本信息:30000008
 #词库容量:16384
@@ -58,31 +52,31 @@ namespace Studyzy.IMEWLConverter.IME
 
 ###以下为正文内容###";
 
-            const int MAX_COUNT = 16000;
-            var result = new List<string>();
-            int fileCount = (int)Math.Ceiling(1.0 * wlList.Count / MAX_COUNT);
-            for (int count = 1; count <= fileCount; count++)
+        const int MAX_COUNT = 16000;
+        var result = new List<string>();
+        var fileCount = (int)Math.Ceiling(1.0 * wlList.Count / MAX_COUNT);
+        for (var count = 1; count <= fileCount; count++)
+        {
+            var sb = new StringBuilder();
+            var rowCount = 0;
+            for (
+                var i = 0;
+                i < (count == fileCount ? wlList.Count % MAX_COUNT : MAX_COUNT);
+                i++
+            )
             {
-                var sb = new StringBuilder();
-                int rowCount = 0;
-                for (
-                    int i = 0;
-                    i < (count == fileCount ? wlList.Count % MAX_COUNT : MAX_COUNT);
-                    i++
-                )
+                var wl = wlList[(count - 1) * MAX_COUNT + i];
+                if (wl.Word.Length > 1 && wl.Word.Length < 17)
                 {
-                    var wl = wlList[(count - 1) * MAX_COUNT + i];
-                    if (wl.Word.Length > 1 && wl.Word.Length < 17)
-                    {
-                        sb.Append(wl.Word);
-                        sb.Append("\n");
-                        rowCount++;
-                    }
+                    sb.Append(wl.Word);
+                    sb.Append("\n");
+                    rowCount++;
                 }
-
-                result.Add(string.Format(headFormat, rowCount) + "\n" + sb.ToString());
             }
-            return result;
+
+            result.Add(string.Format(headFormat, rowCount) + "\n" + sb);
         }
+
+        return result;
     }
 }

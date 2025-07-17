@@ -20,52 +20,52 @@ using System.Collections.Generic;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
-namespace Studyzy.IMEWLConverter.IME
+namespace Studyzy.IMEWLConverter.IME;
+
+/// <summary>
+///     LibIME (https://github.com/fcitx/libime) 文本格式
+/// </summary>
+[ComboBoxShow(ConstantString.LIBIME_TEXT, ConstantString.LIBIME_TEXT_C, 500)]
+public class LibIMEText : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
 {
-    /// <summary>
-    ///     LibIME (https://github.com/fcitx/libime) 文本格式
-    /// </summary>
-    [ComboBoxShow(ConstantString.LIBIME_TEXT, ConstantString.LIBIME_TEXT_C, 500)]
-    public class LibIMEText : BaseTextImport, IWordLibraryExport, IWordLibraryTextImport
+    public override Encoding Encoding => Encoding.UTF8;
+
+    public string ExportLine(WordLibrary wl)
     {
-        public override Encoding Encoding => Encoding.UTF8;
+        var sb = new StringBuilder();
 
-        public string ExportLine(WordLibrary wl)
+        sb.Append(wl.Word);
+        sb.Append(" ");
+        sb.Append(wl.GetPinYinString("'", BuildType.None)
+            .Replace("lue", "lve")
+            .Replace("nue", "nve"));
+        sb.Append(" ");
+        sb.Append(wl.Rank);
+
+        return sb.ToString();
+    }
+
+    public IList<string> Export(WordLibraryList wlList)
+    {
+        var sb = new StringBuilder();
+        for (var i = 0; i < wlList.Count; i++)
         {
-            var sb = new StringBuilder();
-
-            sb.Append(wl.Word);
-            sb.Append(" ");
-            sb.Append(wl.GetPinYinString("'", BuildType.None)
-                .Replace("lue", "lve")
-                .Replace("nue", "nve"));
-            sb.Append(" ");
-            sb.Append(wl.Rank);
-
-            return sb.ToString();
+            sb.Append(ExportLine(wlList[i]));
+            sb.Append("\n");
         }
 
-        public IList<string> Export(WordLibraryList wlList)
-        {
-            var sb = new StringBuilder();
-            for (int i = 0; i < wlList.Count; i++)
-            {
-                sb.Append(ExportLine(wlList[i]));
-                sb.Append("\n");
-            }
-            return new List<string>() { sb.ToString() };
-        }
+        return new List<string> { sb.ToString() };
+    }
 
-        public override WordLibraryList ImportLine(string line)
-        {
-            string[] c = line.Split(' ');
-            var wl = new WordLibrary();
-            wl.PinYin = c[0].Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
-            wl.Word = c[1];
-            wl.Rank = Convert.ToInt32(c[2]);
-            var wll = new WordLibraryList();
-            wll.Add(wl);
-            return wll;
-        }
+    public override WordLibraryList ImportLine(string line)
+    {
+        var c = line.Split(' ');
+        var wl = new WordLibrary();
+        wl.PinYin = c[0].Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries);
+        wl.Word = c[1];
+        wl.Rank = Convert.ToInt32(c[2]);
+        var wll = new WordLibraryList();
+        wll.Add(wl);
+        return wll;
     }
 }

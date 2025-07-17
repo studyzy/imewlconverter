@@ -15,20 +15,19 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Studyzy.IMEWLConverter.Entities
+namespace Studyzy.IMEWLConverter.Entities;
+
+public enum ChineseTranslate
 {
-    public enum ChineseTranslate
-    {
-        NotTrans,
+    NotTrans,
 
-        /// <summary>
-        ///     转为简体中文
-        /// </summary>
-        Trans2Chs,
+    /// <summary>
+    ///     转为简体中文
+    /// </summary>
+    Trans2Chs,
 
-        /// <summary>
-        ///     转为繁体中文
-        /// </summary>
-        Trans2Cht
-    }
+    /// <summary>
+    ///     转为繁体中文
+    /// </summary>
+    Trans2Cht
 }
