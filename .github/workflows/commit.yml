@@ -3,59 +3,7 @@ name: Commit CI
 on: [push]
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore ./src/ImeWlConverterCmd
-
-      - name: Publish
-        run: dotnet publish --configuration Release --output ./publish ./src/ImeWlConverterCmd
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: "imewlconverter_Linux"
-          path: ./publish
-
-  macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore ./src/ImeWlConverterCmd
-
-      - name: Publish
-        run: |
-          dotnet publish --configuration Release --output ./publish-x64 ./src/ImeWlConverterCmd -a x64
-          dotnet publish --configuration Release --output ./publish-arm64 ./src/ImeWlConverterCmd -a arm64
-
-      - name: Upload Artifact (x64)
-        uses: actions/upload-artifact@v4
-        with:
-          name: "imewlconverter_macOS-x64"
-          path: ./publish-x64
-
-      - name: Upload Artifact (arm64)
-        uses: actions/upload-artifact@v4
-        with:
-          name: "imewlconverter_macOS-arm64"
-          path: ./publish-arm64
-
-  windows:
+  build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -65,14 +13,19 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Restore dependencies
-        run: dotnet restore "./src/IME WL Converter Win"
-
       - name: Publish
-        run: dotnet publish --configuration Release --output ./publish "./src/IME WL Converter Win"
+        run: |
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-x64 --output ./publish/osx-x64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-arm64 --output ./publish/osx-arm64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r linux-x64 --output ./publish/linux-x64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r linux-arm64 --output ./publish/linux-arm64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x86 --output ./publish/win-x86 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x86 --output ./publish/win-x86 "./src/IME WL Converter Win"
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 "./src/IME WL Converter Win"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: imewlconverter_Windows
+          name: imewlconverter
           path: ./publish

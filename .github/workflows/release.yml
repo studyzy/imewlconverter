@@ -6,83 +6,7 @@ on:
       - "v*"
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Generate CHANGELOG
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
-          writeToFile: false
-          includeInvalidCommits: true
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore ./src/ImeWlConverterCmd
-
-      - name: Publish
-        run: dotnet publish --configuration Release --output ./publish ./src/ImeWlConverterCmd
-
-      - name: Archive
-        run: tar -czf imewlconverter_Linux.tar.gz publish/*
-
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "imewlconverter_Linux.tar.gz"
-          allowUpdates: true
-          body: |
-            ${{ steps.changelog.outputs.changes }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Generate CHANGELOG
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
-          writeToFile: false
-          includeInvalidCommits: true
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore ./src/ImeWlConverterCmd
-
-      - name: Publish
-        run: |
-          dotnet publish --configuration Release --output ./publish-x64 ./src/ImeWlConverterCmd -a x64
-          dotnet publish --configuration Release --output ./publish-arm64 ./src/ImeWlConverterCmd -a arm64
-
-      - name: Archive
-        run: |
-          tar -czf imewlconverter_macOS-x64.tar.gz publish-x64/*
-          tar -czf imewlconverter_macOS-arm64.tar.gz publish-arm64/*
-
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "imewlconverter_macOS-x64.tar.gz,imewlconverter_macOS-arm64.tar.gz"
-          allowUpdates: true
-          body: |
-            ${{ steps.changelog.outputs.changes }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  windows:
+  build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -101,18 +25,29 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Restore dependencies
-        run: dotnet restore "./src/IME WL Converter Win"
-
       - name: Publish
-        run: dotnet publish --configuration Release --output ./publish "./src/IME WL Converter Win"
+        run: |
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-x64 --output ./publish/osx-x64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-arm64 --output ./publish/osx-arm64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r linux-x64 --output ./publish/linux-x64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r linux-arm64 --output ./publish/linux-arm64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x86 --output ./publish/win-x86 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x86 --output ./publish/win-x86 "./src/IME WL Converter Win"
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 ./src/ImeWlConverterCmd
+          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 "./src/IME WL Converter Win"
 
       - name: Archive
-        run: 7z a -tzip imewlconverter_Windows.zip publish/
+        run: |
+          tar -czf imewlconverter_osx-x64.tar.gz publish/osx-x64/*
+          tar -czf imewlconverter_osx-arm64.tar.gz publish/osx-arm64/*
+          tar -czf imewlconverter_linux-x64.tar.gz publish/linux-x64/*
+          tar -czf imewlconverter_linux-arm64.tar.gz publish/linux-arm64/*
+          zip -r imewlconverter_win-x86.zip publish/win-x86/*
+          zip -r imewlconverter_win-x64.zip publish/win-x64/*
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "imewlconverter_Windows.zip"
+          artifacts: "imewlconverter_*"
           allowUpdates: true
           body: |
             ${{ steps.changelog.outputs.changes }}
