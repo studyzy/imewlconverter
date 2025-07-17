@@ -30,7 +30,7 @@ public static class FileOperationHelper
     {
         var type = new ConstantString().GetType();
 
-        return Path.GetDirectoryName(type.Assembly.Location);
+        return Path.GetDirectoryName(System.AppContext.BaseDirectory);
     }
 
     /// <summary>

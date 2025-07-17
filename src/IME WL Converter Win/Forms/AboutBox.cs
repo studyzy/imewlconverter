@@ -27,7 +27,7 @@ internal partial class AboutBox : Form
     public AboutBox()
     {
         InitializeComponent();
-        Text = string.Format("关于 {0}", AssemblyTitle);
+        Text = "关于 深蓝词库转换";
         labelProductName.Text = AssemblyProduct;
         labelVersion.Text = string.Format("版本 {0}", AssemblyVersion);
         labelCopyright.Text = AssemblyCopyright;
@@ -42,22 +42,6 @@ internal partial class AboutBox : Form
 
     #region 程序集属性访问器
 
-    public string AssemblyTitle
-    {
-        get
-        {
-            var attributes = Assembly
-                .GetExecutingAssembly()
-                .GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-            if (attributes.Length > 0)
-            {
-                var titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                if (titleAttribute.Title != "") return titleAttribute.Title;
-            }
-
-            return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-        }
-    }
 
     public string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
