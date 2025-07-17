@@ -658,6 +658,7 @@
 'liu'qian 陆仟
 'liu'wan 陆万
 'liu'yi 陆亿
+'lu'an 六安
 'dui'chen 对称
 'chen'zhi 称职
 'xiang'chen 相称
