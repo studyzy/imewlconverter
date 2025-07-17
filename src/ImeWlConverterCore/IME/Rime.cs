@@ -174,7 +174,10 @@ namespace Studyzy.IMEWLConverter.IME
             string code = lineArray[1];
             var wl = new WordLibrary();
             wl.Word = word;
-            wl.Rank = Convert.ToInt32(lineArray[2]);
+            if (lineArray.Length >= 3)
+            {
+                wl.Rank = Convert.ToInt32(lineArray[2]);
+            }
             if (CodeType == CodeType.Pinyin)
             {
                 wl.PinYin = code.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
