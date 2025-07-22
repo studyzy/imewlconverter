@@ -1,4 +1,4 @@
-﻿U+4E00	一	ggll	ggll	ggll	yi1	37283.98
+U+4E00	一	ggll	ggll	ggll	yi1	37283.98
 U+4E01	丁	sgh	sgh	sgh	ding1	537.12
 U+4E02	丂	gnv	gnv	gnv	kao3,yu2	0
 U+4E03	七	agn	agn	agn	qi1	1593.51
@@ -70,7 +70,7 @@ U+4E44	乄	nyi	nyi	nyi		0
 U+4E45	久	qyi	qyi	qyi	jiu3	944.66
 U+4E46	乆	nwi	nwi	nwi	jiu3	0
 U+4E47	乇	tav	tav	tav	tuo1	6.87
-U+4E48	么	tcu	tcu	tcu	me5,yao1,yao1	5403.53
+U+4E48	么	tcu	tcu	tcu	me5,yao1	5403.53
 U+4E49	义	yqi	yri	yri	yi4	2514
 U+4E4A	乊	tur	tue	tur	hu1	0
 U+4E4B	之	pppp	pppp	pppp	zhi1	14598.24
@@ -124,7 +124,7 @@ U+4E7A	乺	rnrn	rnrn	rnrn		0
 U+4E7B	乻	ywun	ywun	ywun		0
 U+4E7C	乼	iygn	iygn	iygn		0
 U+4E7D	乽	ftjn	ftjn	ftjn		0
-U+4E7E	乾	fjtn	fjtn	fjfn	gan5,qian2	188.94
+U+4E7E	乾	fjtn	fjtn	fjfn	qian2,gan1	188.94
 U+4E7F	乿	exin	exin	exin	luan4	0
 U+4E80	亀	qjjn	qjjn	qjjn	gui1	0
 U+4E81	亁	fjfn	fjfn	fjfn	gan1	0
@@ -132,7 +132,7 @@ U+4E82	亂	ecmn	ecmn	ecmn	luan4	0
 U+4E83	亃	oqan	oqgn	oqan	lin4	0
 U+4E84	亄	fpgn	fpgn	fpgn	yi4	0
 U+4E85	亅	hhll	hhll	hhll	jue2	0
-U+4E86	了	bnh	bnh	bnh	le5,liao3,liao3	25886.26
+U+4E86	了	bnh	bnh	bnh	le5,liao3	25886.26
 U+4E87	亇	qhj	qhj	qhj	ding1	0
 U+4E88	予	cbj	cnhj	cnhj	yu3	423.92
 U+4E89	争	qvhj	qvhj	qvhj	zheng1	1382.24
@@ -280,7 +280,7 @@ U+4F16	伖	wdcy	wdcy	wdcy	nu2,tang3	0
 U+4F17	众	wwwu	wwwu	wwwu	zhong4	1506.76
 U+4F18	优	wdnn	wdny	wdny	you1	529.05
 U+4F19	伙	woy	woy	woy	huo3	328.76
-U+4F1A	会	wfcu	wfcu	wfcu	hui4	7994.5
+U+4F1A	会	wfcu	wfcu	wfcu	hui4,kuai4	7994.5
 U+4F1B	伛	waqy	wary	wary	yu3	1.9
 U+4F1C	伜	wvfh	wvfh	wvfh	cui4,zu2	0
 U+4F1D	伝	wfcy	wfcy	wfcy	yun2	0
@@ -314,8 +314,8 @@ U+4F38	伸	wjhh	wjhh	wjhh	shen1	281.81
 U+4F39	伹	wegg	wegg	wegg	qu1,zu4	0
 U+4F3A	伺	wngk	wngk	wngk	si4	72.71
 U+4F3B	伻	wguh	wguf	wguf	beng1	0
-U+4F3C	似	wnyw	wnyw	wnyw	shi4,si4	1194.41
-U+4F3D	伽	wlkg	wekg	wekg	ga1,qie2	43.92
+U+4F3C	似	wnyw	wnyw	wnyw	si4,shi4	1194.41
+U+4F3D	伽	wlkg	wekg	wekg	jia1,ga1,qie2	43.92
 U+4F3E	伾	wgig	wdhg	wdhg	pi1	0
 U+4F3F	伿	wkwy	wkwy	wkwy	yi4	0
 U+4F40	佀	wnhn	wng	whnn	si4	0
@@ -419,7 +419,7 @@ U+4FA1	価	wsg	wsg	wsg	si4	0
 U+4FA2	侢	wgmf	wgmf	wgmf	dai4	0
 U+4FA3	侣	wkkg	wkkg	wkkg	lv3	45.18
 U+4FA4	侤	wftn	wftn	wftn		0
-U+4FA5	侥	watq	watq	watq	yao2,jiao3	27.21
+U+4FA5	侥	watq	watq	watq	jiao3,yao2	27.21
 U+4FA6	侦	whmy	whmy	whmy	zhen1	149.6
 U+4FA7	侧	wmjh	wmjh	wmjh	ce4,zhai1	272.06
 U+4FA8	侨	wtdj	wtdj	wtdj	qiao2	63.17
@@ -456,7 +456,7 @@ U+4FC6	俆	wwty	wwgs	wwgs	xu2,shu1	0
 U+4FC7	俇	wqtg	wqtg	wqtg	guang4	0
 U+4FC8	俈	wtfk	wtfk	wtfk	ku4	0
 U+4FC9	俉	wgkg	wgkg	wgkg	wu3	0
-U+4FCA	俊	wcwt	wcwt	wcwt	2025/6/4 0:00:00	245.37
+U+4FCA	俊	wcwt	wcwt	wcwt	jun4	245.37
 U+4FCB	俋	wkcn	wkcn	wkcn	yi4	0
 U+4FCC	俌	wgey	wsy	wgey	fu3	0
 U+4FCD	俍	wyve	wyvy	wyve	liang2,lang3	0
@@ -767,7 +767,7 @@ U+50FD	僽	wton	wton	wton	zhou4	0
 U+50FE	僾	wept	wept	wept	ai4	0
 U+50FF	僿	wpff	wpaf	wpaf	sai4	0
 U+5100	儀	wugt	wugy	wugy	yi2	0
-U+5101	儁	wwym	wwyn	wwym	2025/6/4 0:00:00	0
+U+5101	儁	wwym	wwyn	wwym	jun4	0
 U+5102	儂	wmae	wmae	wmae	nong2	0
 U+5103	儃	wylg	wylg	wylg	chan2,shan4	0
 U+5104	億	wujn	wujn	wujn	yi4	0
@@ -887,7 +887,7 @@ U+5175	兵	rgwu	rwu	rgwu	bing1	2396.68
 U+5176	其	adwu	dwu	adwu	qi2,ji1	7057.36
 U+5177	具	hwu	hwu	hwu	ju4	1239.04
 U+5178	典	mawu	mawu	mawu	dian3	449.62
-U+5179	兹	uxxu	uxxu	uxxu	zi1,ci2,ci2	146.71
+U+5179	兹	uxxu	uxxu	uxxu	zi1,ci2	146.71
 U+517A	兺	wvkx	wvkx	wvkx		0
 U+517B	养	udyj	ugjj	ufwj	yang3	648.33
 U+517C	兼	uvou	uvjw	uvou	jian1	406.62
@@ -921,7 +921,7 @@ U+5197	冗	pmb	pwb	pwb	rong3	20.17
 U+5198	冘	pqv	pqv	pqv	yin2	0
 U+5199	写	pgng	pgng	pgng	xie3	1120.37
 U+519A	冚	pmj	pmj	pmj	kan3	0
-U+519B	军	plj	plj	plj	2025/6/1 0:00:00	5511.3
+U+519B	军	plj	plj	plj	jun1	5511.3
 U+519C	农	pei	pei	pei	nong2	980.67
 U+519D	冝	pegf	pegf	pegf	yi2	0
 U+519E	冞	pou	pou	pou	mi2	0
@@ -1062,7 +1062,7 @@ U+5224	判	udjh	ugjh	ugjh	pan4	649.17
 U+5225	別	kqjh	kqjh	kqjh	bie2	0
 U+5226	刦	fcjh	fcjh	fcjh	jie2	0
 U+5227	刧	fcvn	fcvt	fcvt	jie2	0
-U+5228	刨	qnjh	qnjh	qnjh	pao2,bao4,bao4,bao4	10.22
+U+5228	刨	qnjh	qnjh	qnjh	pao2,bao4	10.22
 U+5229	利	tjh	tjh	tjh	li4	2970.94
 U+522A	刪	majh	majh	majh	shan1	0
 U+522B	别	kljh	kejh	kejh	bie2	2302.48
@@ -1149,7 +1149,7 @@ U+527B	剻	meej	meej	meej	peng3	0
 U+527C	剼	cccj	cccj	cccj	shan1	0
 U+527D	剽	sfij	sfij	sfij	piao1	14.03
 U+527E	剾	akkj	akkj	akkj	kou1	0
-U+527F	剿	vjsj	vjsj	vjsj	jiao3,chao1,chao1	62.81
+U+527F	剿	vjsj	vjsj	vjsj	jiao3,chao1	62.81
 U+5280	劀	cbtj	cnhj	cnhj	gua1	0
 U+5281	劁	wyoj	wyoj	wyoj	qiao1	0.62
 U+5282	劂	dubj	dubj	dubj	jue2	0.98
@@ -1365,12 +1365,12 @@ U+5353	卓	hjj	hjj	hjfj	zhuo2	112.68
 U+5354	協	flll	feee	feee	xie2	0
 U+5355	单	ujfj	ujfj	ulj	dan1,chan2,shan4	1235.01
 U+5356	卖	fnud	fnud	fnud	mai4	437.61
-U+5357	南	fmuf	fmuf	fmuf	nan2,na1	2654.35
+U+5357	南	fmuf	fmuf	fmuf	nan2,na2	2654.35
 U+5358	単	ijfj	ijfj	ilj	dan1	0
 U+5359	卙	adwf	dwnf	adwf	ji2,chi4	0
 U+535A	博	fgef	fsfy	fgef	bo2	493.19
 U+535B	卛	xyxf	yxxf	yxxf	lv4	0
-U+535C	卜	hhy	hhy	hhy	bo5,bu3	143.32
+U+535C	卜	hhy	hhy	hhy	bu3,bo5	143.32
 U+535D	卝	gjgd	hghg	hghg	guan4	0
 U+535E	卞	yhu	yhu	yhu	bian4	19.87
 U+535F	卟	khy	khy	khy	bu3	6.93
@@ -1444,7 +1444,7 @@ U+53A2	厢	dshd	dshd	dshd	xiang1	69.88
 U+53A3	厣	ddlk	ddlk	ddyl	yan3	7.27
 U+53A4	厤	dtti	dtti	dtti	li4	0
 U+53A5	厥	dubw	dubw	dubw	jue2	101.09
-U+53A6	厦	ddht	ddht	ddht	sha4	59.69
+U+53A6	厦	ddht	ddht	ddht	sha4,xia4	59.69
 U+53A7	厧	dfhw	dfhw	dfhw	dian1	0
 U+53A8	厨	dgkf	dgkf	dgkf	chu2	87.51
 U+53A9	厩	dvcq	dvaq	dvcq	jiu4	15.56
@@ -1472,7 +1472,7 @@ U+53BE	厾	nfci	nfci	nfci	du3	0
 U+53BF	县	egcu	egcu	egcu	xian4	1145.15
 U+53C0	叀	gmcu	gmcu	gmcu	zhuan1,hui4	0
 U+53C1	叁	cddf	cddf	cddf	san1	19.72
-U+53C2	参	cder	cder	cder	can1	1093.82
+U+53C2	参	cder	cder	cder	can1,shen1,xiu4	1093.82
 U+53C3	參	ccce	ccce	ccce	can1	0
 U+53C4	叄	cccd	cccd	cccd	shen1	0
 U+53C5	叅	cccn	cccn	cccn	can1	0
@@ -1561,7 +1561,7 @@ U+5417	吗	kcg	kcgg	kcgg	ma5	964.41
 U+5418	吘	ktfh	ktfh	ktfh	ou3	0
 U+5419	吙	koy	koy	koy	huo1	0
 U+541A	吚	kvtt	kvtt	kvtt	yi1	0
-U+541B	君	vtkd	vtkf	vtkf	2025/6/1 0:00:00	1024.71
+U+541B	君	vtkd	vtkf	vtkf	jun1	1024.71
 U+541C	吜	knfg	knhg	knhf	chou3	0
 U+541D	吝	ykf	ykf	ykf	lin4	21.32
 U+541E	吞	gdkf	gdkf	gdkf	tun1	121.71
@@ -1572,7 +1572,7 @@ U+5422	吢	nkf	nkf	nkf	qin4	0
 U+5423	吣	kny	kny	kny	qin4	7.17
 U+5424	吤	kwjh	kwjh	kwjh	jie4	0
 U+5425	吥	kgiy	kdhy	kdhy	bu4,pou1	0
-U+5426	否	gikf	dhkf	dhkf	fou3	732.29
+U+5426	否	gikf	dhkf	dhkf	fou3,pi3	732.29
 U+5427	吧	kcn	kcn	kcn	ba5	908.86
 U+5428	吨	kgbn	kgbn	kgbn	dun1	115.12
 U+5429	吩	kwvn	kwvt	kwvt	fen1	119.64
@@ -1595,11 +1595,11 @@ U+5439	吹	kqwy	kqwy	kqwy	chui1	254.56
 U+543A	吺	kmcy	kwcy	kwcy	dou1,ru2	0
 U+543B	吻	kqrt	kqrt	kqrt	wen3	79.32
 U+543C	吼	kbnn	kbnn	kbnn	hou3	66.83
-U+543D	吽	krhh	ktgh	ktgh	hou3,ou1	0
+U+543D	吽	krhh	ktgh	ktgh	hong1,hou3	0
 U+543E	吾	gkf	gkf	gkf	wu2	589.01
 U+543F	吿	rhkf	tgkf	tgkf	gao4	0
 U+5440	呀	kaht	kaht	kaht	ya5	403.94
-U+5441	呁	kqug	kqug	kqug	2025/6/4 0:00:00	0
+U+5441	呁	kqug	kqug	kqug	jun4	0
 U+5442	呂	ktkf	ktkf	ktkf	lv3	0
 U+5443	呃	kdbn	kdbn	kdbn	e4	22.4
 U+5444	呄	edf	bdf	bdf	ge2	0
@@ -1647,13 +1647,13 @@ U+546D	呭	kann	kann	kann	yi4	0
 U+546E	呮	kkwy	kkwy	kkwy	qi4,zhi1	0
 U+546F	呯	kguh	kguf	kguf	ping2	0
 U+5470	呰	hxkf	hxkf	hxkf	zi3,ci1	0
-U+5471	呱	krcy	krcy	krcy	gua1,pai4,pai4	16.39
+U+5471	呱	krcy	krcy	krcy	gua1,gu1	16.39
 U+5472	呲	khxn	khxn	khxn	ci1	1.82
 U+5473	味	kfiy	kfy	kfiy	wei4	466.1
 U+5474	呴	kqkg	kqkg	kqkg	xu3	0
 U+5475	呵	kskg	kskg	kskg	he1,a2,a3,a4	119.95
 U+5476	呶	kvcy	kvcy	kvcy	nao2	10.19
-U+5477	呷	klh	klh	klh	ga1	14.59
+U+5477	呷	klh	klh	klh	xia1	14.59
 U+5478	呸	kgig	kdhg	kdhg	pei1	8.59
 U+5479	呹	krwy	ktgy	krwy	yi4	0
 U+547A	呺	kkgn	kkgn	kkgn	hao2,xiao1	0
@@ -1723,7 +1723,7 @@ U+54B9	咹	kpvg	kpvg	kpvg	e4	0
 U+54BA	咺	kgjg	kgjg	kgjg	xuan1	0
 U+54BB	咻	kwsy	kwsy	kwsy	xiu1	4.41
 U+54BC	咼	mnmk	mnmk	mnmk	guo1	0
-U+54BD	咽	kldy	kldy	kldy	yan1,ye4	98.73
+U+54BD	咽	kldy	kldy	kldy	yan1,yan4,ye4	98.73
 U+54BE	咾	kftx	kftx	kftx	lao3	0
 U+54BF	咿	kwvt	kwvt	kwvt	yi1	4.68
 U+54C0	哀	yeu	yeu	ykeu	ai1	205.52
@@ -2022,7 +2022,7 @@ U+55E4	嗤	kbhj	kbhj	kbhj	chi1	26.15
 U+55E5	嗥	krdf	krdf	krdf	hao2	9.7
 U+55E6	嗦	kfpi	kfpi	kfpi	suo1	20.57
 U+55E7	嗧	lkwa	ekwa	ekwa	lun2,jia1	0
-U+55E8	嗨	kitu	kitx	kitx	hei1	20.14
+U+55E8	嗨	kitu	kitx	kitx	hai1	20.14
 U+55E9	嗩	kimy	kimy	kimy	suo3	0
 U+55EA	嗪	kdwt	kdwt	kdwt	qin2	6.29
 U+55EB	嗫	kbcc	kbcc	kbcc	nie4	9.72
@@ -2209,7 +2209,7 @@ U+569F	嚟	ktqi	ktqi	ktqi	li2	0
 U+56A0	嚠	kqyj	kqyj	kqyj	liu2	0
 U+56A1	嚡	kaff	kaff	kakf	hai4	0
 U+56A2	嚢	gkhe	gkhe	gkhe	nang2	0
-U+56A3	嚣	kkdk	kkdk	kkdk	xiao1,ao2,ao2	30.65
+U+56A3	嚣	kkdk	kkdk	kkdk	xiao1,ao2	30.65
 U+56A4	嚤	kysr	kosr	kosr	mo1	0
 U+56A5	嚥	kauo	kako	kako	yan4	0
 U+56A6	嚦	kdth	kdth	kdth	li4	0
@@ -2373,7 +2373,7 @@ U+5743	坃	ffqn	ffqn	ffqn	xun1	0
 U+5744	坄	fmcy	fwcy	fwcy	yi4	0
 U+5745	坅	fwyn	fwyn	fwyn	qin3	0
 U+5746	坆	fty	fty	fty	fen2	0
-U+5747	均	fqug	fqug	fqug	2025/6/1 0:00:00	440.38
+U+5747	均	fqug	fqug	fqug	jun1	440.38
 U+5748	坈	fpmn	fpwn	fpwn	rong3,keng1	0
 U+5749	坉	fgbn	fgbn	fgbn	tun4	0
 U+574A	坊	fyn	fyt	fyt	fang1	84.98
@@ -2502,7 +2502,7 @@ U+57C4	埄	ftdh	ftdh	ftdh	beng3,feng2	0
 U+57C5	埅	byff	byff	byff	fang2	0
 U+57C6	埆	fqeh	fqeh	fqeh	que4,jue2	0
 U+57C7	埇	fceh	fceh	fceh	yong3	0
-U+57C8	埈	fcwt	fcwt	fcwt	2025/6/4 0:00:00	0
+U+57C8	埈	fcwt	fcwt	fcwt	jun4	0
 U+57C9	埉	fdww	fdww	fdww	jia1,xia2	0
 U+57CA	埊	miff	miff	miff	di4	0
 U+57CB	埋	fjfg	fjfg	fjfg	mai2	158.63
@@ -2858,7 +2858,7 @@ U+5928	夨	gnyi	ngyi	gnyi	ze4	0
 U+5929	天	gdi	gdi	gdi	tian1	6255.27
 U+592A	太	dyi	dyi	dyi	tai4	3681.94
 U+592B	夫	fwi	gggy	fwi	fu1	2141.98
-U+592C	夬	nwi	nwi	nwi	jue2,guai4	0
+U+592C	夬	nwi	nwi	nwi	guai4,jue2	0
 U+592D	夭	tdi	tdi	tdi	yao1	35.25
 U+592E	央	mdi	mdi	mdi	yang1	478.09
 U+592F	夯	dlb	der	der	hang1,ben4	6.67
@@ -3508,7 +3508,7 @@ U+5BB2	宲	pksu	pksu	pksu	shi2,bao3	0
 U+5BB3	害	pdhk	pdhk	pdhk	hai4	951.41
 U+5BB4	宴	pjvf	pjvf	pjvf	yan4	163.37
 U+5BB5	宵	pief	pief	pief	xiao1	46.99
-U+5BB6	家	peu	pgeu	pgeu	jia1,jie5,jie5	6849.94
+U+5BB6	家	peu	pgeu	pgeu	jia1,jie5	6849.94
 U+5BB7	宷	ptou	ptou	ptou	shen3	0
 U+5BB8	宸	pdfe	pdfe	pdfe	chen2	28.55
 U+5BB9	容	pwwk	pwwk	pwwk	rong2	1235.66
@@ -3517,7 +3517,7 @@ U+5BBB	宻	pcum	pcum	pcum	mi4	0
 U+5BBC	宼	pfqv	pfqv	pfqv	kou4	0
 U+5BBD	宽	pamq	pamq	pamq	kuan1	335.48
 U+5BBE	宾	prgw	prwu	prgw	bin1	261.18
-U+5BBF	宿	pwdj	pwdj	pwdj	xiu3,su4	264.06
+U+5BBF	宿	pwdj	pwdj	pwdj	su4,xiu3,xiu4	264.06
 U+5BC0	寀	pesu	pesu	pesu	cai3	0
 U+5BC1	寁	pgvh	pgvh	pgvh	zan3	0
 U+5BC2	寂	phic	phic	phgc	ji4	138.27
@@ -3565,7 +3565,7 @@ U+5BEB	寫	pvqo	peqo	peqo	xie3	0
 U+5BEC	寬	pahy	pahy	pahy	kuan1	0
 U+5BED	寭	pgjn	pgjn	pgjn	hui4	0
 U+5BEE	寮	pdui	pdui	pdui	liao2	10.89
-U+5BEF	寯	pwym	pwyn	pwym	2025/6/4 0:00:00	0
+U+5BEF	寯	pwym	pwyn	pwym	jun4	0
 U+5BF0	寰	plge	plge	plge	huan2	17.92
 U+5BF1	寱	pnhs	puts	pnhs	yi4	0
 U+5BF2	寲	pxth	pxth	pxth	yi2	0
@@ -3833,7 +3833,7 @@ U+5CF7	峷	muj	muj	mufj	shen1	0
 U+5CF8	峸	mdnt	mdnn	mdny	cheng2	0
 U+5CF9	峹	wtmj	wgsm	wgsm	tu2	0
 U+5CFA	峺	mgjq	mgjr	mgjr	geng3	0
-U+5CFB	峻	mcwt	mcwt	mcwt	2025/6/4 0:00:00	70.2
+U+5CFB	峻	mcwt	mcwt	mcwt	jun4	70.2
 U+5CFC	峼	mtfk	mtfk	mtfk	gao4	0
 U+5CFD	峽	mdww	mdww	mdww	xia2	0
 U+5CFE	峾	irmj	irmj	irmj	yin2	0
@@ -4407,7 +4407,7 @@ U+5F35	張	xdey	xdey	xdey	zhang1	0
 U+5F36	弶	xyiy	xyiy	xyki	jiang4	0
 U+5F37	強	xcjy	xcjy	xcjy	qiang2,jiang4,jiang4	0
 U+5F38	弸	xeeg	xeeg	xeeg	peng2	0
-U+5F39	弹	xujf	xujf	xulh	dan4,tan2,tan5	687.62
+U+5F39	弹	xujf	xujf	xulh	tan2,dan4	687.62
 U+5F3A	强	xkjy	xkjy	xkjy	qiang2,jiang4	1698.57
 U+5F3B	弻	xgkx	xglx	xgmx	bi4	0
 U+5F3C	弼	xdjx	xdjx	xdjx	bi4	71.98
@@ -4469,7 +4469,7 @@ U+5F73	彳	ttth	ttth	ttth	chi4	0
 U+5F74	彴	tqyy	tqyy	tqyy	zhuo2	0
 U+5F75	彵	tbn	tbn	tbn	yi2,tuo3	0
 U+5F76	彶	teyy	tbyy	tbyy	ji2	0
-U+5F77	彷	tyn	tyt	tyt	pang2,fang3,fang3	12.6
+U+5F77	彷	tyn	tyt	tyt	pang2,fang3	12.6
 U+5F78	彸	twcy	twcy	twcy	zhong1	0
 U+5F79	役	tmcy	twcy	twcy	yi4	329.89
 U+5F7A	彺	tgg	tgg	tgg	wang2	0
@@ -5069,7 +5069,7 @@ U+61CB	懋	scbn	scnn	scnn	mao4	17.98
 U+61CC	懌	nlff	nlff	nlff	yi4	0
 U+61CD	懍	nylt	nylt	nylt	lin3	0
 U+61CE	懎	nfwk	nfwk	nfwk	se4	0
-U+61CF	懏	nwym	nwyn	nwym	2025/6/4 0:00:00	0
+U+61CF	懏	nwym	nwyn	nwym	jun4	0
 U+61D0	懐	nyle	nyle	nyle	huai2	0
 U+61D1	懑	iagn	iagn	iagn	men4	5.84
 U+61D2	懒	ngkm	nskm	ngkm	lan3	78.62
@@ -5133,7 +5133,7 @@ U+620B	戋	gggt	gai	fxyi	jian1	0.81
 U+620C	戌	dgnt	dgd	dgxy	xu1,qu5	144.32
 U+620D	戍	dynt	awi	dyxy	shu4	70.07
 U+620E	戎	ade	ade	ade	rong2	106.45
-U+620F	戏	cat	cay	cay	xi4,hu1,hu1	388.9
+U+620F	戏	cat	cay	cay	xi4,hu1	388.9
 U+6210	成	dnnt	dnv	dnxy	cheng2	5864.44
 U+6211	我	trnt	trny	trxy	wo3	19390.38
 U+6212	戒	aak	aak	aak	jie4	235.93
@@ -5281,7 +5281,7 @@ U+629F	抟	rfny	rfny	rfny	tuan2	19.78
 U+62A0	抠	raqy	rary	rary	kou1	6.75
 U+62A1	抡	rwxn	rwxn	rwxn	lun1	23.12
 U+62A2	抢	rwbn	rwbn	rwbn	qiang3	203.33
-U+62A3	抣	rqug	rqug	rqug	2025/6/1 0:00:00	0
+U+62A3	抣	rqug	rqug	rqug	jun1	0
 U+62A4	护	rynt	rynt	rynt	hu4	917.1
 U+62A5	报	rbcy	rbcy	rbcy	bao4	2186.68
 U+62A6	抦	rgmw	rgmw	rgmw	bing3	0
@@ -5405,7 +5405,7 @@ U+631B	挛	yorj	yorj	yorj	luan2	29.68
 U+631C	挜	rgog	rgog	rgog	ya4	0
 U+631D	挝	rfpy	rfpy	rfpy	wo1	19.13
 U+631E	挞	rdpy	rdpy	rdpy	ta4	13.35
-U+631F	挟	rguw	rgud	rgud	jia1,xie2	50.61
+U+631F	挟	rguw	rgud	rgud	xie2,jia1	50.61
 U+6320	挠	ratq	ratq	ratq	nao2	45.9
 U+6321	挡	rivg	rivg	rivg	dang3	95.58
 U+6322	挢	rtdj	rtdj	rtdj	jiao3	0.96
@@ -5441,7 +5441,7 @@ U+633F	挿	rtgh	rtgh	rtgh	cha1	0
 U+6340	捀	rtdh	rtdh	rtdh	feng2	0
 U+6341	捁	rtfk	rtfk	rtfk	jiao3,ku4	0
 U+6342	捂	rgkg	rgkg	rgkg	wu3	17.8
-U+6343	捃	rvtk	rvtk	rvtk	2025/6/4 0:00:00	1.36
+U+6343	捃	rvtk	rvtk	rvtk	jun4	1.36
 U+6344	捄	rfiy	rgiy	rgiy	ju1,qiu2	0
 U+6345	捅	rceh	rceh	rceh	tong3	14.88
 U+6346	捆	rlsy	rlsy	rlsy	kun3	45.96
@@ -5894,7 +5894,7 @@ U+6504	攄	rhan	rhln	rhan	lu4,shu1	0
 U+6505	攅	rfwm	rggm	rfwm	cuan2	0
 U+6506	攆	rfwl	rggl	rfwl	nian3	0
 U+6507	攇	rpdn	rpdn	rpdn	xian3	0
-U+6508	攈	rynt	roxt	ront	2025/6/4 0:00:00	0
+U+6508	攈	rynt	roxt	ront	jun4	0
 U+6509	攉	rfwy	rfwy	rfwy	huo4	0.26
 U+650A	攊	rdth	rdth	rdth	li4	0
 U+650B	攋	rgkm	rskm	rgkm	lai4	0
@@ -5904,7 +5904,7 @@ U+650E	攎	rhal	rhll	rhal	lu2	0
 U+650F	攏	rued	rued	rued	long3	0
 U+6510	攐	rpfe	rpae	rpae	qian1	0
 U+6511	攑	rwfh	regg	regg	qian1	0
-U+6512	攒	rtfm	rtfm	rtfm	zan3,cuan2,cuan2	22.39
+U+6512	攒	rtfm	rtfm	rtfm	zan3,cuan2	22.39
 U+6513	攓	rpfh	rpah	rpah	qian1	0
 U+6514	攔	rugi	rusl	rugi	lan2	0
 U+6515	攕	rwwg	rwwg	rwwg	xian1	0
@@ -5917,7 +5917,7 @@ U+651B	攛	rpwn	rpwn	rpwn	cuan1	0
 U+651C	攜	rmwk	rmwk	rmwk	xie2	0
 U+651D	攝	rbbb	rbbb	rbbb	she4	0
 U+651E	攞	rlxy	rlxy	rlxy	luo3	0
-U+651F	攟	rynt	roxt	ront	2025/6/4 0:00:00	0
+U+651F	攟	rynt	roxt	ront	jun4	0
 U+6520	攠	rysd	rosd	rosd	mi2	0
 U+6521	攡	ryby	ryry	ryry	chi1	0
 U+6522	攢	rtfm	rtfm	rtfm	zan3,cuan2	0
@@ -6110,7 +6110,7 @@ U+65DC	旜	ytyg	ytyg	ytyg	zhan1	0
 U+65DD	旝	ytwj	ytwj	ytwj	kuai4	0
 U+65DE	旞	ytup	ytup	ytup	sui4	0
 U+65DF	旟	ytww	ytew	ytew	yu2	0
-U+65E0	无	fqv	fqv	fqv	wu2	5497.39
+U+65E0	无	fqv	fqv	fqv	wu2,mo2	5497.39
 U+65E1	旡	aqv	aqv	aqv	ji4	0
 U+65E2	既	vcaq	vaqn	vcaq	ji4	1041.97
 U+65E3	旣	rxaq	rxaq	rxaq	ji4	0
@@ -6231,7 +6231,7 @@ U+6655	晕	jplj	jplj	jplj	yun1	116.77
 U+6656	晖	jplh	jplh	jplh	hui1	41.52
 U+6657	晗	jwyk	jwyk	jwyk	han2	5.44
 U+6658	晘	jjfh	jjfh	jjfh	han4	0
-U+6659	晙	jcwt	jcwt	jcwt	2025/6/4 0:00:00	0
+U+6659	晙	jcwt	jcwt	jcwt	jun4	0
 U+665A	晚	jqkq	jqkq	jqkq	wan3	812
 U+665B	晛	jhqn	jhqn	jhqn	xian4	0
 U+665C	晜	juxt	juxt	juxt	kun1	0
@@ -6582,7 +6582,7 @@ U+67B4	枴	skvn	skvt	skvt	guai3	0
 U+67B5	枵	skgn	skgn	skgn	xiao1	4.22
 U+67B6	架	lksu	eksu	eksu	jia4	449.39
 U+67B7	枷	slkg	sekg	sekg	jia1	22.14
-U+67B8	枸	sqkg	sqkg	sqkg	gou3	3.54
+U+67B8	枸	sqkg	sqkg	sqkg	gou3,ju3	3.54
 U+67B9	枹	sqnn	sqnn	sqnn	fu2,bao1	0
 U+67BA	枺	sgsy	sgsy	sgsy	mo4	0
 U+67BB	枻	sann	sann	sann	yi4	0
@@ -6687,7 +6687,7 @@ U+681D	栝	stdg	stdg	stdg	kuo4,gua1	0.72
 U+681E	栞	ftfs	gdfs	gdfs	kan1	0
 U+681F	栟	suah	suah	suah	bing1	0
 U+6820	栠	wtfs	wtfs	wtfs	ren3	0
-U+6821	校	suqy	sury	sywr	xiao4	862.67
+U+6821	校	suqy	sury	sywr	xiao4,jiao4	862.67
 U+6822	栢	sdjg	sdjg	sdjg	bai3	0
 U+6823	栣	swtf	swtf	swtf	ren3	0
 U+6824	栤	suiy	suiy	suiy	bing4	0
@@ -6738,7 +6738,7 @@ U+6850	桐	smgk	smgk	smgk	tong2	48.98
 U+6851	桑	cccs	cccs	cccs	sang1	219.59
 U+6852	桒	fasu	fasu	fasu	sang1	0
 U+6853	桓	sgjg	sgjg	sgjg	huan2	144.18
-U+6854	桔	sfkg	sfkg	sfkg	ju2	15.55
+U+6854	桔	sfkg	sfkg	sfkg	jie2,ju2	15.55
 U+6855	桕	svg	seg	seg	jiu4	0.6
 U+6856	桖	stlg	stlg	stlg	xue4	0
 U+6857	桗	sesy	sbsy	sbsy	duo4	0
@@ -6780,7 +6780,7 @@ U+687A	桺	sgan	sgjn	sgjn	liu3	0
 U+687B	桻	stdh	stdh	stdh	feng1	0
 U+687C	桼	swiu	swiu	swiu	qi1	0
 U+687D	桽	swwf	swwf	swwf	wen3	0
-U+687E	桾	svtk	svtk	svtk	2025/6/1 0:00:00	0
+U+687E	桾	svtk	svtk	svtk	jun1	0
 U+687F	桿	sjfh	sjfh	sjfh	gan3,han4	0
 U+6880	梀	sgki	sskg	sgki	su4	0
 U+6881	梁	ivws	ivws	ivws	liang2	457.63
@@ -6876,7 +6876,7 @@ U+68DA	棚	seeg	seeg	seeg	peng2	49.42
 U+68DB	棛	syce	syce	syce	yu4	0
 U+68DC	棜	sywu	sywu	sywu	yu4	0
 U+68DD	棝	sldg	sldg	sldg	gu4	0
-U+68DE	棞	slty	slty	slty	2025/6/4 0:00:00	0
+U+68DE	棞	slty	slty	slty	jun4	0
 U+68DF	棟	sgji	ssjg	sgji	dong4	0
 U+68E0	棠	ipks	ipks	ipks	tang2	56.48
 U+68E1	棡	smum	smum	smum	gang1	0
@@ -7199,7 +7199,7 @@ U+6A1D	樝	shag	sheg	shag	zha1	0
 U+6A1E	樞	sakk	sakk	sakk	shu1	0
 U+6A1F	樟	sujh	sujh	sujf	zhang1	10.24
 U+6A20	樠	samy	samy	samy	man2	0
-U+6A21	模	sajd	sajd	sajd	mo2	614.61
+U+6A21	模	sajd	sajd	sajd	mo2,mu2	614.61
 U+6A22	樢	swvo	sqoy	swvo	mu4,niao3	0
 U+6A23	樣	sugi	sugi	sugi	yang4	0
 U+6A24	樤	swhs	swhs	swhs	tiao2	0
@@ -7788,7 +7788,7 @@ U+6C6A	汪	igg	igg	igg	wang1	121.14
 U+6C6B	汫	ifjh	ifjh	ifjh	jing3	0
 U+6C6C	汬	fjiu	fjiu	fjiu	jing3	0
 U+6C6D	汭	imwy	imwy	imwy	rui4	0
-U+6C6E	汮	iqug	iqug	iqug	2025/6/1 0:00:00	0
+U+6C6E	汮	iqug	iqug	iqug	jun1	0
 U+6C6F	汯	idcy	idcy	idcy	hong2	0
 U+6C70	汰	idyy	idyy	idyy	tai4	27.14
 U+6C71	汱	idy	idy	idyy	quan3,fu2	0
@@ -8003,7 +8003,7 @@ U+6D41	流	iycq	iyck	iyck	liu2	1485.97
 U+6D42	浂	iudy	iudy	iudy	yi4	0
 U+6D43	浃	iguw	igud	igud	jia1	6.75
 U+6D44	浄	iqvh	iqvh	iqvh	jing4	0
-U+6D45	浅	igt	igay	ifxy	qian3,jian1,jian1	151.48
+U+6D45	浅	igt	igay	ifxy	qian3,jian1	151.48
 U+6D46	浆	uqiu	uqiu	uqiu	jiang1	43.42
 U+6D47	浇	iatq	iatq	iatq	jiao1	38.26
 U+6D48	浈	ihmy	ihmy	ihmy	zhen1	0.41
@@ -8024,7 +8024,7 @@ U+6D56	浖	iefy	iefy	iefy	lie4	0
 U+6D57	浗	ifiy	igiy	igiy	qiu2	0
 U+6D58	浘	intn	inen	intn	wei3	0
 U+6D59	浙	irrh	irrh	irrh	zhe4	134.44
-U+6D5A	浚	icwt	icwt	icwt	2025/6/4 0:00:00	75.9
+U+6D5A	浚	icwt	icwt	icwt	jun4	75.9
 U+6D5B	浛	iwyk	iwyk	iwyk	han2	0
 U+6D5C	浜	irgw	irwy	irgw	bang1	11.73
 U+6D5D	浝	idne	idny	idny	mang2	0
@@ -8578,7 +8578,7 @@ U+6F80	澀	ivyh	ivyh	ivyh	se4	0
 U+6F81	澁	ihhh	ihhh	ihhh	se4	0
 U+6F82	澂	imgt	imgt	imgt	cheng2,deng4	0
 U+6F83	澃	edmi	edmi	edmi	jiong3	0
-U+6F84	澄	iwgu	iwgu	iwgu	cheng2,deng1,deng4,deng4	72.89
+U+6F84	澄	iwgu	iwgu	iwgu	cheng2,deng1,deng4	72.89
 U+6F85	澅	ivfg	ivfg	ivfg	hua4	0
 U+6F86	澆	iffq	iffq	iffq	jiao1	0
 U+6F87	澇	iool	iooe	iooe	lao4	0
@@ -8682,7 +8682,7 @@ U+6FE8	濨	iuxn	iuxn	iuxn	ci2	0
 U+6FE9	濩	iawc	iawc	iawc	hu4	0
 U+6FEA	濪	igec	igec	igec	qing4	0
 U+6FEB	濫	iahl	iahl	iahl	lan3	0
-U+6FEC	濬	ihph	ihph	ihph	2025/6/4 0:00:00	0
+U+6FEC	濬	ihph	ihph	ihph	jun4	0
 U+6FED	濭	iafl	iafl	iafl	ai3,kai4	0
 U+6FEE	濮	iwoy	iwog	iwow	pu2	26.54
 U+6FEF	濯	inwy	inwy	inwy	zhuo2	9.78
@@ -8835,7 +8835,7 @@ U+7081	炁	aqou	aqou	aqou	qi4	0
 U+7082	炂	owcy	owcy	owcy	zhong1	0
 U+7083	炃	wvou	wvou	wvou	fen2,ben4	0
 U+7084	炄	onfg	onhg	onhf	niu3	0
-U+7085	炅	jou	jou	jou	gui4,jiong3	9.2
+U+7085	炅	jou	jou	jou	jiong3,gui4	9.2
 U+7086	炆	oyy	oyy	oyy	wen2	0
 U+7087	炇	oty	oty	oty	pu1	0
 U+7088	炈	omcy	owcy	owcy	yi4	0
@@ -9117,7 +9117,7 @@ U+719B	熛	osfi	osfi	osfi	biao1	0
 U+719C	熜	otln	otln	otln	cong1,zong3	0
 U+719D	熝	oynx	ooxx	oonx	lu4,ao1	0
 U+719E	熞	oahf	oahf	oahf	jian1	0
-U+719F	熟	ybvo	ybvo	ykbo	shu2	359.07
+U+719F	熟	ybvo	ybvo	ykbo	shu2,shou2	359.07
 U+71A0	熠	onrg	onrg	onrg	yi4	5.83
 U+71A1	熡	olvg	olvg	olvg	lou2	0
 U+71A2	熢	otdp	otdp	otdp	peng2,feng1	0
@@ -9126,7 +9126,7 @@ U+71A4	熤	onug	onug	onug	yi4	0
 U+71A5	熥	ocep	ocep	ocep	tong1	0
 U+71A6	熦	oiwy	oiwy	oiwy	jue2	0
 U+71A7	熧	twwo	twwo	twwo	zong1	0
-U+71A8	熨	nfio	nfio	nfio	yun4	5.1
+U+71A8	熨	nfio	nfio	nfio	yun4,yu4	5.1
 U+71A9	熩	oync	oync	oync	hu4	0
 U+71AA	熪	otqq	otqq	otqq	yi2	0
 U+71AB	熫	oyao	ooao	ooao	zhi4	0
@@ -9157,7 +9157,7 @@ U+71C3	燃	oqdo	oqdo	oqdo	ran2	140.11
 U+71C4	燄	qvoo	qeoo	qeoo	yan4	0
 U+71C5	燅	fwfo	fwfo	fwfo	xun2	0
 U+71C6	燆	otdk	otdk	otdk	qiao1	0
-U+71C7	燇	ousf	ousf	ousf	2025/6/4 0:00:00	0
+U+71C7	燇	ousf	ousf	ousf	jun4	0
 U+71C8	燈	owgu	owgu	owgu	deng1	0
 U+71C9	燉	oybt	oybt	oykt	dun1	0
 U+71CA	燊	ooos	ooos	ooos	shen1	0
@@ -9605,7 +9605,7 @@ U+7383	玃	qthc	qthc	qthc	jue2	0
 U+7384	玄	yxu	yxu	yxu	xuan2	340.1
 U+7385	玅	yxit	yxit	yxit	miao4,yao1	0
 U+7386	玆	yxyx	yxyx	yxyx	zi1,ci2,xuan2	0
-U+7387	率	yxif	yxif	yxif	lv4	928.35
+U+7387	率	yxif	yxif	yxif	shuai4,lv4	928.35
 U+7388	玈	yxte	yxte	yxte	lu2	0
 U+7389	玉	gyi	gyi	gyi	yu4	919.94
 U+738A	玊	gyi	gyi	gyi	su4	0
@@ -9720,7 +9720,7 @@ U+73F6	珶	guxt	guxt	guxt	di4,ti2	0
 U+73F7	珷	ggah	ggay	gfhy	wu3	0
 U+73F8	珸	ggkg	ggkg	ggkg	wu2	0
 U+73F9	珹	gdnt	gdnn	gdny	cheng2	0
-U+73FA	珺	gvtk	gvtk	gvtk	2025/6/4 0:00:00	0
+U+73FA	珺	gvtk	gvtk	gvtk	jun4	0
 U+73FB	珻	gtxu	gtxy	gtxy	mei2	0
 U+73FC	珼	gmy	gmy	gmy	bei4	0
 U+73FD	珽	gtfp	gtfp	gtfp	ting3	0
@@ -10074,7 +10074,7 @@ U+7558	畘	lmfg	lmfg	lmfg	nan2	0
 U+7559	留	qyvl	qyvl	qyvl	liu2	1132.27
 U+755A	畚	cdlf	cdlf	cdlf	ben3	8.56
 U+755B	畛	lwet	lwet	lwet	zhen3	8.39
-U+755C	畜	yxlf	yxlf	yxlf	chu4	112.34
+U+755C	畜	yxlf	yxlf	yxlf	chu4,xu4	112.34
 U+755D	畝	ylqy	ylqy	ylqy	mu3	0
 U+755E	畞	flqy	flqy	flqy	mu3	0
 U+755F	畟	lwtu	lwtu	lwtu	ji4	0
@@ -10093,7 +10093,7 @@ U+756B	畫	vflg	vflg	vflg	hua4	0
 U+756C	畬	wtlf	wgsl	wgsl	yu2,she1	0
 U+756D	畭	lwty	lwgs	lwgs	yu2	0
 U+756E	畮	ltxu	ltxy	ltxy	mu3	0
-U+756F	畯	lcwt	lcwt	lcwt	2025/6/4 0:00:00	0
+U+756F	畯	lcwt	lcwt	lcwt	jun4	0
 U+7570	異	lawu	lawu	lawu	yi4	0
 U+7571	畱	gajl	gjal	gjal	liu2	0
 U+7572	畲	wfil	wfil	wfil	she1	7.81
@@ -10416,14 +10416,14 @@ U+76AE	皮	hci	bnty	hci	pi2	588.57
 U+76AF	皯	hcfh	bfh	hcfh	gan3	0
 U+76B0	皰	hcqn	bqnn	hcqn	pao4	0
 U+76B1	皱	qvhc	qvby	qvhc	zhou4	84.4
-U+76B2	皲	plhc	plby	plhc	2025/6/1 0:00:00	0.73
+U+76B2	皲	plhc	plby	plhc	jun1	0.73
 U+76B3	皳	fiyc	giyb	giyc	qiu2	0
 U+76B4	皴	cwtc	cwtb	cwtc	cun1	1.23
 U+76B5	皵	ajhc	ajby	ajhc	que4	0
 U+76B6	皶	sjgc	sjgb	sjgc	zha1	0
 U+76B7	皷	fkuc	fkub	fkuc	gu3	0
-U+76B8	皸	plhc	plby	plhc	2025/6/1 0:00:00	0
-U+76B9	皹	hcpl	bplh	hcpl	2025/6/1 0:00:00	0
+U+76B8	皸	plhc	plby	plhc	jun1	0
+U+76B9	皹	hcpl	bplh	hcpl	jun1	0
 U+76BA	皺	qbtc	qbtb	qbtc	zhou1	0
 U+76BB	皻	haec	hegb	haec	zha1	0
 U+76BC	皼	fpgc	fpgb	fpgc	gu3	0
@@ -10495,7 +10495,7 @@ U+76FD	盽	hdhh	hdhh	hdhh	feng1	0.01
 U+76FE	盾	rfhd	rfhd	rfhd	dun4	169.66
 U+76FF	盿	hyy	hyy	hyy	min2	0.03
 U+7700	眀	heg	heg	heg	ming2	0.01
-U+7701	省	ithf	ithf	ithf	sheng3	930.07
+U+7701	省	ithf	ithf	ithf	sheng3,xing3	930.07
 U+7702	眂	hqan	hqan	hqan	shi4	0.08
 U+7703	眃	hfcy	hfcy	hfcy	yun2,hun4	0.03
 U+7704	眄	hghn	hghn	hghn	mian3	2.73
@@ -10558,7 +10558,7 @@ U+773C	眼	hvey	hvy	hvey	yan3	1753.49
 U+773D	眽	hrey	hrey	hrey	mo4	0.16
 U+773E	眾	lwwu	lwww	lwww	zhong4	0.35
 U+773F	眿	hyni	hyni	hyni	mo4	0.02
-U+7740	着	udhf	uhf	ughf	zhe5,zhao1,zhao1,zhao2,zhuo2	7469.31
+U+7740	着	udhf	uhf	ughf	zhe5,zhao1,zhao2,zhuo2	7469.31
 U+7741	睁	hqvh	hqvh	hqvh	zheng1	93.8
 U+7742	睂	wwhh	wwhh	wwhh	mei2	0
 U+7743	睃	hcwt	hcwt	hcwt	suo1	1.69
@@ -10883,7 +10883,7 @@ U+7881	碁	adwd	dwdf	adwd	qi2	0.37
 U+7882	碂	dpfi	dpfi	dpfi	zong4,cong2	0
 U+7883	碃	dgeg	dgeg	dgeg	qing4	0.03
 U+7884	碄	dssy	dssy	dssy	lin2	0.03
-U+7885	碅	dlty	dlty	dlty	2025/6/1 0:00:00	0.02
+U+7885	碅	dlty	dlty	dlty	jun1	0.02
 U+7886	碆	ihcd	ibdf	ihcd	bo1,pan2	0.07
 U+7887	碇	dpgh	dpgh	dpgh	ding4	11.88
 U+7888	碈	dqaj	dqaj	dqaj	min2	0.03
@@ -11489,7 +11489,7 @@ U+7ADF	竟	ujqb	ujqb	ujqb	jing4	764.29
 U+7AE0	章	ujj	ujj	ujfj	zhang1	1130
 U+7AE1	竡	udjg	udjg	udjg	bai3	0
 U+7AE2	竢	uctd	uctd	uctd	si4	0.04
-U+7AE3	竣	ucwt	ucwt	ucwt	2025/6/4 0:00:00	14.32
+U+7AE3	竣	ucwt	ucwt	ucwt	jun4	14.32
 U+7AE4	竤	updc	updc	updc	hong2	0.04
 U+7AE5	童	ujff	ujff	ujff	tong2	336.22
 U+7AE6	竦	ugki	uskg	ugki	song3	15.02
@@ -11677,7 +11677,7 @@ U+7B9B	箛	tbry	tbry	tbry	gu1	0.05
 U+7B9C	箜	tpwa	tpwa	tpwa	kong1	2.65
 U+7B9D	箝	traf	trff	traf	qian2	2.96
 U+7B9E	箞	tudb	tugb	tudb	qian1	0.01
-U+7B9F	箟	tjxx	tjxx	tjxx	2025/6/4 0:00:00	0
+U+7B9F	箟	tjxx	tjxx	tjxx	jun4	0
 U+7BA0	箠	ttgf	ttfa	ttfg	chui2,zhui1	1.44
 U+7BA1	管	tpnn	tpnf	tphn	guan3	2031.42
 U+7BA2	箢	tpqb	tpqb	tpqb	yuan1	0.28
@@ -12110,7 +12110,7 @@ U+7D4C	経	xcfg	xcfg	xcfg	jing1	0
 U+7D4D	絍	xwtf	xwtf	xwtf	ren4	0.01
 U+7D4E	絎	xtfh	xtgs	xtgs	hang2	0
 U+7D4F	絏	xjxt	xjnt	xjxt	xie4	0.13
-U+7D50	結	xfkg	xfkg	xfkg	ji4,jie1,jie2,jie5	1.91
+U+7D50	結	xfkg	xfkg	xfkg	jie2,ji4,jie1	1.91
 U+7D51	絑	xriy	xtfy	xriy	zhu1	0
 U+7D52	絒	xyth	xyth	xyth	chou2	0.01
 U+7D53	絓	xffg	xffg	xffg	gua4,kua1	0.57
@@ -12451,7 +12451,7 @@ U+7EA1	纡	xgfh	xgfh	xgfh	yu1	5.32
 U+7EA2	红	xag	xag	xag	hong2,gong1	1084.8
 U+7EA3	纣	xfy	xfy	xfy	zhou4	28.58
 U+7EA4	纤	xtfh	xtfh	xtfh	xian1,qian4	89.28
-U+7EA5	纥	xtnn	xtnn	xtnn	ge1,he2	20.17
+U+7EA5	纥	xtnn	xtnn	xtnn	he2,ge1	20.17
 U+7EA6	约	xqyy	xqyy	xqyy	yue1	1211.33
 U+7EA7	级	xeyy	xbyy	xbyy	ji2	1094.01
 U+7EA8	纨	xvyy	xvyy	xvyy	wan2	21.32
@@ -12497,7 +12497,7 @@ U+7ECF	经	xcag	xcag	xcag	jing1	5341.13
 U+7ED0	绐	xckg	xckg	xckg	dai4	6.74
 U+7ED1	绑	xdtb	xdtb	xdtb	bang3	55.83
 U+7ED2	绒	xadt	xadt	xadt	rong2	35.86
-U+7ED3	结	xfkg	xfkg	xfkg	jie2	2001.69
+U+7ED3	结	xfkg	xfkg	xfkg	jie2,ji4,jie1	2001.69
 U+7ED4	绔	xdfn	xdfn	xdfn	ku4	3.1
 U+7ED5	绕	xatq	xatq	xatq	rao4	186.78
 U+7ED6	绖	xgcf	xgcf	xgcf	die2	5.5
@@ -12526,7 +12526,7 @@ U+7EEC	绬	xamd	xamd	xamd	ying1	0.4
 U+7EED	续	xfnd	xfnd	xfnd	xu4	795.16
 U+7EEE	绮	xdsk	xdsk	xdsk	qi3	36.56
 U+7EEF	绯	xdjd	xhdd	xhdd	fei1	21.25
-U+7EF0	绰	xhjh	xhjh	xhjf	chao1,chuo4,chuo5	51.72
+U+7EF0	绰	xhjh	xhjh	xhjf	chuo4,chao1,chuo5	51.72
 U+7EF1	绱	ximk	ximk	ximk	shang4	11.27
 U+7EF2	绲	xjxx	xjxx	xjxx	gun3	5.38
 U+7EF3	绳	xkjn	xkjn	xkjn	sheng2	115.64
@@ -12552,7 +12552,7 @@ U+7F06	缆	xjtq	xjtq	xjtq	lan3	31.86
 U+7F07	缇	xjgh	xjgh	xjgh	ti2	5.8
 U+7F08	缈	xhit	xhit	xhit	miao3	7.56
 U+7F09	缉	xkbg	xkbg	xkbg	ji1	33.08
-U+7F0A	缊	xjlg	xjlg	xjlg	yun4,wen1	1.29
+U+7F0A	缊	xjlg	xjlg	xjlg	yun4,yun1	1.29
 U+7F0B	缋	xkhm	xkhm	xkhm	hui4	4.93
 U+7F0C	缌	sawp	xlny	xlny	si1	6.94
 U+7F0D	缍	xtgf	xtfa	xtfg	duo3	2.89
@@ -13291,7 +13291,7 @@ U+81E9	臩	nhaj	nhaj	nhaj	guang3	0.04
 U+81EA	自	thd	thd	thd	zi4	8059.28
 U+81EB	臫	thnn	thnn	thnn	jiao3	0
 U+81EC	臬	thsu	thsu	thsu	nie4	7.81
-U+81ED	臭	thdu	thdu	thdy	chou4	79.01
+U+81ED	臭	thdu	thdu	thdy	chou4,xiu4	79.01
 U+81EE	臮	thwu	thwy	thww	ji4	0.08
 U+81EF	臯	thif	thif	thif	gao1	0.02
 U+81F0	臰	thgx	thgx	thgx	chou4	0
@@ -13354,7 +13354,7 @@ U+8228	舨	terc	turc	terc	ban3	10.55
 U+8229	舩	tewc	tuwc	tewc	chuan2	0
 U+822A	航	teym	tuyw	teyw	hang2	480.17
 U+822B	舫	teyn	tuyt	teyt	fang3	16.06
-U+822C	般	temc	tuwc	tewc	ban1,pan2	817.25
+U+822C	般	temc	tuwc	tewc	ban1,bo1,pan2	817.25
 U+822D	舭	texx	tuxx	texx	bi3	2.34
 U+822E	舮	teyn	tuyn	teyn	lu2	0
 U+822F	舯	tekh	tukh	tekh	zhong1	4.32
@@ -13516,7 +13516,7 @@ U+82CA	苊	adbb	adbb	adbb	e4	4.62
 U+82CB	苋	amqb	amqb	amqb	xian4	8.4
 U+82CC	苌	atay	atay	atay	chang2	13.91
 U+82CD	苍	awbb	awbb	awbb	cang1	162.66
-U+82CE	苎	apgf	apgf	apgf	zhu4	4.95
+U+82CE	苎	apgf	apgf	apgf	zhu4,ning2	4.95
 U+82CF	苏	alwu	aewu	aewu	su1	871.85
 U+82D0	苐	axht	axht	axht	ti2,di4	0
 U+82D1	苑	aqbb	aqbb	aqbb	yuan4	83.62
@@ -13662,7 +13662,7 @@ U+835C	荜	axxf	axxf	axxf	bi4	2.23
 U+835D	荝	amjj	amjj	amjj	ce4	0.2
 U+835E	荞	atdj	atdj	atdj	qiao2	2.67
 U+835F	荟	awfc	awfc	awfc	hui4	7.13
-U+8360	荠	ayjj	ayjj	ayjj	qi2,ji4	2.23
+U+8360	荠	ayjj	ayjj	ayjj	ji4,qi2	2.23
 U+8361	荡	ainr	ainr	ainr	dang4	214.64
 U+8362	荢	apgf	apgf	apgf	zi4	0.01
 U+8363	荣	apsu	apsu	apsu	rong2	478.44
@@ -13708,7 +13708,7 @@ U+838A	莊	anhf	auff	anhf	zhuang1	0.02
 U+838B	莋	awtf	awtf	awtf	zuo2	0.53
 U+838C	莌	aukq	aukq	aukq	tuo1	0
 U+838D	莍	afiy	agiy	agiy	qiu2	0
-U+838E	莎	aiit	aiit	aiit	sha1	64.63
+U+838E	莎	aiit	aiit	aiit	sha1,suo1	64.63
 U+838F	莏	arit	arit	arit	suo1	0
 U+8390	莐	aipq	aipq	aipq	chen2	0.01
 U+8391	莑	atdh	atdh	atdh	peng2,feng1	0
@@ -13719,7 +13719,7 @@ U+8395	莕	askf	askf	askf	xing4	0.04
 U+8396	莖	agva	agva	agva	jing1	0.09
 U+8397	莗	alj	alj	alj	che1	0
 U+8398	莘	auj	auj	aufj	shen1	12.46
-U+8399	莙	avtk	avtk	avtk	2025/6/1 0:00:00	0.08
+U+8399	莙	avtk	avtk	avtk	jun1	0.08
 U+839A	莚	athp	athp	athp	yan2	0.18
 U+839B	莛	atfp	atfp	atfp	ting2	0.3
 U+839C	莜	awht	awht	awht	you2	1.63
@@ -13770,7 +13770,7 @@ U+83C8	菈	aruf	aruf	aruf	la1	0.03
 U+83C9	菉	aviu	aviu	aviu	lu4	0.28
 U+83CA	菊	aqou	aqou	aqou	ju2	62.49
 U+83CB	菋	akfi	akfu	akfi	wei4	0.03
-U+83CC	菌	altu	altu	altu	2025/6/1 0:00:00	101.46
+U+83CC	菌	altu	altu	altu	jun1	101.46
 U+83CD	菍	awyn	awyn	awyn	nie4,ren3	0.07
 U+83CE	菎	ajxx	ajxx	ajxx	kun1	0.02
 U+83CF	菏	aisk	aisk	aisk	he2	14.55
@@ -13909,7 +13909,7 @@ U+8453	葓	aiaw	aiaw	aiaw	hong2	0.05
 U+8454	葔	awnd	awnd	awnd	hou2	0.02
 U+8455	葕	atih	atis	atis	yan4	0
 U+8456	葖	apwd	apwd	apwy	tu1	0.03
-U+8457	著	aftj	aftj	aftj	zhe5,zhu4,zhuo2,zhuo2	635.73
+U+8457	著	aftj	aftj	aftj	zhu4,zhuo2,zhe5	635.73
 U+8458	葘	agvl	avgl	agvl	zi1	0.04
 U+8459	葙	ashf	ashf	ashf	xiang1	0.39
 U+845A	葚	aadn	adwn	aadn	shen4	1.3
@@ -14279,7 +14279,7 @@ U+85C5	藅	alyj	alyj	alyj	fa2	0.01
 U+85C6	藆	apfr	apar	apar	jian3	0.02
 U+85C7	藇	awfw	aegw	aegw	yu3,xu4	0.1
 U+85C8	藈	ahwd	ahwd	ahwd	kui2	0.01
-U+85C9	藉	adij	afsj	adij	ji2,jie4,jie4	60.96
+U+85C9	藉	adij	afsj	adij	ji2,jie4	60.96
 U+85CA	藊	atya	atya	atya	bian3	0.19
 U+85CB	藋	anwy	anwy	anwy	di2,diao4	0.13
 U+85CC	藌	apnj	apnj	apnj	mi4	0
@@ -14307,7 +14307,7 @@ U+85E1	藡	aump	ayup	ayup	di2	0.02
 U+85E2	藢	atmt	atmt	atmt	zhi3	0.03
 U+85E3	藣	alcx	alcx	alcx	bei1	0.03
 U+85E4	藤	aeui	aeui	aeui	teng2	68.89
-U+85E5	藥	axrs	arxs	arxs	shuo4,yao5	7.7
+U+85E5	藥	axrs	arxs	arxs	yao4,shuo4	7.7
 U+85E6	藦	aysr	aosr	aosr	mo4	0.13
 U+85E7	藧	axec	axec	axec	huan4	0.12
 U+85E8	藨	ayno	aoxo	aono	biao1	0.14
@@ -14478,7 +14478,7 @@ U+868C	蚌	jdhh	jdhh	jdhh	bang4	11.68
 U+868D	蚍	jxxn	jxxn	jxxn	pi2	5.43
 U+868E	蚎	jjg	jjg	jjg	yue4	0
 U+868F	蚏	jeg	jeg	jeg	yue4	0.07
-U+8690	蚐	jqug	jqug	jqug	2025/6/1 0:00:00	0
+U+8690	蚐	jqug	jqug	jqug	jun1	0
 U+8691	蚑	jfcy	jfcy	jfcy	qi2	0.1
 U+8692	蚒	jmyg	jmyg	jmyg	tong2	0.02
 U+8693	蚓	jxhh	jxhh	jxhh	yin3	12.55
@@ -14562,7 +14562,7 @@ U+86E0	蛠	jlll	jeee	jeee	li4	0.07
 U+86E1	蛡	jng	jng	jng	xu3,yi4	0.1
 U+86E2	蛢	juah	juah	juah	ping2	0.09
 U+86E3	蛣	jfkg	jfkg	jfkg	jie2,qie4	0.14
-U+86E4	蛤	jwgk	jwgk	jwgk	ha2	10.68
+U+86E4	蛤	jwgk	jwgk	jwgk	ha2,ge2	10.68
 U+86E5	蛥	jqqy	jqqy	jqqy	she2	0.03
 U+86E6	蛦	jgxw	jgxw	jgxw	yi2	0.05
 U+86E7	蛧	jmqq	jmrr	jmrr	wang3	0.01
@@ -14622,7 +14622,7 @@ U+871C	蜜	pntj	pntj	pntj	mi4	77.99
 U+871D	蜝	adwj	dwju	adwj	qi2	0
 U+871E	蜞	jadw	jdwy	jadw	qi2	0.46
 U+871F	蜟	jyce	jyce	jyce	yu4	0
-U+8720	蜠	jlty	jlty	jlty	2025/6/4 0:00:00	0.01
+U+8720	蜠	jlty	jlty	jlty	jun4	0.01
 U+8721	蜡	jajg	jajg	jajg	la4,xi1	47.28
 U+8722	蜢	jblg	jblg	jblg	meng3	1.93
 U+8723	蜣	judn	junn	jufq	qiang1	1.33
@@ -14922,7 +14922,7 @@ U+8848	衈	tlbg	tlbg	tlbg	er3	0.02
 U+8849	衉	tltk	tltk	tltk	ka1	0.02
 U+884A	衊	tlat	tlaw	tlay	mie4	0.09
 U+884B	衋	vfhl	vgdl	vgdl	xi4	0.03
-U+884C	行	tfhh	tgsh	tgsh	hang2,xing4	6936.12
+U+884C	行	tfhh	tgsh	tgsh	xing2,hang2,heng2	6936.12
 U+884D	衍	tifh	tigs	tigs	yan3	92.79
 U+884E	衎	tffh	tfgs	tfgs	kan4	1.91
 U+884F	衏	tfqh	tfqs	tfqs	yuan4	0.05
@@ -14974,7 +14974,7 @@ U+887C	衼	pufc	pufc	pufc	zhi1	0.04
 U+887D	衽	putf	putf	putf	ren4	6.14
 U+887E	衾	wyne	wyne	wyne	qin1	19.73
 U+887F	衿	puwn	puwn	puwn	jin1	10.31
-U+8880	袀	puqu	puqu	puqu	2025/6/1 0:00:00	0.25
+U+8880	袀	puqu	puqu	puqu	jun1	0.25
 U+8881	袁	fkeu	fkeu	fkeu	yuan2	168.11
 U+8882	袂	punw	punw	punw	mei4	15.67
 U+8883	袃	avye	avye	avye	chai4	0.26
@@ -15262,7 +15262,7 @@ U+899C	覜	iqhq	qihq	qihq	tiao4	0.07
 U+899D	覝	fohq	fohq	fohq	lian2	0
 U+899E	覞	hqhq	hqhq	hqhq	yao4	0.01
 U+899F	覟	fnhq	fnhq	fnhq	zhi4	0.02
-U+89A0	覠	vtkq	vtkq	vtkq	2025/6/1 0:00:00	0.12
+U+89A0	覠	vtkq	vtkq	vtkq	jun1	0.12
 U+89A1	覡	awwq	awwq	awwq	xi2	0.01
 U+89A2	覢	oohq	oohq	oohq	shan3	0
 U+89A3	覣	tvhq	tvhq	tvhq	wei1	0
@@ -15303,7 +15303,7 @@ U+89C5	觅	emqb	emqb	emqb	mi4	48.17
 U+89C6	视	pymq	pymq	pymq	shi4	1175.02
 U+89C7	觇	hkmq	hkmq	hkmq	chan1	8.17
 U+89C8	览	jtyq	jtyq	jtyq	lan3	136.7
-U+89C9	觉	ipmq	ipmq	ipmq	jiao4,jue2	1569.03
+U+89C9	觉	ipmq	ipmq	ipmq	jue2,jiao4	1569.03
 U+89CA	觊	mnmq	mnmq	mnmq	ji4	9.84
 U+89CB	觋	awwq	awwq	awwq	xi2	1.66
 U+89CC	觌	fnuq	fnuq	fnuq	di2	5.9
@@ -15322,7 +15322,7 @@ U+89D8	觘	qeit	qeit	qeht	chao4	0
 U+89D9	觙	qeey	qeby	qehy	ji2	0.01
 U+89DA	觚	qery	qery	qehy	gu1	3.16
 U+89DB	觛	qejg	qejg	qehg	dan4	0.01
-U+89DC	觜	hxqe	hxqe	hxqh	zui3,zi1	3.72
+U+89DC	觜	hxqe	hxqe	hxqh	zi1,zui3	3.72
 U+89DD	觝	qeqy	qeqy	qehy	di3	0.15
 U+89DE	觞	qetr	qetr	qehr	shang1	18.01
 U+89DF	觟	qeff	qeff	qehf	hua4	0.07
@@ -15858,7 +15858,7 @@ U+8BF0	诰	ytfk	ytfk	ytfk	gao4	50.38
 U+8BF1	诱	yten	ytbt	ytbt	you4	150.81
 U+8BF2	诲	ytxu	ytxy	ytxy	hui4	32.34
 U+8BF3	诳	yqtg	yqtg	yqtg	kuang2	14.18
-U+8BF4	说	yukq	yukq	yukq	shuo1,shui4,shui4,yue4,yue4	11096.52
+U+8BF4	说	yukq	yukq	yukq	shuo1,shui4,yue4	11096.52
 U+8BF5	诵	yceh	yceh	yceh	song4	83.48
 U+8BF6	诶	yctd	yctd	yctd	ei1	7.65
 U+8BF7	请	ygeg	ygeg	ygeg	qing3	1834.11
@@ -15925,7 +15925,7 @@ U+8C33	谳	yfmd	yfmd	yfmy	yan4	5.29
 U+8C34	谴	ykhp	ykhp	ykhp	qian3	53.9
 U+8C35	谵	yqdy	yqdy	yqdy	zhan1	1.39
 U+8C36	谶	ywwg	ywwg	ywwg	chen4	10.19
-U+8C37	谷	wwkf	wwkf	wwkf	gu3,yu4,yu4	488.28
+U+8C37	谷	wwkf	wwkf	wwkf	gu3,yu4	488.28
 U+8C38	谸	tdwk	tdwk	tdwk	qian1	0.17
 U+8C39	谹	wwkc	wwkc	wwkc	hong2	0.07
 U+8C3A	谺	wwkt	wwkt	wwkt	xia1	0.02
@@ -16007,7 +16007,7 @@ U+8C85	貅	eews	ewsy	ewsy	xiu1	1.84
 U+8C86	貆	eegg	egjg	egjg	huan2	0.12
 U+8C87	貇	eeve	evy	evey	ken3,kun1	0
 U+8C88	貈	eete	etuy	etey	he2,mo4	0
-U+8C89	貉	eetk	etkg	etkg	mo4,hao2,he2	6.04
+U+8C89	貉	eetk	etkg	etkg	he2,hao2,mo4	6.04
 U+8C8A	貊	eedj	edjg	edjg	mo4	2.33
 U+8C8B	貋	eejf	ejfh	ejfh	an4	0.5
 U+8C8C	貌	eerq	erqn	erqn	mao4	210.67
@@ -16176,7 +16176,7 @@ U+8D2E	贮	mpgg	mpgg	mpgg	zhu4	38.47
 U+8D2F	贯	xfmu	xmu	xfmu	guan4	231.38
 U+8D30	贰	afmi	afmy	afmy	er4	65.79
 U+8D31	贱	mgt	mgay	mfxy	jian4	103.54
-U+8D32	贲	famu	famu	famu	ben1,bi4	22.05
+U+8D32	贲	famu	famu	famu	bi4,ben1	22.05
 U+8D33	贳	anmu	anmu	anmu	shi4	2.56
 U+8D34	贴	mhkg	mhkg	mhkg	tie1	183.5
 U+8D35	贵	khgm	khgm	khgm	gui4	703.2
@@ -16587,7 +16587,7 @@ U+8EC9	軉	tmdm	tmdm	tmdm	yu4	0.02
 U+8ECA	車	lghh	lghh	lghh	che1	0.33
 U+8ECB	軋	lnn	lnn	lnn	zha2,ya4	0.51
 U+8ECC	軌	lvn	lvn	lvn	gui3	0.09
-U+8ECD	軍	plj	plj	plj	2025/6/1 0:00:00	0.07
+U+8ECD	軍	plj	plj	plj	jun1	0.07
 U+8ECE	軎	lkf	lkf	lkf	wei4	0.05
 U+8ECF	軏	lgqn	lgqn	lgqn	yue4	0.68
 U+8ED0	軐	lnfh	lnfh	lnfh	xin4	0.06
@@ -17090,7 +17090,7 @@ U+90C0	郀	dfnb	dfnb	dfnb	ku1	0.03
 U+90C1	郁	debh	debh	debh	yu4	123.25
 U+90C2	郂	yntb	yntb	yntb	gai1,hai2	0
 U+90C3	郃	wgkb	wgkb	wgkb	he2	6.6
-U+90C4	郄	qdcb	rdcb	rdcb	xi4,qie4	2.69
+U+90C4	郄	qdcb	rdcb	rdcb	qie4,xi4	2.69
 U+90C5	郅	gcfb	gcfb	gcfb	zhi4	7.42
 U+90C6	郆	fkbh	fkbh	fkbh	ji2	0
 U+90C7	郇	qjbh	qjbh	qjbh	xun2	1.81
@@ -17119,7 +17119,7 @@ U+90DD	郝	fobh	fobh	fobh	hao3	32.96
 U+90DE	郞	yveb	yvbh	yveb	lang2	0.04
 U+90DF	郟	dwwb	dwwb	dwwb	jia2	0.02
 U+90E0	郠	gjqb	gjrb	gjrb	geng3	0.03
-U+90E1	郡	vtkb	vtkb	vtkb	2025/6/4 0:00:00	510.38
+U+90E1	郡	vtkb	vtkb	vtkb	jun4	510.38
 U+90E2	郢	kgbh	kgbh	kgbh	ying3	26.45
 U+90E3	郣	fpbb	fpbb	fpbb	bo2	0
 U+90E4	郤	wwkb	wwkb	wwkb	xi4	3.35
@@ -17216,7 +17216,7 @@ U+913E	鄾	depb	depb	depb	you1	0.06
 U+913F	鄿	akkb	akkb	akkb	qi2	0.08
 U+9140	酀	aukb	akub	akub	yan4	0.03
 U+9141	酁	qkxb	qkxb	qkxb	chan2	0.09
-U+9142	酂	tfqb	tfqb	tfqb	zan4,cuo2	1.29
+U+9142	酂	tfqb	tfqb	tfqb	cuo2,zan4	1.29
 U+9143	酃	fkkb	fkkb	fkkb	ling2	3.9
 U+9144	酄	akkb	akkb	akkb	huan1	0.01
 U+9145	酅	mwyb	mwyb	mwyb	xi1	0.64
@@ -17248,7 +17248,7 @@ U+915E	酞	sgdy	sgdy	sgdy	tai4	0.32
 U+915F	酟	sghk	sghk	sghk	tian1	0
 U+9160	酠	sgsk	sgsk	sgsk	qia3	0
 U+9161	酡	sgpx	sgpx	sgpx	tuo2	0.78
-U+9162	酢	sgtf	sgtf	sgtf	zuo4	23.17
+U+9162	酢	sgtf	sgtf	sgtf	cu4,zuo4	23.17
 U+9163	酣	sgaf	sgfg	sgaf	han1	29.64
 U+9164	酤	sgdg	sgdg	sgdg	gu1	3.62
 U+9165	酥	sgty	sgty	sgty	su1	42.1
@@ -17436,7 +17436,7 @@ U+921A	鈚	qxxn	qxxn	qxxn	pi1	0.06
 U+921B	鈛	qat	qay	qay	guo1	0
 U+921C	鈜	qdcy	qdcy	qdcy	hong2	0
 U+921D	鈝	qrhh	qtgh	qtgh	yin2	0
-U+921E	鈞	qqug	qqug	qqug	2025/6/1 0:00:00	0
+U+921E	鈞	qqug	qqug	qqug	jun1	0
 U+921F	鈟	qxhh	qxhh	qxhh	diao4	0.01
 U+9220	鈠	qmcy	qwcy	qwcy	yi4	0.05
 U+9221	鈡	qkhh	qkhh	qkhh	zhong1	0.01
@@ -17535,7 +17535,7 @@ U+927D	鉽	qaag	qaay	qaay	shi2	0.03
 U+927E	鉾	qcrh	qctg	qctg	mou2	0.08
 U+927F	鉿	qwgk	qwgk	qwgk	ha1	0
 U+9280	銀	qvey	qvy	qvey	yin2	0.15
-U+9281	銁	qqjg	qqjg	qqjg	2025/6/1 0:00:00	0
+U+9281	銁	qqjg	qqjg	qqjg	jun1	0
 U+9282	銂	qyth	qyth	qyth	zhou1	0.08
 U+9283	銃	qycq	qycq	qycq	chong4	0
 U+9284	銄	qtmk	qtmk	qtmk	xiang3,jiong1	0.01
@@ -17564,7 +17564,7 @@ U+929A	銚	qiqn	qqiy	qqiy	diao4,tiao2,yao2	0.03
 U+929B	銛	qtdg	qtdg	qtdg	xian1,tian3	0.52
 U+929C	銜	tqfh	tqgs	tqgs	xian2	0.03
 U+929D	銝	qwsy	qwsy	qwsy	xiu1	0.01
-U+929E	銞	qjqf	qjqf	qjqf	2025/6/1 0:00:00	0.04
+U+929E	銞	qjqf	qjqf	qjqf	jun1	0.04
 U+929F	銟	qmmh	qmmh	qmmh	cha1	0.31
 U+92A0	銠	qftx	qftx	qftx	lao3	0
 U+92A1	銡	qfkg	qfkg	qfkg	ji2	0.02
@@ -17747,7 +17747,7 @@ U+9351	鍑	qtjt	qtjt	qtjt	fu4	0.08
 U+9352	鍒	qcbs	qcns	qcns	rou2	0
 U+9353	鍓	qkbg	qkbg	qkbg	ji2	0.05
 U+9354	鍔	qkkn	qkkn	qkkn	e4	0.02
-U+9355	鍕	qplh	qplh	qplh	2025/6/1 0:00:00	0
+U+9355	鍕	qplh	qplh	qplh	jun1	0
 U+9356	鍖	qadn	qdwn	qadn	zhen1,chen3	0.03
 U+9357	鍗	quph	qyuh	qyuh	ti2	0.04
 U+9358	鍘	qmjh	qmjh	qmjh	zha2	0.03
@@ -18085,7 +18085,7 @@ U+94A3	钣	qrcy	qrcy	qrcy	ban3	7.3
 U+94A4	钤	qwyn	qwyn	qwyn	qian2	20.26
 U+94A5	钥	qeg	qeg	qeg	yao4	53.54
 U+94A6	钦	qqwy	qqwy	qqwy	qin1	148.94
-U+94A7	钧	qqug	qqug	qqug	2025/6/1 0:00:00	61.95
+U+94A7	钧	qqug	qqug	qqug	jun1	61.95
 U+94A8	钨	qqng	qtng	qqng	wu1	2.46
 U+94A9	钩	qqcy	qqcy	qqcy	gou1	91.74
 U+94AA	钪	qymn	qywn	qywn	kang4	14.18
@@ -18293,7 +18293,7 @@ U+9573	镳	qyno	qoxo	qono	biao1	5.4
 U+9574	镴	qvln	qvln	qvln	la4	0.3
 U+9575	镵	qqky	qqky	qqky	chan2	0.36
 U+9576	镶	qyke	qyke	qyke	xiang1,rang2	26.89
-U+9577	長	deu	deu	deu	zhang3,chang2	1.97
+U+9577	長	deu	deu	deu	chang2,zhang3	1.97
 U+9578	镸	dghy	dghy	dcu	chang2,zhang3	0
 U+9579	镹	dqyy	dqyy	dcqy	jiu3	0
 U+957A	镺	dtdy	dtdy	dctd	ao3	0
@@ -18301,7 +18301,7 @@ U+957B	镻	drwy	dtgy	dcrw	die2	0.02
 U+957C	镼	dnbm	dnbm	dcnm	jue2	0.03
 U+957D	镽	ddui	ddui	dcdi	liao2	0
 U+957E	镾	dgwq	dgwr	dcgr	mi2	0
-U+957F	长	tayi	tayi	tayi	zhang3,chang2	4356.08
+U+957F	长	tayi	tayi	tayi	chang2,zhang3	4356.08
 U+9580	門	uhng	uhng	uhng	men2	0.62
 U+9581	閁	ute	ute	ute	ma4	0
 U+9582	閂	ugd	ugd	ugd	shuan1	0
@@ -18493,14 +18493,14 @@ U+963B	阻	begg	begg	begg	zu3	291.06
 U+963C	阼	bthf	bthf	bthf	zuo4	11.76
 U+963D	阽	bhkg	bhkg	bhkg	dian4,yan2	1.39
 U+963E	阾	bwyc	bwyc	bwyc	ling2	0.01
-U+963F	阿	bskg	bskg	bskg	a1	1083.94
+U+963F	阿	bskg	bskg	bskg	a1,e1	1083.94
 U+9640	陀	bpxn	bpxn	bpxn	tuo2	90.84
 U+9641	陁	btbn	btbn	btbn	tuo2	0.79
 U+9642	陂	bhcy	bby	bhcy	bei1,pi2	16.1
 U+9643	陃	bgmw	bgmw	bgmw	bing3	0
 U+9644	附	bwfy	bwfy	bwfy	fu4	487.28
 U+9645	际	bfiy	bfiy	bfiy	ji4	1060.46
-U+9646	陆	bfmh	bgbh	bgbh	lu4	724.39
+U+9646	陆	bfmh	bgbh	bgbh	lu4,liu4	724.39
 U+9647	陇	bdxn	bdxy	bdxy	long3	58.95
 U+9648	陈	baiy	baiy	baiy	chen2	1270.53
 U+9649	陉	bcag	bcag	bcag	jing4,xing2	7.43
@@ -18516,7 +18516,7 @@ U+9652	陒	bqdb	bqdb	bqdb	gui3	0.03
 U+9653	陓	bdfn	bdfn	bdfn	yu1	0.01
 U+9654	陔	bynw	bynw	bynw	gai1	2.17
 U+9655	陕	bguw	bgud	bgud	shan3	139.18
-U+9656	陖	bcwt	bcwt	bcwt	2025/6/4 0:00:00	0.01
+U+9656	陖	bcwt	bcwt	bcwt	jun4	0.01
 U+9657	陗	bieg	bieg	bieg	qiao4	0.03
 U+9658	陘	bgva	bgva	bgva	jing4,xing2	0
 U+9659	陙	bdfe	bdfe	bdfe	chun2	0.07
@@ -18619,7 +18619,7 @@ U+96B9	隹	wyg	wyg	wyg	zhui1	4.26
 U+96BA	隺	pwyd	pwyd	pwyd	que4	0.14
 U+96BB	隻	wycu	wycu	wycu	zhi1	0.1
 U+96BC	隼	wyfj	wyfj	wyfj	sun3	11.82
-U+96BD	隽	wyeb	wybr	wybr	2025/6/4 0:00:00	14.3
+U+96BD	隽	wyeb	wybr	wybr	jun4	14.3
 U+96BE	难	cwyg	cwyg	cwyg	nan2	1927.66
 U+96BF	隿	awyg	aywy	aywy	yi4	0.02
 U+96C0	雀	iwyf	iwyf	iwyf	que4,qiao1,qiao3	76.35
@@ -18633,7 +18633,7 @@ U+96C7	雇	ynwy	ynwy	ynwy	gu4	113.59
 U+96C8	雈	gjgy	hghy	hghy	huan2	0.03
 U+96C9	雉	tdwy	tdwy	tdwy	zhi4	18.58
 U+96CA	雊	qkwy	qkwy	qkwy	gou4	1.04
-U+96CB	雋	wymm	wyhn	wyhm	2025/6/4 0:00:00	0.02
+U+96CB	雋	wymm	wyhn	wyhm	jun4	0.02
 U+96CC	雌	hxwy	hxwy	hxwy	ci2	59.82
 U+96CD	雍	yxty	yxty	yxty	yong1	115.37
 U+96CE	雎	egwy	egwy	egwy	ju1	6.09
@@ -18777,7 +18777,7 @@ U+9757	靗	geiq	geiq	geiq	cheng1	0
 U+9758	靘	geqc	geqc	geqc	qing4	0.01
 U+9759	静	geqh	geqh	geqh	jing4	650.07
 U+975A	靚	gehq	gehq	gehq	liang4	0
-U+975B	靛	geph	geph	geph	dian4,yin3,yin3	3.13
+U+975B	靛	geph	geph	geph	dian4,yin3	3.13
 U+975C	靜	geeh	geeh	geeh	jing4	0.28
 U+975D	靝	gero	gero	gero	tian1	0
 U+975E	非	djdd	hdhd	hdhd	fei1	2148.73
@@ -19219,7 +19219,7 @@ U+9911	餑	wpfb	wvfb	wyfb	bo1	0
 U+9912	餒	wpev	wvev	wyev	nei3	0.01
 U+9913	餓	wptt	wvty	wyty	e4	0.01
 U+9914	餔	wpgy	wvsy	wygy	bu4	0.61
-U+9915	餕	wpct	wvct	wyct	2025/6/4 0:00:00	0.02
+U+9915	餕	wpct	wvct	wyct	jun4	0.02
 U+9916	餖	wpgu	wvgu	wygu	dou4	0.07
 U+9917	餗	wpgi	wvsk	wygi	su4	1.7
 U+9918	餘	wpwt	wvws	wyws	yu2	0.29
@@ -19328,7 +19328,7 @@ U+997E	饾	qngu	qngu	qngu	dou4	0.29
 U+997F	饿	qntt	qnty	qnty	e4	106.23
 U+9980	馀	qnwt	qnws	qnws	yu2	167.72
 U+9981	馁	qnev	qnev	qnev	nei3	11
-U+9982	馂	qnct	qnct	qnct	2025/6/4 0:00:00	0.7
+U+9982	馂	qnct	qnct	qnct	jun4	0.7
 U+9983	馃	qnjs	qnjs	qnjs	guo3	1.11
 U+9984	馄	qnjx	qnjx	qnjx	hun2	7.83
 U+9985	馅	qnqv	qnqe	qnqe	xian4	9.94
@@ -19453,7 +19453,7 @@ U+99FB	駻	cjfh	cojf	cojf	han4	0.03
 U+99FC	駼	cwty	cows	cows	tu2	0.54
 U+99FD	駽	ckeg	coke	coke	xuan1	0.03
 U+99FE	駾	cukq	couq	couq	tui4	0.03
-U+99FF	駿	ccwt	coct	coct	2025/6/4 0:00:00	0
+U+99FF	駿	ccwt	coct	coct	jun4	0
 U+9A00	騀	ctrt	coty	coty	e2	0.01
 U+9A01	騁	cmgn	comn	comn	cheng3	0.02
 U+9A02	騂	cuh	couh	couf	xing1	0.13
@@ -19597,7 +19597,7 @@ U+9A8B	骋	cmgn	cgmn	cgmn	cheng3	18.72
 U+9A8C	验	cwgi	cgwg	cgwg	yan4	835.33
 U+9A8D	骍	cuh	cguh	cguf	xing1	1.13
 U+9A8E	骎	cvpc	cgvc	cgvc	qin1	1.4
-U+9A8F	骏	ccwt	cgct	cgct	2025/6/4 0:00:00	32.38
+U+9A8F	骏	ccwt	cgct	cgct	jun4	32.38
 U+9A90	骐	cadw	cgdw	cgaw	qi2	4.18
 U+9A91	骑	cdsk	cgdk	cgdk	qi2,ji4	486.49
 U+9A92	骒	cjsy	cgjs	cgjs	ke4	0.48
@@ -19892,7 +19892,7 @@ U+9BB2	鮲	qowd	qowd	qowy	fu2	0
 U+9BB3	鮳	qofn	qofn	qofn	kao4	0
 U+9BB4	鮴	qows	qows	qows		0
 U+9BB5	鮵	qouq	qouq	qouq	duo2	0.01
-U+9BB6	鮶	qovk	qovk	qovk	2025/6/1 0:00:00	0
+U+9BB6	鮶	qovk	qovk	qovk	jun1	0
 U+9BB7	鮷	qout	qout	qout	ti2	0.01
 U+9BB8	鮸	qoqq	qoqq	qoqq	mian3	0.24
 U+9BB9	鮹	qoie	qoie	qoie	shao1	0.05
@@ -20136,7 +20136,7 @@ U+9CA6	鲦	qgts	qgts	qgts	tiao2	0.54
 U+9CA7	鲧	qgti	qgti	qgti	gun3	3.88
 U+9CA8	鲨	iitg	iitg	iitg	sha1	8.8
 U+9CA9	鲩	qgpq	qgpq	qgpq	huan4	0.42
-U+9CAA	鲪	qgvk	qgvk	qgvk	2025/6/1 0:00:00	0.15
+U+9CAA	鲪	qgvk	qgvk	qgvk	jun1	0.15
 U+9CAB	鲫	qgvb	qgvb	qgvb	ji4	5.54
 U+9CAC	鲬	qgce	qgce	qgch	yong3	0.04
 U+9CAD	鲭	qgge	qgge	qgge	qing1	1.43
@@ -20306,11 +20306,11 @@ U+9D50	鵐	awwo	awwo	awwo	wu2	0
 U+9D51	鵑	kewo	keqo	kewo	juan1	0
 U+9D52	鵒	wwko	wwko	wwko	yu4	0.01
 U+9D53	鵓	fpbo	fpbo	fpbo	bo2	0
-U+9D54	鵔	wvgt	qoct	wvgt	2025/6/4 0:00:00	0.03
-U+9D55	鵕	cwto	cwto	cwto	2025/6/4 0:00:00	0.09
+U+9D54	鵔	wvgt	qoct	wvgt	jun4	0.03
+U+9D55	鵕	cwto	cwto	cwto	jun4	0.09
 U+9D56	鵖	vcwo	vqoy	vcwo	bi1	0
 U+9D57	鵗	qdmo	rdmo	rdmo	xi1	0.01
-U+9D58	鵘	vtko	vtko	vtko	2025/6/4 0:00:00	0
+U+9D58	鵘	vtko	vtko	vtko	jun4	0
 U+9D59	鵙	mwvo	mqoy	mwvo	ju2	0.08
 U+9D5A	鵚	tmwo	twqo	twwo	tu1	0
 U+9D5B	鵛	gvao	gvao	gvao	jing1	0.02
@@ -20667,7 +20667,7 @@ U+9EB9	麹	gtqo	gqqo	gtqo	qu1	2.36
 U+9EBA	麺	gtdd	gqdf	gtdd	mian4	0
 U+9EBB	麻	yssi	ossi	ossi	ma2	313.85
 U+9EBC	麼	yssx	ossx	ossx	me5,mo2	1.52
-U+9EBD	麽	yssc	ossc	ossc	me5,mo2,mo2	35.82
+U+9EBD	麽	yssc	ossc	ossc	me5,mo2	35.82
 U+9EBE	麾	yssn	osse	ossn	hui1	33.42
 U+9EBF	麿	yssk	ossk	ossk		0.27
 U+9EC0	黀	yssc	ossc	ossc	zou1	0
