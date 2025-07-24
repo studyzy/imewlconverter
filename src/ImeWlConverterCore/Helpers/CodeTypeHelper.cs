@@ -1,4 +1,4 @@
-﻿/*
+/*
  *   Copyright © 2009-2020 studyzy(深蓝,曾毅)
 
  *   This program "IME WL Converter(深蓝词库转换)" is free software: you can redistribute it and/or modify
@@ -83,10 +83,10 @@ public static class CodeTypeHelper
                 return new ZhuyinGenerater();
             case CodeType.NoCode:
                 return null;
-            //case CodeType.UserDefine:
-            //    {
-            //        return SelfDefiningCodeGenerater();
-            //    }
+           case CodeType.UserDefine:
+                {
+                    return new SelfDefiningCodeGenerater();
+                }
             default:
                 return new SelfDefiningCodeGenerater();
         }
