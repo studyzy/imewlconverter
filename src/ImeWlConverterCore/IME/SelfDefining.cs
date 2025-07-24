@@ -1,4 +1,4 @@
-﻿/*
+/*
  *   Copyright © 2009-2020 studyzy(深蓝,曾毅)
 
  *   This program "IME WL Converter(深蓝词库转换)" is free software: you can redistribute it and/or modify
@@ -127,6 +127,12 @@ public class SelfDefining
                 UserDefiningPattern.TextEncoding
             );
             var g = codeGenerater as SelfDefiningCodeGenerater;
+            //如果 g 为 null，抛出更明确的错误
+            if (g == null)
+            {
+                throw new InvalidOperationException("内部错误：无法为自定义编码类型获取正确的编码生成器");
+            }
+            //确保字典被正确赋值
             g.MappingDictionary = dict;
             g.Is1Char1Code = UserDefiningPattern.IsPinyinFormat;
             g.MutiWordCodeFormat = UserDefiningPattern.MutiWordCodeFormat;
@@ -165,10 +171,14 @@ public class SelfDefining
     {
         if (lineFormat == "") BuildLineFormat();
         var lines = new List<string>();
-        //需要判断源WL与导出的字符串的CodeType是否一致，如果一致，那么可以采用其编码，如果不一致，那么忽略编码，
+        //需要判断源WL与导出的字符串的CodeType是否一致，如果一致，那么可以采用其编码
         //调用CodeGenerater生成新的编码，并用新编码生成行
         //IList<string> codes = null;
-        if (wl.CodeType != CodeType) codeGenerater.GetCodeOfWordLibrary(wl);
+        //修改：如果当前设置为自定义编码，则强制重新生成编码
+        if (codeGenerater != null && UserDefiningPattern.CodeType == CodeType.UserDefine)
+        {
+            codeGenerater.GetCodeOfWordLibrary(wl);
+        }
         var word = wl.Word;
         var rank = wl.Rank;
         foreach (
