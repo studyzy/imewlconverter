@@ -18,7 +18,6 @@
 'gai'lv 概率
 'ji'lv 几率
 'hui'lv 汇率
-'xiu'wei'xiang'tou 臭味相投
 'tong'xiu 铜臭
 'ning'xi 苎烯
 'xu'shi 圩市
@@ -767,7 +766,7 @@
 'zhao'wen'xi'si 朝闻夕死
 'zhao'guo'xi'gai 朝过夕改
 'zhao'ge'mu'wu 朝歌暮舞
-'luo'bo 萝卜 
+'luo'bo 萝卜
 'ke'wu 可恶
 'zeng'wu 憎恶
 'hao'wu 好恶
