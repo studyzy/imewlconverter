@@ -1,0 +1,155 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ImeWlConverterMac.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="ImeWlConverterMac.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+
+        Title="深蓝词库转换"
+        Width="800" Height="650"
+        MinWidth="600" MinHeight="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 菜单栏 -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="高级设置">
+                <MenuItem Header="词条过滤设置" Command="{Binding FilterConfigCommand}"/>
+                <MenuItem Header="词频生成设置" Command="{Binding RankGenerateCommand}"/>
+                <Separator/>
+                <MenuItem Header="✓ 结果只显示首、末10万字符" Command="{Binding ToggleShowLessCommand}" IsVisible="{Binding ShowLess}"/>
+                <MenuItem Header="  结果只显示首、末10万字符" Command="{Binding ToggleShowLessCommand}" IsVisible="{Binding !ShowLess}"/>
+                <MenuItem Header="✓ 不显示结果，直接导出" Command="{Binding ToggleExportDirectlyCommand}" IsVisible="{Binding ExportDirectly}"/>
+                <MenuItem Header="  不显示结果，直接导出" Command="{Binding ToggleExportDirectlyCommand}" IsVisible="{Binding !ExportDirectly}"/>
+                <MenuItem Header="✓ 一边读取，一边导出" Command="{Binding ToggleStreamExportCommand}" IsVisible="{Binding StreamExport}"/>
+                <MenuItem Header="  一边读取，一边导出" Command="{Binding ToggleStreamExportCommand}" IsVisible="{Binding !StreamExport}"/>
+                <MenuItem Header="✓ 合并多词库到一个文件" Command="{Binding ToggleMergeToOneFileCommand}" IsVisible="{Binding MergeToOneFile}"/>
+                <MenuItem Header="  合并多词库到一个文件" Command="{Binding ToggleMergeToOneFileCommand}" IsVisible="{Binding !MergeToOneFile}"/>
+                <MenuItem Header="简繁体转换设置" Command="{Binding ChineseTransConfigCommand}"/>
+            </MenuItem>
+            <MenuItem Header="帮助">
+                <MenuItem Header="捐贈" Command="{Binding DonateCommand}"/>
+                <MenuItem Header="帮助" Command="{Binding HelpCommand}"/>
+                <MenuItem Header="关于" Command="{Binding AboutCommand}"/>
+                <MenuItem Header="查看最新版本" Command="{Binding AccessWebSiteCommand}"/>
+                <Separator/>
+                <MenuItem Header="文件分割" Command="{Binding SplitFileCommand}"/>
+                <MenuItem Header="词库合并" Command="{Binding MergeWLCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- 主要内容区域 -->
+        <Grid Grid.Row="1" Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 文件选择区域 -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" 
+                         Text="{Binding FilePath}" 
+                         Watermark="请选择源词库文件或拖拽文件到此处"
+                         IsReadOnly="True"/>
+                <Button Grid.Column="1" 
+                        Content="..." 
+                        Width="50" 
+                        Margin="5,0,0,0"
+                        Command="{Binding OpenFileCommand}"/>
+                <Button Grid.Column="2" 
+                        Content="转 换" 
+                        Width="100" 
+                        Height="64"
+                        Margin="10,0,0,0"
+                        Command="{Binding ConvertCommand}"
+                        Grid.RowSpan="2"/>
+            </Grid>
+
+            <!-- 转换类型选择区域 -->
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0" 
+                          ItemsSource="{Binding ImportTypes}"
+                          SelectedItem="{Binding SelectedImportType}"
+                          PlaceholderText="选择源词库类型"/>
+                <TextBlock Grid.Column="1" 
+                           Text="-->>" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="10,0"/>
+                <ComboBox Grid.Column="2" 
+                          ItemsSource="{Binding ExportTypes}"
+                          SelectedItem="{Binding SelectedExportType}"
+                          PlaceholderText="选择目标词库类型"/>
+            </Grid>
+
+            <!-- 进度条 -->
+            <ProgressBar Grid.Row="2" 
+                         Value="{Binding Progress}" 
+                         Maximum="100"
+                         IsVisible="{Binding IsConverting}"
+                         Margin="0,0,0,10"/>
+
+            <!-- 结果显示区域 -->
+            <ScrollViewer Grid.Row="3">
+                <TextBox Text="{Binding ResultText}" 
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         FontFamily="Consolas,Monaco,Courier New,monospace"
+                         FontSize="12"/>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- 状态栏 -->
+        <Border Grid.Row="2" 
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="0,1,0,0">
+            <Grid Height="28">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" 
+                           Text="{Binding StatusMessage}" 
+                           VerticalAlignment="Center"
+                           Margin="10,0"/>
+                <ProgressBar Grid.Column="1" 
+                             Width="150" 
+                             Height="16"
+                             Value="{Binding Progress}"
+                             Maximum="100"
+                             IsVisible="{Binding IsConverting}"
+                             Margin="0,0,10,0"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
