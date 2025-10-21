@@ -69,7 +69,7 @@ WINDSURF_FILE="$REPO_ROOT/.windsurf/rules/specify-rules.md"
 KILOCODE_FILE="$REPO_ROOT/.kilocode/rules/specify-rules.md"
 AUGGIE_FILE="$REPO_ROOT/.augment/rules/specify-rules.md"
 ROO_FILE="$REPO_ROOT/.roo/rules/specify-rules.md"
-CODEBUDDY_FILE="$REPO_ROOT/.codebuddy/rules/specify-rules.md"
+CODEBUDDY_FILE="$REPO_ROOT/CODEBUDDY.md"
 Q_FILE="$REPO_ROOT/AGENTS.md"
 
 # Template file
@@ -250,7 +250,7 @@ get_commands_for_language() {
             echo "cargo test && cargo clippy"
             ;;
         *"JavaScript"*|*"TypeScript"*)
-            echo "npm test && npm run lint"
+            echo "npm test \\&\\& npm run lint"
             ;;
         *)
             echo "# Add commands for $lang"
@@ -583,7 +583,7 @@ update_specific_agent() {
             update_agent_file "$ROO_FILE" "Roo Code"
             ;;
         codebuddy)
-            update_agent_file "$CODEBUDDY_FILE" "CodeBuddy"
+            update_agent_file "$CODEBUDDY_FILE" "CodeBuddy CLI"
             ;;
         q)
             update_agent_file "$Q_FILE" "Amazon Q Developer CLI"
@@ -651,7 +651,7 @@ update_all_existing_agents() {
     fi
 
     if [[ -f "$CODEBUDDY_FILE" ]]; then
-        update_agent_file "$CODEBUDDY_FILE" "CodeBuddy"
+        update_agent_file "$CODEBUDDY_FILE" "CodeBuddy CLI"
         found_agent=true
     fi
 
@@ -736,3 +736,4 @@ main() {
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     main "$@"
 fi
+
