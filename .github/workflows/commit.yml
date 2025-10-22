@@ -3,7 +3,7 @@ name: Commit CI
 on: [push]
 
 jobs:
-  build:
+  build-windows-linux:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,7 +13,7 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Publish
+      - name: Publish CLI and Windows GUI
         run: |
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-x64 --output ./publish/osx-x64 ./src/ImeWlConverterCmd
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-arm64 --output ./publish/osx-arm64 ./src/ImeWlConverterCmd
@@ -24,8 +24,40 @@ jobs:
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 ./src/ImeWlConverterCmd
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 "./src/IME WL Converter Win"
 
-      - name: Upload Artifact
+      - name: Upload CLI Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: imewlconverter
+          name: imewlconverter-cli
+          path: ./publish
+
+  build-macos-gui:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Build macOS GUI (ARM64)
+        run: |
+          dotnet build ./src/ImeWlConverterMac --configuration Release --runtime osx-arm64
+
+      - name: Build macOS GUI (x64)
+        run: |
+          dotnet build ./src/ImeWlConverterMac --configuration Release --runtime osx-x64
+
+      - name: Publish macOS GUI (ARM64)
+        run: |
+          dotnet publish ./src/ImeWlConverterMac --configuration Release --self-contained true --runtime osx-arm64 --output ./publish/mac-arm64
+
+      - name: Publish macOS GUI (x64)
+        run: |
+          dotnet publish ./src/ImeWlConverterMac --configuration Release --self-contained true --runtime osx-x64 --output ./publish/mac-x64
+
+      - name: Upload macOS Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: imewlconverter-macos
           path: ./publish

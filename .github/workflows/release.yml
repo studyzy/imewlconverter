@@ -6,7 +6,7 @@ on:
       - "v*"
 
 jobs:
-  build:
+  build-windows-linux:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Publish
+      - name: Publish CLI and Windows GUI
         run: |
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-x64 --output ./publish/osx-x64 ./src/ImeWlConverterCmd
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-arm64 --output ./publish/osx-arm64 ./src/ImeWlConverterCmd
@@ -45,10 +45,81 @@ jobs:
           zip -r imewlconverter_win-x86.zip publish/win-x86/*
           zip -r imewlconverter_win-x64.zip publish/win-x64/*
 
-      - uses: ncipollo/release-action@v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cli-packages
+          path: imewlconverter_*
+
+      - name: Save changelog
+        run: echo "${{ steps.changelog.outputs.changes }}" > CHANGELOG.txt
+
+      - name: Upload changelog
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: CHANGELOG.txt
+
+  build-macos-gui:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish macOS GUI (ARM64)
+        run: |
+          dotnet publish ./src/ImeWlConverterMac --configuration Release --self-contained true --runtime osx-arm64 --output ./publish/mac-arm64
+
+      - name: Publish macOS GUI (x64)
+        run: |
+          dotnet publish ./src/ImeWlConverterMac --configuration Release --self-contained true --runtime osx-x64 --output ./publish/mac-x64
+
+      - name: Create .app bundles
+        run: |
+          chmod +x ./scripts/create-app-bundle.sh
+          ./scripts/create-app-bundle.sh ./publish/mac-arm64 "IME WL Converter"
+          mv "IME WL Converter.app" "IME WL Converter-arm64.app"
+          ./scripts/create-app-bundle.sh ./publish/mac-x64 "IME WL Converter"
+          mv "IME WL Converter.app" "IME WL Converter-x64.app"
+
+      - name: Archive macOS apps
+        run: |
+          zip -r imewlconverter_macos-arm64.zip "IME WL Converter-arm64.app"
+          zip -r imewlconverter_macos-x64.zip "IME WL Converter-x64.app"
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-packages
+          path: imewlconverter_macos-*
+
+  release:
+    needs: [build-windows-linux, build-macos-gui]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download CLI artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: cli-packages
+
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-packages
+
+      - name: Download changelog
+        uses: actions/download-artifact@v4
+        with:
+          name: changelog
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "imewlconverter_*"
           allowUpdates: true
-          body: |
-            ${{ steps.changelog.outputs.changes }}
+          bodyFile: CHANGELOG.txt
           token: ${{ secrets.GITHUB_TOKEN }}
