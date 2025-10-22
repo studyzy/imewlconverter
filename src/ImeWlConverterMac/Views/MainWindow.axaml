@@ -18,40 +18,12 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- 菜单栏 -->
-        <Menu Grid.Row="0">
-            <MenuItem Header="高级设置">
-                <MenuItem Header="词条过滤设置" Command="{Binding FilterConfigCommand}"/>
-                <MenuItem Header="词频生成设置" Command="{Binding RankGenerateCommand}"/>
-                <Separator/>
-                <MenuItem Header="✓ 结果只显示首、末10万字符" Command="{Binding ToggleShowLessCommand}" IsVisible="{Binding ShowLess}"/>
-                <MenuItem Header="  结果只显示首、末10万字符" Command="{Binding ToggleShowLessCommand}" IsVisible="{Binding !ShowLess}"/>
-                <MenuItem Header="✓ 不显示结果，直接导出" Command="{Binding ToggleExportDirectlyCommand}" IsVisible="{Binding ExportDirectly}"/>
-                <MenuItem Header="  不显示结果，直接导出" Command="{Binding ToggleExportDirectlyCommand}" IsVisible="{Binding !ExportDirectly}"/>
-                <MenuItem Header="✓ 一边读取，一边导出" Command="{Binding ToggleStreamExportCommand}" IsVisible="{Binding StreamExport}"/>
-                <MenuItem Header="  一边读取，一边导出" Command="{Binding ToggleStreamExportCommand}" IsVisible="{Binding !StreamExport}"/>
-                <MenuItem Header="✓ 合并多词库到一个文件" Command="{Binding ToggleMergeToOneFileCommand}" IsVisible="{Binding MergeToOneFile}"/>
-                <MenuItem Header="  合并多词库到一个文件" Command="{Binding ToggleMergeToOneFileCommand}" IsVisible="{Binding !MergeToOneFile}"/>
-                <MenuItem Header="简繁体转换设置" Command="{Binding ChineseTransConfigCommand}"/>
-            </MenuItem>
-            <MenuItem Header="帮助">
-                <MenuItem Header="捐贈" Command="{Binding DonateCommand}"/>
-                <MenuItem Header="帮助" Command="{Binding HelpCommand}"/>
-                <MenuItem Header="关于" Command="{Binding AboutCommand}"/>
-                <MenuItem Header="查看最新版本" Command="{Binding AccessWebSiteCommand}"/>
-                <Separator/>
-                <MenuItem Header="文件分割" Command="{Binding SplitFileCommand}"/>
-                <MenuItem Header="词库合并" Command="{Binding MergeWLCommand}"/>
-            </MenuItem>
-        </Menu>
-
         <!-- 主要内容区域 -->
-        <Grid Grid.Row="1" Margin="16">
+        <Grid Grid.Row="0" Margin="16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -70,10 +42,13 @@
                 <TextBox Grid.Column="0" 
                          Text="{Binding FilePath}" 
                          Watermark="请选择源词库文件或拖拽文件到此处"
-                         IsReadOnly="True"/>
+                         IsReadOnly="True"
+                         Height="32"
+                         VerticalContentAlignment="Center"/>
                 <Button Grid.Column="1" 
                         Content="..." 
                         Width="50" 
+                        Height="32"
                         Margin="5,0,0,0"
                         Command="{Binding OpenFileCommand}"/>
                 <Button Grid.Column="2" 
@@ -81,6 +56,8 @@
                         Width="100" 
                         Height="64"
                         Margin="10,0,0,0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         Command="{Binding ConvertCommand}"
                         Grid.RowSpan="2"/>
             </Grid>
@@ -88,25 +65,30 @@
             <!-- 转换类型选择区域 -->
             <Grid Grid.Row="1" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="*" MinWidth="200"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="260"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" MinWidth="200"/>
+                    <ColumnDefinition Width="110"/>
                 </Grid.ColumnDefinitions>
 
                 <ComboBox Grid.Column="0" 
                           ItemsSource="{Binding ImportTypes}"
                           SelectedItem="{Binding SelectedImportType}"
-                          PlaceholderText="选择源词库类型"/>
+                          PlaceholderText="选择源词库类型"
+                          Height="32"
+                          HorizontalAlignment="Stretch"/>
                 <TextBlock Grid.Column="1" 
                            Text="-->>" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
-                           Margin="10,0"/>
+                           FontSize="14"
+                           Margin="15,0"/>
                 <ComboBox Grid.Column="2" 
                           ItemsSource="{Binding ExportTypes}"
                           SelectedItem="{Binding SelectedExportType}"
-                          PlaceholderText="选择目标词库类型"/>
+                          PlaceholderText="选择目标词库类型"
+                          Height="32"
+                          HorizontalAlignment="Stretch"/>
             </Grid>
 
             <!-- 进度条 -->
@@ -128,7 +110,7 @@
         </Grid>
 
         <!-- 状态栏 -->
-        <Border Grid.Row="2" 
+        <Border Grid.Row="1" 
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
                 BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
                 BorderThickness="0,1,0,0">

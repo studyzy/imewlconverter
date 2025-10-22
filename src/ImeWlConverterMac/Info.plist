@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>IME WL Converter</string>
+    <string>深蓝词库转换</string>
     <key>CFBundleDisplayName</key>
-    <string>IME WL Converter</string>
+    <string>深蓝词库转换</string>
     <key>CFBundleIdentifier</key>
     <string>com.imewlconverter.mac</string>
     <key>CFBundleVersion</key>

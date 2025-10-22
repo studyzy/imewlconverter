@@ -2,10 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
         x:Class="ImeWlConverterMac.Views.DonateWindow"
         Title="捐赠支持"
-        Width="500" Height="400"
+        Width="500" Height="600"
         WindowStartupLocation="CenterOwner"
         CanResize="False">
 
@@ -25,33 +25,73 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Spacing="15">
                 <TextBlock TextWrapping="Wrap">
-                    如果您觉得这个工具对您有帮助，欢迎通过以下方式支持作者：
+                    很高兴深蓝词库转换这个小工具能够帮助你，同时也感谢您的支持。
+                </TextBlock>
+                
+                <TextBlock TextWrapping="Wrap">
+                    您可以通过小额捐赠的方式支持这款小工具的开发工作。
                 </TextBlock>
                 
                 <TextBlock TextWrapping="Wrap" FontWeight="Bold">
-                    • 在 GitHub 上给项目点个 Star
+                    通过支付宝捐赠
                 </TextBlock>
                 
-                <TextBlock TextWrapping="Wrap" FontWeight="Bold">
-                    • 向朋友推荐这个工具
+                <TextBlock TextWrapping="Wrap">
+                    支付宝收款账户：曾毅 studyzy@163.com
                 </TextBlock>
                 
-                <TextBlock TextWrapping="Wrap" FontWeight="Bold">
-                    • 提交 Bug 报告或功能建议
+                <TextBlock TextWrapping="Wrap">
+                    也可通过扫码捐赠：
                 </TextBlock>
                 
-                <TextBlock TextWrapping="Wrap" FontWeight="Bold">
-                    • 贡献代码
-                </TextBlock>
+                <!-- 二维码图片 -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="5">
+                        <TextBlock Text="支付宝" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <Image Source="avares://ImeWlConverterMac/Assets/支付宝收钱码.png" 
+                               Width="180" 
+                               Height="180"
+                               Stretch="Uniform"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Spacing="5">
+                        <TextBlock Text="微信" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <Image Source="avares://ImeWlConverterMac/Assets/微信打赏码.png" 
+                               Width="180" 
+                               Height="180"
+                               Stretch="Uniform"/>
+                    </StackPanel>
+                </Grid>
                 
                 <Separator Margin="0,10"/>
                 
-                <TextBlock TextWrapping="Wrap">
-                    项目地址：https://github.com/studyzy/imewlconverter
+                <TextBlock TextWrapping="Wrap" FontWeight="Bold">
+                    其他支持方式：
                 </TextBlock>
                 
                 <TextBlock TextWrapping="Wrap">
-                    如需捐赠，请访问项目主页查看捐赠方式。
+                    • 在 GitHub 上给项目点个 Star
+                </TextBlock>
+                
+                <TextBlock TextWrapping="Wrap">
+                    • 向朋友推荐这个工具
+                </TextBlock>
+                
+                <TextBlock TextWrapping="Wrap">
+                    • 提交 Bug 报告或功能建议
+                </TextBlock>
+                
+                <TextBlock TextWrapping="Wrap">
+                    • 贡献代码
+                </TextBlock>
+                
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    项目地址：https://github.com/studyzy/imewlconverter
                 </TextBlock>
             </StackPanel>
         </ScrollViewer>

@@ -274,8 +274,8 @@ public class MainWindowViewModel : ViewModelBase
                     AllowMultiple = true,
                     FileTypeFilter = new[]
                     {
-                        FilePickerFileTypes.TextPlain,
-                        FilePickerFileTypes.All
+                        FilePickerFileTypes.All,
+                        FilePickerFileTypes.TextPlain
                     }
                 });
 

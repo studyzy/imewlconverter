@@ -9,8 +9,8 @@
     
     <!-- macOS App Bundle Configuration -->
     <UseAppHost>true</UseAppHost>
-    <CFBundleName>IME WL Converter</CFBundleName>
-    <CFBundleDisplayName>IME WL Converter</CFBundleDisplayName>
+    <CFBundleName>深蓝词库转换</CFBundleName>
+    <CFBundleDisplayName>深蓝词库转换</CFBundleDisplayName>
     <CFBundleIdentifier>com.imewlconverter.mac</CFBundleIdentifier>
     <CFBundleVersion>1.0.0</CFBundleVersion>
     <CFBundlePackageType>APPL</CFBundlePackageType>
@@ -30,5 +30,9 @@
 
   <ItemGroup>
     <ProjectReference Include="../ImeWlConverterCore/ImeWlConverterCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 </Project>
