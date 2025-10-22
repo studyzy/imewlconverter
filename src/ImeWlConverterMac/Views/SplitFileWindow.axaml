@@ -1,0 +1,85 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+        x:Class="ImeWlConverterMac.Views.SplitFileWindow"
+        Title="文件分割"
+        Width="600" Height="500"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 文件选择 -->
+        <Grid Grid.Row="0" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Name="txbFilePath" 
+                     Grid.Column="0"
+                     Watermark="请选择要分割的文件"
+                     IsReadOnly="True"/>
+            <Button Grid.Column="1" 
+                    Content="选择文件" 
+                    Width="100" 
+                    Margin="10,0,0,0"
+                    Click="BtnSelectFile_Click"/>
+        </Grid>
+
+        <!-- 分割选项 -->
+        <StackPanel Grid.Row="1" Spacing="15" Margin="0,0,0,15">
+            <TextBlock Text="分割方式：" FontWeight="Bold"/>
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <RadioButton Name="rbtnSplitByLine" Content="按行数分割" IsChecked="True" GroupName="SplitType"/>
+                <TextBlock Text="每" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <NumericUpDown Name="numdMaxLine" Value="10000" Minimum="1" Maximum="999999" Width="100"/>
+                <TextBlock Text="行" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <RadioButton Name="rbtnSplitBySize" Content="按文件大小分割" GroupName="SplitType"/>
+                <TextBlock Text="每" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <NumericUpDown Name="numdMaxSize" Value="1024" Minimum="1" Maximum="999999" Width="100"/>
+                <TextBlock Text="KB" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <RadioButton Name="rbtnSplitByLength" Content="按字符数分割" GroupName="SplitType"/>
+                <TextBlock Text="每" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <NumericUpDown Name="numdMaxLength" Value="100000" Minimum="1" Maximum="9999999" Width="100"/>
+                <TextBlock Text="字符" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- 日志输出 -->
+        <Border Grid.Row="2" 
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="1"
+                Margin="0,0,0,15">
+            <ScrollViewer>
+                <TextBox Name="rtbLogs"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         Watermark="分割日志将显示在这里..."/>
+            </ScrollViewer>
+        </Border>
+
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Name="btnSplit" Content="开始分割" Width="100" Click="BtnSplit_Click"/>
+            <Button Name="btnClose" Content="关闭" Width="80" Click="BtnClose_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,95 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        x:Class="ImeWlConverterMac.Views.MergeWLWindow"
+        Title="词库合并"
+        Width="700" Height="600"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 主词库选择 -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="主词库：" 
+                       VerticalAlignment="Center"
+                       Width="80"/>
+            <TextBox Name="txbMainWLFile" 
+                     Grid.Column="1"
+                     Watermark="请选择主词库文件"
+                     IsReadOnly="True"
+                     Margin="0,0,10,0"/>
+            <Button Grid.Column="2" 
+                    Content="选择" 
+                    Width="80"
+                    Click="BtnSelectMainWLFile_Click"/>
+        </Grid>
+
+        <!-- 附加词库选择 -->
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="附加词库：" 
+                       VerticalAlignment="Center"
+                       Width="80"/>
+            <TextBox Name="txbUserWLFiles" 
+                     Grid.Column="1"
+                     Watermark="请选择附加词库文件（可多选）"
+                     IsReadOnly="True"
+                     Margin="0,0,10,0"/>
+            <Button Grid.Column="2" 
+                    Content="选择" 
+                    Width="80"
+                    Click="BtnSelectUserWLFile_Click"/>
+        </Grid>
+
+        <!-- 选项 -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="15" Margin="0,0,0,15">
+            <CheckBox Name="cbxSortByCode" Content="按编码排序"/>
+            <Button Name="btnMergeWL" 
+                    Content="开始合并" 
+                    Width="100"
+                    Click="BtnMergeWL_Click"/>
+        </StackPanel>
+
+        <!-- 结果显示 -->
+        <Border Grid.Row="3" 
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="1"
+                Margin="0,0,0,15">
+            <ScrollViewer>
+                <TextBox Name="richTextBox1"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         BorderThickness="0"
+                         Background="Transparent"/>
+            </ScrollViewer>
+        </Border>
+
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Name="btnClose" Content="关闭" Width="80" Click="BtnClose_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

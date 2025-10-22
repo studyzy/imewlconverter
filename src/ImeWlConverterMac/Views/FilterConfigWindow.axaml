@@ -1,0 +1,104 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+        x:Class="ImeWlConverterMac.Views.FilterConfigWindow"
+        Title="词条过滤设置"
+        Width="500" Height="600"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Spacing="15">
+                <!-- 不过滤 -->
+                <CheckBox Name="cbxNoFilter" Content="不过滤"/>
+
+                <!-- 词长过滤 -->
+                <StackPanel>
+                    <TextBlock Text="词长过滤" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="从" VerticalAlignment="Center"/>
+                        <NumericUpDown Name="numWordLengthFrom" Value="1" Minimum="1" Maximum="9999" Width="100"/>
+                        <TextBlock Text="到" VerticalAlignment="Center"/>
+                        <NumericUpDown Name="numWordLengthTo" Value="9999" Minimum="1" Maximum="9999" Width="100"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 词频过滤 -->
+                <StackPanel>
+                    <TextBlock Text="词频过滤" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="从" VerticalAlignment="Center"/>
+                        <NumericUpDown Name="numWordRankFrom" Value="1" Minimum="1" Maximum="999999" Width="100"/>
+                        <TextBlock Text="到" VerticalAlignment="Center"/>
+                        <NumericUpDown Name="numWordRankTo" Value="999999" Minimum="1" Maximum="999999" Width="100"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 词频百分比 -->
+                <StackPanel>
+                    <TextBlock Text="词频百分比过滤" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="保留前" VerticalAlignment="Center"/>
+                        <NumericUpDown Name="numWordRankPercentage" Value="100" Minimum="1" Maximum="100" Width="100"/>
+                        <TextBlock Text="%" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 忽略选项 -->
+                <StackPanel>
+                    <TextBlock Text="忽略选项" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <CheckBox Name="cbxFilterEnglish" Content="忽略英文"/>
+                    <CheckBox Name="cbxFilterSpace" Content="忽略空格"/>
+                    <CheckBox Name="cbxFilterPunctuation" Content="忽略标点符号"/>
+                    <CheckBox Name="cbxFilterNumber" Content="忽略数字"/>
+                    <CheckBox Name="cbxFilterNoAlphabetCode" Content="忽略无字母编码"/>
+                    <CheckBox Name="cbxFilterFirstCJK" Content="忽略首字为中日韩字符"/>
+                </StackPanel>
+
+                <!-- 替换选项 -->
+                <StackPanel>
+                    <TextBlock Text="替换选项" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <CheckBox Name="cbxReplaceEnglish" Content="替换英文"/>
+                    <CheckBox Name="cbxReplaceSpace" Content="替换空格"/>
+                    <CheckBox Name="cbxReplacePunctuation" Content="替换标点符号"/>
+                    <CheckBox Name="cbxReplaceNumber" Content="替换数字"/>
+                </StackPanel>
+
+                <!-- 保留选项 -->
+                <StackPanel>
+                    <TextBlock Text="保留选项" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <CheckBox Name="cbxKeepEnglish" Content="保留英文"/>
+                    <CheckBox Name="cbxKeepNumber" Content="保留数字"/>
+                    <CheckBox Name="cbxKeepPunctuation" Content="保留标点符号"/>
+                    <CheckBox Name="cbxKeepSpace" Content="保留空格"/>
+                    <CheckBox Name="cbxKeepEnglish_" Content="保留英文(下划线)"/>
+                    <CheckBox Name="cbxKeepNumber_" Content="保留数字(下划线)"/>
+                    <CheckBox Name="cbxKeepPunctuation_" Content="保留标点符号(下划线)"/>
+                    <CheckBox Name="cbxKeepSpace_" Content="保留空格(下划线)"/>
+                </StackPanel>
+
+                <!-- 其他选项 -->
+                <StackPanel>
+                    <TextBlock Text="其他选项" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <CheckBox Name="cbxFullWidth" Content="全角"/>
+                    <CheckBox Name="cbxChsNumber" Content="中文数字"/>
+                    <CheckBox Name="cbxPrefixEnglish" Content="英文前缀"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,20,0,0">
+            <Button Name="btnOK" Content="确定" Width="80" Click="BtnOK_Click"/>
+            <Button Name="btnCancel" Content="取消" Width="80" Click="BtnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

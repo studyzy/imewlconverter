@@ -478,41 +478,122 @@ public class MainWindowViewModel : ViewModelBase
 
     #region Command Implementations
 
-    private void ShowFilterConfig()
+    private async void ShowFilterConfig()
     {
-        // TODO: 实现过滤配置对话框
-        StatusMessage = "过滤配置功能待实现";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.FilterConfigWindow(_filterConfig);
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                var result = await window.ShowDialog<bool?>(mainWindow);
+                if (result == true)
+                {
+                    _filterConfig = window.FilterConfig;
+                    StatusMessage = "过滤配置已更新";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开过滤配置失败: {ex.Message}";
+        }
     }
 
-    private void ShowRankGenerate()
+    private async void ShowRankGenerate()
     {
-        // TODO: 实现词频生成配置对话框
-        StatusMessage = "词频生成配置功能待实现";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.WordRankGenerateWindow(_wordRankGenerater);
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                var result = await window.ShowDialog<bool?>(mainWindow);
+                if (result == true)
+                {
+                    _wordRankGenerater = window.WordRankGenerater;
+                    StatusMessage = "词频生成配置已更新";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开词频生成配置失败: {ex.Message}";
+        }
     }
 
-    private void ShowChineseTransConfig()
+    private async void ShowChineseTransConfig()
     {
-        // TODO: 实现简繁体转换配置对话框
-        StatusMessage = "简繁体转换配置功能待实现";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.ChineseConverterSelectWindow(_translate, _chineseConverter);
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                var result = await window.ShowDialog<bool?>(mainWindow);
+                if (result == true)
+                {
+                    _translate = window.SelectedTranslate;
+                    _chineseConverter = window.SelectedConverter;
+                    StatusMessage = "简繁体转换配置已更新";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开简繁体转换配置失败: {ex.Message}";
+        }
     }
 
-    private void ShowDonate()
+    private async void ShowDonate()
     {
-        // TODO: 实现捐赠对话框
-        StatusMessage = "感谢您的支持！";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.DonateWindow();
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                await window.ShowDialog(mainWindow);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开捐赠窗口失败: {ex.Message}";
+        }
     }
 
-    private void ShowHelp()
+    private async void ShowHelp()
     {
-        // TODO: 实现帮助对话框
-        StatusMessage = "帮助功能待实现";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.HelpWindow();
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                await window.ShowDialog(mainWindow);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开帮助窗口失败: {ex.Message}";
+        }
     }
 
-    private void ShowAbout()
+    private async void ShowAbout()
     {
-        // TODO: 实现关于对话框
-        var version = Assembly.GetExecutingAssembly().GetName().Version;
-        StatusMessage = $"深蓝词库转换 {version?.Major}.{version?.Minor}";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.AboutWindow();
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                await window.ShowDialog(mainWindow);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开关于窗口失败: {ex.Message}";
+        }
     }
 
     private void AccessWebSite()
@@ -531,16 +612,47 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void ShowSplitFile()
+    private async void ShowSplitFile()
     {
-        // TODO: 实现文件分割对话框
-        StatusMessage = "文件分割功能待实现";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.SplitFileWindow();
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                await window.ShowDialog(mainWindow);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开文件分割窗口失败: {ex.Message}";
+        }
     }
 
-    private void ShowMergeWL()
+    private async void ShowMergeWL()
     {
-        // TODO: 实现词库合并对话框
-        StatusMessage = "词库合并功能待实现";
+        try
+        {
+            var window = new ImeWlConverterMac.Views.MergeWLWindow();
+            var mainWindow = GetMainWindow();
+            if (mainWindow != null)
+            {
+                await window.ShowDialog(mainWindow);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"打开词库合并窗口失败: {ex.Message}";
+        }
+    }
+
+    private Window? GetMainWindow()
+    {
+        if (App.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            return desktop.MainWindow;
+        }
+        return null;
     }
 
     private async Task HandleConversionCompleted()

@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+        x:Class="ImeWlConverterMac.Views.WordRankGenerateWindow"
+        Title="词频生成设置"
+        Width="400" Height="300"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Spacing="15">
+            <TextBlock Text="选择词频生成方式：" FontWeight="Bold"/>
+            
+            <RadioButton Name="rbtnDefault" Content="默认词频" IsChecked="True" GroupName="RankType"/>
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="30,0,0,0">
+                <TextBlock Text="默认词频值：" VerticalAlignment="Center"/>
+                <NumericUpDown Name="numRank" Value="10" Minimum="1" Maximum="999999" Width="100"/>
+            </StackPanel>
+            
+            <RadioButton Name="rbtnGoogle" Content="Google词频" GroupName="RankType"/>
+            <RadioButton Name="rbtnBaidu" Content="百度词频" GroupName="RankType"/>
+            <RadioButton Name="rbtnCalc" Content="计算词频" GroupName="RankType"/>
+            
+            <Separator Margin="0,10"/>
+            
+            <CheckBox Name="cbxForceUseNewRank" Content="强制使用新词频（覆盖原有词频）"/>
+        </StackPanel>
+
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,20,0,0">
+            <Button Name="btnOK" Content="确定" Width="80" Click="BtnOK_Click"/>
+            <Button Name="btnCancel" Content="取消" Width="80" Click="BtnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+        x:Class="ImeWlConverterMac.Views.HelpWindow"
+        Title="帮助"
+        Width="600" Height="500"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0">
+            <TextBox Name="textBoxHelp"
+                     IsReadOnly="True" 
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     BorderThickness="0"
+                     Background="Transparent"/>
+        </ScrollViewer>
+
+        <Button Grid.Row="1" 
+                Content="确定" 
+                Width="80" 
+                HorizontalAlignment="Right"
+                Margin="0,20,0,0"
+                Click="OkButton_Click"/>
+    </Grid>
+</Window>

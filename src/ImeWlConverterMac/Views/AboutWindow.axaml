@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="350"
+        x:Class="ImeWlConverterMac.Views.AboutWindow"
+        Title="关于 深蓝词库转换"
+        Width="450" Height="350"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Spacing="10">
+            <TextBlock Name="labelProductName" Text="深蓝词库转换" FontSize="18" FontWeight="Bold"/>
+            <TextBlock Name="labelVersion" Text="版本 1.0"/>
+            <TextBlock Name="labelCopyright" Text="Copyright © 2009-2024 studyzy(深蓝,曾毅)"/>
+            <TextBlock Name="labelCompanyName" Text=""/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Margin="0,20,0,20">
+            <TextBox Name="textBoxDescription" 
+                     IsReadOnly="True" 
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     BorderThickness="0"
+                     Background="Transparent"/>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" 
+                Content="确定" 
+                Width="80" 
+                HorizontalAlignment="Right"
+                Click="OkButton_Click"/>
+    </Grid>
+</Window>

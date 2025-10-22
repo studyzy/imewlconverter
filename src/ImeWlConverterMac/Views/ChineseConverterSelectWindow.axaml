@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+        x:Class="ImeWlConverterMac.Views.ChineseConverterSelectWindow"
+        Title="简繁体转换设置"
+        Width="400" Height="300"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Spacing="20">
+            <!-- 转换方式选择 -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="选择转换方式：" FontWeight="Bold"/>
+                <RadioButton Name="rbtnNotTrans" Content="不转换" IsChecked="True" GroupName="TransType"/>
+                <RadioButton Name="rbtnTransToChs" Content="转换为简体中文" GroupName="TransType"/>
+                <RadioButton Name="rbtnTransToCht" Content="转换为繁体中文" GroupName="TransType"/>
+            </StackPanel>
+
+            <Separator/>
+
+            <!-- 转换引擎选择 -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="选择转换引擎：" FontWeight="Bold"/>
+                <RadioButton Name="rbtnKernel" Content="系统内核" IsChecked="True" GroupName="ConverterType"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,20,0,0">
+            <Button Name="btnOK" Content="确定" Width="80" Click="BtnOK_Click"/>
+            <Button Name="btnCancel" Content="取消" Width="80" Click="BtnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
