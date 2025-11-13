@@ -8,6 +8,13 @@ public partial class FilterConfigWindow : Window
 {
     public FilterConfig FilterConfig { get; private set; }
 
+    public FilterConfigWindow()
+    {
+        InitializeComponent();
+        FilterConfig = new FilterConfig();
+        LoadConfig();
+    }
+
     public FilterConfigWindow(FilterConfig filterConfig)
     {
         InitializeComponent();
@@ -52,11 +59,11 @@ public partial class FilterConfigWindow : Window
 
     private void BtnOK_Click(object? sender, RoutedEventArgs e)
     {
-        FilterConfig.WordLengthFrom = (int)numWordLengthFrom.Value;
-        FilterConfig.WordLengthTo = (int)numWordLengthTo.Value;
-        FilterConfig.WordRankFrom = (int)numWordRankFrom.Value;
-        FilterConfig.WordRankTo = (int)numWordRankTo.Value;
-        FilterConfig.WordRankPercentage = (int)numWordRankPercentage.Value;
+        FilterConfig.WordLengthFrom = (int)(numWordLengthFrom.Value ?? 0);
+        FilterConfig.WordLengthTo = (int)(numWordLengthTo.Value ?? 0);
+        FilterConfig.WordRankFrom = (int)(numWordRankFrom.Value ?? 0);
+        FilterConfig.WordRankTo = (int)(numWordRankTo.Value ?? 0);
+        FilterConfig.WordRankPercentage = (int)(numWordRankPercentage.Value ?? 0);
         
         FilterConfig.IgnoreEnglish = cbxFilterEnglish.IsChecked ?? false;
         FilterConfig.IgnoreSpace = cbxFilterSpace.IsChecked ?? false;

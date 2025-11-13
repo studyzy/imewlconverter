@@ -8,6 +8,13 @@ public partial class WordRankGenerateWindow : Window
 {
     public IWordRankGenerater WordRankGenerater { get; private set; }
 
+    public WordRankGenerateWindow()
+    {
+        InitializeComponent();
+        WordRankGenerater = new DefaultWordRankGenerater();
+        LoadConfig();
+    }
+
     public WordRankGenerateWindow(IWordRankGenerater currentGenerater)
     {
         InitializeComponent();
@@ -20,7 +27,7 @@ public partial class WordRankGenerateWindow : Window
         if (WordRankGenerater is DefaultWordRankGenerater defaultGen)
         {
             rbtnDefault.IsChecked = true;
-            numRank.Value = defaultGen.Rank;
+            numRank.Value = (int)defaultGen.Rank;
         }
         else if (WordRankGenerater is GoogleWordRankGenerater)
         {
@@ -42,7 +49,7 @@ public partial class WordRankGenerateWindow : Window
     {
         if (rbtnDefault.IsChecked == true)
         {
-            WordRankGenerater = new DefaultWordRankGenerater { Rank = (int)numRank.Value };
+            WordRankGenerater = new DefaultWordRankGenerater { Rank = (int)(numRank.Value ?? 0) };
         }
         else if (rbtnGoogle.IsChecked == true)
         {

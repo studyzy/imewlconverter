@@ -103,7 +103,7 @@ public partial class MergeWLWindow : Window
     {
         var mainWL = FileOperationHelper.ReadFile(txbMainWLFile.Text);
         var mainDict = ConvertTxt2Dictionary(mainWL);
-        var userFiles = txbUserWLFiles.Text.Split('|');
+        var userFiles = (txbUserWLFiles.Text ?? "").Split('|');
 
         foreach (var userFile in userFiles)
         {

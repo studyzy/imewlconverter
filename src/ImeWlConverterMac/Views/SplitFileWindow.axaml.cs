@@ -61,11 +61,11 @@ public partial class SplitFileWindow : Window
             await Task.Run(() =>
             {
                 if (rbtnSplitByLine.IsChecked == true)
-                    SplitFileByLine((int)numdMaxLine.Value);
+                SplitFileByLine((int)(numdMaxLine.Value ?? 0));
                 else if (rbtnSplitBySize.IsChecked == true)
-                    SplitFileBySize((int)numdMaxSize.Value);
+                    SplitFileBySize((int)(numdMaxSize.Value ?? 0));
                 else
-                    SplitFileByLength((int)numdMaxLength.Value);
+                    SplitFileByLength((int)(numdMaxLength.Value ?? 0));
             });
 
             await ShowMessage("恭喜你，文件分割完成!", "分割");
@@ -131,12 +131,17 @@ public partial class SplitFileWindow : Window
         var fileIndex = 1;
         var size = (maxSize - 10) * 1024; // 10K的Buffer
 
-        using var inFile = new FileStream(txbFilePath.Text, FileMode.Open, FileAccess.Read);
+        using var inFile = new FileStream(txbFilePath.Text!, FileMode.Open, FileAccess.Read);
 
         do
         {
             var newFile = GetWriteFilePath(fileIndex++);
-            using var outFile = new FileStream(newFile, FileMode.OpenOrCreate, FileAccess.Write);
+            if (string.IsNullOrEmpty(newFile))
+            {
+                AppendLog("无法生成有效的文件路径");
+                return;
+            }
+            using var outFile = new FileStream(newFile!, FileMode.OpenOrCreate, FileAccess.Write);
 
             if (fileIndex != 2) // 不是第一个文件，那么就要写文件头
                 FileOperationHelper.WriteFileHeader(outFile, encoding);

@@ -10,6 +10,13 @@ public partial class ChineseConverterSelectWindow : Window
     public ChineseTranslate SelectedTranslate { get; private set; }
     public IChineseConverter? SelectedConverter { get; private set; }
 
+    public ChineseConverterSelectWindow()
+    {
+        InitializeComponent();
+        SelectedTranslate = ChineseTranslate.NotTrans;
+        LoadConfig();
+    }
+
     public ChineseConverterSelectWindow(ChineseTranslate currentTranslate, IChineseConverter? currentConverter)
     {
         InitializeComponent();
