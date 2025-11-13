@@ -70,26 +70,35 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      - name: Publish macOS GUI (ARM64)
+      - name: Build and package macOS apps
         run: |
-          dotnet publish ./src/ImeWlConverterMac --configuration Release --self-contained true --runtime osx-arm64 --output ./publish/mac-arm64
+          # 使用Makefile构建ARM64和x64应用包
+          make app-mac-arm64
+          make app-mac-x64
+          
+          # 重命名应用包以区分架构
+          mv "深蓝词库转换.app" "深蓝词库转换-arm64.app"
+          
+          # 构建x64版本
+          make clean-packages
+          make app-mac-x64
+          mv "深蓝词库转换.app" "深蓝词库转换-x64.app"
 
-      - name: Publish macOS GUI (x64)
+      - name: Create universal app bundle
         run: |
-          dotnet publish ./src/ImeWlConverterMac --configuration Release --self-contained true --runtime osx-x64 --output ./publish/mac-x64
-
-      - name: Create .app bundles
-        run: |
-          chmod +x ./scripts/create-app-bundle.sh
-          ./scripts/create-app-bundle.sh ./publish/mac-arm64 "IME WL Converter"
-          mv "IME WL Converter.app" "IME WL Converter-arm64.app"
-          ./scripts/create-app-bundle.sh ./publish/mac-x64 "IME WL Converter"
-          mv "IME WL Converter.app" "IME WL Converter-x64.app"
+          # 创建通用二进制包（如果支持）
+          echo "创建通用macOS应用包..."
+          # 这里可以添加创建通用二进制包的逻辑
+          # lipo -create "IME WL Converter-arm64.app/Contents/MacOS/ImeWlConverterMac" "IME WL Converter-x64.app/Contents/MacOS/ImeWlConverterMac" -output "IME WL Converter.app/Contents/MacOS/ImeWlConverterMac"
 
       - name: Archive macOS apps
         run: |
-          zip -r imewlconverter_macos-arm64.zip "IME WL Converter-arm64.app"
-          zip -r imewlconverter_macos-x64.zip "IME WL Converter-x64.app"
+          # 打包各个架构的应用包
+          zip -r imewlconverter_macos-arm64.zip "深蓝词库转换-arm64.app"
+          zip -r imewlconverter_macos-x64.zip "深蓝词库转换-x64.app"
+          
+          # 如果有通用包也打包
+          # zip -r imewlconverter_macos-universal.zip "深蓝词库转换.app"
 
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
