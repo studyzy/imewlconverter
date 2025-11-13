@@ -42,8 +42,8 @@ jobs:
           tar -czf imewlconverter_osx-arm64.tar.gz publish/osx-arm64/*
           tar -czf imewlconverter_linux-x64.tar.gz publish/linux-x64/*
           tar -czf imewlconverter_linux-arm64.tar.gz publish/linux-arm64/*
-          zip -r imewlconverter_win-x86.zip publish/win-x86/*
-          zip -r imewlconverter_win-x64.zip publish/win-x64/*
+          Compress-Archive -Path publish/win-x86/* -DestinationPath imewlconverter_win-x86.zip
+          Compress-Archive -Path publish/win-x64/* -DestinationPath imewlconverter_win-x64.zip
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -72,24 +72,13 @@ jobs:
 
       - name: Build and package macOS apps
         run: |
-          # 使用Makefile构建ARM64和x64应用包
+          # 构建ARM64版本
           make app-mac-arm64
-          make app-mac-x64
-          
-          # 重命名应用包以区分架构
           mv "深蓝词库转换.app" "深蓝词库转换-arm64.app"
           
           # 构建x64版本
-          make clean-packages
           make app-mac-x64
           mv "深蓝词库转换.app" "深蓝词库转换-x64.app"
-
-      - name: Create universal app bundle
-        run: |
-          # 创建通用二进制包（如果支持）
-          echo "创建通用macOS应用包..."
-          # 这里可以添加创建通用二进制包的逻辑
-          # lipo -create "IME WL Converter-arm64.app/Contents/MacOS/ImeWlConverterMac" "IME WL Converter-x64.app/Contents/MacOS/ImeWlConverterMac" -output "IME WL Converter.app/Contents/MacOS/ImeWlConverterMac"
 
       - name: Archive macOS apps
         run: |
