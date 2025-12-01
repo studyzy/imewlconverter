@@ -1003,7 +1003,6 @@
 'zhang'shen 掌参
 'liao'shen 辽参
 'zhu'shen 诸参
-'zhu'er'shen 参归
 'zhu'shen 珠参
 'wa'shen 瓦参
 'wo'er'shen 窝儿参

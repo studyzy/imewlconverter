@@ -36,15 +36,16 @@ public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
                 .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             for (var i = 0; i < lines.Length; i++)
             {
-                var line = lines[i];
-
-                var py = line.Split(' ')[0];
-                var word = line.Split(' ')[1];
+                var line = lines[i].Split(' ');
+                if (line.Length < 2) continue;
+                
+                var py = line[0];
+                var word = line[1];
 
                 var pinyin = new List<string>(
                     py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries)
                 );
-                wlList.Add(word, pinyin);
+                wlList.TryAdd(word, pinyin);
             }
 
             mutiPinYinWord = wlList;
