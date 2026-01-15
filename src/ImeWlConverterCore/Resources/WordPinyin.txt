@@ -29,7 +29,7 @@
 'zhang'bei 长辈
 'zhang'zi 长子
 'zhang'nv 长女
-'zhang'xong 长兄
+'zhang'xiong 长兄
 'xiong'zhang 兄长
 'shou'zhang 首长
 'zhang'guan 长官
@@ -964,6 +964,7 @@
 'shen'zhu 参术
 'shen'fu 参附
 'shen'gui 参归
+'zhu'er'shen 珠儿参
 'shen'hu 参胡
 'shen'jie 参芥
 'shen'ju 参橘
