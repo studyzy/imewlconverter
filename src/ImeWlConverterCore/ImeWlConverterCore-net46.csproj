@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>ImeWlConverterCore</AssemblyName>
     <RootNamespace>ImeWlConverterCore</RootNamespace>
-    <Version>2.9.1</Version>
+    <!-- Version 由 MinVer 自动从 Git tag 生成，见 Directory.Build.props -->
   </PropertyGroup>
   <ItemGroup>
     <None Remove="ImeWlConverterCore.csproj" />

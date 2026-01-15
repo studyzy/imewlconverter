@@ -57,4 +57,9 @@ clean-packages:
 	rm -rf ./publish
 	@echo "✅ 清理完成！"
 
-.PHONY: cmd release build-mac release-mac run-mac clean-mac publish-mac app-mac-arm64 app-mac-x64 app-mac package-mac clean-packages
+# 显示当前版本号（由 MinVer 从 Git tag 自动生成）
+version:
+	@echo "📌 当前版本号:"
+	@cd src/ImeWlConverterCore && dotnet msbuild -getProperty:Version -nologo || echo "⚠️  无法获取版本号，请确保已安装 .NET SDK"
+
+.PHONY: cmd release build-mac release-mac run-mac clean-mac publish-mac app-mac-arm64 app-mac-x64 app-mac package-mac clean-packages version

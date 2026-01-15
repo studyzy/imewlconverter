@@ -12,7 +12,8 @@
     <CFBundleName>深蓝词库转换</CFBundleName>
     <CFBundleDisplayName>深蓝词库转换</CFBundleDisplayName>
     <CFBundleIdentifier>com.imewlconverter.mac</CFBundleIdentifier>
-    <CFBundleVersion>1.0.0</CFBundleVersion>
+    <!-- CFBundleVersion 由 MinVer 自动从 Git tag 生成，见 Directory.Build.props -->
+    <CFBundleVersion>$(Version)</CFBundleVersion>
     <CFBundlePackageType>APPL</CFBundlePackageType>
     <CFBundleSignature>????</CFBundleSignature>
     <CFBundleExecutable>ImeWlConverterMac</CFBundleExecutable>

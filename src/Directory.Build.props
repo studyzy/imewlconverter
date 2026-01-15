@@ -1,0 +1,26 @@
+<Project>
+  <!-- 全局构建属性配置 -->
+  
+  <PropertyGroup>
+    <!-- 使用 MinVer 自动从 Git tag 生成版本号 -->
+    <!-- MinVer 会自动检测 Git 仓库中的 tag 并生成版本号 -->
+    <!-- 格式：vX.Y.Z -> X.Y.Z.0 -->
+    <!-- 如果没有 tag，生成格式如：0.0.0-dev.42.abc1234 -->
+    
+    <!-- MinVer 配置 -->
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <MinVerDefaultPreReleaseIdentifiers>dev</MinVerDefaultPreReleaseIdentifiers>
+    <MinVerVerbosity>minimal</MinVerVerbosity>
+    
+    <!-- 后备版本号（当 MinVer 无法获取 Git 信息时使用） -->
+    <MinVerMinimumVersion>0.0.0</MinVerMinimumVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MinVer NuGet 包 - 仅在构建时使用，不会包含在输出中 -->
+    <PackageReference Include="MinVer" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

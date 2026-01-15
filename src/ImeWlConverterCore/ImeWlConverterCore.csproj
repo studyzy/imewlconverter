@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net8.0</TargetFrameworks>
-        <Version>2.8.0</Version>
+        <!-- Version 由 MinVer 自动从 Git tag 生成，见 Directory.Build.props -->
         <Platforms>AnyCPU;x86</Platforms>
     </PropertyGroup>
 

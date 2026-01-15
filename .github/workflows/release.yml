@@ -10,6 +10,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 获取完整的 Git history 和所有 tags，MinVer 需要这些信息来生成版本号
+          fetch-depth: 0
 
       - name: Generate CHANGELOG
         id: changelog
@@ -64,6 +67,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 获取完整的 Git history 和所有 tags，MinVer 需要这些信息来生成版本号
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4

@@ -115,3 +115,4 @@ App_Data/*.ldf
 .idea/
 /src/IME WL Converter Win/Properties/PublishProfiles
 *.app
+.DS_Store
