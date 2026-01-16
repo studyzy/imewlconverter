@@ -80,11 +80,9 @@ jobs:
         run: |
           # 构建ARM64版本
           make app-mac-arm64
-          mv "深蓝词库转换.app" "深蓝词库转换-arm64.app"
           
           # 构建x64版本
           make app-mac-x64
-          mv "深蓝词库转换.app" "深蓝词库转换-x64.app"
 
       - name: Archive macOS apps
         run: |
