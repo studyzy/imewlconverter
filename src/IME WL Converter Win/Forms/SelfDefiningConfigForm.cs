@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -43,6 +44,7 @@ public partial class SelfDefiningConfigForm : Form
     /// <summary>
     ///     用户自定义的匹配模式
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ParsePattern SelectedParsePattern { get; set; }
 
     private void InitParsePattern()

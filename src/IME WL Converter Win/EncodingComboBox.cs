@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
@@ -51,6 +52,7 @@ public class EncodingComboBox : ComboBox
         }
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Encoding SelectedEncoding
     {
         get

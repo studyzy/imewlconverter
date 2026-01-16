@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 
@@ -28,6 +29,7 @@ public partial class ErbiTypeForm : Form
         InitializeComponent();
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public CodeType SelectedCodeType { get; set; }
 
     private void btnOK_Click(object sender, EventArgs e)

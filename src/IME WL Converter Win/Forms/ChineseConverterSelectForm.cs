@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Language;
@@ -52,7 +53,10 @@ public partial class ChineseConverterSelectForm : Form
         }
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ChineseTranslate SelectedTranslate { get; set; }
+    
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IChineseConverter SelectedConverter { get; set; }
 
     private void btnOK_Click(object sender, EventArgs e)

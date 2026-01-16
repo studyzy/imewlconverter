@@ -26,7 +26,6 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <Platforms>AnyCPU;x86</Platforms>
     </PropertyGroup>
     <PropertyGroup>
