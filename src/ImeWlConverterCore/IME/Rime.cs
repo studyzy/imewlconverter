@@ -117,8 +117,15 @@ public class Rime : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, 
         }
         catch (Exception ex)
         {
-            Debug.Fail(ex.Message);
-            return null;
+            // 生成编码失败时，记录警告并抛出异常，以便上层调用者知晓
+            Debug.WriteLine($"为词条 '{wl.Word}' 生成编码失败: {ex.Message}");
+            throw new Exception($"无法为词条 '{wl.Word}' 生成拼音编码: {ex.Message}", ex);
+        }
+
+        // 检查是否成功生成了编码
+        if (wl.Codes == null || wl.Codes.Count == 0 || string.IsNullOrEmpty(wl.SingleCode))
+        {
+            throw new Exception($"为词条 '{wl.Word}' 生成的拼音编码为空");
         }
 
         if (codeGenerater.Is1CharMutiCode)
