@@ -38,7 +38,7 @@ public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
             {
                 var line = lines[i].Split(' ');
                 if (line.Length < 2) continue;
-                
+
                 var py = line[0];
                 var word = line[1];
 

@@ -61,7 +61,7 @@ public partial class SplitFileWindow : Window
             await Task.Run(() =>
             {
                 if (rbtnSplitByLine.IsChecked == true)
-                SplitFileByLine((int)(numdMaxLine.Value ?? 0));
+                    SplitFileByLine((int)(numdMaxLine.Value ?? 0));
                 else if (rbtnSplitBySize.IsChecked == true)
                     SplitFileBySize((int)(numdMaxSize.Value ?? 0));
                 else

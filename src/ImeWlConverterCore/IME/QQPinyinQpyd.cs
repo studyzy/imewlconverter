@@ -66,7 +66,7 @@ public class QQPinyinQpyd : BaseImport, IWordLibraryImport
         var fs = new FileStream(qqydFile, FileMode.Open, FileAccess.Read);
         fs.Position = 0x38;
         var startAddressByte = new byte[4];
-        fs.Read(startAddressByte, 0, 4);
+        fs.ReadExactly(startAddressByte, 0, 4);
         var startAddress = BitConverter.ToInt32(startAddressByte, 0);
         fs.Position = 0x44;
         var wordCount = BinFileHelper.ReadInt32(fs);

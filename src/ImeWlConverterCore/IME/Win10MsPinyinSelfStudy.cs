@@ -119,7 +119,7 @@ public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
         //get word num
         var bytes = new byte[50];
         fp.Seek(12, SeekOrigin.Begin);
-        fp.Read(bytes, 0, 4);
+        fp.ReadExactly(bytes, 0, 4);
         var cnt = bytesToIntLittle(bytes, 0, 4);
         //get each word
         for (var i = 0; i < cnt; i++)
@@ -127,18 +127,18 @@ public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
             var cur_idx = user_word_base + i * 60;
             //get word len
             fp.Seek(cur_idx + 10, SeekOrigin.Begin);
-            fp.Read(bytes, 0, 1);
+            fp.ReadExactly(bytes, 0, 1);
             var wordLen = bytesToIntLittle(bytes, 0, 1);
             //get word
             fp.Seek(cur_idx + 12, SeekOrigin.Begin);
-            fp.Read(bytes, 0, wordLen * 2);
+            fp.ReadExactly(bytes, 0, wordLen * 2);
             var word = Encoding.Unicode.GetString(bytes, 0, wordLen * 2);
             //get pinyin
             var pinyin = new string[wordLen];
             for (var j = 0; j < wordLen; j++)
             {
                 var byte2 = new byte[2];
-                fp.Read(byte2, 0, 2);
+                fp.ReadExactly(byte2, 0, 2);
                 var pyIndex = BitConverter.ToInt16(byte2, 0);
                 if (pyIndex >= 0 && pyIndex < pinyinIndex.Length)
                     pinyin[j] = pinyinIndex[pyIndex];

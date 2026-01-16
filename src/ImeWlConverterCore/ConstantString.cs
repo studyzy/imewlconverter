@@ -27,11 +27,11 @@ public class ConstantString
     // 版本号自动从程序集属性读取（由 MinVer 在构建时注入）
     // 格式：从 Git tag vX.Y.Z 生成 X.Y.Z.0
     // 开发构建：0.0.0-dev.{commits}.{sha}
-    public static readonly string VERSION = 
+    public static readonly string VERSION =
         typeof(ConstantString).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion 
-        ?? typeof(ConstantString).Assembly.GetName().Version?.ToString() 
+            .InformationalVersion
+        ?? typeof(ConstantString).Assembly.GetName().Version?.ToString()
         ?? "0.0.0.0";
 
     public const string BAIDU_SHOUJI = "百度手机或Mac版百度拼音";

@@ -162,21 +162,21 @@ public class BaiduShoujiBcd : BaseImport, IWordLibraryImport
     {
         var wordLibrary = new WordLibrary();
         var temp = new byte[2];
-        fs.Read(temp, 0, 2);
+        fs.ReadExactly(temp, 0, 2);
         var len = BitConverter.ToInt16(temp, 0);
-        fs.Read(temp, 0, 2); //what's the meaning of these 2 bytes?
+        fs.ReadExactly(temp, 0, 2); //what's the meaning of these 2 bytes?
         var pinyinList = new List<string>();
         for (var i = 0; i < len; i++)
         {
             temp = new byte[2];
-            fs.Read(temp, 0, 2);
+            fs.ReadExactly(temp, 0, 2);
 
             pinyinList.Add(Shengmu[temp[0]] + Yunmu[temp[1]]);
         }
 
         wordLibrary.PinYin = pinyinList.ToArray();
         temp = new byte[2 * len];
-        fs.Read(temp, 0, 2 * len);
+        fs.ReadExactly(temp, 0, 2 * len);
         wordLibrary.Word = Encoding.Unicode.GetString(temp);
         //for (var i = 0; i < wordLibrary.Word.Length;i++ )
         //{

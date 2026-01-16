@@ -279,7 +279,7 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
     private byte[] StreamToBytes(Stream stream, int length)
     {
         var bytes = new byte[length];
-        stream.Read(bytes, 0, length);
+        stream.ReadExactly(bytes, 0, length);
         // 设置当前流的位置为流的开始
         stream.Seek(0, SeekOrigin.Begin);
         return bytes;

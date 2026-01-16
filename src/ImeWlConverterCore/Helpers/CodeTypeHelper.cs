@@ -83,7 +83,7 @@ public static class CodeTypeHelper
                 return new ZhuyinGenerater();
             case CodeType.NoCode:
                 return null;
-           case CodeType.UserDefine:
+            case CodeType.UserDefine:
                 {
                     return new SelfDefiningCodeGenerater();
                 }

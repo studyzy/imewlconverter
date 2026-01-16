@@ -95,16 +95,16 @@ public static class PinyinHelper
 
         var list = PinYinWithToneDict[str];
         foreach (var allpinyin in list)
-        foreach (var pinyin in allpinyin.Split(','))
-            if (
-                pinyin == py + "0"
-                || pinyin == py + "1"
-                || pinyin == py + "2"
-                || pinyin == py + "3"
-                || pinyin == py + "4"
-                || pinyin == py + "5"
-            )
-                return pinyin;
+            foreach (var pinyin in allpinyin.Split(','))
+                if (
+                    pinyin == py + "0"
+                    || pinyin == py + "1"
+                    || pinyin == py + "2"
+                    || pinyin == py + "3"
+                    || pinyin == py + "4"
+                    || pinyin == py + "5"
+                )
+                    return pinyin;
 
         Debug.WriteLine("找不到" + str + "的拼音" + py + "对应的音调");
         return py + "1"; //找不到音调就用拼音的一声

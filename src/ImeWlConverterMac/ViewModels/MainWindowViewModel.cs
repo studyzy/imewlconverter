@@ -24,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private readonly IDictionary<string, IWordLibraryExport> _exports = new Dictionary<string, IWordLibraryExport>();
     private readonly IDictionary<string, IWordLibraryImport> _imports = new Dictionary<string, IWordLibraryImport>();
-    
+
     private string _filePath = "";
     private string _resultText = "";
     private string _statusMessage = "欢迎使用深蓝词库转换工具";
@@ -34,7 +34,7 @@ public class MainWindowViewModel : ViewModelBase
     private bool _exportDirectly = false;
     private bool _streamExport = false;
     private bool _mergeToOneFile = true;
-    
+
     private IWordLibraryImport? _import;
     private IWordLibraryExport? _export;
     private MainBody? _mainBody;
@@ -46,7 +46,7 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         LoadImeList();
-        
+
         // 初始化命令
         OpenFileCommand = new RelayCommand(async () => await OpenFileAsync());
         ConvertCommand = new RelayCommand(async () => await ConvertAsync(), () => CanConvert());
@@ -59,7 +59,7 @@ public class MainWindowViewModel : ViewModelBase
         AccessWebSiteCommand = new RelayCommand(() => AccessWebSite());
         SplitFileCommand = new RelayCommand(() => ShowSplitFile());
         MergeWLCommand = new RelayCommand(() => ShowMergeWL());
-        
+
         // 切换命令
         ToggleShowLessCommand = new RelayCommand(() => ShowLess = !ShowLess);
         ToggleExportDirectlyCommand = new RelayCommand(() => ExportDirectly = !ExportDirectly);
@@ -72,8 +72,8 @@ public class MainWindowViewModel : ViewModelBase
     public string FilePath
     {
         get => _filePath;
-        set 
-        { 
+        set
+        {
             if (SetField(ref _filePath, value))
             {
                 RaiseCanExecuteChanged();
@@ -102,8 +102,8 @@ public class MainWindowViewModel : ViewModelBase
     public bool IsConverting
     {
         get => _isConverting;
-        set 
-        { 
+        set
+        {
             if (SetField(ref _isConverting, value))
             {
                 RaiseCanExecuteChanged();
@@ -187,7 +187,7 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand AccessWebSiteCommand { get; }
     public ICommand SplitFileCommand { get; }
     public ICommand MergeWLCommand { get; }
-    
+
     // 切换命令
     public ICommand ToggleShowLessCommand { get; }
     public ICommand ToggleExportDirectlyCommand { get; }
@@ -283,7 +283,7 @@ public class MainWindowViewModel : ViewModelBase
                 {
                     var filePaths = files.Select(f => f.Path.LocalPath).ToArray();
                     FilePath = string.Join(" | ", filePaths);
-                    
+
                     if (filePaths.Length == 1 && SelectedImportType != ConstantString.SELF_DEFINING)
                     {
                         var autoType = FileOperationHelper.AutoMatchSourceWLType(filePaths[0]);
@@ -302,7 +302,7 @@ public class MainWindowViewModel : ViewModelBase
     public void HandleFileDrop(string[] filePaths)
     {
         FilePath = string.Join(" | ", filePaths);
-        
+
         if (filePaths.Length == 1 && SelectedImportType != ConstantString.SELF_DEFINING)
         {
             var autoType = FileOperationHelper.AutoMatchSourceWLType(filePaths[0]);
@@ -328,7 +328,7 @@ public class MainWindowViewModel : ViewModelBase
             StatusMessage = "开始转换...";
 
             await Task.Run(() => PerformConversion());
-            
+
             // 转换完成后处理保存逻辑
             await HandleConversionCompleted();
         }
@@ -347,7 +347,7 @@ public class MainWindowViewModel : ViewModelBase
     private void PerformConversion()
     {
         var files = FileOperationHelper.GetFilesPath(FilePath);
-        
+
         _mainBody = new MainBody
         {
             SelectedWordRankGenerater = _wordRankGenerater,
@@ -375,7 +375,7 @@ public class MainWindowViewModel : ViewModelBase
         try
         {
             _mainBody.Convert(files);
-            
+
             Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
                 if (!ExportDirectly && MergeToOneFile)
@@ -392,7 +392,7 @@ public class MainWindowViewModel : ViewModelBase
                         ResultText = dataText;
                     }
                 }
-                
+
                 StatusMessage = $"转换完成，共转换 {_mainBody.Count} 条词库";
             });
         }
@@ -410,26 +410,26 @@ public class MainWindowViewModel : ViewModelBase
     {
         var filters = new List<ISingleFilter>();
         if (_filterConfig.NoFilter) return filters;
-        
+
         if (_filterConfig.IgnoreEnglish) filters.Add(new EnglishFilter());
         if (_filterConfig.IgnoreFirstCJK) filters.Add(new FirstCJKFilter());
-        
+
         var lenFilter = new LengthFilter
         {
             MinLength = _filterConfig.WordLengthFrom,
             MaxLength = _filterConfig.WordLengthTo
         };
-        if (_filterConfig.WordLengthFrom > 1 || _filterConfig.WordLengthTo < 9999) 
+        if (_filterConfig.WordLengthFrom > 1 || _filterConfig.WordLengthTo < 9999)
             filters.Add(lenFilter);
-        
+
         var rankFilter = new RankFilter
         {
             MaxLength = _filterConfig.WordRankTo,
             MinLength = _filterConfig.WordRankFrom
         };
-        if (_filterConfig.WordRankFrom > 1 || _filterConfig.WordRankTo < 999999) 
+        if (_filterConfig.WordRankFrom > 1 || _filterConfig.WordRankTo < 999999)
             filters.Add(rankFilter);
-        
+
         if (_filterConfig.IgnoreSpace) filters.Add(new SpaceFilter());
         if (_filterConfig.IgnorePunctuation)
         {
@@ -438,7 +438,7 @@ public class MainWindowViewModel : ViewModelBase
         }
         if (_filterConfig.IgnoreNumber) filters.Add(new NumberFilter());
         if (_filterConfig.IgnoreNoAlphabetCode) filters.Add(new NoAlphabetCodeFilter());
-        
+
         return filters;
     }
 
@@ -446,7 +446,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         var filters = new List<IBatchFilter>();
         if (_filterConfig.NoFilter) return filters;
-        
+
         if (_filterConfig.WordRankPercentage < 100)
         {
             var filter = new RankPercentageFilter
@@ -455,7 +455,7 @@ public class MainWindowViewModel : ViewModelBase
             };
             filters.Add(filter);
         }
-        
+
         return filters;
     }
 
@@ -470,7 +470,7 @@ public class MainWindowViewModel : ViewModelBase
         }
         if (_filterConfig.ReplaceSpace) filters.Add(new SpaceFilter());
         if (_filterConfig.ReplaceNumber) filters.Add(new NumberFilter());
-        
+
         return filters;
     }
 
@@ -660,7 +660,7 @@ public class MainWindowViewModel : ViewModelBase
         if (_mainBody == null) return;
 
         // 检查是否需要保存文件（参考Windows版本逻辑）
-        bool needsSaveDialog = MergeToOneFile && 
+        bool needsSaveDialog = MergeToOneFile &&
                               !(_export?.GetType().Name.Contains("Win10") == true ||
                                 _export?.GetType().Name.Contains("Gboard") == true);
 

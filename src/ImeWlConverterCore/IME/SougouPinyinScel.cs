@@ -94,7 +94,7 @@ public class SougouPinyinScel : BaseImport, IWordLibraryImport
             throw new ArgumentException("地址超过文件长度");
         fs.Seek(seek, SeekOrigin.Begin);
         var bytes = new byte[length];
-        fs.Read(bytes, 0, length);
+        fs.ReadExactly(bytes, 0, length);
         var value = Encoding.Unicode.GetString(bytes);
         var end = value.IndexOf('\0');
         if (end < 0)
@@ -127,7 +127,7 @@ public class SougouPinyinScel : BaseImport, IWordLibraryImport
             var idx = BinFileHelper.ReadInt16(fs);
             var size = BinFileHelper.ReadInt16(fs);
             str = new byte[size];
-            fs.Read(str, 0, size);
+            fs.ReadExactly(str, 0, size);
             var py = Encoding.Unicode.GetString(str);
             pyDic.Add(idx, py);
         }
@@ -158,7 +158,7 @@ public class SougouPinyinScel : BaseImport, IWordLibraryImport
     private IList<WordLibrary> ReadAPinyinWord(FileStream fs)
     {
         var num = new byte[4];
-        fs.Read(num, 0, 4);
+        fs.ReadExactly(num, 0, 4);
         var samePYcount = num[0] + num[1] * 256;
         var count = num[2] + num[3] * 256;
         //接下来读拼音
@@ -180,10 +180,10 @@ public class SougouPinyinScel : BaseImport, IWordLibraryImport
         for (var s = 0; s < samePYcount; s++) //同音词，使用前面相同的拼音
         {
             num = new byte[2];
-            fs.Read(num, 0, 2);
+            fs.ReadExactly(num, 0, 2);
             var hzBytecount = num[0] + num[1] * 256;
             str = new byte[hzBytecount];
-            fs.Read(str, 0, hzBytecount);
+            fs.ReadExactly(str, 0, hzBytecount);
             var word = Encoding.Unicode.GetString(str);
             var unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
             var unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频

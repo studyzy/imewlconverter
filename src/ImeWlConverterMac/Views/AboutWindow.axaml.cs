@@ -16,7 +16,7 @@ public partial class AboutWindow : Window
     {
         var assembly = Assembly.GetExecutingAssembly();
         var version = assembly.GetName().Version;
-        
+
         labelProductName.Text = AssemblyProduct;
         labelVersion.Text = $"版本 {version?.Major}.{version?.Minor}";
         if (version?.Revision != 0)

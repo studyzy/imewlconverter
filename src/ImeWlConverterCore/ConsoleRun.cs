@@ -292,13 +292,13 @@ public class ConsoleRun
 
                 default:
 
-                {
-                    var rankNumber = Convert.ToInt32(rankType);
-                    var gen = new DefaultWordRankGenerater();
-                    gen.ForceUse = true;
-                    gen.Rank = rankNumber;
-                    wordRankGenerater = gen;
-                }
+                    {
+                        var rankNumber = Convert.ToInt32(rankType);
+                        var gen = new DefaultWordRankGenerater();
+                        gen.ForceUse = true;
+                        gen.Rank = rankNumber;
+                        wordRankGenerater = gen;
+                    }
                     break;
             }
 

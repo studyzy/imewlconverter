@@ -472,7 +472,7 @@ public static class FileOperationHelper
         {
             fs = File.OpenRead(fileToZip);
             var buffer = new byte[fs.Length];
-            fs.Read(buffer, 0, buffer.Length);
+            fs.ReadExactly(buffer);
             fs.Close();
 
             fs = File.Create(zipedFile);

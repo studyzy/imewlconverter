@@ -115,7 +115,7 @@ public class SelfDefiningTest
         var selfDefining = new SelfDefining();
         selfDefining.UserDefiningPattern = parser;
         var str = selfDefining.Export(wll);
-        Assert.AreEqual(str[0], "深蓝|~shen~lan~|123\r");
+        Assert.AreEqual(str[0], "深蓝|~sn~ln~|123\r");
     }
 
     private WordLibrary WlData

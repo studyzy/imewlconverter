@@ -177,7 +177,7 @@ public class BaiduPinyinBdict : BaseImport, IWordLibraryImport
         var show = 0;
         var wordLibrary = new WordLibrary();
         var temp = new byte[4];
-        fs.Read(temp, 0, 4);
+        fs.ReadExactly(temp, 0, 4);
         var len = BitConverter.ToInt32(temp, 0);
         if (len > 1000) throw new Exception("有异常的词库，解析失败");
         if (len == 0)
@@ -191,7 +191,7 @@ public class BaiduPinyinBdict : BaseImport, IWordLibraryImport
         for (var i = 0; i < len; i++)
         {
             temp = new byte[2];
-            fs.Read(temp, 0, 2);
+            fs.ReadExactly(temp, 0, 2);
             try
             {
                 var sm = Shengmu[temp[0]];
@@ -208,7 +208,7 @@ public class BaiduPinyinBdict : BaseImport, IWordLibraryImport
 
         wordLibrary.PinYin = pinyinList.ToArray();
         temp = new byte[2 * len];
-        fs.Read(temp, 0, 2 * len);
+        fs.ReadExactly(temp, 0, 2 * len);
         wordLibrary.Word = Encoding.Unicode.GetString(temp);
         //for (var i = 0; i < wordLibrary.Word.Length;i++ )
         //{
@@ -221,15 +221,15 @@ public class BaiduPinyinBdict : BaseImport, IWordLibraryImport
     private WordLibrary SpecialWord(FileStream fs)
     {
         var temp = new byte[2];
-        fs.Read(temp, 0, 2);
+        fs.ReadExactly(temp, 0, 2);
         var pinyinLen = BitConverter.ToInt16(temp, 0);
-        fs.Read(temp, 0, 2);
+        fs.ReadExactly(temp, 0, 2);
         var wordLen = BitConverter.ToInt16(temp, 0);
         temp = new byte[pinyinLen * 2];
-        fs.Read(temp, 0, pinyinLen * 2);
+        fs.ReadExactly(temp, 0, pinyinLen * 2);
         var pinyinString = Encoding.Unicode.GetString(temp);
         temp = new byte[wordLen * 2];
-        fs.Read(temp, 0, wordLen * 2);
+        fs.ReadExactly(temp, 0, wordLen * 2);
         var word = Encoding.Unicode.GetString(temp);
         var wordLibrary = new WordLibrary();
         wordLibrary.Word = word;

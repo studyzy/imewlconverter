@@ -41,7 +41,7 @@ public partial class WordRankGenerateWindow : Window
         {
             rbtnCalc.IsChecked = true;
         }
-        
+
         cbxForceUseNewRank.IsChecked = WordRankGenerater.ForceUse;
     }
 
@@ -63,9 +63,9 @@ public partial class WordRankGenerateWindow : Window
         {
             WordRankGenerater = new CalcWordRankGenerater();
         }
-        
+
         WordRankGenerater.ForceUse = cbxForceUseNewRank.IsChecked ?? false;
-        
+
         Close(true);
     }
 

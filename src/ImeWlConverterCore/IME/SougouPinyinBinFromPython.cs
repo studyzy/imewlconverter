@@ -79,7 +79,7 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
             fs.Seek(2, SeekOrigin.Current); // word size + code size（include idx）
             var wordSize = BinFileHelper.ReadUInt16(fs);
             var str = new byte[wordSize];
-            fs.Read(str, 0, wordSize);
+            fs.ReadExactly(str, 0, wordSize);
             var word = Encoding.Unicode.GetString(str);
             var wordLibrary = new WordLibrary
             {

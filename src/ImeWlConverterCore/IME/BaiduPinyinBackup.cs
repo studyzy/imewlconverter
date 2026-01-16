@@ -36,7 +36,7 @@ public class BaiduPinyinBackup : BaseImport, IWordLibraryImport
             var bytes = new byte[2];
             do
             {
-                fs.Read(bytes, 0, 2);
+                fs.ReadExactly(bytes, 0, 2);
                 // 遇到换行符结束读取
                 if (bytes[0] == 0x0A && bytes[1] == 0x00)
                     break;

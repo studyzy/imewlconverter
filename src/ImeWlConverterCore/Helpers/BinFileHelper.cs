@@ -25,7 +25,7 @@ internal static class BinFileHelper
     public static short ReadInt16(Stream fs)
     {
         var temp = new byte[2];
-        fs.Read(temp, 0, 2);
+        fs.ReadExactly(temp, 0, 2);
         var s = BitConverter.ToInt16(temp, 0);
         return s;
     }
@@ -33,7 +33,7 @@ internal static class BinFileHelper
     public static int ReadInt32(Stream fs)
     {
         var temp = new byte[4];
-        fs.Read(temp, 0, 4);
+        fs.ReadExactly(temp, 0, 4);
         var s = BitConverter.ToInt32(temp, 0);
         return s;
     }
@@ -41,7 +41,7 @@ internal static class BinFileHelper
     public static ushort ReadUInt16(Stream fs)
     {
         var temp = new byte[2];
-        fs.Read(temp, 0, 2);
+        fs.ReadExactly(temp, 0, 2);
         var s = BitConverter.ToUInt16(temp, 0);
         return s;
     }
@@ -49,7 +49,7 @@ internal static class BinFileHelper
     public static uint ReadUInt32(Stream fs)
     {
         var temp = new byte[4];
-        fs.Read(temp, 0, 4);
+        fs.ReadExactly(temp, 0, 4);
         var s = BitConverter.ToUInt32(temp, 0);
         return s;
     }
@@ -57,7 +57,7 @@ internal static class BinFileHelper
     public static long ReadInt64(Stream fs)
     {
         var temp = new byte[8];
-        fs.Read(temp, 0, 8);
+        fs.ReadExactly(temp, 0, 8);
         var s = BitConverter.ToInt64(temp, 0);
         return s;
     }
@@ -65,7 +65,7 @@ internal static class BinFileHelper
     public static byte[] ReadArray(Stream fs, int count)
     {
         var bytes = new byte[count];
-        fs.Read(bytes, 0, count);
+        fs.ReadExactly(bytes, 0, count);
         return bytes;
     }
 

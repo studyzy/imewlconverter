@@ -75,7 +75,7 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
         //调试用代码结束
 
         // int hzPosition = 0;
-        fs.Read(str, 0, 128); //\x40\x15\x00\x00\x44\x43\x53\x01
+        fs.ReadExactly(str, 0, 128); //\x40\x15\x00\x00\x44\x43\x53\x01
         // if (str[4] == 0x44)
         // {
         //     hzPosition = 0x2628;
@@ -91,14 +91,14 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
 
         fs.Position = 0x1540;
         str = new byte[4];
-        fs.Read(str, 0, 4); //\x9D\x01\x00\x00
+        fs.ReadExactly(str, 0, 4); //\x9D\x01\x00\x00
         while (true)
         {
             num = new byte[4];
-            fs.Read(num, 0, 4);
+            fs.ReadExactly(num, 0, 4);
             var mark = num[0] + num[1] * 256;
             str = new byte[num[2]];
-            fs.Read(str, 0, num[2]);
+            fs.ReadExactly(str, 0, num[2]);
             var py = Encoding.Unicode.GetString(str);
             //py = py.Substring(0, py.IndexOf('\0'));
             pyDic.Add(mark, py);
@@ -143,7 +143,7 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
     private IList<WordLibrary> ReadAPinyinWord(FileStream fs)
     {
         var num = new byte[4];
-        fs.Read(num, 0, 4);
+        fs.ReadExactly(num, 0, 4);
         var samePYcount = num[0] + num[1] * 256;
         var pinyinLen = num[2] + num[3] * 256;
         //接下来读拼音
@@ -167,10 +167,10 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
         for (var s = 0; s < samePYcount; s++) //同音词，使用前面相同的拼音
         {
             num = new byte[2];
-            fs.Read(num, 0, 2);
+            fs.ReadExactly(num, 0, 2);
             var hzBytecount = num[0] + num[1] * 256;
             str = new byte[hzBytecount];
-            fs.Read(str, 0, hzBytecount);
+            fs.ReadExactly(str, 0, hzBytecount);
             var word = Encoding.Unicode.GetString(str);
             var unknown1 = BinFileHelper.ReadInt16(fs); //全部是10,肯定不是词频，具体是什么不知道
             var unknown2 = BinFileHelper.ReadInt32(fs); //每个字对应的数字不一样，不知道是不是词频

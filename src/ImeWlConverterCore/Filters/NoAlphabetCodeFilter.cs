@@ -35,10 +35,10 @@ public class NoAlphabetCodeFilter : ISingleFilter
     {
         //return wl.Word.IndexOf(' ') < 0;
         foreach (var code in wl.Codes)
-        foreach (var c1 in code)
-        foreach (var c in c1)
-            if (c < 'a' || c > 'z')
-                return false;
+            foreach (var c1 in code)
+                foreach (var c in c1)
+                    if (c < 'a' || c > 'z')
+                        return false;
 
         return true;
     }

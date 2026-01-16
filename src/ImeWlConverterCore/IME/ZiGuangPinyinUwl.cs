@@ -152,7 +152,7 @@ public class Segment
         wl.PinYin = wlPinYin;
         //hz
         var hzB = new byte[lenWord];
-        stream.Read(hzB, 0, lenWord);
+        stream.ReadExactly(hzB, 0, lenWord);
         wl.Word = UwlEncoding.GetString(hzB);
 
         return wl;
