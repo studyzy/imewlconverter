@@ -83,8 +83,17 @@ namespace Studyzy.IMEWLConverter.WPF
 
         private void LoadTitle()
         {
-            Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            this.Title = "深蓝词库转换" + v.Major + "." + v.Minor;
+            // 使用 ConstantString.VERSION 获取完整版本号
+            // 提取主版本号和次版本号用于标题显示
+            var version = ConstantString.VERSION;
+            // 移除 Git commit 信息（如果有的话）
+            if (version.Contains("+"))
+                version = version.Split('+')[0];
+            // 移除预发布标识（如果有的话）
+            if (version.Contains("-"))
+                version = version.Split('-')[0];
+            
+            this.Title = "深蓝词库转换" + version;
         }
         #endregion
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- Test execution settings -->
+  <RunConfiguration>
+    <!-- Maximum timeout for test run (in milliseconds) -->
+    <TestSessionTimeout>300000</TestSessionTimeout>
+    <!-- Timeout for individual test (in milliseconds) -->
+    <MaxCpuCount>1</MaxCpuCount>
+  </RunConfiguration>
+
+  <!-- NUnit adapter settings -->
+  <NUnit>
+    <!-- Exclude tests marked with Explicit attribute -->
+    <ExplicitMode>false</ExplicitMode>
+    <!-- Test timeout in milliseconds -->
+    <DefaultTimeout>30000</DefaultTimeout>
+  </NUnit>
+</RunSettings>

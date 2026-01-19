@@ -47,4 +47,10 @@
   git push origin v3.4.0
   ```
 
+- **非 Git 环境构建**：在发行版打包系统等非 Git 环境中构建时
+  ```bash
+  export PACKAGE_VERSION=3.3.1
+  dotnet build
+  ```
+
 详见 [RELEASING.md](RELEASING.md) 了解完整的发布流程。

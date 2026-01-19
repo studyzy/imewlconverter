@@ -178,6 +178,45 @@ git describe --tags --long
    dotnet build -p:MinVerVerbosity=detailed | grep MinVer
    ```
 
+### 问题：非 Git 环境构建版本号为 0.0.0
+
+**症状**：从源码 tarball（不含 .git 目录）构建时，版本号显示为 `0.0.0.0`
+
+**原因**：MinVer 需要 Git 仓库才能从 tag 生成版本号。在发行版打包系统（如 Gentoo Portage）中，源码通常从 tarball 解压，不包含 `.git` 目录。
+
+**解决方法**：
+1. **推荐方式**：使用环境变量 `PACKAGE_VERSION` 指定版本号
+   ```bash
+   export PACKAGE_VERSION=3.3.1
+   dotnet build
+   ```
+   
+   构建脚本示例（适用于打包系统）：
+   ```bash
+   # 从文件名或其他来源获取版本号
+   VERSION=3.3.1
+   
+   # 设置环境变量
+   export PACKAGE_VERSION=${VERSION}
+   
+   # 构建项目
+   dotnet build --configuration Release
+   ```
+
+2. **验证版本号**：
+   ```bash
+   ./ImeWlConverterCmd --version
+   # 应显示：3.3.1.0
+   ```
+
+3. **Gentoo ebuild 示例**：
+   ```bash
+   src_compile() {
+       export PACKAGE_VERSION=${PV}  # PV 是 Gentoo 的包版本变量
+       dotnet build --configuration Release || die
+   }
+   ```
+
 ### 问题：CI 构建失败
 
 **症状**：GitHub Actions 构建失败，提示找不到版本号

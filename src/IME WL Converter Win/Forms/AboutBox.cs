@@ -42,8 +42,8 @@ internal partial class AboutBox : Form
 
     #region 程序集属性访问器
 
-
-    public string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+    // 使用 ConstantString.VERSION 获取完整版本号（包含 Git commit 信息）
+    public string AssemblyVersion => ConstantString.VERSION;
 
     public string AssemblyDescription
     {

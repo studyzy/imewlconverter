@@ -45,7 +45,7 @@ APP_BUNDLE_SCRIPT := $(SCRIPT_DIR)/create-app-bundle.sh
 # Build Options
 PUBLISH_OPTS := --configuration $(DOTNET_CONFIG) --self-contained true
 BUILD_OPTS := --configuration $(DOTNET_CONFIG)
-TEST_OPTS := --configuration $(DOTNET_CONFIG) --logger "console;verbosity=normal"
+TEST_OPTS := --configuration $(DOTNET_CONFIG) --logger "console;verbosity=normal" --settings test.runsettings --blame-hang --blame-hang-timeout 2m
 
 # Colors for terminal output (ANSI escape codes)
 COLOR_RESET := \033[0m

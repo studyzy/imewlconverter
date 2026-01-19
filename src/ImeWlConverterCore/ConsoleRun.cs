@@ -171,7 +171,8 @@ public class ConsoleRun
 
         if (command == "--version" || command == "-v")
         {
-            Console.WriteLine("Version:" + Assembly.GetExecutingAssembly().GetName().Version);
+            // 使用 ConstantString.VERSION 获取完整版本号（包含 Git commit 信息）
+            Console.WriteLine("Version:" + ConstantString.VERSION);
             return CommandType.Help;
         }
 

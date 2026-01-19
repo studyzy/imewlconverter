@@ -352,10 +352,17 @@ public partial class MainForm : Form
 
     private void LoadTitle()
     {
-        var v = Assembly.GetExecutingAssembly().GetName().Version;
-        Text = "深蓝词库转换" + v.Major + "." + v.Minor;
-        if (v.Revision != 0)
-            Text += "." + v.Revision;
+        // 使用 ConstantString.VERSION 获取完整版本号
+        // 提取主版本号和次版本号用于标题显示
+        var version = ConstantString.VERSION;
+        // 移除 Git commit 信息（如果有的话）
+        if (version.Contains("+"))
+            version = version.Split('+')[0];
+        // 移除预发布标识（如果有的话）
+        if (version.Contains("-"))
+            version = version.Split('-')[0];
+        
+        Text = "深蓝词库转换" + version;
     }
 
     private void InitOpenFileDialogFilter(string select)

@@ -17,6 +17,13 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
+      - name: Build, Test and Lint
+        run: |
+          make restore
+          make build-all DOTNET_CONFIG=Release
+          make test DOTNET_CONFIG=Release
+          make lint
+
       - name: Publish CLI and Windows GUI
         run: |
           dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-x64 --output ./publish/osx-x64 ./src/ImeWlConverterCmd
@@ -46,6 +53,13 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
+
+      - name: Build, Test and Lint
+        run: |
+          make restore
+          make build-all DOTNET_CONFIG=Release
+          make test DOTNET_CONFIG=Release
+          make lint
 
       - name: Build macOS GUI (ARM64)
         run: |

@@ -34,6 +34,7 @@ internal class BaiduBdictTest : BaseTest
 
     [TestCase("movie.bdict")]
     [TestCase("travel.bdict")]
+    [Explicit] // This test is slow, exclude from CI
     public void TestImport(string file)
     {
         var wlList = importer.Import(GetFullPath(file));
