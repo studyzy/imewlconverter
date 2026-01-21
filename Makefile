@@ -13,7 +13,7 @@ DOTNET := dotnet
 DOTNET_CONFIG ?= Debug
 DOTNET_RUNTIME_OSX_ARM64 := osx-arm64
 DOTNET_RUNTIME_OSX_X64 := osx-x64
-DOTNET_FRAMEWORK := net9.0
+DOTNET_FRAMEWORK := net10.0
 
 # Project Paths
 SRC_DIR := src

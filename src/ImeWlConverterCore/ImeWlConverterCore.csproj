@@ -2,27 +2,27 @@
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net9.0</TargetFrameworks>
+        <TargetFrameworks>net10.0</TargetFrameworks>
         <!-- Version 由 MinVer 自动从 Git tag 生成，见 Directory.Build.props -->
         <Platforms>AnyCPU;x86</Platforms>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|AnyCPU'">
         <DebugType>embedded</DebugType>
         <IsTrimmable>True</IsTrimmable>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x86'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|x86'">
         <DebugType>embedded</DebugType>
         <IsTrimmable>True</IsTrimmable>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|AnyCPU'">
         <DebugType>embedded</DebugType>
         <IsTrimmable>True</IsTrimmable>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x86'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|x86'">
         <DebugType>embedded</DebugType>
         <IsTrimmable>True</IsTrimmable>
     </PropertyGroup>
@@ -57,10 +57,8 @@
         <EmbeddedResource Include="Resources\Zhengma.txt"/>
         <EmbeddedResource Include="Resources\Zhuyin.txt"/>
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-        <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1"/>
-    </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0"/>
         <PackageReference Include="SharpZipLib" Version="1.4.2"/>
         <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
     </ItemGroup>
