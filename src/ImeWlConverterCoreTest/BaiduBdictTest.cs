@@ -38,7 +38,7 @@ internal class BaiduBdictTest : BaseTest
     public void TestImport(string file)
     {
         var wlList = importer.Import(GetFullPath(file));
-        Assert.IsNotNull(wlList);
-        Assert.Greater(wlList.Count, 0);
+        Assert.That(wlList, Is.Not.Null);
+        Assert.That(wlList.Count, Is.GreaterThan(0));
     }
 }

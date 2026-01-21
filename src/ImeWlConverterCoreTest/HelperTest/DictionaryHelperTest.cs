@@ -26,6 +26,6 @@ internal class DictionaryHelperTest
     public void TestGetCharCode(char c, string code)
     {
         var codes = DictionaryHelper.GetCode(c);
-        Assert.AreEqual(codes.Wubi86, code);
+        Assert.That(code, Is.EqualTo(codes.Wubi86));
     }
 }

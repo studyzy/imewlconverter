@@ -38,8 +38,8 @@ internal class Ld2ParseTest : BaseTest
 
         var reult = importer.Import(GetFullPath(ld2File));
 
-        Assert.IsNotNull(reult);
-        Assert.Greater(reult.Count, 0);
+        Assert.That(reult, Is.Not.Null);
+        Assert.That(reult.Count, Is.GreaterThan(0));
         //foreach (WordLibrary wordLibrary in reult)
         //{
         //    Debug.WriteLine(wordLibrary);

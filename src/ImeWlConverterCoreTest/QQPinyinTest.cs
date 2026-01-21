@@ -37,6 +37,6 @@ internal class QQPinyinTest : BaseTest
     public void TestImport()
     {
         var wll = importer.Import(GetFullPath("QQPinyin.txt"));
-        Assert.Greater(wll.Count, 0);
+        Assert.That(wll.Count, Is.GreaterThan(0));
     }
 }

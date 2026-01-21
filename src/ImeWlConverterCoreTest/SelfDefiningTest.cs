@@ -52,9 +52,9 @@ public class SelfDefiningTest
         selfDefining.UserDefiningPattern = parser;
         var wl = selfDefining.ImportLine(str)[0];
 
-        Assert.AreEqual(wl.Codes[0][0], "shen");
-        Assert.AreEqual(wl.Codes[1][0], "lan");
-        Assert.AreEqual(wl.Rank, 1);
+        Assert.That("shen", Is.EqualTo(wl.Codes[0][0]));
+        Assert.That("lan", Is.EqualTo(wl.Codes[1][0]));
+        Assert.That(1, Is.EqualTo(wl.Rank));
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class SelfDefiningTest
         var selfDefining = new SelfDefining();
         selfDefining.UserDefiningPattern = parser;
         var str = selfDefining.ExportLine(wl);
-        Assert.AreEqual(str, "深蓝|,shen,lan,|123");
+        Assert.That("深蓝|,shen,lan,|123", Is.EqualTo(str));
     }
 
     [Test]
@@ -115,7 +115,7 @@ public class SelfDefiningTest
         var selfDefining = new SelfDefining();
         selfDefining.UserDefiningPattern = parser;
         var str = selfDefining.Export(wll);
-        Assert.AreEqual(str[0], "深蓝|~sn~ln~|123\r");
+        Assert.That("深蓝|~sn~ln~|123\r", Is.EqualTo(str[0]));
     }
 
     private WordLibrary WlData
@@ -149,7 +149,7 @@ public class SelfDefiningTest
         Console.WriteLine("CodeType:" + selfDefining.UserDefiningPattern.CodeType);
         var str1 = selfDefining.Export(new WordLibraryList { WlData });
         Console.WriteLine(str1[0]);
-        Assert.AreEqual(str1[0], "深蓝测试$shen_lan_ce_shi\r\n");
+        Assert.That("深蓝测试$shen_lan_ce_shi\r\n", Is.EqualTo(str1[0]));
     }
 
     [Test]
@@ -195,7 +195,7 @@ public class SelfDefiningTest
         selfDefining.UserDefiningPattern.MappingTablePath = "./Test/array30.txt";
         var x = selfDefining.Export(list);
         Debug.WriteLine(x);
-        Assert.IsNotNull(str);
+        Assert.That(str, Is.Not.Null);
     }
 
     [Test]
@@ -214,7 +214,7 @@ public class SelfDefiningTest
 
         var x = selfDefining.ImportLine(txt);
         Debug.WriteLine(x[0].ToString());
-        Assert.AreEqual(x[0].Word, "深藍");
+        Assert.That("深藍", Is.EqualTo(x[0].Word));
     }
 
     private ParsePattern InitPattern()

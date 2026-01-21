@@ -38,7 +38,7 @@ internal class SelectedParsePatternTest
     //            parser.MappingTable.Add('深',"shen");
     //            parser.MappingTable.Add('蓝',"lan");
     //            var wl = parser.BuildWlString("深蓝");
-    //            Assert.AreEqual(wl, "深蓝 shla");
+    //            Assert.That("深蓝 shla", Is.EqualTo(wl));
 
 
     //        }

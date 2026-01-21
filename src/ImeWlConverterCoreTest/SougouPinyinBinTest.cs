@@ -40,7 +40,7 @@
 //        public void TestParseBinFile(string filePath)
 //        {
 //            WordLibraryList lib = importer.Import(GetFullPath(filePath));
-//            Assert.Greater(lib.Count, 0);
+//            Assert.That(lib.Count, Is.GreaterThan(0));
 //        }
 //    }
 //}

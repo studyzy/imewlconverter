@@ -26,6 +26,6 @@ internal class HttpHelperTest
     public void TestWriteFile(string url, string keyword)
     {
         var html = HttpHelper.GetHtml(url);
-        Assert.IsTrue(html.Contains(keyword));
+        Assert.That(html, Does.Contain(keyword));
     }
 }

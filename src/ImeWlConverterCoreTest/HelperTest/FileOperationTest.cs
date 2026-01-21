@@ -35,7 +35,7 @@ internal class FileOperationTest
         path = GetFullPath(path);
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         var e = FileOperationHelper.GetEncodingType(path);
-        Assert.AreEqual(e.EncodingName, Encoding.GetEncoding(encoding).EncodingName);
+        Assert.That(e.EncodingName, Is.EqualTo(Encoding.GetEncoding(encoding).EncodingName));
         var txt = FileOperationHelper.ReadFile(path);
         Debug.WriteLine(txt);
     }
@@ -48,10 +48,7 @@ internal class FileOperationTest
             () => Encoding.GetEncoding("GB2312").ToString()
         );
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        Assert.AreEqual(
-            "Chinese Simplified (GB2312)",
-            Encoding.GetEncoding("GB2312").EncodingName
-        );
+        Assert.That(Encoding.GetEncoding("GB2312").EncodingName, Is.EqualTo("Chinese Simplified (GB2312)"));
     }
 
     [Test]
@@ -59,8 +56,8 @@ internal class FileOperationTest
     {
         var path = GetFullPath("WriteTest.txt");
         var content = "Hello Word!";
-        Assert.IsTrue(FileOperationHelper.WriteFile(path, Encoding.UTF8, content));
-        Assert.IsTrue(File.Exists(path));
+        Assert.That(FileOperationHelper.WriteFile(path, Encoding.UTF8, content), Is.True);
+        Assert.That(File.Exists(path), Is.True);
         File.Delete(path);
     }
 

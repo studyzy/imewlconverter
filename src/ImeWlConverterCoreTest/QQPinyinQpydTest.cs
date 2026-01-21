@@ -36,6 +36,6 @@ internal class QQPinyinQpydTest : BaseTest
     public void TestParseQypd(string file)
     {
         var wll = importer.Import(GetFullPath(file));
-        Assert.Greater(wll.Count, 0);
+        Assert.That(wll.Count, Is.GreaterThan(0));
     }
 }

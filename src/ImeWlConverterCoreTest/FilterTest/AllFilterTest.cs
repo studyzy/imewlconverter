@@ -33,7 +33,7 @@ internal class AllFilterTest
         var wl = new WordLibrary();
         wl.Word = word;
         var filter = new ChinesePunctuationFilter();
-        Assert.AreEqual(filter.IsKeep(wl), isKeep);
+        Assert.That(isKeep, Is.EqualTo(filter.IsKeep(wl)));
     }
 
     [TestCase("深蓝", true)]
@@ -45,6 +45,6 @@ internal class AllFilterTest
         var wl = new WordLibrary();
         wl.Word = word;
         var filter = new SpaceFilter();
-        Assert.AreEqual(filter.IsKeep(wl), isKeep);
+        Assert.That(isKeep, Is.EqualTo(filter.IsKeep(wl)));
     }
 }

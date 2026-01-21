@@ -37,6 +37,6 @@ internal class RimeTest : BaseTest
     public void TestImport(string path)
     {
         var wl = importer.Import(GetFullPath(path));
-        Assert.Greater(wl.Count, 0);
+        Assert.That(wl.Count, Is.GreaterThan(0));
     }
 }

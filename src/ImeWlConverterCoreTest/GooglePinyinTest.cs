@@ -37,23 +37,21 @@ internal class GooglePinyinTest : BaseTest
     public void TestExport()
     {
         var txt = exporter.Export(WlListData)[0];
-        Assert.IsTrue(
-            txt.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Length == 2
-        );
+        Assert.That(txt.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Length == 2, Is.True);
     }
 
     [Test]
     public void TestExportLine()
     {
         var txt = exporter.ExportLine(WlData);
-        Assert.AreEqual(txt, "深蓝测试\t10\tshen lan ce shi");
+        Assert.That("深蓝测试\t10\tshen lan ce shi", Is.EqualTo(txt));
     }
 
     [Test]
     public void TestImport()
     {
         var list = ((IWordLibraryTextImport)importer).ImportText(StringData);
-        Assert.IsNotNull(list);
-        Assert.AreEqual(list.Count, 10);
+        Assert.That(list, Is.Not.Null);
+        Assert.That(10, Is.EqualTo(list.Count));
     }
 }

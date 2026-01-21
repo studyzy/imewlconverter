@@ -1,0 +1,275 @@
+name: CI
+
+# 触发条件:推送到主分支或 PR
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+  workflow_dispatch: # 允许手动触发
+
+# 并发控制:同一分支/PR 只保留最新的运行
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# 权限最小化
+permissions:
+  contents: read
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  # 代码质量检查 (最快的任务,快速失败)
+  lint:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Check code formatting
+        run: make lint
+
+  # 构建和测试 (在 Ubuntu 上执行,最快)
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: lint
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Build all projects
+        run: make build-all DOTNET_CONFIG=Release
+
+      - name: Run tests
+        run: make test DOTNET_CONFIG=Release
+
+  # Windows 平台构建 (CLI + Windows GUI)
+  build-windows:
+    name: Build Windows (${{ matrix.arch }})
+    runs-on: windows-latest
+    timeout-minutes: 30
+    needs: build-and-test
+    
+    strategy:
+      matrix:
+        arch: [x64, x86]
+        include:
+          - arch: x64
+            runtime: win-x64
+          - arch: x86
+            runtime: win-x86
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Publish CLI
+        run: |
+          dotnet publish --configuration Release `
+            -p:PublishSingleFile=true `
+            --self-contained false `
+            -r ${{ matrix.runtime }} `
+            --output ./publish/${{ matrix.runtime }}/cli `
+            ./src/ImeWlConverterCmd
+
+      - name: Publish Windows GUI
+        run: |
+          dotnet publish --configuration Release `
+            -p:PublishSingleFile=true `
+            --self-contained false `
+            -r ${{ matrix.runtime }} `
+            --output ./publish/${{ matrix.runtime }}/gui `
+            "./src/IME WL Converter Win"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.arch }}
+          path: ./publish/${{ matrix.runtime }}
+          retention-days: 7
+
+  # Linux 平台构建 (CLI only)
+  build-linux:
+    name: Build Linux (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build-and-test
+    
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+        include:
+          - arch: x64
+            runtime: linux-x64
+          - arch: arm64
+            runtime: linux-arm64
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Publish CLI
+        run: |
+          dotnet publish --configuration Release \
+            -p:PublishSingleFile=true \
+            --self-contained false \
+            -r ${{ matrix.runtime }} \
+            --output ./publish/${{ matrix.runtime }} \
+            ./src/ImeWlConverterCmd
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.arch }}
+          path: ./publish/${{ matrix.runtime }}
+          retention-days: 7
+
+  # macOS 平台构建 (CLI + GUI)
+  build-macos:
+    name: Build macOS (${{ matrix.arch }})
+    runs-on: macos-latest
+    timeout-minutes: 30
+    needs: build-and-test
+    
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+        include:
+          - arch: x64
+            runtime: osx-x64
+          - arch: arm64
+            runtime: osx-arm64
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Publish CLI
+        run: |
+          dotnet publish --configuration Release \
+            -p:PublishSingleFile=true \
+            --self-contained false \
+            -r ${{ matrix.runtime }} \
+            --output ./publish/${{ matrix.runtime }}/cli \
+            ./src/ImeWlConverterCmd
+
+      - name: Build and publish macOS GUI
+        run: |
+          dotnet publish ./src/ImeWlConverterMac \
+            --configuration Release \
+            --self-contained true \
+            --runtime ${{ matrix.runtime }} \
+            --output ./publish/${{ matrix.runtime }}/gui
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.arch }}
+          path: ./publish/${{ matrix.runtime }}
+          retention-days: 7
+
+  # 所有构建完成后的状态检查
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - build-and-test
+      - build-windows
+      - build-linux
+      - build-macos
+    if: always()
+    
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ needs.lint.result }}" != "success" ]] || \
+             [[ "${{ needs.build-and-test.result }}" != "success" ]] || \
+             [[ "${{ needs.build-windows.result }}" != "success" ]] || \
+             [[ "${{ needs.build-linux.result }}" != "success" ]] || \
+             [[ "${{ needs.build-macos.result }}" != "success" ]]; then
+            echo "One or more CI jobs failed"
+            exit 1
+          fi
+          echo "All CI jobs succeeded"

@@ -33,13 +33,13 @@ internal class CollectionHelperTest
         list.Add(new List<string> { "e", "f" });
         var result = CollectionHelper.CartesianProduct(list, ",");
         var array = result.ToArray();
-        Assert.Contains("a,b,e", array);
-        Assert.Contains("a,b,f", array);
-        Assert.Contains("a,c,e", array);
-        Assert.Contains("a,c,f", array);
-        Assert.Contains("a,d,e", array);
-        Assert.Contains("a,d,f", array);
-        Assert.AreEqual(result.Count, 6);
+        Assert.That(array, Does.Contain("a,b,e"));
+        Assert.That(array, Does.Contain("a,b,f"));
+        Assert.That(array, Does.Contain("a,c,e"));
+        Assert.That(array, Does.Contain("a,c,f"));
+        Assert.That(array, Does.Contain("a,d,e"));
+        Assert.That(array, Does.Contain("a,d,f"));
+        Assert.That(6, Is.EqualTo(result.Count));
     }
 
     [Test]
@@ -51,8 +51,8 @@ internal class CollectionHelperTest
         list.Add(new List<string> { "e" });
         var result = CollectionHelper.CartesianProduct(list, ",");
         var array = result.ToArray();
-        Assert.Contains("a,b,e", array);
+        Assert.That(array, Does.Contain("a,b,e"));
 
-        Assert.AreEqual(result.Count, 1);
+        Assert.That(1, Is.EqualTo(result.Count));
     }
 }

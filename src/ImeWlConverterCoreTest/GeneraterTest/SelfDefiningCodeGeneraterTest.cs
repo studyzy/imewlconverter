@@ -38,11 +38,11 @@ internal class SelfDefiningCodeGeneraterTest
 code_e3=p11+p21+p31+p32
 code_a4=p11+p21+p31+n11";
         var result = generater.GetCodeOfString("深蓝").GetTop1Code();
-        Assert.AreEqual(result, "shla");
+        Assert.That("shla", Is.EqualTo(result));
         result = generater.GetCodeOfString("深深蓝").GetTop1Code();
-        Assert.AreEqual(result, "ssla");
+        Assert.That("ssla", Is.EqualTo(result));
         result = generater.GetCodeOfString("深蓝深蓝").GetTop1Code();
-        Assert.AreEqual(result, "slsl");
+        Assert.That("slsl", Is.EqualTo(result));
     }
 
     [Test]
@@ -55,10 +55,10 @@ code_a4=p11+p21+p31+n11";
 
         generater.Is1Char1Code = true;
         var result = generater.GetCodeOfString("深蓝").ToCodeString(",");
-        Assert.AreEqual(result[0], "ipws,ajtl");
+        Assert.That("ipws,ajtl", Is.EqualTo(result[0]));
 
         //var codes = generater.GetCodeOfString("蓝深", ",");
-        //Assert.AreEqual(codes[0], "ajtl,ipws");
+        //Assert.That("ajtl,ipws", Is.EqualTo(codes[0]));
     }
 
     [Test]
@@ -71,9 +71,9 @@ code_a4=p11+p21+p31+n11";
 
         generater.Is1Char1Code = true;
         var result = generater.GetCodeOfString("深蓝").ToCodeString(",");
-        Assert.Contains("ipws,ajtl", result.ToArray());
+        Assert.That(result.ToArray(), Does.Contain("ipws,ajtl"));
 
         //var codes = generater.GetCodeOfString("蓝深", ",");
-        //Assert.AreEqual(codes[0], "ajtl,ipws");
+        //Assert.That("ajtl,ipws", Is.EqualTo(codes[0]));
     }
 }

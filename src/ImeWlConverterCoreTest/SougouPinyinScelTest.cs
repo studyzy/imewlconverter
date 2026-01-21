@@ -50,33 +50,33 @@ internal class SougouPinyinScelTest : BaseTest
     public void TestImportBigScel(string filePath)
     {
         var lib = importer.Import(GetFullPath(filePath));
-        Assert.Greater(lib.Count, 0);
+        Assert.That(lib.Count, Is.GreaterThan(0));
         Assert.That(lib[0].Word, Is.Not.Null.And.Not.Empty);
 
-        Assert.AreEqual(lib.Count, 342179);
-        Assert.AreEqual(lib[0].CodeType, CodeType.Pinyin);
-        Assert.AreEqual(lib[0].IsEnglish, false);
-        Assert.AreEqual(lib[0].PinYinString, "a'cheng'yi'wen'you'bi'duan");
-        Assert.AreEqual(lib[0].Rank, 0);
-        Assert.AreEqual(lib[0].SingleCode, "a");
-        Assert.AreEqual(lib[0].Word, "阿秤亦闻有笔端");
+        Assert.That(342179, Is.EqualTo(lib.Count));
+        Assert.That(CodeType.Pinyin, Is.EqualTo(lib[0].CodeType));
+        Assert.That(false, Is.EqualTo(lib[0].IsEnglish));
+        Assert.That("a'cheng'yi'wen'you'bi'duan", Is.EqualTo(lib[0].PinYinString));
+        Assert.That(0, Is.EqualTo(lib[0].Rank));
+        Assert.That("a", Is.EqualTo(lib[0].SingleCode));
+        Assert.That("阿秤亦闻有笔端", Is.EqualTo(lib[0].Word));
     }
 
     [TestCase("唐诗300首【官方推荐】.scel")]
     public void TestImportSmallScel(string filePath)
     {
         var lib = importer.Import(GetFullPath(filePath));
-        Assert.Greater(lib.Count, 0);
+        Assert.That(lib.Count, Is.GreaterThan(0));
         Assert.That(lib[0].Word, Is.Not.Null.And.Not.Empty);
 
-        Assert.AreEqual(lib.Count, 3563);
-        Assert.AreEqual(lib[0].CodeType, CodeType.Pinyin);
-        Assert.AreEqual(lib[0].IsEnglish, false);
-        Assert.AreEqual(lib[0].PinYinString, "ai'jiang'tou");
-        Assert.AreEqual(lib[0].Rank, 0);
-        Assert.AreEqual(lib[0].SingleCode, "ai");
-        Assert.AreEqual(lib[0].Word, "哀江头");
-        Assert.AreEqual(lib[0].WubiCode, null);
+        Assert.That(3563, Is.EqualTo(lib.Count));
+        Assert.That(CodeType.Pinyin, Is.EqualTo(lib[0].CodeType));
+        Assert.That(false, Is.EqualTo(lib[0].IsEnglish));
+        Assert.That("ai'jiang'tou", Is.EqualTo(lib[0].PinYinString));
+        Assert.That(0, Is.EqualTo(lib[0].Rank));
+        Assert.That("ai", Is.EqualTo(lib[0].SingleCode));
+        Assert.That("哀江头", Is.EqualTo(lib[0].Word));
+        Assert.That(null, Is.EqualTo(lib[0].WubiCode));
     }
 
     [TestCase("唐诗300首【官方推荐】.scel")]
@@ -87,11 +87,11 @@ internal class SougouPinyinScelTest : BaseTest
         foreach (var item in info)
             TestContext.WriteLine(item.Key + ": " + item.Value);
 
-        Assert.AreEqual(info["CountWord"], "3563");
-        Assert.AreEqual(info["Name"], "唐诗300首【官方推荐】");
-        Assert.AreEqual(info["Type"], "诗词歌赋");
-        Assert.AreEqual(info["Info"], "包含唐诗300首的所有诗人、诗名、诗句。");
-        Assert.True(info["Sample"].Contains("张九龄 侧见双翠鸟"));
+        Assert.That("3563", Is.EqualTo(info["CountWord"]));
+        Assert.That("唐诗300首【官方推荐】", Is.EqualTo(info["Name"]));
+        Assert.That("诗词歌赋", Is.EqualTo(info["Type"]));
+        Assert.That("包含唐诗300首的所有诗人、诗名、诗句。", Is.EqualTo(info["Info"]));
+        Assert.That(info["Sample"], Does.Contain("张九龄 侧见双翠鸟"));
     }
 
     [TestCase(
@@ -107,14 +107,14 @@ internal class SougouPinyinScelTest : BaseTest
         var info = SougouPinyinScel.ReadScelInfo(GetFullPath(filePath));
         foreach (var item in info)
             TestContext.WriteLine(item.Key + ": " + item.Value);
-        Assert.Greater(info["CountWord"], "10000");
-        Assert.AreEqual(info["Name"], "网络流行新词【官方推荐】");
-        Assert.AreEqual(info["Type"], "北京");
-        Assert.AreEqual(info["Info"], "搜狗搜索自动生成的流行新词，每周更新。");
+        Assert.That(info["CountWord"], Is.GreaterThan("10000"));
+        Assert.That("网络流行新词【官方推荐】", Is.EqualTo(info["Name"]));
+        Assert.That("北京", Is.EqualTo(info["Type"]));
+        Assert.That("搜狗搜索自动生成的流行新词，每周更新。", Is.EqualTo(info["Info"]));
         Assert.That(info["Sample"], Is.Not.Null.And.Not.Empty);
 
         var lib = importer.Import(GetFullPath(filePath));
-        Assert.AreEqual(info["CountWord"], lib.Count);
+        Assert.That(lib.Count, Is.EqualTo(info["CountWord"]));
         Assert.That(lib[0].Word, Is.Not.Null.And.Not.Empty);
     }
 }

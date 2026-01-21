@@ -1,17 +1,35 @@
-name: Release CI
+name: Release
 
+# 仅在创建 tag 时触发
 on:
   push:
     tags:
-      - "v*"
+      - 'v*.*.*'
+  workflow_dispatch: # 允许手动触发
+
+# 权限配置
+permissions:
+  contents: write # 需要创建 release
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
-  build-windows-linux:
-    runs-on: windows-latest
+  # 生成 changelog
+  changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      changes: ${{ steps.changelog.outputs.changes }}
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          # 获取完整的 Git history 和所有 tags，MinVer 需要这些信息来生成版本号
           fetch-depth: 0
 
       - name: Generate CHANGELOG
@@ -23,38 +41,7 @@ jobs:
           writeToFile: false
           includeInvalidCommits: true
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "10.0.x"
-
-      - name: Publish CLI and Windows GUI
-        run: |
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-x64 --output ./publish/osx-x64 ./src/ImeWlConverterCmd
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r osx-arm64 --output ./publish/osx-arm64 ./src/ImeWlConverterCmd
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r linux-x64 --output ./publish/linux-x64 ./src/ImeWlConverterCmd
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r linux-arm64 --output ./publish/linux-arm64 ./src/ImeWlConverterCmd
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x86 --output ./publish/win-x86 ./src/ImeWlConverterCmd
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x86 --output ./publish/win-x86 "./src/IME WL Converter Win"
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 ./src/ImeWlConverterCmd
-          dotnet publish --configuration Release -p:PublishSingleFile=true --self-contained false -r win-x64 --output ./publish/win-x64 "./src/IME WL Converter Win"
-
-      - name: Archive
-        run: |
-          tar -czf imewlconverter_osx-x64.tar.gz publish/osx-x64/*
-          tar -czf imewlconverter_osx-arm64.tar.gz publish/osx-arm64/*
-          tar -czf imewlconverter_linux-x64.tar.gz publish/linux-x64/*
-          tar -czf imewlconverter_linux-arm64.tar.gz publish/linux-arm64/*
-          Compress-Archive -Path publish/win-x86/* -DestinationPath imewlconverter_win-x86.zip
-          Compress-Archive -Path publish/win-x64/* -DestinationPath imewlconverter_win-x64.zip
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: cli-packages
-          path: imewlconverter_*
-
-      - name: Save changelog
+      - name: Save changelog to file
         run: echo "${{ steps.changelog.outputs.changes }}" > CHANGELOG.txt
 
       - name: Upload changelog
@@ -62,66 +49,249 @@ jobs:
         with:
           name: changelog
           path: CHANGELOG.txt
+          retention-days: 1
 
-  build-macos-gui:
-    runs-on: macos-latest
+  # Windows 平台打包 (CLI + GUI)
+  package-windows:
+    name: Package Windows (${{ matrix.arch }})
+    runs-on: windows-latest
+    timeout-minutes: 30
+    
+    strategy:
+      matrix:
+        arch: [x64, x86]
+        include:
+          - arch: x64
+            runtime: win-x64
+          - arch: x86
+            runtime: win-x86
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          # 获取完整的 Git history 和所有 tags，MinVer 需要这些信息来生成版本号
           fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "10.0.x"
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
 
-      - name: Build and package macOS apps
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Publish CLI
         run: |
-          # 构建ARM64版本
-          make app-mac-arm64
-          
-          # 构建x64版本
-          make app-mac-x64
+          dotnet publish --configuration Release `
+            -p:PublishSingleFile=true `
+            --self-contained false `
+            -r ${{ matrix.runtime }} `
+            --output ./publish/${{ matrix.runtime }}/cli `
+            ./src/ImeWlConverterCmd
 
-      - name: Archive macOS apps
+      - name: Publish Windows GUI
         run: |
-          # 打包各个架构的应用包
-          zip -r imewlconverter_macos-arm64.zip "深蓝词库转换-arm64.app"
-          zip -r imewlconverter_macos-x64.zip "深蓝词库转换-x64.app"
-          
-          # 如果有通用包也打包
-          # zip -r imewlconverter_macos-universal.zip "深蓝词库转换.app"
+          dotnet publish --configuration Release `
+            -p:PublishSingleFile=true `
+            --self-contained false `
+            -r ${{ matrix.runtime }} `
+            --output ./publish/${{ matrix.runtime }}/gui `
+            "./src/IME WL Converter Win"
 
-      - name: Upload macOS artifacts
+      - name: Create archive
+        run: |
+          Compress-Archive -Path publish/${{ matrix.runtime }}/* `
+            -DestinationPath imewlconverter_${{ matrix.runtime }}.zip
+
+      - name: Upload package
         uses: actions/upload-artifact@v4
         with:
-          name: macos-packages
-          path: imewlconverter_macos-*
+          name: package-windows-${{ matrix.arch }}
+          path: imewlconverter_${{ matrix.runtime }}.zip
+          retention-days: 1
 
-  release:
-    needs: [build-windows-linux, build-macos-gui]
+  # Linux 平台打包 (CLI only)
+  package-linux:
+    name: Package Linux (${{ matrix.arch }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+        include:
+          - arch: x64
+            runtime: linux-x64
+          - arch: arm64
+            runtime: linux-arm64
+    
     steps:
-      - name: Download CLI artifacts
-        uses: actions/download-artifact@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          name: cli-packages
+          fetch-depth: 0
 
-      - name: Download macOS artifacts
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Publish CLI
+        run: |
+          dotnet publish --configuration Release \
+            -p:PublishSingleFile=true \
+            --self-contained false \
+            -r ${{ matrix.runtime }} \
+            --output ./publish/${{ matrix.runtime }} \
+            ./src/ImeWlConverterCmd
+
+      - name: Create archive
+        run: |
+          tar -czf imewlconverter_${{ matrix.runtime }}.tar.gz \
+            -C publish/${{ matrix.runtime }} .
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-linux-${{ matrix.arch }}
+          path: imewlconverter_${{ matrix.runtime }}.tar.gz
+          retention-days: 1
+
+  # macOS 平台打包 (CLI + GUI .app bundles)
+  package-macos:
+    name: Package macOS (${{ matrix.arch }})
+    runs-on: macos-latest
+    timeout-minutes: 30
+    
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+        include:
+          - arch: x64
+            runtime: osx-x64
+          - arch: arm64
+            runtime: osx-arm64
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore dependencies
+        run: make restore
+
+      - name: Publish CLI
+        run: |
+          dotnet publish --configuration Release \
+            -p:PublishSingleFile=true \
+            --self-contained false \
+            -r ${{ matrix.runtime }} \
+            --output ./publish/${{ matrix.runtime }}/cli \
+            ./src/ImeWlConverterCmd
+
+      - name: Build macOS GUI app bundle
+        run: |
+          if [ "${{ matrix.arch }}" = "arm64" ]; then
+            make app-mac-arm64
+          else
+            make app-mac-x64
+          fi
+
+      - name: Create CLI archive
+        run: |
+          tar -czf imewlconverter_${{ matrix.runtime }}_cli.tar.gz \
+            -C publish/${{ matrix.runtime }}/cli .
+
+      - name: Create GUI app archive
+        run: |
+          if [ "${{ matrix.arch }}" = "arm64" ]; then
+            zip -r imewlconverter_macos-arm64.zip "深蓝词库转换-arm64.app"
+          else
+            zip -r imewlconverter_macos-x64.zip "深蓝词库转换-x64.app"
+          fi
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-macos-${{ matrix.arch }}
+          path: |
+            imewlconverter_${{ matrix.runtime }}_cli.tar.gz
+            imewlconverter_macos-*.zip
+          retention-days: 1
+
+  # 创建 GitHub Release
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - changelog
+      - package-windows
+      - package-linux
+      - package-macos
+    
+    steps:
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          name: macos-packages
+          path: artifacts
+
+      - name: Display artifact structure
+        run: ls -R artifacts
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p release-assets
+          find artifacts -type f \( -name "*.zip" -o -name "*.tar.gz" \) \
+            -exec cp {} release-assets/ \;
+          ls -lh release-assets/
 
       - name: Download changelog
         uses: actions/download-artifact@v4
         with:
           name: changelog
+          path: .
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "imewlconverter_*"
-          allowUpdates: true
+          artifacts: "release-assets/*"
           bodyFile: CHANGELOG.txt
           token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+
+  # 发布到其他平台 (可选,如果需要)
+  # publish-nuget:
+  #   name: Publish to NuGet
+  #   runs-on: ubuntu-latest
+  #   needs: create-release
+  #   if: "!contains(github.ref_name, 'alpha') && !contains(github.ref_name, 'beta')"
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     - name: Setup .NET
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: ${{ env.DOTNET_VERSION }}
+  #     - name: Pack and publish
+  #       run: |
+  #         dotnet pack --configuration Release
+  #         dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }}

@@ -38,27 +38,27 @@ public class NoPinyinWordOnlyTest : BaseTest
     public void TestExport()
     {
         var txt = exporter.Export(WlListData)[0];
-        Assert.AreEqual(txt, "深蓝测试\r\n词库转换\r\n");
+        Assert.That("深蓝测试\r\n词库转换\r\n", Is.EqualTo(txt));
     }
 
     [Test]
     public void TestExportLine()
     {
         var txt = exporter.ExportLine(WlData);
-        Assert.AreEqual(txt, "深蓝测试");
+        Assert.That("深蓝测试", Is.EqualTo(txt));
     }
 
     [Test]
     public void TestImport()
     {
         var wl = ((IWordLibraryTextImport)importer).ImportText(StringData);
-        Assert.AreEqual(wl.Count, 10);
+        Assert.That(10, Is.EqualTo(wl.Count));
     }
 
     [Test]
     public void TestImportFile()
     {
         var wll = importer.Import(GetFullPath("纯汉字.txt"));
-        Assert.Greater(wll.Count, 0);
+        Assert.That(wll.Count, Is.GreaterThan(0));
     }
 }

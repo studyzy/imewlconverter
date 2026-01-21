@@ -45,6 +45,6 @@ internal class PinyinTest
     public void TestGetLongWordsPinyin(string str, string py)
     {
         var result = generater.GetCodeOfString(str);
-        Assert.Contains(py, result.ToCodeString(" ").ToArray());
+        Assert.That(result.ToCodeString(" ").ToArray(), Does.Contain(py));
     }
 }
