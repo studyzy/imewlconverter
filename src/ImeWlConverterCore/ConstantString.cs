@@ -32,34 +32,34 @@ public class ConstantString
     private static string GetVersion()
     {
         var assembly = typeof(ConstantString).Assembly;
-        
+
         // 优先使用 AssemblyInformationalVersionAttribute（包含完整版本信息）
         var infoVersion = assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
             .InformationalVersion;
-        
+
         if (!string.IsNullOrWhiteSpace(infoVersion))
         {
             return infoVersion;
         }
-        
+
         // 其次使用 AssemblyFileVersionAttribute
         var fileVersion = assembly
             .GetCustomAttribute<AssemblyFileVersionAttribute>()?
             .Version;
-        
+
         if (!string.IsNullOrWhiteSpace(fileVersion))
         {
             return fileVersion;
         }
-        
+
         // 最后使用 Assembly.GetName().Version
         var assemblyVersion = assembly.GetName().Version;
         if (assemblyVersion != null && assemblyVersion.ToString() != "0.0.0.0")
         {
             return assemblyVersion.ToString();
         }
-        
+
         // 如果所有方法都失败，返回默认值
         return "1.0.0.0";
     }

@@ -64,6 +64,20 @@ jobs:
 
       - name: Check code formatting
         run: make lint
+        continue-on-error: false
+        
+      - name: Format check failed
+        if: failure()
+        run: |
+          echo "❌ Code formatting check failed!"
+          echo ""
+          echo "Please run the following command locally to fix formatting issues:"
+          echo "  make format"
+          echo ""
+          echo "Then commit the changes:"
+          echo "  git add ."
+          echo "  git commit -m 'style: fix code formatting'"
+          exit 1
 
   # 构建和测试 (在 Ubuntu 上执行,最快)
   build-and-test:
