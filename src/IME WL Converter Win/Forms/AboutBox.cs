@@ -29,7 +29,14 @@ internal partial class AboutBox : Form
         InitializeComponent();
         Text = "关于 深蓝词库转换";
         labelProductName.Text = AssemblyProduct;
-        labelVersion.Text = string.Format("版本 {0}", AssemblyVersion);
+        
+        var version = ConstantString.VERSION;
+        if (version.Contains("+"))
+            version = version.Split('+')[0];
+        if (version.Contains("-"))
+            version = version.Split('-')[0];
+        labelVersion.Text = string.Format("版本 {0}", version);
+        
         labelCopyright.Text = AssemblyCopyright;
         labelCompanyName.Text = AssemblyCompany;
         textBoxDescription.Text = AssemblyDescription;
@@ -43,11 +50,18 @@ internal partial class AboutBox : Form
     #region 程序集属性访问器
 
     // 从当前执行的程序集获取版本号（WinForm 程序集）
-    // 优先使用 InformationalVersion，其次是 FileVersion，最后是 AssemblyVersion
+    // 优先使用 ConstantString.VERSION (Core程序集版本)，其次是当前程序集属性
     public string AssemblyVersion
     {
         get
         {
+            // 优先使用 ConstantString.VERSION
+            if (!string.IsNullOrWhiteSpace(ConstantString.VERSION) && 
+                ConstantString.VERSION != "0.0.0.0")
+            {
+                return ConstantString.VERSION;
+            }
+
             var assembly = Assembly.GetExecutingAssembly();
             
             // 优先使用 AssemblyInformationalVersionAttribute（包含完整版本信息）
@@ -75,13 +89,6 @@ internal partial class AboutBox : Form
             if (assemblyVersion != null && assemblyVersion.ToString() != "0.0.0.0")
             {
                 return assemblyVersion.ToString();
-            }
-            
-            // 如果所有方法都失败，尝试使用 ConstantString.VERSION 作为后备
-            if (!string.IsNullOrWhiteSpace(ConstantString.VERSION) && 
-                ConstantString.VERSION != "0.0.0.0")
-            {
-                return ConstantString.VERSION;
             }
             
             return "1.0.0.0";
