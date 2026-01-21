@@ -14,15 +14,38 @@
     
     <!-- 
       处理非 Git 环境（如从 tarball 构建）的版本号问题：
-      当环境变量 PACKAGE_VERSION 存在时，直接使用它作为版本号，跳过 MinVer。
+      当环境变量 PACKAGE_VERSION 存在时，跳过 MinVer 并直接使用指定的版本号。
       这主要用于发行版打包系统（如 Gentoo Portage）从源码 tarball 构建时使用。
       
       使用方法：
         export PACKAGE_VERSION=3.3.1
         dotnet build
     -->
-    <Version Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</Version>
+    <MinVerSkip Condition="'$(PACKAGE_VERSION)' != ''">true</MinVerSkip>
   </PropertyGroup>
+
+  <!-- 自定义版本号属性，确保在各种情况下版本号都正确设置 -->
+  <Target Name="CustomizeVersionNumbers" AfterTargets="MinVer">
+    <PropertyGroup>
+      <!-- 情况 1：使用 PACKAGE_VERSION 环境变量（非 Git 环境） -->
+      <Version Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</Version>
+      <FileVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION).0</FileVersion>
+      <AssemblyVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION).0</AssemblyVersion>
+      <InformationalVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</InformationalVersion>
+      
+      <!-- 情况 2：MinVer 正常工作（Git 环境） -->
+      <!-- FileVersion 由 MinVer 自动设置为 {Major}.{Minor}.{Patch}.0 -->
+      <!-- AssemblyVersion 由 MinVer 自动设置为 {Major}.0.0.0 -->
+      <!-- InformationalVersion 由 MinVer 自动设置为完整版本字符串 -->
+      
+      <!-- 情况 3：MinVer 失败或没有 Git（设置默认值避免 0.0.0） -->
+      <!-- 注意：这里的默认值只是后备方案，正常情况下应该由 MinVer 或 PACKAGE_VERSION 提供版本号 -->
+      <FileVersion Condition="'$(FileVersion)' == '' OR '$(FileVersion)' == '0.0.0.0'">1.0.0.0</FileVersion>
+      <AssemblyVersion Condition="'$(AssemblyVersion)' == '' OR '$(AssemblyVersion)' == '0.0.0.0'">1.0.0.0</AssemblyVersion>
+      <InformationalVersion Condition="'$(InformationalVersion)' == '' OR '$(InformationalVersion)' == '0.0.0.0'">1.0.0</InformationalVersion>
+      <Version Condition="'$(Version)' == '' OR '$(Version)' == '0.0.0'">1.0.0</Version>
+    </PropertyGroup>
+  </Target>
 
   <ItemGroup>
     <!-- MinVer NuGet 包 - 仅在构建时使用，不会包含在输出中 -->

@@ -42,8 +42,51 @@ internal partial class AboutBox : Form
 
     #region 程序集属性访问器
 
-    // 使用 ConstantString.VERSION 获取完整版本号（包含 Git commit 信息）
-    public string AssemblyVersion => ConstantString.VERSION;
+    // 从当前执行的程序集获取版本号（WinForm 程序集）
+    // 优先使用 InformationalVersion，其次是 FileVersion，最后是 AssemblyVersion
+    public string AssemblyVersion
+    {
+        get
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            
+            // 优先使用 AssemblyInformationalVersionAttribute（包含完整版本信息）
+            var infoVersion = assembly
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+                .InformationalVersion;
+            
+            if (!string.IsNullOrWhiteSpace(infoVersion))
+            {
+                return infoVersion;
+            }
+            
+            // 其次使用 AssemblyFileVersionAttribute
+            var fileVersion = assembly
+                .GetCustomAttribute<AssemblyFileVersionAttribute>()?
+                .Version;
+            
+            if (!string.IsNullOrWhiteSpace(fileVersion))
+            {
+                return fileVersion;
+            }
+            
+            // 最后使用 Assembly.GetName().Version
+            var assemblyVersion = assembly.GetName().Version;
+            if (assemblyVersion != null && assemblyVersion.ToString() != "0.0.0.0")
+            {
+                return assemblyVersion.ToString();
+            }
+            
+            // 如果所有方法都失败，尝试使用 ConstantString.VERSION 作为后备
+            if (!string.IsNullOrWhiteSpace(ConstantString.VERSION) && 
+                ConstantString.VERSION != "0.0.0.0")
+            {
+                return ConstantString.VERSION;
+            }
+            
+            return "1.0.0.0";
+        }
+    }
 
     public string AssemblyDescription
     {

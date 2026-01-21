@@ -23,7 +23,6 @@
         <PublishWizardCompleted>true</PublishWizardCompleted>
         <BootstrapperEnabled>true</BootstrapperEnabled>
         <NoStdLib>False</NoStdLib>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
         <Platforms>AnyCPU;x86</Platforms>
@@ -51,6 +50,15 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/studyzy/imewlconverter</RepositoryUrl>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        
+        <!-- 程序集元数据信息 -->
+        <AssemblyTitle>深蓝词库转换</AssemblyTitle>
+        <Product>深蓝词库转换</Product>
+        <Company>深蓝 http://studyzy.cnblogs.com</Company>
+        <Copyright>Copyright © 2010-2025</Copyright>
+        <Description>随手写的一个词库转换小工具，支持主流的电脑和手机输入法，希望大家喜欢。
+有问题请联系我：studyzy@163.com
+GitHub: https://github.com/studyzy/imewlconverter</Description>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
         <RegisterForComInterop>False</RegisterForComInterop>

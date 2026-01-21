@@ -26,13 +26,43 @@ public class ConstantString
 {
     // 版本号自动从程序集属性读取（由 MinVer 在构建时注入）
     // 格式：从 Git tag vX.Y.Z 生成 X.Y.Z.0
-    // 开发构建：0.0.0-dev.{commits}.{sha}
-    public static readonly string VERSION =
-        typeof(ConstantString).Assembly
+    // 开发构建：X.Y.Z-dev.{commits}.{sha}
+    public static readonly string VERSION = GetVersion();
+
+    private static string GetVersion()
+    {
+        var assembly = typeof(ConstantString).Assembly;
+        
+        // 优先使用 AssemblyInformationalVersionAttribute（包含完整版本信息）
+        var infoVersion = assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion
-        ?? typeof(ConstantString).Assembly.GetName().Version?.ToString()
-        ?? "0.0.0.0";
+            .InformationalVersion;
+        
+        if (!string.IsNullOrWhiteSpace(infoVersion))
+        {
+            return infoVersion;
+        }
+        
+        // 其次使用 AssemblyFileVersionAttribute
+        var fileVersion = assembly
+            .GetCustomAttribute<AssemblyFileVersionAttribute>()?
+            .Version;
+        
+        if (!string.IsNullOrWhiteSpace(fileVersion))
+        {
+            return fileVersion;
+        }
+        
+        // 最后使用 Assembly.GetName().Version
+        var assemblyVersion = assembly.GetName().Version;
+        if (assemblyVersion != null && assemblyVersion.ToString() != "0.0.0.0")
+        {
+            return assemblyVersion.ToString();
+        }
+        
+        // 如果所有方法都失败，返回默认值
+        return "1.0.0.0";
+    }
 
     public const string BAIDU_SHOUJI = "百度手机或Mac版百度拼音";
     public const string BAIDU_SHOUJI_ENG = "百度手机英文";
