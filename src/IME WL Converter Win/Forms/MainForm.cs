@@ -604,7 +604,9 @@ public partial class MainForm : Form
         }
         else if (mergeTo1File)
         {
-            var dataText = string.Join("\r\n", mainBody.ExportContents);
+            var dataText = mainBody.ExportContents != null 
+                ? string.Join("\r\n", mainBody.ExportContents)
+                : string.Empty;
             if (toolStripMenuItemShowLess.Checked && dataText.Length > 200000)
                 richTextBox1.Text =
                     "为避免输出时卡死，“高级设置”中选中了“结果只显示首、末10万字”，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"

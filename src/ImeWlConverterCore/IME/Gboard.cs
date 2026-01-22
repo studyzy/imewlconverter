@@ -63,7 +63,15 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
     public string ExportLine(WordLibrary wl)
     {
         var sb = new StringBuilder();
-        sb.Append(wl.GetPinYinString("", BuildType.None));
+        var pinyin = wl.GetPinYinString("", BuildType.None);
+        
+        // 防御性检查: 确保拼音不为空
+        if (string.IsNullOrWhiteSpace(pinyin) || string.IsNullOrWhiteSpace(wl.Word))
+        {
+            return null; // 返回null表示跳过这个词条
+        }
+        
+        sb.Append(pinyin);
         sb.Append("\t");
         sb.Append(wl.Word);
         sb.Append("\tzh-CN");
@@ -83,8 +91,13 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
         sb.Append("# Gboard Dictionary version:1\n");
         for (var i = 0; i < wlList.Count; i++)
         {
-            sb.Append(ExportLine(wlList[i]));
-            sb.Append("\n");
+            var line = ExportLine(wlList[i]);
+            // 跳过无效的词条
+            if (!string.IsNullOrEmpty(line))
+            {
+                sb.Append(line);
+                sb.Append("\n");
+            }
         }
 
         FileOperationHelper.WriteFile(tempPath, new UTF8Encoding(false), sb.ToString());
