@@ -91,9 +91,8 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
         
-        <!-- 启用代码裁剪 (WinForms需要partial模式) -->
-        <PublishTrimmed>true</PublishTrimmed>
-        <TrimMode>partial</TrimMode>
+        <!-- 禁用代码裁剪 (Windows Forms不支持trimming) -->
+        <PublishTrimmed>false</PublishTrimmed>
         
         <!-- 单文件发布 -->
         <PublishSingleFile>true</PublishSingleFile>
@@ -111,9 +110,8 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
         
-        <!-- 启用代码裁剪 (WinForms需要partial模式) -->
-        <PublishTrimmed>true</PublishTrimmed>
-        <TrimMode>partial</TrimMode>
+        <!-- 禁用代码裁剪 (Windows Forms不支持trimming) -->
+        <PublishTrimmed>false</PublishTrimmed>
         
         <!-- 单文件发布 -->
         <PublishSingleFile>true</PublishSingleFile>
