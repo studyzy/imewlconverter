@@ -73,7 +73,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -140,7 +140,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -198,7 +198,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -306,7 +306,7 @@ jobs:
   #     - name: Checkout code
   #       uses: actions/checkout@v6
   #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v4
+  #       uses: actions/setup-dotnet@v5
   #       with:
   #         dotnet-version: ${{ env.DOTNET_VERSION }}
   #     - name: Pack and publish
