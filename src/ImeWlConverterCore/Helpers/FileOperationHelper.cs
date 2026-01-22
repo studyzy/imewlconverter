@@ -131,6 +131,31 @@ public static class FileOperationHelper
     }
 
     /// <summary>
+    ///     获取文件的流式读取器,用于处理大文件避免内存溢出
+    /// </summary>
+    /// <param name="path">文件路径</param>
+    /// <param name="encoding">编码</param>
+    /// <returns>StreamReader实例,需要调用者负责释放</returns>
+    public static StreamReader GetStreamReader(string path, Encoding encoding)
+    {
+        if (!File.Exists(path)) return null;
+        return new StreamReader(path, encoding);
+    }
+
+    /// <summary>
+    ///     检查文件是否应该使用流式处理(文件大于10MB)
+    /// </summary>
+    /// <param name="path">文件路径</param>
+    /// <returns>true表示应该使用流式处理</returns>
+    public static bool ShouldUseStreaming(string path)
+    {
+        if (!File.Exists(path)) return false;
+        var fileInfo = new FileInfo(path);
+        // 文件大于10MB时使用流式处理
+        return fileInfo.Length > 10 * 1024 * 1024;
+    }
+
+    /// <summary>
     ///     将一个字符串写入文件，采用覆盖的方式
     /// </summary>
     /// <param name="path"></param>

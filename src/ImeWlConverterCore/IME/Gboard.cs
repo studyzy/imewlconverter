@@ -67,7 +67,7 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
         sb.Append("\t");
         sb.Append(wl.Word);
         sb.Append("\tzh-CN");
-        return sb.ToString();
+        return sb.ToString().TrimEnd();
     }
 
     public IList<string> Export(WordLibraryList wlList)

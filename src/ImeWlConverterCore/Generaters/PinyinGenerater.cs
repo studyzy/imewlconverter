@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
@@ -74,6 +75,7 @@ public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
 
     /// <summary>
     ///     产生一个词中多音字的拼音,没有的就空着
+    ///     使用贪婪匹配算法,优先匹配较长的词组,避免重复标注
     /// </summary>
     /// <param name="word"></param>
     /// <returns></returns>
@@ -81,12 +83,41 @@ public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         InitMutiPinYinWord();
         var pinyin = new string[word.Length];
-        foreach (var key in mutiPinYinWord.Keys)
-            if (word.Contains(key))
+        var matched = new bool[word.Length]; // Track which positions have been matched
+
+        // Sort keys by length (descending) to match longer words first
+        var sortedKeys = mutiPinYinWord.Keys.OrderByDescending(k => k.Length).ToList();
+
+        foreach (var key in sortedKeys)
+        {
+            // Find all occurrences of this key in the word
+            var index = 0;
+            while ((index = word.IndexOf(key, index)) != -1)
             {
-                var index = word.IndexOf(key);
-                for (var i = 0; i < mutiPinYinWord[key].Count; i++) pinyin[index + i] = mutiPinYinWord[key][i];
+                // Check if any position in this range has already been matched
+                var canMatch = true;
+                for (var i = 0; i < key.Length; i++)
+                {
+                    if (matched[index + i])
+                    {
+                        canMatch = false;
+                        break;
+                    }
+                }
+
+                // If no overlap, apply the match
+                if (canMatch)
+                {
+                    for (var i = 0; i < mutiPinYinWord[key].Count; i++)
+                    {
+                        pinyin[index + i] = mutiPinYinWord[key][i];
+                        matched[index + i] = true;
+                    }
+                }
+
+                index++; // Move to next position to find other occurrences
             }
+        }
 
         return new List<string>(pinyin);
     }

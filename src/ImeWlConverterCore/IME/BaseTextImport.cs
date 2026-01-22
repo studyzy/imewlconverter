@@ -29,8 +29,70 @@ public abstract class BaseTextImport : BaseImport
 
     public WordLibraryList Import(string path)
     {
-        var str = FileOperationHelper.ReadFile(path);
-        return ImportText(str);
+        // 对于大文件使用流式处理避免内存溢出
+        if (FileOperationHelper.ShouldUseStreaming(path))
+        {
+            return ImportStreaming(path);
+        }
+        else
+        {
+            var str = FileOperationHelper.ReadFile(path);
+            return ImportText(str);
+        }
+    }
+
+    /// <summary>
+    ///     流式读取大文件,逐行处理避免内存溢出
+    /// </summary>
+    /// <param name="path">文件路径</param>
+    /// <returns>词库列表</returns>
+    protected virtual WordLibraryList ImportStreaming(string path)
+    {
+        var wlList = new WordLibraryList();
+        var encoding = Encoding ?? FileOperationHelper.GetEncodingType(path);
+
+        using (var sr = FileOperationHelper.GetStreamReader(path, encoding))
+        {
+            if (sr == null) return wlList;
+
+            // 先统计行数用于进度显示
+            var lineCount = 0;
+            while (sr.ReadLine() != null) lineCount++;
+            sr.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
+            sr.DiscardBufferedData();
+
+            CountWord = lineCount;
+            var currentLine = 0;
+
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                CurrentStatus = currentLine++;
+                try
+                {
+                    if (IsContent(line))
+                    {
+                        var words = ImportLine(line);
+                        if (words != null && words.Count > 0)
+                        {
+                            wlList.AddWordLibraryList(words);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SendImportLineErrorNotice($"无效的词条，解析失败：{line}. 错误: {ex.Message}");
+                }
+
+                // 定期触发GC以释放内存
+                if (currentLine % 10000 == 0)
+                {
+                    GC.Collect(0, GCCollectionMode.Optimized);
+                }
+            }
+        }
+
+        return wlList;
     }
 
     protected virtual bool IsContent(string line)

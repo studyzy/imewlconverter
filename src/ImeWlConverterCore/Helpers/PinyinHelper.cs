@@ -32,20 +32,49 @@ public static class PinyinHelper
     {
         try
         {
+            // Check if it's an English letter or other ASCII character
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+            {
+                // Return the lowercase letter itself as the "pinyin"
+                return c.ToString().ToLower();
+            }
+
+            // Check if it's a digit
+            if (c >= '0' && c <= '9')
+            {
+                return c.ToString();
+            }
+
             var pys = PinYinDict[c];
             if (pys != null && pys.Count > 0) return pys[0];
-            throw new Exception("找不到字：“" + c + "”的拼音");
+            throw new Exception($"找不到字:'{c}'的拼音");
         }
         catch
         {
-            throw new Exception("找不到字：“" + c + "”的拼音");
+            throw new Exception($"找不到字:'{c}'的拼音");
         }
     }
 
     public static IList<string> GetDefaultPinyin(string word)
     {
         var result = new List<string>();
-        foreach (var c in word) result.Add(GetDefaultPinyin(c));
+        // Use StringInfo to properly handle surrogate pairs
+        var si = new System.Globalization.StringInfo(word);
+        for (int i = 0; i < si.LengthInTextElements; i++)
+        {
+            var textElement = si.SubstringByTextElements(i, 1);
+            // Only process single char elements (BMP characters)
+            if (textElement.Length == 1)
+            {
+                result.Add(GetDefaultPinyin(textElement[0]));
+            }
+            else
+            {
+                // For surrogate pairs or characters without pinyin, skip them
+                // or handle them as empty pinyin
+                Debug.WriteLine($"Skipping character beyond BMP: {textElement}");
+            }
+        }
         return result;
     }
 
