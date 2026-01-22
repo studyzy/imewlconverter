@@ -45,7 +45,7 @@ jobs:
         run: echo "${{ steps.changelog.outputs.changes }}" > CHANGELOG.txt
 
       - name: Upload changelog
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: changelog
           path: CHANGELOG.txt
@@ -112,7 +112,7 @@ jobs:
             -DestinationPath imewlconverter_${{ matrix.runtime }}.zip
 
       - name: Upload package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: package-windows-${{ matrix.arch }}
           path: imewlconverter_${{ matrix.runtime }}.zip
@@ -170,7 +170,7 @@ jobs:
             -C publish/${{ matrix.runtime }} .
 
       - name: Upload package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: package-linux-${{ matrix.arch }}
           path: imewlconverter_${{ matrix.runtime }}.tar.gz
@@ -244,7 +244,7 @@ jobs:
           fi
 
       - name: Upload packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: package-macos-${{ matrix.arch }}
           path: |
