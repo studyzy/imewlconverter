@@ -12,7 +12,22 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>embedded</DebugType>
+        <!-- 发布优化配置 -->
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        
+        <!-- 启用代码裁剪 -->
+        <PublishTrimmed>true</PublishTrimmed>
+        
+        <!-- 单文件发布 -->
+        <PublishSingleFile>true</PublishSingleFile>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        
+        <!-- 启用ReadyToRun优化 -->
+        <PublishReadyToRun>true</PublishReadyToRun>
+        
+        <!-- 不包含PDB文件 -->
+        <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
     </PropertyGroup>
 
     <ItemGroup>

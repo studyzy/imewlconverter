@@ -1,10 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+        <!-- 移除Windows SDK依赖，仅使用基础Windows桌面支持 -->
+        <TargetFramework>net10.0-windows</TargetFramework>
         <OutputType>WinExe</OutputType>
         <RootNamespace>Studyzy.IMEWLConverter</RootNamespace>
         <AssemblyName>深蓝词库转换</AssemblyName>
         <ApplicationIcon>app.ico</ApplicationIcon>
+        
+        <!-- 禁用Windows SDK引用 -->
+        <EnableWindowsTargeting>false</EnableWindowsTargeting>
+        
         <IsWebBootstrapper>false</IsWebBootstrapper>
         <PublishUrl>C:\Documents and Settings\zengyi\桌面\词库测试\</PublishUrl>
         <Install>true</Install>
@@ -82,12 +87,44 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
         <DebugType>embedded</DebugType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>embedded</DebugType>
-        <DebugSymbols>true</DebugSymbols>
+        <!-- Release发布优化配置 -->
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        
+        <!-- 启用代码裁剪 (WinForms需要partial模式) -->
+        <PublishTrimmed>true</PublishTrimmed>
+        <TrimMode>partial</TrimMode>
+        
+        <!-- 单文件发布 -->
+        <PublishSingleFile>true</PublishSingleFile>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        
+        <!-- 启用ReadyToRun优化 -->
+        <PublishReadyToRun>true</PublishReadyToRun>
+        
+        <!-- 不包含PDB文件 -->
+        <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-        <DebugType>embedded</DebugType>
-        <DebugSymbols>true</DebugSymbols>
+        <!-- Release发布优化配置 -->
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        
+        <!-- 启用代码裁剪 (WinForms需要partial模式) -->
+        <PublishTrimmed>true</PublishTrimmed>
+        <TrimMode>partial</TrimMode>
+        
+        <!-- 单文件发布 -->
+        <PublishSingleFile>true</PublishSingleFile>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        
+        <!-- 启用ReadyToRun优化 -->
+        <PublishReadyToRun>true</PublishReadyToRun>
+        
+        <!-- 不包含PDB文件 -->
+        <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />

@@ -13,6 +13,8 @@ DOTNET := dotnet
 DOTNET_CONFIG ?= Debug
 DOTNET_RUNTIME_OSX_ARM64 := osx-arm64
 DOTNET_RUNTIME_OSX_X64 := osx-x64
+DOTNET_RUNTIME_WIN_X64 := win-x64
+DOTNET_RUNTIME_WIN_X86 := win-x86
 DOTNET_FRAMEWORK := net10.0
 
 # Project Paths
@@ -20,6 +22,7 @@ SRC_DIR := src
 CORE_PROJECT := $(SRC_DIR)/ImeWlConverterCore/ImeWlConverterCore.csproj
 CMD_PROJECT := $(SRC_DIR)/ImeWlConverterCmd/ImeWlConverterCmd.csproj
 MAC_PROJECT := $(SRC_DIR)/ImeWlConverterMac/ImeWlConverterMac.csproj
+WIN_PROJECT := $(SRC_DIR)/IME WL Converter Win/IME WL Converter Win.csproj
 TEST_PROJECT := $(SRC_DIR)/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
 
 # Output Directories
@@ -28,6 +31,8 @@ PUBLISH_DIR := publish
 DIST_DIR := dist
 MAC_ARM64_DIR := $(PUBLISH_DIR)/mac-arm64
 MAC_X64_DIR := $(PUBLISH_DIR)/mac-x64
+WIN_X64_DIR := $(PUBLISH_DIR)/win-x64
+WIN_X86_DIR := $(PUBLISH_DIR)/win-x86
 
 # Application Info
 APP_NAME := 深蓝词库转换
@@ -46,6 +51,11 @@ APP_BUNDLE_SCRIPT := $(SCRIPT_DIR)/create-app-bundle.sh
 PUBLISH_OPTS := --configuration $(DOTNET_CONFIG) --self-contained true
 BUILD_OPTS := --configuration $(DOTNET_CONFIG)
 TEST_OPTS := --configuration $(DOTNET_CONFIG) --logger "console;verbosity=normal" --settings test.runsettings --blame-hang --blame-hang-timeout 2m
+
+# Release发布额外优化选项（仅在Release模式下启用）
+ifeq ($(DOTNET_CONFIG),Release)
+    PUBLISH_OPTS += -p:PublishTrimmed=true -p:PublishSingleFile=true
+endif
 
 # Colors for terminal output (ANSI escape codes)
 COLOR_RESET := \033[0m
@@ -119,6 +129,10 @@ help:
 	@echo "  $(COLOR_GREEN)make publish-mac$(COLOR_RESET)          - Publish macOS versions (ARM64 + x64)"
 	@echo "  $(COLOR_GREEN)make publish-mac-arm64$(COLOR_RESET)    - Publish macOS ARM64 version only"
 	@echo "  $(COLOR_GREEN)make publish-mac-x64$(COLOR_RESET)      - Publish macOS x64 version only"
+	@echo "  $(COLOR_GREEN)make publish-win$(COLOR_RESET)          - Publish Windows versions (x64 + x86)"
+	@echo "  $(COLOR_GREEN)make publish-win-x64$(COLOR_RESET)      - Publish Windows x64 version only"
+	@echo "  $(COLOR_GREEN)make publish-win-x86$(COLOR_RESET)      - Publish Windows x86 version only"
+
 	@echo ""
 	@echo "$(COLOR_BOLD)Package Commands:$(COLOR_RESET)"
 	@echo "  $(COLOR_GREEN)make app-mac$(COLOR_RESET)              - Create macOS .app bundles (both architectures)"
@@ -257,6 +271,24 @@ publish-mac-x64: check-deps
 	@echo "$(COLOR_BLUE)$(EMOJI_BUILD) Publishing macOS x64 version...$(COLOR_RESET)"
 	@$(DOTNET) publish $(MAC_PROJECT) $(PUBLISH_OPTS) --runtime $(DOTNET_RUNTIME_OSX_X64) --output $(MAC_X64_DIR)
 	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) x64 publish completed: $(MAC_X64_DIR)$(COLOR_RESET)"
+
+## publish-win: Publish both x64 and x86 versions for Windows
+publish-win: publish-win-x64 publish-win-x86
+	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) Published all Windows architectures$(COLOR_RESET)"
+
+## publish-win-x64: Publish x64 version for Windows
+publish-win-x64: check-deps
+	@echo "$(COLOR_BLUE)$(EMOJI_BUILD) Publishing Windows x64 version...$(COLOR_RESET)"
+	@$(DOTNET) publish $(WIN_PROJECT) $(PUBLISH_OPTS) --runtime $(DOTNET_RUNTIME_WIN_X64) --output $(WIN_X64_DIR)
+	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) x64 publish completed: $(WIN_X64_DIR)$(COLOR_RESET)"
+	@echo "$(COLOR_CYAN)$(EMOJI_INFO) Package size: $$(du -sh $(WIN_X64_DIR) | cut -f1)$(COLOR_RESET)"
+
+## publish-win-x86: Publish x86 version for Windows
+publish-win-x86: check-deps
+	@echo "$(COLOR_BLUE)$(EMOJI_BUILD) Publishing Windows x86 version...$(COLOR_RESET)"
+	@$(DOTNET) publish $(WIN_PROJECT) $(PUBLISH_OPTS) --runtime $(DOTNET_RUNTIME_WIN_X86) --output $(WIN_X86_DIR)
+	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) x86 publish completed: $(WIN_X86_DIR)$(COLOR_RESET)"
+	@echo "$(COLOR_CYAN)$(EMOJI_INFO) Package size: $$(du -sh $(WIN_X86_DIR) | cut -f1)$(COLOR_RESET)"
 
 # ============================================================================
 # App Bundle Creation

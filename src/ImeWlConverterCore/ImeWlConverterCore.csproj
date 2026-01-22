@@ -28,8 +28,11 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DebugType>embedded</DebugType>
-        <DebugSymbols>true</DebugSymbols>
+        <!-- Release发布优化 -->
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        <IsTrimmable>True</IsTrimmable>
+        <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
