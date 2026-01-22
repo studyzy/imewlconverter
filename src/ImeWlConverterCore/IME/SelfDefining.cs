@@ -53,14 +53,14 @@ public class SelfDefining
             new[] { UserDefiningPattern.SplitString },
             StringSplitOptions.RemoveEmptyEntries
         );
-        
+
         // 边界检查: 确保至少有一个元素
         if (strlist.Length == 0)
         {
             Debug.WriteLine($"警告: 无效的行格式，分割后无元素: {line}");
             return null;
         }
-        
+
         var newSort = new List<int>(UserDefiningPattern.Sort);
         newSort.Sort();
         string code = "",

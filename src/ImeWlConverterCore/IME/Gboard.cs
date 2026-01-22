@@ -64,13 +64,13 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
     {
         var sb = new StringBuilder();
         var pinyin = wl.GetPinYinString("", BuildType.None);
-        
+
         // 防御性检查: 确保拼音不为空
         if (string.IsNullOrWhiteSpace(pinyin) || string.IsNullOrWhiteSpace(wl.Word))
         {
             return null; // 返回null表示跳过这个词条
         }
-        
+
         sb.Append(pinyin);
         sb.Append("\t");
         sb.Append(wl.Word);
