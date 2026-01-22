@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -207,20 +208,45 @@ public static class FileOperationHelper
 
     public static Encoding GetEncodingType(string fileName)
     {
-        var result = CharsetDetector.DetectFromFile(fileName);
-        var resultDetected = result.Detected;
-        if (resultDetected.Confidence < 0.7)
-            try
+        // 添加参数验证
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            throw new ArgumentException("文件路径不能为空", nameof(fileName));
+        }
+
+        if (!File.Exists(fileName))
+        {
+            throw new FileNotFoundException($"文件不存在: {fileName}");
+        }
+
+        try
+        {
+            var result = CharsetDetector.DetectFromFile(fileName);
+            var resultDetected = result?.Detected;
+
+            // 如果检测结果为null或置信度低,使用默认编码
+            if (resultDetected == null || resultDetected.Confidence < 0.7)
             {
-                return Encoding.GetEncoding("GB18030");
-            }
-            catch
-            {
-                return Encoding.GetEncoding("GB2312");
+                try
+                {
+                    return Encoding.GetEncoding("GB18030");
+                }
+                catch
+                {
+                    return Encoding.GetEncoding("GB2312");
+                }
             }
 
-        var encoding = resultDetected.Encoding;
-        return encoding;
+            var encoding = resultDetected.Encoding;
+            // 再次检查编码是否为null
+            return encoding ?? Encoding.UTF8;
+        }
+        catch (Exception ex)
+        {
+            // 记录错误但返回默认编码,避免崩溃
+            System.Diagnostics.Debug.WriteLine($"检测文件编码失败: {fileName}, 错误: {ex.Message}");
+            return Encoding.UTF8;
+        }
     }
 
     public static void WriteFileHeader(FileStream fs, Encoding encoding)

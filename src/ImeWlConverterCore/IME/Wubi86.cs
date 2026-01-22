@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 
@@ -35,16 +36,106 @@ public class Wubi86 : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
 
     public override WordLibraryList ImportLine(string line)
     {
-        var code = line.Split(' ')[0];
-        var word = line.Split(' ')[1];
-        var wl = new WordLibrary();
-        wl.Word = word;
-        wl.Rank = DefaultRank;
-        wl.SetCode(CodeType.Wubi, code);
-        //wl.PinYin = CollectionHelper.ToArray(pinyinFactory.GetCodeOfString(word));
-        var wll = new WordLibraryList();
-        if (wl.PinYin.Length > 0) wll.Add(wl);
-        return wll;
+        // 跳过空行和注释
+        if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#"))
+        {
+            return new WordLibraryList();
+        }
+
+        string word = null;
+        string code = null;
+
+        try
+        {
+            // 尝试多种分隔符：Tab、多个空格、单个空格
+            string[] parts = null;
+
+            // 优先尝试Tab分隔
+            if (line.Contains('\t'))
+            {
+                parts = line.Split('\t');
+            }
+            // 尝试多个连续空格分隔
+            else if (line.Contains("  "))
+            {
+                parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+            // 尝试单个空格分隔
+            else if (line.Contains(' '))
+            {
+                parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            if (parts == null || parts.Length < 2)
+            {
+                Debug.WriteLine($"行格式错误，无法解析: {line}");
+                return new WordLibraryList();
+            }
+
+            // 去除首尾空白
+            parts[0] = parts[0].Trim();
+            parts[1] = parts[1].Trim();
+
+            // 判断格式：如果第一部分全是小写字母且长度<=4，则是"编码 词语"格式
+            // 否则是"词语 编码"格式
+            if (IsValidWubiCode(parts[0]) && parts[0].Length <= 4)
+            {
+                // 格式: 编码 词语 (旧格式)
+                code = parts[0];
+                word = parts[1];
+            }
+            else if (IsValidWubiCode(parts[1]) && parts[1].Length <= 4)
+            {
+                // 格式: 词语 编码 (新格式，Issue #372)
+                word = parts[0];
+                code = parts[1];
+            }
+            else
+            {
+                Debug.WriteLine($"无效的五笔编码或词语: {line}");
+                return new WordLibraryList();
+            }
+
+            // 验证词语和编码不为空
+            if (string.IsNullOrEmpty(word) || string.IsNullOrEmpty(code))
+            {
+                Debug.WriteLine($"词语或编码为空: {line}");
+                return new WordLibraryList();
+            }
+
+            var wl = new WordLibrary();
+            wl.Word = word;
+            wl.Rank = DefaultRank;
+            wl.SetCode(CodeType.Wubi, code);
+
+            var wll = new WordLibraryList();
+            if (wl.PinYin.Length > 0)
+            {
+                wll.Add(wl);
+            }
+            else
+            {
+                Debug.WriteLine($"生成拼音失败，跳过词条: {word} {code}");
+            }
+
+            return wll;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"解析词条失败: {line}, 错误: {ex.Message}");
+            return new WordLibraryList();
+        }
+    }
+
+    /// <summary>
+    /// 验证是否为有效的五笔编码（仅包含a-z小写字母，长度不超过4）
+    /// </summary>
+    private bool IsValidWubiCode(string code)
+    {
+        if (string.IsNullOrEmpty(code) || code.Length > 4)
+            return false;
+
+        return code.All(c => c >= 'a' && c <= 'z');
     }
 
     #endregion

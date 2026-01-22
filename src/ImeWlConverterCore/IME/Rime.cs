@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
@@ -164,10 +165,82 @@ public class Rime : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, 
     public IList<string> Export(WordLibraryList wlList)
     {
         codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
-        var sb = new StringBuilder();
+
+        // 使用字典进行去重和词频合并
+        var uniqueWords = new Dictionary<string, WordLibrary>();
+        int duplicateCount = 0;
+        int inputCount = wlList.Count;
+
         for (var i = 0; i < wlList.Count; i++)
         {
-            var line = ExportLine(wlList[i]);
+            var wl = wlList[i];
+
+            // 先生成编码（如果需要）
+            if (CodeType != wl.CodeType || CodeType == CodeType.Pinyin || CodeType == CodeType.TerraPinyin)
+            {
+                try
+                {
+                    if (codeGenerater == null) codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
+                    codeGenerater.GetCodeOfWordLibrary(wl);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"为词条 '{wl.Word}' 生成编码失败: {ex.Message}");
+                    continue; // 跳过无法生成编码的词条
+                }
+            }
+
+            // 获取词条的编码字符串
+            string code;
+            if (CodeType == CodeType.Pinyin || CodeType == CodeType.TerraPinyin)
+            {
+                code = wl.GetPinYinString(" ", BuildType.None);
+            }
+            else if (CodeType == wl.CodeType)
+            {
+                code = wl.Codes[0][0];
+            }
+            else
+            {
+                var codes = wl.Codes.ToCodeString(" ");
+                code = codes.Count > 0 ? codes[0] : "";
+            }
+
+            // 创建唯一键: 词语+编码
+            string key = $"{wl.Word}\t{code}";
+
+            if (uniqueWords.ContainsKey(key))
+            {
+                // 发现重复，合并词频（取最大值）
+                var existing = uniqueWords[key];
+                existing.Rank = Math.Max(existing.Rank, wl.Rank);
+                duplicateCount++;
+                Debug.WriteLine($"合并重复词条: {wl.Word} {code} (词频: {existing.Rank})");
+            }
+            else
+            {
+                uniqueWords[key] = wl;
+            }
+        }
+
+        // 输出统计信息
+        if (duplicateCount > 0)
+        {
+            Debug.WriteLine($"检测到{duplicateCount}个重复词条，已自动合并");
+            Debug.WriteLine($"输入词条: {inputCount}, 去重后: {uniqueWords.Count}");
+        }
+
+        // 生成输出
+        var sb = new StringBuilder();
+
+        // 按词频排序后输出
+        var sortedWords = uniqueWords.Values
+            .OrderByDescending(w => w.Rank)
+            .ThenBy(w => w.Word);
+
+        foreach (var wl in sortedWords)
+        {
+            var line = ExportLine(wl);
             if (!string.IsNullOrEmpty(line))
             {
                 sb.Append(line);

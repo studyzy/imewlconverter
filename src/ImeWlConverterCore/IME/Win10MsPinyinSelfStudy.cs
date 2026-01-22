@@ -114,47 +114,122 @@ public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
     public WordLibraryList Import(string path)
     {
         var re = new WordLibraryList();
-        var fp = File.OpenRead(path);
-        var user_word_base = 0x2400;
-        //get word num
-        var bytes = new byte[50];
-        fp.Seek(12, SeekOrigin.Begin);
-        fp.ReadExactly(bytes, 0, 4);
-        var cnt = bytesToIntLittle(bytes, 0, 4);
-        //get each word
-        for (var i = 0; i < cnt; i++)
+
+        try
         {
-            var cur_idx = user_word_base + i * 60;
-            //get word len
-            fp.Seek(cur_idx + 10, SeekOrigin.Begin);
-            fp.ReadExactly(bytes, 0, 1);
-            var wordLen = bytesToIntLittle(bytes, 0, 1);
-            //get word
-            fp.Seek(cur_idx + 12, SeekOrigin.Begin);
-            fp.ReadExactly(bytes, 0, wordLen * 2);
-            var word = Encoding.Unicode.GetString(bytes, 0, wordLen * 2);
-            //get pinyin
-            var pinyin = new string[wordLen];
-            for (var j = 0; j < wordLen; j++)
+            var fp = File.OpenRead(path);
+            var fileSize = fp.Length;
+
+            // 验证文件最小大小
+            if (fileSize < 0x2400)
             {
-                var byte2 = new byte[2];
-                fp.ReadExactly(byte2, 0, 2);
-                var pyIndex = BitConverter.ToInt16(byte2, 0);
-                if (pyIndex >= 0 && pyIndex < pinyinIndex.Length)
-                    pinyin[j] = pinyinIndex[pyIndex];
+                fp.Close();
+                throw new Exception($"词库文件格式不正确,文件大小至少需要{0x2400}字节,当前为{fileSize}字节");
             }
 
-            re.Add(
-                new WordLibrary
+            var user_word_base = 0x2400;
+            //get word num
+            var bytes = new byte[50];
+            fp.Seek(12, SeekOrigin.Begin);
+            fp.ReadExactly(bytes, 0, 4);
+            var cnt = bytesToIntLittle(bytes, 0, 4);
+
+            // 验证词条数量合理性
+            if (cnt < 0 || cnt > 100000)
+            {
+                fp.Close();
+                throw new Exception($"词条数量异常: {cnt},可能是文件格式不兼容");
+            }
+
+            //get each word
+            for (var i = 0; i < cnt; i++)
+            {
+                try
                 {
-                    Word = word,
-                    CodeType = CodeType,
-                    PinYin = pinyin
+                    var cur_idx = user_word_base + i * 60;
+
+                    // 验证当前读取位置是否越界
+                    if (cur_idx + 60 > fileSize)
+                    {
+                        Debug.WriteLine($"词条{i}位置越界,已跳过。当前位置:{cur_idx}, 文件大小:{fileSize}");
+                        break;
+                    }
+
+                    //get word len
+                    fp.Seek(cur_idx + 10, SeekOrigin.Begin);
+                    fp.ReadExactly(bytes, 0, 1);
+                    var wordLen = bytesToIntLittle(bytes, 0, 1);
+
+                    // 验证词长度合理性
+                    if (wordLen <= 0 || wordLen > 24)
+                    {
+                        Debug.WriteLine($"词条{i}长度异常:{wordLen},已跳过");
+                        continue;
+                    }
+
+                    //get word
+                    fp.Seek(cur_idx + 12, SeekOrigin.Begin);
+
+                    // 验证读取位置不会越界
+                    if (cur_idx + 12 + wordLen * 2 > fileSize)
+                    {
+                        Debug.WriteLine($"词条{i}读取位置越界,已跳过");
+                        break;
+                    }
+
+                    fp.ReadExactly(bytes, 0, wordLen * 2);
+                    var word = Encoding.Unicode.GetString(bytes, 0, wordLen * 2);
+
+                    //get pinyin
+                    var pinyin = new string[wordLen];
+                    for (var j = 0; j < wordLen; j++)
+                    {
+                        var byte2 = new byte[2];
+                        fp.ReadExactly(byte2, 0, 2);
+                        var pyIndex = BitConverter.ToInt16(byte2, 0);
+
+                        // 边界检查:确保pyIndex在有效范围内
+                        if (pyIndex >= 0 && pyIndex < pinyinIndex.Length)
+                        {
+                            pinyin[j] = pinyinIndex[pyIndex];
+                        }
+                        else
+                        {
+                            // 如果拼音索引无效,使用默认值或跳过该词条
+                            Debug.WriteLine($"词条{i}字{j}的拼音索引{pyIndex}越界,使用默认拼音");
+                            pinyin[j] = "a"; // 使用默认拼音
+                        }
+                    }
+
+                    re.Add(
+                        new WordLibrary
+                        {
+                            Word = word,
+                            CodeType = CodeType,
+                            PinYin = pinyin
+                        }
+                    );
                 }
-            );
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"解析词条{i}时出错: {ex.Message}");
+                    // 继续处理下一个词条
+                    continue;
+                }
+            }
+
+            fp.Close();
+
+            if (re.Count == 0)
+            {
+                throw new Exception("未能成功解析任何词条,可能是文件格式不兼容或文件已损坏");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"词库处理出现异常: {ex.Message}", ex);
         }
 
-        fp.Close();
         return re;
     }
 
