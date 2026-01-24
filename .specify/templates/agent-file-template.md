@@ -1,6 +1,6 @@
 # [PROJECT NAME] 开发指南
 
-基于所有功能计划自动生成。最后更新时间：[DATE]
+基于所有功能计划自动生成. 最后更新时间: [DATE]
 
 ## 活跃技术
 [EXTRACTED FROM ALL PLAN.MD FILES]
