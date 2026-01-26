@@ -1,0 +1,259 @@
+# 测试用例配置文件格式规范
+# 文件名: test-config.yaml
+# 版本: 1.0.0
+# 用途: 定义词库转换集成测试的测试用例配置
+
+# ====================================
+# Schema 定义（非执行文件，仅用于参考）
+# ====================================
+
+# 顶层结构
+suite_name: string          # 必填，测试套件名称
+description: string         # 必填，套件描述
+maintainer: string          # 可选，维护者名称
+created_at: date (YYYY-MM-DD)  # 可选，创建日期
+updated_at: date (YYYY-MM-DD)  # 可选，最后更新日期
+
+# 测试用例列表
+test_cases:                 # 必填，数组类型
+  - name: string            # 必填，测试用例唯一名称
+    description: string     # 必填，测试描述
+    enabled: boolean        # 可选，默认true，是否启用此测试
+    timeout: integer        # 可选，默认30，超时时间（秒）
+    expect_failure: boolean # 可选，默认false，是否预期测试失败
+    
+    # 输入配置
+    input:                  # 必填，对象类型
+      file: string          # 必填，输入文件路径（相对于test-cases目录）
+      format: string        # 必填，源格式代码（见下方支持的格式列表）
+      encoding: string      # 可选，默认UTF-8，文件编码
+    
+    # 输出配置
+    output:                 # 必填，对象类型
+      format: string        # 必填，目标格式代码
+      expected: string      # 条件必填，预期输出文件路径（expect_failure=false时必填）
+      encoding: string      # 可选，默认UTF-8，输出文件编码
+    
+    # 标签（用于分类和过滤）
+    tags:                   # 可选，数组类型
+      - string              # 标签名称，如: basic, boundary, performance, encoding
+
+# ====================================
+# 支持的格式代码列表
+# ====================================
+# 以下格式代码对应 ImeWlConverterCmd 工具支持的格式
+# 使用时必须与工具的 --format 参数一致
+
+supported_formats:
+  # 拼音输入法
+  - SougouPinyin          # 搜狗拼音（文本格式）
+  - SougouPinyinScel      # 搜狗拼音（Scel细胞词库）
+  - QQPinyin              # QQ拼音
+  - BaiduPinyin           # 百度拼音
+  - GooglePinyin          # 谷歌拼音
+  - Win10MsPinyin         # Windows 10 微软拼音
+  - MacOSPinyin           # macOS 自带拼音
+  - Rime                  # Rime输入法（中州韵/小狼毫/鼠须管）
+  
+  # 五笔输入法
+  - SougouWubi            # 搜狗五笔
+  - QQWubi                # QQ五笔
+  - Win10MsWubi           # Windows 10 微软五笔
+  
+  # 其他输入法
+  - Cangjie               # 仓颉输入法
+  - Zhuyin                # 注音输入法
+
+# ====================================
+# 标签规范
+# ====================================
+# 建议使用以下标准标签，便于测试分类和过滤
+
+standard_tags:
+  - basic                 # 基本功能测试
+  - boundary              # 边界情况测试
+  - performance           # 性能测试
+  - encoding              # 编码相关测试
+  - error-handling        # 错误处理测试
+  - pinyin                # 拼音类输入法
+  - wubi                  # 五笔类输入法
+  - cross-platform        # 跨平台兼容性测试
+  - large-file            # 大文件测试
+  - special-chars         # 特殊字符测试
+
+# ====================================
+# 完整示例
+# ====================================
+
+example:
+  suite_name: "搜狗拼音格式转换测试"
+  description: "验证搜狗拼音格式到其他主流格式的转换正确性"
+  maintainer: "studyzy"
+  created_at: "2026-01-25"
+  
+  test_cases:
+    # 示例1: 基本转换测试
+    - name: "搜狗拼音到QQ拼音 - 基本词条"
+      description: "测试包含5-10个常用词条的基本转换"
+      enabled: true
+      timeout: 10
+      input:
+        file: "basic.txt"
+        format: "SougouPinyin"
+      output:
+        format: "QQPinyin"
+        expected: "basic-to-qq.expected"
+      tags:
+        - basic
+        - pinyin
+    
+    # 示例2: 边界情况测试
+    - name: "搜狗拼音到QQ拼音 - 特殊字符和生僻字"
+      description: "测试特殊字符（@#$）、生僻字、超长词条的处理"
+      enabled: true
+      timeout: 15
+      input:
+        file: "boundary.txt"
+        format: "SougouPinyin"
+      output:
+        format: "QQPinyin"
+        expected: "boundary-to-qq.expected"
+      tags:
+        - boundary
+        - special-chars
+        - pinyin
+    
+    # 示例3: 编码测试
+    - name: "搜狗拼音到QQ拼音 - GBK编码"
+      description: "测试GBK编码的输入文件转换为UTF-8输出"
+      enabled: true
+      timeout: 10
+      input:
+        file: "gbk-input.txt"
+        format: "SougouPinyin"
+        encoding: "GBK"
+      output:
+        format: "QQPinyin"
+        expected: "gbk-to-utf8.expected"
+        encoding: "UTF-8"
+      tags:
+        - encoding
+        - pinyin
+    
+    # 示例4: 性能测试
+    - name: "搜狗拼音到QQ拼音 - 大型词库"
+      description: "测试包含1000+词条的大型词库转换性能"
+      enabled: true
+      timeout: 30
+      input:
+        file: "large-1000-entries.txt"
+        format: "SougouPinyin"
+      output:
+        format: "QQPinyin"
+        expected: "large-1000-to-qq.expected"
+      tags:
+        - performance
+        - large-file
+        - pinyin
+    
+    # 示例5: 错误处理测试
+    - name: "搜狗拼音 - 格式错误文件"
+      description: "测试格式不正确的输入文件是否能正确报错"
+      enabled: true
+      timeout: 5
+      expect_failure: true  # 标记此测试预期会失败
+      input:
+        file: "malformed.txt"
+        format: "SougouPinyin"
+      output:
+        format: "QQPinyin"
+      tags:
+        - error-handling
+        - pinyin
+    
+    # 示例6: 跨格式转换测试
+    - name: "搜狗拼音到Rime - 基本转换"
+      description: "测试搜狗拼音到Rime输入法的转换"
+      enabled: true
+      timeout: 12
+      input:
+        file: "basic.txt"
+        format: "SougouPinyin"
+      output:
+        format: "Rime"
+        expected: "basic-to-rime.expected"
+      tags:
+        - basic
+        - pinyin
+        - cross-format
+
+# ====================================
+# 验证规则
+# ====================================
+
+validation_rules:
+  required_fields:
+    suite_level:
+      - suite_name
+      - description
+      - test_cases
+    
+    test_case_level:
+      - name
+      - description
+      - input
+      - output
+    
+    input_level:
+      - file
+      - format
+    
+    output_level:
+      - format
+      - expected (当 expect_failure=false 时)
+  
+  field_constraints:
+    timeout:
+      type: integer
+      min: 1
+      max: 300
+      default: 30
+    
+    encoding:
+      type: string
+      allowed_values:
+        - UTF-8
+        - GBK
+        - GB2312
+        - BIG5
+      default: UTF-8
+    
+    enabled:
+      type: boolean
+      default: true
+    
+    expect_failure:
+      type: boolean
+      default: false
+  
+  file_checks:
+    - input.file 必须存在于 test-cases/{suite}/ 目录下
+    - output.expected 必须存在（除非 expect_failure=true）
+    - 文件编码必须与声明一致
+    - 输入文件不能为空
+
+# ====================================
+# 使用说明
+# ====================================
+
+usage_notes: |
+  1. 每个测试套件一个目录，目录名即套件名称
+  2. 目录下必须包含 test-config.yaml 和 README.md
+  3. 所有测试数据文件与 test-config.yaml 放在同一目录
+  4. 文件命名建议:
+     - 输入: {type}.txt (如 basic.txt, boundary.txt)
+     - 预期输出: {type}-to-{format}.expected
+  5. 使用相对路径，不要使用绝对路径
+  6. 所有文本文件默认UTF-8编码，如需其他编码需明确声明
+  7. 测试用例 name 必须唯一（在同一套件内）
+  8. 建议为每个测试用例添加有意义的 tags，便于分类执行

@@ -119,7 +119,14 @@ internal class Program
             "dotnet ImeWlConverterCmd.dll -i:qpyd ./a.qpyd -o:self ./zy.txt \"-f:213, nyyn\" -c:./code.txt"
         );
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("其中-c:./code.txt指定的编码文件格式为：“汉字<Tab键>编码”每行一个。");
+        Console.WriteLine("其中-c:./code.txt指定的编码文件格式为：\"汉字<Tab键>编码\"每行一个。");
+        Console.WriteLine("");
+        Console.WriteLine("对于形码输入法（如五笔、郑码、行列等），多字词需要配置编码生成规则:");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("-mc:\"src/ImeWlConverterCoreTest/Test/array30.txt\"");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("使用逗号分隔多个编码规则，每个规则格式为：code_eN=表达式");
+        Console.WriteLine("其中 p11 表示第1个字的第1码，p12 表示第1个字的第2码，n11 表示最后一个字的第1码");
         Console.ForegroundColor = defaultFColor;
         Console.BackgroundColor = defaultBColor;
         Console.WriteLine("");

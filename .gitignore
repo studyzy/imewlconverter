@@ -116,3 +116,5 @@ App_Data/*.ldf
 /src/IME WL Converter Win/Properties/PublishProfiles
 *.app
 .DS_Store
++.env*
++.vscode/

@@ -1,0 +1,19 @@
+[path]
+/Users/devinzeng/Code/studyzy/imewlconverter/.dockerignore
+[instructions]
+I will add Docker ignore patterns for build outputs, git metadata, environment files, and logs.
+[code_edit]
+.git/
+**/.git/
+Dockerfile*
+.dockerignore
+*.log*
+.env*
+coverage/
+node_modules/
+**/node_modules/
+**/bin/
+**/obj/
+**/TestResults/
+.vs/
+.idea/

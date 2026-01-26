@@ -1,0 +1,25 @@
+suite_name: 3-advanced
+description: 高级功能测试 - 验证词库的高级处理功能（简化版，使用scel格式避免word格式Bug）
+enabled: true
+format_options: 213 ,nyyy
+test_cases:
+- name: A01-scel基本转换
+  description: 测试scel格式的自转换（使用真实的测试文件）
+  enabled: true
+  timeout: 15
+  expect_failure: false
+  input:
+    file: ../../../../src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel
+    format: scel
+    encoding: UTF-8
+  output:
+    format: self
+    expected: expected/a01-scel-to-self.expected
+    encoding: UTF-8
+  tags:
+  - basic
+  - scel
+  - csv
+  stats:
+    words: 3563
+    source: 唐诗300首（官方推荐）

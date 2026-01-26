@@ -1,0 +1,25 @@
+# 集成测试临时文件和输出
+# 由集成测试框架自动生成
+
+# 测试输出目录（每次测试运行生成）
+test-output/
+
+# 测试报告（可以保留或忽略，根据需要调整）
+# reports/*.xml
+# reports/*.html
+
+# 临时文件
+*.tmp
+*.log
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*.core

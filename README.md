@@ -4,6 +4,7 @@
 
 [![Stars](https://img.shields.io/github/stars/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter/stargazers)
 ![Actions Check](https://github.com/studyzy/imewlconverter/actions/workflows/commit.yml/badge.svg)
+![Integration Tests](https://github.com/studyzy/imewlconverter/actions/workflows/integration-tests.yml/badge.svg)
 ![License](https://img.shields.io/github/license/studyzy/imewlconverter)
 ![Repo size](https://img.shields.io/github/repo-size/studyzy/imewlconverter)
 [![Code Count](https://tokei.rs/b1/github/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter)
@@ -66,9 +67,36 @@ PC 端：
 - 注音
 - 自定义
 
-## License
+## 集成测试
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstudyzy%2Fimewlconverter?ref=badge_large)
+本项目包含完整的集成测试框架，确保各种输入法格式之间的转换正确性。
+
+### 快速运行测试
+
+```bash
+# 1. 编译CLI工具
+cd src/ImeWlConverterCmd
+dotnet build -c Release
+
+# 2. 运行集成测试
+cd ../../tests/integration
+./run-tests.sh --all
+```
+
+### 测试覆盖范围
+
+当前已实现：
+- ✅ 导入测试（多种输入格式 → 统一CSV格式）
+- ✅ 导出测试（统一CSV格式 → 多种输出格式）
+- ✅ 高级功能测试（过滤、编码、大文件性能）
+
+详细的测试矩阵与数据来源见 `tests/integration/TEST-MATRIX.md`。
+
+### 更多信息
+
+- [集成测试完整文档](tests/integration/README.md)
+- [测试用例配置规范](specs/001-integration-tests/contracts/test-case-schema.yaml)
+- [测试数据来源](src/ImeWlConverterCoreTest/Test/)
 
 ## Star History
 

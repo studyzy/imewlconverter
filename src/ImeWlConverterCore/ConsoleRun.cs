@@ -195,8 +195,20 @@ public class ConsoleRun
             codingFile = command.Substring(3);
             pattern.MappingTablePath = codingFile;
             pattern.IsPinyinFormat = false;
+            pattern.CodeType = CodeType.UserDefine; // 设置编码类型为自定义编码
             beginImportFile = false;
             return CommandType.Coding;
+        }
+
+        if (command.StartsWith("-mc:")) //multi-word code format
+        {
+            var ruleString = command.Substring(4);
+            // 将逗号分隔的规则字符串转换为换行符分隔的格式
+            // 例如: "code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32"
+            // 转换为: "code_e2=p11+p12+p21+p22\ncode_e3=p11+p21+p31+p32"
+            pattern.MutiWordCodeFormat = ruleString.Replace(",", "\n");
+            beginImportFile = false;
+            return CommandType.MultiWordCode;
         }
 
         if (command.StartsWith("-ft:")) //filter
@@ -204,7 +216,7 @@ public class ConsoleRun
             var filterStrs = command.Substring(4);
             var lenRegex = new Regex(@"len:(\d+)-(\d+)");
             var rankRegex = new Regex(@"rank:(\d+)-(\d+)");
-            var rmRegex = new Regex(@"rm:(\w+)");
+            var rmRegex = new Regex(@"rm:(\\w+):([^\\s]+)");
             foreach (var filterStr in filterStrs.Split('|'))
                 if (lenRegex.IsMatch(filterStr))
                 {
@@ -225,7 +237,7 @@ public class ConsoleRun
                 else if (rmRegex.IsMatch(filterStr))
                 {
                     var match = rmRegex.Match(filterStr);
-                    var rmType = match.Groups[1].Value;
+                    var rmType = match.Groups[1].Value;  // 捕获"类型：拼音"部分（不带冒号）
                     ISingleFilter filter;
                     switch (rmType)
                     {
@@ -346,7 +358,7 @@ public class ConsoleRun
             format = command.Substring(3);
             beginImportFile = false;
             var sort = new List<int>();
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < format.Length - 3; i++)
             {
                 var c = format[i];
                 sort.Add(Convert.ToInt32(c));
@@ -460,6 +472,9 @@ public class ConsoleRun
         Format,
         Encoding,
         OS,
+        
+        //多字词编码规则
+        MultiWordCode,
         Other
     }
 

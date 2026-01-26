@@ -1,0 +1,229 @@
+# 导入测试配置 - 各种输入法格式 → 统一CSV格式
+#
+# 设计理念:
+# - 每个测试用例代表一条转换路径: 输入法格式A → CSV格式(词语,拼音,词频)
+# - 统一输出为CSV格式,便于验证和后续处理
+# - CSV格式: 词语,拼音 空格分隔,词频
+# - 覆盖主要输入法格式,每种格式选择代表性测试文件
+# - 直接引用 src/ImeWlConverterCoreTest/Test/ 中的真实测试文件
+
+suite_name: "1-imports"
+description: "导入测试 - 验证各种输入法词库格式能正确转换为CSV格式(词语,拼音,词频)"
+enabled: true
+
+# 全局格式设置 - CSV格式配置
+# 格式参数: 213 ,nyyy
+#   - 213: 顺序为 词语(2)、拼音(1)、词频(3)
+#   - 空格: 拼音之间的分隔符
+#   - 逗号: 字段之间的分隔符
+#   - n: 分隔符两边都不包含
+#   - yyy: 显示词语、拼音、词频
+format_options: "213 ,nyyy"
+
+# 测试用例列表
+test_cases:
+  # ============================================
+  # 二进制格式测试
+  # ============================================
+  
+  - name: "T01-搜狗scel到CSV"
+    description: "测试搜狗.scel二进制格式解析和转换为CSV"
+    enabled: true
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel"
+      format: "scel"
+      encoding: "UTF-8"
+    output:
+      format: "self"  # 自定义CSV格式
+      expected: "expected/t01-scel-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "binary"
+      - "sougou"
+      - "basic"
+    stats:
+      words: 3563
+      source: "搜狗官方推荐词库"
+
+  - name: "T03-QQ拼音qpyd到CSV"
+    description: "测试QQ拼音.qpyd分类词库格式解析"
+    enabled: true
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/成语.qpyd"
+      format: "qpyd"
+      encoding: "UTF-8"
+    output:
+      format: "self"
+      expected: "expected/t03-qpyd-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "binary"
+      - "qqpinyin"
+      - "phrases"
+    stats:
+      words: 1657
+      source: "QQ拼音分类词库"
+
+  - name: "T04-QQ拼音qcel到CSV"
+    description: "测试QQ拼音.qcel格式解析,验证英文字母处理"
+    enabled: true
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/星际战甲.qcel"
+      format: "qcel"
+      encoding: "UTF-8"
+    output:
+      format: "self"
+      expected: "expected/t04-qcel-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "binary"
+      - "qqpinyin"
+      - "english"
+    stats:
+      words: 4675
+      source: "QQ拼音词库,包含英文字母"
+
+  # ============================================
+  # 文本格式测试
+  # ============================================
+
+  - name: "T02-QQ拼音txt到CSV"
+    description: "测试QQ拼音文本格式,验证UTF-16LE编码处理"
+    enabled: true
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/QQPinyin.txt"
+      format: "qqpy"
+      encoding: "UTF-16LE"
+    output:
+      format: "self"
+      expected: "expected/t02-qqtxt-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "text"
+      - "qqpinyin"
+      - "encoding"
+    stats:
+      words: 4
+      source: "QQ拼音文本词库"
+
+  - name: "T06-Rime到CSV"
+    description: "测试Rime输入法格式解析"
+    enabled: true
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/luna_pinyin_export.txt"
+      format: "rime"
+      encoding: "UTF-8"
+    output:
+      format: "self"
+      expected: "expected/t06-rime-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "text"
+      - "rime"
+      - "basic"
+    stats:
+      words: 17
+      source: "Rime朗月拼音导出"
+
+  - name: "T09-纯汉字到CSV"
+    description: "测试无拼音词条的自动拼音生成"
+    enabled: true
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/纯汉字.txt"
+      format: "word"  # 纯汉字格式
+      encoding: "UTF-8"
+    output:
+      format: "self"
+      expected: "expected/t09-word-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "text"
+      - "no-pinyin"
+      - "auto-pinyin"
+    stats:
+      words: 59
+      source: "纯汉字词库"
+
+  # ============================================
+  # 已知问题测试 (enabled: false)
+  # ============================================
+
+  - name: "T05-百度bdict到CSV"
+    description: "测试百度.bdict格式解析"
+    enabled: false  # 已知问题:转换过程超时hang住,待修复
+    timeout: 30
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/travel.bdict"
+      format: "bdict"
+      encoding: "UTF-8"
+    output:
+      format: "self"
+      expected: "expected/t05-bdict-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "binary"
+      - "baidu"
+      - "known-issue"
+    stats:
+      words: 200
+      source: "百度词库"
+    note: "转换过程hang住,可能是bdict解析器的bug"
+
+  # ============================================
+  # 编码测试
+  # ============================================
+
+  - name: "T12-GBK编码到CSV"
+    description: "测试GBK编码文件的正确处理"
+    enabled: true  # 已启用
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/gbk-word.txt"
+      format: "word"
+      encoding: "GBK"
+    output:
+      format: "self"
+      expected: "expected/t12-gbk-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "text"
+      - "encoding"
+      - "gbk"
+    stats:
+      words: 1
+      source: "GBK编码纯汉字词库"
+
+  - name: "T13-UTF8无BOM到CSV"
+    description: "测试UTF-8无BOM文件的正确处理"
+    enabled: true  # 已启用
+    timeout: 15
+    expect_failure: false
+    input:
+      file: "../../../../src/ImeWlConverterCoreTest/Test/utf8nobom-word.txt"
+      format: "word"
+      encoding: "UTF-8"
+    output:
+      format: "self"
+      expected: "expected/t13-utf8nobom-to-csv.expected"
+      encoding: "UTF-8"
+    tags:
+      - "text"
+      - "encoding"
+      - "utf8-nobom"
+    stats:
+      words: 1
+      source: "UTF-8无BOM纯汉字词库"
