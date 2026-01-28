@@ -357,7 +357,7 @@ public class ConsoleRun
         {
             format = command.Substring(3);
             beginImportFile = false;
-            
+
             // 添加边界检查：确保format字符串至少有9个字符
             if (format.Length < 9)
             {
@@ -365,7 +365,7 @@ public class ConsoleRun
                 Console.WriteLine("-f参数至少需要9个字符，格式示例: '123, ,nyyy'");
                 return CommandType.Other;
             }
-            
+
             var sort = new List<int>();
             // 只读取前3个字符作为排序顺序
             for (var i = 0; i < 3; i++)
@@ -388,7 +388,7 @@ public class ConsoleRun
             if (t == "n")
                 pattern.CodeSplitType = BuildType.None;
             pattern.ContainCode = format[6].ToString().ToLower() == "y";
-            
+
             // 添加边界检查再访问format[8]
             if (format.Length > 8)
             {
@@ -398,7 +398,7 @@ public class ConsoleRun
             {
                 pattern.ContainRank = false; // 默认值
             }
-            
+
             return CommandType.Format;
         }
 

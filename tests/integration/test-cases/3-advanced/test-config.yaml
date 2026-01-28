@@ -1,25 +1,73 @@
 suite_name: 3-advanced
-description: 高级功能测试 - 验证词库的高级处理功能（简化版，使用scel格式避免word格式Bug）
+description: 高级功能测试 - 验证词库的高级处理功能（过滤、编码转换、大文件处理等）
 enabled: true
 format_options: 213 ,nyyy
 test_cases:
-- name: A01-scel基本转换
-  description: 测试scel格式的自转换（使用真实的测试文件）
+- name: A01-频率过滤
+  description: 测试词频过滤功能，保留词频>=8的词条
   enabled: true
   timeout: 15
   expect_failure: false
   input:
-    file: ../../../../src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel
-    format: scel
+    file: source/mock-data.csv
+    format: self
     encoding: UTF-8
   output:
     format: self
-    expected: expected/a01-scel-to-self.expected
+    expected: expected/a01-freq-filter.expected
     encoding: UTF-8
   tags:
-  - basic
-  - scel
-  - csv
+  - filter
+  - frequency
+  - advanced
   stats:
-    words: 3563
-    source: 唐诗300首（官方推荐）
+    words: 21
+    source: mock-data.csv
+  extra_args:
+  - '"-ft:rank:8-9999"'
+
+- name: A02-短词过滤
+  description: 测试短词过滤功能，过滤掉过短的词条（单字词）
+  enabled: true
+  timeout: 15
+  expect_failure: false
+  input:
+    file: source/mock-data.csv
+    format: self
+    encoding: UTF-8
+  output:
+    format: self
+    expected: expected/a02-length-filter-short.expected
+    encoding: UTF-8
+  tags:
+  - filter
+  - length
+  - advanced
+  stats:
+    words: 32
+    source: mock-data.csv
+  extra_args:
+  - '"-ft:len:2-9999"'
+
+- name: A03-长词过滤
+  description: 测试长词过滤功能，过滤掉过长的词条（保留1-4字词）
+  enabled: true
+  timeout: 15
+  expect_failure: false
+  input:
+    file: source/mock-data.csv
+    format: self
+    encoding: UTF-8
+  output:
+    format: self
+    expected: expected/a03-length-filter-long.expected
+    encoding: UTF-8
+  tags:
+  - filter
+  - length
+  - advanced
+  stats:
+    words: 32
+    source: mock-data.csv
+  extra_args:
+  - '"-ft:len:1-4"'
