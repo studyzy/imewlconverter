@@ -260,6 +260,18 @@ execute_test_case() {
         IFS='|' read -ra extra_args_array <<< "${converter_extra_args}"
     fi
     
+    # 构建命令字符串用于显示（不通过 run_converter，避免被捕获）
+    local cmd_display=""
+    cmd_display="dotnet ${CONVERTER_CLI} -i:${input_format} ${full_input_file}"
+    if [[ ${#extra_args_array[@]} -gt 0 ]]; then
+        cmd_display+=" ${extra_args_array[*]}"
+    fi
+    cmd_display+=" -o:${output_format} ${output_file}"
+    if [[ -n "${format_opts}" ]]; then
+        cmd_display+=" -f:${format_opts}"
+    fi
+    echo "[DEBUG] Executing: ${cmd_display}" >&2
+    
     # 根据是否有额外参数选择不同的调用方式
     if [[ ${#extra_args_array[@]} -gt 0 ]]; then
         # 有额外参数，传递它们

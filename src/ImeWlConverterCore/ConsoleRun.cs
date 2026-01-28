@@ -357,11 +357,21 @@ public class ConsoleRun
         {
             format = command.Substring(3);
             beginImportFile = false;
+            
+            // 添加边界检查：确保format字符串至少有9个字符
+            if (format.Length < 9)
+            {
+                Console.WriteLine($"错误: -f参数格式不正确。当前格式: '{format}'");
+                Console.WriteLine("-f参数至少需要9个字符，格式示例: '123, ,nyyy'");
+                return CommandType.Other;
+            }
+            
             var sort = new List<int>();
-            for (var i = 0; i < format.Length - 3; i++)
+            // 只读取前3个字符作为排序顺序
+            for (var i = 0; i < 3; i++)
             {
                 var c = format[i];
-                sort.Add(Convert.ToInt32(c));
+                sort.Add(c - '0'); // 将字符'1','2','3'转换为数字1,2,3
             }
 
             pattern.Sort = sort;
@@ -378,7 +388,17 @@ public class ConsoleRun
             if (t == "n")
                 pattern.CodeSplitType = BuildType.None;
             pattern.ContainCode = format[6].ToString().ToLower() == "y";
-            pattern.ContainRank = format[8].ToString().ToLower() == "y";
+            
+            // 添加边界检查再访问format[8]
+            if (format.Length > 8)
+            {
+                pattern.ContainRank = format[8].ToString().ToLower() == "y";
+            }
+            else
+            {
+                pattern.ContainRank = false; // 默认值
+            }
+            
             return CommandType.Format;
         }
 
@@ -472,7 +492,7 @@ public class ConsoleRun
         Format,
         Encoding,
         OS,
-        
+
         //多字词编码规则
         MultiWordCode,
         Other

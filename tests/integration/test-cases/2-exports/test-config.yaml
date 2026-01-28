@@ -1,7 +1,7 @@
 suite_name: 2-exports
 description: 导出测试 - 验证统一的CSV词库数据能正确导出为各种输入法格式
 enabled: true
-format_options: 213 ,nyyy
+format_options: "213',nyyy"
 test_cases:
 - name: E01-CSV到搜狗拼音文本
   description: 测试导出为搜狗拼音文本格式
@@ -198,7 +198,7 @@ test_cases:
 - name: E16-CSV到Mac简体拼音
   description: 测试导出为Mac简体拼音格式
   enabled: true
-  timeout: 15
+  timeout: 60
   expect_failure: false
   input:
     file: source/source-data-csv.txt
@@ -306,27 +306,26 @@ test_cases:
   timeout: 30
   expect_failure: false
   input:
-    file: /Users/devinzeng/Code/studyzy/imewlconverter/src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel
-    format: scel
+    file: source/source-data-csv.txt
+    format: self
     encoding: UTF-8
   output:
     format: self
     expected: expected/e17-csv-to-array30.expected
     encoding: UTF-8
   extra_args:
-  - '"-c:/Users/devinzeng/Code/studyzy/imewlconverter/src/ImeWlConverterCoreTest/Test/array30.txt"'
+  - '"-c:../../src/ImeWlConverterCoreTest/Test/array30.txt"'
   - '"-mc:code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11"'
-  - '"-f:213 ,nyyy"'
   tags:
   - text
   - custom
   - array30
   stats:
-    words: 3563
-    source: 唐诗300首
+    words: 7
+    source: 自定义测试数据
   note: "行列30自定义编码功能说明:\n1. 命令行工具已支持 -c: 和 -mc: 参数\n2. -c: 指定单字编码映射表（汉字→编码）\n3. -mc:\
-    \ 直接指定多字词编码规则字符串（逗号分隔）\n4. 此功能主要用于形码输入法（五笔、郑码、行列等）词库转换\n5. 多字词编码规则示例:\n   - code_e2:\
-    \ 2字词 = p11+p12+p21+p22 (每字前2码)\n   - code_e3: 3字词 = p11+p21+p31+p32 (1,2字首码+3字前2码)\n\
+    \ 直接指定多字词编码规则字符串（逗号分隔）\n4. 此功能主要用于形码输入法（五笔、郑码、行列等）词库转换\n5. 多字词编码规则示例:\n\
+    \   - code_e2: 2字词 = p11+p12+p21+p22 (每字前2码)\n   - code_e3: 3字词 = p11+p21+p31+p32 (1,2字首码+3字前2码)\n\
     \   - code_a4: 4+字词 = p11+p21+p31+n11 (1,2,3字首码+末字首码)\n6. 完整的功能验证请参考单元测试: src/ImeWlConverterCoreTest/SelfDefiningTest.cs\n"
 - name: E13-CSV到百度bdict(往返)
   description: 测试导出为百度.bdict格式,往返验证

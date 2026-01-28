@@ -275,44 +275,44 @@ extract_test_cases_simple() {
         next
     }
 
-    in_test_case && /^    file:/ {
+    in_test_case && /^    [ ]*file:/ {
         input_file = $0
-        sub(/^    file:[[:space:]]*/, "", input_file)
+        sub(/^    [ ]*file:[[:space:]]*/, "", input_file)
         gsub(/^["'\''"]/, "", input_file)
         gsub(/["'\''"]$/, "", input_file)
         # 保留原始相对路径，在后面用shell处理
         next
     }
 
-    in_test_case && /^    format:/ && input_format == "" {
+    in_test_case && /^    [ ]*format:/ && input_format == "" {
         input_format = $0
-        sub(/^    format:[[:space:]]*/, "", input_format)
+        sub(/^    [ ]*format:[[:space:]]*/, "", input_format)
         # 移除行尾注释（# 开头的部分）
         sub(/[[:space:]]*#.*$/, "", input_format)
         # 移除尾部空格
         sub(/[[:space:]]*$/, "", input_format)
         # 移除引号
-        gsub(/^["'\'']+/, "", input_format)
-        gsub(/["'\'']+$/, "", input_format)
+        gsub(/^["'\''\"]+/, "", input_format)
+        gsub(/["'\''\"]+$/, "", input_format)
         next
     }
 
-    in_test_case && /^    format:/ && input_format != "" {
+    in_test_case && /^    [ ]*format:/ && input_format != "" {
         output_format = $0
-        sub(/^    format:[[:space:]]*/, "", output_format)
+        sub(/^    [ ]*format:[[:space:]]*/, "", output_format)
         # 移除行尾注释（# 开头的部分）
         sub(/[[:space:]]*#.*$/, "", output_format)
         # 移除尾部空格
         sub(/[[:space:]]*$/, "", output_format)
         # 移除引号
-        gsub(/^["'\'']+/, "", output_format)
-        gsub(/["'\'']+$/, "", output_format)
+        gsub(/^["'\''\"]+/, "", output_format)
+        gsub(/["'\''\"]+$/, "", output_format)
         next
     }
 
-    in_test_case && /^    expected:/ {
+    in_test_case && /^    [ ]*expected:/ {
         expected_file = $0
-        sub(/^    expected:[[:space:]]*/, "", expected_file)
+        sub(/^    [ ]*expected:[[:space:]]*/, "", expected_file)
         gsub(/^["'\''"]/, "", expected_file)
         gsub(/["'\''"]$/, "", expected_file)
         # 保留原始相对路径
@@ -322,9 +322,9 @@ extract_test_cases_simple() {
     in_test_case && /^  tags:/ {
         # 标签在下一行
         getline
-        while ($0 ~ /^    -/) {
+        while ($0 ~ /^[ ]+-/) {
             tag = $0
-            sub(/^    - /, "", tag)
+            sub(/^[ ]+- /, "", tag)
             gsub(/^["'\''"]/, "", tag)
             gsub(/["'\''"]$/, "", tag)
             if (tags == "") {
@@ -345,9 +345,16 @@ extract_test_cases_simple() {
         arg = $0
         sub(/^    - /, "", arg)
         sub(/^  - /, "", arg)
-        # 注意：不要移除引号，因为参数中的空格需要保留
-        # gsub(/^["'\''"]/, "", arg)
-        # gsub(/["'\''"]$/, "", arg)
+        
+        # 去除首尾的引号（支持单引号或双引号）
+        if (arg ~ /^".*"$/ || arg ~ /^'\''.*'\''$/) {
+            arg = substr(arg, 2, length(arg)-2)
+        }
+        # 再次检查（处理双重引号的情况，如 '"..."'）
+        if (arg ~ /^".*"$/ || arg ~ /^'\''.*'\''$/) {
+            arg = substr(arg, 2, length(arg)-2)
+        }
+        
         if (extra_args == "") {
             extra_args = arg
         } else {

@@ -16,7 +16,8 @@ TEST_HELPERS_LOADED=true
 # ============================================================================
 
 # CLI工具路径（相对于仓库根目录）
-readonly CONVERTER_CLI="src/ImeWlConverterCmd/bin/Release/net10.0/ImeWlConverterCmd.dll"
+BUILD_CONFIG="${DOTNET_CONFIG:-Debug}"
+readonly CONVERTER_CLI="src/ImeWlConverterCmd/bin/${BUILD_CONFIG}/net10.0/ImeWlConverterCmd.dll"
 
 # 超时时间（秒）
 readonly DEFAULT_TIMEOUT=30
@@ -125,11 +126,6 @@ run_converter() {
     if [[ -n "${format_options}" ]]; then
         cmd_args+=("-f:${format_options}")
     fi
-    
-    # 调试输出：显示即将执行的命令（保存到临时文件）
-    echo "[DEBUG] Executing: dotnet ${cli_path} ${cmd_args[*]}" > /tmp/converter-debug.txt
-    echo "[DEBUG] Command array: ${cmd_args[@]}" >> /tmp/converter-debug.txt
-    echo "[DEBUG] Command count: ${#cmd_args[@]}" >> /tmp/converter-debug.txt
     
     # 调用转换器（使用timeout命令限制执行时间）
     # CLI工具格式：-i:格式 输入文件 [额外参数] -o:格式 输出文件 [-f:格式选项]

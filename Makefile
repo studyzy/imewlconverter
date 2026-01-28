@@ -84,7 +84,7 @@ EMOJI_WARNING := ⚠️
 
 .PHONY: all help clean clean-all \
         restore build build-all build-cmd build-mac build-release \
-        test test-verbose test-coverage \
+        test test-verbose test-coverage integration-test \
         run-cmd run-mac \
         publish publish-mac publish-mac-arm64 publish-mac-x64 \
         app-mac app-mac-arm64 app-mac-x64 \
@@ -120,6 +120,8 @@ help:
 	@echo "  $(COLOR_GREEN)make test$(COLOR_RESET)                 - Run all unit tests"
 	@echo "  $(COLOR_GREEN)make test-verbose$(COLOR_RESET)         - Run tests with detailed output"
 	@echo "  $(COLOR_GREEN)make test-coverage$(COLOR_RESET)        - Run tests with coverage report"
+	@echo "  $(COLOR_GREEN)make integration-test$(COLOR_RESET)     - Run integration tests"
+	@echo "  $(COLOR_GREEN)make integration-test-debug$(COLOR_RESET) - Run integration tests with debug output"
 	@echo ""
 	@echo "$(COLOR_BOLD)Run Commands:$(COLOR_RESET)"
 	@echo "  $(COLOR_GREEN)make run-cmd$(COLOR_RESET)              - Run command-line version"
@@ -237,6 +239,42 @@ test-coverage: check-deps
 	@echo "$(COLOR_BLUE)$(EMOJI_TEST) Running tests with coverage...$(COLOR_RESET)"
 	@$(DOTNET) test $(TEST_OPTS) --collect:"XPlat Code Coverage" $(TEST_PROJECT)
 	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) Coverage report generated$(COLOR_RESET)"
+
+## integration-test: Run integration tests
+integration-test: check-deps build-cmd
+	@echo "$(COLOR_BLUE)$(EMOJI_TEST) Running integration tests...$(COLOR_RESET)"
+	@cd tests/integration && bash run-tests.sh --all --xml
+	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) Integration tests completed$(COLOR_RESET)"
+
+## regenerate-exports-expected: Regenerate 2-exports test expected output files
+regenerate-exports-expected: build-cmd
+	@echo "$(COLOR_BLUE)$(EMOJI_BUILD) Regenerating 2-exports expected files...$(COLOR_RESET)"
+	@ORIG_DIR=$$(pwd) && \
+	cd tests/integration/test-cases/2-exports && \
+	echo "Generating E01 (sgpy)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:sgpy expected/e01-csv-to-sgpy.expected >/dev/null 2>&1 && \
+	echo "Generating E02 (qqpy)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:qqpy expected/e02-csv-to-qqpy.expected >/dev/null 2>&1 && \
+	echo "Generating E03 (rime)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:rime expected/e03-csv-to-rime.expected >/dev/null 2>&1 && \
+	echo "Generating E06 (ggpy)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:ggpy expected/e06-csv-to-ggpy.expected >/dev/null 2>&1 && \
+	echo "Generating E07 (bdpy)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:bdpy expected/e07-csv-to-bdpy.expected >/dev/null 2>&1 && \
+	echo "Generating E08 (pyjj)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:pyjj expected/e08-csv-to-pyjj.expected >/dev/null 2>&1 && \
+	echo "Generating E09 (zgpy)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:zgpy expected/e09-csv-to-zgpy.expected >/dev/null 2>&1 && \
+	echo "Generating E14 (libpy)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:libpy expected/e14-csv-to-libpy.expected >/dev/null 2>&1 && \
+	echo "Generating E15 (fit)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:fit expected/e15-csv-to-fit.expected >/dev/null 2>&1 && \
+	echo "Generating E16 (plist)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:plist expected/e16-csv-to-plist.expected >/dev/null 2>&1 && \
+	echo "Generating E17 (array30)..." && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:scel $$ORIG_DIR/src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel "-c:$$ORIG_DIR/src/ImeWlConverterCoreTest/Test/array30.txt" "-mc:code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11" "-f:213 ,nyyy" -o:self expected/e17-csv-to-array30.expected >/dev/null 2>&1 && \
+	echo "$(COLOR_GREEN)$(EMOJI_CHECK) All expected files regenerated$(COLOR_RESET)"
+
 
 # ============================================================================
 # Run Targets
