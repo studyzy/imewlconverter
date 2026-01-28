@@ -112,67 +112,11 @@ jobs:
       - name: Run tests
         run: make test DOTNET_CONFIG=Release
 
-  integration-tests:
-    name: Integration Tests (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
-    needs: build-and-test
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Restore dependencies
-        run: make restore
-
-      - name: Build CLI tool
-        run: dotnet build src/ImeWlConverterCmd/ImeWlConverterCmd.csproj --configuration Release
-
-      - name: Run integration tests
-        run: |
-          cd tests/integration
-          set +e
-          bash run-tests.sh --all --xml
-          status=$?
-          if [ $status -ne 0 ]; then
-            echo "测试失败，JUnit报告内容如下："
-            cat reports/test-results.xml || true
-          fi
-          exit $status
-
-      - name: Upload test reports
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: integration-test-reports-${{ matrix.os }}
-          path: tests/integration/reports/test-results.xml
-          retention-days: 30
-
   # Windows 平台构建 (CLI + Windows GUI)
   build-windows:
     name: Build Windows (${{ matrix.arch }})
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     needs: build-and-test
     
     strategy:
@@ -235,7 +179,7 @@ jobs:
   build-linux:
     name: Build Linux (${{ matrix.arch }})
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     needs: build-and-test
     
     strategy:
@@ -275,8 +219,19 @@ jobs:
             -p:PublishSingleFile=true \
             --self-contained false \
             -r ${{ matrix.runtime }} \
-            --output ./publish/${{ matrix.runtime }} \
+            --output ./publish/${{ matrix.runtime }}/cli \
             ./src/ImeWlConverterCmd
+
+      - name: Run Linux integration tests
+        run: make integration-test
+
+      - name: Upload Linux test reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: linux-integration-test-reports-${{ matrix.arch }}
+          path: tests/integration/reports/test-results.xml
+          retention-days: 30
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
@@ -289,7 +244,7 @@ jobs:
   build-macos:
     name: Build macOS (${{ matrix.arch }})
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     needs: build-and-test
     
     strategy:
@@ -340,6 +295,17 @@ jobs:
             --runtime ${{ matrix.runtime }} \
             --output ./publish/${{ matrix.runtime }}/gui
 
+      - name: Run macOS integration tests
+        run: make integration-test
+
+      - name: Upload macOS test reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: macos-integration-test-reports-${{ matrix.arch }}
+          path: tests/integration/reports/test-results.xml
+          retention-days: 30
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
@@ -354,7 +320,6 @@ jobs:
     needs:
       - lint
       - build-and-test
-      - integration-tests
       - build-windows
       - build-linux
       - build-macos
@@ -365,7 +330,6 @@ jobs:
         run: |
           if [[ "${{ needs.lint.result }}" != "success" ]] || \
              [[ "${{ needs.build-and-test.result }}" != "success" ]] || \
-             [[ "${{ needs.integration-tests.result }}" != "success" ]] || \
              [[ "${{ needs.build-windows.result }}" != "success" ]] || \
              [[ "${{ needs.build-linux.result }}" != "success" ]] || \
              [[ "${{ needs.build-macos.result }}" != "success" ]]; then
