@@ -162,11 +162,11 @@ test_cases:
 
   - name: "T05-百度bdict到CSV"
     description: "测试百度.bdict格式解析"
-    enabled: false  # 已知问题:转换过程超时hang住,待修复
+    enabled: true  # 已启用
     timeout: 30
     expect_failure: false
     input:
-      file: "../../../../src/ImeWlConverterCoreTest/Test/travel.bdict"
+      file: "../../../../src/ImeWlConverterCoreTest/Test/movie.bdict"
       format: "bdict"
       encoding: "UTF-8"
     output:

@@ -298,10 +298,11 @@ execute_test_case() {
     # 检查转换是否成功
     if [[ ${convert_exitcode} -ne 0 ]]; then
         print_test_fail "${test_name}"
-        if [[ "${VERBOSE}" == "true" ]]; then
-            print_error "转换失败，退出码: ${convert_exitcode}"
-            echo "${convert_output}"
-        fi
+        # 总是显示详细的错误信息，无论是否在verbose模式
+        print_error "转换失败，退出码: ${convert_exitcode}"
+        echo "执行的命令: ${cmd_display}"
+        echo "转换器输出:"
+        echo "${convert_output}"
         add_test_result "${test_name}" "fail" "${duration}" "转换失败: ${convert_output}"
         return 1
     fi
@@ -319,8 +320,26 @@ execute_test_case() {
         return 0
     fi
     
-    # 比较输出文件
-    if compare_files "${full_expected_file}" "${output_file}"; then
+    # 比较输出文件（特殊处理微软拼音格式）
+    local compare_result=0
+    
+    # 如果是微软拼音格式，使用特殊比较函数
+    if [[ "${output_format}" == "mspy" ]]; then
+        if compare_mspy_files "${full_expected_file}" "${output_file}"; then
+            compare_result=0
+        else
+            compare_result=1
+        fi
+    else
+        # 其他格式使用标准比较
+        if compare_files "${full_expected_file}" "${output_file}"; then
+            compare_result=0
+        else
+            compare_result=1
+        fi
+    fi
+    
+    if [[ ${compare_result} -eq 0 ]]; then
         print_test_pass "${test_name}"
         add_test_result "${test_name}" "pass" "${duration}" ""
         

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
   <testsuite name="词库转换集成测试报告" 
-             tests="27" 
-             failures="1" 
+             tests="22" 
+             failures="0" 
              errors="0" 
-             skipped="6" 
-             time="7.86" 
-             timestamp="2026-01-28T07:32:17">
+             skipped="0" 
+             time="8.98" 
+             timestamp="2026-01-28T08:09:30">
     <testcase name="A01-scel基本转换" 
               classname="IntegrationTest" 
-              time="0.40">
+              time="0.41">
     </testcase>
     <testcase name="T01-搜狗scel到CSV" 
               classname="IntegrationTest" 
@@ -37,14 +37,11 @@
     </testcase>
     <testcase name="T05-百度bdict到CSV" 
               classname="IntegrationTest" 
-              time="0">
-      <failure type="AssertionError" message="预期输出文件不存在">
-        预期输出文件不存在
-      </failure>
+              time="0.60">
     </testcase>
     <testcase name="T12-GBK编码到CSV" 
               classname="IntegrationTest" 
-              time="0.40">
+              time="0.41">
     </testcase>
     <testcase name="T13-UTF8无BOM到CSV" 
               classname="IntegrationTest" 
@@ -52,7 +49,7 @@
     </testcase>
     <testcase name="E01-CSV到搜狗拼音文本" 
               classname="IntegrationTest" 
-              time="0.39">
+              time="0.40">
     </testcase>
     <testcase name="E02-CSV到QQ拼音文本" 
               classname="IntegrationTest" 
@@ -64,65 +61,39 @@
     </testcase>
     <testcase name="E04-CSV到微软拼音" 
               classname="IntegrationTest" 
-              time="0">
-      <skipped/>
+              time="0.41">
     </testcase>
     <testcase name="E06-CSV到谷歌拼音" 
               classname="IntegrationTest" 
-              time="0.42">
+              time="0.40">
     </testcase>
     <testcase name="E07-CSV到百度拼音" 
               classname="IntegrationTest" 
-              time="0.38">
+              time="0.40">
     </testcase>
     <testcase name="E08-CSV到拼音加加" 
               classname="IntegrationTest" 
-              time="0.38">
+              time="0.40">
     </testcase>
     <testcase name="E09-CSV到紫光拼音" 
               classname="IntegrationTest" 
-              time="0.38">
+              time="0.39">
     </testcase>
     <testcase name="E14-CSV到libpinyin" 
               classname="IntegrationTest" 
-              time="0.38">
+              time="0.39">
     </testcase>
     <testcase name="E15-CSV到FIT输入法" 
               classname="IntegrationTest" 
-              time="0.38">
+              time="0.39">
     </testcase>
     <testcase name="E16-CSV到Mac简体拼音" 
               classname="IntegrationTest" 
-              time="0.38">
-    </testcase>
-    <testcase name="E10-CSV到搜狗scel(往返)" 
-              classname="IntegrationTest" 
-              time="0">
-      <skipped/>
-    </testcase>
-    <testcase name="E11-CSV到QQ拼音qpyd(往返)" 
-              classname="IntegrationTest" 
-              time="0">
-      <skipped/>
-    </testcase>
-    <testcase name="E12-CSV到QQ拼音qcel(往返)" 
-              classname="IntegrationTest" 
-              time="0">
-      <skipped/>
-    </testcase>
-    <testcase name="E05-CSV到小狼毫" 
-              classname="IntegrationTest" 
-              time="0">
-      <skipped/>
+              time="0.40">
     </testcase>
     <testcase name="E17-CSV到行列30自定义编码" 
               classname="IntegrationTest" 
-              time="0.40">
-    </testcase>
-    <testcase name="E13-CSV到百度bdict(往返)" 
-              classname="IntegrationTest" 
-              time="0">
-      <skipped/>
+              time="0.41">
     </testcase>
   </testsuite>
 </testsuites>

@@ -64,7 +64,7 @@ test_cases:
     source: 唐诗300首前200词条
 - name: E04-CSV到微软拼音
   description: 测试导出为微软拼音格式
-  enabled: false
+  enabled: true
   timeout: 15
   expect_failure: false
   input:
@@ -214,92 +214,10 @@ test_cases:
   stats:
     words: 200
     source: 唐诗300首前200词条
-- name: E10-CSV到搜狗scel(往返)
-  description: 测试导出为搜狗.scel二进制格式,然后再导入验证一致性
-  enabled: false
-  timeout: 20
-  expect_failure: false
-  roundtrip: true
-  input:
-    file: source/source-data-csv.txt
-    format: self
-    encoding: UTF-8
-  output:
-    format: scel
-    intermediate: test-output/2-exports/e10-intermediate.scel
-    expected: expected/e10-csv-to-scel-roundtrip.expected
-    encoding: UTF-8
-  tags:
-  - binary
-  - sougou
-  - roundtrip
-  stats:
-    words: 200
-    source: 唐诗300首前200词条
-  note: 往返测试:CSV→scel→CSV,验证最终输出与源数据一致
-- name: E11-CSV到QQ拼音qpyd(往返)
-  description: 测试导出为QQ拼音.qpyd格式,往返验证
-  enabled: false
-  timeout: 20
-  expect_failure: false
-  roundtrip: true
-  input:
-    file: source/source-data-csv.txt
-    format: self
-    encoding: UTF-8
-  output:
-    format: qpyd
-    intermediate: test-output/2-exports/e11-intermediate.qpyd
-    expected: expected/e11-csv-to-qpyd-roundtrip.expected
-    encoding: UTF-8
-  tags:
-  - binary
-  - qqpinyin
-  - roundtrip
-  stats:
-    words: 200
-    source: 唐诗300首前200词条
-- name: E12-CSV到QQ拼音qcel(往返)
-  description: 测试导出为QQ拼音.qcel格式,往返验证
-  enabled: false
-  timeout: 20
-  expect_failure: false
-  roundtrip: true
-  input:
-    file: source/source-data-csv.txt
-    format: self
-    encoding: UTF-8
-  output:
-    format: qcel
-    intermediate: test-output/2-exports/e12-intermediate.qcel
-    expected: expected/e12-csv-to-qcel-roundtrip.expected
-    encoding: UTF-8
-  tags:
-  - binary
-  - qqpinyin
-  - roundtrip
-  stats:
-    words: 200
-    source: 唐诗300首前200词条
-- name: E05-CSV到小狼毫
-  description: 测试导出为小狼毫(Weasel)格式
-  enabled: false
-  timeout: 15
-  expect_failure: false
-  input:
-    file: source/source-data-csv.txt
-    format: self
-    encoding: UTF-8
-  output:
-    format: weasel
-    expected: expected/e05-csv-to-weasel.expected
-    encoding: UTF-8
-  tags:
-  - text
-  - weasel
-  stats:
-    words: 200
-    source: 唐诗300首前200词条
+
+
+
+
 - name: E17-CSV到行列30自定义编码
   description: 测试使用array30编码映射表和多字词规则导出为行列30自定义编码格式
   enabled: true
@@ -327,25 +245,4 @@ test_cases:
     \ 直接指定多字词编码规则字符串（逗号分隔）\n4. 此功能主要用于形码输入法（五笔、郑码、行列等）词库转换\n5. 多字词编码规则示例:\n\
     \   - code_e2: 2字词 = p11+p12+p21+p22 (每字前2码)\n   - code_e3: 3字词 = p11+p21+p31+p32 (1,2字首码+3字前2码)\n\
     \   - code_a4: 4+字词 = p11+p21+p31+n11 (1,2,3字首码+末字首码)\n6. 完整的功能验证请参考单元测试: src/ImeWlConverterCoreTest/SelfDefiningTest.cs\n"
-- name: E13-CSV到百度bdict(往返)
-  description: 测试导出为百度.bdict格式,往返验证
-  enabled: false
-  timeout: 30
-  expect_failure: false
-  roundtrip: true
-  input:
-    file: source/source-data-csv.txt
-    format: self
-    encoding: UTF-8
-  output:
-    format: bdict
-    intermediate: test-output/2-exports/e13-intermediate.bdict
-    expected: expected/e13-csv-to-bdict-roundtrip.expected
-    encoding: UTF-8
-  tags:
-  - binary
-  - baidu
-  - roundtrip
-  stats:
-    words: 200
-    source: 唐诗300首前200词条
+

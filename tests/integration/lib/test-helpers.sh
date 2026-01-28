@@ -191,6 +191,61 @@ compare_files() {
     fi
 }
 
+# 函数：比较微软拼音格式文件（处理动态GUID）
+# 参数：
+#   $1 - 预期文件路径
+#   $2 - 实际文件路径
+# 返回：0=相同, 1=不同
+compare_mspy_files() {
+    local expected_file="$1"
+    local actual_file="$2"
+    
+    # 检查文件是否存在
+    if [[ ! -f "${expected_file}" ]]; then
+        echo "错误: 预期文件不存在: ${expected_file}" >&2
+        return 1
+    fi
+    
+    if [[ ! -f "${actual_file}" ]]; then
+        echo "错误: 实际文件不存在: ${actual_file}" >&2
+        return 1
+    fi
+    
+    # 创建临时文件，将GUID替换为固定值进行比较
+    local temp_expected
+    temp_expected=$(mktemp)
+    local temp_actual
+    temp_actual=$(mktemp)
+    
+    # 处理预期文件：将GUID替换为固定值
+    sed 's/<ns1:DictionaryGUID>{.*}<\/ns1:DictionaryGUID>/<ns1:DictionaryGUID>{FIXED-GUID}<\/ns1:DictionaryGUID>/g' "${expected_file}" > "${temp_expected}"
+    
+    # 处理实际文件：将GUID替换为固定值
+    sed 's/<ns1:DictionaryGUID>{.*}<\/ns1:DictionaryGUID>/<ns1:DictionaryGUID>{FIXED-GUID}<\/ns1:DictionaryGUID>/g' "${actual_file}" > "${temp_actual}"
+    
+    # 使用diff比较处理后的文件
+    local -a diff_options=(-u -w \
+        --label="预期输出" "${temp_expected}" \
+        --label="实际输出" "${temp_actual}")
+
+    if [[ "${DIFF_STRIP_TRAILING_CR_SUPPORTED}" == "true" ]]; then
+        diff_options+=(--strip-trailing-cr)
+    fi
+
+    if diff "${diff_options[@]}" >/dev/null 2>&1; then
+        # 清理临时文件
+        rm -f "${temp_expected}" "${temp_actual}"
+        return 0
+    else
+        # 文件不同，输出差异
+        echo "文件差异详情（GUID已标准化）："
+        diff "${diff_options[@]}" || true
+        # 清理临时文件
+        rm -f "${temp_expected}" "${temp_actual}"
+        return 1
+    fi
+}
+
 # 函数：生成文件的详细比较报告
 # 参数：
 #   $1 - 预期文件路径

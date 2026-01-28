@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:Dictionary xmlns:ns1="http://www.microsoft.com/ime/dctx"><ns1:DictionaryHeader>
+    <ns1:DictionaryGUID>{*}</ns1:DictionaryGUID>
+    <ns1:DictionaryLanguage>zh-cn</ns1:DictionaryLanguage>
+    <ns1:FormatVersion>0</ns1:FormatVersion>
+    <ns1:DictionaryVersion>1</ns1:DictionaryVersion>
+    <ns1:DictionaryInfo Language="zh-cn">
+      <ns1:ShortName>深蓝词库</ns1:ShortName>
+      <ns1:LongName>深蓝词库转换而成</ns1:LongName>
+      <ns1:Description>Dictionary for IME</ns1:Description>
+      <ns1:Copyright>深蓝词库转换</ns1:Copyright>
+      <ns1:CommentHeader1>CommentTitle1</ns1:CommentHeader1>
+      <ns1:CommentHeader2>CommentTitle1</ns1:CommentHeader2>
+      <ns1:CommentHeader3>CommentTitle1</ns1:CommentHeader3>
+    </ns1:DictionaryInfo>
+    <ns1:DictionaryInfo Language="en-us">
+      <ns1:ShortName>Shenlan</ns1:ShortName>
+      <ns1:LongName>Shenlan</ns1:LongName>
+      <ns1:Description>Shenlan</ns1:Description>
+      <ns1:Copyright>Shenlan</ns1:Copyright>
+      <ns1:CommentHeader1>CommentTitle1</ns1:CommentHeader1>
+      <ns1:CommentHeader2>CommentTitle1</ns1:CommentHeader2>
+      <ns1:CommentHeader3>CommentTitle1</ns1:CommentHeader3>
+    </ns1:DictionaryInfo>
+    <ns1:ContentCategory>Genral</ns1:ContentCategory>
+    <ns1:DictionaryType>Conversion</ns1:DictionaryType>
+    <ns1:SourceURL>
+    </ns1:SourceURL>
+    <ns1:CommentInsertion>true</ns1:CommentInsertion>
+    <ns1:IconID>25</ns1:IconID>
+  </ns1:DictionaryHeader>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1 lan2 ci2 ku4 zhuan3 huan4 qi4</ns1:InputString>
+<ns1:OutputString>深蓝词库转换器</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1 lan2 ci2 ku4 zhuan3 huan4</ns1:InputString>
+<ns1:OutputString>深蓝词库转换</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1 lan2 ci2 ku4 zhuan3</ns1:InputString>
+<ns1:OutputString>深蓝词库转</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1 lan2 ci2 ku4</ns1:InputString>
+<ns1:OutputString>深蓝词库</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1 lan2 ci2</ns1:InputString>
+<ns1:OutputString>深蓝词</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1 lan2</ns1:InputString>
+<ns1:OutputString>深蓝</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+<ns1:DictionaryEntry>
+<ns1:InputString>shen1</ns1:InputString>
+<ns1:OutputString>深</ns1:OutputString>
+<ns1:Exist>1</ns1:Exist>
+</ns1:DictionaryEntry>
+</ns1:Dictionary>
