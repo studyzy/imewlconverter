@@ -126,6 +126,7 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="EncodingComboBox.cs">
@@ -134,13 +135,11 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
     </ItemGroup>
     <ItemGroup>
         <Content Include="app.ico"/>
-        <Content Include="Readme.txt">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <Content Include="ThirdPart\Microsoft.Office.Interop.Word.dll"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverterCore\ImeWlConverterCore.csproj"/>
+        <ProjectReference Include="..\ImeWlConverterCmd\ImeWlConverterCmd.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="Forms\CreatePinyinWLForm.cs"/>

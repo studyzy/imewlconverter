@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.CommandLine;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -38,8 +39,9 @@ internal static class Program
         if (args.Length > 0)
         {
             AttachConsole(ATTACH_PARENT_PROCESS);
-            var consoleRun = new ConsoleRun(args, Help);
-            consoleRun.Run();
+            // 使用 System.CommandLine 进行参数解析
+            var rootCommand = Studyzy.IMEWLConverter.CommandBuilder.Build();
+            rootCommand.Invoke(args);
         }
         else
         {
