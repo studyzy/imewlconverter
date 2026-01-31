@@ -232,8 +232,10 @@ test_cases:
     expected: expected/e17-csv-to-array30.expected
     encoding: UTF-8
   extra_args:
-  - '"-c:../../src/ImeWlConverterCoreTest/Test/array30.txt"'
-  - '"-mc:code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11"'
+  - '"-c"'
+  - '"../../src/ImeWlConverterCoreTest/Test/array30.txt"'
+  - '"-m"'
+  - '"code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11"'
   tags:
   - text
   - custom

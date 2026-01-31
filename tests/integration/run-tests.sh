@@ -262,14 +262,14 @@ execute_test_case() {
     
     # 构建命令字符串用于显示（不通过 run_converter，避免被捕获）
     local cmd_display=""
-    cmd_display="dotnet ${CONVERTER_CLI} -i:${input_format} ${full_input_file}"
+    cmd_display="dotnet ${CONVERTER_CLI} -i ${input_format} -o ${output_format} -O ${output_file}"
+    if [[ -n "${format_opts}" ]]; then
+        cmd_display+=" -F ${format_opts}"
+    fi
     if [[ ${#extra_args_array[@]} -gt 0 ]]; then
         cmd_display+=" ${extra_args_array[*]}"
     fi
-    cmd_display+=" -o:${output_format} ${output_file}"
-    if [[ -n "${format_opts}" ]]; then
-        cmd_display+=" -f:${format_opts}"
-    fi
+    cmd_display+=" ${full_input_file}"
     echo "[DEBUG] Executing: ${cmd_display}" >&2
     
     # 根据是否有额外参数选择不同的调用方式

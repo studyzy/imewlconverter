@@ -145,9 +145,8 @@ test_cases:
    ```bash
    # 在仓库根目录执行
    dotnet run --project src/ImeWlConverterCmd -- \
-     -i:src/ImeWlConverterCoreTest/Test/example.scel \
-     -o:tests/integration/test-cases/new-format/example.expected \
-     -f:sougou -t:text
+     -i scel -o ggpy -O tests/integration/test-cases/new-format/example.expected \
+     src/ImeWlConverterCoreTest/Test/example.scel
    ```
 
 4. **创建配置文件**:
@@ -263,7 +262,7 @@ cat reports/test-results.xml
 
 # 手动运行转换命令
 dotnet run --project ../../src/ImeWlConverterCmd -- \
-  -i:test-input.scel -o:test-output.txt -f:sougou -t:text
+  -i scel -o ggpy -O test-output.txt test-input.scel
 
 # 比较输出差异
 diff -u expected.txt actual.txt

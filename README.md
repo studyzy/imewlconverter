@@ -67,6 +67,52 @@ PC 端：
 - 注音
 - 自定义
 
+## 命令行使用
+
+### 基本语法
+
+```bash
+imewlconverter --input-format <格式> --output-format <格式> --output <输出路径> <输入文件>...
+```
+
+或使用短选项：
+
+```bash
+imewlconverter -i <格式> -o <格式> -O <输出路径> <输入文件>...
+```
+
+### 常用示例
+
+**单文件转换**：
+```bash
+imewlconverter -i scel -o ggpy -O output.txt input.scel
+```
+
+**多文件转换**：
+```bash
+imewlconverter -i scel -o ggpy -O output.txt file1.scel file2.scel file3.scel
+```
+
+**批量转换到目录**（输出目录以 `/` 结尾）：
+```bash
+imewlconverter -i scel -o ggpy -O ./output/ *.scel
+```
+
+**使用过滤器**：
+```bash
+imewlconverter -i scel -o ggpy -O output.txt -f "len:1-100|rm:eng|rm:num" input.scel
+```
+
+**查看帮助**：
+```bash
+imewlconverter --help
+imewlconverter --list-formats  # 查看支持的格式列表
+```
+
+### 重要说明
+
+从 v3.0.0 开始，命令行参数格式已更新为 GNU 风格。如果您使用的是旧格式（如 `-i:scel`），请参阅 [MIGRATION.md](MIGRATION.md) 进行迁移。
+
 ## 集成测试
 
 本项目包含完整的集成测试框架，确保各种输入法格式之间的转换正确性。

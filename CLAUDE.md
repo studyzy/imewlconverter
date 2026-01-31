@@ -66,19 +66,17 @@ dotnet run --project src/ImeWlConverterCmd
 ```bash
 # Convert Sougou .scel to Google Pinyin text format
 dotnet run --project src/ImeWlConverterCmd -- \
-  -i:scel input.scel \
-  -o:ggpy output.txt
+  -i scel -o ggpy -O output.txt input.scel
 
 # Convert multiple files
 dotnet run --project src/ImeWlConverterCmd -- \
-  -i:scel ./test/*.scel \
-  -o:ggpy ./output/*
+  -i scel -o ggpy -O ./output/ file1.scel file2.scel
 
 # Apply filters (length, rank, remove English/numbers)
 dotnet run --project src/ImeWlConverterCmd -- \
-  -i:scel input.scel \
-  -o:ggpy output.txt \
-  -ft:"len:1-100,rank:2-9999,rm:eng,rm:num"
+  -i scel -o ggpy -O output.txt \
+  -f "len:1-100|rank:2-9999|rm:eng|rm:num" \
+  input.scel
 ```
 
 ### Code Quality
@@ -192,7 +190,7 @@ Filters are applied after import but before export:
 
 - **Single Filters** (`ISingleFilter`): Process individual entries (e.g., `LengthFilter`, `RankFilter`)
 - **Batch Filters** (`IBatchFilter`): Process the entire word list (e.g., deduplication)
-- Filters are configured via CLI with `-ft:` parameter
+- Filters are configured via CLI with `-f` or `--filter` parameter
 
 ### Chinese Character Conversion
 
@@ -323,8 +321,7 @@ cd tests/integration
 
 # Manually run conversion to debug
 dotnet run --project ../../src/ImeWlConverterCmd -- \
-  -i:<format> <input-file> \
-  -o:<format> <output-file>
+  -i <format> -o <format> -O <output-file> <input-file>
 
 # Compare output
 diff -u expected.txt test-output/actual.txt

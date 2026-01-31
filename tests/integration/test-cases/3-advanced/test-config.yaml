@@ -24,7 +24,8 @@ test_cases:
     words: 21
     source: mock-data.csv
   extra_args:
-  - '"-ft:rank:8-9999"'
+  - '"-f"'
+  - '"rank:8-9999"'
 
 - name: A02-短词过滤
   description: 测试短词过滤功能，过滤掉过短的词条（单字词）
@@ -47,7 +48,8 @@ test_cases:
     words: 32
     source: mock-data.csv
   extra_args:
-  - '"-ft:len:2-9999"'
+  - '"-f"'
+  - '"len:2-9999"'
 
 - name: A03-长词过滤
   description: 测试长词过滤功能，过滤掉过长的词条（保留1-4字词）
@@ -70,4 +72,5 @@ test_cases:
     words: 32
     source: mock-data.csv
   extra_args:
-  - '"-ft:len:1-4"'
+  - '"-f"'
+  - '"len:1-4"'

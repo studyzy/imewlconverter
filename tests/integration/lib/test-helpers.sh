@@ -110,25 +110,25 @@ run_converter() {
     output_dir="$(dirname "${output_file}")"
     ensure_dir "${output_dir}"
     
-    # 构建命令参数
-    local cmd_args=(-i:"${source_format}" "${input_file}")
-    
-    # 添加额外参数（在输出参数之前）
+    # 构建命令参数（新格式：GNU 风格）
+    local cmd_args=(-i "${source_format}" -o "${target_format}" -O "${output_file}")
+
+    # 如果提供了格式选项，添加 -F 参数（自定义格式）
+    if [[ -n "${format_options}" ]]; then
+        cmd_args+=("-F" "${format_options}")
+    fi
+
+    # 添加额外参数
     while [[ $# -gt 0 ]]; do
         cmd_args+=("$1")
         shift
     done
-    
-    # 添加输出参数
-    cmd_args+=(-o:"${target_format}" "${output_file}")
-    
-    # 如果提供了格式选项，添加-f参数
-    if [[ -n "${format_options}" ]]; then
-        cmd_args+=("-f:${format_options}")
-    fi
+
+    # 添加输入文件（位置参数，放在最后）
+    cmd_args+=("${input_file}")
     
     # 调用转换器（使用timeout命令限制执行时间）
-    # CLI工具格式：-i:格式 输入文件 [额外参数] -o:格式 输出文件 [-f:格式选项]
+    # CLI工具新格式：-i 格式 -o 格式 -O 输出文件 [额外参数] 输入文件
     # 注意：macOS和Linux的timeout命令可能不同，需要处理兼容性
     if command -v timeout >/dev/null 2>&1; then
         # Linux/Git Bash有timeout命令

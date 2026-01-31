@@ -13,5 +13,8 @@
 **镜像默认的 ENTRYPOINT 为 `ImeWlConverterCmd`，所以使用时直接跟参数既可(以下命令假定 `/dict` 为词库目录)**
 
 ```sh
-docker run --rm -it -v /dict:/dict imewlconverter -i:scel /dict/java常用.scel -os:linux -ct:pinyin -o:rime /dict/java常用.rime
+docker run --rm -it -v /dict:/dict imewlconverter \
+  -i scel -o rime -O /dict/java常用.rime \
+  --target-os linux --code-type pinyin \
+  /dict/java常用.scel
 ```

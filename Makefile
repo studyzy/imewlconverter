@@ -252,27 +252,27 @@ regenerate-exports-expected: build-cmd
 	@ORIG_DIR=$$(pwd) && \
 	cd tests/integration/test-cases/2-exports && \
 	echo "Generating E01 (sgpy)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:sgpy expected/e01-csv-to-sgpy.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o sgpy -O expected/e01-csv-to-sgpy.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E02 (qqpy)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:qqpy expected/e02-csv-to-qqpy.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o qqpy -O expected/e02-csv-to-qqpy.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E03 (rime)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:rime expected/e03-csv-to-rime.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o rime -O expected/e03-csv-to-rime.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E06 (ggpy)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:ggpy expected/e06-csv-to-ggpy.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o ggpy -O expected/e06-csv-to-ggpy.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E07 (bdpy)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:bdpy expected/e07-csv-to-bdpy.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o bdpy -O expected/e07-csv-to-bdpy.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E08 (pyjj)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:pyjj expected/e08-csv-to-pyjj.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o pyjj -O expected/e08-csv-to-pyjj.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E09 (zgpy)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:zgpy expected/e09-csv-to-zgpy.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o zgpy -O expected/e09-csv-to-zgpy.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E14 (libpy)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:libpy expected/e14-csv-to-libpy.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o libpy -O expected/e14-csv-to-libpy.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E15 (fit)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:fit expected/e15-csv-to-fit.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o fit -O expected/e15-csv-to-fit.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E16 (plist)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:self source/source-data-csv.txt -o:plist expected/e16-csv-to-plist.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i self -o plist -O expected/e16-csv-to-plist.expected source/source-data-csv.txt >/dev/null 2>&1 && \
 	echo "Generating E17 (array30)..." && \
-	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i:scel $$ORIG_DIR/src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel "-c:$$ORIG_DIR/src/ImeWlConverterCoreTest/Test/array30.txt" "-mc:code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11" "-f:213 ,nyyy" -o:self expected/e17-csv-to-array30.expected >/dev/null 2>&1 && \
+	$(DOTNET) $$ORIG_DIR/src/ImeWlConverterCmd/bin/$(DOTNET_CONFIG)/net10.0/ImeWlConverterCmd.dll -i scel -o self -O expected/e17-csv-to-array30.expected -c "$$ORIG_DIR/src/ImeWlConverterCoreTest/Test/array30.txt" -m "code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11" -F "213 ,nyyy" $$ORIG_DIR/src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel >/dev/null 2>&1 && \
 	echo "$(COLOR_GREEN)$(EMOJI_CHECK) All expected files regenerated$(COLOR_RESET)"
 
 
