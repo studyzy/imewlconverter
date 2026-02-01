@@ -138,7 +138,7 @@ public class ConsoleRun
         IWordRankGenerater wordRankGenerater = new DefaultWordRankGenerater();
         if (!string.IsNullOrEmpty(options.RankGenerator))
         {
-            wordRankGenerater = ConfigureRankGenerator(options.RankGenerator);
+            wordRankGenerater = ConfigureRankGenerator(options);
         }
 
         // 执行转换
@@ -293,17 +293,20 @@ public class ConsoleRun
         };
     }
 
-    private IWordRankGenerater ConfigureRankGenerator(string rankType)
+    private IWordRankGenerater ConfigureRankGenerator(CommandLineOptions options)
     {
+        var rankType = options.RankGenerator;
         return rankType.ToLower() switch
         {
-            "baidu" => new BaiduWordRankGenerater(),
-            "google" => new GoogleWordRankGenerater(),
-            _ => new DefaultWordRankGenerater
+            "llm" => new LlmWordRankGenerater(new LlmConfig
             {
-                ForceUse = true,
-                Rank = Convert.ToInt32(rankType)
-            }
+                ApiEndpoint = options.LlmEndpoint ?? new LlmConfig().ApiEndpoint,
+                ApiKey = options.LlmKey ?? "",
+                Model = options.LlmModel ?? new LlmConfig().Model
+            }),
+            _ => int.TryParse(rankType, out var rank)
+                ? new DefaultWordRankGenerater { ForceUse = true, Rank = rank }
+                : new DefaultWordRankGenerater()
         };
     }
 

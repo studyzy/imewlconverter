@@ -15,6 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
+using Studyzy.IMEWLConverter.Entities;
+
 namespace Studyzy.IMEWLConverter.Generaters;
 
 public interface IWordRankGenerater
@@ -25,4 +28,6 @@ public interface IWordRankGenerater
     bool ForceUse { get; set; }
 
     int GetRank(string word);
+
+    void GenerateRank(WordLibraryList wordLibraryList, Action<int, int> progressCallback = null);
 }

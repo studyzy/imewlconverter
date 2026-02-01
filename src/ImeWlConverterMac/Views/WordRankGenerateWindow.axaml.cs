@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Generaters;
 
 namespace ImeWlConverterMac.Views;
@@ -7,6 +8,7 @@ namespace ImeWlConverterMac.Views;
 public partial class WordRankGenerateWindow : Window
 {
     public IWordRankGenerater WordRankGenerater { get; private set; }
+    private static LlmConfig llmConfig = new LlmConfig();
 
     public WordRankGenerateWindow()
     {
@@ -24,18 +26,18 @@ public partial class WordRankGenerateWindow : Window
 
     private void LoadConfig()
     {
+        txtLlmEndpoint.Text = llmConfig.ApiEndpoint;
+        txtLlmKey.Text = llmConfig.ApiKey;
+        txtLlmModel.Text = llmConfig.Model;
+
         if (WordRankGenerater is DefaultWordRankGenerater defaultGen)
         {
             rbtnDefault.IsChecked = true;
             numRank.Value = (int)defaultGen.Rank;
         }
-        else if (WordRankGenerater is GoogleWordRankGenerater)
+        else if (WordRankGenerater is LlmWordRankGenerater)
         {
-            rbtnGoogle.IsChecked = true;
-        }
-        else if (WordRankGenerater is BaiduWordRankGenerater)
-        {
-            rbtnBaidu.IsChecked = true;
+            rbtnLlm.IsChecked = true;
         }
         else if (WordRankGenerater is CalcWordRankGenerater)
         {
@@ -51,13 +53,12 @@ public partial class WordRankGenerateWindow : Window
         {
             WordRankGenerater = new DefaultWordRankGenerater { Rank = (int)(numRank.Value ?? 0) };
         }
-        else if (rbtnGoogle.IsChecked == true)
+        else if (rbtnLlm.IsChecked == true)
         {
-            WordRankGenerater = new GoogleWordRankGenerater();
-        }
-        else if (rbtnBaidu.IsChecked == true)
-        {
-            WordRankGenerater = new BaiduWordRankGenerater();
+            llmConfig.ApiEndpoint = txtLlmEndpoint.Text ?? "";
+            llmConfig.ApiKey = txtLlmKey.Text ?? "";
+            llmConfig.Model = txtLlmModel.Text ?? "";
+            WordRankGenerater = new LlmWordRankGenerater(llmConfig);
         }
         else if (rbtnCalc.IsChecked == true)
         {

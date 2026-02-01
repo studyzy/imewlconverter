@@ -284,13 +284,12 @@ public class MainBody : IDisposable
     {
         countWord = wordLibraryList.Count;
         currentStatus = 0;
-        foreach (var wordLibrary in wordLibraryList)
+        SelectedWordRankGenerater.GenerateRank(wordLibraryList, (current, total) =>
         {
-            if (wordLibrary.Rank == 0 || SelectedWordRankGenerater.ForceUse)
-                wordLibrary.Rank = SelectedWordRankGenerater.GetRank(wordLibrary.Word);
-            currentStatus++;
+            currentStatus = current;
+            countWord = total;
             processMessage = "生成词频：" + currentStatus + "/" + countWord;
-        }
+        });
     }
 
     /// 把字符串中的数字转换为汉字. 当数字不以0开头，并且以多个0结尾时，按照x千x百的方式转换。否则直接读挨个数字。

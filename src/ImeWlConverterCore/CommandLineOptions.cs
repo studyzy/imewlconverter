@@ -60,9 +60,24 @@ public class CommandLineOptions
     public string? CustomFormat { get; set; }
 
     /// <summary>
-    /// 词频生成器类型（baidu, google, 或固定数字）
+    /// 词频生成器类型（llm, 或固定数字）
     /// </summary>
     public string? RankGenerator { get; set; }
+
+    /// <summary>
+    /// LLM API Endpoint
+    /// </summary>
+    public string? LlmEndpoint { get; set; }
+
+    /// <summary>
+    /// LLM API Key
+    /// </summary>
+    public string? LlmKey { get; set; }
+
+    /// <summary>
+    /// LLM Model Name
+    /// </summary>
+    public string? LlmModel { get; set; }
 
     /// <summary>
     /// 多字词编码生成规则

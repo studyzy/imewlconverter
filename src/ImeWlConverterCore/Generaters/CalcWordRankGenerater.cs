@@ -15,6 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
+using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Helpers;
 
 namespace Studyzy.IMEWLConverter.Generaters;
@@ -33,5 +35,18 @@ public class CalcWordRankGenerater : IWordRankGenerater
         }
 
         return (int)x;
+    }
+
+    public void GenerateRank(WordLibraryList wordLibraryList, Action<int, int> progressCallback = null)
+    {
+        for (int i = 0; i < wordLibraryList.Count; i++)
+        {
+            var wordLibrary = wordLibraryList[i];
+            if (wordLibrary.Rank == 0 || ForceUse)
+            {
+                wordLibrary.Rank = GetRank(wordLibrary.Word);
+            }
+            progressCallback?.Invoke(i + 1, wordLibraryList.Count);
+        }
     }
 }

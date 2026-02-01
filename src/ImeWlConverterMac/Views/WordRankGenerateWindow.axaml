@@ -2,10 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
         x:Class="ImeWlConverterMac.Views.WordRankGenerateWindow"
         Title="词频生成设置"
-        Width="400" Height="300"
+        Width="500" Height="400"
         WindowStartupLocation="CenterOwner"
         CanResize="False">
 
@@ -24,8 +24,20 @@
                 <NumericUpDown Name="numRank" Value="10" Minimum="1" Maximum="999999" Width="100"/>
             </StackPanel>
             
-            <RadioButton Name="rbtnGoogle" Content="Google词频" GroupName="RankType"/>
-            <RadioButton Name="rbtnBaidu" Content="百度词频" GroupName="RankType"/>
+            <RadioButton Name="rbtnLlm" Content="LLM 生成" GroupName="RankType"/>
+            <StackPanel IsVisible="{Binding #rbtnLlm.IsChecked}" Spacing="5" Margin="30,0,0,0">
+                <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="API 地址：" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Name="txtLlmEndpoint" Text="https://api.openai.com/v1/chat/completions"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="API Key：" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Name="txtLlmKey" PasswordChar="*" Margin="0,5,0,0"/>
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="模型名称：" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Name="txtLlmModel" Text="gpt-3.5-turbo" Margin="0,5,0,0"/>
+                </Grid>
+            </StackPanel>
+
             <RadioButton Name="rbtnCalc" Content="计算词频" GroupName="RankType"/>
             
             <Separator Margin="0,10"/>

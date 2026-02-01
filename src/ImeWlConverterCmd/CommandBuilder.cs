@@ -101,8 +101,24 @@ public static class CommandBuilder
         // 可选选项：词频生成器
         var rankGeneratorOption = new Option<string?>(
             aliases: new[] { "--rank-generator", "-r" },
-            description: "词频生成方式 (baidu=百度搜索结果数, google=谷歌搜索结果数, 或指定固定数字)");
+            description: "词频生成方式 (llm=大模型生成, 或指定固定数字)");
         rootCommand.AddOption(rankGeneratorOption);
+
+        // LLM 相关选项
+        var llmEndpointOption = new Option<string?>(
+            aliases: new[] { "--llm-endpoint" },
+            description: "LLM API 地址 (例如: https://api.openai.com/v1/chat/completions)");
+        rootCommand.AddOption(llmEndpointOption);
+
+        var llmKeyOption = new Option<string?>(
+            aliases: new[] { "--llm-key" },
+            description: "LLM API Key");
+        rootCommand.AddOption(llmKeyOption);
+
+        var llmModelOption = new Option<string?>(
+            aliases: new[] { "--llm-model" },
+            description: "LLM 模型名称 (例如: gpt-3.5-turbo)");
+        rootCommand.AddOption(llmModelOption);
 
         // 可选选项：多字词编码规则
         var multiCodeOption = new Option<string?>(
@@ -207,6 +223,9 @@ public static class CommandBuilder
                 Filter = context.ParseResult.GetValueForOption(filterOption),
                 CustomFormat = context.ParseResult.GetValueForOption(customFormatOption),
                 RankGenerator = context.ParseResult.GetValueForOption(rankGeneratorOption),
+                LlmEndpoint = context.ParseResult.GetValueForOption(llmEndpointOption),
+                LlmKey = context.ParseResult.GetValueForOption(llmKeyOption),
+                LlmModel = context.ParseResult.GetValueForOption(llmModelOption),
                 MultiCode = context.ParseResult.GetValueForOption(multiCodeOption),
                 CodeType = context.ParseResult.GetValueForOption(codeTypeOption),
                 TargetOS = context.ParseResult.GetValueForOption(targetOSOption),
