@@ -2,11 +2,11 @@
 name: openspec-new-change
 description: 使用实验性的产出物工作流启动一个新的 OpenSpec 变更。当用户想要通过结构化的分步方法创建新功能、修复或修改时使用。
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: 需要 openspec CLI。
 metadata:
   author: openspec
   version: "1.0"
-  generatedBy: "1.0.2"
+  generatedBy: "1.1.1-1"
 ---
 
 使用实验性的产出物驱动方法启动新变更。
@@ -28,9 +28,9 @@ metadata:
 
    除非用户明确要求不同的工作流，否则使用默认 Schema（省略 `--schema`）。
 
-   **Use a different schema only if the user mentions:**
-   - A specific schema name → use `--schema <name>`
-   - "show workflows" or "what workflows" → run `openspec schemas --json` and let them choose
+   **仅当用户提到以下内容时才使用不同的模式：**
+   - 特定模式名称 → 使用 `--schema <name>`
+   - "显示工作流" 或 "有哪些工作流" → 运行 `openspec-cn schemas --json` 并让他们选择
 
    **否则**：省略 `--schema` 以使用默认值。
 
@@ -47,9 +47,9 @@ metadata:
    ```
    这会显示哪些产出物需要创建，以及哪些已就绪（依赖项已满足）。
 
-5. **Get instructions for the first artifact**
-   The first artifact depends on the schema (e.g., `proposal` for spec-driven).
-   Check the status output to find the first artifact with status "ready".
+5. **获取第一个产出物的指令**
+   第一个产出物取决于所使用的 schema（例如：spec-driven 通常先生成 `proposal`）。
+   检查 status 输出，找到第一个状态为 "ready" 的产出物。
    ```bash
    openspec-cn instructions <first-artifact-id> --change "<name>"
    ```

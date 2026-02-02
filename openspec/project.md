@@ -1,4 +1,4 @@
-# 项目上下文
+~~# 项目上下文
 
 ## 目的
 
@@ -145,4 +145,4 @@
 ### 平台特定依赖
 - **Windows** - WinForm UI 框架
 - **macOS** - Cocoa/AppKit UI 框架
-- **Linux** - 仅命令行，无 GUI 依赖
+- **Linux** - 仅命令行，无 GUI 依赖~~

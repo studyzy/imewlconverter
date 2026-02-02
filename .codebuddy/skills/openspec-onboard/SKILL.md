@@ -1,12 +1,12 @@
 ---
 name: openspec-onboard
-description: Guided onboarding for OpenSpec - walk through a complete workflow cycle with narration and real codebase work.
+description: OpenSpec 引导式入门 - 通过讲解与在真实代码库中动手，走完一个完整的工作流周期。
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: 需要 openspec CLI。
 metadata:
   author: openspec
   version: "1.0"
-  generatedBy: "1.0.2"
+  generatedBy: "1.1.1-1"
 ---
 
 引导用户完成他们的第一个完整OpenSpec工作流周期。这是一个教学体验——你将在他们的代码库中完成实际工作，同时解释每个步骤。
@@ -62,7 +62,7 @@ openspec-cn status --json 2>&1 || echo "NOT_INITIALIZED"
 2. **缺少错误处理** - 吞没错误的 `catch` 块，没有try-catch的风险操作
 3. **没有测试的函数** - 交叉引用 `src/` 和测试目录
 4. **类型问题** - TypeScript文件中的 `any` 类型（`: any`、`as any`）
-5. **调试工件** - 非调试代码中的 `console.log`、`console.debug`、`debugger` 语句
+5. **调试产出物** - 非调试代码中的 `console.log`、`console.debug`、`debugger` 语句
 6. **缺少验证** - 没有验证的用户输入处理程序
 
 同时检查最近的git活动：

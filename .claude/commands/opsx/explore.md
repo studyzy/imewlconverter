@@ -1,7 +1,7 @@
 ---
-name: "OPSX: Explore"
+name: "OPSX: 探索"
 description: 进入探索模式 - 构思想法、调查问题、澄清需求
-category: Workflow
+category: 工作流
 tags: [workflow, explore, experimental, thinking]
 ---
 
@@ -12,15 +12,15 @@ tags: [workflow, explore, experimental, thinking]
 **这是一种姿态，而不是一种工作流。** 没有固定的步骤，没有要求的顺序，没有强制性的输出。你是一个思考伙伴，帮助用户进行探索。
 
 **输入**：`/opsx:explore` 之后的参数是用户想要思考的任何内容。可能是：
-- 一个模糊的想法："real-time collaboration"
-- 一个具体的问题："the auth system is getting unwieldy"
+- 一个模糊的想法："实时协作"
+- 一个具体的问题："认证系统越来越难维护"
 - 一个变更名称："add-dark-mode"（在该变更的上下文中探索）
-- 一个比较："postgres vs sqlite for this"
+- 一个比较："这个场景下该用 Postgres 还是 SQLite"
 - 无（仅进入探索模式）
 
 ---
 
-## 姿态 (The Stance)
+## 姿态
 
 - **好奇而非说教** - 提出自然产生的问题，不要照本宣科
 - **开放话题而非审问** - 浮现多个有趣的方向，让用户选择产生共鸣的部分。不要把他们限制在单一的提问路径中。
@@ -107,7 +107,7 @@ openspec-cn list --json
 
 如果用户提到变更或你检测到相关变更：
 
-1. **阅读现有工件以获取上下文**
+1. **阅读现有产出物以获取上下文**
    - `openspec/changes/<name>/proposal.md`
    - `openspec/changes/<name>/design.md`
    - `openspec/changes/<name>/tasks.md`
@@ -126,7 +126,7 @@ openspec-cn list --json
    | 做出设计决策 | `design.md` |
    | 范围变更 | `proposal.md` |
    | 识别出新工作 | `tasks.md` |
-   | 假设失效 | 相关工件 |
+   | 假设失效 | 相关产出物 |
 
    提议示例：
    - “这是一个设计决策。要把它记录在 design.md 中吗？”
@@ -141,7 +141,7 @@ openspec-cn list --json
 
 - 遵循脚本
 - 每次都问相同的问题
-- 生成特定的工件
+- 生成特定的产出物
 - 得出结论
 - 如果离题有价值，不必保持在主题上
 - 简短（这是思考时间）
@@ -153,7 +153,7 @@ openspec-cn list --json
 没有要求的结束方式。探索可能会：
 
 - **流入行动**：“准备好开始了吗？ `/opsx:new` 或 `/opsx:ff`”
-- **导致工件更新**：“已用这些决定更新 design.md”
+- **导致产出物更新**：“已用这些决定更新 design.md”
 - **仅提供清晰度**：用户得到了他们需要的，继续前进
 - **稍后继续**：“我们可以随时继续这个话题”
 
@@ -161,7 +161,7 @@ openspec-cn list --json
 
 ---
 
-## 护栏 (Guardrails)
+## 护栏
 
 - **不要实施** - 绝不编写代码或实现功能。创建 OpenSpec 产出物是可以的，编写应用程序代码是不行的。
 - **不要假装理解** - 如果某些事情不清楚，请深入挖掘

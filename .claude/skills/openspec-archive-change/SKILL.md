@@ -2,11 +2,11 @@
 name: openspec-archive-change
 description: 归档实验性工作流中已完成的变更。当用户想要在实现完成后最终确定并归档变更时使用。
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: 需要 openspec CLI。
 metadata:
   author: openspec
   version: "1.0"
-  generatedBy: "1.0.2"
+  generatedBy: "1.1.1-1"
 ---
 
 归档实验性工作流中已完成的变更。
@@ -29,8 +29,8 @@ metadata:
    运行 `openspec-cn status --change "<name>" --json` 检查产出物完成情况。
 
    解析 JSON 以了解：
-   - `schemaName`: 正在使用的工作流
-   - `artifacts`: 产出物列表及其状态（`done` 或其他）
+   - `schemaName`：正在使用的工作流
+   - `artifacts`：产出物列表及其状态（`done` 或其他）
 
    **如果有任何产出物未 `done`：**
    - 显示列出未完成产出物的警告
@@ -50,20 +50,20 @@ metadata:
 
    **如果没有任务文件存在：** 继续，无需任务相关警告。
 
-4. **Assess delta spec sync state**
+4. **评估增量规范同步状态**
 
-   Check for delta specs at `openspec/changes/<name>/specs/`. If none exist, proceed without sync prompt.
+   检查 `openspec/changes/<name>/specs/` 中的增量规范。如果不存在，则在没有同步提示的情况下继续。
 
-   **If delta specs exist:**
-   - Compare each delta spec with its corresponding main spec at `openspec/specs/<capability>/spec.md`
-   - Determine what changes would be applied (adds, modifications, removals, renames)
-   - Show a combined summary before prompting
+   **如果存在增量规范：**
+   - 将每个增量规范与其在 `openspec/specs/<capability>/spec.md` 对应的各主规范进行比较
+   - 确定将应用哪些更改（添加、修改、移除、重命名）
+   - 在提示前显示综合摘要
 
-   **Prompt options:**
-   - If changes needed: "Sync now (recommended)", "Archive without syncing"
-   - If already synced: "Archive now", "Sync anyway", "Cancel"
+   **提示选项：**
+   - 如果需要更改：“立即同步（推荐）”、“归档而不同步”
+   - 如果已同步：“立即归档”、“仍然同步”、“取消”
 
-   If user chooses sync, execute /opsx:sync logic (use the openspec-sync-specs skill). Proceed to archive regardless of choice.
+   如果用户选择同步，执行 /opsx:sync 逻辑（使用 openspec-sync-specs 技能）。无论选择如何，都继续归档。
 
 5. **执行归档**
 
@@ -96,10 +96,10 @@ metadata:
 ```
 ## 归档完成
 
-**Change:** <change-name>
-**Schema:** <schema-name>
-**Archived to:** openspec/changes/archive/YYYY-MM-DD-<name>/
-**Specs:** ✓ Synced to main specs (or "No delta specs" or "Sync skipped")
+**变更：** <change-name>
+**模式：** <schema-name>
+**归档至：** openspec/changes/archive/YYYY-MM-DD-<name>/
+**规范：** ✓ 已同步到主规范（或 "无增量规范" 或 "同步已跳过"）
 
 所有产出物已完成。所有任务已完成。
 ```

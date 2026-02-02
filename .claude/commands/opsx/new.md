@@ -1,7 +1,7 @@
 ---
-name: "OPSX: New"
+name: "OPSX: 新建"
 description: 使用实验性的产出物工作流 (OPSX) 启动新变更
-category: Workflow
+category: 工作流
 tags: [workflow, artifacts, experimental]
 ---
 
@@ -24,9 +24,9 @@ tags: [workflow, artifacts, experimental]
 
    除非用户明确要求不同的工作流，否则使用默认 Schema（省略 `--schema`）。
 
-   **Use a different schema only if the user mentions:**
-   - A specific schema name → use `--schema <name>`
-   - "show workflows" or "what workflows" → run `openspec schemas --json` and let them choose
+   **仅当用户提到以下内容时才使用不同的模式：**
+   - 特定模式名称 → 使用 `--schema <name>`
+   - "显示工作流" 或 "有哪些工作流" → 运行 `openspec-cn schemas --json` 并让他们选择
 
    **否则**：省略 `--schema` 以使用默认值。
 

@@ -41,7 +41,7 @@ argument-hint: "[command arguments]"
 
    c. **增量规格说明** - 检查 `openspec/changes/<name>/specs/` 目录
       - 列出存在哪些能力规格说明
-      - 对于每个，提取需求名称（匹配 `### Requirement: <name>` 的行）
+      - 对于每个，提取需求名称（匹配 `### 需求： <name>` 的行）
 
 4. **检测规格说明冲突**
 

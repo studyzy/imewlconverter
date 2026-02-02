@@ -2,11 +2,11 @@
 name: openspec-ff-change
 description: 快速创建实现所需的所有产出物。当用户想要快速创建实现所需的所有产出物，而不是逐个创建时使用。
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: 需要 openspec CLI。
 metadata:
   author: openspec
   version: "1.0"
-  generatedBy: "1.0.2"
+  generatedBy: "1.1.1-1"
 ---
 
 快速完成产出物创建 - 一次性生成开始实现所需的一切。
@@ -49,17 +49,17 @@ metadata:
         ```bash
         openspec-cn instructions <artifact-id> --change "<name>" --json
         ```
-      - The instructions JSON includes:
-        - `context`: Project background (constraints for you - do NOT include in output)
-        - `rules`: Artifact-specific rules (constraints for you - do NOT include in output)
-        - `template`: The structure to use for your output file
-        - `instruction`: Schema-specific guidance for this artifact type
-        - `outputPath`: Where to write the artifact
-        - `dependencies`: Completed artifacts to read for context
-      - Read any completed dependency files for context
-      - Create the artifact file using `template` as the structure
-      - Apply `context` and `rules` as constraints - but do NOT copy them into the file
-      - Show brief progress: "✓ Created <artifact-id>"
+      - 指令 JSON 包括：
+        - `context`：项目背景（对你的约束 - 不要包含在输出中）
+        - `rules`：产出物特定规则（对你的约束 - 不要包含在输出中）
+        - `template`：用于输出文件的结构
+        - `instruction`：此产出物类型的模式特定指导
+        - `outputPath`：写入产出物的位置
+        - `dependencies`：已完成的产出物，用于读取上下文
+      - 读取任何已完成的依赖文件以获取上下文
+      - 使用 `template` 作为结构创建产出物文件
+      - 应用 `context` 和 `rules` 作为约束 - 但不要将它们复制到文件中
+      - 显示简短进度："✓ 已创建 <artifact-id>"
 
    b. **继续直到所有 `applyRequires` 产出物完成**
       - 创建每个产出物后，重新运行 `openspec-cn status --change "<name>" --json`
@@ -85,13 +85,13 @@ metadata:
 
 **产出物创建指南**
 
-- Follow the `instruction` field from `openspec instructions` for each artifact type
-- The schema defines what each artifact should contain - follow it
-- Read dependency artifacts for context before creating new ones
-- Use `template` as the structure for your output file - fill in its sections
-- **IMPORTANT**: `context` and `rules` are constraints for YOU, not content for the file
-  - Do NOT copy `<context>`, `<rules>`, `<project_context>` blocks into the artifact
-  - These guide what you write, but should never appear in the output
+- 遵循每个产出物类型的 `openspec-cn instructions` 中的 `instruction` 字段
+- 模式定义了每个产出物应包含的内容 - 遵循它
+- 在创建新产出物之前阅读依赖产出物以获取上下文
+- 使用 `template` 作为输出文件的结构 - 填充其各个部分
+- **重要提示**：`context` 和 `rules` 是对你的约束，而不是文件内容
+  - 不要将 `<context>`、`<rules>`、`<project_context>` 块复制到产出物中
+  - 这些引导你编写内容，但不应出现在输出中
 
 **护栏**
 - 创建实现所需的所有产出物（由 Schema 的 `apply.requires` 定义）

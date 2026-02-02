@@ -1,7 +1,7 @@
 ---
-name: "OPSX: Fast Forward"
+name: "OPSX: 快进"
 description: 一键创建变更并生成实现所需的所有产出物
-category: Workflow
+category: 工作流
 tags: [workflow, artifacts, experimental]
 ---
 
@@ -45,17 +45,17 @@ tags: [workflow, artifacts, experimental]
         ```bash
         openspec-cn instructions <artifact-id> --change "<name>" --json
         ```
-      - The instructions JSON includes:
-        - `context`: Project background (constraints for you - do NOT include in output)
-        - `rules`: Artifact-specific rules (constraints for you - do NOT include in output)
-        - `template`: The structure to use for your output file
-        - `instruction`: Schema-specific guidance for this artifact type
-        - `outputPath`: Where to write the artifact
-        - `dependencies`: Completed artifacts to read for context
-      - Read any completed dependency files for context
-      - Create the artifact file using `template` as the structure
-      - Apply `context` and `rules` as constraints - but do NOT copy them into the file
-      - Show brief progress: "✓ Created <artifact-id>"
+      - 指令 JSON 包括：
+        - `context`：项目背景（对你的约束 - 不要包含在输出中）
+        - `rules`：产出物特定规则（对你的约束 - 不要包含在输出中）
+        - `template`：用于输出文件的结构
+        - `instruction`：此产出物类型的模式特定指导
+        - `outputPath`：写入产出物的位置
+        - `dependencies`：已完成的产出物，用于读取上下文
+      - 读取任何已完成的依赖文件以获取上下文
+      - 使用 `template` 作为结构创建产出物文件
+      - 应用 `context` 和 `rules` 作为约束 - 但不要将它们复制到文件中
+      - 显示简短进度："✓ 已创建 <artifact-id>"
 
    b. **继续直到所有 `applyRequires` 产出物完成**
       - 创建每个产出物后，重新运行 `openspec-cn status --change "<name>" --json`

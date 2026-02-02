@@ -1,7 +1,7 @@
 ---
-name: "OPSX: Archive"
+name: "OPSX: 归档"
 description: 归档实验性工作流中已完成的变更
-category: Workflow
+category: 工作流
 tags: [workflow, archive, experimental]
 ---
 
@@ -25,8 +25,8 @@ tags: [workflow, archive, experimental]
    运行 `openspec-cn status --change "<name>" --json` 检查产出物完成情况。
 
    解析 JSON 以了解：
-   - `schemaName`: 正在使用的工作流
-   - `artifacts`: 产出物列表及其状态（`done` 或其他）
+   - `schemaName`：正在使用的工作流
+   - `artifacts`：产出物列表及其状态（`done` 或其他）
 
    **如果有任何产出物未 `done`：**
    - 显示列出未完成产出物的警告
@@ -154,4 +154,4 @@ tags: [workflow, archive, experimental]
 - 移动到归档时保留 .openspec.yaml（它与目录一起移动）
 - 显示清晰的操作摘要
 - 如果请求同步，使用 /opsx:sync 方法（代理驱动）
-- If delta specs exist, always run the sync assessment and show the combined summary before prompting
+- 如果存在增量规格说明，请始终运行同步评估，并在提示前显示综合摘要

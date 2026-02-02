@@ -1,7 +1,7 @@
 ---
-name: "OPSX: Sync"
+name: "OPSX: 同步"
 description: 将变更中的增量规范同步到主规范
-category: Workflow
+category: 工作流
 tags: [workflow, specs, experimental]
 ---
 
@@ -26,10 +26,10 @@ tags: [workflow, specs, experimental]
    在 `openspec/changes/<name>/specs/*/spec.md` 中查找增量规范文件。
 
    每个增量规范文件包含如下部分：
-   - `## ADDED Requirements` - 要添加的新需求
-   - `## MODIFIED Requirements` - 对现有需求的更改
-   - `## REMOVED Requirements` - 要移除的需求
-   - `## RENAMED Requirements` - 要重命名的需求（FROM:/TO: 格式）
+   - `## 新增需求` - 要添加的新需求
+   - `## 修改需求` - 对现有需求的更改
+   - `## 移除需求` - 要移除的需求
+   - `## 重命名需求` - 要重命名的需求（从/到 格式）
 
    如果没有找到增量规范，通知用户并停止。
 
@@ -43,11 +43,11 @@ tags: [workflow, specs, experimental]
 
    c. **智能地应用更改**：
 
-      **ADDED Requirements:**
+      **新增需求：**
       - 如果需求在主规范中不存在 → 添加它
       - 如果需求已存在 → 更新它以匹配（视为隐式 MODIFIED）
 
-      **MODIFIED Requirements:**
+      **修改需求：**
       - 在主规范中找到该需求
       - 应用更改 - 这可能是：
         - 添加新场景（不需要复制现有场景）
@@ -55,16 +55,16 @@ tags: [workflow, specs, experimental]
         - 更改需求描述
       - 保留增量中未提及的场景/内容
 
-      **REMOVED Requirements:**
+      **移除需求：**
       - 从主规范中移除整个需求块
 
-      **RENAMED Requirements:**
+      **重命名需求：**
       - 找到 FROM 需求，重命名为 TO
 
    d. **创建新主规范** 如果 capability 尚不存在：
       - 创建 `openspec/specs/<capability>/spec.md`
-      - 添加 Purpose 部分（可以简短，标记为 TBD）
-      - 添加 Requirements 部分以及 ADDED 需求
+      - 添加 目的 部分（可以简短，标记为 待定）
+      - 添加 需求 部分以及 新增需求
 
 4. **显示摘要**
 
@@ -75,30 +75,30 @@ tags: [workflow, specs, experimental]
 **增量规范格式参考**
 
 ```markdown
-## ADDED Requirements
+## 新增需求
 
-### Requirement: New Feature
-The system SHALL do something new.
+### 需求： 新功能
+系统 应当 实现新的能力。
 
-#### Scenario: Basic case
-- **WHEN** user does X
-- **THEN** system does Y
+#### 场景： 基本场景
+- **当** 用户执行 X
+- **那么** 系统执行 Y
 
-## MODIFIED Requirements
+## 修改需求
 
-### Requirement: Existing Feature
-#### Scenario: New scenario to add
-- **WHEN** user does A
-- **THEN** system does B
+### 需求： 现有功能
+#### 场景： 需要新增的场景
+- **当** 用户执行 A
+- **那么** 系统执行 B
 
-## REMOVED Requirements
+## 移除需求
 
-### Requirement: Deprecated Feature
+### 需求： 已废弃功能
 
-## RENAMED Requirements
+## 重命名需求
 
-- FROM: `### Requirement: Old Name`
-- TO: `### Requirement: New Name`
+- 从： `### 需求： Old Name`
+- 到： `### 需求： New Name`
 ```
 
 **关键原则：智能合并**
@@ -116,12 +116,12 @@ The system SHALL do something new.
 已更新主规范：
 
 **<capability-1>**：
-- 添加需求："New Feature"
-- 修改需求："Existing Feature"（添加了 1 个场景）
+- 添加需求："新功能"
+- 修改需求："现有功能"（添加了 1 个场景）
 
 **<capability-2>**：
 - 创建了新规范文件
-- 添加需求："Another Feature"
+- 添加需求："另一个功能"
 
 主规范现已更新。变更保持活动状态 - 在实现完成后归档。
 ```

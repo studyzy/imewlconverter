@@ -1,7 +1,7 @@
 ---
-name: "OPSX: Onboard"
+name: "OPSX: 入门"
 description: 引导式入门 - 通过完整的OpenSpec工作流周期进行讲解
-category: Workflow
+category: 工作流
 tags: [workflow, onboarding, tutorial, learning]
 ---
 
@@ -58,7 +58,7 @@ openspec-cn status --json 2>&1 || echo "NOT_INITIALIZED"
 2. **缺少错误处理** - 吞没错误的 `catch` 块，没有try-catch的风险操作
 3. **没有测试的函数** - 交叉引用 `src/` 和测试目录
 4. **类型问题** - TypeScript文件中的 `any` 类型（`: any`、`as any`）
-5. **调试工件** - 非调试代码中的 `console.log`、`console.debug`、`debugger` 语句
+5. **调试产出物** - 非调试代码中的 `console.log`、`console.debug`、`debugger` 语句
 6. **缺少验证** - 没有验证的用户输入处理程序
 
 同时检查最近的git活动：

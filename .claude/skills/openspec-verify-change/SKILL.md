@@ -2,11 +2,11 @@
 name: openspec-verify-change
 description: 验证实现是否与变更产出物匹配。当用户想要在归档前验证实现是否完整、正确且一致时使用。
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: 需要 openspec CLI。
 metadata:
   author: openspec
   version: "1.0"
-  generatedBy: "1.0.2"
+  generatedBy: "1.1.1-1"
 ---
 
 验证实现是否与变更产出物（规范、任务、设计）匹配。
@@ -29,9 +29,9 @@ metadata:
    ```bash
    openspec-cn status --change "<name>" --json
    ```
-   Parse the JSON to understand:
-   - `schemaName`: The workflow being used (e.g., "spec-driven")
-   - Which artifacts exist for this change
+   解析 JSON 以了解：
+   - `schemaName`：正在使用的工作流模式（例如："spec-driven"）
+   - 此变更存在哪些产出物
 
 3. **获取变更目录并加载产出物**
 
@@ -62,7 +62,7 @@ metadata:
 
    **规范覆盖率**：
    - 如果 `openspec/changes/<name>/specs/` 中存在增量规范：
-     - 提取所有需求（标记为 "### Requirement:"）
+     - 提取所有需求（标记为 "### 需求："）
      - 对于每个需求：
        - 在代码库中搜索与需求相关的关键词
        - 评估实现是否可能存在
@@ -82,7 +82,7 @@ metadata:
        - 建议："根据需求 X 审查 <文件>:<行>"
 
    **场景覆盖率**：
-   - 对于增量规范中的每个场景（标记为 "#### Scenario:"）：
+   - 对于增量规范中的每个场景（标记为 "#### 场景："）：
      - 检查代码中是否处理了条件
      - 检查是否存在覆盖该场景的测试
      - 如果场景看起来未覆盖：
