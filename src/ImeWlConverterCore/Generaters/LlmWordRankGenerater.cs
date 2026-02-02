@@ -177,7 +177,7 @@ public class LlmWordRankGenerater : IWordRankGenerater
         return endpoint.TrimEnd('/') + "/v1/chat/completions";
     }
 
-    [RequiresUnreferencedCode()]
+    [RequiresUnreferencedCode("ParseRanks uses System.Text.Json deserialization which may require reflection-based metadata when trimming.")]
     public Dictionary<string, int> ParseRanks(string responseJson)
     {
         var result = new Dictionary<string, int>();
