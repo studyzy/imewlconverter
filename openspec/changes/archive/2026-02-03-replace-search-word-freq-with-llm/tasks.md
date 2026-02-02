@@ -14,9 +14,6 @@
 - [x] 2.2 修改 `CommandLineOptions.cs`，移除 `LlmPrompt` 参数
 - [x] 2.3 清理 WinForm 和 Avalonia (Mac) 界面中的 Prompt 配置控件与相关逻辑
 
-## 3. UI 适配与测试
+## 4. 增强功能与兼容性
 
-- [x] 3.1 更新 WinForm 的 `WordRankGenerateForm` 界面，移除 Prompt 配置控件
-- [x] 3.2 更新 Avalonia 的 `WordRankGenerateWindow` 界面，移除 Prompt 配置控件
-- [x] 3.3 更新单元测试，验证批量处理逻辑和分批处理的准确性
-- [x] 3.4 手动验证各端（Win, Mac, CLI）在大批量词库下的词频生成表现
+- [x] 4.1 自动适配 LLM Endpoint 后缀：若未以 `/v1/chat/completions` 结尾则自动补全

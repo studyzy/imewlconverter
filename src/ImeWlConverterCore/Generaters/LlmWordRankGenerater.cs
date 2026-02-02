@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,6 +18,8 @@ public class LlmWordRankGenerater : IWordRankGenerater
 
     private const string SystemPrompt = "你是一个语言专家。用户会提供一批词语，请为每个词语提供一个常用的词频评分（1-1000000 之间的整数）。评分越高表示词语越常用。";
     private const string UserPromptTemplate = "请为以下词语生成词频评分，仅返回 JSON 格式，Key 是词语，Value 是评分数字：\n{words}";
+
+    private const string RequestBodyTemplate = "{\"model\":{0},\"messages\":[{{\"role\":\"system\",\"content\":{1}}},{{\"role\":\"user\",\"content\":{2}}}],\"temperature\":0.3,\"response_format\":{{\"type\":\"json_object\"}}}";
 
     public LlmWordRankGenerater()
     {
@@ -66,22 +69,11 @@ public class LlmWordRankGenerater : IWordRankGenerater
             var wordsString = string.Join("\n", batch.Select(w => w.Word));
             var userPrompt = UserPromptTemplate.Replace("{words}", wordsString);
 
-            var requestBody = new
-            {
-                model = Config.Model,
-                messages = new[]
-                {
-                    new { role = "system", content = SystemPrompt },
-                    new { role = "user", content = userPrompt }
-                },
-                temperature = 0.3,
-                response_format = new { type = "json_object" } // 要求返回 JSON
-            };
+            var requestBodyJson = BuildRequestBodyJson(userPrompt);
+            var content = new StringContent(requestBodyJson, Encoding.UTF8, "application/json");
 
-            var json = JsonSerializer.Serialize(requestBody);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            using var request = new HttpRequestMessage(HttpMethod.Post, Config.ApiEndpoint);
+            var endpoint = GetFullApiEndpoint();
+            using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Config.ApiKey);
             request.Content = content;
 
@@ -105,6 +97,87 @@ public class LlmWordRankGenerater : IWordRankGenerater
         }
     }
 
+    private string BuildRequestBodyJson(string userPrompt)
+    {
+        var modelJson = EscapeJsonString(Config.Model);
+        var systemPromptJson = EscapeJsonString(SystemPrompt);
+        var userPromptJson = EscapeJsonString(userPrompt);
+        return string.Format(RequestBodyTemplate, modelJson, systemPromptJson, userPromptJson);
+    }
+
+    private static string EscapeJsonString(string value)
+    {
+        if (value is null)
+        {
+            return "null";
+        }
+
+        var sb = new StringBuilder(value.Length + 2);
+        sb.Append('"');
+        foreach (var c in value)
+        {
+            switch (c)
+            {
+                case '"':
+                    sb.Append("\\\"");
+                    break;
+                case '\\':
+                    sb.Append("\\\\");
+                    break;
+                case '\b':
+                    sb.Append("\\b");
+                    break;
+                case '\f':
+                    sb.Append("\\f");
+                    break;
+                case '\n':
+                    sb.Append("\\n");
+                    break;
+                case '\r':
+                    sb.Append("\\r");
+                    break;
+                case '\t':
+                    sb.Append("\\t");
+                    break;
+                default:
+                    if (c < 0x20)
+                    {
+                        sb.Append("\\u");
+                        sb.Append(((int)c).ToString("x4"));
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+                    break;
+            }
+        }
+        sb.Append('"');
+        return sb.ToString();
+    }
+
+    public string GetFullApiEndpoint()
+    {
+        var endpoint = Config.ApiEndpoint?.Trim();
+        if (string.IsNullOrEmpty(endpoint))
+        {
+            return endpoint;
+        }
+
+        if (endpoint.EndsWith("/v1/chat/completions") || endpoint.EndsWith("/v1/chat/completions/"))
+        {
+            return endpoint;
+        }
+
+        if (endpoint.EndsWith("/v1") || endpoint.EndsWith("/v1/"))
+        {
+            return endpoint.TrimEnd('/') + "/chat/completions";
+        }
+
+        return endpoint.TrimEnd('/') + "/v1/chat/completions";
+    }
+
+    [RequiresUnreferencedCode()]
     public Dictionary<string, int> ParseRanks(string responseJson)
     {
         var result = new Dictionary<string, int>();

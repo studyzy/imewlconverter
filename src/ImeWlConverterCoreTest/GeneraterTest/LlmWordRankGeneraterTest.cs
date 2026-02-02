@@ -75,4 +75,28 @@ public class LlmWordRankGeneraterTest
         Assert.That(ranks["苹果"], Is.EqualTo(850000));
         Assert.That(ranks["香蕉"], Is.EqualTo(700000));
     }
+
+    [Test]
+    public void TestGetFullApiEndpoint()
+    {
+        var generater = new LlmWordRankGenerater();
+
+        generater.Config.ApiEndpoint = "https://api.deepseek.com";
+        Assert.That(generater.GetFullApiEndpoint(), Is.EqualTo("https://api.deepseek.com/v1/chat/completions"));
+
+        generater.Config.ApiEndpoint = "https://api.deepseek.com/";
+        Assert.That(generater.GetFullApiEndpoint(), Is.EqualTo("https://api.deepseek.com/v1/chat/completions"));
+
+        generater.Config.ApiEndpoint = "https://api.deepseek.com/v1";
+        Assert.That(generater.GetFullApiEndpoint(), Is.EqualTo("https://api.deepseek.com/v1/chat/completions"));
+
+        generater.Config.ApiEndpoint = "https://api.deepseek.com/v1/";
+        Assert.That(generater.GetFullApiEndpoint(), Is.EqualTo("https://api.deepseek.com/v1/chat/completions"));
+
+        generater.Config.ApiEndpoint = "https://api.deepseek.com/v1/chat/completions";
+        Assert.That(generater.GetFullApiEndpoint(), Is.EqualTo("https://api.deepseek.com/v1/chat/completions"));
+
+        generater.Config.ApiEndpoint = "https://api.deepseek.com/v1/chat/completions/";
+        Assert.That(generater.GetFullApiEndpoint(), Is.EqualTo("https://api.deepseek.com/v1/chat/completions/"));
+    }
 }
