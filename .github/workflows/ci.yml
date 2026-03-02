@@ -169,7 +169,7 @@ jobs:
             "./src/IME WL Converter Win"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: windows-${{ matrix.arch }}
           path: ./publish/${{ matrix.runtime }}
@@ -227,14 +227,14 @@ jobs:
 
       - name: Upload Linux test reports
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: linux-integration-test-reports-${{ matrix.arch }}
           path: tests/integration/reports/test-results.xml
           retention-days: 30
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: linux-${{ matrix.arch }}
           path: ./publish/${{ matrix.runtime }}
@@ -300,14 +300,14 @@ jobs:
 
       - name: Upload macOS test reports
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: macos-integration-test-reports-${{ matrix.arch }}
           path: tests/integration/reports/test-results.xml
           retention-days: 30
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: macos-${{ matrix.arch }}
           path: ./publish/${{ matrix.runtime }}
