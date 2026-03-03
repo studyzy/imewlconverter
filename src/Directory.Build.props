@@ -40,10 +40,11 @@
       
       <!-- 情况 3：MinVer 失败或没有 Git（设置默认值避免 0.0.0） -->
       <!-- 注意：这里的默认值只是后备方案，正常情况下应该由 MinVer 或 PACKAGE_VERSION 提供版本号 -->
-      <FileVersion Condition="'$(FileVersion)' == '' OR '$(FileVersion)' == '0.0.0.0'">1.0.0.0</FileVersion>
-      <AssemblyVersion Condition="'$(AssemblyVersion)' == '' OR '$(AssemblyVersion)' == '0.0.0.0'">1.0.0.0</AssemblyVersion>
-      <InformationalVersion Condition="'$(InformationalVersion)' == '' OR '$(InformationalVersion)' == '0.0.0.0'">1.0.0</InformationalVersion>
-      <Version Condition="'$(Version)' == '' OR '$(Version)' == '0.0.0'">1.0.0</Version>
+      <!-- 使用当前发布的最新版本作为默认值，确保用户看到的是有意义的版本号 -->
+      <FileVersion Condition="'$(FileVersion)' == '' OR '$(FileVersion)' == '0.0.0.0'">3.3.1.0</FileVersion>
+      <AssemblyVersion Condition="'$(AssemblyVersion)' == '' OR '$(AssemblyVersion)' == '0.0.0.0'">3.3.1.0</AssemblyVersion>
+      <InformationalVersion Condition="'$(InformationalVersion)' == '' OR '$(InformationalVersion)' == '0.0.0.0' OR '$(InformationalVersion)' == '0.0.0'">3.3.1-dev</InformationalVersion>
+      <Version Condition="'$(Version)' == '' OR '$(Version)' == '0.0.0' OR '$(Version)' == '0.0'">3.3.1</Version>
     </PropertyGroup>
   </Target>
 

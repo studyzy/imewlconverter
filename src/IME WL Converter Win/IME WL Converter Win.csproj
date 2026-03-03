@@ -23,7 +23,11 @@
         <MapFileExtensions>true</MapFileExtensions>
         <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
         <ApplicationRevision>1</ApplicationRevision>
-        <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+        <!-- 默认版本号后备值，确保在MinVer失效时显示有意义的版本 (3.3.1) -->
+        <Version Condition="'$(Version)' == ''">3.3.1</Version>
+        <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">3.3.1.0</AssemblyVersion>
+        <FileVersion Condition="'$(FileVersion)' == ''">3.3.1.0</FileVersion>
+        <ApplicationVersion>3.3.1.%2a</ApplicationVersion>
         <UseApplicationTrust>false</UseApplicationTrust>
         <PublishWizardCompleted>true</PublishWizardCompleted>
         <BootstrapperEnabled>true</BootstrapperEnabled>

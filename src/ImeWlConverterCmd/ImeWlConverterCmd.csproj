@@ -4,6 +4,10 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net10.0</TargetFramework>
         <!-- Version 由 MinVer 自动从 Git tag 生成，见 Directory.Build.props -->
+        <!-- 默认版本号后备值，确保在MinVer失效时显示有意义的版本 -->
+        <Version Condition="'$(Version)' == ''">3.3.1</Version>
+        <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">3.3.1.0</AssemblyVersion>
+        <FileVersion Condition="'$(FileVersion)' == ''">3.3.1.0</FileVersion>
         <Trimming>full</Trimming>
     </PropertyGroup>
 
