@@ -43,8 +43,9 @@ internal class FileOperationTest
     [Test]
     public void TestCodePagesEncodingProviderRequired()
     {
+        var expectedExType = Type.GetType("System.ArgumentException") ?? typeof(ArgumentException);
         Assert.Catch(
-            Type.GetType("System.ArgumentException"),
+            expectedExType,
             () => Encoding.GetEncoding("GB2312").ToString()
         );
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net10.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
         <!-- Version 由 MinVer 自动从 Git tag 生成，见 Directory.Build.props -->
         <Platforms>AnyCPU;x86</Platforms>
     </PropertyGroup>
@@ -65,4 +66,8 @@
         <PackageReference Include="SharpZipLib" Version="1.4.2"/>
         <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
     </ItemGroup>
+    <PropertyGroup>
+        <!-- Suppress warning about System.Text.Encoding.CodePages package not being removed by restore -->
+        <NoWarn>$(NoWarn);NU1510</NoWarn>
+    </PropertyGroup>
 </Project>

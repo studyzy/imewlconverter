@@ -54,14 +54,14 @@ public class BaseImport
     /// </summary>
     public virtual bool IsText => true;
 
-    public event Action<string> ImportLineErrorNotice;
+    public event Action<string>? ImportLineErrorNotice;
 
     protected void SendImportLineErrorNotice(string msg)
     {
         ImportLineErrorNotice?.Invoke(msg);
     }
 
-    public event Action<string> ExportErrorNotice;
+    public event Action<string>? ExportErrorNotice;
 
     protected void SendExportErrorNotice(string msg)
     {

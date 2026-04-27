@@ -26,11 +26,17 @@ namespace Studyzy.IMEWLConverter.Generaters;
 
 public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
 {
-    private static Dictionary<string, List<string>> mutiPinYinWord;
+    private static Dictionary<string, List<string>> mutiPinYinWord = new Dictionary<string, List<string>>();
 
     private void InitMutiPinYinWord()
     {
-        if (mutiPinYinWord == null)
+        // Design note:
+        // The field `mutiPinYinWord` is initialized to an empty dictionary at declaration.
+        // The original code checked only for null before loading data from the
+        // embedded resource `WordPinyin.txt`, which meant the loader never ran and
+        // multi-character pinyin overrides were not applied. Check for Count == 0
+        // as well to ensure the resource is loaded exactly once when needed.
+        if (mutiPinYinWord == null || mutiPinYinWord.Count == 0)
         {
             var wlList = new Dictionary<string, List<string>>();
             var lines = GetMutiPinyin()
@@ -176,7 +182,7 @@ public class PinyinGenerater : BaseCodeGenerater, IWordCodeGenerater
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return null;
+            return new Code();
         }
     }
 

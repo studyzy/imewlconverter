@@ -31,6 +31,7 @@ public class WordLibrary
     {
         CodeType = CodeType.Pinyin;
         Codes = new Code();
+        Word = string.Empty;
     }
 
     #region 基本属性
@@ -70,7 +71,7 @@ public class WordLibrary
         get
         {
             if (Codes == null) //Code生成失败
-                return null;
+                return string.Empty;
             if (Codes.Count > 0)
                 if (Codes[0].Count > 0)
                     return Codes[0][0];
@@ -157,6 +158,14 @@ public class WordLibrary
                 || CodeType == CodeType.WubiNewAge
             )
                 return Codes[0][0];
+            // Design note:
+            // Historically this property returned an empty string when the
+            // WordLibrary did not have a Wubi code. Unit tests (and callers)
+            // expect `null` to represent the absence of a Wubi code. Returning
+            // null here makes the intent explicit and allows callers to
+            // distinguish "no Wubi code" from an actual empty code value.
+            // Keep the property type as `string` for compatibility; nullable
+            // behavior is intentional.
             return null;
         }
     }

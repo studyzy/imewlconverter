@@ -104,7 +104,7 @@ public class Xiaoxiao
 
     #region IWordLibraryExport 成员
 
-    private IWordCodeGenerater codeGenerater;
+    private IWordCodeGenerater? codeGenerater;
 
     //private XiaoxiaoConfigForm form;
     private IWordCodeGenerater CodeGenerater
@@ -112,7 +112,7 @@ public class Xiaoxiao
         get
         {
             if (codeGenerater == null) codeGenerater = CodeTypeHelper.GetGenerater(CodeType);
-            return codeGenerater;
+            return codeGenerater!;
         }
     }
 

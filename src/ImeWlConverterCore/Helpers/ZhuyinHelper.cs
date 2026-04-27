@@ -25,8 +25,8 @@ namespace Studyzy.IMEWLConverter.Helpers;
 public static class ZhuyinHelper
 {
     private static readonly Regex regex = new(@"^[a-zA-Z]+\d$");
-    private static IDictionary<string, string> zhuyinDic;
-    private static IDictionary<string, string> pinyinDic;
+    private static IDictionary<string, string>? zhuyinDic;
+    private static IDictionary<string, string>? pinyinDic;
 
     private static IDictionary<string, string> ZhuyinDic
     {
@@ -97,7 +97,7 @@ public static class ZhuyinHelper
         if (!ZhuyinDic.ContainsKey(pinyin))
         {
             Debug.WriteLine("Can not find zhuyin by pinyin=" + pinyin);
-            return null;
+            return string.Empty;
         }
 
         var zy = ZhuyinDic[pinyin] + GetYindiaoZhuyin(yindiao);
@@ -160,6 +160,6 @@ public static class ZhuyinHelper
         if (yindiao != 1) zhuyin = zhuyin.Substring(0, zhuyin.Length - 1);
         if (PinyinDic.ContainsKey(zhuyin)) return PinyinDic[zhuyin];
         Debug.WriteLine("can not fine the pinyin of zhuyin:" + zhuyin);
-        return null;
+        return string.Empty;
     }
 }

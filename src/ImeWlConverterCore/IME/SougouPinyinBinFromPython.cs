@@ -26,6 +26,10 @@ namespace Studyzy.IMEWLConverter.IME;
 public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
 {
     private const int UserDictHeaderSize = 80;
+    // Safety limits to avoid OOM or parsing of corrupted files
+    private const int MAX_WORD_SIZE = 1 * 1024 * 1024; // 1 MB per word entry
+    private const int MAX_PINYIN_COUNT = 1024; // generous upper bound for pinyin count
+    private const long MAX_FILE_SIZE = 1024L * 1024L * 1024L; // 1 GB max file size
 
     // public override CodeType CodeType { get => CodeType.NoCode; set => base.CodeType = value; }
 
@@ -69,15 +73,21 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
             fs.Seek(5, SeekOrigin.Current); // unknown 5 bytes, same in every entry
 
             var n = BinFileHelper.ReadUInt16(fs) / 2; // pinyin size / 2
+            if (n > MAX_PINYIN_COUNT)
+                throw new InvalidDataException($"Unreasonable pinyin count: {n}");
             var pinyin = new List<string>();
             for (var j = 0; j < n; j++)
             {
                 var p = BinFileHelper.ReadUInt16(fs);
+                if (p >= PinyinData.Length)
+                    throw new InvalidDataException($"Pinyin index out of range: {p}");
                 pinyin.Add(PinyinData[p]);
             }
 
             fs.Seek(2, SeekOrigin.Current); // word size + code size（include idx）
             var wordSize = BinFileHelper.ReadUInt16(fs);
+            if (wordSize == 0 || wordSize > MAX_WORD_SIZE)
+                throw new InvalidDataException($"Unreasonable word size: {wordSize}");
             var str = new byte[wordSize];
             fs.ReadExactly(str, 0, wordSize);
             var word = Encoding.Unicode.GetString(str);
@@ -113,7 +123,9 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
 
         checksum += uintP4 + uintP8 + uintP12 + uintP16;
 
-        Debug.Assert(uintP4 <= size);
+        // Validate header offsets against file size and configured max
+        if (uintP4 > (ulong)size || uintP4 > (ulong)MAX_FILE_SIZE)
+            throw new InvalidDataException($"Invalid section offset uintP4: {uintP4}");
 
         // Return to the point where header begins.
         fs.Seek(20, SeekOrigin.Begin);
@@ -126,7 +138,8 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
 
         // All data in sec8 have been processed.
         // The stream pointer should be at uintP4 + 8.
-        Debug.Assert(fs.Position == uintP4 + 8);
+        if (fs.Position != uintP4 + 8)
+            throw new InvalidDataException($"Unexpected stream position after reading sec8: {fs.Position}, expected {uintP4 + 8}");
 
         var headerSize =
             12
@@ -144,7 +157,8 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
 
         var totalSize = BinFileHelper.ReadUInt32(fs);
 
-        Debug.Assert(totalSize + headerSize + uintP4 + 8 == size - UserDictHeaderSize);
+        if (totalSize + headerSize + uintP4 + 8 != size - UserDictHeaderSize)
+            throw new InvalidDataException("Header size mismatch or corrupted file format");
 
         var size3B2 = BinFileHelper.ReadUInt32(fs);
         var size4B2 = BinFileHelper.ReadUInt32(fs);
@@ -155,7 +169,8 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
         userDict.DataStore = ReadHeaderItems(fs, size5B2, ref checksum);
 
         // The stream pointer should be at where header ends.
-        Debug.Assert(uintP4 + 8 + headerSize == fs.Position);
+        if (uintP4 + 8 + headerSize != fs.Position)
+            throw new InvalidDataException($"Unexpected stream position at header end: {fs.Position}");
         userDict.DsBasePos = fs.Position;
 
         return userDict;
@@ -169,7 +184,8 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
         {
             var key = new SougouPinyinDict.KeyItem();
             key.DictTypeDef = BinFileHelper.ReadUInt16(fs);
-            Debug.Assert(key.DictTypeDef < 100);
+            if (key.DictTypeDef >= 100)
+                throw new InvalidDataException($"Invalid DictTypeDef value: {key.DictTypeDef}");
             key.DataType = new List<ushort>();
             var dataTypeCount = BinFileHelper.ReadUInt16(fs);
             for (var j = 0; j < dataTypeCount; j++) key.DataType.Add(BinFileHelper.ReadUInt16(fs));
@@ -337,10 +353,14 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
         fs.Seek(offset, SeekOrigin.Begin);
 
         var n = BinFileHelper.ReadUInt16(fs) / 2;
+        if (n < 0 || n > MAX_PINYIN_COUNT)
+            throw new InvalidDataException($"Unreasonable pinyin count in decryptPinyin: {n}");
         var pinyin = new List<string>();
         for (var i = 0; i < n; i++)
         {
             var p = BinFileHelper.ReadUInt16(fs);
+            if (p < 0 || p >= PinyinData.Length)
+                throw new InvalidDataException($"Pinyin index out of range in decryptPinyin: {p}");
             pinyin.Add(PinyinData[p]);
         }
 
@@ -807,6 +827,8 @@ public class SougouPinyinBinFromPython : BaseImport, IWordLibraryImport
     {
         var xk = (((p1 + p2) << 2) + ((p1 + p3) << 2)) & 0xffff;
         var n = BinFileHelper.ReadUInt16(fs) / 2;
+        if (n < 0 || n > (MAX_WORD_SIZE / 4))
+            throw new InvalidDataException($"Unreasonable decryptWords count: {n}");
         var decwords = new byte[n * 4];
         for (var i = 0; i < n; i++)
         {

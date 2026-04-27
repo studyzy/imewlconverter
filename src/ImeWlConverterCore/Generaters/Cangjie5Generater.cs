@@ -77,7 +77,7 @@ public class Cangjie5Generater : BaseCodeGenerater, IWordCodeGenerater
         { '七', "p" }
     };
 
-    private Dictionary<char, IList<Cangjie>> dictionary;
+    private Dictionary<char, IList<Cangjie>>? dictionary;
 
     private Dictionary<char, IList<Cangjie>> Dictionary
     {
@@ -114,7 +114,7 @@ public class Cangjie5Generater : BaseCodeGenerater, IWordCodeGenerater
                 }
             }
 
-            return dictionary;
+            return dictionary!;
         }
     }
 
@@ -124,7 +124,7 @@ public class Cangjie5Generater : BaseCodeGenerater, IWordCodeGenerater
     {
         foreach (var c in str)
             if (!Dictionary.ContainsKey(c))
-                return null;
+                return new Code();
 
         if (str.Length == 1)
         {

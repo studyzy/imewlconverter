@@ -32,7 +32,7 @@ public class SelfDefiningCodeGenerater : BaseCodeGenerater, IWordCodeGenerater
     /// <summary>
     ///     外部的编码表,如果为空，则表示使用拼音编码
     /// </summary>
-    public IDictionary<char, IList<string>> MappingDictionary { get; set; }
+    public IDictionary<char, IList<string>> MappingDictionary { get; set; } = new Dictionary<char, IList<string>>();
 
     /// <summary>
     ///     对于多个字的编码的设定
@@ -41,7 +41,7 @@ public class SelfDefiningCodeGenerater : BaseCodeGenerater, IWordCodeGenerater
     ///     code_e3=p11+p21+p31+p32
     ///     code_a4=p11+p21+p31+n11
     /// </summary>
-    public string MutiWordCodeFormat { get; set; }
+    public string MutiWordCodeFormat { get; set; } = string.Empty;
 
     /// <summary>
     ///     自定义编码时允许一字多码
@@ -55,13 +55,12 @@ public class SelfDefiningCodeGenerater : BaseCodeGenerater, IWordCodeGenerater
 
     public string GetDefaultCodeOfChar(char str)
     {
-        if (MappingDictionary != null && MappingDictionary.Count > 0)
-            if (MappingDictionary.ContainsKey(str))
-                return MappingDictionary[str][0];
+        if (MappingDictionary.Count > 0 && MappingDictionary.ContainsKey(str))
+            return MappingDictionary[str][0];
 
         //没有指定Mapping表，那么就按拼音处理
         //return pinyinGenerater.GetDefaultCodeOfChar(str);
-        return null;
+        return string.Empty;
     }
 
     /// <summary>

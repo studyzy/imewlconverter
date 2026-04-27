@@ -48,16 +48,30 @@ public class MacPlist : BaseImport, IWordLibraryTextImport, IWordLibraryExport
 
         var wlList = new WordLibraryList();
         var xns = xmlDoc.SelectNodes("//plist/array/dict");
-        CountWord = xns.Count;
+        CountWord = xns?.Count ?? 0;
+        if (xns == null) return wlList;
         for (var i = 0; i < xns.Count; i++)
         {
             var xn = xns[i];
+            if (xn == null)
+            {
+                SendImportLineErrorNotice($"Invalid plist node at index {i}");
+                continue;
+            }
             var nodes = xn.SelectNodes("string");
 
+            // Guard against malformed entries
+            if (nodes == null || nodes.Count < 2)
+            {
+                // Use protected helper to notify listeners
+                SendImportLineErrorNotice($"Invalid plist entry at index {i}");
+                continue;
+            }
+
             var wl = new WordLibrary();
-            wl.Word = nodes[0].InnerText;
+            wl.Word = nodes[0]?.InnerText ?? string.Empty;
             wl.Rank = 1;
-            wl.SetPinyinString(nodes[1].InnerText);
+            wl.SetPinyinString(nodes[1]?.InnerText ?? string.Empty);
             CurrentStatus = i;
             wlList.Add(wl);
         }

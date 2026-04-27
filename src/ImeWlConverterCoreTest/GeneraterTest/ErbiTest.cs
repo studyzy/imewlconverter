@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using NUnit.Framework;
@@ -24,7 +25,12 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest;
 
 internal class ErbiTest
 {
-    private IWordCodeGenerater generater;
+    private IWordCodeGenerater? _generater;
+    private IWordCodeGenerater generater
+    {
+        get => _generater ?? throw new InvalidOperationException("generater not initialized. Ensure SetUp initialized it.");
+        set => _generater = value ?? throw new ArgumentNullException(nameof(value));
+    }
 
     [OneTimeSetUp]
     public void SetUp()

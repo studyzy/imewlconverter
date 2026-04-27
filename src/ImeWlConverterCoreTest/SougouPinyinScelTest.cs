@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.IME;
@@ -76,7 +77,7 @@ internal class SougouPinyinScelTest : BaseTest
         Assert.That(0, Is.EqualTo(lib[0].Rank));
         Assert.That("ai", Is.EqualTo(lib[0].SingleCode));
         Assert.That("哀江头", Is.EqualTo(lib[0].Word));
-        Assert.That(null, Is.EqualTo(lib[0].WubiCode));
+        Assert.That(lib[0].WubiCode, Is.Null);
     }
 
     [TestCase("唐诗300首【官方推荐】.scel")]
@@ -102,8 +103,11 @@ internal class SougouPinyinScelTest : BaseTest
     public void TestLatestScelOnWeb(string url)
     {
         var filePath = Path.GetTempFileName();
-        var dl = new WebClient();
-        dl.DownloadFile(url, filePath);
+        using (var client = new HttpClient())
+        {
+            var bytes = client.GetByteArrayAsync(url).GetAwaiter().GetResult();
+            File.WriteAllBytes(filePath, bytes);
+        }
         var info = SougouPinyinScel.ReadScelInfo(GetFullPath(filePath));
         foreach (var item in info)
             TestContext.WriteLine(item.Key + ": " + item.Value);

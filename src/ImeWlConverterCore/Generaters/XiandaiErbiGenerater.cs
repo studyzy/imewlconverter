@@ -33,7 +33,7 @@ public class XiandaiErbiGenerater : ErbiGenerater
     /// <returns></returns>
     protected override IList<IList<string>> GetErbiCode(string str, IList<string> py)
     {
-        if (string.IsNullOrEmpty(str)) return null;
+        if (string.IsNullOrEmpty(str)) return new List<IList<string>>();
         var codes = new List<IList<string>>();
 
         try
@@ -47,7 +47,7 @@ public class XiandaiErbiGenerater : ErbiGenerater
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return null;
+            return new List<IList<string>>();
         }
 
         return codes;

@@ -43,7 +43,7 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
     private WordLibraryList Filter(WordLibraryList wlList)
     {
         var result = new WordLibraryList();
-        IReplaceFilter replace = null;
+        IReplaceFilter? replace = null;
         if (PinyinType != PinyinType.FullPinyin) replace = new ShuangpinReplacer(PinyinType);
         foreach (var wl in wlList)
         {
@@ -65,10 +65,10 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
         var sb = new StringBuilder();
         var pinyin = wl.GetPinYinString("", BuildType.None);
 
-        // 防御性检查: 确保拼音不为空
+        // 防御性检查: 确保拼音和词不为空；返回空字符串表示跳过该词条
         if (string.IsNullOrWhiteSpace(pinyin) || string.IsNullOrWhiteSpace(wl.Word))
         {
-            return null; // 返回null表示跳过这个词条
+            return string.Empty;
         }
 
         sb.Append(pinyin);
@@ -118,6 +118,7 @@ public class Gboard : BaseImport, IWordLibraryExport, IWordLibraryImport
     public WordLibraryList ImportLine(string line)
     {
         var c = line.Split('\t');
+        if (c.Length < 2) return new WordLibraryList();
         var wl = new WordLibrary();
         wl.Word = c[1];
         wl.CodeType = CodeType.UserDefinePhrase;

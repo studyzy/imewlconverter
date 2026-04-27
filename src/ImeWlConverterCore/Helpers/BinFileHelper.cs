@@ -22,6 +22,8 @@ namespace Studyzy.IMEWLConverter.Helpers;
 
 internal static class BinFileHelper
 {
+    // Maximum bytes allowed to read into memory at once via ReadArray
+    private const int MAX_READ_ARRAY = 16 * 1024 * 1024; // 16 MB
     public static short ReadInt16(Stream fs)
     {
         var temp = new byte[2];
@@ -64,6 +66,7 @@ internal static class BinFileHelper
 
     public static byte[] ReadArray(Stream fs, int count)
     {
+        if (count < 0 || count > MAX_READ_ARRAY) throw new ArgumentOutOfRangeException(nameof(count), $"Requested read size is invalid: {count}");
         var bytes = new byte[count];
         fs.ReadExactly(bytes, 0, count);
         return bytes;
@@ -71,9 +74,10 @@ internal static class BinFileHelper
 
     public static byte[] ReadArray(byte[] fs, int position, int count)
     {
+        if (count < 0 || count > MAX_READ_ARRAY) throw new ArgumentOutOfRangeException(nameof(count), $"Requested read size is invalid: {count}");
+        if (position < 0 || position + count > fs.Length) throw new ArgumentOutOfRangeException(nameof(position), "Position and count exceed source array bounds");
         var bytes = new byte[count];
-        for (var i = 0; i < count; i++) bytes[i] = fs[position + i];
-
+        Array.Copy(fs, position, bytes, 0, count);
         return bytes;
     }
 }

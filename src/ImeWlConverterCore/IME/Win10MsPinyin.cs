@@ -31,6 +31,9 @@ namespace Studyzy.IMEWLConverter.IME;
 [ComboBoxShow(ConstantString.WIN10_MS_PINYIN, ConstantString.WIN10_MS_PINYIN_C, 130)]
 public class Win10MsPinyin : IWordLibraryExport, IWordLibraryImport
 {
+    // Safety limits
+    private const int MAX_PINYIN_BYTES = 4 * 1024; // 4KB
+    private const int MAX_WORD_BYTES = 64 * 1024; // 64KB
     public Win10MsPinyin()
     {
         CodeType = CodeType.UserDefinePhrase;
@@ -99,7 +102,7 @@ public class Win10MsPinyin : IWordLibraryExport, IWordLibraryImport
 
     public CodeType CodeType { get; set; }
 
-    public event Action<string> ExportErrorNotice;
+    public event Action<string>? ExportErrorNotice;
 
     public IList<string> Export(WordLibraryList wlList)
     {
@@ -162,7 +165,7 @@ public class Win10MsPinyin : IWordLibraryExport, IWordLibraryImport
         throw new NotImplementedException("二进制文件不支持单个词汇的转换");
     }
 
-    public event Action<string> ImportLineErrorNotice;
+    public event Action<string>? ImportLineErrorNotice;
 
     public int CountWord { get; set; }
     public int CurrentStatus { get; set; }
@@ -220,10 +223,12 @@ public class Win10MsPinyin : IWordLibraryExport, IWordLibraryImport
         var x6 = fs.ReadByte(); //不知道干啥的
         var unknown8 = BinFileHelper.ReadInt64(fs); //新增的，不知道什么意思
         var pyBytesLen = hanzi_offset - 18;
+        if (pyBytesLen < 0 || pyBytesLen > MAX_PINYIN_BYTES) throw new InvalidDataException($"Invalid pyBytesLen: {pyBytesLen}");
         var pyBytes = BinFileHelper.ReadArray(fs, pyBytesLen);
         var pyStr = Encoding.Unicode.GetString(pyBytes);
         var split = BinFileHelper.ReadInt16(fs); //00 00 分割拼音和汉字
         var wordBytesLen = nextStartPosition - (int)fs.Position - 2; //结尾还有个00 00
+        if (wordBytesLen < 0 || wordBytesLen > MAX_WORD_BYTES) throw new InvalidDataException($"Invalid wordBytesLen: {wordBytesLen}");
         var wordBytes = BinFileHelper.ReadArray(fs, wordBytesLen);
         BinFileHelper.ReadInt16(fs); //00 00分割
         var word = Encoding.Unicode.GetString(wordBytes);
@@ -245,7 +250,7 @@ public class Win10MsPinyin : IWordLibraryExport, IWordLibraryImport
     private WordLibraryList Filter(WordLibraryList wlList)
     {
         var result = new WordLibraryList();
-        IReplaceFilter replace = null;
+        IReplaceFilter? replace = null;
         if (PinyinType != PinyinType.FullPinyin) replace = new ShuangpinReplacer(PinyinType);
         foreach (var wl in wlList)
         {

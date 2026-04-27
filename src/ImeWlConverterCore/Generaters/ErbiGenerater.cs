@@ -34,7 +34,7 @@ public abstract class ErbiGenerater : BaseCodeGenerater, IWordCodeGenerater
     /// <summary>
     ///     二笔的编码可能是一字多码的
     /// </summary>
-    private Dictionary<char, IList<string>> erbiDic;
+    private Dictionary<char, IList<string>>? erbiDic;
 
     /// <summary>
     ///     1是现代二笔，2是音形，3是超强二笔，4是青松二笔
@@ -100,7 +100,7 @@ public abstract class ErbiGenerater : BaseCodeGenerater, IWordCodeGenerater
 
     protected virtual IList<IList<string>> GetErbiCode(string str, IList<string> py)
     {
-        if (string.IsNullOrEmpty(str)) return null;
+        if (string.IsNullOrEmpty(str)) return new List<IList<string>>();
         var codes = new List<IList<string>>();
 
         try
@@ -133,7 +133,7 @@ public abstract class ErbiGenerater : BaseCodeGenerater, IWordCodeGenerater
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return null;
+            return new List<IList<string>>();
         }
 
         return codes;

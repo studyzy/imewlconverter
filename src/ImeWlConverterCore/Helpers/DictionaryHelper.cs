@@ -79,12 +79,12 @@ public class DictionaryHelper
         string file;
         var assembly = typeof(DictionaryHelper).GetTypeInfo().Assembly;
 
-        using (
-            var stream = assembly.GetManifestResourceStream(
-                "ImeWlConverterCore.Resources." + fileName
-            )
-        )
+        var resourceName = "ImeWlConverterCore.Resources." + fileName;
+        using (var stream = assembly.GetManifestResourceStream(resourceName))
         {
+            if (stream == null)
+                throw new InvalidOperationException($"Embedded resource not found: {resourceName}");
+
             using (var reader = new StreamReader(stream, true))
             {
                 file = reader.ReadToEnd();

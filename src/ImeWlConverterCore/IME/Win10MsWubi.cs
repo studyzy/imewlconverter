@@ -30,6 +30,9 @@ namespace Studyzy.IMEWLConverter.IME;
 [ComboBoxShow(ConstantString.WIN10_MS_WUBI, ConstantString.WIN10_MS_WUBI_C, 131)]
 public class Win10MsWubi : IWordLibraryExport, IWordLibraryImport
 {
+    // Safety limits
+    private const int MAX_PINYIN_BYTES = 4 * 1024; // 4KB
+    private const int MAX_WORD_BYTES = 64 * 1024; // 64KB
     /*
      * _X 做后缀的字段表示 win10 1703 与 1607 有改动的部分
 
@@ -92,7 +95,7 @@ public class Win10MsWubi : IWordLibraryExport, IWordLibraryImport
 
     public CodeType CodeType => CodeType.Wubi98;
 
-    public event Action<string> ExportErrorNotice;
+    public event Action<string>? ExportErrorNotice;
 
     public IList<string> Export(WordLibraryList wlList)
     {
@@ -153,7 +156,7 @@ public class Win10MsWubi : IWordLibraryExport, IWordLibraryImport
         throw new NotImplementedException("二进制文件不支持单个词汇的转换");
     }
 
-    public event Action<string> ImportLineErrorNotice;
+    public event Action<string>? ImportLineErrorNotice;
 
     public int CountWord { get; set; }
     public int CurrentStatus { get; set; }
@@ -202,7 +205,7 @@ public class Win10MsWubi : IWordLibraryExport, IWordLibraryImport
         return result;
     }
 
-    private WordLibrary ReadOnePhrase(FileStream fs, int nextStartPosition)
+    private WordLibrary? ReadOnePhrase(FileStream fs, int nextStartPosition)
     {
         var wl = new WordLibrary();
         var magic = BinFileHelper.ReadInt32(fs);
@@ -211,10 +214,12 @@ public class Win10MsWubi : IWordLibraryExport, IWordLibraryImport
         var x6 = fs.ReadByte(); //不知道干啥的
         var unknown8 = BinFileHelper.ReadInt64(fs); //新增的，不知道什么意思
         var pyBytesLen = hanzi_offset - 18;
+        if (pyBytesLen < 0 || pyBytesLen > MAX_PINYIN_BYTES) throw new InvalidDataException($"Invalid pyBytesLen: {pyBytesLen}");
         var pyBytes = BinFileHelper.ReadArray(fs, pyBytesLen);
         var wubiStr = Encoding.Unicode.GetString(pyBytes);
         var split = BinFileHelper.ReadInt16(fs); //00 00 分割拼音和汉字
         var wordBytesLen = nextStartPosition - (int)fs.Position - 2; //结尾还有个00 00
+        if (wordBytesLen < 0 || wordBytesLen > MAX_WORD_BYTES) throw new InvalidDataException($"Invalid wordBytesLen: {wordBytesLen}");
         var wordBytes = BinFileHelper.ReadArray(fs, wordBytesLen);
         BinFileHelper.ReadInt16(fs); //00 00分割
         var word = Encoding.Unicode.GetString(wordBytes);

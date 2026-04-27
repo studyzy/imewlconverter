@@ -135,12 +135,21 @@ public class MsPinyin : BaseImport, IWordLibraryExport, IWordLibraryTextImport
             "//ns1:Dictionary/ns1:DictionaryEntry",
             namespaceManager
         );
-        CountWord = xns.Count;
+        CountWord = xns?.Count ?? 0;
+        if (xns == null) return wlList;
         for (var i = 0; i < xns.Count; i++)
         {
             var xn = xns[i];
-            var py = xn.SelectSingleNode("ns1:InputString", namespaceManager).InnerText;
-            var word = xn.SelectSingleNode("ns1:OutputString", namespaceManager).InnerText;
+            if (xn == null)
+            {
+                // skip malformed entry
+                continue;
+            }
+            var inputNode = xn.SelectSingleNode("ns1:InputString", namespaceManager);
+            var outputNode = xn.SelectSingleNode("ns1:OutputString", namespaceManager);
+            var py = inputNode?.InnerText ?? string.Empty;
+            var word = outputNode?.InnerText ?? string.Empty;
+
             var wl = new WordLibrary();
             wl.Word = word;
             wl.Rank = 1;

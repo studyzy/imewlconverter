@@ -43,68 +43,93 @@ public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
 
     public PinyinType PinyinType { get; set; }
 
-    public string ExportFilePath { get; set; }
+    public string ExportFilePath { get; set; } = string.Empty;
     public Encoding Encoding => Encoding.Unicode;
 
     public CodeType CodeType { get; set; }
-    public event Action<string> ExportErrorNotice;
+    public event Action<string>? ExportErrorNotice;
 
     /// <summary>
     ///     最多支持2W条一个dat文件
     /// </summary>
     /// <param name="wlList"></param>
     /// <returns></returns>
-    public IList<string> Export(WordLibraryList wlList)
-    {
-        //Win10拼音对词条长度有限制
-        wlList = Filter(wlList);
-        var list = new List<WordLibraryList>();
-        if (wlList.Count > 20000)
+        public IList<string> Export(WordLibraryList wlList)
         {
-            SendExportErrorNotice(
-                "微软拼音自学习词库最多支持2万条记录的导入，当前词条数为：" + wlList.Count + "，超过限制，请设置过滤条件或者更换词库源。"
-            );
-            //以后微软拼音放开2W限制了，再把这个异常取消吧。
-            var item20000 = new WordLibraryList();
-            for (var i = 0; i < wlList.Count; i++)
+            //Win10拼音对词条长度有限制
+            wlList = Filter(wlList);
+
+            const int MaxPerFile = 20000;
+            var list = new List<WordLibraryList>();
+
+            if (wlList.Count > MaxPerFile)
             {
-                item20000.Add(wlList[i]);
-                if (i % 19999 == 0 && i != 0)
+                // Design note:
+                // Historically the exporter raised an error and still attempted to
+                // split the data using an off-by-one condition. Behavior chosen here:
+                // - Emit a user-facing notice (not an exception) to inform about
+                //   splitting.
+                // - Split strictly into chunks of at most MaxPerFile entries.
+                // - When an explicit ExportFilePath is provided, append an index
+                //   to each generated filename to avoid silent overwrites.
+                // This preserves backward compatibility (we still export) while
+                // making filename generation and splitting deterministic.
+                SendExportErrorNotice(
+                    $"词条数量({wlList.Count})超过每个文件限制{MaxPerFile}，将拆分为多个文件导出。"
+                );
+
+                var item = new WordLibraryList();
+                for (var i = 0; i < wlList.Count; i++)
                 {
-                    list.Add(item20000);
-                    item20000 = new WordLibraryList();
+                    item.Add(wlList[i]);
+                    if (item.Count >= MaxPerFile)
+                    {
+                        list.Add(item);
+                        item = new WordLibraryList();
+                    }
                 }
+
+                if (item.Count != 0) list.Add(item);
+            }
+            else
+            {
+                list.Add(wlList);
             }
 
-            if (item20000.Count != 0) list.Add(item20000);
-        }
-        else
-        {
-            list.Add(wlList);
-        }
+            var fileListSb = new StringBuilder();
+            for (var i = 0; i < list.Count; i++)
+            {
+                string tempPath;
+                if (string.IsNullOrEmpty(ExportFilePath))
+                {
+                    tempPath = Path.Combine(
+                        FileOperationHelper.GetCurrentFolderPath(),
+                        "Win10微软拼音自学习词库" + (i + 1) + ".dat"
+                    );
+                }
+                else
+                {
+                    // 如果指定了ExportFilePath，避免覆盖：在文件名中加入索引
+                    var dir = Path.GetDirectoryName(ExportFilePath);
+                    if (string.IsNullOrEmpty(dir)) dir = FileOperationHelper.GetCurrentFolderPath();
+                    var baseName = Path.GetFileNameWithoutExtension(ExportFilePath);
+                    var ext = Path.GetExtension(ExportFilePath);
+                    tempPath = Path.Combine(dir, baseName + "_" + (i + 1) + ext);
+                }
 
-        var fileList = "";
-        for (var i = 0; i < list.Count; i++)
-        {
-            var tempPath = Path.Combine(
-                FileOperationHelper.GetCurrentFolderPath(),
-                "Win10微软拼音自学习词库" + i + ".dat"
-            );
-            if (!string.IsNullOrEmpty(ExportFilePath)) //For test
-                tempPath = ExportFilePath;
-            fileList += tempPath + "\r\n";
-            ExportTo1File(tempPath, list[i]);
-        }
+                fileListSb.AppendLine(tempPath);
+                ExportTo1File(tempPath, list[i]);
+            }
 
-        return new List<string> { "词库文件在：" + fileList };
-    }
+            return new List<string> { "词库文件在：" + fileListSb.ToString() };
+        }
 
     public string ExportLine(WordLibrary wl)
     {
         throw new NotImplementedException("二进制文件不支持单个词汇的转换");
     }
 
-    public event Action<string> ImportLineErrorNotice;
+    public event Action<string>? ImportLineErrorNotice;
 
     public int CountWord { get; set; }
     public int CurrentStatus { get; set; }
@@ -333,7 +358,7 @@ public class Win10MsPinyinSelfStudy : IWordLibraryExport, IWordLibraryImport
 
     #region Pinyin Map
 
-    private static Dictionary<string, short> pinyinMap;
+    private static Dictionary<string, short>? pinyinMap;
 
     private Dictionary<string, short> PinyinMap
     {

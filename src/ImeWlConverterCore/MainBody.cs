@@ -37,8 +37,8 @@ public class MainBody : IDisposable
     private int countWord;
     private int currentStatus;
     private bool isImportProgress;
-    private string processMessage;
-    private Timer timer;
+    private string? processMessage;
+    private Timer? timer;
 
     public MainBody()
     {
@@ -49,18 +49,23 @@ public class MainBody : IDisposable
         SelectedTranslate = ChineseTranslate.NotTrans;
         SelectedWordRankGenerater = new DefaultWordRankGenerater();
 
+        // initialize collections to avoid null reference issues
+        ReplaceFilters = new List<IReplaceFilter>();
+        ExportContents = new List<string>();
+        processMessage = string.Empty;
+
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         InitTimer();
     }
 
-    public IList<string> ExportContents { get; set; }
+    public IList<string> ExportContents { get; set; } = new List<string>();
 
     public int CurrentStatus
     {
         get
         {
-            if (isImportProgress) return Import.CurrentStatus;
+            if (isImportProgress && Import != null) return Import.CurrentStatus;
             return currentStatus;
         }
         set => currentStatus = value;
@@ -70,7 +75,7 @@ public class MainBody : IDisposable
     {
         get
         {
-            if (isImportProgress) return Import.CountWord;
+            if (isImportProgress && Import != null) return Import.CountWord;
             return countWord;
         }
         set => countWord = value;
@@ -84,14 +89,14 @@ public class MainBody : IDisposable
         get
         {
             if (isImportProgress) return "转换进度：" + CurrentStatus + "/" + CountWord;
-            return processMessage;
+            return processMessage ?? string.Empty;
         }
         set => processMessage = value;
     }
 
-    public IWordLibraryImport Import { get; set; }
+    public IWordLibraryImport? Import { get; set; }
 
-    public IWordLibraryExport Export { get; set; }
+    public IWordLibraryExport? Export { get; set; }
 
     public IChineseConverter SelectedConverter { get; set; }
 
@@ -101,21 +106,36 @@ public class MainBody : IDisposable
 
     public int Count { get; private set; }
 
-    public IList<IReplaceFilter> ReplaceFilters { get; set; }
+    public IList<IReplaceFilter> ReplaceFilters { get; set; } = new List<IReplaceFilter>();
 
     public FilterConfig FilterConfig { get; set; }
 
-    public IList<ISingleFilter> Filters { get; set; }
+    public IList<ISingleFilter> Filters { get; set; } = new List<ISingleFilter>();
     public SortType SortType { get; set; }
     public bool SortDesc { get; set; }
-    public IList<IBatchFilter> BatchFilters { get; set; }
+    public IList<IBatchFilter> BatchFilters { get; set; } = new List<IBatchFilter>();
 
     public void Dispose()
     {
-        timer.Stop();
+        if (timer != null)
+        {
+            try
+            {
+                timer.Stop();
+                timer.Dispose();
+            }
+            catch (Exception)
+            {
+                // swallow dispose exceptions but do not let them bubble up
+            }
+            finally
+            {
+                timer = null;
+            }
+        }
     }
 
-    public event Action<string> ProcessNotice;
+    public event Action<string>? ProcessNotice;
 
     /// <summary>
     ///     初始化Timer控件
@@ -138,28 +158,50 @@ public class MainBody : IDisposable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void TimerUp(object sender, ElapsedEventArgs e)
+    private void TimerUp(object? sender, ElapsedEventArgs e)
     {
         if (string.IsNullOrEmpty(processMessage))
             return;
         try
         {
-            ProcessNotice(processMessage);
+            ProcessNotice?.Invoke(processMessage ?? string.Empty);
         }
         catch (Exception ex)
         {
-            ProcessNotice("执行定时到点事件失败:" + ex.Message);
+            // Try to notify about the failure if possible. Include stack trace to aid debugging.
+            try
+            {
+                ProcessNotice?.Invoke("执行定时到点事件失败:" + ex);
+            }
+            catch
+            {
+                // ignore secondary failures
+            }
         }
     }
 
     public void StopNotice()
     {
-        timer.Stop();
+        try
+        {
+            timer?.Stop();
+        }
+        catch
+        {
+            // ignore
+        }
     }
 
     public void StartNotice()
     {
-        timer.Start();
+        try
+        {
+            timer?.Start();
+        }
+        catch
+        {
+            // ignore
+        }
     }
 
     //public List<string> GetRealPath(IList<string> filePathes)
@@ -194,9 +236,21 @@ public class MainBody : IDisposable
     /// <returns></returns>
     public string Convert(IList<string> filePathes)
     {
+        if (Import == null)
+        {
+            ProcessNotice?.Invoke("Import is not set.");
+            return string.Empty;
+        }
+
+        if (Export == null)
+        {
+            ProcessNotice?.Invoke("Export is not set.");
+            return string.Empty;
+        }
+
         var allWlList = new WordLibraryList();
 
-        timer.Start();
+        timer?.Start();
         ExportContents = new List<string>();
         isImportProgress = true;
 
@@ -206,22 +260,22 @@ public class MainBody : IDisposable
         {
             if (FileOperationHelper.GetFileSize(file) == 0)
             {
-                ProcessNotice("词库（" + Path.GetFileName(file) + "）为空，请检查");
+                ProcessNotice?.Invoke("词库（" + Path.GetFileName(file) + "）为空，请检查");
                 continue;
             }
 
             Debug.WriteLine("start process file:" + file);
-            try
-            {
-                var wlList = Import.Import(file);
-                wlList = Filter(wlList);
-                allWlList.AddRange(wlList);
-            }
+                try
+                {
+                    var wlList = Import!.Import(file);
+                    wlList = Filter(wlList);
+                    allWlList.AddRange(wlList);
+                }
             catch (Exception ex)
             {
-                ProcessNotice("词库（" + Path.GetFileName(file) + "）处理出现异常：\n\t" + ex.Message);
+                ProcessNotice?.Invoke("词库（" + Path.GetFileName(file) + "）处理出现异常：\n\t" + ex.Message);
                 isImportProgress = false;
-                timer.Stop();
+                timer?.Stop();
                 return "";
             }
         }
@@ -229,25 +283,25 @@ public class MainBody : IDisposable
         isImportProgress = false;
         if (SelectedTranslate != ChineseTranslate.NotTrans)
         {
-            ProcessNotice("开始繁简转换...");
+                ProcessNotice?.Invoke("开始繁简转换...");
 
             allWlList = ConvertChinese(allWlList);
         }
 
-        if (Export.CodeType != CodeType.NoCode)
+        if (Export!.CodeType != CodeType.NoCode)
         {
-            ProcessNotice("开始生成词频...");
+            ProcessNotice?.Invoke("开始生成词频...");
             GenerateWordRank(allWlList);
         }
 
-        if (Import.CodeType != Export.CodeType)
+        if (Import!.CodeType != Export!.CodeType)
         {
-            ProcessNotice("开始生成目标编码...");
+            ProcessNotice?.Invoke("开始生成目标编码...");
 
-            GenerateDestinationCode(allWlList, Export.CodeType);
+            GenerateDestinationCode(allWlList, Export!.CodeType);
         }
 
-        if (Export.CodeType != CodeType.NoCode) allWlList = RemoveEmptyCodeData(allWlList);
+        if (Export!.CodeType != CodeType.NoCode) allWlList = RemoveEmptyCodeData(allWlList);
         Count = allWlList.Count;
 
         ReplaceAfterCode(allWlList);
@@ -263,9 +317,9 @@ public class MainBody : IDisposable
         //        allWlList.Add(wl);
         //    }
         //}
-        ExportContents = Export.Export(allWlList);
+        ExportContents = Export!.Export(allWlList);
 
-        timer.Stop();
+        timer?.Stop();
 
         return string.Join("\r\n", ExportContents.ToArray());
     }
@@ -363,7 +417,7 @@ public class MainBody : IDisposable
     // 十位以上的数字转换汉字, 来自这里 https://blog.csdn.net/iplayvs2008/article/details/89517321
     private static string Int2Chs(long input)
     {
-        string ret = null;
+        string ret = string.Empty;
         var input2 = Math.Abs(input);
         var resource = "零一二三四五六七八九";
         var unit = "个十百千万亿兆京垓秭穰沟涧正载极";
@@ -660,7 +714,19 @@ public class MainBody : IDisposable
     /// <param name="outputDir"></param>
     public void Convert(IList<string> filePathes, string outputDir)
     {
-        timer.Start();
+        if (Import == null)
+        {
+            ProcessNotice?.Invoke("Import is not set.");
+            return;
+        }
+
+        if (Export == null)
+        {
+            ProcessNotice?.Invoke("Export is not set.");
+            return;
+        }
+
+        timer?.Start();
         ExportContents = new List<string>();
         var c = 0;
 
@@ -681,21 +747,28 @@ public class MainBody : IDisposable
                 wlList = RemoveEmptyCodeData(wlList);
                 ReplaceAfterCode(wlList);
                 ExportContents = Export.Export(wlList);
+                // Determine per-file output directory. If caller passed an explicit
+                // outputDir that is the application's current folder (legacy
+                // behavior), change it to the input file's directory so exported
+                // files are colocated with their source. If outputDir is empty,
+                // default to the input file directory as well.
+                var perFileOutputDir = outputDir;
+                var appFolder = FileOperationHelper.GetCurrentFolderPath();
+                if (string.IsNullOrEmpty(perFileOutputDir) || perFileOutputDir == appFolder)
+                {
+                    perFileOutputDir = Path.GetDirectoryName(file) ?? appFolder;
+                }
+
                 for (var i = 0; i < ExportContents.Count; i++)
                 {
-                    if (!Directory.Exists(outputDir))
-                        Directory.CreateDirectory(outputDir);
+                    if (!Directory.Exists(perFileOutputDir)) Directory.CreateDirectory(perFileOutputDir);
                     var exportPath = Path.Combine(
-                        outputDir,
+                        perFileOutputDir,
                         Path.GetFileNameWithoutExtension(file)
                         + (i == 0 ? "" : i.ToString())
                         + ".txt"
                     );
-                    FileOperationHelper.WriteFile(
-                        exportPath,
-                        Export.Encoding,
-                        ExportContents[i]
-                    );
+                    FileOperationHelper.WriteFile(exportPath, Export!.Encoding, ExportContents[i]);
                 }
 
                 ExportContents = new List<string>();
@@ -724,17 +797,17 @@ public class MainBody : IDisposable
                     + "\r\n"
                 );
                 Count = c;
-                timer.Stop();
+                timer?.Stop();
             }
         }
 
         Count = c;
-        timer.Stop();
+        timer?.Stop();
     }
 
     public void ExportToFile(string filePath)
     {
-        var outputDir = Path.GetDirectoryName(filePath);
+        var outputDir = Path.GetDirectoryName(filePath) ?? FileOperationHelper.GetCurrentFolderPath();
         for (var i = 0; i < ExportContents.Count; i++)
         {
             if (!Directory.Exists(outputDir))
@@ -745,7 +818,7 @@ public class MainBody : IDisposable
                 + (i == 0 ? "" : i.ToString())
                 + ".txt"
             );
-            FileOperationHelper.WriteFile(exportPath, Export.Encoding, ExportContents[i]);
+            FileOperationHelper.WriteFile(exportPath, Export!.Encoding, ExportContents[i]);
         }
 
         ExportContents = new List<string>();
@@ -755,12 +828,12 @@ public class MainBody : IDisposable
     {
         var textImport = Import as IWordLibraryTextImport;
         if (textImport == null) throw new Exception("流转换,只有文本类型的才支持。");
-        var stream = FileOperationHelper.GetWriteFileStream(outPath, Export.Encoding);
+        var stream = FileOperationHelper.GetWriteFileStream(outPath, Export!.Encoding);
         foreach (var filePath in filePathes)
         {
             var wlStream = new WordLibraryStream(
-                Import,
-                Export,
+                textImport,
+                Export!,
                 filePath,
                 textImport.Encoding,
                 stream

@@ -30,8 +30,7 @@ public static class FileOperationHelper
     public static string GetCurrentFolderPath()
     {
         var type = new ConstantString().GetType();
-
-        return Path.GetDirectoryName(System.AppContext.BaseDirectory);
+        return Path.GetDirectoryName(System.AppContext.BaseDirectory) ?? System.AppContext.BaseDirectory;
     }
 
     /// <summary>
@@ -136,7 +135,7 @@ public static class FileOperationHelper
     /// <param name="path">文件路径</param>
     /// <param name="encoding">编码</param>
     /// <returns>StreamReader实例,需要调用者负责释放</returns>
-    public static StreamReader GetStreamReader(string path, Encoding encoding)
+    public static StreamReader? GetStreamReader(string path, Encoding encoding)
     {
         if (!File.Exists(path)) return null;
         return new StreamReader(path, encoding);
@@ -330,6 +329,7 @@ public static class FileOperationHelper
         if (input.Contains("*")) //正则匹配模式
         {
             var dic = Path.GetDirectoryName(input);
+            if (string.IsNullOrEmpty(dic)) dic = Directory.GetCurrentDirectory();
             var filen = Path.GetFileName(input);
             return Directory.GetFiles(dic, filen, SearchOption.AllDirectories);
         }
@@ -511,53 +511,39 @@ public static class FileOperationHelper
     /// <returns>压缩结果</returns>
     public static bool ZipFile(string fileToZip, string zipedFile)
     {
-        var result = true;
-        ZipOutputStream zipStream = null;
-        FileStream fs = null;
-        ZipEntry ent = null;
-
+        // Stream-based zip to avoid loading entire file into memory
         if (!File.Exists(fileToZip))
             return false;
 
         try
         {
-            fs = File.OpenRead(fileToZip);
-            var buffer = new byte[fs.Length];
-            fs.ReadExactly(buffer);
-            fs.Close();
-
-            fs = File.Create(zipedFile);
-            zipStream = new ZipOutputStream(fs);
-            //if (!string.IsNullOrEmpty(password)) zipStream.Password = password;
-            ent = new ZipEntry(Path.GetFileName(fileToZip));
-            zipStream.PutNextEntry(ent);
-            zipStream.SetLevel(6);
-
-            zipStream.Write(buffer, 0, buffer.Length);
-        }
-        catch
-        {
-            result = false;
-        }
-        finally
-        {
-            if (zipStream != null)
+            using (var input = File.OpenRead(fileToZip))
+            using (var output = File.Create(zipedFile))
+            using (var zipStream = new ZipOutputStream(output))
             {
+                // zip level: 0-9
+                zipStream.SetLevel(6);
+                var ent = new ZipEntry(Path.GetFileName(fileToZip)) { DateTime = DateTime.Now, Size = input.Length };
+                zipStream.PutNextEntry(ent);
+
+                var buffer = new byte[81920];
+                int bytesRead;
+                while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    zipStream.Write(buffer, 0, bytesRead);
+                }
+
+                zipStream.CloseEntry();
                 zipStream.Finish();
-                zipStream.Close();
             }
 
-            if (ent != null) ent = null;
-            if (fs != null)
-            {
-                fs.Close();
-                fs.Dispose();
-            }
+            return true;
         }
-        //GC.Collect();
-        //GC.Collect(1);
-
-        return result;
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"ZipFile failed: {ex}");
+            return false;
+        }
     }
 
     /// <summary>
@@ -569,14 +555,15 @@ public static class FileOperationHelper
     public static bool UnZip(string fileToUnZip, string zipedFolder)
     {
         var result = true;
-        FileStream fs = null;
-        ZipInputStream zipStream = null;
-        ZipEntry ent = null;
-        string fileName;
+        FileStream? fs = null;
+        ZipInputStream? zipStream = null;
+        ZipEntry? ent = null;
+        string fileName = string.Empty;
 
         if (!File.Exists(fileToUnZip))
             return false;
 
+        if (zipedFolder == null) throw new ArgumentNullException(nameof(zipedFolder));
         if (!Directory.Exists(zipedFolder))
             Directory.CreateDirectory(zipedFolder);
 

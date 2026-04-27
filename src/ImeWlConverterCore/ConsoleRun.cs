@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.IO;
 using Studyzy.IMEWLConverter.Entities;
 using Studyzy.IMEWLConverter.Filters;
 using Studyzy.IMEWLConverter.Generaters;
@@ -34,6 +35,10 @@ namespace Studyzy.IMEWLConverter;
 /// </summary>
 public class ConsoleRun
 {
+    private static readonly System.Text.RegularExpressions.Regex LenRegex = new(@"len:(\d+)-(\d+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+    private static readonly System.Text.RegularExpressions.Regex RankRegex = new(@"rank:(\d+)-(\d+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+    private static readonly System.Text.RegularExpressions.Regex RmRegex = new(@"rm:(\w+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+
     private readonly List<ComboBoxShowAttribute> cbxExportItems = new();
     private readonly List<ComboBoxShowAttribute> cbxImportItems = new();
 
@@ -232,29 +237,30 @@ public class ConsoleRun
 
     private void ConfigureFilters(string filterString, IList<ISingleFilter> filters)
     {
-        var lenRegex = new Regex(@"len:(\d+)-(\d+)");
-        var rankRegex = new Regex(@"rank:(\d+)-(\d+)");
-        var rmRegex = new Regex(@"rm:(\w+)");
+        if (string.IsNullOrWhiteSpace(filterString)) return;
 
-        foreach (var filterStr in filterString.Split('|'))
+        foreach (var raw in filterString.Split('|'))
         {
-            if (lenRegex.IsMatch(filterStr))
+            var filterStr = raw.Trim();
+            if (string.IsNullOrEmpty(filterStr)) continue;
+
+            if (LenRegex.IsMatch(filterStr))
             {
-                var match = lenRegex.Match(filterStr);
+                var match = LenRegex.Match(filterStr);
                 var from = Convert.ToInt32(match.Groups[1].Value);
                 var to = Convert.ToInt32(match.Groups[2].Value);
                 filters.Add(new LengthFilter { MinLength = from, MaxLength = to });
             }
-            else if (rankRegex.IsMatch(filterStr))
+            else if (RankRegex.IsMatch(filterStr))
             {
-                var match = rankRegex.Match(filterStr);
+                var match = RankRegex.Match(filterStr);
                 var from = Convert.ToInt32(match.Groups[1].Value);
                 var to = Convert.ToInt32(match.Groups[2].Value);
                 filters.Add(new RankFilter { MinLength = from, MaxLength = to });
             }
-            else if (rmRegex.IsMatch(filterStr))
+            else if (RmRegex.IsMatch(filterStr))
             {
-                var match = rmRegex.Match(filterStr);
+                var match = RmRegex.Match(filterStr);
                 var rmType = match.Groups[1].Value;
                 ISingleFilter filter = rmType switch
                 {
@@ -338,16 +344,44 @@ public class ConsoleRun
 
         Console.WriteLine("转换开始...");
 
-        // 批量输出模式（输出路径以 / 结尾或为目录）
-        if (outputPath.EndsWith("/") || outputPath.EndsWith("\\"))
+        // Determine whether the output is a directory (explicit separator or existing directory)
+        var isDirectory = outputPath.EndsWith(Path.DirectorySeparatorChar)
+                          || outputPath.EndsWith(Path.AltDirectorySeparatorChar)
+                          || Directory.Exists(outputPath);
+
+        if (isDirectory)
         {
+            // Batch output: each input -> separate file(s) under outputPath
             mainBody.Convert(inputFiles, outputPath);
         }
         else
         {
-            // 单文件输出模式
-            var str = mainBody.Convert(inputFiles);
-            FileOperationHelper.WriteFile(outputPath, export.Encoding, str);
+            // Single-file output. For large inputs prefer stream conversion to avoid high memory usage
+            var shouldStream = false;
+            foreach (var f in inputFiles)
+            {
+                if (FileOperationHelper.ShouldUseStreaming(f))
+                {
+                    shouldStream = true;
+                    break;
+                }
+            }
+
+            if (shouldStream && import is IWordLibraryTextImport)
+            {
+                // StreamConvert writes directly to the output file using a StreamWriter
+                mainBody.StreamConvert(inputFiles, outputPath);
+            }
+            else
+            {
+                // Fallback: legacy behavior - convert to string and write
+                var str = mainBody.Convert(inputFiles);
+                using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (var sw = new StreamWriter(fs, export.Encoding))
+                {
+                    sw.Write(str);
+                }
+            }
         }
 
         Console.WriteLine($"转换完成，共转换 {mainBody.Count} 个词条");
@@ -362,38 +396,72 @@ public class ConsoleRun
     private void LoadImeList()
     {
         var assembly = GetType().Assembly;
-        var types = assembly.GetTypes();
+        Type?[] types;
+        try
+        {
+            types = assembly.GetTypes();
+        }
+        catch (System.Reflection.ReflectionTypeLoadException ex)
+        {
+            types = ex.Types;
+        }
+
+        if (types == null) return;
 
         foreach (var type in types)
         {
-            if (type.Namespace != null && type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME"))
+            if (type == null) continue;
+            if (type.Namespace == null || !type.Namespace.StartsWith("Studyzy.IMEWLConverter.IME")) continue;
+
+            var attributes = type.GetCustomAttributes(typeof(ComboBoxShowAttribute), false);
+            if (attributes.Length == 0) continue;
+
+            var cbxa = attributes[0] as ComboBoxShowAttribute;
+            if (cbxa == null) continue;
+
+            Debug.WriteLine($"{cbxa.ShortCode} - Index: {cbxa.Index}");
+
+            try
             {
-                var attributes = type.GetCustomAttributes(typeof(ComboBoxShowAttribute), false);
-                if (attributes.Length > 0)
+                if (typeof(IWordLibraryImport).IsAssignableFrom(type))
                 {
-                    var cbxa = attributes[0] as ComboBoxShowAttribute;
-                    Debug.WriteLine($"{cbxa.ShortCode} - Index: {cbxa.Index}");
-
-                    if (type.GetInterface("IWordLibraryImport") != null)
+                    Debug.WriteLine($"Import: {type.FullName}");
+                    if (!imports.ContainsKey(cbxa.ShortCode))
                     {
-                        Debug.WriteLine($"Import: {type.FullName}");
-                        cbxImportItems.Add(cbxa);
-                        imports.Add(
-                            cbxa.ShortCode,
-                            assembly.CreateInstance(type.FullName) as IWordLibraryImport
-                        );
-                    }
-
-                    if (type.GetInterface("IWordLibraryExport") != null)
-                    {
-                        Debug.WriteLine($"Export: {type.FullName}");
-                        cbxExportItems.Add(cbxa);
-                        exports.Add(
-                            cbxa.ShortCode,
-                            assembly.CreateInstance(type.FullName) as IWordLibraryExport
-                        );
+                        var instance = Activator.CreateInstance(type) as IWordLibraryImport;
+                        if (instance != null)
+                        {
+                            cbxImportItems.Add(cbxa);
+                            imports.Add(cbxa.ShortCode, instance);
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"Failed to create instance of import type: {type.FullName}");
+                        }
                     }
                 }
+
+                if (typeof(IWordLibraryExport).IsAssignableFrom(type))
+                {
+                    Debug.WriteLine($"Export: {type.FullName}");
+                    if (!exports.ContainsKey(cbxa.ShortCode))
+                    {
+                        var instance = Activator.CreateInstance(type) as IWordLibraryExport;
+                        if (instance != null)
+                        {
+                            cbxExportItems.Add(cbxa);
+                            exports.Add(cbxa.ShortCode, instance);
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"Failed to create instance of export type: {type.FullName}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error initializing type {type.FullName}: {ex.Message}");
             }
         }
 

@@ -25,7 +25,7 @@ namespace Studyzy.IMEWLConverter.Generaters;
 
 public class ZhengmaGenerater : BaseCodeGenerater, IWordCodeGenerater
 {
-    private Dictionary<char, Zhengma> zhengmaDic;
+    private Dictionary<char, Zhengma>? zhengmaDic;
 
     private Dictionary<char, Zhengma> ZhengmaDic
     {
@@ -97,7 +97,7 @@ public class ZhengmaGenerater : BaseCodeGenerater, IWordCodeGenerater
     {
         foreach (var c in str)
             if (!ZhengmaDic.ContainsKey(c))
-                return null;
+                return new Code();
 
         if (str.Length == 1) return new Code(ZhengmaDic[str[0]].Code, false);
         var codes = new StringBuilder();

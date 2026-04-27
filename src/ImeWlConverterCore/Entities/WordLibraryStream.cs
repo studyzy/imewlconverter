@@ -39,11 +39,11 @@ public class WordLibraryStream
         StreamWriter sw
     )
     {
-        this.import = import;
-        this.export = export;
-        this.sw = sw;
-        this.path = path;
-        this.encoding = encoding;
+        this.import = import ?? throw new ArgumentNullException(nameof(import));
+        this.export = export ?? throw new ArgumentNullException(nameof(export));
+        this.sw = sw ?? throw new ArgumentNullException(nameof(sw));
+        this.path = path ?? throw new ArgumentNullException(nameof(path));
+        this.encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
     }
 
     public int Count => 0;
@@ -55,23 +55,23 @@ public class WordLibraryStream
         {
             try
             {
-                if (import is IStreamPrepare)
+                if (import is IStreamPrepare pImport)
                 {
-                    var p = import as IStreamPrepare;
-                    p.Prepare();
+                    pImport.Prepare();
                 }
 
-                if (export is IStreamPrepare)
+                if (export is IStreamPrepare pExport)
                 {
-                    var p = export as IStreamPrepare;
-                    p.Prepare();
+                    pExport.Prepare();
                 }
 
                 while (sr.Peek() != -1)
                 {
                     var line = sr.ReadLine();
+                    if (line == null) break;
                     var wll = import.ImportLine(line);
                     import.CurrentStatus = i++;
+                    if (wll == null) continue;
                     foreach (var wl in wll)
                         if (wl != null && match(wl))
                             sw.WriteLine(export.ExportLine(wl));

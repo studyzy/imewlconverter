@@ -105,7 +105,7 @@ public class BaiduPinyinBackup : BaseImport, IWordLibraryImport
         "qogjOuCRNkfil5p4SQ3LAmxGKZTdesvB6z_YPahMI9t80rJyHW1DEwFbc7nUVX2-"
     );
 
-    private static byte[] DECODE_TABLE;
+    private static byte[] DECODE_TABLE = new byte[256];
 
     public BaiduPinyinBackup()
     {
@@ -135,12 +135,15 @@ public class BaiduPinyinBackup : BaseImport, IWordLibraryImport
         }
 
         if (base64Remainder > 0)
+        {
             for (var i = 0; i < 3 - base64Remainder; i++)
             {
+                if (transformed.Count == 0) throw new ArgumentException("Invalid padding: transformed data is empty");
                 if (transformed[transformed.Count - 1] != 0)
                     throw new ArgumentException("Invalid padding");
                 transformed.RemoveAt(transformed.Count - 1);
             }
+        }
 
         var result = transformed.ToArray();
         for (var i = 0; i < result.Length; i += 4)

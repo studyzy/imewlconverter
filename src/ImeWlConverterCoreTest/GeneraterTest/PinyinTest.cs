@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Linq;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Generaters;
@@ -30,7 +31,12 @@ internal class PinyinTest
         generater = new PinyinGenerater();
     }
 
-    private IWordCodeGenerater generater;
+    private IWordCodeGenerater? _generater;
+    private IWordCodeGenerater generater
+    {
+        get => _generater ?? throw new InvalidOperationException("generater not initialized. Ensure SetUp initialized it.");
+        set => _generater = value ?? throw new ArgumentNullException(nameof(value));
+    }
 
     [Test]
     public void TestGetOneWordPinyin()

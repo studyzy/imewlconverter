@@ -31,6 +31,10 @@ namespace Studyzy.IMEWLConverter.IME;
 [ComboBoxShow(ConstantString.LINGOES_LD2, ConstantString.LINGOES_LD2_C, 200)]
 public class LingoesLd2 : BaseImport, IWordLibraryImport
 {
+    // Safety limits
+    private const int MAX_INFLATE_CHUNK = 50 * 1024 * 1024; // 50 MB per compressed chunk
+    private const int MAX_TOTAL_INFLATED = 200 * 1024 * 1024; // 200 MB total inflated data
+    private const int MAX_DECOMPRESS_BUFFER = 8 * 1024 * 1024; // 8 MB buffer for stream copy
     //private readonly Encoding[] AVAIL_ENCODINGS = new[]
     //    {
     //        Encoding.UTF8,
@@ -103,8 +107,7 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
             {
                 Debug.WriteLine("文件不包含字典数据。网上字典？");
             }
-
-            return null;
+            return new List<string>();
         }
     }
 
@@ -239,7 +242,15 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
             foreach (var offsetRelative in deflateStreams)
             {
                 offset = startOffset + offsetRelative;
-                temp.AddRange(Decompress(dataRawBytes, lastOffset, offset - lastOffset));
+                var chunkLen = offset - lastOffset;
+                if (chunkLen < 0 || chunkLen > MAX_INFLATE_CHUNK)
+                    throw new InvalidDataException($"Invalid deflate chunk length: {chunkLen}");
+                var chunk = Decompress(dataRawBytes, lastOffset, (int)chunkLen);
+                temp.AddRange(chunk);
+
+                // Prevent unbounded memory growth
+                if (temp.Count > MAX_TOTAL_INFLATED)
+                    throw new InvalidDataException("Inflated data exceeds allowed maximum size");
 
                 lastOffset = offset;
             }
@@ -257,8 +268,10 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
     {
         var t = new List<byte>();
         var inflator = new Inflater();
+        if (length < 0 || length > MAX_INFLATE_CHUNK)
+            throw new InvalidDataException($"Invalid decompress length: {length}");
         var stream = CopyStream(data, offset, (int)length);
-        var in1 = new InflaterInputStream(stream, inflator, 1024 * 8);
+        var in1 = new InflaterInputStream(stream, inflator, Math.Min(MAX_DECOMPRESS_BUFFER, 1024 * 8));
 
         var buffer = new byte[1024 * 8];
         int len;
@@ -271,6 +284,8 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
 
     private Stream CopyStream(Stream stream, long offset, int length)
     {
+        if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset));
+        if (length < 0 || length > MAX_INFLATE_CHUNK) throw new ArgumentOutOfRangeException(nameof(length));
         stream.Position = offset;
         var bs = StreamToBytes(stream, length);
         return BytesToStream(bs);
@@ -278,6 +293,7 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
 
     private byte[] StreamToBytes(Stream stream, int length)
     {
+        if (length < 0 || length > MAX_INFLATE_CHUNK) throw new InvalidDataException($"Requested stream length is invalid: {length}");
         var bytes = new byte[length];
         stream.ReadExactly(bytes, 0, length);
         // 设置当前流的位置为流的开始
@@ -352,7 +368,23 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
         CountWord = defTotal;
         var words = new string[defTotal];
 #if DEBUG
-        var sw = new StreamWriter("C:\\Temp\\灵格斯.txt", false);
+        StreamWriter? sw = null;
+        try
+        {
+            var debugPath = "C:\\Temp\\灵格斯.txt";
+            var dir = Path.GetDirectoryName(debugPath);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            {
+                try { Directory.CreateDirectory(dir); } catch { }
+            }
+
+            sw = new StreamWriter(debugPath, false);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"无法创建调试输出文件: {ex.Message}");
+            sw = null;
+        }
 #endif
         //Encoding[] encodings = DetectEncodings(dataRawBytes, offsetDefs, offsetXml, defTotal, dataLen);
 
@@ -378,13 +410,13 @@ public class LingoesLd2 : BaseImport, IWordLibraryImport
             else
                 words[i] = word;
 #if DEBUG
-            sw.WriteLine(kv.Key + "\t" + kv.Value);
+            try { sw?.WriteLine(kv.Key + "\t" + kv.Value); } catch { }
 #endif
             CurrentStatus++;
         }
 
 #if DEBUG
-        sw.Close();
+        try { sw?.Close(); } catch { }
 #endif
         Debug.WriteLine("成功读出" + CurrentStatus + "组数据。");
         return new List<string>(words);

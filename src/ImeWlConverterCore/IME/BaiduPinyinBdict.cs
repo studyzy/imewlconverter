@@ -172,7 +172,7 @@ public class BaiduPinyinBdict : BaseImport, IWordLibraryImport
     /// </summary>
     /// <param name="fs"></param>
     /// <returns></returns>
-    private WordLibrary ImportWord(FileStream fs)
+    private WordLibrary? ImportWord(FileStream fs)
     {
         var show = 0;
         var wordLibrary = new WordLibrary();

@@ -32,11 +32,11 @@ public class SelfDefining
         IWordLibraryExport,
         IStreamPrepare
 {
-    private IWordCodeGenerater codeGenerater;
+    private IWordCodeGenerater? codeGenerater;
 
-    public ParsePattern UserDefiningPattern { get; set; }
+    public ParsePattern? UserDefiningPattern { get; set; }
 
-    public override CodeType CodeType => UserDefiningPattern.CodeType;
+    public override CodeType CodeType => UserDefiningPattern?.CodeType ?? CodeType.Unknown;
 
     #region 根据字符串生成WL
 
@@ -45,8 +45,9 @@ public class SelfDefining
     /// </summary>
     /// <param name="line"></param>
     /// <returns></returns>
-    public WordLibrary BuildWordLibrary(string line)
+    public WordLibrary? BuildWordLibrary(string line)
     {
+        if (UserDefiningPattern == null) throw new InvalidOperationException("UserDefiningPattern is not set");
         var wl = new WordLibrary();
         wl.CodeType = UserDefiningPattern.CodeType;
         var strlist = line.Split(
@@ -125,6 +126,7 @@ public class SelfDefining
 
     public void Prepare()
     {
+        if (UserDefiningPattern == null) throw new InvalidOperationException("UserDefiningPattern is not set");
         codeGenerater = CodeTypeHelper.GetGenerater(UserDefiningPattern.CodeType);
         if (UserDefiningPattern.CodeType == CodeType.UserDefine)
         {
@@ -165,7 +167,7 @@ public class SelfDefining
             try
             {
                 sb.Append(ExportLine(wordLibrary));
-                sb.Append(UserDefiningPattern.LineSplitString);
+                sb.Append(UserDefiningPattern!.LineSplitString);
             }
             catch (Exception ex)
             {
@@ -183,7 +185,7 @@ public class SelfDefining
         //调用CodeGenerater生成新的编码，并用新编码生成行
         //IList<string> codes = null;
         //修改：如果当前设置为自定义编码，则强制重新生成编码
-        if (codeGenerater != null && UserDefiningPattern.CodeType == CodeType.UserDefine)
+        if (codeGenerater != null && UserDefiningPattern?.CodeType == CodeType.UserDefine)
         {
             codeGenerater.GetCodeOfWordLibrary(wl);
         }
@@ -191,8 +193,8 @@ public class SelfDefining
         var rank = wl.Rank;
         foreach (
             var code in wl.Codes.ToCodeString(
-                UserDefiningPattern.CodeSplitString,
-                UserDefiningPattern.CodeSplitType
+                UserDefiningPattern?.CodeSplitString ?? "",
+                UserDefiningPattern?.CodeSplitType ?? default
             )
         )
         {
@@ -200,11 +202,12 @@ public class SelfDefining
             lines.Add(line);
         }
 
-        return string.Join(UserDefiningPattern.LineSplitString, lines.ToArray());
+        return string.Join(UserDefiningPattern?.LineSplitString ?? "\r\n", lines.ToArray());
     }
 
     private void BuildLineFormat()
     {
+        if (UserDefiningPattern == null) throw new InvalidOperationException("UserDefiningPattern is not set");
         var dictionary = new Dictionary<int, string>();
         if (UserDefiningPattern.ContainCode) dictionary.Add(UserDefiningPattern.Sort[0], "{0}");
         if (UserDefiningPattern.ContainRank) dictionary.Add(UserDefiningPattern.Sort[2], "{2}");
@@ -227,7 +230,7 @@ public class SelfDefining
 
     #region IWordLibraryTextImport Members
 
-    public override Encoding Encoding => UserDefiningPattern.TextEncoding;
+    public override Encoding Encoding => UserDefiningPattern?.TextEncoding ?? Encoding.Default;
 
     public override WordLibraryList ImportLine(string line)
     {

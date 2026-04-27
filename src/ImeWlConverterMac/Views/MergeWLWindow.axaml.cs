@@ -87,7 +87,7 @@ public partial class MergeWLWindow : Window
 
         try
         {
-            await Task.Run(() => PerformMerge());
+            await PerformMerge();
         }
         catch (Exception ex)
         {
@@ -99,15 +99,25 @@ public partial class MergeWLWindow : Window
         }
     }
 
-    private async void PerformMerge()
+    private async Task PerformMerge()
     {
-        var mainWL = FileOperationHelper.ReadFile(txbMainWLFile.Text);
+        var mainFile = txbMainWLFile.Text;
+        if (string.IsNullOrWhiteSpace(mainFile))
+        {
+            await ShowMessage("主词库路径为空", "词库合并");
+            return;
+        }
+
+        var mainWL = FileOperationHelper.ReadFile(mainFile!);
         var mainDict = ConvertTxt2Dictionary(mainWL);
         var userFiles = (txbUserWLFiles.Text ?? "").Split('|');
 
         foreach (var userFile in userFiles)
         {
             var filePath = userFile.Trim();
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+                continue;
+
             var userTxt = FileOperationHelper.ReadFile(filePath);
             var userDict = ConvertTxt2Dictionary(userTxt);
             Merge2Dict(mainDict, userDict);

@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.IO;
 using NUnit.Framework;
 using Studyzy.IMEWLConverter.Entities;
@@ -23,8 +24,20 @@ namespace Studyzy.IMEWLConverter.Test;
 
 public abstract class BaseTest
 {
-    protected IWordLibraryExport exporter;
-    protected IWordLibraryImport importer;
+    private IWordLibraryExport? _exporter;
+    private IWordLibraryImport? _importer;
+
+    protected IWordLibraryExport exporter
+    {
+        get => _exporter ?? throw new InvalidOperationException("exporter not initialized. Ensure derived test calls InitData and assigns exporter.");
+        set => _exporter = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    protected IWordLibraryImport importer
+    {
+        get => _importer ?? throw new InvalidOperationException("importer not initialized. Ensure derived test calls InitData and assigns importer.");
+        set => _importer = value ?? throw new ArgumentNullException(nameof(value));
+    }
 
     /// <summary>
     ///     深蓝测试

@@ -42,13 +42,13 @@ public class Wubi86 : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport
             return new WordLibraryList();
         }
 
-        string word = null;
-        string code = null;
+        string word = string.Empty;
+        string code = string.Empty;
 
         try
         {
             // 尝试多种分隔符：Tab、多个空格、单个空格
-            string[] parts = null;
+            string[]? parts = null;
 
             // 优先尝试Tab分隔
             if (line.Contains('\t'))

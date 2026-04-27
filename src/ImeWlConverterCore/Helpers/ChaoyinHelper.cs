@@ -91,7 +91,7 @@ public static class ChaoyinHelper
 
     private static readonly IList<string> ShenmuY = new List<string>();
 
-    private static IDictionary<string, string> pinyinCodeMapping;
+    private static IDictionary<string, string>? pinyinCodeMapping;
 
     private static IDictionary<string, string> PinyinCodeMapping
     {
@@ -134,7 +134,7 @@ public static class ChaoyinHelper
         if (!PinyinCodeMapping.ContainsKey(pinyin))
         {
             Debug.WriteLine("Can not find Chaoyin code by pinyin=" + pinyin);
-            return null;
+            return string.Empty;
         }
 
         var zy = PinyinCodeMapping[pinyin];

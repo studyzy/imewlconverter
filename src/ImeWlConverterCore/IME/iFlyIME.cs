@@ -29,7 +29,7 @@ public class iFlyIME : NoPinyinWordOnly
 
     public override WordLibraryList ImportLine(string line)
     {
-        if (line.Length == 0 || line[0] == '#') return null;
+        if (line.Length == 0 || line[0] == '#') return new WordLibraryList();
         return base.ImportLine(line.Split(' ')[0]);
     }
 

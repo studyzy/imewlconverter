@@ -27,7 +27,7 @@ public class BingPinyin : BaseTextImport, IWordLibraryTextImport, IWordLibraryEx
     public override WordLibraryList ImportLine(string line)
     {
         if (line.Length > 0 && line[0] == ';')
-            return null;
+            return new WordLibraryList();
         var sp = line.Split(' ');
 
         var word = sp[0];

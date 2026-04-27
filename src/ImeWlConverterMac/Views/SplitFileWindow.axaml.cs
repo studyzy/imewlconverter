@@ -82,8 +82,15 @@ public partial class SplitFileWindow : Window
 
     private void SplitFileByLine(int maxLine)
     {
-        var encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
-        var str = FileOperationHelper.ReadFile(txbFilePath.Text, encoding);
+        var path = txbFilePath.Text;
+        if (string.IsNullOrEmpty(path))
+        {
+            AppendLog("文件路径为空");
+            return;
+        }
+
+        var encoding = FileOperationHelper.GetEncodingType(path);
+        var str = FileOperationHelper.ReadFile(path, encoding);
 
         var splitLineChar = "\r\n";
         if (str.IndexOf(splitLineChar) < 0)
@@ -127,11 +134,18 @@ public partial class SplitFileWindow : Window
 
     private void SplitFileBySize(int maxSize)
     {
-        var encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
+        var path = txbFilePath.Text;
+        if (string.IsNullOrEmpty(path))
+        {
+            AppendLog("文件路径为空");
+            return;
+        }
+
+        var encoding = FileOperationHelper.GetEncodingType(path);
         var fileIndex = 1;
         var size = (maxSize - 10) * 1024; // 10K的Buffer
 
-        using var inFile = new FileStream(txbFilePath.Text!, FileMode.Open, FileAccess.Read);
+        using var inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
 
         do
         {
@@ -192,8 +206,15 @@ public partial class SplitFileWindow : Window
     private void SplitFileByLength(int length)
     {
         length = length - 100; // 100个字的Buffer
-        var encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
-        var str = FileOperationHelper.ReadFile(txbFilePath.Text, encoding);
+        var path = txbFilePath.Text;
+        if (string.IsNullOrEmpty(path))
+        {
+            AppendLog("文件路径为空");
+            return;
+        }
+
+        var encoding = FileOperationHelper.GetEncodingType(path);
+        var str = FileOperationHelper.ReadFile(path, encoding);
         var fileIndex = 1;
 
         do

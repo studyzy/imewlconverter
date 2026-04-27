@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
 
@@ -15,6 +16,11 @@
         <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0"/>
         <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
     </ItemGroup>
+
+    <PropertyGroup>
+        <!-- Suppress warning about System.Text.Encoding.CodePages package not being removed by restore -->
+        <NoWarn>$(NoWarn);NU1510</NoWarn>
+    </PropertyGroup>
 
     <ItemGroup>
         <None Remove="Resources\GooglePinyin.txt"/>

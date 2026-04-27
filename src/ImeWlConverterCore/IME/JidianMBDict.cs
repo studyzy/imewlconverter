@@ -43,7 +43,7 @@ public class Jidian_MBDict : IWordLibraryImport
     public PinyinType PinyinType { get; set; }
     public Encoding Encoding => Encoding.Unicode;
 
-    public event Action<string> ImportLineErrorNotice;
+    public event Action<string>? ImportLineErrorNotice;
 
     public int CountWord { get; set; }
     public int CurrentStatus { get; set; }
@@ -59,7 +59,8 @@ public class Jidian_MBDict : IWordLibraryImport
         fs.Position = 0x00;
         var headerstr = "Freeime Dictionary";
         var header = Encoding.ASCII.GetString(BinFileHelper.ReadArray(fs, headerstr.Length));
-        Debug.Assert(header.Equals(headerstr));
+        if (!header.Equals(headerstr))
+            throw new InvalidDataException("文件头不匹配: 非 Freeime Dictionary 格式");
 
         DictCodeType curType;
 
@@ -102,13 +103,8 @@ public class Jidian_MBDict : IWordLibraryImport
         var wordBytesLen = fs.ReadByte();
         var split = fs.ReadByte();
         // 0x64对应正常词组（包含中英混拼，如"阿Q"）。
-        Debug.Assert(
-            split.Equals(0x64)
-            || split.Equals(0x32)
-            || split.Equals(0x10)
-            || split.Equals(0x66)
-            || split.Equals(0x67)
-        ); // 0x67: "$X[计算器]calc"
+        if (!(split.Equals(0x64) || split.Equals(0x32) || split.Equals(0x10) || split.Equals(0x66) || split.Equals(0x67)))
+            throw new InvalidDataException($"Unexpected split value: {split}"); // 0x67: "$X[计算器]calc"
         var codeBytes = BinFileHelper.ReadArray(fs, codeBytesLen);
         var codeStr = Encoding.ASCII.GetString(codeBytes);
 
@@ -117,7 +113,8 @@ public class Jidian_MBDict : IWordLibraryImport
 
         if (split.Equals(0x32)) // 如“醃(腌)”，后者是相应简化字？
             word = word.Substring(0, 1); // 暂定只取首字
-        Debug.Assert(word.IndexOf("(") < 0);
+        if (word.IndexOf("(") >= 0) // sanitize parentheses if present
+            word = word.Split('(')[0];
         wl.Word = word;
         try
         {
@@ -141,7 +138,7 @@ public class Jidian_MBDict : IWordLibraryImport
         return wl;
     }
 
-    public event Action<string> ExportErrorNotice;
+    public event Action<string>? ExportErrorNotice;
 
     public IList<string> Export(WordLibraryList wlList)
     {

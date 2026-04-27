@@ -354,7 +354,6 @@ public class MainWindowViewModel : ViewModelBase
             Import = _import!,
             Export = _export!,
             SelectedTranslate = _translate,
-            SelectedConverter = _chineseConverter,
             Filters = GetFilters(),
             SortType = SortType.Default,
             SortDesc = false,
@@ -362,6 +361,10 @@ public class MainWindowViewModel : ViewModelBase
             ReplaceFilters = GetReplaceFilters(),
             FilterConfig = _filterConfig
         };
+
+        // 如果用户选择了中文转换器，则应用它；否则保留 MainBody 的默认转换器。
+        if (_chineseConverter != null)
+            _mainBody.SelectedConverter = _chineseConverter;
 
         _mainBody.ProcessNotice += (msg) =>
         {

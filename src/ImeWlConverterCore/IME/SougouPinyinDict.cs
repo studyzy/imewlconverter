@@ -84,16 +84,16 @@ public class SougouPinyinDict
 
     #region public fields
 
-    public List<KeyItem> KeyList;
-    public List<AttrItem> AttributeList;
-    public List<uint> AIntList;
-    public List<HeaderItem> HeaderItemsIdxList;
-    public List<HeaderItem> HeaderItemsAttrList;
-    public List<HeaderItem> DataStore;
+    public List<KeyItem> KeyList = new List<KeyItem>();
+    public List<AttrItem> AttributeList = new List<AttrItem>();
+    public List<uint> AIntList = new List<uint>();
+    public List<HeaderItem> HeaderItemsIdxList = new List<HeaderItem>();
+    public List<HeaderItem> HeaderItemsAttrList = new List<HeaderItem>();
+    public List<HeaderItem> DataStore = new List<HeaderItem>();
     public long DsBasePos;
-    public List<int> DataTypeSize;
-    public int[] AttrSize;
-    public List<int> BaseHashSize;
+    public List<int> DataTypeSize = new List<int>();
+    public int[] AttrSize = new int[0];
+    public List<int> BaseHashSize = new List<int>();
     public uint[] KeyHashSize = new uint[10];
     public bool AFlag;
 
@@ -103,6 +103,16 @@ public class SougouPinyinDict
 
     public SougouPinyinDict()
     {
+        // Initialize collections to avoid nullable warnings and null reference in callers
+        KeyList = new List<KeyItem>();
+        AttributeList = new List<AttrItem>();
+        AIntList = new List<uint>();
+        HeaderItemsIdxList = new List<HeaderItem>();
+        HeaderItemsAttrList = new List<HeaderItem>();
+        DataStore = new List<HeaderItem>();
+        DataTypeSize = new List<int>();
+        AttrSize = new int[0];
+        BaseHashSize = new List<int>();
     }
 
     public SougouPinyinDict(

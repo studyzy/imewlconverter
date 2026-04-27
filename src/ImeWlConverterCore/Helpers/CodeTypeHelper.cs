@@ -45,7 +45,7 @@ public static class CodeTypeHelper
         }
     }
 
-    public static IWordCodeGenerater GetGenerater(CodeType codeType)
+    public static IWordCodeGenerater? GetGenerater(CodeType codeType)
     {
         switch (codeType)
         {

@@ -64,7 +64,7 @@ public abstract class BaseTextImport : BaseImport
             CountWord = lineCount;
             var currentLine = 0;
 
-            string line;
+            string? line;
             while ((line = sr.ReadLine()) != null)
             {
                 CurrentStatus = currentLine++;
@@ -109,10 +109,17 @@ public abstract class BaseTextImport : BaseImport
         {
             var line = lines[i];
             CurrentStatus = i;
-            try
-            {
-                if (IsContent(line)) wlList.AddWordLibraryList(ImportLine(line));
-            }
+                try
+                {
+                    if (IsContent(line))
+                    {
+                        var words = ImportLine(line);
+                        if (words != null && words.Count > 0)
+                        {
+                            wlList.AddWordLibraryList(words);
+                        }
+                    }
+                }
             catch
             {
                 SendImportLineErrorNotice("无效的词条，解析失败：" + line);

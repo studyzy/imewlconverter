@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -31,17 +32,10 @@ public class Resource4Test
         string file;
         var assembly = typeof(Resource4Test).GetTypeInfo().Assembly;
 
-        using (
-            var stream = assembly.GetManifestResourceStream(
-                "ImeWlConverterCoreTest.Resources." + fileName
-            )
-        )
-        {
-            using (var reader = new StreamReader(stream, true))
-            {
-                file = reader.ReadToEnd();
-            }
-        }
+        using var stream = assembly.GetManifestResourceStream("ImeWlConverterCoreTest.Resources." + fileName)
+                         ?? throw new InvalidOperationException($"Embedded resource not found: {fileName}");
+        using var reader = new StreamReader(stream, true);
+        file = reader.ReadToEnd();
 
         return file;
     }

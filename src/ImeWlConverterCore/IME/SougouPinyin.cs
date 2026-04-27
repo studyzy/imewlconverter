@@ -42,7 +42,7 @@ public class SougouPinyin : BaseTextImport, IWordLibraryExport, IWordLibraryText
             return wll;
         }
 
-        return null;
+        return new WordLibraryList();
     }
 
     #endregion

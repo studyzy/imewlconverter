@@ -1,0 +1,16 @@
+name: Build and Test
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.203'
+      - name: Build solution (MSBuild)
+        run: msbuild "src\\IME WL Converter WinForm.sln" /m /p:Configuration=Release
+      - name: Run tests (vstest)
+        run: |
+          & 'D:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' 'src\ImeWlConverterCoreTest\bin\Release\ImeWlConverterCoreTest.dll' /Logger:trx

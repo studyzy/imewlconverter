@@ -109,7 +109,7 @@ public class Segment
 
     public WordLibraryList WordLibraryList { get; set; }
 
-    private WordLibrary Parse(Stream stream, out int lenByte)
+    private WordLibrary? Parse(Stream stream, out int lenByte)
     {
         if (stream.Position == 0x6664) Debug.WriteLine("Debug");
         var wl = new WordLibrary();

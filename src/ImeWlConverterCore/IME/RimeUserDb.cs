@@ -28,9 +28,9 @@ namespace Studyzy.IMEWLConverter.IME;
 [ComboBoxShow(ConstantString.RIME_USERDB, ConstantString.RIME_USERDB_C, 150)]
 public class RimeUserDb : BaseTextImport, IWordLibraryTextImport, IMultiCodeType
 {
-    private string lineSplitString;
+    private string lineSplitString = "\r\n";
 
-    private OperationSystem os;
+    private OperationSystem os = OperationSystem.Windows;
 
     public RimeUserDb()
     {

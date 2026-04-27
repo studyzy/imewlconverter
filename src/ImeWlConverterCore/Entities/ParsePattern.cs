@@ -46,7 +46,7 @@ public class ParsePattern
     /// <summary>
     ///     对于多个字的编码的设定(比如：code_e2=p11+p12+p21+p22)
     /// </summary>
-    public string MutiWordCodeFormat { get; set; }
+    public string MutiWordCodeFormat { get; set; } = string.Empty;
 
     /// <summary>
     ///     是否包含编码
@@ -61,12 +61,12 @@ public class ParsePattern
     /// <summary>
     ///     编码之间的分隔符
     /// </summary>
-    public string CodeSplitString { get; set; }
+    public string CodeSplitString { get; set; } = string.Empty;
 
     /// <summary>
     ///     编码、词频、汉字之间的分隔符
     /// </summary>
-    public string SplitString { get; set; }
+    public string SplitString { get; set; } = "\t";
 
     /// <summary>
     ///     换行符
@@ -86,7 +86,7 @@ public class ParsePattern
     /// <summary>
     ///     每个字对应的编码的文件路径
     /// </summary>
-    public string MappingTablePath { get; set; }
+    public string MappingTablePath { get; set; } = string.Empty;
 
     /// <summary>
     ///     编码类型：拼音，五笔...

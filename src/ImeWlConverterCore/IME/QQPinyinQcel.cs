@@ -29,6 +29,10 @@ namespace Studyzy.IMEWLConverter.IME;
 public class QQPinyinQcel : BaseImport, IWordLibraryImport
 {
     private Dictionary<int, string> pyDic = new();
+    // safety limits
+    private const int MAX_PY_STR_LEN = 1024 * 4; // 4 KB
+    private const int MAX_HZ_BYTECOUNT = 1024 * 16; // 16 KB
+    private const int MAX_SAME_PY_COUNT = 1000;
 
     #region IWordLibraryImport 成员
 
@@ -97,8 +101,10 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
             num = new byte[4];
             fs.ReadExactly(num, 0, 4);
             var mark = num[0] + num[1] * 256;
-            str = new byte[num[2]];
-            fs.ReadExactly(str, 0, num[2]);
+            int pLen = num[2];
+            if (pLen > MAX_PY_STR_LEN) throw new InvalidDataException($"Invalid pinyin length: {pLen}");
+            str = new byte[pLen];
+            fs.ReadExactly(str, 0, pLen);
             var py = Encoding.Unicode.GetString(str);
             //py = py.Substring(0, py.IndexOf('\0'));
             pyDic.Add(mark, py);
@@ -142,13 +148,15 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
 
     private IList<WordLibrary> ReadAPinyinWord(FileStream fs)
     {
-        var num = new byte[4];
+        byte[] num = new byte[4];
         fs.ReadExactly(num, 0, 4);
         var samePYcount = num[0] + num[1] * 256;
         var pinyinLen = num[2] + num[3] * 256;
+        if (samePYcount < 0 || samePYcount > MAX_SAME_PY_COUNT) throw new InvalidDataException($"Invalid samePYcount: {samePYcount}");
+        if (pinyinLen < 0 || pinyinLen > MAX_PY_STR_LEN) throw new InvalidDataException($"Invalid pinyinLen: {pinyinLen}");
         //接下来读拼音
-        var str = new byte[256];
-        for (var i = 0; i < pinyinLen; i++) str[i] = (byte)fs.ReadByte();
+        var str = new byte[pinyinLen];
+        fs.ReadExactly(str, 0, pinyinLen);
         var wordPY = new List<string>();
         for (var i = 0; i < pinyinLen / 2; i++)
         {
@@ -169,6 +177,7 @@ public class QQPinyinQcel : BaseImport, IWordLibraryImport
             num = new byte[2];
             fs.ReadExactly(num, 0, 2);
             var hzBytecount = num[0] + num[1] * 256;
+            if (hzBytecount < 0 || hzBytecount > MAX_HZ_BYTECOUNT) throw new InvalidDataException($"Invalid hzBytecount: {hzBytecount}");
             str = new byte[hzBytecount];
             fs.ReadExactly(str, 0, hzBytecount);
             var word = Encoding.Unicode.GetString(str);
