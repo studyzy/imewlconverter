@@ -9,8 +9,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.203'
-      - name: Build solution (MSBuild)
-        run: msbuild "src\\IME WL Converter WinForm.sln" /m /p:Configuration=Release
-      - name: Run tests (vstest)
-        run: |
-          & 'D:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' 'src\ImeWlConverterCoreTest\bin\Release\ImeWlConverterCoreTest.dll' /Logger:trx
+      - name: Build solution (dotnet build)
+        run: dotnet build "src\\IME WL Converter WinForm.sln" --configuration Release
+      - name: Run tests (dotnet test)
+        run: dotnet test "src\\ImeWlConverterCoreTest\\ImeWlConverterCoreTest.csproj" --configuration Release --no-build --logger "trx"
