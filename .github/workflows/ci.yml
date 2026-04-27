@@ -323,6 +323,9 @@ jobs:
       - build-windows
       - build-linux
       - build-macos
+      - dependency-scan
+      - secret-scan
+      - docker-build
     if: always()
     
     steps:
@@ -332,7 +335,10 @@ jobs:
              [[ "${{ needs.build-and-test.result }}" != "success" ]] || \
              [[ "${{ needs.build-windows.result }}" != "success" ]] || \
              [[ "${{ needs.build-linux.result }}" != "success" ]] || \
-             [[ "${{ needs.build-macos.result }}" != "success" ]]; then
+             [[ "${{ needs.build-macos.result }}" != "success" ]] || \
+             [[ "${{ needs.dependency-scan.result }}" != "success" ]] || \
+             [[ "${{ needs.secret-scan.result }}" != "success" ]] || \
+             [[ "${{ needs.docker-build.result }}" != "success" ]]; then
             echo "One or more CI jobs failed"
             exit 1
           fi
