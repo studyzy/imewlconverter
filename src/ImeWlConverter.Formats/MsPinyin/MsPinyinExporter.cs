@@ -9,7 +9,7 @@ using ImeWlConverter.Abstractions.Results;
 using ImeWlConverter.Core.Helpers;
 
 /// <summary>Microsoft Pinyin dictionary exporter (XML format with tone-marked pinyin).</summary>
-[FormatPlugin("mspy", "微软拼音", 135)]
+[FormatPlugin("mspy", "微软拼音", 135, FileExtension = ".dctx")]
 public sealed partial class MsPinyinExporter : IFormatExporter
 {
 

@@ -446,8 +446,10 @@ public partial class MainForm : Form
             )
                 return;
 
-            saveFileDialog1.DefaultExt = ".txt";
-            saveFileDialog1.Filter = "文本文件|*.txt";
+            var ext = _selectedExporter?.Metadata.FileExtension ?? ".txt";
+            var filterName = ext == ".txt" ? "文本文件" : _selectedExporter!.Metadata.DisplayName;
+            saveFileDialog1.DefaultExt = ext;
+            saveFileDialog1.Filter = $"{filterName}|*{ext}|所有文件|*.*";
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {

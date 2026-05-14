@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 /// <summary>Sougou Pinyin scel cell dictionary exporter (binary).</summary>
-[FormatPlugin("scel", "搜狗细胞词库scel", 20)]
+[FormatPlugin("scel", "搜狗细胞词库scel", 20, FileExtension = ".scel")]
 public sealed partial class SougouScelExporter : IFormatExporter
 {
     /// <summary>

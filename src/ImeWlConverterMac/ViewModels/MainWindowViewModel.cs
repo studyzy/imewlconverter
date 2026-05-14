@@ -567,16 +567,16 @@ public class MainWindowViewModel : ViewModelBase
             var topLevel = GetTopLevel();
             if (topLevel != null)
             {
-                string defaultExt = ".txt";
+                var ext = _selectedExporter?.Metadata.FileExtension ?? ".txt";
+                var filterName = ext == ".txt" ? "文本文件" : _selectedExporter!.Metadata.DisplayName;
                 var fileTypes = new List<FilePickerFileType>
                 {
-                    new("文本文件") { Patterns = new[] { "*.txt" } }
+                    new(filterName) { Patterns = new[] { $"*{ext}" } }
                 };
 
-                if (_selectedExporter?.Metadata.Id.Contains("msPinyin") == true)
+                if (ext != ".txt")
                 {
-                    defaultExt = ".dctx";
-                    fileTypes.Insert(0, new("微软拼音") { Patterns = new[] { "*.dctx" } });
+                    fileTypes.Add(new("文本文件") { Patterns = new[] { "*.txt" } });
                 }
 
                 fileTypes.Add(FilePickerFileTypes.All);
@@ -585,8 +585,8 @@ public class MainWindowViewModel : ViewModelBase
                 {
                     Title = "保存转换结果",
                     FileTypeChoices = fileTypes,
-                    DefaultExtension = defaultExt,
-                    SuggestedFileName = $"转换结果{defaultExt}"
+                    DefaultExtension = ext,
+                    SuggestedFileName = $"转换结果{ext}"
                 });
 
                 if (file != null)

@@ -19,6 +19,9 @@ public sealed class FormatPluginAttribute : Attribute
     /// <summary>Whether this format uses binary encoding (auto-detected from base class if not set).</summary>
     public bool IsBinary { get; set; }
 
+    /// <summary>Default file extension including the leading dot (e.g., ".txt", ".scel"). Defaults to ".txt".</summary>
+    public string FileExtension { get; set; } = ".txt";
+
     /// <summary>
     /// Initializes a new instance of the <see cref="FormatPluginAttribute"/> class.
     /// </summary>
