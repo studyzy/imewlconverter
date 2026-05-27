@@ -45,6 +45,7 @@ public partial class MainForm : Form
     private IFormatExporter? _selectedExporter;
 
     private ChineseConversionMode _chineseConversionMode = ChineseConversionMode.None;
+    private CodeType _selectedCodeType = CodeType.NoCode;
 
     private FilterConfig filterConfig = new();
     private IWordRankGenerator _wordRankGenerator;
@@ -159,9 +160,26 @@ public partial class MainForm : Form
             if (form != null)
             {
                 if (form is SelfDefiningConfigForm selfDefForm)
+                {
                     selfDefForm.ShowDialog();
+                }
                 else
+                {
                     form.ShowDialog();
+                }
+
+                if (form.DialogResult == DialogResult.OK)
+                {
+                    _selectedCodeType = form switch
+                    {
+                        RimeConfigForm f => f.SelectedCodeType,
+                        XiaoxiaoConfigForm f => f.SelectedCodeType,
+                        ErbiTypeForm f => f.SelectedCodeType,
+                        PinyinConfigForm f => f.SelectedCodeType,
+                        PhraseFormatConfigForm f => f.SelectedCodeType,
+                        _ => CodeType.NoCode
+                    };
+                }
             }
         }
     }
@@ -380,7 +398,11 @@ public partial class MainForm : Form
             FilterConfig = filterConfig,
             Options = new ConversionOptions
             {
-                ChineseConversion = _chineseConversionMode
+                ChineseConversion = _chineseConversionMode,
+                CodeGeneration = new CodeGenerationOptions
+                {
+                    TargetCodeType = _selectedCodeType
+                }
             }
         };
 
