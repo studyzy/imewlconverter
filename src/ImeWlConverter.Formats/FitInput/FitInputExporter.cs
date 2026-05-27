@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>FIT Input dictionary exporter (text format). Format: pinyin,word</summary>
-[FormatPlugin("fit", "FIT", 140)]
+[FormatPlugin("fit", "FIT输入法", 140)]
 public sealed partial class FitInputExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);

@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>QQ Pinyin qcel cell dictionary importer (binary format similar to scel).</summary>
-[FormatPlugin("qcel", "QQ拼音qcel", 60)]
+[FormatPlugin("qcel", "QQ分类词库qcel", 60)]
 public sealed partial class QQPinyinQcelImporter : BinaryFormatImporter
 {
     protected override IReadOnlyList<WordEntry> ParseBinary(Stream input, CancellationToken ct)

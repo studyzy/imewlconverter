@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 /// <summary>XiaoxiaoErbi (二笔) dictionary exporter. Export only, groups words by code: "code word1 word2".</summary>
-[FormatPlugin("erbi", "二笔", 100)]
+[FormatPlugin("erbi", "二笔输入法", 100)]
 public sealed partial class XiaoxiaoErbiExporter : IFormatExporter
 {
     public Task<ExportResult> ExportAsync(

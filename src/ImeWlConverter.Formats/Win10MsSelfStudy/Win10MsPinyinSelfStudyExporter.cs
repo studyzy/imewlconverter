@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 /// <summary>Win10 Microsoft Pinyin self-study dictionary exporter (binary DAT format).</summary>
-[FormatPlugin("win10mspyss", "Win10微软拼音自学习", 130, FileExtension = ".dat")]
+[FormatPlugin("win10mspyss", "Win10微软拼音（自学习词汇）", 130, FileExtension = ".dat")]
 public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
 {
     private const int UserWordBase = 0x2400;

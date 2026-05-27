@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Baidu Pinyin bdict dictionary importer (binary format).</summary>
-[FormatPlugin("bdict", "百度拼音bdict", 100)]
+[FormatPlugin("bdict", "百度分类词库bdict", 100)]
 public sealed partial class BaiduBdictImporter : BinaryFormatImporter
 {
     private static readonly string[] Shengmu =

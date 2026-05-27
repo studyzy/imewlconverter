@@ -20,6 +20,9 @@ public abstract class TextFormatExporter : IFormatExporter
 
     public abstract FormatMetadata Metadata { get; }
 
+    /// <summary>The encoding used when writing to a stream.</summary>
+    public Encoding OutputEncoding => FileEncoding;
+
     /// <summary>Convert a word entry to its text representation.</summary>
     protected abstract string? FormatEntry(WordEntry entry);
 

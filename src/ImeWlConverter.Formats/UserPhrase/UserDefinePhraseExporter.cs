@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>User-defined phrase exporter. Export only, default format: "{code},{rank}={word}".</summary>
-[FormatPlugin("dy", "自定义短语", 110)]
+[FormatPlugin("dy", "用户自定义短语", 110)]
 public sealed partial class UserDefinePhraseExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => Encoding.UTF8;

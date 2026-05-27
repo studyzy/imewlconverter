@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>LibIME Text dictionary importer. Format: pinyin word rank</summary>
-[FormatPlugin("libimetxt", "LibIME Text", 500)]
+[FormatPlugin("libimetxt", "LibIME 拼音词库（文本格式）", 500)]
 public sealed partial class LibIMETextImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.UTF8;

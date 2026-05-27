@@ -37,11 +37,12 @@ internal static class Program
     [STAThread]
     private static int Main(string[] args)
     {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
         if (args.Length > 0)
         {
             // CLI 模式：附着到父进程控制台，使输出在命令行中可见
             AttachConsole(ATTACH_PARENT_PROCESS);
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             // 使用控制台当前代码页的编码，避免中文乱码
             var encoding = Console.OutputEncoding;

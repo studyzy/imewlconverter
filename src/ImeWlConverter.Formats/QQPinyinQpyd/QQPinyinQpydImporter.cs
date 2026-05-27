@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>QQ Pinyin qpyd dictionary importer (binary format with zlib-compressed word data).</summary>
-[FormatPlugin("qpyd", "QQ拼音qpyd", 60)]
+[FormatPlugin("qpyd", "QQ分类词库qpyd", 60)]
 public sealed partial class QQPinyinQpydImporter : BinaryFormatImporter
 {
     protected override IReadOnlyList<WordEntry> ParseBinary(Stream input, CancellationToken ct)

@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Chinese-pyim dictionary importer (text format). Format: pin-yin word1 word2 ...</summary>
-[FormatPlugin("pyim", "ChinesePyim", 177)]
+[FormatPlugin("pyim", "Chinese-pyim", 177)]
 public sealed partial class ChinesePyimImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.UTF8;

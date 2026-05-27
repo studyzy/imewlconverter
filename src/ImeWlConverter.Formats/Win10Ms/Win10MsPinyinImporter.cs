@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Win10 Microsoft Pinyin user dictionary importer (binary format).</summary>
-[FormatPlugin("win10mspy", "Win10微软拼音", 130)]
+[FormatPlugin("win10mspy", "Win10微软拼音（用户自定义短语）", 130)]
 public sealed partial class Win10MsPinyinImporter : BinaryFormatImporter
 {
     protected override IReadOnlyList<WordEntry> ParseBinary(Stream input, CancellationToken ct)

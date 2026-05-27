@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Wubi86 dictionary importer. Supports "code word" and "word code" formats.</summary>
-[FormatPlugin("wb86", "五笔86", 210)]
+[FormatPlugin("wb86", "五笔86版", 210)]
 public sealed partial class Wubi86Importer : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

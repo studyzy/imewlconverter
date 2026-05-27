@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Jidian (极点) dictionary importer. Format: "code word1 word2 word3".</summary>
-[FormatPlugin("jd", "极点", 190)]
+[FormatPlugin("jd", "极点五笔", 190)]
 public sealed partial class JidianImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

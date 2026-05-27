@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Libpinyin dictionary importer (text format). Format: word pinyin</summary>
-[FormatPlugin("libpy", "Libpinyin", 175)]
+[FormatPlugin("libpy", "libpinyin", 175)]
 public sealed partial class LibpinyinImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);

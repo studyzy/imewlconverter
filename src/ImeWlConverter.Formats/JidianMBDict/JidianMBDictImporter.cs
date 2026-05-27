@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Jidian MB dictionary importer (binary .mb format, header "Freeime Dictionary").</summary>
-[FormatPlugin("jdmb", "极点码表", 190)]
+[FormatPlugin("jdmb", "极点五笔.mb文件", 190)]
 public sealed partial class JidianMBDictImporter : BinaryFormatImporter
 {
     protected override IReadOnlyList<WordEntry> ParseBinary(Stream input, CancellationToken ct)

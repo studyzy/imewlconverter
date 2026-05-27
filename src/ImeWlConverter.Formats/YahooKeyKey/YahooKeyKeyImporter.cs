@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Yahoo KeyKey (雅虎奇摩) dictionary importer. Tab-separated: word, zhuyin, score1, score2.</summary>
-[FormatPlugin("yahoo", "Yahoo KeyKey", 200)]
+[FormatPlugin("yahoo", "雅虎奇摩", 200)]
 public sealed partial class YahooKeyKeyImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.UTF8;

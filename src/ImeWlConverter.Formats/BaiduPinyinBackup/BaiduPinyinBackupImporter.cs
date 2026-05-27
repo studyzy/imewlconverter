@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Baidu Pinyin backup file importer (custom encoded binary format).</summary>
-[FormatPlugin("bdpybin", "百度拼音备份", 20)]
+[FormatPlugin("bdpybin", "百度拼音备份词库bin", 20)]
 public sealed partial class BaiduPinyinBackupImporter : BinaryFormatImporter
 {
     private const uint Mask = 0x2D382324;

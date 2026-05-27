@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>ShouXin Pinyin dictionary importer (text format). Format: word\tpinyin\trank</summary>
-[FormatPlugin("sxpy", "手心拼音", 180)]
+[FormatPlugin("sxpy", "手心输入法", 180)]
 public sealed partial class ShouXinPinyinImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Bing Pinyin dictionary importer (text format). Format: word py1 py2 ...</summary>
-[FormatPlugin("bing", "必应拼音", 135)]
+[FormatPlugin("bing", "必应输入法", 135)]
 public sealed partial class BingPinyinImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

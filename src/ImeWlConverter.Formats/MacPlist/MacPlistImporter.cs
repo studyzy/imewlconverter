@@ -10,7 +10,7 @@ using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 /// <summary>Mac Plist dictionary importer (XML plist format).</summary>
-[FormatPlugin("plist", "Mac Plist", 150)]
+[FormatPlugin("plist", "Mac简体拼音", 150)]
 public sealed partial class MacPlistImporter : IFormatImporter
 {
 

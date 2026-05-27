@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Baidu Mobile dictionary exporter. Format: word(pin|yin) 20000</summary>
-[FormatPlugin("bdsj", "百度手机", 1000)]
+[FormatPlugin("bdsj", "百度手机或Mac版百度拼音", 1000)]
 public sealed partial class BaiduShoujiExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

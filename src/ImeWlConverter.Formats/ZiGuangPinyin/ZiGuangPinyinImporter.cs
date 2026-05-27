@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>ZiGuang (Huayu) Pinyin dictionary importer (text format). Format: word\tpinyin</summary>
-[FormatPlugin("zgpy", "紫光拼音", 170)]
+[FormatPlugin("zgpy", "华宇紫光拼音", 170)]
 public sealed partial class ZiGuangPinyinImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

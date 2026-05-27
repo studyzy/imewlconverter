@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>WubiNewAge (五笔新世纪) dictionary importer. Same format as Wubi86.</summary>
-[FormatPlugin("wbnewage", "五笔新世纪", 221)]
+[FormatPlugin("wbnewage", "五笔新世纪版", 221)]
 public sealed partial class WubiNewAgeImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

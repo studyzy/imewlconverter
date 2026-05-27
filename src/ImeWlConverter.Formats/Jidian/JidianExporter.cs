@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 /// <summary>Jidian (极点) dictionary exporter. Groups words by code: "code word1 word2".</summary>
-[FormatPlugin("jd", "极点", 190)]
+[FormatPlugin("jd", "极点五笔", 190)]
 public sealed partial class JidianExporter : IFormatExporter
 {
 

@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Sougou Pinyin dictionary exporter (text format).</summary>
-[FormatPlugin("sgpy", "搜狗拼音", 10)]
+[FormatPlugin("sgpy", "搜狗拼音txt", 10)]
 public sealed partial class SougouPinyinExporter : TextFormatExporter
 {
 

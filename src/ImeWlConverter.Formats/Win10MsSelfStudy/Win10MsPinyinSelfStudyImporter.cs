@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Win10 Microsoft Pinyin self-study dictionary importer (binary DAT format).</summary>
-[FormatPlugin("win10mspyss", "Win10微软拼音自学习", 130)]
+[FormatPlugin("win10mspyss", "Win10微软拼音（自学习词汇）", 130)]
 public sealed partial class Win10MsPinyinSelfStudyImporter : BinaryFormatImporter
 {
     private const int UserWordBase = 0x2400;

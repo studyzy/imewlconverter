@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Wubi98 dictionary exporter. Format: "code word".</summary>
-[FormatPlugin("wb98", "五笔98", 220)]
+[FormatPlugin("wb98", "五笔98版", 220)]
 public sealed partial class Wubi98Exporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

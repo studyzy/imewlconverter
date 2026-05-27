@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Win10 Microsoft Wubi user dictionary importer (binary format).</summary>
-[FormatPlugin("win10mswb", "Win10微软五笔", 131)]
+[FormatPlugin("win10mswb", "Win10微软五笔（用户自定义短语）", 131)]
 public sealed partial class Win10MsWubiImporter : BinaryFormatImporter
 {
     protected override IReadOnlyList<WordEntry> ParseBinary(Stream input, CancellationToken ct)

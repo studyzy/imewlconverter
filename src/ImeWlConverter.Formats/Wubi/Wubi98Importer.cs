@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Wubi98 dictionary importer. Same format as Wubi86 but uses Wubi98 code type.</summary>
-[FormatPlugin("wb98", "五笔98", 220)]
+[FormatPlugin("wb98", "五笔98版", 220)]
 public sealed partial class Wubi98Importer : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

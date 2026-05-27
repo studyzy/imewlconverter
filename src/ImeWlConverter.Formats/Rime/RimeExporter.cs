@@ -9,7 +9,7 @@ using ImeWlConverter.Abstractions.Results;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Rime dictionary exporter (text format). Format: word\tcode\trank, sorted by rank descending.</summary>
-[FormatPlugin("rime", "Rime", 150)]
+[FormatPlugin("rime", "Rime中州韵", 150)]
 public sealed partial class RimeExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);

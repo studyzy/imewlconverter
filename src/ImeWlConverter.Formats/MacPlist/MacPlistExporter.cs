@@ -8,7 +8,7 @@ using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 /// <summary>Mac Plist dictionary exporter (XML plist format).</summary>
-[FormatPlugin("plist", "Mac Plist", 150)]
+[FormatPlugin("plist", "Mac简体拼音", 150)]
 public sealed partial class MacPlistExporter : IFormatExporter
 {
     private const string Header =

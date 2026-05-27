@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>WubiNewAge (五笔新世纪) dictionary exporter. Format: "code word".</summary>
-[FormatPlugin("wbnewage", "五笔新世纪", 221)]
+[FormatPlugin("wbnewage", "五笔新世纪版", 221)]
 public sealed partial class WubiNewAgeExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Baidu Mobile dictionary importer. Format: word(pin|yin) rank</summary>
-[FormatPlugin("bdsj", "百度手机", 1000)]
+[FormatPlugin("bdsj", "百度手机或Mac版百度拼音", 1000)]
 public sealed partial class BaiduShoujiImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

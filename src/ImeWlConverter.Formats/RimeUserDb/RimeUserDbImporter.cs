@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Rime UserDb dictionary importer. Import only, format: "code\tword\trank".</summary>
-[FormatPlugin("rimedb", "Rime用户库", 150)]
+[FormatPlugin("rimedb", "Rime UserDb 用户词典", 150)]
 public sealed partial class RimeUserDbImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);

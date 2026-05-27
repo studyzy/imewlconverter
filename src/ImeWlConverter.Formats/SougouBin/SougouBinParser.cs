@@ -17,8 +17,8 @@ using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 
 /// <summary>
-/// Shared parser for Sougou Pinyin binary backup dictionaries.
-/// Used by both SougouBinImporter and SougouPinyinDictImporter.
+/// Parser for Sougou Pinyin binary backup dictionaries.
+/// Used by SougouBinImporter.
 /// </summary>
 internal static class SougouBinParser
 {

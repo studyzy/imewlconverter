@@ -104,6 +104,7 @@ namespace Studyzy.IMEWLConverter
             // 
             numWordLengthFrom.Location = new System.Drawing.Point(113, 29);
             numWordLengthFrom.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            numWordLengthFrom.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             numWordLengthFrom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numWordLengthFrom.Name = "numWordLengthFrom";
             numWordLengthFrom.Size = new System.Drawing.Size(76, 23);
@@ -134,6 +135,7 @@ namespace Studyzy.IMEWLConverter
             // 
             numWordLengthTo.Location = new System.Drawing.Point(232, 29);
             numWordLengthTo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            numWordLengthTo.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             numWordLengthTo.Name = "numWordLengthTo";
             numWordLengthTo.Size = new System.Drawing.Size(76, 23);
             numWordLengthTo.TabIndex = 1;

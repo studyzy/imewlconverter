@@ -144,7 +144,7 @@ public sealed class ConversionPipeline : IConversionPipeline
             // GUI mode: write to provided stream, capture content
             await exporter.ExportAsync(entries, request.OutputStream, request.Options.Export, ct);
             request.OutputStream.Position = 0;
-            using var reader = new StreamReader(request.OutputStream, leaveOpen: true);
+            using var reader = new StreamReader(request.OutputStream, exporter.OutputEncoding, leaveOpen: true);
             exportContent = await reader.ReadToEndAsync(ct);
         }
         else if (request.OutputPath is not null)

@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>Rime dictionary importer (text format). Format: word\tcode\trank</summary>
-[FormatPlugin("rime", "Rime", 150)]
+[FormatPlugin("rime", "Rime中州韵", 150)]
 public sealed partial class RimeImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);

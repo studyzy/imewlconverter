@@ -7,7 +7,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>ZiGuang Pinyin uwl dictionary importer (binary format).</summary>
-[FormatPlugin("uwl", "紫光拼音uwl", 171)]
+[FormatPlugin("uwl", "紫光拼音词库uwl", 171)]
 public sealed partial class ZiGuangUwlImporter : BinaryFormatImporter
 {
     private static readonly string[] Shengmu =

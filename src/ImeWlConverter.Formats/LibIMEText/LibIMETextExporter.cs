@@ -6,7 +6,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
 /// <summary>LibIME Text dictionary exporter. Format: word pinyin rank (with lue→lve, nue→nve)</summary>
-[FormatPlugin("libimetxt", "LibIME Text", 500)]
+[FormatPlugin("libimetxt", "LibIME 拼音词库（文本格式）", 500)]
 public sealed partial class LibIMETextExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => Encoding.UTF8;
