@@ -8,7 +8,6 @@
         <Version Condition="'$(Version)' == ''">3.3.1</Version>
         <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">3.3.1.0</AssemblyVersion>
         <FileVersion Condition="'$(FileVersion)' == ''">3.3.1.0</FileVersion>
-        <Trimming>full</Trimming>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,19 +18,19 @@
         <!-- 发布优化配置 -->
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
-        
-        <!-- 启用代码裁剪 -->
-        <PublishTrimmed>true</PublishTrimmed>
-        
-        <!-- 单文件发布 -->
+
+        <!-- 单文件发布（兼容 self-contained 与 framework-dependent） -->
         <PublishSingleFile>true</PublishSingleFile>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-        
-        <!-- 启用ReadyToRun优化 -->
-        <PublishReadyToRun>true</PublishReadyToRun>
-        
+
         <!-- 不包含PDB文件 -->
         <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+    </PropertyGroup>
+
+    <!-- 仅在 self-contained 发布时启用裁剪与 ReadyToRun（NETSDK1102/NETSDK1094 要求） -->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' and '$(SelfContained)'=='true'">
+        <PublishTrimmed>true</PublishTrimmed>
+        <PublishReadyToRun>true</PublishReadyToRun>
     </PropertyGroup>
 
     <ItemGroup>
