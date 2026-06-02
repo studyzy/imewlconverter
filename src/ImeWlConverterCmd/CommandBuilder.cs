@@ -9,6 +9,7 @@ using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Core;
+using ImeWlConverter.Core.Helpers;
 using ImeWlConverter.Formats;
 using ImeWlConverter.Formats.SelfDefining;
 using Microsoft.Extensions.DependencyInjection;
@@ -283,23 +284,11 @@ public static class CommandBuilder
 
     private static CodeType InferCodeTypeFromOutputFormat(string outputFormat, string? customFormat)
     {
-        // Wubi formats
-        return outputFormat switch
-        {
-            "wb86" => CodeType.Wubi86,
-            "wb98" => CodeType.Wubi98,
-            "wbnewage" => CodeType.WubiNewAge,
-            "jd" or "qqwb" or "xywb" => CodeType.Wubi86,
-            "jdzm" => CodeType.Zhengma,
-            "cjpt" => CodeType.Cangjie5,
-            // Formats that don't need code
-            "word" => CodeType.NoCode,
-            // Self-defining: check if pinyin display is requested
-            "self" when !string.IsNullOrEmpty(customFormat) && customFormat.Length > 6 && customFormat[6] == 'y'
-                => CodeType.Pinyin,
-            // All other formats (pinyin-based)
-            _ => CodeType.Pinyin
-        };
+        // Self-defining: check if pinyin display is requested
+        if (outputFormat == "self" && !string.IsNullOrEmpty(customFormat) && customFormat.Length > 6 && customFormat[6] == 'y')
+            return CodeType.Pinyin;
+
+        return CodeTypeInference.InferFromOutputFormat(outputFormat);
     }
 
     private static CodeType ParseCodeType(string? codeType)

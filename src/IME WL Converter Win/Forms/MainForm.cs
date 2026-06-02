@@ -386,6 +386,10 @@ public partial class MainForm : Form
 
         var outputStream = (mergeTo1File && !streamExport) ? new MemoryStream() : null;
 
+        var targetCodeType = _selectedCodeType == CodeType.NoCode
+            ? CodeTypeInference.InferFromOutputFormat(_selectedExporter!.Metadata.Id)
+            : _selectedCodeType;
+
         var request = new ConversionRequest
         {
             InputFormatId = _selectedImporter!.Metadata.Id,
@@ -401,7 +405,7 @@ public partial class MainForm : Form
                 ChineseConversion = _chineseConversionMode,
                 CodeGeneration = new CodeGenerationOptions
                 {
-                    TargetCodeType = _selectedCodeType
+                    TargetCodeType = targetCodeType
                 }
             }
         };

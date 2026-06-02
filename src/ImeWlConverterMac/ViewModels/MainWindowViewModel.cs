@@ -13,6 +13,7 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.Core.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImeWlConverterMac.ViewModels;
@@ -311,19 +312,25 @@ public class MainWindowViewModel : ViewModelBase
             var inputFiles = FilePath.Split([" | "], StringSplitOptions.RemoveEmptyEntries).ToList();
             var outputStream = MergeToOneFile ? new MemoryStream() : null;
 
-            var request = new ConversionRequest
+        var targetCodeType = CodeTypeInference.InferFromOutputFormat(_selectedExporter!.Metadata.Id);
+
+        var request = new ConversionRequest
+        {
+            InputFormatId = _selectedImporter!.Metadata.Id,
+            OutputFormatId = _selectedExporter!.Metadata.Id,
+            InputPaths = inputFiles,
+            OutputStream = outputStream,
+            MergeToOneFile = MergeToOneFile,
+            FilterConfig = _filterConfig,
+            Options = new ConversionOptions
             {
-                InputFormatId = _selectedImporter!.Metadata.Id,
-                OutputFormatId = _selectedExporter!.Metadata.Id,
-                InputPaths = inputFiles,
-                OutputStream = outputStream,
-                MergeToOneFile = MergeToOneFile,
-                FilterConfig = _filterConfig,
-                Options = new ConversionOptions
+                ChineseConversion = _chineseConversion,
+                CodeGeneration = new CodeGenerationOptions
                 {
-                    ChineseConversion = _chineseConversion
+                    TargetCodeType = targetCodeType
                 }
-            };
+            }
+        };
 
             var progress = new Progress<ProgressInfo>(info =>
             {

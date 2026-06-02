@@ -22,12 +22,23 @@ public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
         0x55, 0xAA, 0x55, 0xAA
     };
 
+    /// <summary>Win10 Microsoft Pinyin self-study dictionary supports at most 20000 entries per DAT file.</summary>
+    private const int MaxEntryCount = 20000;
+
     public Task<ExportResult> ExportAsync(
         IReadOnlyList<WordEntry> entries, Stream output,
         ExportOptions? options = null, CancellationToken ct = default)
     {
         // Filter: word length 2-12
         var filtered = entries.Where(e => e.Word.Length is >= 2 and <= 12).ToList();
+
+        // Truncate to max supported entry count
+        var skippedCount = 0;
+        if (filtered.Count > MaxEntryCount)
+        {
+            skippedCount = filtered.Count - MaxEntryCount;
+            filtered = filtered.Take(MaxEntryCount).ToList();
+        }
 
         using var bw = new BinaryWriter(output, Encoding.UTF8, leaveOpen: true);
 
@@ -79,7 +90,7 @@ public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
         return Task.FromResult(new ExportResult
         {
             EntryCount = count,
-            ErrorCount = errorCount
+            ErrorCount = errorCount + skippedCount
         });
     }
 
