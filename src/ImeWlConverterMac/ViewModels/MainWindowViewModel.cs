@@ -312,25 +312,25 @@ public class MainWindowViewModel : ViewModelBase
             var inputFiles = FilePath.Split([" | "], StringSplitOptions.RemoveEmptyEntries).ToList();
             var outputStream = MergeToOneFile ? new MemoryStream() : null;
 
-        var targetCodeType = CodeTypeInference.InferFromOutputFormat(_selectedExporter!.Metadata.Id);
+            var targetCodeType = CodeTypeInference.InferFromOutputFormat(_selectedExporter!.Metadata.Id);
 
-        var request = new ConversionRequest
-        {
-            InputFormatId = _selectedImporter!.Metadata.Id,
-            OutputFormatId = _selectedExporter!.Metadata.Id,
-            InputPaths = inputFiles,
-            OutputStream = outputStream,
-            MergeToOneFile = MergeToOneFile,
-            FilterConfig = _filterConfig,
-            Options = new ConversionOptions
+            var request = new ConversionRequest
             {
-                ChineseConversion = _chineseConversion,
-                CodeGeneration = new CodeGenerationOptions
+                InputFormatId = _selectedImporter!.Metadata.Id,
+                OutputFormatId = _selectedExporter!.Metadata.Id,
+                InputPaths = inputFiles,
+                OutputStream = outputStream,
+                MergeToOneFile = MergeToOneFile,
+                FilterConfig = _filterConfig,
+                Options = new ConversionOptions
                 {
-                    TargetCodeType = targetCodeType
+                    ChineseConversion = _chineseConversion,
+                    CodeGeneration = new CodeGenerationOptions
+                    {
+                        TargetCodeType = targetCodeType
+                    }
                 }
-            }
-        };
+            };
 
             var progress = new Progress<ProgressInfo>(info =>
             {
