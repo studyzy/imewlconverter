@@ -5,7 +5,7 @@ using ImeWlConverter.Abstractions;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.Shared;
 
-/// <summary>Sina Pinyin dictionary exporter (text format). Format: pinyin\tword</summary>
+/// <summary>Sina Pinyin dictionary exporter (text format). Format: pinyin word</summary>
 [FormatPlugin("xlpy", "新浪拼音", 180)]
 public sealed partial class SinaPinyinExporter : TextFormatExporter
 {
@@ -18,6 +18,6 @@ public sealed partial class SinaPinyinExporter : TextFormatExporter
         var pinyin = entry.Code?.GetPrimaryCode("'") ?? "";
         if (string.IsNullOrEmpty(pinyin))
             return null;
-        return $"{pinyin}\t{entry.Word}";
+        return $"{pinyin} {entry.Word}";
     }
 }
