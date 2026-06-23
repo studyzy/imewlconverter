@@ -118,3 +118,4 @@ App_Data/*.ldf
 .DS_Store
 +.env*
 +.vscode/
+.serena/

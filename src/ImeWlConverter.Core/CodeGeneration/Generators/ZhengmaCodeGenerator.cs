@@ -81,7 +81,7 @@ public sealed class ZhengmaCodeGenerator : ICodeGenerator
         }
         else
         {
-            // 四字及以上：1+1+1+1（取前三字和末字）
+            // 四字及以上：1+1+1+1（取前4字）
             result = Get1Code(word[0]) + Get1Code(word[1]) + Get1Code(word[2]) + Get1Code(word[3]);
         }
 
