@@ -45,6 +45,11 @@ public partial class FilterConfigForm : Form
 
     public FilterConfig FilterConfig => filterConfig;
 
+    /// <summary>
+    /// 编码生成选项（由 UI 上的 KeepEnglish/KeepNumber/PrefixEnglish 等 checkbox 决定）。
+    /// </summary>
+    public CodeGenerationOptions CodeGenerationOptions { get; private set; } = new();
+
     private void btnOK_Click(object sender, EventArgs e)
     {
         filterConfig.WordLengthFrom = Convert.ToInt32(numWordLengthFrom.Value);
@@ -78,6 +83,16 @@ public partial class FilterConfigForm : Form
         _prefixEnglish = cbxPrefixEnglish.Checked;
         _keepSpaceAlt = cbxKeepSpace_.Checked;
         _keepSpace = cbxKeepSpace.Checked;
+
+        CodeGenerationOptions = new CodeGenerationOptions
+        {
+            KeepEnglishInCode = _keepEnglish,
+            KeepNumberInCode = _keepNumber,
+            KeepPunctuationInCode = _keepPunctuation,
+            PrefixEnglishWithUnderscore = _prefixEnglish,
+            TranslateNumbersToChinese = _chsNumber,
+            ConvertFullWidth = _fullWidth
+        };
 
         DialogResult = DialogResult.OK;
     }

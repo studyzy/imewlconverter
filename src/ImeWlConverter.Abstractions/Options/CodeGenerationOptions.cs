@@ -15,13 +15,13 @@ public sealed class CodeGenerationOptions
     /// Format: "code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11"</summary>
     public string? MultiCodeFormat { get; init; }
 
-    /// <summary>Keep English characters in generated code.</summary>
-    public bool KeepEnglishInCode { get; init; }
+    /// <summary>Keep English characters in generated code. Default: true.</summary>
+    public bool KeepEnglishInCode { get; init; } = true;
 
-    /// <summary>Keep numbers in generated code.</summary>
-    public bool KeepNumberInCode { get; init; }
+    /// <summary>Keep numbers in generated code. Default: true.</summary>
+    public bool KeepNumberInCode { get; init; } = true;
 
-    /// <summary>Keep punctuation in generated code.</summary>
+    /// <summary>Keep punctuation in generated code. Default: false.</summary>
     public bool KeepPunctuationInCode { get; init; }
 
     /// <summary>Convert full-width characters to half-width.</summary>

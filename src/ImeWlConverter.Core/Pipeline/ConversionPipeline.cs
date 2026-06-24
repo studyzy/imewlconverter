@@ -127,7 +127,10 @@ public sealed class ConversionPipeline : IConversionPipeline
         // Phase 6: Remove entries with empty code (when code generation was requested)
         if (_codeGenerationService is not null && request.Options.CodeGeneration.TargetCodeType != CodeType.NoCode)
         {
-            entries = entries.Where(e => e.Code is not null && e.Code.Segments.Count > 0).ToList();
+            entries = entries.Where(e =>
+                e.Code is not null &&
+                e.Code.Segments.Count > 0 &&
+                e.Code.Segments.Any(s => s.Count > 0 && s.Any(c => !string.IsNullOrEmpty(c)))).ToList();
         }
 
         var exportedCount = entries.Count;
@@ -283,7 +286,9 @@ public sealed class ConversionPipeline : IConversionPipeline
             return entries;
 
         progress?.Report(new ProgressInfo(0, entries.Count, "正在生成编码..."));
-        return _codeGenerationService.GenerateCodes(entries, options.TargetCodeType, progress);
+        var generated = _codeGenerationService.GenerateCodes(entries, options.TargetCodeType, progress);
+
+        return CodeGenerationPostProcessor.Apply(generated, options);
     }
 
     private static SelfDefiningCodeGenerator BuildSelfDefiningCodeGenerator(CodeGenerationOptions options)

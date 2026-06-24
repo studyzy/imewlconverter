@@ -8,6 +8,11 @@ public partial class FilterConfigWindow : Window
 {
     public FilterConfig FilterConfig { get; private set; }
 
+    /// <summary>
+    /// 编码生成选项（由 UI 上的 KeepEnglish/KeepNumber/PrefixEnglish 等 checkbox 决定）。
+    /// </summary>
+    public CodeGenerationOptions CodeGenerationOptions { get; private set; } = new();
+
     public FilterConfigWindow()
     {
         InitializeComponent();
@@ -96,6 +101,16 @@ public partial class FilterConfigWindow : Window
         FilterConfig.ReplaceEnglish = cbxReplaceEnglish.IsChecked ?? false;
         FilterConfig.ReplaceSpace = cbxReplaceSpace.IsChecked ?? false;
         FilterConfig.ReplacePunctuation = cbxReplacePunctuation.IsChecked ?? false;
+
+        CodeGenerationOptions = new CodeGenerationOptions
+        {
+            KeepEnglishInCode = cbxKeepEnglish.IsChecked ?? false,
+            KeepNumberInCode = cbxKeepNumber.IsChecked ?? false,
+            KeepPunctuationInCode = cbxKeepPunctuation.IsChecked ?? false,
+            PrefixEnglishWithUnderscore = cbxPrefixEnglish.IsChecked ?? false,
+            TranslateNumbersToChinese = cbxChsNumber.IsChecked ?? false,
+            ConvertFullWidth = cbxFullWidth.IsChecked ?? false
+        };
 
         Close(true);
     }

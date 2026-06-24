@@ -48,6 +48,7 @@ public partial class MainForm : Form
     private CodeType _selectedCodeType = CodeType.NoCode;
 
     private FilterConfig filterConfig = new();
+    private CodeGenerationOptions codeGenOptions = new();
     private IWordRankGenerator _wordRankGenerator;
 
     private string exportPath = "";
@@ -405,7 +406,13 @@ public partial class MainForm : Form
                 ChineseConversion = _chineseConversionMode,
                 CodeGeneration = new CodeGenerationOptions
                 {
-                    TargetCodeType = targetCodeType
+                    TargetCodeType = targetCodeType,
+                    KeepEnglishInCode = codeGenOptions.KeepEnglishInCode,
+                    KeepNumberInCode = codeGenOptions.KeepNumberInCode,
+                    KeepPunctuationInCode = codeGenOptions.KeepPunctuationInCode,
+                    PrefixEnglishWithUnderscore = codeGenOptions.PrefixEnglishWithUnderscore,
+                    TranslateNumbersToChinese = codeGenOptions.TranslateNumbersToChinese,
+                    ConvertFullWidth = codeGenOptions.ConvertFullWidth
                 }
             }
         };
@@ -627,7 +634,11 @@ public partial class MainForm : Form
     {
         var form = new FilterConfigForm();
 
-        if (form.ShowDialog() == DialogResult.OK) filterConfig = form.FilterConfig;
+        if (form.ShowDialog() == DialogResult.OK)
+        {
+            filterConfig = form.FilterConfig;
+            codeGenOptions = form.CodeGenerationOptions;
+        }
     }
 
     private void ToolStripMenuItemMergeWL_Click(object sender, EventArgs e)

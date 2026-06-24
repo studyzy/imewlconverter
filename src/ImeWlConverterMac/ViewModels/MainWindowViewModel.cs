@@ -39,6 +39,7 @@ public class MainWindowViewModel : ViewModelBase
     private IFormatExporter? _selectedExporter;
     private ChineseConversionMode _chineseConversion = ChineseConversionMode.None;
     private FilterConfig _filterConfig = new();
+    private CodeGenerationOptions _codeGenOptions = new();
     private string? _lastExportContent;
     private CancellationTokenSource? _cts;
 
@@ -327,7 +328,13 @@ public class MainWindowViewModel : ViewModelBase
                     ChineseConversion = _chineseConversion,
                     CodeGeneration = new CodeGenerationOptions
                     {
-                        TargetCodeType = targetCodeType
+                        TargetCodeType = targetCodeType,
+                        KeepEnglishInCode = _codeGenOptions.KeepEnglishInCode,
+                        KeepNumberInCode = _codeGenOptions.KeepNumberInCode,
+                        KeepPunctuationInCode = _codeGenOptions.KeepPunctuationInCode,
+                        PrefixEnglishWithUnderscore = _codeGenOptions.PrefixEnglishWithUnderscore,
+                        TranslateNumbersToChinese = _codeGenOptions.TranslateNumbersToChinese,
+                        ConvertFullWidth = _codeGenOptions.ConvertFullWidth
                     }
                 }
             };
@@ -408,6 +415,7 @@ public class MainWindowViewModel : ViewModelBase
                 if (result == true)
                 {
                     _filterConfig = window.FilterConfig;
+                    _codeGenOptions = window.CodeGenerationOptions;
                     StatusMessage = "过滤配置已更新";
                 }
             }
