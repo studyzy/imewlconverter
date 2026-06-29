@@ -132,7 +132,11 @@ public static class CodeGenerationPostProcessor
         return true;
     }
 
-    private static bool IsCJK(char c) => c >= '\u4E00' && c <= '\u9FFF';
+    private static bool IsCJK(char c) =>
+        // CJK Unified Ideographs covers most Chinese characters.
+        // U+3007 (〇, ideographic number zero) is used as the Chinese numeral "零"
+        // and must be treated as CJK, not punctuation/symbol.
+        (c >= '\u4E00' && c <= '\u9FFF') || c == '\u3007';
 
     private static string ConvertFullWidthToHalf(string s)
     {

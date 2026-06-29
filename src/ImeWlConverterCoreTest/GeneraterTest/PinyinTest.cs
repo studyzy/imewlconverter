@@ -18,6 +18,10 @@
 using System.Linq;
 using Xunit;
 using ImeWlConverter.Abstractions.Contracts;
+using ImeWlConverter.Abstractions.Enums;
+using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Core.CodeGeneration.Generators;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest;
@@ -48,5 +52,20 @@ public class PinyinTest
         var result = generator.GenerateCode(str);
         var primaryCode = result.GetPrimaryCode(" ");
         Assert.Equal(py, primaryCode);
+    }
+
+    [Fact]
+    public void TestPostProcessorKeepsIdeographicZero()
+    {
+        // Regression for #406: 〇 (U+3007) must be treated as CJK, not punctuation.
+        // Previously IsCJK only covered U+4E00-U+9FFF, so 〇 was misclassified as
+        // punctuation, its pinyin segment was cleared, and GetPrimaryCode threw
+        // ArgumentOutOfRangeException (accessing s[0] on empty segment), causing
+        // the whole entry to be silently dropped by the exporter.
+        var code = generator.GenerateCode("〇〇七");
+        var entries = new[] { new WordEntry { Word = "〇〇七", Code = code, CodeType = CodeType.Pinyin } }.ToList();
+        var result = CodeGenerationPostProcessor.Apply(entries, new CodeGenerationOptions { TargetCodeType = CodeType.Pinyin });
+        Assert.NotNull(result[0].Code);
+        Assert.Equal("ling ling qi", result[0].Code!.GetPrimaryCode(" "));
     }
 }
