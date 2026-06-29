@@ -245,4 +245,91 @@ public class PinyinCodeGenerationIntegrationTest
 
         Assert.Equal(expected, result.Code!.Segments[0][0]);
     }
+
+    /// <summary>
+    /// Issue #406 完整场景：按照报告中的 4 个测试词条逐一验证。
+    /// 测试词条：没有一个Oo是无辜的、死神大人与4位女友、剑器行、玛·萨拉
+    /// </summary>
+    [Fact]
+    public void Issue406_ExactTestCases()
+    {
+        var options = new CodeGenerationOptions
+        {
+            KeepEnglishInCode = true,
+            KeepNumberInCode = true,
+            KeepPunctuationInCode = false,
+            PrefixEnglishWithUnderscore = true
+        };
+
+        // 场景1: "没有一个Oo是无辜的" - 含英文Oo
+        var r1 = GenerateAndProcess("没有一个Oo是无辜的", options);
+        Assert.Equal("mei", r1.Code!.Segments[0][0]);
+        Assert.Equal("you", r1.Code!.Segments[1][0]);
+        Assert.Equal("yi", r1.Code!.Segments[2][0]);
+        Assert.Equal("ge", r1.Code!.Segments[3][0]);
+        Assert.Equal("_o", r1.Code!.Segments[4][0]); // 英文加前缀
+        Assert.Equal("_o", r1.Code!.Segments[5][0]);
+        Assert.Equal("shi", r1.Code!.Segments[6][0]);
+        Assert.Equal("wu", r1.Code!.Segments[7][0]);
+        Assert.Equal("gu", r1.Code!.Segments[8][0]);
+        Assert.Equal("de", r1.Code!.Segments[9][0]);
+
+        // 场景2: "死神大人与4位女友" - 含数字4
+        var r2 = GenerateAndProcess("死神大人与4位女友", options);
+        Assert.Equal("si", r2.Code!.Segments[0][0]);
+        Assert.Equal("shen", r2.Code!.Segments[1][0]);
+        Assert.Equal("da", r2.Code!.Segments[2][0]);
+        Assert.Equal("ren", r2.Code!.Segments[3][0]);
+        Assert.Equal("yu", r2.Code!.Segments[4][0]);
+        Assert.Equal("4", r2.Code!.Segments[5][0]); // 数字保留
+        Assert.Equal("wei", r2.Code!.Segments[6][0]);
+        Assert.Equal("nv", r2.Code!.Segments[7][0]);
+        Assert.Equal("you", r2.Code!.Segments[8][0]);
+
+        // 场景3: "剑器行" - 多音字，默认取 xing（不在词组字典中）
+        var r3 = GenerateAndProcess("剑器行", options);
+        Assert.Equal("jian", r3.Code!.Segments[0][0]);
+        Assert.Equal("qi", r3.Code!.Segments[1][0]);
+        Assert.Equal("xing", r3.Code!.Segments[2][0]);
+
+        // 场景4: "玛·萨拉" - 含标点符号"·"
+        var r4 = GenerateAndProcess("玛·萨拉", options);
+        Assert.Equal("ma", r4.Code!.Segments[0][0]);
+        Assert.Empty(r4.Code!.Segments[1]); // 标点被清空
+        Assert.Equal("sa", r4.Code!.Segments[2][0]);
+        Assert.Equal("la", r4.Code!.Segments[3][0]);
+    }
+
+    /// <summary>
+    /// Issue #406 回归：默认选项下（无前缀下划线），英文字母编码为小写。
+    /// 旧版本可能使用 _ 前缀机制，默认选项下英文逐字母编码。
+    /// </summary>
+    [Fact]
+    public void Issue406_DefaultOptions_EnglishLettersAsCode()
+    {
+        // 默认选项：KeepEnglishInCode=true, PrefixEnglishWithUnderscore=false
+        var options = new CodeGenerationOptions();
+        var result = GenerateAndProcess("hello", options);
+
+        Assert.Equal("h", result.Code!.Segments[0][0]);
+        Assert.Equal("e", result.Code!.Segments[1][0]);
+        Assert.Equal("l", result.Code!.Segments[2][0]);
+        Assert.Equal("l", result.Code!.Segments[3][0]);
+        Assert.Equal("o", result.Code!.Segments[4][0]);
+    }
+
+    /// <summary>
+    /// Issue #406 回归：验证"·"等符号在默认选项下生成空编码段（被后处理清空）。
+    /// </summary>
+    [Fact]
+    public void Issue406_MiddleDot_ClearedSegment()
+    {
+        var options = new CodeGenerationOptions();
+        var result = GenerateAndProcess("玛·萨拉", options);
+
+        Assert.Equal("ma", result.Code!.Segments[0][0]);
+        Assert.Empty(result.Code!.Segments[1]); // · 被清空
+        Assert.Equal("sa", result.Code!.Segments[2][0]);
+        Assert.Equal("la", result.Code!.Segments[3][0]);
+    }
 }
