@@ -17,6 +17,9 @@ public sealed partial class SougouBinExporter : IFormatExporter
     private const int HeaderSize = 0x8C;
     private const int DefaultIndexCapacity = 10_000;
     private const int DefaultDictionaryCapacity = 400_000;
+    private const int LargeDictionaryCapacityUnit = 10_000;
+    private const int LargeDictionaryCapacityReserve = 90_000;
+    private const uint LargeDictionaryMarkerStride = 0x000B4AA0;
 
     public async Task<ExportResult> ExportAsync(
         IReadOnlyList<WordEntry> entries,
@@ -35,6 +38,7 @@ public sealed partial class SougouBinExporter : IFormatExporter
                 pendingRecords.Add(record);
         }
 
+        var isLargeDictionary = pendingRecords.Count > DefaultIndexCapacity;
         var seenKeys = new HashSet<string>(StringComparer.Ordinal);
         var records = new List<SougouRecord>(pendingRecords.Count);
         for (var i = 0; i < pendingRecords.Count; i++)
@@ -42,19 +46,28 @@ public sealed partial class SougouBinExporter : IFormatExporter
             var pending = pendingRecords[i];
             var key = pending.Word + "\0" + string.Join(',', pending.PinyinIndices);
             var isDuplicate = !seenKeys.Add(key);
-            var id = checked((ushort)(i + 2));
+            var id = isLargeDictionary ? (ushort)0 : checked((ushort)(i + 2));
             records.Add(BuildRecord(pending, id, isDuplicate));
         }
 
         var dictionaryUsed = records.Sum(record => record.Data.Length);
         var indexCapacity = RoundUp(Math.Max(DefaultIndexCapacity, records.Count), DefaultIndexCapacity);
-        var dictionaryCapacity = RoundUp(
-            Math.Max(DefaultDictionaryCapacity, dictionaryUsed),
-            DefaultDictionaryCapacity);
+        var dictionaryCapacity = isLargeDictionary
+            ? checked(RoundUp(dictionaryUsed, LargeDictionaryCapacityUnit) + LargeDictionaryCapacityReserve)
+            : RoundUp(
+                Math.Max(DefaultDictionaryCapacity, dictionaryUsed),
+                DefaultDictionaryCapacity);
         var dictionaryBegin = checked(HeaderSize + indexCapacity * sizeof(uint));
         var data = new byte[checked(dictionaryBegin + dictionaryCapacity)];
 
-        WriteHeader(data, records, indexCapacity, dictionaryBegin, dictionaryCapacity, dictionaryUsed);
+        WriteHeader(
+            data,
+            records,
+            indexCapacity,
+            dictionaryBegin,
+            dictionaryCapacity,
+            dictionaryUsed,
+            isLargeDictionary);
 
         var dictionaryOffset = 0;
         foreach (var record in records)
@@ -179,7 +192,8 @@ public sealed partial class SougouBinExporter : IFormatExporter
         int indexCapacity,
         int dictionaryBegin,
         int dictionaryCapacity,
-        int dictionaryUsed)
+        int dictionaryUsed,
+        bool isLargeDictionary)
     {
         BinaryPrimitives.WriteUInt32LittleEndian(data, 0x55504753); // SGPU
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x04), 0x28);
@@ -187,17 +201,31 @@ public sealed partial class SougouBinExporter : IFormatExporter
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x10), checked((uint)data.Length));
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x14), 1);
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x18), 16);
-        // Sogou validates this value when importing. It is the base marker plus
-        // dictionary data, per-entry bookkeeping, and the zero-frequency count.
+        // Sogou validates this value when importing. Each index block after the
+        // first 10,000 records adds the allocator stride used by Sogou itself.
         var zeroRankCount = records.Count(record => record.Rank == 0);
-        var marker = checked(0x5691F359u + (uint)dictionaryUsed + (uint)Math.Max(records.Count - 1, 0) + (uint)zeroRankCount);
+        var additionalBlocks = isLargeDictionary
+            ? Math.Max(records.Count - 1, 0) / DefaultIndexCapacity
+            : 0;
+        var marker = checked(
+            0x5691F359u
+            + (uint)dictionaryUsed
+            + (uint)Math.Max(records.Count - 1, 0)
+            + (uint)zeroRankCount
+            + checked((uint)additionalBlocks * LargeDictionaryMarkerStride));
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x20), marker);
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x24), 84);
-        BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x28), checked((uint)(records.Count + 1)));
-        BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x30), checked((uint)records.Count(record => record.Rank > 0)));
+        BinaryPrimitives.WriteUInt32LittleEndian(
+            data.AsSpan(0x28),
+            isLargeDictionary ? 1u : checked((uint)(records.Count + 1)));
+        BinaryPrimitives.WriteUInt32LittleEndian(
+            data.AsSpan(0x30),
+            isLargeDictionary ? 0u : checked((uint)records.Count(record => record.Rank > 0)));
         BinaryPrimitives.WriteUInt32LittleEndian(
             data.AsSpan(0x34),
-            checked((uint)records.Where(record => record.Rank > 0).Sum(record => (long)record.Id)));
+            isLargeDictionary
+                ? 0u
+                : checked((uint)records.Where(record => record.Rank > 0).Sum(record => (long)record.Id)));
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x38), HeaderSize);
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x3C), checked((uint)(indexCapacity * sizeof(uint))));
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x40), checked((uint)records.Count));

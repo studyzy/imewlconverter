@@ -79,6 +79,78 @@ public class SougouBinExportTest
         Assert.Equal(expected, BitConverter.ToUInt32(data, 0x20));
     }
 
+    [Fact]
+    public async Task Export_AtTenThousandEntries_UsesSingleBlockLayout()
+    {
+        var (_, data) = await Export(CreateEntries(10_000));
+
+        var count = BitConverter.ToUInt32(data, 0x40);
+        var dictionaryBegin = BitConverter.ToUInt32(data, 0x44);
+
+        Assert.Equal(10_000u, count);
+        Assert.Equal(10_001u, BitConverter.ToUInt32(data, 0x28));
+        Assert.Equal(10_000u, BitConverter.ToUInt32(data, 0x30));
+        Assert.NotEqual(0u, BitConverter.ToUInt32(data, 0x34));
+        Assert.Equal((ushort)2, ReadRecordId(data, dictionaryBegin, 0));
+        Assert.Equal((ushort)10_001, ReadRecordId(data, dictionaryBegin, (int)count - 1));
+    }
+
+    [Theory]
+    [InlineData(10_001, 1)]
+    [InlineData(20_000, 1)]
+    [InlineData(20_001, 2)]
+    [InlineData(30_000, 2)]
+    [InlineData(30_001, 3)]
+    [InlineData(40_000, 3)]
+    public async Task Export_LargeDictionary_UsesSogouBatchStorageLayout(
+        int entryCount,
+        uint expectedAdditionalBlocks)
+    {
+        var entries = CreateEntries(entryCount);
+
+        var (_, data) = await Export(entries);
+
+        var count = BitConverter.ToUInt32(data, 0x40);
+        var used = BitConverter.ToUInt32(data, 0x4c);
+        var expectedCapacity = checked(((used + 9_999u) / 10_000u) * 10_000u + 90_000u);
+        var expectedMarker = checked(
+            0x5691F359u
+            + used
+            + count
+            - 1
+            + expectedAdditionalBlocks * 0x000B4AA0u);
+
+        Assert.Equal((uint)entryCount, count);
+        Assert.Equal(1u, BitConverter.ToUInt32(data, 0x28));
+        Assert.Equal(0u, BitConverter.ToUInt32(data, 0x30));
+        Assert.Equal(0u, BitConverter.ToUInt32(data, 0x34));
+        Assert.Equal(expectedCapacity, BitConverter.ToUInt32(data, 0x48));
+        Assert.Equal(expectedMarker, BitConverter.ToUInt32(data, 0x20));
+
+        var dictionaryBegin = BitConverter.ToUInt32(data, 0x44);
+        Assert.Equal((ushort)0, ReadRecordId(data, dictionaryBegin, 0));
+        Assert.Equal((ushort)0, ReadRecordId(data, dictionaryBegin, (int)count / 2));
+        Assert.Equal((ushort)0, ReadRecordId(data, dictionaryBegin, (int)count - 1));
+    }
+
+    private static List<WordEntry> CreateEntries(int count)
+    {
+        return Enumerable.Range(0, count)
+            .Select(index => new WordEntry
+            {
+                Word = $"\u8bcd{index}",
+                Code = WordCode.FromSingle(new[] { "ci" }),
+                Rank = 1
+            })
+            .ToList();
+    }
+
+    private static ushort ReadRecordId(byte[] data, uint dictionaryBegin, int index)
+    {
+        var offset = BitConverter.ToUInt32(data, 0x8c + index * sizeof(uint));
+        return BitConverter.ToUInt16(data, (int)dictionaryBegin + (int)offset + 2);
+    }
+
     private static async Task<(ImeWlConverter.Abstractions.Results.ExportResult Result, byte[] Data)> Export(
         IReadOnlyList<WordEntry> entries)
     {
