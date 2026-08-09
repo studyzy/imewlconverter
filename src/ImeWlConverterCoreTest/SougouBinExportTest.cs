@@ -96,15 +96,17 @@ public class SougouBinExportTest
     }
 
     [Theory]
-    [InlineData(10_001, 1)]
-    [InlineData(20_000, 1)]
-    [InlineData(20_001, 2)]
-    [InlineData(30_000, 2)]
-    [InlineData(30_001, 3)]
-    [InlineData(40_000, 3)]
-    public async Task Export_LargeDictionary_UsesSogouBatchStorageLayout(
+    [InlineData(10_001, 710_000)]
+    [InlineData(20_000, 710_000)]
+    [InlineData(20_001, 1_020_000)]
+    [InlineData(30_000, 1_020_000)]
+    [InlineData(30_001, 1_330_000)]
+    [InlineData(40_000, 1_330_000)]
+    [InlineData(40_001, 1_650_000)]
+    [InlineData(48_000, 1_650_000)]
+    public async Task Export_LargeDictionary_UsesSogouAllocatorLayout(
         int entryCount,
-        uint expectedAdditionalBlocks)
+        uint expectedCapacity)
     {
         var entries = CreateEntries(entryCount);
 
@@ -112,13 +114,14 @@ public class SougouBinExportTest
 
         var count = BitConverter.ToUInt32(data, 0x40);
         var used = BitConverter.ToUInt32(data, 0x4c);
-        var expectedCapacity = checked(((used + 9_999u) / 10_000u) * 10_000u + 90_000u);
+        var indexSize = BitConverter.ToUInt32(data, 0x3c);
         var expectedMarker = checked(
             0x5691F359u
             + used
             + count
             - 1
-            + expectedAdditionalBlocks * 0x000B4AA0u);
+            + checked(2u * (expectedCapacity - 400_000u))
+            + checked(3u * (indexSize - 40_000u)));
 
         Assert.Equal((uint)entryCount, count);
         Assert.Equal(1u, BitConverter.ToUInt32(data, 0x28));

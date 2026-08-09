@@ -18,8 +18,10 @@ public sealed partial class SougouBinExporter : IFormatExporter
     private const int DefaultIndexCapacity = 10_000;
     private const int DefaultDictionaryCapacity = 400_000;
     private const int LargeDictionaryCapacityUnit = 10_000;
-    private const int LargeDictionaryCapacityReserve = 90_000;
-    private const uint LargeDictionaryMarkerStride = 0x000B4AA0;
+    private const int LargeDictionaryBytesPerIndexSlot = 31;
+    private const int LargeDictionaryReserve = 90_000;
+    private const int LargeDictionaryReserveGrowthPeriod = 4;
+    private const int LargeDictionaryReserveGrowth = 10_000;
 
     public async Task<ExportResult> ExportAsync(
         IReadOnlyList<WordEntry> entries,
@@ -53,7 +55,9 @@ public sealed partial class SougouBinExporter : IFormatExporter
         var dictionaryUsed = records.Sum(record => record.Data.Length);
         var indexCapacity = RoundUp(Math.Max(DefaultIndexCapacity, records.Count), DefaultIndexCapacity);
         var dictionaryCapacity = isLargeDictionary
-            ? checked(RoundUp(dictionaryUsed, LargeDictionaryCapacityUnit) + LargeDictionaryCapacityReserve)
+            ? Math.Max(
+                CalculateLargeDictionaryCapacity(indexCapacity),
+                RoundUp(dictionaryUsed, LargeDictionaryCapacityUnit))
             : RoundUp(
                 Math.Max(DefaultDictionaryCapacity, dictionaryUsed),
                 DefaultDictionaryCapacity);
@@ -201,18 +205,20 @@ public sealed partial class SougouBinExporter : IFormatExporter
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x10), checked((uint)data.Length));
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x14), 1);
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x18), 16);
-        // Sogou validates this value when importing. Each index block after the
-        // first 10,000 records adds the allocator stride used by Sogou itself.
+        // Sogou validates this value when importing. Its allocator contributes
+        // two times the dictionary growth and three times the index growth.
         var zeroRankCount = records.Count(record => record.Rank == 0);
-        var additionalBlocks = isLargeDictionary
-            ? Math.Max(records.Count - 1, 0) / DefaultIndexCapacity
-            : 0;
+        var allocationMarker = isLargeDictionary
+            ? checked((uint)(
+                2L * (dictionaryCapacity - DefaultDictionaryCapacity)
+                + 3L * ((long)indexCapacity * sizeof(uint) - DefaultIndexCapacity * sizeof(uint))))
+            : 0u;
         var marker = checked(
             0x5691F359u
             + (uint)dictionaryUsed
             + (uint)Math.Max(records.Count - 1, 0)
             + (uint)zeroRankCount
-            + checked((uint)additionalBlocks * LargeDictionaryMarkerStride));
+            + allocationMarker);
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x20), marker);
         BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(0x24), 84);
         BinaryPrimitives.WriteUInt32LittleEndian(
@@ -242,6 +248,18 @@ public sealed partial class SougouBinExporter : IFormatExporter
     private static int RoundUp(int value, int unit)
     {
         return checked(((value + unit - 1) / unit) * unit);
+    }
+
+    private static int CalculateLargeDictionaryCapacity(int indexCapacity)
+    {
+        // Sogou allocates 31 bytes per index slot plus a 90 KB reserve. The
+        // reserve gains another 10 KB after every four 10,000-entry blocks.
+        var blockCount = indexCapacity / DefaultIndexCapacity;
+        var reserveGrowthCount = (blockCount - 1) / LargeDictionaryReserveGrowthPeriod;
+        return checked(
+            indexCapacity * LargeDictionaryBytesPerIndexSlot
+            + LargeDictionaryReserve
+            + reserveGrowthCount * LargeDictionaryReserveGrowth);
     }
 
     private sealed record PendingRecord(string Word, ushort[] PinyinIndices, byte[] WordBytes, int Rank);
