@@ -141,20 +141,37 @@ public sealed class ConversionPipeline : IConversionPipeline
         progress?.Report(new ProgressInfo(exportedCount, exportedCount, $"正在导出 {exportedCount} 条词条..."));
 
         string? exportContent = null;
+        byte[]? exportData = null;
 
         if (request.OutputStream is not null)
         {
-            // GUI mode: write to provided stream, capture content
-            await exporter.ExportAsync(entries, request.OutputStream, request.Options.Export, ct);
-            request.OutputStream.Position = 0;
-            using var reader = new StreamReader(request.OutputStream, exporter.OutputEncoding, leaveOpen: true);
-            exportContent = await reader.ReadToEndAsync(ct);
+            // GUI mode: write to provided stream and retain the exact output for saving.
+            var exportResult = await exporter.ExportAsync(entries, request.OutputStream, request.Options.Export, ct);
+            exportedCount = exportResult.EntryCount;
+            filteredCount = importedCount - exportedCount;
+            if (request.OutputStream.CanSeek && request.OutputStream.CanRead)
+            {
+                request.OutputStream.Position = 0;
+                if (exporter.Metadata.IsBinary)
+                {
+                    using var copy = new MemoryStream();
+                    await request.OutputStream.CopyToAsync(copy, ct);
+                    exportData = copy.ToArray();
+                }
+                else
+                {
+                    using var reader = new StreamReader(request.OutputStream, exporter.OutputEncoding, leaveOpen: true);
+                    exportContent = await reader.ReadToEndAsync(ct);
+                }
+            }
         }
         else if (request.OutputPath is not null)
         {
             // CLI/file mode: write directly to file
             using var outputStream = File.Create(request.OutputPath);
-            await exporter.ExportAsync(entries, outputStream, request.Options.Export, ct);
+            var exportResult = await exporter.ExportAsync(entries, outputStream, request.Options.Export, ct);
+            exportedCount = exportResult.EntryCount;
+            filteredCount = importedCount - exportedCount;
         }
 
         var errorStr = errors.Length > 0 ? errors.ToString() : null;
@@ -165,6 +182,7 @@ public sealed class ConversionPipeline : IConversionPipeline
             ExportedCount = exportedCount,
             FilteredCount = filteredCount,
             ExportContent = exportContent,
+            ExportData = exportData,
             ErrorMessages = errorStr
         });
     }
@@ -212,11 +230,11 @@ public sealed class ConversionPipeline : IConversionPipeline
 
                 var outputFile = Path.Combine(
                     request.OutputDirectory ?? ".",
-                    Path.GetFileNameWithoutExtension(file) + ".txt");
+                    Path.GetFileNameWithoutExtension(file) + exporter.Metadata.FileExtension);
                 using var outStream = File.Create(outputFile);
-                await exporter.ExportAsync(fileEntries, outStream, request.Options.Export, ct);
+                var exportResult = await exporter.ExportAsync(fileEntries, outStream, request.Options.Export, ct);
 
-                totalConverted += fileEntries.Count;
+                totalConverted += exportResult.EntryCount;
                 progress?.Report(new ProgressInfo(i + 1, totalFiles, $"已导出: {outputFile}"));
             }
             catch (OperationCanceledException) { throw; }

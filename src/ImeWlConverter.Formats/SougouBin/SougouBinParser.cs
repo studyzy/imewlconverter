@@ -619,7 +619,7 @@ internal static class SougouBinParser
 
     #region Pinyin data
 
-    private static readonly string[] PinyinData =
+    internal static readonly string[] PinyinData =
     {
         "a", "ai", "an", "ang", "ao", "ba", "bai", "ban", "bang", "bao",
         "bei", "ben", "beng", "bi", "bian", "biao", "bie", "bin", "bing", "bo",

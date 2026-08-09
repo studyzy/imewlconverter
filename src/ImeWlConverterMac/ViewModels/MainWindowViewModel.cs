@@ -41,6 +41,7 @@ public class MainWindowViewModel : ViewModelBase
     private FilterConfig _filterConfig = new();
     private CodeGenerationOptions _codeGenOptions = new();
     private string? _lastExportContent;
+    private byte[]? _lastExportData;
     private CancellationTokenSource? _cts;
 
     public MainWindowViewModel(IServiceProvider serviceProvider)
@@ -306,6 +307,7 @@ public class MainWindowViewModel : ViewModelBase
         Progress = 0;
         ResultText = "";
         _lastExportContent = null;
+        _lastExportData = null;
         _cts = new CancellationTokenSource();
 
         try
@@ -352,6 +354,7 @@ public class MainWindowViewModel : ViewModelBase
             if (result.IsSuccess)
             {
                 _lastExportContent = result.Value.ExportContent;
+                _lastExportData = result.Value.ExportData;
                 StatusMessage = $"转换完成，导入 {result.Value.ImportedCount} 条，导出 {result.Value.ExportedCount} 条";
 
                 if (_lastExportContent != null)
@@ -575,7 +578,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private async Task ShowSaveDialog()
     {
-        if (string.IsNullOrEmpty(_lastExportContent)) return;
+        if (string.IsNullOrEmpty(_lastExportContent) && _lastExportData is null) return;
 
         try
         {
@@ -607,7 +610,10 @@ public class MainWindowViewModel : ViewModelBase
                 if (file != null)
                 {
                     var filePath = file.Path.LocalPath;
-                    await File.WriteAllTextAsync(filePath, _lastExportContent);
+                    if (_lastExportData is not null)
+                        await File.WriteAllBytesAsync(filePath, _lastExportData);
+                    else
+                        await File.WriteAllTextAsync(filePath, _lastExportContent!);
                     StatusMessage = $"保存成功，词库路径：{filePath}";
                 }
                 else

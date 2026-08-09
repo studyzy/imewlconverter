@@ -56,6 +56,7 @@ public partial class MainForm : Form
     private int _convertedCount;
 
     private string? _exportContent;
+    private byte[]? _exportData;
 
     private CancellationTokenSource? _cts;
 
@@ -382,6 +383,7 @@ public partial class MainForm : Form
 
         richTextBox1.Clear();
         _exportContent = null;
+        _exportData = null;
         _cts = new CancellationTokenSource();
         SetConvertingState(true);
 
@@ -426,6 +428,7 @@ public partial class MainForm : Form
             {
                 _convertedCount = result.Value.ExportedCount;
                 _exportContent = result.Value.ExportContent;
+                _exportData = result.Value.ExportData;
                 HandleConversionCompleted(result.Value);
             }
             else
@@ -552,7 +555,11 @@ public partial class MainForm : Form
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (_exportContent != null)
+                if (_exportData != null)
+                {
+                    File.WriteAllBytes(saveFileDialog1.FileName, _exportData);
+                }
+                else if (_exportContent != null)
                 {
                     File.WriteAllText(saveFileDialog1.FileName, _exportContent);
                 }

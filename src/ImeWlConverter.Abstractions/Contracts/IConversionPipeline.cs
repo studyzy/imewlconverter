@@ -62,6 +62,9 @@ public sealed record ConversionResult
     /// <summary>Export content as string (for GUI display). Only populated when OutputStream is used.</summary>
     public string? ExportContent { get; init; }
 
+    /// <summary>Export data for binary formats. Only populated when OutputStream is used.</summary>
+    public byte[]? ExportData { get; init; }
+
     /// <summary>Accumulated error messages from individual file processing.</summary>
     public string? ErrorMessages { get; init; }
 }
