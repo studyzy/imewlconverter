@@ -251,4 +251,4 @@ cd ../../tests/integration
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=studyzy/imewlconverter&type=Date)](https://star-history.com/#studyzy/imewlconverter&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=studyzy/imewlconverter&type=Date)](https://star-history.dera.page/#studyzy/imewlconverter&Date)
