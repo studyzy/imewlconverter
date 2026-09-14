@@ -535,6 +535,20 @@ public partial class MainForm : Form
                     + _exportContent.Substring(_exportContent.Length - 100000);
             else if (_exportContent.Length > 0) richTextBox1.Text = _exportContent;
         }
+        else if (_exportData is { Length: > 0 })
+        {
+            // 二进制格式(如 Gboard 词典)没有文本内容可预览, 显示摘要
+            var meta = _selectedExporter?.Metadata;
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine((meta?.DisplayName ?? "二进制词库") + "已生成。");
+            sb.AppendLine();
+            sb.AppendLine("  词条数    " + _convertedCount.ToString("N0"));
+            sb.AppendLine("  文件大小  " + _exportData.Length.ToString("N0") + " 字节 (" +
+                          (_exportData.Length / 1024.0 / 1024.0).ToString("F2") + " MB)");
+            if (meta != null && !string.IsNullOrEmpty(meta.DefaultFileName))
+                sb.AppendLine("  文件名    " + meta.DefaultFileName);
+            richTextBox1.Text = sb.ToString();
+        }
 
         if (_convertedCount > 0)
         {
@@ -552,6 +566,18 @@ public partial class MainForm : Form
             var filterName = ext == ".txt" ? "文本文件" : _selectedExporter!.Metadata.DisplayName;
             saveFileDialog1.DefaultExt = ext;
             saveFileDialog1.Filter = $"{filterName}|*{ext}|所有文件|*.*";
+            // 格式指定了默认文件名时原样使用(如 Gboard 的 user_dict_3_3 不带扩展名)
+            var defName = _selectedExporter?.Metadata.DefaultFileName;
+            if (string.IsNullOrEmpty(defName))
+            {
+                saveFileDialog1.FileName = "";
+            }
+            else
+            {
+                saveFileDialog1.FileName = defName;
+                saveFileDialog1.DefaultExt = "";
+                saveFileDialog1.AddExtension = false;
+            }
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {

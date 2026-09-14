@@ -3,7 +3,7 @@ namespace ImeWlConverter.Formats.GboardBinary;
 /// <summary>
 /// 词面中的一个"单元": ASCII 字符直接作字面量;
 /// 非 ASCII 码点带候选读音, 每个候选是**音节序列**
-/// (正常汉字 1 个音节; emoji 按其中文名可能有多个, 如 🐊 = 鳄鱼 = "e"+"yu")。
+/// (正常汉字 1 个音节; emoji 的拼音可能有多个, 如 🐊 对应 "e"+"yu")。
 /// </summary>
 internal sealed class GboardChar
 {
@@ -16,7 +16,7 @@ internal sealed class GboardChar
     public bool IsAscii => Ascii > 0 && Ascii < 128;
 }
 
-/// <summary>构建 Gboard 二进制词典所需的一个词条。</summary>
+/// <summary>构建 Gboard user_dict_3_3 所需的一个词条。</summary>
 internal sealed class GboardWord
 {
     /// <summary>词面。</summary>

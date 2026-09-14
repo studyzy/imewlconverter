@@ -374,6 +374,9 @@ public class MainWindowViewModel : ViewModelBase
                 if (!string.IsNullOrEmpty(result.Value.ErrorMessages))
                     StatusMessage += " (部分文件有错误)";
 
+                if (_lastExportContent is null && _lastExportData is { Length: > 0 })
+                    ResultText = BuildBinarySummary(result.Value.ExportedCount, _lastExportData.Length);
+
                 await ShowSaveDialog();
             }
             else
@@ -586,30 +589,54 @@ public class MainWindowViewModel : ViewModelBase
             if (topLevel != null)
             {
                 var ext = _selectedExporter?.Metadata.FileExtension ?? ".txt";
-                var filterName = ext == ".txt" ? "文本文件" : _selectedExporter!.Metadata.DisplayName;
-                var fileTypes = new List<FilePickerFileType>
-                {
-                    new(filterName) { Patterns = new[] { $"*{ext}" } }
-                };
+                var defaultName = _selectedExporter?.Metadata.DefaultFileName;
 
-                if (ext != ".txt")
+                List<FilePickerFileType> fileTypes;
+                if (string.IsNullOrEmpty(defaultName))
                 {
-                    fileTypes.Add(new("文本文件") { Patterns = new[] { "*.txt" } });
+                    fileTypes = new List<FilePickerFileType>
+                    {
+                        new(ext == ".txt" ? "文本文件" : _selectedExporter!.Metadata.DisplayName)
+                        {
+                            Patterns = new[] { $"*{ext}" }
+                        }
+                    };
+                    if (ext != ".txt")
+                        fileTypes.Add(new("文本文件") { Patterns = new[] { "*.txt" } });
+                    fileTypes.Add(FilePickerFileTypes.All);
                 }
-
-                fileTypes.Add(FilePickerFileTypes.All);
+                else
+                {
+                    // 固定文件名的格式(如 Gboard 的 user_dict_3_3 没有扩展名):
+                    // 不限定文件类型, 否则 macOS 保存面板会按类型自动补上 .dict
+                    fileTypes = new List<FilePickerFileType> { FilePickerFileTypes.All };
+                }
 
                 var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
                 {
                     Title = "保存转换结果",
                     FileTypeChoices = fileTypes,
-                    DefaultExtension = ext,
-                    SuggestedFileName = $"转换结果{ext}"
+                    // 有默认文件名时原样使用, 不追加扩展名
+                    DefaultExtension = string.IsNullOrEmpty(defaultName) ? ext : null,
+                    SuggestedFileName = string.IsNullOrEmpty(defaultName)
+                        ? $"转换结果{ext}"
+                        : defaultName
                 });
 
                 if (file != null)
                 {
                     var filePath = file.Path.LocalPath;
+
+                    // 固定文件名的格式(如 Gboard 的 user_dict_3_3): macOS 保存面板可能
+                    // 按文件类型自动补上扩展名, 这里去掉, 保证与设备上的文件名一致。
+                    if (!string.IsNullOrEmpty(defaultName))
+                    {
+                        var fileName = Path.GetFileName(filePath);
+                        var dir = Path.GetDirectoryName(filePath);
+                        if (!string.IsNullOrEmpty(dir) && fileName == defaultName + ext)
+                            filePath = Path.Combine(dir, defaultName);
+                    }
+
                     if (_lastExportData is not null)
                         await File.WriteAllBytesAsync(filePath, _lastExportData);
                     else
@@ -635,4 +662,23 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     #endregion
+
+    /// <summary>
+    /// 二进制格式(如 Gboard 词典)没有文本内容可预览, 用摘要代替,
+    /// 便于用户确认转换结果。
+    /// </summary>
+    private string BuildBinarySummary(int entryCount, int byteCount)
+    {
+        var meta = _selectedExporter?.Metadata;
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine($"{meta?.DisplayName ?? "二进制词库"}已生成。");
+        sb.AppendLine();
+        sb.AppendLine($"  词条数    {entryCount:N0}");
+        sb.AppendLine($"  文件大小  {byteCount:N0} 字节 ({byteCount / 1024.0 / 1024.0:F2} MB)");
+        if (meta is not null && !string.IsNullOrEmpty(meta.DefaultFileName))
+            sb.AppendLine($"  文件名    {meta.DefaultFileName}");
+        sb.AppendLine();
+        sb.Append("保存后即可写入磁盘。");
+        return sb.ToString();
+    }
 }

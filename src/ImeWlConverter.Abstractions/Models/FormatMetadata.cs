@@ -10,6 +10,7 @@ namespace ImeWlConverter.Abstractions.Models;
 /// <param name="SupportsExport">Whether this format supports exporting.</param>
 /// <param name="IsBinary">Whether this format uses binary encoding.</param>
 /// <param name="FileExtension">Default file extension including the leading dot (e.g., ".txt", ".scel").</param>
+/// <param name="DefaultFileName">Preferred file name (without extension) when saving, or null for a generic name.</param>
 public sealed record FormatMetadata(
     string Id,
     string DisplayName,
@@ -17,4 +18,5 @@ public sealed record FormatMetadata(
     bool SupportsImport,
     bool SupportsExport,
     bool IsBinary = false,
-    string FileExtension = ".txt");
+    string FileExtension = ".txt",
+    string? DefaultFileName = null);

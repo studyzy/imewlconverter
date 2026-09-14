@@ -100,7 +100,7 @@ PC 端：
 - QQ 手机拼音
 - 百度手机拼音（文本词库和 bcd 格式）
 - 谷歌拼音输入法
-- [Gboard 二进制词典（user_dict_3_3）](https://github.com/jzksnsjswkw/imewlconverter/wiki/GBoard_Binary)
+- [Gboard user_dict_3_3](https://github.com/jzksnsjswkw/imewlconverter/wiki/GBoard_Binary)
 
 该软件支持 6 种以上的输入法编码方法：
 
@@ -143,7 +143,7 @@ imewlconverter -i <输入格式> -o <输出格式> -O <输出文件> <输入文�
 | `libpy` | libpinyin (Linux) | .txt | ✅ | ✅ |
 | `plist` | macOS 系统拼音 | .plist | ✅ | ✅ |
 | `fit` | FIT 输入法 (Mac) | .txt | ✅ | ✅ |
-| `gboardbin` | Gboard 二进制词典 | .dict | ✅ | ✅ |
+| `gboardbin` | Gboard user_dict_3_3 | .dict | ✅ | ✅ |
 | `self` | 自定义格式 | .txt | ✅ | ✅ |
 
 > 运行 `--list-formats` 可查看当前版本支持的完整格式列表。
