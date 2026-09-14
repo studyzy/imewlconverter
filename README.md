@@ -100,7 +100,7 @@ PC 端：
 - QQ 手机拼音
 - 百度手机拼音（文本词库和 bcd 格式）
 - 谷歌拼音输入法
-- [Gboard user_dict_3_3](https://github.com/jzksnsjswkw/imewlconverter/wiki/GBoard_Binary)
+- [Gboard user_dict_3_3](https://github.com/studyzy/imewlconverter/wiki/GBoard_Binary)
 
 该软件支持 6 种以上的输入法编码方法：
 
