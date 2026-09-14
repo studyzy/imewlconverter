@@ -59,8 +59,15 @@ internal static class GboardDictionaryBuilder
     /// <summary>表尾预留的空闲槽数。</summary>
     private const int ExtraFreeSlots = 13;
 
-    /// <summary>FPT2 的 D 字段默认值(官方取值区间 20486~20518)。</summary>
-    private const ushort DefaultD = 20707;
+    /// <summary>
+    /// FPT2 的 D 字段 = 词条最后修改日（1970-01-01 起的天数）。
+    /// 与 PinyinIME 的 lmt 同源：那边把 [lmt:16][freq:16] 打包成一个 u32，
+    /// 这边拆成 D（日期）+ F1（频次）。官方词典里变体停在导入那天、KEY 条目
+    /// 要等用户选过才会变新，所以导入时统一写“今天”最贴近 Gboard 自己的行为。
+    /// 用本地日期（与参考实现 gboard_build3.py 的 date.today() 一致）。
+    /// </summary>
+    private static ushort DefaultD =>
+        (ushort)(DateTime.Now.Date - new DateTime(1970, 1, 1)).TotalDays;
 
     private const byte FlagVariant = 0xA0;
     private const byte FlagKey = 0xC0;
