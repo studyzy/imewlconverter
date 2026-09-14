@@ -23,6 +23,13 @@ public sealed class FormatPluginAttribute : Attribute
     public string FileExtension { get; set; } = ".txt";
 
     /// <summary>
+    /// Preferred file name (without extension) suggested when saving.
+    /// Null means the UI uses a generic name. Useful for formats whose file name is fixed
+    /// by the target application (e.g. Gboard's <c>user_dict_3_3</c>).
+    /// </summary>
+    public string? DefaultFileName { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="FormatPluginAttribute"/> class.
     /// </summary>
     /// <param name="id">Short identifier code.</param>

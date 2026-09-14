@@ -19,7 +19,8 @@ using ImeWlConverter.Abstractions.Results;
 ///
 /// 词条需要**拼音编码**(<see cref="CodeType.Pinyin"/>)。
 /// </summary>
-[FormatPlugin("gboardbin", "Gboard 二进制词典", 112, IsBinary = true, FileExtension = ".dict")]
+[FormatPlugin("gboardbin", "Gboard user_dict_3_3", 112, IsBinary = true, FileExtension = ".dict",
+    DefaultFileName = "user_dict_3_3")]
 public sealed partial class GboardBinaryExporter : IFormatExporter
 {
     public Task<ExportResult> ExportAsync(
@@ -65,7 +66,7 @@ public sealed partial class GboardBinaryExporter : IFormatExporter
         if (string.IsNullOrWhiteSpace(text))
             return false;
 
-        // 按码点展开(emoji 是一个码点, 但可能对应多个音节)
+        // 按码点展开(emoji 是单个码点, 但对应的拼音可能有多个音节)
         var codePoints = text.EnumerateRunes().ToArray();
         var cjkCount = codePoints.Count(r => r.Value >= 128);
         if (cjkCount == 0)
@@ -93,7 +94,7 @@ public sealed partial class GboardBinaryExporter : IFormatExporter
         //   段数 == 码点数      → 与码点一一对齐(含 ASCII 占位)
         //   段数 == 汉字数      → 与汉字一一对齐
         //   段数 == 1 且是整串  → 按汉字数切分音节
-        //   段数 >  汉字数      → 扁平音节表(emoji 的中文名可能多音节)
+        //   段数 >  汉字数      → 扁平音节表(emoji 的拼音可能有多个音节)
         if (segments.Count == codePoints.Length || segments.Count == cjkCount)
         {
             // 每个位置: 候选 = 段内每个元素各作为一个单音节序列
@@ -134,7 +135,7 @@ public sealed partial class GboardBinaryExporter : IFormatExporter
         }
         else if (segments.Count > cjkCount)
         {
-            // 扁平音节表 —— 例如 emoji 的中文名有多个音节(🐊 = 鳄鱼)。
+            // 扁平音节表 —— 例如 emoji 的拼音有多个音节(输入 eyu 选中 🐊, 即 e + yu)。
             // 多出来的音节优先分给 BMP 之外的码点(emoji)。
             pronunciations = new List<string[]>[cjkCount];
             var si = 0;

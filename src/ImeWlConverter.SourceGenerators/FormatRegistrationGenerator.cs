@@ -68,12 +68,15 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
         // Read named arguments (IsBinary, FileExtension)
         bool? isBinaryExplicit = null;
         string fileExtension = null;
+        string defaultFileName = null;
         foreach (var named in attr.NamedArguments)
         {
             if (named.Key == "IsBinary")
                 isBinaryExplicit = (bool?)named.Value.Value;
             else if (named.Key == "FileExtension")
                 fileExtension = named.Value.Value?.ToString();
+            else if (named.Key == "DefaultFileName")
+                defaultFileName = named.Value.Value?.ToString();
         }
 
         // Detect interfaces
@@ -102,7 +105,8 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
             isExporter,
             isBinary,
             needsOverride,
-            fileExtension ?? ".txt");
+            fileExtension ?? ".txt",
+            defaultFileName);
     }
 
     private static bool InheritsFromBinaryImporter(INamedTypeSymbol symbol)
@@ -182,10 +186,13 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
         var modifier = format.NeedsOverride ? "override " : "";
         sb.AppendLine($"partial class {format.ClassName}");
         sb.AppendLine("{");
+        var fileNameArg = string.IsNullOrEmpty(format.DefaultFileName)
+            ? ""
+            : $", DefaultFileName: \"{Escape(format.DefaultFileName!)}\"";
         sb.AppendLine($"    public {modifier}ImeWlConverter.Abstractions.Models.FormatMetadata Metadata {{ get; }} =");
         sb.AppendLine($"        new(\"{Escape(format.Id)}\", \"{Escape(format.DisplayName)}\", {format.SortOrder}, " +
                       $"SupportsImport: {Bool(format.IsImporter)}, SupportsExport: {Bool(format.IsExporter)}, " +
-                      $"IsBinary: {Bool(format.IsBinary)}, FileExtension: \"{Escape(format.FileExtension)}\");");
+                      $"IsBinary: {Bool(format.IsBinary)}, FileExtension: \"{Escape(format.FileExtension)}\"{fileNameArg});");
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -208,11 +215,12 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
         public bool IsBinary { get; }
         public bool NeedsOverride { get; }
         public string FileExtension { get; }
+        public string DefaultFileName { get; }
 
         public FormatInfo(string fullTypeName, string className, string ns,
             string id, string displayName, int sortOrder,
             bool isImporter, bool isExporter, bool isBinary, bool needsOverride,
-            string fileExtension)
+            string fileExtension, string defaultFileName)
         {
             FullTypeName = fullTypeName;
             ClassName = className;
@@ -225,6 +233,7 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
             IsBinary = isBinary;
             NeedsOverride = needsOverride;
             FileExtension = fileExtension;
+            DefaultFileName = defaultFileName;
         }
     }
 }
