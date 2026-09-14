@@ -15,7 +15,7 @@ using System.Text;
 internal static class GboardBinaryReader
 {
     /// <summary>读出的一个词: 词面 + 每个汉字的拼音音节。</summary>
-    internal sealed record DecodedWord(string Word, List<string> Pinyins);
+    internal sealed record DecodedWord(string Word, List<string> Pinyins, int Rank);
 
     public static List<DecodedWord> Read(byte[] d)
     {
@@ -43,8 +43,11 @@ internal static class GboardBinaryReader
         var f2Count = ReadU32(d, f2 + 20);
         var f2Base = f2 + 28;
 
-        var result = new List<DecodedWord>();
-        var seen = new HashSet<string>(StringComparer.Ordinal);
+        // 一个词在 FPT2 里有多条(变体 + KEY + VAL), 必须取 KEY 条目的拼音。
+        // 注意顺序: 变体条目通常排在 KEY 前面, 所以不能"首次见到就收下"。
+        var pinyinOf = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        var rankOf = new Dictionary<string, int>(StringComparer.Ordinal);
+        var order = new List<string>();
 
         for (var e = 0; e < f2Count; e++)
         {
@@ -60,19 +63,32 @@ internal static class GboardBinaryReader
             if (valPath is null || valPath.Length == 0)
                 continue;
             var word = DecodeText(valPath);
-            if (string.IsNullOrEmpty(word) || !seen.Add(word))
+            if (string.IsNullOrEmpty(word))
                 continue;
 
-            List<string>? pinyins = null;
+            if (!pinyinOf.ContainsKey(word))
+            {
+                pinyinOf[word] = [];
+                rankOf[word] = 0;
+                order.Add(word);
+            }
+
+            // KEY 条目的路径才是这个词的拼音(变体条目是缩写码或部分码),
+            // 其 F1 字段即该词的词频(Gboard 用它决定候选顺序)。
             if ((flags & 0x40) != 0)
             {
                 var keyPath = PathOf(d, nodeBase, nodeCount, (int)keyNode);
                 if (keyPath is not null)
-                    pinyins = DecodePinyin(keyPath);
+                    pinyinOf[word] = DecodePinyin(keyPath);
+                var freq = (int)(ReadU32(d, off + 8) & 0xFFFFFF);
+                if (freq > rankOf[word])
+                    rankOf[word] = freq;
             }
-
-            result.Add(new DecodedWord(word, pinyins ?? []));
         }
+
+        var result = order
+            .Select(w => new DecodedWord(w, pinyinOf[w], rankOf[w]))
+            .ToList();
 
         _ = f1Count;
         _ = slotCount;
