@@ -44,11 +44,13 @@ public sealed partial class GboardBinaryImporter : IFormatImporter
             entries.Add(new WordEntry
             {
                 Word = w.Word,
-                // FPT2 的 F1 字段即词频(Gboard 用它给候选排序, 越大越靠前)。
-                // 这里 +1: 上游的 DefaultWordRankGenerator 会把 Rank==0 的条目
-                // 覆盖成 1, 而 F1 从 0 开始, 直接映射会让 0 和 1 两个频次撞在一起,
-                // 同音词的先后顺序就丢了。+1 后既保持相对顺序又不会被覆盖。
-                Rank = w.Rank + 1,
+                // FPT2 的 F1 字段即词频（用户选中次数，官方量级 1~140）。
+                // 原样映射：F1=0（从未选过）由构建器或上游的 DefaultWordRankGenerator
+                // 统一归为 1。
+                // 早期这里写 +1（为躲开上游把 Rank==0 覆盖成 1），但那样每轮
+                // 「导入→导出」都会把所有词频抬 1，反复往返后全部撞到上限、
+                // 同音词的相对顺序丢失。现在构建器自己会把 0 归为 1，无需偏移。
+                Rank = w.Rank,
                 CodeType = CodeType.Pinyin,
                 Code = code,
             });
