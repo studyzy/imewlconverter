@@ -16,6 +16,8 @@
  */
 
 using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
@@ -103,5 +105,65 @@ public class GboardBinaryTest
         using var ms = new MemoryStream();
         Assert.Throws<System.InvalidOperationException>(
             () => _exporter.ExportAsync(entries, ms).GetAwaiter().GetResult());
+    }
+
+    /// <summary>
+    /// KEY 的 F1 是「用户选中次数」，必须保持在 Gboard 的量级（官方 1~140）。
+    /// 早期版本按名次摊成 1..n 的大跨度，使导入词的 F1 远高于 Gboard 之后学到的
+    /// 词，候选顺序被永久冻死（实测：亟需 F1=7775 压过反复选中的 继续 F1=33）。
+    /// 这里断言 F1 就是词库给的词频，而不是按名次重排的值。
+    /// </summary>
+    [Fact]
+    public void Export_KeepsFrequenciesInGboardScale()
+    {
+        var entries = new[]
+        {
+            Entry("啊", "a") with { Rank = 1 },
+            Entry("爱", "ai") with { Rank = 5 },
+            Entry("安", "an") with { Rank = 100 },
+        };
+
+        using var ms = new MemoryStream();
+        _exporter.ExportAsync(entries, ms).GetAwaiter().GetResult();
+        var f1 = ReadKeyF1(ms.ToArray());
+
+        Assert.Equal(new[] { 1, 5, 100 }, f1.OrderBy(x => x).ToArray());
+    }
+
+    /// <summary>
+    /// 取出所有 KEY 条目的 F1。
+    /// FPT2 块 = "FixedPhraseTable\0" + 3B 对齐 + [u32 count] + count×14B，
+    /// 条目 = [keyNode:u32][valNode:u32][flag&lt;&lt;24 | F1:u32][D:u16]。
+    /// </summary>
+    private static List<int> ReadKeyF1(byte[] d)
+    {
+        var tag = System.Text.Encoding.ASCII.GetBytes("FixedPhraseTable");
+        var i1 = IndexOf(d, tag, 0);
+        var i2 = IndexOf(d, tag, i1 + 1);
+        Assert.True(i2 > 0, "找不到 FPT2 块");
+
+        var count = System.BitConverter.ToUInt32(d, i2 + 20);
+        var b = i2 + 28;
+        var result = new List<int>();
+        for (var e = 0; e < count; e++)
+        {
+            var flagsF1 = System.BitConverter.ToUInt32(d, b + e * 14 + 8);
+            var flag = flagsF1 >> 24;
+            if ((flag & 0x40) != 0 && (flag & 0x08) == 0)
+                result.Add((int)(flagsF1 & 0xFFFFFF));
+        }
+        return result;
+    }
+
+    private static int IndexOf(byte[] haystack, byte[] needle, int from)
+    {
+        for (var i = from; i <= haystack.Length - needle.Length; i++)
+        {
+            var ok = true;
+            for (var j = 0; j < needle.Length; j++)
+                if (haystack[i + j] != needle[j]) { ok = false; break; }
+            if (ok) return i;
+        }
+        return -1;
     }
 }

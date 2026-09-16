@@ -51,7 +51,7 @@ internal sealed class GboardWord
 ///         槽号 <c>slot = (val>>1) | (slot_hi&lt;&lt;15)</c>(23 位)</item>
 ///   <item>DA-trie 终端节点 <c>base</c> = 6 × F1 行号</item>
 ///   <item>词表按 KEY 路径字节序排序</item>
-///   <item>KEY 的 F1 值全局唯一(同音组平局会导致点选候选时死循环)</item>
+///   <item>KEY 的 F1 = 词频(用户选中次数, 官方量级 1~140); 平局正常</item>
 /// </list>
 /// </summary>
 internal static class GboardDictionaryBuilder
@@ -336,16 +336,24 @@ internal static class GboardDictionaryBuilder
     {
         var n = items.Count;
 
-        // ---- KEY 的 F1: 按 Rank 降序(稳定)分配全局唯一递降值 ----
-        // 同音组内若 F1 平局, Gboard 调整候选顺序时会死循环
-        var rankOrder = Enumerable.Range(0, n).ToArray();
-        Array.Sort(rankOrder, (x, y) =>
+        // ---- KEY 的 F1 = 词频 ----
+        // F1 就是 Gboard 记的「用户选中次数」：官方词典里绝大多数词是 1、最高约 140，
+        // 用户每选一次 +1。所以导入时必须把词频保持在**这个量级**。
+        // 早期版本按名次摊成 1..n 的大跨度，实测把 亟需 写成 F1=7775，
+        // 而用户反复选中的 继续 才涨到 33 —— 候选顺序被永久冻死，再也纠不回来。
+        // 平局是正常的：官方词典里 8619 个词同为 F1=1。
+        var maxRank = 0;
+        foreach (var it in items)
+            if (it.Rank > maxRank) maxRank = it.Rank;
+        foreach (var it in items)
         {
-            var c = items[y].Rank.CompareTo(items[x].Rank);
-            return c != 0 ? c : x.CompareTo(y);
-        });
-        for (var pos = 0; pos < n; pos++)
-            items[rankOrder[pos]].F1 = n - pos;
+            if (it.Rank <= 0)
+                it.F1 = 1;
+            else if (maxRank <= 255)
+                it.F1 = it.Rank;
+            else
+                it.F1 = Math.Max(1, (int)Math.Round(255.0 * it.Rank / maxRank));
+        }
 
         // ---- 插入顺序: [var1, val, var2..varN, key, key2..] ----
         var insertOrder = new List<(int Item, string Name, byte[] Path)>();
