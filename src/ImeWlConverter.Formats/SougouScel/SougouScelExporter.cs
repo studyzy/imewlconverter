@@ -54,7 +54,7 @@ public sealed partial class SougouScelExporter : IFormatExporter
         ExportOptions? options = null, CancellationToken ct = default)
     {
         var pinyinToIndex = BuildPinyinIndex();
-        var groups = GroupByPinyin(entries, pinyinToIndex);
+        var (groups, errorCount) = GroupByPinyin(entries, pinyinToIndex);
 
         var groupCount = groups.Count;
         var totalWordCount = groups.Sum(g => g.Words.Count);
@@ -85,7 +85,7 @@ public sealed partial class SougouScelExporter : IFormatExporter
         return Task.FromResult(new ExportResult
         {
             EntryCount = totalWordCount,
-            ErrorCount = entries.Count - totalWordCount
+            ErrorCount = errorCount + entries.Count - totalWordCount
         });
     }
 
@@ -99,14 +99,29 @@ public sealed partial class SougouScelExporter : IFormatExporter
         return dict;
     }
 
-    private static List<PinyinWordGroup> GroupByPinyin(
+    /// <summary>
+    /// 按拼音序列分组。单个词条解析失败只跳过该词条并计入错误数，
+    /// 不中断整个导出（与 v3.4.0 的逐词条容错行为一致）。
+    /// </summary>
+    private static (List<PinyinWordGroup> Groups, int ErrorCount) GroupByPinyin(
         IReadOnlyList<WordEntry> entries, Dictionary<string, int> pinyinToIndex)
     {
         var groupDict = new Dictionary<string, PinyinWordGroup>();
+        var errorCount = 0;
 
         foreach (var entry in entries)
         {
-            var pinyins = ExtractPinyin(entry);
+            string[]? pinyins;
+            try
+            {
+                pinyins = ExtractPinyin(entry);
+            }
+            catch
+            {
+                errorCount++;
+                continue;
+            }
+
             if (pinyins == null || pinyins.Length == 0)
                 continue;
 
@@ -137,16 +152,39 @@ public sealed partial class SougouScelExporter : IFormatExporter
             group.Words.Add(entry.Word);
         }
 
-        return groupDict.Values
-            .OrderBy(g => string.Join(",", g.PinyinIndices.Select(i => i.ToString("D4"))))
-            .ToList();
+        // 词库格式中每组词数以 16 位写入，超限时拆分成多组
+        var groups = new List<PinyinWordGroup>();
+        foreach (var g in groupDict.Values)
+        {
+            for (var offset = 0; offset < g.Words.Count; offset += short.MaxValue)
+            {
+                var chunkWords = g.Words.Skip(offset).Take(short.MaxValue).ToList();
+                if (chunkWords.Count == 0)
+                    continue;
+                groups.Add(new PinyinWordGroup
+                {
+                    PinyinIndices = g.PinyinIndices
+                });
+                groups[^1].Words.AddRange(chunkWords);
+            }
+        }
+
+        groups.Sort((x, y) => string.CompareOrdinal(
+            string.Join(",", x.PinyinIndices.Select(i => i.ToString("D4"))),
+            string.Join(",", y.PinyinIndices.Select(i => i.ToString("D4")))));
+
+        return (groups, errorCount);
     }
 
     private static string[]? ExtractPinyin(WordEntry entry)
     {
         if (entry.Code?.Segments == null || entry.Code.Segments.Count == 0)
             return null;
-        return entry.Code.Segments.Select(s => s[0]).ToArray();
+        // 跳过无候选编码的空段，避免越界
+        return entry.Code.Segments
+            .Where(s => s.Count > 0)
+            .Select(s => s[0])
+            .ToArray();
     }
 
     private static string[] NormalizePinyin(string[] pinyin)
