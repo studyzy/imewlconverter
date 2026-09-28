@@ -12,6 +12,9 @@ public sealed class PinyinCodeGenerator : ICodeGenerator
 {
     private static Dictionary<string, List<string>>? mutiPinYinWord;
 
+    // 按长度降序排序的词组 key，初始化时排序一次并复用（避免每个词条重复排序）
+    private static List<string>? sortedWordKeys;
+
     public CodeType SupportedType => CodeType.Pinyin;
 
     public bool Is1Char1Code => true;
@@ -55,37 +58,43 @@ public sealed class PinyinCodeGenerator : ICodeGenerator
 
     private static void InitMutiPinYinWord()
     {
-        if (mutiPinYinWord == null)
+        if (mutiPinYinWord != null) return;
+
+        var wlList = new Dictionary<string, List<string>>();
+        var lines = DictionaryHelper.GetResourceContent("WordPinyin.txt")
+            .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+        for (var i = 0; i < lines.Length; i++)
         {
-            var wlList = new Dictionary<string, List<string>>();
-            var lines = DictionaryHelper.GetResourceContent("WordPinyin.txt")
-                .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var line = lines[i].Split(' ');
+            if (line.Length < 2) continue;
 
-            for (var i = 0; i < lines.Length; i++)
-            {
-                var line = lines[i].Split(' ');
-                if (line.Length < 2) continue;
+            var py = line[0];
+            var wordText = line[1];
 
-                var py = line[0];
-                var wordText = line[1];
-
-                var pinyin = new List<string>(
-                    py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries)
-                );
-                wlList.TryAdd(wordText, pinyin);
-            }
-
-            mutiPinYinWord = wlList;
+            var pinyin = new List<string>(
+                py.Split(new[] { '\'' }, StringSplitOptions.RemoveEmptyEntries)
+            );
+            wlList.TryAdd(wordText, pinyin);
         }
+
+        sortedWordKeys = wlList.Keys.OrderByDescending(k => k.Length).ToList();
+        mutiPinYinWord = wlList;
     }
 
     private static bool IsInWordPinYin(string word)
     {
         InitMutiPinYinWord();
-        foreach (var key in mutiPinYinWord!.Keys)
+
+        // 词典键是 word 的子串 <=> word 的某个子串命中词典。
+        // 对短词只需 O(词长²) 次字典查找，远快于遍历全部词典键做 Contains。
+        for (var len = word.Length; len >= 2; len--)
         {
-            if (word.Contains(key))
-                return true;
+            for (var start = 0; start + len <= word.Length; start++)
+            {
+                if (mutiPinYinWord!.ContainsKey(word.Substring(start, len)))
+                    return true;
+            }
         }
 
         return false;
@@ -100,9 +109,7 @@ public sealed class PinyinCodeGenerator : ICodeGenerator
         var pinyin = new string?[word.Length];
         var matched = new bool[word.Length];
 
-        var sortedKeys = mutiPinYinWord!.Keys.OrderByDescending(k => k.Length).ToList();
-
-        foreach (var key in sortedKeys)
+        foreach (var key in sortedWordKeys!)
         {
             var index = 0;
             while ((index = word.IndexOf(key, index, StringComparison.Ordinal)) != -1)
@@ -119,7 +126,7 @@ public sealed class PinyinCodeGenerator : ICodeGenerator
 
                 if (canMatch)
                 {
-                    var pinyinValues = mutiPinYinWord[key];
+                    var pinyinValues = mutiPinYinWord![key];
                     for (var i = 0; i < pinyinValues.Count; i++)
                     {
                         pinyin[index + i] = pinyinValues[i];

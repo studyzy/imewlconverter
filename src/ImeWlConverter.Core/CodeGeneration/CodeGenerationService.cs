@@ -53,10 +53,16 @@ public sealed class CodeGenerationService
         IProgress<ProgressInfo>? progress = null)
     {
         var result = new List<WordEntry>(entries.Count);
+
+        // 进度按 ~1% 节流上报：GUI 端 Progress<T> 每次上报都会跨线程封送，
+        // 逐条上报会让 UI 消息队列被淹没，成为大词库转换的主要瓶颈。
+        var reportInterval = Math.Max(1, entries.Count / 100);
+
         for (var i = 0; i < entries.Count; i++)
         {
             result.Add(GenerateCode(entries[i], targetCodeType));
-            progress?.Report(new ProgressInfo(i + 1, entries.Count, "Generating codes..."));
+            if (progress is not null && (i % reportInterval == 0 || i == entries.Count - 1))
+                progress.Report(new ProgressInfo(i + 1, entries.Count, "正在生成编码..."));
         }
 
         return result;

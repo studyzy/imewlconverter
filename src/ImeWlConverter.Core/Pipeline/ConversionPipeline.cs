@@ -290,12 +290,17 @@ public sealed class ConversionPipeline : IConversionPipeline
         {
             progress?.Report(new ProgressInfo(0, entries.Count, "正在生成自定义编码..."));
             var generator = BuildSelfDefiningCodeGenerator(options);
+
+            // 进度按 ~1% 节流上报，避免 GUI 端逐条封送 UI 消息
+            var reportInterval = Math.Max(1, entries.Count / 100);
+
             var result = new List<WordEntry>(entries.Count);
             for (var i = 0; i < entries.Count; i++)
             {
                 var code = generator.GenerateCode(entries[i].Word);
                 result.Add(entries[i] with { Code = code, CodeType = CodeType.UserDefine });
-                progress?.Report(new ProgressInfo(i + 1, entries.Count, "正在生成自定义编码..."));
+                if (progress is not null && (i % reportInterval == 0 || i == entries.Count - 1))
+                    progress.Report(new ProgressInfo(i + 1, entries.Count, "正在生成自定义编码..."));
             }
             return result;
         }
