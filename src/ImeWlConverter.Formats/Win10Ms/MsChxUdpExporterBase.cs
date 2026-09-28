@@ -49,6 +49,8 @@ public abstract class MsChxUdpExporterBase : IFormatExporter
         {
             var code = GetCode(entry);
             if (entry.Word.Length == 0 || entry.Word.Length > MaxWordLength
+                || entry.Code is null || entry.Code.Segments.Count == 0
+                || entry.Code.Segments.Any(s => s.Count == 0) // 含空 segment（如标点被过滤）的词条编码不完整
                 || code.Length == 0 || code.Length > MaxCodeLength
                 || !AllCharsValid(code))
             {

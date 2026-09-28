@@ -18,8 +18,8 @@ public sealed partial class NoPinyinWordOnlyImporter : IFormatImporter
         input.CopyTo(ms);
         var bytes = ms.ToArray();
 
-        var encoding = DetectEncoding(bytes);
-        var text = encoding.GetString(bytes);
+        var encoding = DetectEncoding(bytes, out var bomOffset);
+        var text = encoding.GetString(bytes, bomOffset, bytes.Length - bomOffset);
         var entries = new List<WordEntry>();
 
         foreach (var line in text.Split('\n'))
@@ -44,17 +44,27 @@ public sealed partial class NoPinyinWordOnlyImporter : IFormatImporter
         });
     }
 
-    private static Encoding DetectEncoding(byte[] bytes)
+    private static Encoding DetectEncoding(byte[] bytes, out int bomOffset)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        bomOffset = 0;
 
         // Check BOM first
         if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+        {
+            bomOffset = 3;
             return Encoding.UTF8;
+        }
         if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xFE)
+        {
+            bomOffset = 2;
             return Encoding.Unicode;
+        }
         if (bytes.Length >= 2 && bytes[0] == 0xFE && bytes[1] == 0xFF)
+        {
+            bomOffset = 2;
             return Encoding.BigEndianUnicode;
+        }
 
         // Try UTF-8 first: if all bytes form valid UTF-8 (with multi-byte sequences), use it
         if (IsValidUtf8(bytes))

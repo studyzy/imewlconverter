@@ -323,6 +323,47 @@ public class Win10MsPinyinExporterTest
     }
 
     /// <summary>
+    /// 编码含空 segment 的词条（如词中符号被 KeepPunctuationInCode=false 清空）
+    /// 应被跳过而不是在 GetPrimaryCode 中崩溃。
+    /// </summary>
+    [Fact]
+    public void EmptySegmentEntry_SkippedWithoutCrash()
+    {
+        var entries = new List<WordEntry>
+        {
+            new()
+            {
+                Word = "带符号词",
+                // "符" 对应的 segment 被标点过滤清空
+                Code = new WordCode
+                {
+                    Segments = new IReadOnlyList<string>[]
+                    {
+                        new[] { "dai" },
+                        Array.Empty<string>(),
+                        new[] { "ci" }
+                    }
+                },
+                CodeType = CodeType.Pinyin
+            },
+            new() { Word = "正常", Code = WordCode.FromSingle(new[] { "zheng", "chang" }), CodeType = CodeType.Pinyin },
+        };
+
+        var exporter = new Win10MsPinyinExporter();
+        using var stream = new MemoryStream();
+        var result = exporter.ExportAsync(entries, stream).GetAwaiter().GetResult();
+
+        Assert.Equal(1, result.EntryCount);
+        Assert.Equal(1, result.ErrorCount);
+
+        stream.Position = 0;
+        var importer = new Win10MsPinyinImporter();
+        var importResult = importer.ImportAsync(stream).GetAwaiter().GetResult();
+        Assert.Single(importResult.Entries);
+        Assert.Equal("正常", importResult.Entries[0].Word);
+    }
+
+    /// <summary>
     /// Issue #401: 导入器应拒绝非 mschxudp 文件与损坏的头部结构。
     /// </summary>
     [Fact]

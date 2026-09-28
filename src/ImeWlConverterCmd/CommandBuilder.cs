@@ -214,7 +214,7 @@ public static class CommandBuilder
             }
             catch (Exception ex)
             {
-                PrintError(ex.Message);
+                PrintError(ex.ToString());
                 context.ExitCode = 1;
             }
         });

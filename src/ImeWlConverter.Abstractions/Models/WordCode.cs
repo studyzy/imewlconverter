@@ -19,9 +19,10 @@ public sealed record WordCode
         };
     }
 
-    /// <summary>Gets the first/primary code string joined by the separator.</summary>
+    /// <summary>Gets the first/primary code string joined by the separator.
+    /// 空 segment（如被标点过滤清空）按空串处理，不抛异常。</summary>
     public string GetPrimaryCode(string separator = "'")
     {
-        return string.Join(separator, Segments.Select(s => s[0]));
+        return string.Join(separator, Segments.Select(s => s.Count > 0 ? s[0] : ""));
     }
 }

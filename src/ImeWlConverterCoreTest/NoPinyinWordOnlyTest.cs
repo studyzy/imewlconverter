@@ -60,4 +60,25 @@ public class NoPinyinWordOnlyTest : BaseTest
         var result = ImportFromFile(GetFullPath("纯汉字.txt"));
         Assert.True(result.Entries.Count > 0);
     }
+
+    /// <summary>
+    /// 带 UTF-8 BOM 的文件：BOM 不应混入第一个词条（否则拼音编码生成后
+    /// U+FEFF 被当作标点清空 segment，导出阶段崩溃）。
+    /// </summary>
+    [Fact]
+    public void TestImportUtf8Bom()
+    {
+        var body = Encoding.UTF8.GetBytes("深蓝词库转换\r\n集成测试词库\r\n");
+        var bytes = new byte[body.Length + 3];
+        bytes[0] = 0xEF; bytes[1] = 0xBB; bytes[2] = 0xBF;
+        body.CopyTo(bytes, 3);
+
+        using var ms = new MemoryStream(bytes);
+        var result = importer!.ImportAsync(ms).GetAwaiter().GetResult();
+
+        Assert.Equal(2, result.Entries.Count);
+        var first = result.Entries[0].Word;
+        Assert.Equal("深蓝词库转换", first);
+        Assert.DoesNotContain('\uFEFF', first);
+    }
 }
