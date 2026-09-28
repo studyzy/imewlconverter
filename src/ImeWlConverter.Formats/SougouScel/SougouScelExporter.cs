@@ -64,9 +64,9 @@ public sealed partial class SougouScelExporter : IFormatExporter
         var cSize = totalPinyinBytes + groupCount * 2;
         var wSize = totalWordBytes + totalWordCount * 2;
 
-        WriteHeader(output);
+        WriteHeader(output, options);
         WriteStatistics(output, groupCount, totalWordCount, cSize, wSize);
-        WriteMetaInfo(output, entries);
+        WriteMetaInfo(output, entries, options);
         WritePinyinTable(output);
         WriteWordData(output, groups);
 
@@ -195,7 +195,7 @@ public sealed partial class SougouScelExporter : IFormatExporter
         return result;
     }
 
-    private static void WriteHeader(Stream fs)
+    private static void WriteHeader(Stream fs, ExportOptions? options)
     {
         // 文件签名: 40 15 00 00 44 43 53 01
         fs.Write(new byte[] { 0x40, 0x15, 0x00, 0x00, 0x44, 0x43, 0x53, 0x01 });
@@ -206,9 +206,15 @@ public sealed partial class SougouScelExporter : IFormatExporter
         // 0x000C-0x001B: 校验和占位（16字节，写完文件后回填）
         fs.Write(new byte[16]);
 
-        // 0x001C-0x0027: 随机文件ID
-        var rng = new Random();
-        var idStr = rng.Next(100000, 999999).ToString();
+        // 0x001C-0x0027: 文件ID（可自定义，最多6字符，默认随机6位数字）
+        var idStr = options?.DictionaryId;
+        if (string.IsNullOrWhiteSpace(idStr))
+        {
+            var rng = new Random();
+            idStr = rng.Next(100000, 999999).ToString();
+        }
+        if (idStr.Length > 6)
+            idStr = idStr[..6];
         var idBytes = Encoding.Unicode.GetBytes(idStr);
         fs.Write(idBytes);
         var idPadding = 12 - idBytes.Length;
@@ -232,14 +238,17 @@ public sealed partial class SougouScelExporter : IFormatExporter
         fs.Write(BitConverter.GetBytes(wSize));
     }
 
-    private static void WriteMetaInfo(Stream fs, IReadOnlyList<WordEntry> entries)
+    private static void WriteMetaInfo(Stream fs, IReadOnlyList<WordEntry> entries, ExportOptions? options)
     {
         // 0x0130: 名称（520字节）
-        WriteScelField(fs, "深蓝词库转换", 520);
+        WriteScelField(fs,
+            string.IsNullOrEmpty(options?.DictionaryName) ? "深蓝词库转换" : options.DictionaryName!, 520);
         // 0x0338: 类型（520字节）
-        WriteScelField(fs, "自定义", 520);
+        WriteScelField(fs,
+            string.IsNullOrEmpty(options?.DictionaryCategory) ? "自定义" : options.DictionaryCategory!, 520);
         // 0x0540: 描述（2048字节）
-        WriteScelField(fs, "由深蓝词库转换工具生成", 2048);
+        WriteScelField(fs,
+            string.IsNullOrEmpty(options?.DictionaryDescription) ? "由深蓝词库转换工具生成" : options.DictionaryDescription!, 2048);
         // 0x0D40: 示例词（2048字节）
         var sample = string.Join(" ", entries.Take(5).Select(w => w.Word));
         WriteScelField(fs, sample, 2048);

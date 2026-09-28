@@ -194,6 +194,18 @@ dotnet ImeWlConverterCmd.dll -i scel -o ggpy -O ./output/ *.scel
 dotnet ImeWlConverterCmd.dll -i scel -o ggpy -O output.txt -f "len:1-100|rm:eng|rm:num" input.scel
 ```
 
+**自定义 scel 词库元数据**（导出为 scel 格式时，可自定义词库编号、名称、类别和描述）：
+```bash
+dotnet ImeWlConverterCmd.dll -i scel -o scel \
+  --dict-id 888888 \
+  --dict-name "我的词库" \
+  --dict-category "IT科技" \
+  --dict-description "自定义描述" \
+  -O output.scel input.scel
+```
+
+> 说明：这些选项仅影响内嵌元数据的格式（目前为搜狗 .scel）。未指定的字段使用默认值（名称：深蓝词库转换，类别：自定义，编号：随机生成）。
+
 **查看帮助和格式列表**：
 ```bash
 dotnet ImeWlConverterCmd.dll --help

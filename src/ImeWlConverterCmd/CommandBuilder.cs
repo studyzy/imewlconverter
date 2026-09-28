@@ -137,6 +137,26 @@ public static class CommandBuilder
             description: "显示所有支持的输入法格式列表");
         rootCommand.AddOption(listFormatsOption);
 
+        var dictIdOption = new Option<string?>(
+            aliases: new[] { "--dict-id" },
+            description: "导出词库编号（scel 格式内嵌的文件ID，最多6字符，默认随机生成）");
+        rootCommand.AddOption(dictIdOption);
+
+        var dictNameOption = new Option<string?>(
+            aliases: new[] { "--dict-name" },
+            description: "导出词库名称（scel 格式内嵌的元数据，默认: 深蓝词库转换）");
+        rootCommand.AddOption(dictNameOption);
+
+        var dictCategoryOption = new Option<string?>(
+            aliases: new[] { "--dict-category" },
+            description: "导出词库类别（scel 格式内嵌的元数据，默认: 自定义）");
+        rootCommand.AddOption(dictCategoryOption);
+
+        var dictDescriptionOption = new Option<string?>(
+            aliases: new[] { "--dict-description" },
+            description: "导出词库描述（scel 格式内嵌的元数据）");
+        rootCommand.AddOption(dictDescriptionOption);
+
         rootCommand.SetHandler((context) =>
         {
             var listFormats = context.ParseResult.GetValueForOption(listFormatsOption);
@@ -184,7 +204,12 @@ public static class CommandBuilder
                 var customFormat = context.ParseResult.GetValueForOption(customFormatOption);
                 var codeFile = context.ParseResult.GetValueForOption(codeFileOption);
                 var multiCode = context.ParseResult.GetValueForOption(multiCodeOption);
-                ExecuteConversion(inputFormat, outputFormat, outputPath, inputFiles, filter, codeType, customFormat, codeFile, multiCode);
+                var dictId = context.ParseResult.GetValueForOption(dictIdOption);
+                var dictName = context.ParseResult.GetValueForOption(dictNameOption);
+                var dictCategory = context.ParseResult.GetValueForOption(dictCategoryOption);
+                var dictDescription = context.ParseResult.GetValueForOption(dictDescriptionOption);
+                ExecuteConversion(inputFormat, outputFormat, outputPath, inputFiles, filter, codeType, customFormat, codeFile, multiCode,
+                    dictId, dictName, dictCategory, dictDescription);
                 context.ExitCode = 0;
             }
             catch (Exception ex)
@@ -224,7 +249,8 @@ public static class CommandBuilder
     private static void ExecuteConversion(
         string inputFormat, string outputFormat, string outputPath,
         List<string> inputFiles, string? filter, string? codeType, string? customFormat,
-        string? codeFile, string? multiCode)
+        string? codeFile, string? multiCode,
+        string? dictId, string? dictName, string? dictCategory, string? dictDescription)
     {
         using var sp = BuildServiceProvider();
 
@@ -267,6 +293,13 @@ public static class CommandBuilder
                     TargetCodeType = targetCodeType,
                     CodeFilePath = codeFile,
                     MultiCodeFormat = multiCode
+                },
+                Export = new ExportOptions
+                {
+                    DictionaryId = dictId,
+                    DictionaryName = dictName,
+                    DictionaryCategory = dictCategory,
+                    DictionaryDescription = dictDescription
                 }
             }
         };

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Formats.SougouScel;
 using Xunit;
 
@@ -116,6 +117,84 @@ public class SougouPinyinScelExportTest : BaseTest, IDisposable
         var infoEnd = info.IndexOf('\0');
         info = info[..infoEnd];
         Assert.Equal("由深蓝词库转换工具生成", info);
+    }
+
+    [Fact]
+    public void TestExportCustomMetaInfo()
+    {
+        var entries = new List<WordEntry>
+        {
+            new() { Word = "深蓝", Code = WordCode.FromSingle(new[] { "shen", "lan" }), Rank = 1, CodeType = CodeType.Pinyin }
+        };
+
+        var options = new ExportOptions
+        {
+            DictionaryId = "123456",
+            DictionaryName = "我的自定义词库",
+            DictionaryCategory = "网络流行语",
+            DictionaryDescription = "测试词库描述"
+        };
+
+        using var stream = new MemoryStream();
+        _exporter.ExportAsync(entries, stream, options).GetAwaiter().GetResult();
+        var data = stream.ToArray();
+
+        // 验证自定义编号（0x001C 处，Unicode 编码）
+        var id = Encoding.Unicode.GetString(data, 0x1C, 12).TrimEnd('\0');
+        Assert.Equal("123456", id);
+
+        // 验证自定义名称
+        var name = ReadScelString(data, 0x130, 520);
+        Assert.Equal("我的自定义词库", name);
+
+        // 验证自定义类别
+        var category = ReadScelString(data, 0x338, 520);
+        Assert.Equal("网络流行语", category);
+
+        // 验证自定义描述
+        var description = ReadScelString(data, 0x540, 2048);
+        Assert.Equal("测试词库描述", description);
+    }
+
+    [Fact]
+    public void TestExportCustomNameOverLength()
+    {
+        var entries = new List<WordEntry>
+        {
+            new() { Word = "深蓝", Code = WordCode.FromSingle(new[] { "shen", "lan" }), Rank = 1, CodeType = CodeType.Pinyin }
+        };
+
+        // 超长名称应被截断而不是破坏文件结构
+        var options = new ExportOptions
+        {
+            DictionaryName = new string('长', 300),
+            DictionaryId = "abc123def456"
+        };
+
+        using var stream = new MemoryStream();
+        _exporter.ExportAsync(entries, stream, options).GetAwaiter().GetResult();
+        var data = stream.ToArray();
+
+        // 名称最多 520 字节（259 个汉字 + 终止符），超长部分被截断
+        var name = ReadScelString(data, 0x130, 520);
+        Assert.StartsWith(new string('长', 250), name);
+
+        // 编号最多 6 字符，超长部分被截断
+        var id = Encoding.Unicode.GetString(data, 0x1C, 12).TrimEnd('\0');
+        Assert.Equal("abc123", id);
+
+        // 文件结构未被破坏：词条总数正确
+        var wordCount = BitConverter.ToInt32(data, 0x124);
+        Assert.Equal(1, wordCount);
+    }
+
+    private static string ReadScelString(byte[] data, int offset, int fieldSize)
+    {
+        var fieldBytes = new byte[fieldSize];
+        Array.Copy(data, offset, fieldBytes, 0, fieldSize);
+        var text = Encoding.Unicode.GetString(fieldBytes);
+        var end = text.IndexOf('\0');
+        return end >= 0 ? text[..end] : text;
     }
 
     [Fact]
