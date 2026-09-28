@@ -114,6 +114,20 @@ PC 端：
 
 ## 命令行使用
 
+### Windows GUI 程序的命令行模式
+
+Windows 版 `深蓝词库转换.exe` 支持双模式：
+
+- **双击运行**（无参数）：打开图形界面
+- **带参数运行**：作为命令行工具使用
+
+```bat
+深蓝词库转换.exe --help
+深蓝词库转换.exe -i scel -o qqpy -O output.txt input.scel
+```
+
+> 注意：GUI 程序为窗口子系统，输出通过附着父控制台实现。交互式命令行（cmd、PowerShell、Windows Terminal）下输出可见，但**不支持输出重定向和管道**（`深蓝词库转换.exe --help > help.txt` 会得到空文件）。需要重定向/管道/脚本调用的场景请使用 `ImeWlConverterCmd.exe`。
+
 ### 基本语法
 
 ```bash

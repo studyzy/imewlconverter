@@ -39,21 +39,42 @@ internal static class Program
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        if (args.Length > 0)
+        if (args.Length > 0 && AttachConsole(ATTACH_PARENT_PROCESS))
         {
-            // CLI 模式：附着到父进程控制台，使输出在命令行中可见
-            AttachConsole(ATTACH_PARENT_PROCESS);
+            // CLI 模式：已附着到父进程控制台，使输出在命令行中可见
+            try
+            {
+                // 使用控制台当前代码页的编码，避免中文乱码
+                var encoding = Console.OutputEncoding;
+                Console.SetOut(new StreamWriter(Console.OpenStandardOutput(), encoding) { AutoFlush = true });
+                Console.SetError(new StreamWriter(Console.OpenStandardError(), encoding) { AutoFlush = true });
 
-            // 使用控制台当前代码页的编码，避免中文乱码
-            var encoding = Console.OutputEncoding;
-            Console.SetOut(new StreamWriter(Console.OpenStandardOutput(), encoding) { AutoFlush = true });
-            Console.SetError(new StreamWriter(Console.OpenStandardError(), encoding) { AutoFlush = true });
+                if (CommandBuilder.IsLegacyArgFormat(args))
+                {
+                    return CommandBuilder.PrintLegacyArgHelp();
+                }
 
-            var rootCommand = CommandBuilder.Build();
-            return rootCommand.Invoke(args);
+                var rootCommand = CommandBuilder.Build();
+                return rootCommand.Invoke(args);
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    Console.Error.WriteLine("错误: " + ex.Message);
+                }
+                catch
+                {
+                    // 控制台输出流不可用时忽略，避免二次异常
+                }
+
+                return 1;
+            }
         }
 
-        // GUI 模式
+        // GUI 模式。
+        // 注意：带参数但 AttachConsole 失败时（无可用控制台，如从资源管理器拖放文件到 exe），
+        // 也会落到这里回退为 GUI，避免无提示崩溃。
         Application.EnableVisualStyles();
         Application.SetHighDpiMode(HighDpiMode.SystemAware);
         Application.SetCompatibleTextRenderingDefault(false);
