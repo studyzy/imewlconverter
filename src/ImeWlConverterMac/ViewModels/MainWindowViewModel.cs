@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -42,6 +43,9 @@ public class MainWindowViewModel : ViewModelBase
     private CodeGenerationOptions _codeGenOptions = new();
     private string? _lastExportContent;
     private byte[]? _lastExportData;
+    // 导出文本的原始编码: 保存时必须按它写文件, 否则 UTF-16LE 词库
+    // (如百度拼音) 会被默认写成 UTF-8 导致目标输入法导入失败 (issue #415)
+    private Encoding? _lastExportEncoding;
     private CancellationTokenSource? _cts;
 
     public MainWindowViewModel(IServiceProvider serviceProvider)
@@ -308,6 +312,7 @@ public class MainWindowViewModel : ViewModelBase
         ResultText = "";
         _lastExportContent = null;
         _lastExportData = null;
+        _lastExportEncoding = null;
         _cts = new CancellationTokenSource();
 
         try
@@ -355,6 +360,9 @@ public class MainWindowViewModel : ViewModelBase
             {
                 _lastExportContent = result.Value.ExportContent;
                 _lastExportData = result.Value.ExportData;
+                _lastExportEncoding = _lastExportContent is not null && _selectedExporter is not null
+                    ? _selectedExporter.OutputEncoding
+                    : null;
                 StatusMessage = $"转换完成，导入 {result.Value.ImportedCount} 条，导出 {result.Value.ExportedCount} 条";
 
                 if (_lastExportContent != null)
@@ -640,7 +648,8 @@ public class MainWindowViewModel : ViewModelBase
                     if (_lastExportData is not null)
                         await File.WriteAllBytesAsync(filePath, _lastExportData);
                     else
-                        await File.WriteAllTextAsync(filePath, _lastExportContent!);
+                        await File.WriteAllTextAsync(filePath, _lastExportContent!,
+                            _lastExportEncoding ?? Encoding.UTF8);
                     StatusMessage = $"保存成功，词库路径：{filePath}";
                 }
                 else

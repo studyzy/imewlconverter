@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -58,6 +59,9 @@ public partial class MainForm : Form
 
     private string? _exportContent;
     private byte[]? _exportData;
+    // 导出文本的原始编码: 预览保存时必须按它写文件, 否则 UTF-16LE 词库
+    // (如百度拼音) 会被默认写成 UTF-8 导致目标输入法导入失败 (issue #415)
+    private Encoding? _exportEncoding;
 
     private CancellationTokenSource? _cts;
 
@@ -441,6 +445,7 @@ public partial class MainForm : Form
         richTextBox1.Clear();
         _exportContent = null;
         _exportData = null;
+        _exportEncoding = null;
         _cts = new CancellationTokenSource();
         SetConvertingState(true);
 
@@ -486,6 +491,9 @@ public partial class MainForm : Form
                 _convertedCount = result.Value.ExportedCount;
                 _exportContent = result.Value.ExportContent;
                 _exportData = result.Value.ExportData;
+                _exportEncoding = _exportContent is not null && _selectedExporter is not null
+                    ? _selectedExporter.OutputEncoding
+                    : null;
                 HandleConversionCompleted(result.Value);
             }
             else
@@ -644,7 +652,8 @@ public partial class MainForm : Form
                 }
                 else if (_exportContent != null)
                 {
-                    File.WriteAllText(saveFileDialog1.FileName, _exportContent);
+                    File.WriteAllText(saveFileDialog1.FileName, _exportContent,
+                        _exportEncoding ?? System.Text.Encoding.UTF8);
                 }
 
                 ShowStatusMessage("保存成功，词库路径：" + saveFileDialog1.FileName, true);
