@@ -30,6 +30,7 @@ using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Core.Helpers;
 using ImeWlConverter.Core.WordRank;
+using ImeWlConverter.Formats.SelfDefining;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Studyzy.IMEWLConverter;
@@ -149,7 +150,18 @@ public partial class MainForm : Form
         {
             _selectedImporter = imp;
             var form = new CoreWinFormMapping().GetConfigForm(imp.Metadata.Id);
-            if (form != null) form.ShowDialog();
+            if (form != null)
+            {
+                form.ShowDialog();
+                // 自定义格式的解析配置需写回导入器实例（格式为单例，管道使用同一实例）。
+                // 此接线在架构迁移时丢失，导致「自定义词库编码」配置不生效（issue #421）。
+                if (form is SelfDefiningConfigForm selfDefForm
+                    && form.DialogResult == DialogResult.OK
+                    && imp is SelfDefiningImporter selfImporter)
+                {
+                    ApplyParsePattern(selfImporter, selfDefForm.SelectedParsePattern);
+                }
+            }
         }
     }
 
@@ -164,27 +176,72 @@ public partial class MainForm : Form
                 if (form is SelfDefiningConfigForm selfDefForm)
                 {
                     selfDefForm.ShowDialog();
+
+                    if (form.DialogResult == DialogResult.OK)
+                    {
+                        if (exp is SelfDefiningExporter selfExporter)
+                            ApplyParsePattern(selfExporter, selfDefForm.SelectedParsePattern);
+                        _selectedCodeType = selfDefForm.SelectedParsePattern.CodeType;
+                    }
                 }
                 else
                 {
                     form.ShowDialog();
-                }
 
-                if (form.DialogResult == DialogResult.OK)
-                {
-                    _selectedCodeType = form switch
+                    if (form.DialogResult == DialogResult.OK)
                     {
-                        RimeConfigForm f => f.SelectedCodeType,
-                        XiaoxiaoConfigForm f => f.SelectedCodeType,
-                        ErbiTypeForm f => f.SelectedCodeType,
-                        PinyinConfigForm f => f.SelectedCodeType,
-                        PhraseFormatConfigForm f => f.SelectedCodeType,
-                        _ => CodeType.NoCode
-                    };
+                        _selectedCodeType = form switch
+                        {
+                            RimeConfigForm f => f.SelectedCodeType,
+                            XiaoxiaoConfigForm f => f.SelectedCodeType,
+                            ErbiTypeForm f => f.SelectedCodeType,
+                            PinyinConfigForm f => f.SelectedCodeType,
+                            PhraseFormatConfigForm f => f.SelectedCodeType,
+                            _ => CodeType.NoCode
+                        };
+                    }
                 }
             }
         }
     }
+
+    private static void ApplyParsePattern(SelfDefiningImporter importer, ParsePattern pattern)
+    {
+        importer.OrderSpec = BuildOrderSpec(pattern);
+        importer.FieldSeparator = FirstChar(pattern.SplitString, ',');
+        importer.PinyinSeparator = FirstChar(pattern.CodeSplitString, '\'');
+        importer.ShowPinyin = pattern.ContainCode;
+        importer.ShowRank = pattern.ContainRank;
+    }
+
+    private static void ApplyParsePattern(SelfDefiningExporter exporter, ParsePattern pattern)
+    {
+        exporter.OrderSpec = BuildOrderSpec(pattern);
+        exporter.FieldSeparator = FirstChar(pattern.SplitString, ',');
+        exporter.PinyinSeparator = FirstChar(pattern.CodeSplitString, ' ');
+        exporter.ShowPinyin = pattern.ContainCode;
+        exporter.ShowRank = pattern.ContainRank;
+    }
+
+    /// <summary>
+    ///     将 ParsePattern.Sort 转换为字段顺序串（'1'=拼音 '2'=词 '3'=词频）。
+    ///     兼容两种编码：{1,2,3} 即文件顺序的字段 id；SelfDefiningConfigForm.GetSort()
+    ///     生成的 位置*10+槽位（位置 1 起始，槽位 0=拼音 1=词 2=词频）。
+    /// </summary>
+    private static string BuildOrderSpec(ParsePattern pattern)
+    {
+        if (pattern.Sort.All(v => v is >= 1 and <= 3))
+            return string.Concat(pattern.Sort);
+
+        var slots = new char[3];
+        foreach (var v in pattern.Sort)
+            if (v is >= 10 and <= 32)
+                slots[v / 10 - 1] = (char)('1' + (v % 10));
+        return new string(slots);
+    }
+
+    private static char FirstChar(string s, char fallback) =>
+        string.IsNullOrEmpty(s) ? fallback : s[0];
 
     #endregion
 
