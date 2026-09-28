@@ -176,7 +176,8 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
             <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)"
                 Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.runtimeconfig.json'
                     or '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.deps.json'
-                    or '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.exe'"/>
+                    or '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.exe'
+                    or '%(ResolvedFileToPublish.Extension)' == '.pdb'"/>
         </ItemGroup>
     </Target>
 </Project>
