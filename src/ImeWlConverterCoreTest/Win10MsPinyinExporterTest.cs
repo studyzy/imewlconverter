@@ -129,14 +129,14 @@ public class Win10MsPinyinExporterTest
         var hanziOffset = reader.ReadInt16();
         Assert.True(hanziOffset > 0);
 
-        // rank (1 byte)
-        var rank = stream.ReadByte();
-        Assert.Equal(5, rank);
+        // candidate position (1 byte)：同拼音第几条候选，1 起
+        var position = stream.ReadByte();
+        Assert.Equal(1, position);
 
         // unknown byte (0x06)
         stream.ReadByte();
 
-        // unknown 8 bytes
+        // unknown 4 bytes + 2000 纪元时间戳 4 bytes
         reader.ReadInt64();
 
         // Pinyin bytes: hanziOffset - 18
@@ -171,6 +171,180 @@ public class Win10MsPinyinExporterTest
 
         Assert.Equal(0, result.EntryCount);
         Assert.True(stream.Length > 0, "Even empty list should produce valid header");
+    }
+
+    /// <summary>
+    /// Issue #401: 头部 0x20 为 Unix 时间戳（uint32），0x24-0x3F 必须为 0，
+    /// 0x18 为文件大小，0x14 为数据区起始 0x40+4N。微软拼音会校验这些字段。
+    /// </summary>
+    [Fact]
+    public void Issue401_Header_TimestampAndZeroPadding()
+    {
+        var entries = new List<WordEntry>
+        {
+            new() { Word = "测试", Code = WordCode.FromSingle(new[] { "ce", "shi" }), Rank = 1, CodeType = CodeType.Pinyin },
+        };
+
+        var exporter = new Win10MsPinyinExporter();
+        using var stream = new MemoryStream();
+        exporter.ExportAsync(entries, stream).GetAwaiter().GetResult();
+        var bytes = stream.ToArray();
+
+        // 0x14: 数据区起始 = 0x40 + 4 * count
+        var dataStart = BitConverter.ToUInt32(bytes, 0x14);
+        Assert.Equal(0x40L + 4, (long)dataStart);
+
+        // 0x18: 文件大小
+        var fileSize = BitConverter.ToUInt32(bytes, 0x18);
+        Assert.Equal((uint)bytes.Length, fileSize);
+
+        // 0x20: Unix 时间戳（合理范围：2020-2050 年）
+        var unixTs = BitConverter.ToUInt32(bytes, 0x20);
+        Assert.InRange((long)unixTs, 1577836800L, 2524608000L);
+
+        // 0x24-0x3F 必须全为 0
+        for (var i = 0x24; i < 0x40; i++)
+        {
+            Assert.Equal(0, bytes[i]);
+        }
+
+        // 记录 +0x08：4 字节 0；+0x0C：2000 纪元秒（当前 Unix 秒 - 946684800）
+        stream.Position = 0x40 + 4; // 跳过偏移表第 1 项，定位到第 1 条记录
+        using var reader = new BinaryReader(stream, Encoding.Unicode, leaveOpen: true);
+        stream.Position += 8; // magic(4) + hanziOffset(2) + position(1) + 0x06(1)
+        var zeroField = reader.ReadUInt32();
+        Assert.Equal(0u, zeroField);
+        var epoch2000Seconds = reader.ReadUInt32();
+        Assert.InRange(epoch2000Seconds, 1577836800u - 946684800u, 2524608000u - 946684800u);
+    }
+
+    /// <summary>
+    /// Issue #401: 同拼音多条候选，记录 +0x06 应为候选序号 1,2,3...（而非词频）。
+    /// </summary>
+    [Fact]
+    public void Issue401_DuplicatePinyin_AssignsCandidatePositions()
+    {
+        var entries = new List<WordEntry>
+        {
+            new() { Word = "啊", Code = WordCode.FromSingle(new[] { "a" }), Rank = 100, CodeType = CodeType.Pinyin },
+            new() { Word = "阿", Code = WordCode.FromSingle(new[] { "a" }), Rank = 50, CodeType = CodeType.Pinyin },
+            new() { Word = "斤", Code = WordCode.FromSingle(new[] { "jin" }), Rank = 10, CodeType = CodeType.Pinyin },
+            new() { Word = "今", Code = WordCode.FromSingle(new[] { "jin" }), Rank = 20, CodeType = CodeType.Pinyin },
+            new() { Word = "金", Code = WordCode.FromSingle(new[] { "jin" }), Rank = 30, CodeType = CodeType.Pinyin },
+        };
+
+        var exporter = new Win10MsPinyinExporter();
+        using var stream = new MemoryStream();
+        exporter.ExportAsync(entries, stream).GetAwaiter().GetResult();
+
+        using var reader = new BinaryReader(stream, Encoding.Unicode, leaveOpen: true);
+        var positions = new List<byte>();
+        for (var i = 0; i < entries.Count; i++)
+        {
+            stream.Position = 0x40 + 4 * i;             // 偏移表第 i 项
+            var recordOffset = reader.ReadInt32();
+            stream.Position = 0x40 + 4 * entries.Count + recordOffset;
+            stream.Position += 6;                        // magic(4) + hanziOffset(2)
+            positions.Add(reader.ReadByte());
+        }
+
+        Assert.Equal(new byte[] { 1, 2, 1, 2, 3 }, positions);
+    }
+
+    /// <summary>
+    /// Issue #401: 微软自学习词库 2 万条上限，超出部分截断并计入未导出数。
+    /// </summary>
+    [Fact]
+    public void Issue401_EntriesOverLimit_TruncatedTo20000()
+    {
+        var entries = new List<WordEntry>();
+        for (var i = 0; i < MsChxUdpExporterBase.MaxEntries + 5; i++)
+        {
+            entries.Add(new WordEntry
+            {
+                Word = $"词{i:D6}",
+                Code = WordCode.FromSingle(new[] { CodeForIndex(i) }),
+                CodeType = CodeType.Pinyin
+            });
+        }
+
+        var exporter = new Win10MsPinyinExporter();
+        using var stream = new MemoryStream();
+        var result = exporter.ExportAsync(entries, stream).GetAwaiter().GetResult();
+
+        Assert.Equal(MsChxUdpExporterBase.MaxEntries, result.EntryCount);
+        Assert.Equal(5, result.ErrorCount);
+
+        // 头部词条数也应为 2 万
+        var phraseCount = BitConverter.ToUInt32(stream.ToArray(), 0x1C);
+        Assert.Equal((uint)MsChxUdpExporterBase.MaxEntries, phraseCount);
+    }
+
+    /// <summary>生成唯一的合法拼音编码（26 进制小写字母）。</summary>
+    private static string CodeForIndex(int i)
+    {
+        var sb = new StringBuilder();
+        do
+        {
+            sb.Append((char)('a' + (i % 26)));
+            i /= 26;
+        }
+        while (i > 0);
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Issue #401: 空编码、非法字符编码（数字/大写）、重复词条应被跳过并计入 ErrorCount，
+    /// 避免生成微软拼音无法导入的畸形记录。
+    /// </summary>
+    [Fact]
+    public void Issue401_InvalidAndDuplicateEntries_Skipped()
+    {
+        var entries = new List<WordEntry>
+        {
+            new() { Word = "无编码", Code = null, CodeType = CodeType.Pinyin },                       // 空编码
+            new() { Word = "带数字", Code = WordCode.FromSingle(new[] { "ce", "shi", "1" }), CodeType = CodeType.Pinyin }, // 非法字符
+            new() { Word = "测试", Code = WordCode.FromSingle(new[] { "ce", "shi" }), CodeType = CodeType.Pinyin },
+            new() { Word = "测试", Code = WordCode.FromSingle(new[] { "ce", "shi" }), CodeType = CodeType.Pinyin }, // 重复
+            new() { Word = "正常", Code = WordCode.FromSingle(new[] { "zheng", "chang" }), CodeType = CodeType.Pinyin },
+        };
+
+        var exporter = new Win10MsPinyinExporter();
+        using var stream = new MemoryStream();
+        var result = exporter.ExportAsync(entries, stream).GetAwaiter().GetResult();
+
+        Assert.Equal(2, result.EntryCount);
+        Assert.Equal(3, result.ErrorCount);
+
+        stream.Position = 0;
+        var importer = new Win10MsPinyinImporter();
+        var importResult = importer.ImportAsync(stream).GetAwaiter().GetResult();
+        Assert.Equal(2, importResult.Entries.Count);
+    }
+
+    /// <summary>
+    /// Issue #401: 导入器应拒绝非 mschxudp 文件与损坏的头部结构。
+    /// </summary>
+    [Fact]
+    public void Issue401_Importer_RejectsInvalidFiles()
+    {
+        var importer = new Win10MsPinyinImporter();
+
+        // 非魔数文件
+        using var garbage = new MemoryStream(Encoding.ASCII.GetBytes("not-a-dat-file--padding-padding"));
+        Assert.Throws<InvalidDataException>(() =>
+            importer.ImportAsync(garbage).GetAwaiter().GetResult());
+
+        // 魔数正确但头部词条数与文件大小矛盾（损坏）
+        var corrupt = new byte[0x40];
+        Encoding.ASCII.GetBytes("mschxudp").CopyTo(corrupt, 0);
+        BitConverter.GetBytes((uint)0x40).CopyTo(corrupt, 0x10);   // 偏移表起始
+        BitConverter.GetBytes((uint)0x40).CopyTo(corrupt, 0x14);   // 记录区起始
+        BitConverter.GetBytes((uint)0x40).CopyTo(corrupt, 0x18);   // 文件大小
+        BitConverter.GetBytes((uint)100).CopyTo(corrupt, 0x1C);    // 词条数=100，超出文件范围
+        using var corruptStream = new MemoryStream(corrupt);
+        Assert.Throws<InvalidDataException>(() =>
+            importer.ImportAsync(corruptStream).GetAwaiter().GetResult());
     }
 
     /// <summary>

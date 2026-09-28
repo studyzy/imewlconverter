@@ -29,14 +29,22 @@ public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
         IReadOnlyList<WordEntry> entries, Stream output,
         ExportOptions? options = null, CancellationToken ct = default)
     {
-        // Filter: word length 2-12
-        var filtered = entries.Where(e => e.Word.Length is >= 2 and <= 12).ToList();
+        // 过滤：词长 2-12；编码非空、音节数与字数一致、每个音节都在拼音表中，
+        // 否则会写出拼音索引 0（"a"）的畸形读音词条
+        var errorCount = 0;
+        var filtered = new List<WordEntry>(entries.Count);
+        foreach (var entry in entries)
+        {
+            if (entry.Word.Length is >= 2 and <= 12 && HasValidPinyin(entry))
+                filtered.Add(entry);
+            else
+                errorCount++;
+        }
 
         // Truncate to max supported entry count
-        var skippedCount = 0;
         if (filtered.Count > MaxEntryCount)
         {
-            skippedCount = filtered.Count - MaxEntryCount;
+            errorCount += filtered.Count - MaxEntryCount;
             filtered = filtered.Take(MaxEntryCount).ToList();
         }
 
@@ -59,7 +67,6 @@ public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
 
         // Write entries (each 60 bytes)
         var count = 0;
-        var errorCount = 0;
         for (var i = 0; i < filtered.Count; i++)
         {
             ct.ThrowIfCancellationRequested();
@@ -72,7 +79,6 @@ public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
             catch
             {
                 // Write empty entry on error
-                var pos = output.Position;
                 var remaining = EntrySize - (int)(output.Position - (UserWordBase + i * EntrySize));
                 if (remaining > 0)
                     for (var j = 0; j < remaining; j++)
@@ -90,8 +96,27 @@ public sealed partial class Win10MsPinyinSelfStudyExporter : IFormatExporter
         return Task.FromResult(new ExportResult
         {
             EntryCount = count,
-            ErrorCount = errorCount + skippedCount
+            ErrorCount = errorCount
         });
+    }
+
+    /// <summary>
+    /// 编码非空、音节数与字数一致，且每个音节都是拼音表中的合法音节。
+    /// </summary>
+    private static bool HasValidPinyin(WordEntry entry)
+    {
+        var code = entry.Code;
+        if (code is null || code.Segments.Count != entry.Word.Length)
+            return false;
+
+        var map = _pinyinMapInit ??= BuildPinyinMap();
+        foreach (var segment in code.Segments)
+        {
+            if (segment.Count == 0 || !map.ContainsKey(segment[0].ToLowerInvariant()))
+                return false;
+        }
+
+        return true;
     }
 
     private static void WriteEntry(BinaryWriter bw, WordEntry entry, int index)

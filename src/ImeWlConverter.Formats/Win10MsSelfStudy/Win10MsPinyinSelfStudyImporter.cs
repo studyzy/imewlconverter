@@ -13,6 +13,17 @@ public sealed partial class Win10MsPinyinSelfStudyImporter : BinaryFormatImporte
     private const int UserWordBase = 0x2400;
     private const int EntrySize = 60;
 
+    /// <summary>60 字节记录最多容纳 12 字（12 字节头 + 4×12）。</summary>
+    private const int MaxWordLength = 12;
+
+    // Header: "55AA8881 02006000 55AA55AA"
+    private static readonly byte[] HeaderMagic =
+    {
+        0x55, 0xAA, 0x88, 0x81,
+        0x02, 0x00, 0x60, 0x00,
+        0x55, 0xAA, 0x55, 0xAA
+    };
+
     protected override IReadOnlyList<WordEntry> ParseBinary(Stream input, CancellationToken ct)
     {
         var results = new List<WordEntry>();
@@ -21,6 +32,14 @@ public sealed partial class Win10MsPinyinSelfStudyImporter : BinaryFormatImporte
         if (fileSize < UserWordBase)
             throw new InvalidDataException(
                 $"词库文件格式不正确,文件大小至少需要{UserWordBase}字节,当前为{fileSize}字节");
+
+        // 校验文件头魔数
+        input.Position = 0;
+        Span<byte> magic = stackalloc byte[HeaderMagic.Length];
+        input.ReadExactly(magic);
+        if (!magic.SequenceEqual(HeaderMagic))
+            throw new InvalidDataException(
+                "文件头不是 55 AA 88 81,不是有效的 Win10 微软拼音自学习词库文件");
 
         // Read word count at offset 12
         input.Position = 12;
@@ -44,7 +63,8 @@ public sealed partial class Win10MsPinyinSelfStudyImporter : BinaryFormatImporte
             input.Position = curIdx + 10;
             var wordLen = input.ReadByte() & 0xFF;
 
-            if (wordLen <= 0 || wordLen > 24)
+            // 超过记录容量上限的词条是损坏数据，跳过以免读到相邻记录
+            if (wordLen <= 0 || wordLen > MaxWordLength)
                 continue;
 
             // Read word at curIdx + 12

@@ -13,8 +13,6 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
     private const string ImporterInterface = "ImeWlConverter.Abstractions.Contracts.IFormatImporter";
     private const string ExporterInterface = "ImeWlConverter.Abstractions.Contracts.IFormatExporter";
     private const string BinaryImporterBase = "BinaryFormatImporter";
-    private const string TextImporterBase = "TextFormatImporter";
-    private const string TextExporterBase = "TextFormatExporter";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -123,12 +121,11 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
 
     private static bool InheritsFromAbstractBase(INamedTypeSymbol symbol)
     {
+        // 沿基类链查找抽象 Metadata 声明（允许任意中间抽象基类）
         var current = symbol.BaseType;
         while (current != null)
         {
-            if (current.Name == TextImporterBase ||
-                current.Name == TextExporterBase ||
-                current.Name == BinaryImporterBase)
+            if (current.GetMembers("Metadata").Any(m => m.IsAbstract))
                 return true;
             current = current.BaseType;
         }
