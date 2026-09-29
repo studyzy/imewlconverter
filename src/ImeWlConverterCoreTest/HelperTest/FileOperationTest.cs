@@ -17,6 +17,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Xunit;
@@ -42,6 +43,82 @@ public class FileOperationTest
         var e = FileOperationHelper.GetEncodingType(path);
         Assert.Equal(Encoding.GetEncoding(encoding).EncodingName, e.EncodingName);
         var txt = FileOperationHelper.ReadFile(path);
+    }
+
+    [Fact]
+    public void TestGetFileEncoding_Utf8NoBom_ShortChinese_ReturnsUtf8()
+    {
+        // Bug 回归：短中文 UTF-8（无 BOM）文件曾被 CharsetDetector 误判为 GBK 家族，
+        // 读出"浠?"式乱码（词库合并窗口实证）。严格 UTF-8 结构校验修复后必须返回 UTF-8
+        var content = "a wo 我\r\nb ni 你\r\n";
+        var path = Path.Combine(Path.GetTempPath(), "imewl-enc-" + Guid.NewGuid().ToString("N") + ".txt");
+        File.WriteAllBytes(path, Encoding.UTF8.GetBytes(content));   // 无 BOM
+        try
+        {
+            var e = FileOperationHelper.GetEncodingType(path);
+            Assert.Equal(Encoding.UTF8.EncodingName, e.EncodingName);
+            Assert.Equal(content, FileOperationHelper.ReadFile(path, e));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void TestGetFileEncoding_GbkChinese_RoundTrips()
+    {
+        // 金丝雀：严格 UTF-8 校验不得把真正的 GBK 中文误判为 UTF-8（否则反方向乱码）
+        var content = "深蓝词库转换是一款跨平台的输入法词库格式转换工具，支持五十多种输入法格式之间的相互转换。\r\n词库编码检测测试样例。\r\n";
+        var path = Path.Combine(Path.GetTempPath(), "imewl-enc-" + Guid.NewGuid().ToString("N") + ".txt");
+        var gbk = Encoding.GetEncoding(936);
+        File.WriteAllBytes(path, gbk.GetBytes(content));
+        try
+        {
+            var e = FileOperationHelper.GetEncodingType(path);
+            var text = FileOperationHelper.ReadFile(path, e);
+            Assert.Equal(content, text);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void TestGetFileEncoding_Utf16LeBom_ShortChinese_ReturnsUnicode()
+    {
+        var content = "a wo 我\r\nb ni 你\r\n";
+        var path = Path.Combine(Path.GetTempPath(), "imewl-enc-" + Guid.NewGuid().ToString("N") + ".txt");
+        File.WriteAllBytes(path, Encoding.Unicode.GetPreamble().Concat(Encoding.Unicode.GetBytes(content)).ToArray());
+        try
+        {
+            var e = FileOperationHelper.GetEncodingType(path);
+            Assert.Equal(Encoding.Unicode.EncodingName, e.EncodingName);
+            Assert.Equal(content, FileOperationHelper.ReadFile(path, e));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void TestGetFileEncoding_AsciiOnly_RoundTrips()
+    {
+        var content = "line-of-text\r\nline2\r\n";
+        var path = Path.Combine(Path.GetTempPath(), "imewl-enc-" + Guid.NewGuid().ToString("N") + ".txt");
+        File.WriteAllText(path, content, new UTF8Encoding(false));
+        try
+        {
+            var e = FileOperationHelper.GetEncodingType(path);
+            var text = FileOperationHelper.ReadFile(path, e);
+            Assert.Equal(content, text);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
     }
 
     [Fact]

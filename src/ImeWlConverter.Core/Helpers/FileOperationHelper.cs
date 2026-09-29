@@ -120,6 +120,15 @@ public static class FileOperationHelper
 
         try
         {
+            // 优先做严格 UTF-8 结构校验：UTF-8 编码结构刚性，整个探针能通过严格校验
+            // 且含多字节序列的文件几乎必然是 UTF-8。
+            // 历史 bug：短中文 UTF-8（无 BOM）文件被 CharsetDetector 误判为 GBK 家族，
+            // 读出"浠?"式乱码（词库合并/分割窗口实证）。
+            if (IsValidUtf8WithMultibyte(fileName))
+            {
+                return new UTF8Encoding(false);
+            }
+
             var result = CharsetDetector.DetectFromFile(fileName);
             var resultDetected = result?.Detected;
 
@@ -142,6 +151,68 @@ public static class FileOperationHelper
             Debug.WriteLine($"检测文件编码失败: {fileName}, 错误: {ex.Message}");
             return Encoding.UTF8;
         }
+    }
+
+    /// <summary>
+    /// 严格 UTF-8 校验：对文件头部（最多 64KB）逐字节验证 UTF-8 结构
+    /// （含过长编码/代理区排除），且至少含一个多字节序列才认为是 UTF-8。
+    /// 校验失败（含探针边界截断）返回 false，交由后续 CharsetDetector 处理。
+    /// </summary>
+    private static bool IsValidUtf8WithMultibyte(string fileName)
+    {
+        const int maxProbeBytes = 64 * 1024;
+        using var fs = File.OpenRead(fileName);
+        var buffer = new byte[Math.Min(maxProbeBytes, fs.Length)];
+        if (buffer.Length == 0) return false;
+        fs.ReadExactly(buffer, 0, buffer.Length);
+
+        var hasMultibyte = false;
+        var i = 0;
+        // 跳过 UTF-8 BOM
+        if (buffer.Length >= 3 && buffer[0] == 0xEF && buffer[1] == 0xBB && buffer[2] == 0xBF)
+            i = 3;
+
+        while (i < buffer.Length)
+        {
+            var b = buffer[i];
+            if (b < 0x80)
+            {
+                i++;
+                continue;
+            }
+
+            var len = b switch
+            {
+                >= 0xC2 and <= 0xDF => 2,
+                >= 0xE0 and <= 0xEF => 3,
+                >= 0xF0 and <= 0xF4 => 4,
+                _ => 0,
+            };
+            // 非法首字节，或探针边界恰好截断多字节序列（交由 CharsetDetector 兜底）
+            if (len == 0 || i + len > buffer.Length)
+                return false;
+
+            for (var j = 1; j < len; j++)
+                if ((buffer[i + j] & 0xC0) != 0x80)
+                    return false;
+
+            // 排除过长编码与 UTF-16 代理区
+            if (len == 3)
+            {
+                if (b == 0xE0 && buffer[i + 1] < 0xA0) return false;
+                if (b == 0xED && buffer[i + 1] > 0x9F) return false;
+            }
+            else if (len == 4)
+            {
+                if (b == 0xF0 && buffer[i + 1] < 0x90) return false;
+                if (b == 0xF4 && buffer[i + 1] > 0x8F) return false;
+            }
+
+            hasMultibyte = true;
+            i += len;
+        }
+
+        return hasMultibyte;
     }
 
     public static void WriteFileHeader(FileStream fs, Encoding encoding)
