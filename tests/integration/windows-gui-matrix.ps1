@@ -678,7 +678,10 @@ if ($List) {
             Write-Host ("{0,-4} {1,-22} {2,-26} {3}" -f $c.Id, "[工具] $($c.Tool)", "(Max=$($c.Max))", '')
             continue
         }
-        $src = if ($c.NeedsFile) { "[缺样本] $($c.NeedsFile)" }
+        $src = if ($c.NeedsFile) {
+                   $p = Join-Path $TestDir $c.NeedsFile
+                   $(if (Test-Path $p) { $c.NeedsFile } else { "[缺样本] $($c.NeedsFile)" })
+               }
                elseif ($c.File)   { $c.File }
                else               { "(合成) $($c.Synthetic)" }
         Write-Host ("{0,-4} {1,-22} {2,-26} {3}" -f $c.Id, $c.Import, $src, $c.Export)
