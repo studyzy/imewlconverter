@@ -3,8 +3,7 @@
 # 深蓝词库转换
 
 [![Stars](https://img.shields.io/github/stars/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter/stargazers)
-![Actions Check](https://github.com/studyzy/imewlconverter/actions/workflows/commit.yml/badge.svg)
-![Integration Tests](https://github.com/studyzy/imewlconverter/actions/workflows/integration-tests.yml/badge.svg)
+![Actions Check](https://github.com/studyzy/imewlconverter/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/studyzy/imewlconverter)
 ![Repo size](https://img.shields.io/github/repo-size/studyzy/imewlconverter)
 [![Code Count](https://tokei.rs/b1/github/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter)
@@ -268,8 +267,15 @@ cd ../../tests/integration
 - ✅ 导入测试（多种输入格式 → 统一CSV格式）
 - ✅ 导出测试（统一CSV格式 → 多种输出格式）
 - ✅ 高级功能测试（过滤、编码、大文件性能）
+- ✅ GUI 转换矩阵测试（Windows，驱动 WinForms 界面执行 35 条转换路径，需交互桌面会话）
+- ✅ 实机端到端测试（Win10 微软拼音候选验证）
 
 详细的测试矩阵与数据来源见 `tests/integration/TEST-MATRIX.md`。
+
+```powershell
+# Windows GUI 转换矩阵测试（需交互桌面会话）
+powershell -ExecutionPolicy Bypass -File tests\integration\windows-gui-matrix.ps1
+```
 
 ### 更多信息
 

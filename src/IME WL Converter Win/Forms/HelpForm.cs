@@ -61,6 +61,7 @@ public partial class HelpForm : Form
         helpString += "3.2版增加了百度拼音备份词库、LibIME拼音词库的支持，修复搜狗细胞词库和微软自学习词汇索引溢出问题。\r\n";
         helpString += "3.3版增加了macOS GUI应用（基于Avalonia UI），修复了自定义编码、Rime拼音码表、新世纪五笔生成器等问题。\r\n";
         helpString += "3.4版升级.NET到10.0，支持导出搜狗细胞词库scel格式，增加LLM词频生成功能，重构命令行参数为GNU风格，增加集成测试框架，修复多个Bug。\r\n";
+        helpString += "3.5版修复了百度bdict词库旧版头部解析问题（此前官网下载及部分词库导入为空），新增Windows GUI自动化转换矩阵测试，覆盖35条转换路径，接入搜狗备份、百度bcd/bdict、紫光uwl、Gboard等多种真实词库测试样本。\r\n";
         helpString += "\r\n";
         helpString += "关于各种输入法的词库转换操作方法或提交新的Issue，请前往项目网站：\r\nhttps://github.com/studyzy/imewlconverter/\r\n\r\n";
         helpString += "有任何问题和建议请联系我：studyzy@163.com\r\n";

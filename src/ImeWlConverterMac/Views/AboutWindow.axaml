@@ -19,7 +19,7 @@
         <StackPanel Grid.Row="0" Spacing="10">
             <TextBlock Name="labelProductName" Text="深蓝词库转换" FontSize="18" FontWeight="Bold"/>
             <TextBlock Name="labelVersion" Text="版本 1.0"/>
-            <TextBlock Name="labelCopyright" Text="Copyright © 2009-2024 studyzy(深蓝,曾毅)"/>
+            <TextBlock Name="labelCopyright" Text="Copyright © 2009-2026 studyzy(深蓝,曾毅)"/>
             <TextBlock Name="labelCompanyName" Text=""/>
         </StackPanel>
 
