@@ -9,6 +9,7 @@
 #   A 组：真实词库（src/ImeWlConverterCoreTest/Test/），10 条路径
 #   B 组：脚本内合成的小型文本样本，15 条路径
 #   C 组：缺少样本文件的二进制格式占位，样本放入 Test/ 目录后自动执行
+#   D 组：工具窗口（词库合并 / 文件分割三种模式），驱动帮助菜单下的模态工具窗
 #
 # 用法（在交互桌面会话中运行）：
 #   powershell -ExecutionPolicy Bypass -File tests\integration\windows-gui-matrix.ps1
@@ -140,6 +141,16 @@ $Cases = @(
     @{ Id = 'C8';  Import = 'Win10微软拼音（自学习词汇）';     File = 'Win10拼音自学习_ChsPinyinUDL.dat'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C9';  Import = 'Win10微软五笔（用户自定义短语）'; File = '微软五笔UserDefinedPhrase.dat';   Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C10'; Import = '微软拼音';                        NeedsFile = '微软拼音.dctx';       Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+
+    # ---- D 组：工具窗口（帮助菜单 -> 词库合并 / 文件分割） ----
+    # Merge: 主词库+2 附加词库，勾选按编码排序，保存后校验合并内容
+    @{ Id = 'D1'; Tool = 'Merge';  Validate = @{ Type = 'MergeContent' } }
+    # Split: 按行数（5 行文件按 2 行分割 -> 3 片）
+    @{ Id = 'D2'; Tool = 'SplitLine';   Max = 2;   Validate = @{ Type = 'SplitLine' } }
+    # Split: 按字数（3 行 x 10 字，取字长度 8 -> 切断点必须对齐行尾，每片恰好一行）
+    @{ Id = 'D3'; Tool = 'SplitLength'; Max = 108; Validate = @{ Type = 'SplitLength' } }
+    # Split: 按大小（约 4KB 内容，1KB 缓冲 -> >=2 片且行序列完整，验证行对齐不丢行）
+    @{ Id = 'D4'; Tool = 'SplitSize';   Max = 11;  Validate = @{ Type = 'SplitSize' } }
 )
 
 # =============================================================================
@@ -190,6 +201,350 @@ function Get-CaseSourcePath {
     if ($Case.NeedsFile) { return (Join-Path $TestDir $Case.NeedsFile) }
     if ($Case.File)      { return (Join-Path $TestDir $Case.File) }
     return (Join-Path $WorkDir ("sample-" + $Case.Synthetic + ".txt"))
+}
+
+# =============================================================================
+# D 组（工具窗口：词库合并 / 文件分割）辅助函数
+# =============================================================================
+function New-ToolSamples {
+    # 生成 D 组样本文件（WorkDir 下）。
+    # 合并样本用带 BOM 的 UTF-16LE：GetEncodingType 对"UTF-8 无 BOM + 少量中文"会误判为 GBK
+    # （产品既有局限，老代码同样如此），带 BOM 则检测必准。
+    # 分割样本为纯 ASCII（无歧义）。
+    $utf8 = New-Object System.Text.UTF8Encoding($false)
+    $uni = New-Object System.Text.UnicodeEncoding($false, $true)
+    [System.IO.File]::WriteAllText((Join-Path $WorkDir 'merge-main.txt'), "a wo 我`r`nb ni 你`r`n", $uni)
+    [System.IO.File]::WriteAllText((Join-Path $WorkDir 'merge-u1.txt'), "a ta 他`r`n", $uni)
+    [System.IO.File]::WriteAllText((Join-Path $WorkDir 'merge-u2.txt'), "c ta2 他2`r`n", $uni)
+    [System.IO.File]::WriteAllText((Join-Path $WorkDir 'split-lines.txt'), "l1`r`nl2`r`nl3`r`nl4`r`nl5`r`n", $utf8)
+    [System.IO.File]::WriteAllText((Join-Path $WorkDir 'split-len.txt'), "aaaaaaaaaa`r`nbbbbbbbbbb`r`ncccccccccc`r`n", $utf8)
+    [System.IO.File]::WriteAllText((Join-Path $WorkDir 'split-size.txt'), ("line-of-text`r`n" * 300), $utf8)
+}
+
+function Find-ToolWindow {
+    # 按 PID + 标题查找工具窗口（模态 ShowDialog 窗口）。
+    # 实测：进程有模态窗口时，对该窗口的 UIA 查询（含 FromHandle）全部超时，
+    # 而 Win32 枚举一切正常 —— 因此工具窗口一律返回 Win32 句柄，用消息驱动。
+    param([int]$ProcId, [string]$Title, [int]$TimeoutMs = 15000)
+    $deadline = [DateTime]::UtcNow.AddMilliseconds($TimeoutMs)
+    while ([DateTime]::UtcNow -lt $deadline) {
+        $hwnd = [ImeE2E.Helper]::FindWindowByTitle($ProcId, $Title)
+        if ($hwnd -ne [IntPtr]::Zero) { return $hwnd }
+        Start-Sleep -Milliseconds 400
+    }
+    return [IntPtr]::Zero
+}
+
+function Get-ChildEditHandlesSorted {
+    # 枚举窗口内全部 Edit 子窗口（WinForms 类名带 .NET 哈希后缀，需前缀匹配），
+    # 按屏幕 Y 再 X 排序（Designer 布局行序稳定：靠上的输入框排前面）
+    param([IntPtr]$Window)
+    $edits = New-Object System.Collections.Generic.List[object]
+    $cb = [ImeE2E.Native+EnumProc]{
+        param($h, $l)
+        $sb = New-Object System.Text.StringBuilder 256
+        [ImeE2E.Native]::GetClassName($h, $sb, 256) | Out-Null
+        if ($sb.ToString().StartsWith('WindowsForms10.EDIT', [System.StringComparison]::OrdinalIgnoreCase)) {
+            $r = New-Object 'ImeE2E.Native+RECT'
+            [ImeE2E.Native]::GetWindowRect($h, [ref]$r) | Out-Null
+            $edits.Add([pscustomobject]@{ Hwnd = $h; Y = $r.Top; X = $r.Left })
+        }
+        return $true
+    }
+    [ImeE2E.Native]::EnumChildWindows($Window, $cb, [IntPtr]::Zero) | Out-Null
+    return @($edits | Sort-Object Y, X | ForEach-Object { $_.Hwnd })
+}
+
+function Send-WindowText {
+    # WM_SETTEXT 设置 Win32 控件文本（WinForms TextBox/NumericUpDown 内部 Edit 均适用）
+    param([IntPtr]$Hwnd, [string]$Text)
+    [ImeE2E.Native]::SendMessage($Hwnd, 0x000C, [IntPtr]::Zero, $Text) | Out-Null
+}
+
+function Click-ControlHwnd {
+    # 真实鼠标点击控件中心（合 并/分 割 按钮的处理器会开模态框，
+    # 跨进程 SendMessage BM_CLICK 会同步阻塞到模态框关闭，绝不能用）
+    param([IntPtr]$Hwnd)
+    $r = New-Object 'ImeE2E.Native+RECT'
+    [ImeE2E.Native]::GetWindowRect($Hwnd, [ref]$r) | Out-Null
+    $x = [int](($r.Left + $r.Right) / 2)
+    $y = [int](($r.Top + $r.Bottom) / 2)
+    [ImeE2E.Native]::SetCursorPos($x, $y) | Out-Null
+    Start-Sleep -Milliseconds 200
+    [ImeE2E.Native]::mouse_event(0x02, 0, 0, 0, [UIntPtr]::Zero)
+    Start-Sleep -Milliseconds 100
+    [ImeE2E.Native]::mouse_event(0x04, 0, 0, 0, [UIntPtr]::Zero)
+}
+
+function Close-ToolWindow {
+    # 用 WM_CLOSE 关闭可能残留的工具窗口（不存在时静默通过）
+    param([int]$ProcId, [string]$Title)
+    $hwnd = [ImeE2E.Helper]::FindWindowByTitle($ProcId, $Title)
+    if ($hwnd -ne [IntPtr]::Zero) {
+        [ImeE2E.Native]::SendMessage($hwnd, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null # WM_CLOSE
+        Start-Sleep -Milliseconds 600
+        Write-Step "已关闭工具窗口: $Title"
+    }
+}
+
+function Invoke-MenuItemById {
+    # 打开 帮助 菜单下的工具入口（词库合并/文件分割）。
+    # 注意：WinForms MenuStrip 的 UIA 树里 ToolStripMenuItem 的 AutomationId 不可靠，
+    # 且下拉子项只有在菜单展开后才出现在 UIA 树中（弹出菜单是独立顶层窗口）。
+    # 因此流程：找菜单栏 → 按 Name 找"帮助" → 鼠标展开 → RootElement 下按 Name 找子项 → 点击。
+    param([int]$ProcId, $Main, [string]$ItemText)
+
+    $mainHwnd = [IntPtr]$Main.Current.NativeWindowHandle
+    [ImeE2E.Native]::SetForegroundWindow($mainHwnd) | Out-Null
+    Start-Sleep -Milliseconds 300
+
+    # 1. 找菜单栏中的"帮助"顶层项
+    $menuBarCond = New-Object System.Windows.Automation.PropertyCondition(
+        [System.Windows.Automation.AutomationElement]::ControlTypeProperty,
+        [System.Windows.Automation.ControlType]::MenuBar)
+    $menuBar = $Main.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $menuBarCond)
+    if ($null -eq $menuBar) { throw "未找到菜单栏 (MenuBar)" }
+    $nameCond = New-Object System.Windows.Automation.PropertyCondition(
+        [System.Windows.Automation.AutomationElement]::NameProperty, '帮助')
+    $topItem = $menuBar.FindFirst([System.Windows.Automation.TreeScope]::Children, $nameCond)
+    if ($null -eq $topItem) { throw "未找到 帮助 顶层菜单" }
+
+    # 2. 鼠标点击展开（菜单项 Invoke 实测会被吞，真实点击最可靠）
+    $rect = $topItem.Current.BoundingRectangle
+    if (-not $rect -or $rect.Width -le 0) { throw "帮助 菜单矩形无效" }
+    [ImeE2E.Native]::SetCursorPos([int]($rect.X + $rect.Width / 2), [int]($rect.Y + $rect.Height / 2)) | Out-Null
+    Start-Sleep -Milliseconds 200
+    [ImeE2E.Native]::mouse_event(0x02, 0, 0, 0, [UIntPtr]::Zero)
+    Start-Sleep -Milliseconds 100
+    [ImeE2E.Native]::mouse_event(0x04, 0, 0, 0, [UIntPtr]::Zero)
+    Start-Sleep -Milliseconds 700
+
+    # 3. 在弹出菜单（RootElement 下，同进程）中按 Name 找子项，最多重试 2 次。
+    #    注意：Invoke 抛"操作超时"通常代表模态框已被它触发弹出（GUI 线程阻塞了 UIA 调用），
+    #    此时不要回退鼠标点击（屏幕焦点已变），交给后续按标题等待窗口出现。
+    foreach ($attempt in 1..2) {
+        $byPid = New-Object System.Windows.Automation.PropertyCondition(
+            [System.Windows.Automation.AutomationElement]::ProcessIdProperty, $ProcId)
+        $byName = New-Object System.Windows.Automation.PropertyCondition(
+            [System.Windows.Automation.AutomationElement]::NameProperty, $ItemText)
+        $item = Find-ElementByCondition -Parent ([System.Windows.Automation.AutomationElement]::RootElement) `
+            -Condition (New-Object System.Windows.Automation.AndCondition($byPid, $byName)) -TimeoutMs 5000
+        if ($null -ne $item) {
+            try {
+                ($item.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)).Invoke()
+            }
+            catch {
+                Write-Step "菜单项 Invoke 超时（通常代表模态窗口已弹出），继续..."
+            }
+            return
+        }
+        Write-Step "第 $attempt 次未找到菜单项 '$ItemText'，重新展开菜单..."
+        [ImeE2E.Native]::SetCursorPos([int]($rect.X + $rect.Width / 2), [int]($rect.Y + $rect.Height / 2)) | Out-Null
+        Start-Sleep -Milliseconds 200
+        [ImeE2E.Native]::mouse_event(0x02, 0, 0, 0, [UIntPtr]::Zero)
+        Start-Sleep -Milliseconds 100
+        [ImeE2E.Native]::mouse_event(0x04, 0, 0, 0, [UIntPtr]::Zero)
+        Start-Sleep -Milliseconds 700
+    }
+    throw "未找到菜单项 '$ItemText'（帮助菜单已展开仍不可见）"
+}
+
+function Set-ValueById {
+    # 向窗口内指定 AutomationId 的 TextBox 写值（ValuePattern）
+    param($Window, [string]$Id, [string]$Value)
+    $box = Find-ById -Parent $Window -AutomationId $Id
+    if ($null -eq $box) { throw "未找到输入框 ($Id)" }
+    ($box.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern)).SetValue($Value)
+}
+
+function Set-NumericUpDown {
+    # 设置 WinForms NumericUpDown 的值：文本承载在内部 UpDownEdit (Edit 控件)，
+    # 用 ValuePattern 写入；焦点离开（点击分割按钮）时控件自行解析
+    param($Window, [string]$Id, [int]$Value)
+    $num = Find-ById -Parent $Window -AutomationId $Id
+    if ($null -eq $num) { throw "未找到数值控件 ($Id)" }
+    $editCond = New-Object System.Windows.Automation.PropertyCondition(
+        [System.Windows.Automation.AutomationElement]::ControlTypeProperty,
+        [System.Windows.Automation.ControlType]::Edit)
+    $edit = $num.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $editCond)
+    if ($null -eq $edit) { throw "未找到数值编辑框 ($Id 内部 Edit)" }
+    ($edit.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern)).SetValue("$Value")
+    Write-Step "设置 $Id = $Value"
+}
+
+function Invoke-MergeCase {
+    # D1 词库合并：主窗口菜单 -> 词库合并 -> 填主/附加词库 -> 勾排序 -> 合并 -> 保存 -> 校验
+    param([System.Diagnostics.Process]$Proc, [string]$SavePath)
+
+    $main = Find-MainWindow -ProcId $Proc.Id
+    if ($null -eq $main) { throw "未找到 GUI 主窗口" }
+    # $mainHwnd 供 Wait-SaveDialogHandled 经动态作用域引用（lib 既有约定）
+    $mainHwnd = [IntPtr]$main.Current.NativeWindowHandle
+    [ImeE2E.Native]::SetForegroundWindow($mainHwnd) | Out-Null
+    Start-Sleep -Milliseconds 300
+
+    Write-Step "打开 词库合并 窗口..."
+    Invoke-MenuItemById -ProcId $Proc.Id -Main $main -ItemText '词库合并'
+    $win = Find-ToolWindow -ProcId $Proc.Id -Title '词库合并'
+    if ($win -eq [IntPtr]::Zero) { throw "未找到 词库合并 窗口" }
+    [ImeE2E.Native]::SetForegroundWindow($win) | Out-Null
+    Start-Sleep -Milliseconds 300
+
+    # 两个输入框按 Y 排序：靠上的是主词库，靠下的是附加词库
+    $edits = Get-ChildEditHandlesSorted -Window $win
+    if ($edits.Count -lt 2) { throw "词库合并窗口 Edit 输入框数量异常: $($edits.Count)" }
+    Send-WindowText -Hwnd $edits[0] -Text (Join-Path $WorkDir 'merge-main.txt')
+    Send-WindowText -Hwnd $edits[1] -Text ((Join-Path $WorkDir 'merge-u1.txt') + ' | ' + (Join-Path $WorkDir 'merge-u2.txt'))
+
+    # 勾选"合并后按编码重新排序"
+    $chk = [ImeE2E.Helper]::FindChildByText($win, '合并后按编码重新排序')
+    if ($chk -eq [IntPtr]::Zero) { throw "未找到排序勾选框" }
+    [ImeE2E.Native]::SendMessage($chk, 0x00F1, [IntPtr]1, [IntPtr]::Zero) | Out-Null # BM_SETCHECK
+
+    Write-Step "点击 合并..."
+    $btn = [ImeE2E.Helper]::FindChildByText($win, '合 并')
+    if ($btn -eq [IntPtr]::Zero) { $btn = [ImeE2E.Helper]::FindChildByText($win, '合并') }
+    if ($btn -eq [IntPtr]::Zero) { throw "未找到合并按钮" }
+
+    # 点击后 GUI 弹"是否保存"(YesNo) 模态框；同步 BM_CLICK 会阻塞到模态框关闭，
+    # 必须真实鼠标点击 + 轮询弹窗
+    $dialogUp = $false
+    foreach ($attempt in 1..3) {
+        [ImeE2E.Native]::SetForegroundWindow($win) | Out-Null
+        Start-Sleep -Milliseconds 300
+        Click-ControlHwnd -Hwnd $btn
+        $deadline = [DateTime]::UtcNow.AddSeconds(25)
+        while ([DateTime]::UtcNow -lt $deadline) {
+            if ([ImeE2E.Helper]::FindWindowWithButton($Proc.Id, '是', $win) -ne [IntPtr]::Zero) { $dialogUp = $true; break }
+            Start-Sleep -Milliseconds 500
+        }
+        if ($dialogUp) { break }
+        Write-Step "第 $attempt 次点击后 25 秒无弹窗，重试..."
+    }
+
+    # "是否保存"(YesNo) -> 是 -> 另存为 -> 落盘（与转换用例同一对话框序列，复用处理器）
+    Wait-SaveDialogHandled -ProcId $Proc.Id -SavePath $SavePath
+
+    if (-not (Test-Path $SavePath)) { throw "合并产物未落盘: $SavePath" }
+    $text = Read-TextAuto -Path $SavePath
+    $lines = @($text -split "`r?`n") | Where-Object { $_.Trim() -ne '' }
+    $expected = @('a wo 我 ta 他', 'b ni 你', 'c ta2 他2')   # 排序 + 按词去重合并后的预期
+    if ($lines.Count -ne 3) { throw "合并结果行数不符: $($lines.Count) (期望 3)，实际[$($lines -join '; ')]" }
+    for ($i = 0; $i -lt 3; $i++) {
+        if ($lines[$i] -ne $expected[$i]) { throw "合并结果第 $($i+1) 行不符: '$($lines[$i])' (期望 '$($expected[$i])')" }
+    }
+}
+
+function Invoke-SplitCase {
+    # D2/D3/D4 文件分割：主窗口菜单 -> 文件分割 -> 填路径/设值 -> 分割 -> 确定提示框 -> 校验分片
+    param([System.Diagnostics.Process]$Proc, [hashtable]$Case)
+
+    $main = Find-MainWindow -ProcId $Proc.Id
+    if ($null -eq $main) { throw "未找到 GUI 主窗口" }
+    [ImeE2E.Native]::SetForegroundWindow([IntPtr]$main.Current.NativeWindowHandle) | Out-Null
+    Start-Sleep -Milliseconds 300
+
+    Write-Step "打开 文件分割 窗口..."
+    Invoke-MenuItemById -ProcId $Proc.Id -Main $main -ItemText '文件分割'
+    $win = Find-ToolWindow -ProcId $Proc.Id -Title '文件分割'
+    if ($win -eq [IntPtr]::Zero) { throw "未找到 文件分割 窗口" }
+    [ImeE2E.Native]::SetForegroundWindow($win) | Out-Null
+    Start-Sleep -Milliseconds 300
+
+    $sourceName = switch ($Case.Tool) {
+        'SplitLine'   { 'split-lines.txt' }
+        'SplitLength' { 'split-len.txt' }
+        'SplitSize'   { 'split-size.txt' }
+    }
+    $numIndex = switch ($Case.Tool) {
+        # Edits 按 Y 排序后：[0]=txbFilePath, [1]=行, [2]=KB, [3]=字
+        'SplitLine'   { 1 }
+        'SplitLength' { 3 }
+        'SplitSize'   { 2 }
+    }
+    $radioText = switch ($Case.Tool) {
+        'SplitLine'   { '按行数分割' }
+        'SplitLength' { '按字数分割' }
+        'SplitSize'   { '按文件大小分割' }
+    }
+    $sourcePath = Join-Path $WorkDir $sourceName
+
+    $edits = Get-ChildEditHandlesSorted -Window $win
+    if ($edits.Count -lt 4) { throw "文件分割窗口 Edit 输入框数量异常: $($edits.Count)" }
+    Send-WindowText -Hwnd $edits[0] -Text $sourcePath
+    Send-WindowText -Hwnd $edits[$numIndex] -Text "$($Case.Max)"
+
+    # 切换分割方式（默认按行数；D3/D4 需点对应单选钮）
+    if ($Case.Tool -ne 'SplitLine') {
+        $radio = [ImeE2E.Helper]::FindChildByText($win, $radioText)
+        if ($radio -eq [IntPtr]::Zero) { throw "未找到单选钮: $radioText" }
+        Click-ControlHwnd -Hwnd $radio
+        Start-Sleep -Milliseconds 300
+    }
+
+    Write-Step "点击 分割..."
+    $btn = [ImeE2E.Helper]::FindChildByText($win, '分 割')
+    if ($btn -eq [IntPtr]::Zero) { $btn = [ImeE2E.Helper]::FindChildByText($win, '分割') }
+    if ($btn -eq [IntPtr]::Zero) { throw "未找到分割按钮" }
+
+    # 点击后弹"恭喜你，文件分割完成!"(OK) 提示框，真实鼠标 + 轮询
+    $dialogUp = $false
+    foreach ($attempt in 1..3) {
+        [ImeE2E.Native]::SetForegroundWindow($win) | Out-Null
+        Start-Sleep -Milliseconds 300
+        Click-ControlHwnd -Hwnd $btn
+        $deadline = [DateTime]::UtcNow.AddSeconds(25)
+        while ([DateTime]::UtcNow -lt $deadline) {
+            if ([ImeE2E.Helper]::FindConfirmButton($Proc.Id, '确定', $win) -ne [IntPtr]::Zero) { $dialogUp = $true; break }
+            Start-Sleep -Milliseconds 500
+        }
+        if ($dialogUp) { break }
+        Write-Step "第 $attempt 次点击后 25 秒无弹窗，重试..."
+    }
+    if (-not $dialogUp) { throw "分割后未出现完成提示框" }
+    if (-not (Wait-ConfigDialogHandled -ProcId $Proc.Id -MainHwnd $win)) {
+        throw "分割完成提示框未被确认关闭"
+    }
+
+    # 校验分片（分片与源文件同目录：原名+两位序号+扩展名）
+    $stem = [System.IO.Path]::GetFileNameWithoutExtension($sourceName)
+    $ext = [System.IO.Path]::GetExtension($sourceName)
+    $partPath = { param($i) Join-Path $WorkDir ("{0}{1:d2}{2}" -f $stem, $i, $ext) }
+
+    switch ($Case.Tool) {
+        'SplitLine' {
+            if (-not (Test-Path (& $partPath 3))) { throw "分片数量不足（缺 03 片）" }
+            if ((Get-Content (& $partPath 1) -Raw) -ne "l1`r`nl2`r`n") { throw "01 片内容不符" }
+            if ((Get-Content (& $partPath 2) -Raw) -ne "l3`r`nl4`r`n") { throw "02 片内容不符" }
+            if ((Get-Content (& $partPath 3) -Raw) -ne "l5`r`n") { throw "03 片内容不符" }
+            if (Test-Path (& $partPath 4)) { throw "出现多余分片 04" }
+        }
+        'SplitLength' {
+            # 行对齐修复验证：每片恰好一整行（不从行中间切断）
+            $expected = @("aaaaaaaaaa`r`n", "bbbbbbbbbb`r`n", "cccccccccc`r`n")
+            for ($i = 1; $i -le 3; $i++) {
+                $p = & $partPath $i
+                if (-not (Test-Path $p)) { throw "缺少分片 $i" }
+                if ((Get-Content $p -Raw) -ne $expected[$i - 1]) { throw "第 $i 片内容不符（未对齐行尾?）: $(Get-Content $p -Raw)" }
+            }
+            if (Test-Path (& $partPath 4)) { throw "出现多余分片 04" }
+        }
+        'SplitSize' {
+            # 按大小分割是字节级切割（产品既有行为）：分片边界可能落在 \r\n 中间，
+            # 边界处部分行尾字节会被吸收（相邻行黏合），因此断言"内容字节等价"：
+            # 拼接全部分片、剥掉所有行尾字符后必须与源内容一致（不丢任何词条内容）
+            $i = 1; $raw = ''
+            while (Test-Path (& $partPath $i)) {
+                $raw += Read-TextAuto -Path (& $partPath $i)
+                $i++
+            }
+            if (($i - 1) -lt 2) { throw "分片数量不足: $($i - 1) 片 (期望 >= 2)" }
+            $strip = { param($s) $s -replace "`r", '' -replace "`n", '' }
+            if ((& $strip $raw) -ne (& $strip ("line-of-text`r`n" * 300))) {
+                throw "分片拼接后内容与源文件不符"
+            }
+        }
+    }
 }
 
 function Start-Gui {
@@ -312,6 +667,10 @@ function Invoke-ConversionCase {
 if ($List) {
     Write-Host ("{0,-4} {1,-22} {2,-26} {3}" -f 'ID', '导入格式', '源/样本', '导出格式')
     foreach ($c in $Cases) {
+        if ($c.Tool) {
+            Write-Host ("{0,-4} {1,-22} {2,-26} {3}" -f $c.Id, "[工具] $($c.Tool)", "(Max=$($c.Max))", '')
+            continue
+        }
         $src = if ($c.NeedsFile) { "[缺样本] $($c.NeedsFile)" }
                elseif ($c.File)   { $c.File }
                else               { "(合成) $($c.Synthetic)" }
@@ -321,12 +680,10 @@ if ($List) {
 }
 
 if ($Only) {
-    # 支持逗号分隔的多个 ID（如 -Only "A1,A2"）
+    # 仅按 ID 精确匹配（支持逗号分隔，如 -Only "A1,A2"）。
+    # 不做名称子串匹配：-like 不区分大小写，id "D2" 会误命中导入格式"灵格斯ld2"
     $ids = @($Only -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
-    $Cases = @($Cases | Where-Object {
-        $c = $_
-        ($ids -contains $c.Id) -or @($ids | Where-Object { $c.Import -like "*$_" -or $c.Import -like "*$($_)*" }).Count -gt 0
-    })
+    $Cases = @($Cases | Where-Object { $ids -contains $_.Id })
     if ($Cases.Count -eq 0) { Write-Fail "没有匹配 '-Only $Only' 的用例"; exit 1 }
 }
 
@@ -336,6 +693,9 @@ Write-Step "工作目录: $WorkDir"
 foreach ($c in $Cases | Where-Object { $_.Synthetic }) {
     $s = New-SampleLines -Type $c.Synthetic
     Write-SampleFile -Path (Get-CaseSourcePath -Case $c) -Lines $s.Lines -Enc $s.Enc
+}
+if (@($Cases | Where-Object { $_.Tool }).Count -gt 0) {
+    New-ToolSamples
 }
 
 # ---- 构建 GUI ----
@@ -380,7 +740,8 @@ try {
         }
 
         Write-Host ""
-        Write-Step "[$($case.Id)] $($case.Import) -> $($case.Export)"
+        $caseLabel = if ($case.Tool) { "[$($case.Id)] 工具-$($case.Tool)" } else { "[$($case.Id)] $($case.Import) -> $($case.Export)" }
+        Write-Step $caseLabel
 
         # GUI 崩溃则重启
         if ($null -eq $guiProc -or $guiProc.HasExited) {
@@ -391,13 +752,32 @@ try {
         }
 
         try {
-            Invoke-ConversionCase -Proc $guiProc -Case $case -SourcePath $srcPath -OutPath $outPath
-            Write-Pass "[$($case.Id)] $($case.Import) -> $($case.Export)"
-            $results.Add([pscustomobject]@{ Id = $case.Id; Import = $case.Import; Export = $case.Export; Status = 'PASS'; Detail = '' })
+            if ($case.Tool) {
+                # D 组：工具窗口（合并/分割），结束后确保模态窗口已关闭
+                try {
+                    if ($case.Tool -eq 'Merge') {
+                        Invoke-MergeCase -Proc $guiProc -SavePath $outPath
+                    }
+                    else {
+                        Invoke-SplitCase -Proc $guiProc -Case $case
+                    }
+                    Write-Pass $caseLabel
+                    $results.Add([pscustomobject]@{ Id = $case.Id; Import = "[工具] $($case.Tool)"; Export = ''; Status = 'PASS'; Detail = '' })
+                }
+                finally {
+                    Close-ToolWindow -ProcId $guiProc.Id -Title '词库合并'
+                    Close-ToolWindow -ProcId $guiProc.Id -Title '文件分割'
+                }
+            }
+            else {
+                Invoke-ConversionCase -Proc $guiProc -Case $case -SourcePath $srcPath -OutPath $outPath
+                Write-Pass $caseLabel
+                $results.Add([pscustomobject]@{ Id = $case.Id; Import = $case.Import; Export = $case.Export; Status = 'PASS'; Detail = '' })
+            }
         }
         catch {
             Write-Fail "[$($case.Id)] $($_.Exception.Message)"
-            $results.Add([pscustomobject]@{ Id = $case.Id; Import = $case.Import; Export = $case.Export; Status = 'FAIL'; Detail = $_.Exception.Message })
+            $results.Add([pscustomobject]@{ Id = $case.Id; Import = $(if ($case.Tool) { "[工具] $($case.Tool)" } else { $case.Import }); Export = $case.Export; Status = 'FAIL'; Detail = $_.Exception.Message })
             # 失败后 GUI 状态不可信，重启
             try {
                 if ($guiProc -and -not $guiProc.HasExited) {
