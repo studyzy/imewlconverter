@@ -30,9 +30,16 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
         var results = new List<WordEntry>();
         using var reader = new BinaryReader(input, Encoding.Unicode, leaveOpen: true);
 
-        // Read end position from header at 0x60
+        // 词条区结束位置：0x60 处的偏移（新版头部）；旧版头部该字段为 0，
+        // 此时用 0x44 处的词条区长度推算（0x350 + len）。
+        // 经 travel.bdict / movie.bdict / 官网下载词库三种文件验证：0x350 + 0x44值 三者一致。
         input.Position = 0x60;
         var endPosition = reader.ReadInt32();
+        if (endPosition <= 0)
+        {
+            input.Position = 0x44;
+            endPosition = 0x350 + reader.ReadInt32();
+        }
 
         // Words start at 0x350
         input.Position = 0x350;

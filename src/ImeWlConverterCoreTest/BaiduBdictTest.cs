@@ -31,11 +31,13 @@ public class BaiduBdictTest : BaseTest
     protected override string StringData => throw new NotImplementedException();
 
     [Theory]
-    [InlineData("movie.bdict")]
-    public void TestImport(string file)
+    [InlineData("movie.bdict", 60000)] // 新版头部（0x60 处有词条区结束偏移）
+    [InlineData("travel.bdict", 300)] // 旧版头部（0x60 为 0，用 0x44 长度推算），旅游词库 302 条
+    [InlineData("百度官网.bdict", 9)] // 百度官网下载，编程词汇 9 条
+    public void TestImport(string file, int minCount)
     {
         var result = ImportFromFile(GetFullPath(file));
         Assert.NotNull(result.Entries);
-        Assert.True(result.Entries.Count > 0);
+        Assert.True(result.Entries.Count >= minCount, $"{file} 仅导入 {result.Entries.Count} 条（预期 >= {minCount}）");
     }
 }
