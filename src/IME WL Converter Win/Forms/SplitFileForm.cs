@@ -17,12 +17,16 @@
 
 using System;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
+using ImeWlConverter.Application.MergeSplit;
 using ImeWlConverter.Core.Helpers;
 
 namespace Studyzy.IMEWLConverter;
 
+/// <summary>
+/// 文件分割窗口。分割算法在 <see cref="MergeSplitService"/>（三端共享），此处仅是 UI 壳。
+/// </summary>
 public partial class SplitFileForm : Form
 {
     public SplitFileForm()
@@ -55,155 +59,26 @@ public partial class SplitFileForm : Form
         }
 
         rtbLogs.Clear();
-        if (rbtnSplitByLine.Checked)
-            SplitFileByLine((int)numdMaxLine.Value);
-        else if (rbtnSplitBySize.Checked)
-            SplitFileBySize((int)numdMaxSize.Value);
-        else
-            SplitFileByLength((int)numdMaxLength.Value);
+
+        var mode = rbtnSplitByLine.Checked ? SplitMode.ByLine
+            : rbtnSplitBySize.Checked ? SplitMode.BySize
+            : SplitMode.ByLength;
+        var max = mode == SplitMode.ByLine ? (int)numdMaxLine.Value
+            : mode == SplitMode.BySize ? (int)numdMaxSize.Value
+            : (int)numdMaxLength.Value;
+
+        try
+        {
+            var parts = MergeSplitService.SplitFile(txbFilePath.Text, new SplitOptions { Mode = mode, Max = max });
+            foreach (var part in parts)
+                rtbLogs.AppendText(part + "\r\n");
+        }
+        catch (InvalidDataException ex)
+        {
+            MessageBox.Show(ex.Message, "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
         MessageBox.Show("恭喜你，文件分割完成!", "分割", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
-
-    private void SplitFileByLine(int maxLine)
-    {
-        var encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
-
-        var str = FileOperationHelper.ReadFile(txbFilePath.Text, encoding);
-
-        var splitLineChar = "\r\n";
-        if (str.IndexOf(splitLineChar) < 0)
-        {
-            if (str.IndexOf('\r') > 0)
-            {
-                splitLineChar = "\r";
-            }
-            else if (str.IndexOf('\n') > 0)
-            {
-                splitLineChar = "\n";
-            }
-            else
-            {
-                MessageBox.Show("不能找到行分隔符", "分割", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-        }
-
-        var list = str.Split(
-            new[] { splitLineChar },
-            StringSplitOptions.RemoveEmptyEntries
-        );
-
-        var fileContent = new StringBuilder();
-        var fileIndex = 1;
-        for (var i = 0; i < list.Length; i++)
-        {
-            fileContent.Append(list[i]);
-            fileContent.Append(splitLineChar);
-            if ((i + 1) % maxLine == 0 || i == list.Length - 1)
-                if (i != 0)
-                {
-                    var newFile = GetWriteFilePath(fileIndex++);
-                    FileOperationHelper.WriteFile(newFile, encoding, fileContent.ToString());
-                    rtbLogs.AppendText(newFile + "\r\n");
-                    fileContent = new StringBuilder();
-                }
-        }
-    }
-
-    private void SplitFileBySize(int maxSize)
-    {
-        var encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
-
-        var fileIndex = 1;
-        var size = (maxSize - 10) * 1024; //10K的Buffer
-        var inFile = new FileStream(txbFilePath.Text, FileMode.Open, FileAccess.Read);
-
-        do
-        {
-            var newFile = GetWriteFilePath(fileIndex++);
-            var outFile = new FileStream(newFile, FileMode.OpenOrCreate, FileAccess.Write);
-            if (fileIndex != 2) //不是第一个文件，那么就要写文件头
-                FileOperationHelper.WriteFileHeader(outFile, encoding);
-            var data = 0;
-            var buffer = new byte[size];
-            if ((data = inFile.Read(buffer, 0, size)) > 0)
-            {
-                outFile.Write(buffer, 0, data);
-                var hasContent = true;
-                do
-                {
-                    var b = inFile.ReadByte();
-                    if (b == 0xA || b == 0xD)
-                    {
-                        ReadToNextLine(inFile);
-
-                        hasContent = false;
-                    }
-
-                    if (b != -1) //文件已经读完
-                        outFile.WriteByte((byte)b);
-                    else
-                        hasContent = false;
-                } while (hasContent);
-            }
-
-            outFile.Close();
-            rtbLogs.AppendText(newFile + "\r\n");
-        } while (inFile.Position != inFile.Length);
-
-        inFile.Close();
-    }
-
-    private bool ReadToNextLine(FileStream fs)
-    {
-        do
-        {
-            var b = fs.ReadByte();
-
-            if (b == -1) return false;
-            if (b != 0xA && b != 0xD && b != 0)
-            {
-                fs.Position--;
-                return true;
-            }
-        } while (true);
-    }
-
-    private void SplitFileByLength(int length)
-    {
-        //Encoding encoding = null;
-        length = length - 100; //100个字的Buffer
-        //string str = FileOperationHelper.ReadFileContent(txbFilePath.Text, ref encoding, Encoding.UTF8);
-
-        var encoding = FileOperationHelper.GetEncodingType(txbFilePath.Text);
-        var str = FileOperationHelper.ReadFile(txbFilePath.Text, encoding);
-        var fileIndex = 1;
-        do
-        {
-            if (str.Length == 0) break;
-            var content = str.Substring(0, Math.Min(str.Length, length));
-            str = str.Substring(content.Length);
-
-            var i = Math.Min(str.IndexOf('\r'), str.IndexOf('\n'));
-            if (i != -1)
-            {
-                content += str.Substring(0, i + 2);
-                str = str.Substring(i + 2);
-            }
-
-            var newFile = GetWriteFilePath(fileIndex++);
-            FileOperationHelper.WriteFile(newFile, encoding, content);
-            rtbLogs.AppendText(newFile + "\r\n");
-        } while (true);
-    }
-
-    private string GetWriteFilePath(int i)
-    {
-        var path = txbFilePath.Text;
-        return Path.GetDirectoryName(path)
-               + "\\"
-               + Path.GetFileNameWithoutExtension(path)
-               + i.ToString("00")
-               + Path.GetExtension(path);
     }
 }

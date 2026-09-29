@@ -16,13 +16,17 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ImeWlConverter.Application.MergeSplit;
 using ImeWlConverter.Core.Helpers;
 
 namespace Studyzy.IMEWLConverter;
 
+/// <summary>
+/// 词库合并窗口。合并算法在 <see cref="MergeSplitService"/>（三端共享），此处仅是 UI 壳。
+/// </summary>
 public partial class MergeWLForm : Form
 {
     public MergeWLForm()
@@ -30,7 +34,6 @@ public partial class MergeWLForm : Form
         InitializeComponent();
     }
 
-    //private Dictionary<string,List<string>> main
     private void btnSelectMainWLFile_Click(object sender, EventArgs e)
     {
         if (openFileDialog1.ShowDialog() == DialogResult.OK) txbMainWLFile.Text = openFileDialog1.FileName;
@@ -44,31 +47,13 @@ public partial class MergeWLForm : Form
 
     private void btnMergeWL_Click(object sender, EventArgs e)
     {
-        var mainWL = FileOperationHelper.ReadFile(txbMainWLFile.Text);
-        var mainDict = ConvertTxt2Dictionary(mainWL);
         var userFiles = txbUserWLFiles.Text.Split('|');
-        foreach (var userFile in userFiles)
-        {
-            var filePath = userFile.Trim();
-            var userTxt = FileOperationHelper.ReadFile(filePath);
-            var userDict = ConvertTxt2Dictionary(userTxt);
-            Merge2Dict(mainDict, userDict);
-        }
+        var result = MergeSplitService.MergeFiles(txbMainWLFile.Text, userFiles, cbxSortByCode.Checked);
 
-        if (cbxSortByCode.Checked)
-        {
-            var keys = new List<string>(mainDict.Keys);
-            keys.Sort();
-            var sortedDict = new Dictionary<string, List<string>>();
-            foreach (var key in keys) sortedDict.Add(key, mainDict[key]);
-            mainDict = sortedDict;
-        }
-
-        var result = Dict2String(mainDict);
-        richTextBox1.Text = result;
+        richTextBox1.Text = result.Content;
         if (
             MessageBox.Show(
-                "是否将合并的" + mainDict.Count + "条词库保存到本地硬盘上？",
+                "是否将合并的" + result.EntryCount + "条词库保存到本地硬盘上？",
                 "是否保存",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
@@ -78,64 +63,8 @@ public partial class MergeWLForm : Form
                 FileOperationHelper.WriteFile(
                     saveFileDialog1.FileName,
                     Encoding.Unicode,
-                    result
+                    result.Content
                 );
-    }
-
-    private static Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
-    {
-        var lines = txt.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-        var mainDict = new Dictionary<string, List<string>>();
-        foreach (var line in lines)
-        {
-            var array = line.Split(' ');
-            var key = array[0];
-            if (!mainDict.ContainsKey(key)) mainDict.Add(key, []);
-            for (var i = 1; i < array.Length; i++)
-            {
-                var word = array[i];
-                mainDict[key].Add(word);
-            }
-        }
-
-        return mainDict;
-    }
-
-    private static void Merge2Dict(
-        Dictionary<string, List<string>> d1,
-        Dictionary<string, List<string>> d2
-    )
-    {
-        foreach (var pair in d2)
-            if (!d1.TryGetValue(pair.Key, out var v))
-                d1.Add(pair.Key, pair.Value);
-            else
-                foreach (var word in pair.Value)
-                    if (!v.Contains(word))
-                        v.Add(word);
-    }
-
-    private void ShowMessage(string message)
-    {
-        richTextBox1.AppendText(message + "\r\n");
-    }
-
-    private static string Dict2String(Dictionary<string, List<string>> dictionary)
-    {
-        var sb = new StringBuilder();
-        foreach (var pair in dictionary)
-        {
-            sb.Append(pair.Key);
-            if (pair.Value != null && pair.Value.Count > 0)
-            {
-                sb.Append(' ');
-                sb.Append(string.Join(" ", [.. pair.Value]));
-            }
-
-            sb.Append("\r\n");
-        }
-
-        return sb.ToString();
     }
 
     private void MergeWLForm_Load(object sender, EventArgs e)

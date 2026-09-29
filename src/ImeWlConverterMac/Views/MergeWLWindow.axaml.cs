@@ -1,15 +1,18 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using ImeWlConverter.Application.MergeSplit;
 using ImeWlConverter.Core.Helpers;
 
 namespace ImeWlConverterMac.Views;
 
+/// <summary>
+/// 词库合并窗口。合并算法在 <see cref="MergeSplitService"/>（三端共享），此处仅是 UI 壳。
+/// </summary>
 public partial class MergeWLWindow : Window
 {
     public MergeWLWindow()
@@ -101,109 +104,25 @@ public partial class MergeWLWindow : Window
 
     private async void PerformMerge()
     {
-        var mainWL = FileOperationHelper.ReadFile(txbMainWLFile.Text ?? "");
-        var mainDict = ConvertTxt2Dictionary(mainWL);
         var userFiles = (txbUserWLFiles.Text ?? "").Split('|');
-
-        foreach (var userFile in userFiles)
-        {
-            var filePath = userFile.Trim();
-            var userTxt = FileOperationHelper.ReadFile(filePath);
-            var userDict = ConvertTxt2Dictionary(userTxt);
-            Merge2Dict(mainDict, userDict);
-        }
-
-        if (cbxSortByCode.IsChecked == true)
-        {
-            var keys = new List<string>(mainDict.Keys);
-            keys.Sort();
-            var sortedDict = new Dictionary<string, List<string>>();
-            foreach (var key in keys)
-                sortedDict.Add(key, mainDict[key]);
-            mainDict = sortedDict;
-        }
-
-        var result = Dict2String(mainDict);
+        var result = MergeSplitService.MergeFiles(
+            txbMainWLFile.Text ?? "", userFiles, cbxSortByCode.IsChecked == true);
 
         await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
         {
-            richTextBox1.Text = result;
+            richTextBox1.Text = result.Content;
         });
 
         // 询问是否保存
         var shouldSave = await ShowYesNoMessage(
-            $"是否将合并的{mainDict.Count}条词库保存到本地硬盘上？",
+            $"是否将合并的{result.EntryCount}条词库保存到本地硬盘上？",
             "是否保存"
         );
 
         if (shouldSave)
         {
-            await SaveMergedFile(result);
+            await SaveMergedFile(result.Content);
         }
-    }
-
-    private static Dictionary<string, List<string>> ConvertTxt2Dictionary(string txt)
-    {
-        var lines = txt.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var mainDict = new Dictionary<string, List<string>>();
-
-        foreach (var line in lines)
-        {
-            var array = line.Split(' ');
-            var key = array[0];
-
-            if (!mainDict.ContainsKey(key))
-                mainDict.Add(key, new List<string>());
-
-            for (var i = 1; i < array.Length; i++)
-            {
-                var word = array[i];
-                mainDict[key].Add(word);
-            }
-        }
-
-        return mainDict;
-    }
-
-    private static void Merge2Dict(
-        Dictionary<string, List<string>> d1,
-        Dictionary<string, List<string>> d2)
-    {
-        foreach (var pair in d2)
-        {
-            if (!d1.TryGetValue(pair.Key, out var v))
-            {
-                d1.Add(pair.Key, pair.Value);
-            }
-            else
-            {
-                foreach (var word in pair.Value)
-                {
-                    if (!v.Contains(word))
-                        v.Add(word);
-                }
-            }
-        }
-    }
-
-    private static string Dict2String(Dictionary<string, List<string>> dictionary)
-    {
-        var sb = new StringBuilder();
-
-        foreach (var pair in dictionary)
-        {
-            sb.Append(pair.Key);
-
-            if (pair.Value != null && pair.Value.Count > 0)
-            {
-                sb.Append(' ');
-                sb.Append(string.Join(" ", pair.Value));
-            }
-
-            sb.Append("\n");
-        }
-
-        return sb.ToString();
     }
 
     private async Task SaveMergedFile(string content)
