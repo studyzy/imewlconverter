@@ -11,9 +11,6 @@ public sealed class ConversionOptions
     /// <summary>Export options.</summary>
     public ExportOptions Export { get; init; } = new();
 
-    /// <summary>Filter options.</summary>
-    public FilterOptions Filter { get; init; } = new();
-
     /// <summary>Code generation options.</summary>
     public CodeGenerationOptions CodeGeneration { get; init; } = new();
 

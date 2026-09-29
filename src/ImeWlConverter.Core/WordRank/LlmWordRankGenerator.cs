@@ -72,6 +72,8 @@ public sealed partial class LlmWordRankGenerator : IWordRankGenerator
     private async Task<Dictionary<string, int>> ProcessBatchAsync(
         List<WordEntry> batch, CancellationToken ct)
     {
+        // LLM 词频失败必须显式失败而非静默降级：吞掉异常会让用户在 LLM 不可用时
+        // 拿到全默认词频且毫无感知（历史 bug）。此处包装端点/模型上下文后上抛。
         try
         {
             var wordsString = string.Join("\n", batch.Select(w => w.Word));
@@ -90,9 +92,10 @@ public sealed partial class LlmWordRankGenerator : IWordRankGenerator
             return ParseRanks(responseJson);
         }
         catch (OperationCanceledException) { throw; }
-        catch
+        catch (Exception ex)
         {
-            return new Dictionary<string, int>();
+            throw new InvalidOperationException(
+                $"LLM 词频生成失败（端点: {GetFullApiEndpoint()}，模型: {Config.Model}，批次 {batch.Count} 条）: {ex.Message}", ex);
         }
     }
 

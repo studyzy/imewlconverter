@@ -175,7 +175,7 @@ src/
 |--------|---------|
 | `Contracts/` | IFormatImporter, IFormatExporter, IConversionPipeline, ICodeGenerator, IWordFilter, IWordTransform, IBatchFilter |
 | `Models/` | WordEntry (sealed record), WordCode, FormatMetadata, ProgressInfo |
-| `Options/` | ConversionOptions, FilterConfig, FilterOptions, CodeGenerationOptions, ImportOptions, ExportOptions |
+| `Options/` | ConversionOptions, FilterConfig, CodeGenerationOptions, ImportOptions, ExportOptions |
 | `Results/` | Result\<T\>, ImportResult, ExportResult, ConversionRequest, ConversionResult |
 | `Enums/` | CodeType, SortType, PinyinType, ChineseConversionMode |
 
