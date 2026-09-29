@@ -164,13 +164,23 @@ public static class MergeSplitService
 
     private static IReadOnlyList<string> SplitByLine(string filePath, int maxLine)
     {
+        if (maxLine < 1)
+            throw new InvalidDataException("每片行数必须 >= 1");
+
         var encoding = FileOperationHelper.GetEncodingType(filePath);
         var content = FileOperationHelper.ReadFile(filePath, encoding);
+
+        if (content.Trim().Length == 0)
+            throw new InvalidDataException("文件内容为空，无需分割");
 
         var separator = DetectLineSeparator(content)
                         ?? throw new InvalidDataException("不能找到行分隔符");
 
         var lines = content.Split([separator], StringSplitOptions.RemoveEmptyEntries);
+        if (lines.Length == 1)
+            // 修复：此前单行文件静默跳过（历史 `i != 0` 条件），界面仍提示"分割完成"却无任何分片
+            throw new InvalidDataException("文件只有 1 行，无需分割");
+
         var outputFiles = new List<string>();
         var buffer = new StringBuilder();
         var fileIndex = 1;
@@ -179,7 +189,8 @@ public static class MergeSplitService
         {
             buffer.Append(lines[i]);
             buffer.Append(separator);
-            if (((i + 1) % maxLine == 0 || i == lines.Length - 1) && i != 0)
+            // 单行/空文件已在上方前置校验拦截，此处无需再排除 i == 0
+            if ((i + 1) % maxLine == 0 || i == lines.Length - 1)
             {
                 var partPath = GetPartPath(filePath, fileIndex++);
                 FileOperationHelper.WriteFile(partPath, encoding, buffer.ToString());

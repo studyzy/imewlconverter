@@ -117,14 +117,48 @@ public class MergeSplitServiceTests : IDisposable
     }
 
     [Fact]
-    public void SplitByLine_SingleLine_ProducesNoParts()
+    public void SplitByLine_SingleLine_ThrowsWithReadableMessage()
     {
-        // 历史行为：仅 1 行（i == 0）时不写任何分片
+        // Bug 修复：此前单行文件静默跳过且界面仍提示"分割完成"（无任何分片），
+        // 现改为抛出可读异常，GUI 显示"分割失败: 文件只有 1 行，无需分割"
         var source = WriteFile("single.txt", "only1\r\n");
 
-        var parts = MergeSplitService.SplitFile(source, new SplitOptions { Mode = SplitMode.ByLine, Max = 100 });
+        var ex = Assert.Throws<InvalidDataException>(() =>
+            MergeSplitService.SplitFile(source, new SplitOptions { Mode = SplitMode.ByLine, Max = 100 }));
+        Assert.Contains("无需分割", ex.Message);
+    }
 
-        Assert.Empty(parts);
+    [Fact]
+    public void SplitByLine_EmptyFile_ThrowsWithReadableMessage()
+    {
+        var source = WriteFile("empty.txt", "");
+
+        var ex = Assert.Throws<InvalidDataException>(() =>
+            MergeSplitService.SplitFile(source, new SplitOptions { Mode = SplitMode.ByLine, Max = 2 }));
+        Assert.Contains("内容为空", ex.Message);
+    }
+
+    [Fact]
+    public void SplitByLine_MaxLineLessThanOne_ThrowsWithReadableMessage()
+    {
+        // 历史行为：maxLine=0 会在取模处裸崩 DivideByZeroException，现改为可读校验
+        var source = WriteFile("case.txt", "l1\r\nl2\r\n");
+
+        Assert.Throws<InvalidDataException>(() =>
+            MergeSplitService.SplitFile(source, new SplitOptions { Mode = SplitMode.ByLine, Max = 0 }));
+    }
+
+    [Fact]
+    public void SplitByLine_MaxLineOne_EachLineItsOwnPart()
+    {
+        var source = WriteFile("each.txt", "l1\r\nl2\r\nl3\r\n");
+
+        var parts = MergeSplitService.SplitFile(source, new SplitOptions { Mode = SplitMode.ByLine, Max = 1 });
+
+        Assert.Equal(3, parts.Count);
+        Assert.Equal("l1\r\n", File.ReadAllText(parts[0]));
+        Assert.Equal("l2\r\n", File.ReadAllText(parts[1]));
+        Assert.Equal("l3\r\n", File.ReadAllText(parts[2]));
     }
 
     [Fact]
