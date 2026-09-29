@@ -6,6 +6,7 @@
 | 你想做什么 | 入口文件/目录 |
 |-----------|-------------|
 | 添加新的输入法格式支持 | `src/ImeWlConverter.Formats/{Format}/` → 创建 Importer + Exporter |
+| 修改码表/字典数据（拼音、五笔、注音等） | `src/ImeWlConverter.CodeData/`（接口 + `Resources/` 嵌入码表） |
 | 修改转换管道逻辑 | `src/ImeWlConverter.Core/Pipeline/ConversionPipeline.cs` |
 | 修改 CLI 参数/行为 | `src/ImeWlConverterCmd/CommandBuilder.cs` |
 | 修改编码生成（拼音/五笔等） | `src/ImeWlConverter.Core/CodeGeneration/Generators/` |
@@ -44,6 +45,7 @@ make run-mac            # 运行 macOS GUI
 ```
 src/
 ├── ImeWlConverter.Abstractions/     # 接口层（零依赖）
+├── ImeWlConverter.CodeData/         # 码表数据叶子（零依赖，只读线程安全表服务）
 ├── ImeWlConverter.Core/             # 业务服务层（转换管道、编码生成、过滤、简繁转换）
 ├── ImeWlConverter.Formats/          # 格式实现层（107个文件，50+种格式）
 ├── ImeWlConverter.SourceGenerators/ # Source Generator（编译时格式注册）
@@ -275,7 +277,8 @@ Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 - **单元测试**: xUnit 2.9.3，位于 `src/ImeWlConverterCoreTest/`
 - **集成测试**: shell 脚本框架，位于 `tests/integration/`
-- 测试串行执行（`xunit.runner.json` 中 `parallelizeTestCollections: false`）
+- 测试并行执行（`xunit.runner.json` 中 `parallelizeTestCollections: true`；Phase 2 已消灭静态可变状态，码表全部走 `ImeWlConverter.CodeData` 的线程安全只读表）
+- **禁新增 static 可变字典/集合**——需要码表数据时注入 `ICodeTableLibrary`/`IPinyinTable` 等接口（见 `src/ImeWlConverter.CodeData/`）
 - `[Fact(Skip = "...")]` 标记按需运行的慢速测试
 
 ### CI/CD
@@ -297,5 +300,5 @@ GitHub Actions (`.github/workflows/ci.yml`)：
 | ConversionPipeline 支持 Stream 输出 | GUI 需要先预览内容再决定是否保存 |
 | CLI 用 FormatRegistrar 显式注册 | 消除反射，支持 AOT/Trimming |
 | Source Generator 注册新格式 | 添加格式只需加 `[FormatPlugin]` 属性 |
-| 测试串行执行 | 编码生成器有静态字典状态，并行会竞态 |
+| 测试并行执行 | Phase 2 建立码表数据层（CodeData），静态可变字典全部改为 DI 只读表，竞态根因消除 |
 | sealed record 实体 | 不可变性保证，不会意外修改中间状态 |

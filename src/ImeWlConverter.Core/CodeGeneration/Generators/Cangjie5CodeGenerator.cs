@@ -1,12 +1,14 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.Helpers;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
 
 /// <summary>
 /// Cangjie5CodeGenerator 仓颉五代编码生成器。
+/// 码表经 Lazy(ExecutionAndPublication) 惰性构建，构建后只读，无静态可变状态。
 /// </summary>
 public sealed class Cangjie5CodeGenerator : ICodeGenerator
 {
@@ -28,35 +30,16 @@ public sealed class Cangjie5CodeGenerator : ICodeGenerator
         { '七', "p" }
     };
 
-    private Dictionary<char, IList<CangjieEntry>>? _dictionary;
+    private readonly Lazy<Dictionary<char, IList<CangjieEntry>>> _dictionary;
 
-    private Dictionary<char, IList<CangjieEntry>> Dict
+    public Cangjie5CodeGenerator(IResourceProvider resources)
     {
-        get
-        {
-            if (_dictionary == null)
-            {
-                var txt = DictionaryHelper.GetResourceContent("Cangjie5.txt");
-                _dictionary = new Dictionary<char, IList<CangjieEntry>>();
-
-                foreach (var line in txt.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries))
-                {
-                    var arr = line.Split('\t');
-                    if (arr.Length < 2 || arr[0].Length == 0) continue;
-
-                    var word = arr[0][0];
-                    var entry = new CangjieEntry(arr[1], arr.Length >= 3 ? arr[2] : null);
-
-                    if (_dictionary.TryGetValue(word, out var list))
-                        list.Add(entry);
-                    else
-                        _dictionary[word] = new List<CangjieEntry> { entry };
-                }
-            }
-
-            return _dictionary;
-        }
+        _dictionary = new Lazy<Dictionary<char, IList<CangjieEntry>>>(
+            () => Load(resources.GetResourceContent("Cangjie5.txt")),
+            LazyThreadSafetyMode.ExecutionAndPublication);
     }
+
+    private Dictionary<char, IList<CangjieEntry>> Dict => _dictionary.Value;
 
     public WordCode GenerateCode(string word)
     {
@@ -237,6 +220,27 @@ public sealed class Cangjie5CodeGenerator : ICodeGenerator
     {
         var arr = splitCode.Split('\'');
         return arr[0][^1];
+    }
+
+    private static Dictionary<char, IList<CangjieEntry>> Load(string txt)
+    {
+        var dictionary = new Dictionary<char, IList<CangjieEntry>>();
+
+        foreach (var line in txt.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries))
+        {
+            var arr = line.Split('\t');
+            if (arr.Length < 2 || arr[0].Length == 0) continue;
+
+            var word = arr[0][0];
+            var entry = new CangjieEntry(arr[1], arr.Length >= 3 ? arr[2] : null);
+
+            if (dictionary.TryGetValue(word, out var list))
+                list.Add(entry);
+            else
+                dictionary[word] = new List<CangjieEntry> { entry };
+        }
+
+        return dictionary;
     }
 
     private readonly record struct CangjieEntry(string Code, string? SplitCode);

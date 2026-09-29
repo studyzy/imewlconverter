@@ -87,6 +87,10 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
         // Detect if base class has abstract Metadata (needs override keyword)
         var needsOverride = InheritsFromAbstractBase(symbol);
 
+        // Detect DI-injectable constructor parameters (e.g., code tables from ImeWlConverter.CodeData).
+        // Emitting factory lambdas for parameterized constructors avoids runtime reflection.
+        var constructorParams = GetInjectableConstructorParamTypes(symbol);
+
         // Get namespace
         var ns = symbol.ContainingNamespace.IsGlobalNamespace
             ? ""
@@ -104,7 +108,25 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
             isBinary,
             needsOverride,
             fileExtension ?? ".txt",
-            defaultFileName);
+            defaultFileName,
+            constructorParams);
+    }
+
+    /// <summary>
+    /// 获取格式类构造函数的参数类型全名列表。
+    /// 只有一个公共构造函数且带参数时返回参数类型；无参构造返回 null。
+    /// </summary>
+    private static string[]? GetInjectableConstructorParamTypes(INamedTypeSymbol symbol)
+    {
+        var ctors = symbol.Constructors
+            .Where(c => !c.IsStatic && c.DeclaredAccessibility == Accessibility.Public)
+            .ToList();
+        if (ctors.Count != 1 || ctors[0].Parameters.Length == 0)
+            return null;
+
+        return ctors[0].Parameters
+            .Select(p => p.Type.ToDisplayString())
+            .ToArray();
     }
 
     private static bool InheritsFromBinaryImporter(INamedTypeSymbol symbol)
@@ -154,10 +176,24 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
 
         foreach (var format in formats)
         {
-            if (format.IsImporter)
-                sb.AppendLine($"        services.AddSingleton<IFormatImporter, {format.FullTypeName}>();");
-            if (format.IsExporter)
-                sb.AppendLine($"        services.AddSingleton<IFormatExporter, {format.FullTypeName}>();");
+            if (format.ConstructorParamTypes is null)
+            {
+                // 无参构造：直接类型注册
+                if (format.IsImporter)
+                    sb.AppendLine($"        services.AddSingleton<IFormatImporter, {format.FullTypeName}>();");
+                if (format.IsExporter)
+                    sb.AppendLine($"        services.AddSingleton<IFormatExporter, {format.FullTypeName}>();");
+            }
+            else
+            {
+                // 带参构造：发射工厂 lambda（编译期已解析参数类型，无运行时反射）
+                var args = string.Join(", ",
+                    format.ConstructorParamTypes.Select(t => $"sp.GetRequiredService<{t}>()"));
+                if (format.IsImporter)
+                    sb.AppendLine($"        services.AddSingleton<IFormatImporter>(sp => new {format.FullTypeName}({args}));");
+                if (format.IsExporter)
+                    sb.AppendLine($"        services.AddSingleton<IFormatExporter>(sp => new {format.FullTypeName}({args}));");
+            }
         }
 
         sb.AppendLine("        return services;");
@@ -213,11 +249,12 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
         public bool NeedsOverride { get; }
         public string FileExtension { get; }
         public string DefaultFileName { get; }
+        public string[]? ConstructorParamTypes { get; }
 
         public FormatInfo(string fullTypeName, string className, string ns,
             string id, string displayName, int sortOrder,
             bool isImporter, bool isExporter, bool isBinary, bool needsOverride,
-            string fileExtension, string defaultFileName)
+            string fileExtension, string defaultFileName, string[]? constructorParamTypes)
         {
             FullTypeName = fullTypeName;
             ClassName = className;
@@ -231,6 +268,7 @@ public class FormatRegistrationGenerator : IIncrementalGenerator
             NeedsOverride = needsOverride;
             FileExtension = fileExtension;
             DefaultFileName = defaultFileName;
+            ConstructorParamTypes = constructorParamTypes;
         }
     }
 }

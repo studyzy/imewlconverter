@@ -6,6 +6,7 @@ using System.Text;
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
+using Studyzy.IMEWLConverter.Test.GeneraterTest;
 using ImeWlConverter.Formats.BaiduPinyin;
 using ImeWlConverter.Formats.BaiduShouji;
 using ImeWlConverter.Formats.BaiduShoujiEng;
@@ -91,7 +92,7 @@ public class FormatRoundtripTest
             (new GooglePinyinImporter(), new GooglePinyinExporter(), PinyinEntries, true),
             (new LibpinyinImporter(), new LibpinyinExporter(), PinyinEntries, true),
             (new MacPlistImporter(), new MacPlistExporter(), PinyinEntries, true),
-            (new MsPinyinImporter(), new MsPinyinExporter(), PinyinEntries, true),
+            (new MsPinyinImporter(), TestCodeData.CreateMsPinyinExporter(), PinyinEntries, true),
             (new PinyinJiaJiaImporter(), new PinyinJiaJiaExporter(), PinyinEntries, true),
             (new QQPinyinImporter(), new QQPinyinExporter(), PinyinEntries, true),
             (new QQPinyinEngImporter(), new QQPinyinEngExporter(), PinyinEntries, true),

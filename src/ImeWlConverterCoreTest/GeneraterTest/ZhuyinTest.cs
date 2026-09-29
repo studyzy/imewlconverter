@@ -17,6 +17,7 @@
 
 using Xunit;
 using ImeWlConverter.Abstractions.Contracts;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.CodeGeneration.Generators;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest;
@@ -27,7 +28,14 @@ public class ZhuyinTest
 
     public ZhuyinTest()
     {
-        generator = new ZhuyinCodeGenerator();
+        var resources = new EmbeddedResourceProvider();
+        generator = new ZhuyinCodeGenerator(
+            new TerraPinyinCodeGenerator(
+                new PinyinCodeGenerator(
+                    new PinyinTable(new CodeTableLibrary(resources)),
+                    resources),
+                new PinyinTable(new CodeTableLibrary(resources))),
+            new ZhuyinTable(resources));
     }
 
     [Fact]

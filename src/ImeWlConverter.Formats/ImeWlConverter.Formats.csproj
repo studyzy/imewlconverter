@@ -7,7 +7,7 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
-        <ProjectReference Include="..\ImeWlConverter.Core\ImeWlConverter.Core.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.CodeData\ImeWlConverter.CodeData.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverter.SourceGenerators\ImeWlConverter.SourceGenerators.csproj"
@@ -16,5 +16,6 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7"/>
+        <PackageReference Include="SharpZipLib" Version="1.4.2"/>
     </ItemGroup>
 </Project>

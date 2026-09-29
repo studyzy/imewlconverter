@@ -1,7 +1,7 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
 
@@ -10,7 +10,14 @@ namespace ImeWlConverter.Core.CodeGeneration.Generators;
 /// </summary>
 public sealed class ChaoyinCodeGenerator : ICodeGenerator
 {
-    private static readonly PinyinCodeGenerator pinyinGenerator = new();
+    private readonly PinyinCodeGenerator _pinyinGenerator;
+    private readonly IChaoyinTable _chaoyinTable;
+
+    public ChaoyinCodeGenerator(PinyinCodeGenerator pinyinGenerator, IChaoyinTable chaoyinTable)
+    {
+        _pinyinGenerator = pinyinGenerator;
+        _chaoyinTable = chaoyinTable;
+    }
 
     public CodeType SupportedType => CodeType.Chaoyin;
 
@@ -23,7 +30,7 @@ public sealed class ChaoyinCodeGenerator : ICodeGenerator
             return new WordCode { Segments = Array.Empty<IReadOnlyList<string>>() };
         }
 
-        var pinyinCode = pinyinGenerator.GenerateCode(word);
+        var pinyinCode = _pinyinGenerator.GenerateCode(word);
         var pinyinList = new List<string>();
         foreach (var segment in pinyinCode.Segments)
         {
@@ -38,7 +45,7 @@ public sealed class ChaoyinCodeGenerator : ICodeGenerator
             return new WordCode { Segments = Array.Empty<IReadOnlyList<string>>() };
         }
 
-        var chaoyinCode = ChaoyinHelper.GetChaoyin(pinyinList);
+        var chaoyinCode = _chaoyinTable.GetWordChaoyin(pinyinList);
         return WordCode.FromSingle(new[] { chaoyinCode });
     }
 }

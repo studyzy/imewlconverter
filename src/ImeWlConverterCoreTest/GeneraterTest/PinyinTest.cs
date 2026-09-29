@@ -21,6 +21,7 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Core.CodeGeneration.Generators;
 
@@ -32,7 +33,10 @@ public class PinyinTest
 
     public PinyinTest()
     {
-        generator = new PinyinCodeGenerator();
+        var resources = new EmbeddedResourceProvider();
+        generator = new PinyinCodeGenerator(
+            new PinyinTable(new CodeTableLibrary(resources)),
+            resources);
     }
 
     [Fact]

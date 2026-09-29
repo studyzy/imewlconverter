@@ -9,16 +9,13 @@
 
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.CodeData\ImeWlConverter.CodeData.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7"/>
         <PackageReference Include="SharpZipLib" Version="1.4.2"/>
         <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="Resources\**\*"/>
     </ItemGroup>
 
 </Project>

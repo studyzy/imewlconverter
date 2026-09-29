@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <RootNamespace>ImeWlConverter.CodeData</RootNamespace>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <!--
+      CodeData：码表数据叶子项目。
+      - 零依赖（不引用任何项目/包），只持有嵌入式码表并提供线程安全的只读表服务
+      - 所有表均为惰性构建、构建后不可变（Lazy + ExecutionAndPublication），无静态可变状态，
+        支持并行测试与并发转换（这是历史上"测试必须串行"问题的根治点）
+    -->
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7"/>
+    </ItemGroup>
+
+</Project>

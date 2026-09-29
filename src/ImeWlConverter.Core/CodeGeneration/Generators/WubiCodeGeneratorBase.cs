@@ -1,7 +1,7 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
 
@@ -10,6 +10,13 @@ namespace ImeWlConverter.Core.CodeGeneration.Generators;
 /// </summary>
 public abstract class WubiCodeGeneratorBase : ICodeGenerator
 {
+    private readonly ICodeTableLibrary _codeTable;
+
+    protected WubiCodeGeneratorBase(ICodeTableLibrary codeTable)
+    {
+        _codeTable = codeTable;
+    }
+
     public abstract CodeType SupportedType { get; }
 
     public bool Is1Char1Code => false;
@@ -71,6 +78,6 @@ public abstract class WubiCodeGeneratorBase : ICodeGenerator
 
     private string GetCharCode(char c)
     {
-        return GetWubiCode(DictionaryHelper.GetCode(c));
+        return GetWubiCode(_codeTable.GetCode(c));
     }
 }

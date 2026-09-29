@@ -1,7 +1,7 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
 
@@ -10,7 +10,14 @@ namespace ImeWlConverter.Core.CodeGeneration.Generators;
 /// </summary>
 public sealed class TerraPinyinCodeGenerator : ICodeGenerator
 {
-    private static readonly PinyinCodeGenerator pinyinGenerator = new();
+    private readonly PinyinCodeGenerator _pinyinGenerator;
+    private readonly IPinyinTable _pinyinTable;
+
+    public TerraPinyinCodeGenerator(PinyinCodeGenerator pinyinGenerator, IPinyinTable pinyinTable)
+    {
+        _pinyinGenerator = pinyinGenerator;
+        _pinyinTable = pinyinTable;
+    }
 
     public CodeType SupportedType => CodeType.TerraPinyin;
 
@@ -23,7 +30,7 @@ public sealed class TerraPinyinCodeGenerator : ICodeGenerator
             return new WordCode { Segments = Array.Empty<IReadOnlyList<string>>() };
         }
 
-        var pinyinCode = pinyinGenerator.GenerateCode(word);
+        var pinyinCode = _pinyinGenerator.GenerateCode(word);
         var segments = new List<IReadOnlyList<string>>(word.Length);
 
         for (var i = 0; i < word.Length; i++)
@@ -31,7 +38,7 @@ public sealed class TerraPinyinCodeGenerator : ICodeGenerator
             if (i < pinyinCode.Segments.Count && pinyinCode.Segments[i].Count > 0)
             {
                 var basePinyin = pinyinCode.Segments[i][0];
-                var terraPinyin = PinyinHelper.AddToneToPinyin(word[i], basePinyin);
+                var terraPinyin = _pinyinTable.AddTone(word[i], basePinyin);
                 segments.Add(new[] { terraPinyin });
             }
             else

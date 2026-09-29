@@ -16,18 +16,20 @@
  */
 
 using Xunit;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 namespace Studyzy.IMEWLConverter.Test.HelperTest;
 
 public class DictionaryHelperTest
 {
+    private readonly ICodeTableLibrary codeTable = new CodeTableLibrary(new EmbeddedResourceProvider());
+
     [Theory]
     [InlineData('曾', "uljf")]
     [InlineData('〇', "llll")]
     public void TestGetCharCode(char c, string code)
     {
-        var codes = DictionaryHelper.GetCode(c);
+        var codes = codeTable.GetCode(c);
         Assert.Equal(code, codes.Wubi86);
     }
 }

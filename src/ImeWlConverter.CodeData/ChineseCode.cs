@@ -1,4 +1,4 @@
-namespace ImeWlConverter.Core.Helpers;
+namespace ImeWlConverter.CodeData;
 
 /// <summary>
 /// Represents the encoding information for a single Chinese character.

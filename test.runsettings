@@ -4,13 +4,13 @@
   <RunConfiguration>
     <!-- Maximum timeout for test run (in milliseconds) -->
     <TestSessionTimeout>300000</TestSessionTimeout>
-    <!-- Run tests sequentially to avoid static state issues -->
-    <MaxCpuCount>1</MaxCpuCount>
+    <!-- Phase 2 后静态可变状态已清除（CodeData 线程安全表），恢复并行 -->
+    <MaxCpuCount>0</MaxCpuCount>
   </RunConfiguration>
 
   <!-- xUnit adapter settings -->
   <xUnit>
     <!-- Timeout for individual test (in milliseconds) -->
-    <MaxParallelThreads>1</MaxParallelThreads>
+    <MaxParallelThreads>-1</MaxParallelThreads>
   </xUnit>
 </RunSettings>

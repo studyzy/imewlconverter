@@ -1,4 +1,5 @@
 using ImeWlConverter.Abstractions.Contracts;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Core.CodeGeneration.Generators;
 using ImeWlConverter.Core.Language;
@@ -18,6 +19,9 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddImeWlConverterCore(this IServiceCollection services)
     {
+        // 码表数据（只读、线程安全、惰性构建）
+        services.AddImeWlConverterCodeData();
+
         // Pipeline
         services.AddSingleton<ConversionPipeline>();
         services.AddSingleton<IConversionPipeline>(sp => sp.GetRequiredService<ConversionPipeline>());
@@ -30,8 +34,11 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IWordRankGenerator, DefaultWordRankGenerator>();
 
         // Code generators
-        services.AddSingleton<ICodeGenerator, PinyinCodeGenerator>();
-        services.AddSingleton<ICodeGenerator, TerraPinyinCodeGenerator>();
+        // 依赖链：Zhuyin/Chaoyin → TerraPinyin → Pinyin，因此具体类型需单独注册供注入
+        services.AddSingleton<PinyinCodeGenerator>();
+        services.AddSingleton<TerraPinyinCodeGenerator>();
+        services.AddSingleton<ICodeGenerator>(sp => sp.GetRequiredService<PinyinCodeGenerator>());
+        services.AddSingleton<ICodeGenerator>(sp => sp.GetRequiredService<TerraPinyinCodeGenerator>());
         services.AddSingleton<ICodeGenerator, Wubi86CodeGenerator>();
         services.AddSingleton<ICodeGenerator, Wubi98CodeGenerator>();
         services.AddSingleton<ICodeGenerator, WubiNewAgeCodeGenerator>();

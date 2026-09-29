@@ -1,7 +1,7 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
 
@@ -16,17 +16,19 @@ namespace ImeWlConverter.Core.CodeGeneration.Generators;
 public sealed class PhraseCodeGenerator : ICodeGenerator
 {
     private readonly ICodeGenerator? baseGenerator;
+    private readonly IPinyinTable pinyinTable;
 
-    public PhraseCodeGenerator()
+    /// <summary>使用拼音表作为单字编码来源。</summary>
+    public PhraseCodeGenerator(IPinyinTable pinyinTable)
     {
+        this.pinyinTable = pinyinTable;
     }
 
-    /// <summary>
-    /// 使用指定的基础编码生成器来获取单字编码。
-    /// </summary>
-    public PhraseCodeGenerator(ICodeGenerator baseGenerator)
+    /// <summary>使用指定的基础编码生成器来获取单字编码，拼音表仅作兜底。</summary>
+    public PhraseCodeGenerator(ICodeGenerator baseGenerator, IPinyinTable pinyinTable)
     {
         this.baseGenerator = baseGenerator;
+        this.pinyinTable = pinyinTable;
     }
 
     public CodeType SupportedType => CodeType.Phrase;
@@ -77,7 +79,7 @@ public sealed class PhraseCodeGenerator : ICodeGenerator
         // 回退到拼音
         try
         {
-            return PinyinHelper.GetDefaultPinyin(c);
+            return pinyinTable.GetDefaultPinyin(c);
         }
         catch
         {

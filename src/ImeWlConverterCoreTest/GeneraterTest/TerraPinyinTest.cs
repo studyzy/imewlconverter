@@ -23,7 +23,7 @@ namespace Studyzy.IMEWLConverter.Test.GeneraterTest;
 
 public class TerraPinyinTest
 {
-    private readonly ICodeGenerator generator = new TerraPinyinCodeGenerator();
+    private readonly ICodeGenerator generator = TestCodeData.CreateTerraGenerator();
 
     [Fact]
     public void TestPinyin2TerraPinyin()

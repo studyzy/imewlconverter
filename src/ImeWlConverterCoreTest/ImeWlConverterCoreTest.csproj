@@ -120,6 +120,7 @@
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverter.Formats\ImeWlConverter.Formats.csproj"/>
         <ProjectReference Include="..\ImeWlConverter.Core\ImeWlConverter.Core.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.CodeData\ImeWlConverter.CodeData.csproj"/>
         <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
     </ItemGroup>
 </Project>

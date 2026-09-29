@@ -18,6 +18,7 @@
 using System.Linq;
 using Xunit;
 using ImeWlConverter.Abstractions.Contracts;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.CodeGeneration.Generators;
 
 namespace Studyzy.IMEWLConverter.Test.GeneraterTest;
@@ -28,7 +29,10 @@ public class ErbiTest
 
     public ErbiTest()
     {
-        generator = new QingsongErbiCodeGenerator();
+        var resources = new EmbeddedResourceProvider();
+        generator = new QingsongErbiCodeGenerator(
+            new PinyinTable(new CodeTableLibrary(resources)),
+            resources);
     }
 
     [Theory]

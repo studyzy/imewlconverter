@@ -1,51 +1,30 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
 
 /// <summary>
 /// ZhengmaCodeGenerator 郑码编码生成器。
+/// 码表经 Lazy(ExecutionAndPublication) 惰性构建，构建后只读，无静态可变状态。
 /// </summary>
 public sealed class ZhengmaCodeGenerator : ICodeGenerator
 {
+    private readonly Lazy<Dictionary<char, ZhengmaEntry>> _dictionary;
+
+    public ZhengmaCodeGenerator(IResourceProvider resources)
+    {
+        _dictionary = new Lazy<Dictionary<char, ZhengmaEntry>>(
+            () => Load(resources.GetResourceContent("Zhengma.txt")),
+            LazyThreadSafetyMode.ExecutionAndPublication);
+    }
+
     public CodeType SupportedType => CodeType.Zhengma;
 
     public bool Is1Char1Code => false;
 
-    private Dictionary<char, ZhengmaEntry>? _dictionary;
-
-    private Dictionary<char, ZhengmaEntry> Dict
-    {
-        get
-        {
-            if (_dictionary == null)
-            {
-                var txt = DictionaryHelper.GetResourceContent("Zhengma.txt");
-                _dictionary = new Dictionary<char, ZhengmaEntry>();
-
-                foreach (var line in txt.Split(["\r", "\n"], StringSplitOptions.RemoveEmptyEntries))
-                {
-                    var arr = line.Split('\t');
-                    if (arr[0].Length == 0) continue;
-
-                    var word = arr[0][0];
-                    var shortCode = arr[1].Trim();
-                    var codes = new List<string>();
-                    for (var i = 1; i < arr.Length; i++)
-                    {
-                        var code = arr[i].Trim();
-                        if (code != "") codes.Add(code);
-                    }
-
-                    _dictionary[word] = new ZhengmaEntry(shortCode, codes);
-                }
-            }
-
-            return _dictionary;
-        }
-    }
+    private Dictionary<char, ZhengmaEntry> Dict => _dictionary.Value;
 
     public WordCode GenerateCode(string word)
     {
@@ -94,6 +73,30 @@ public sealed class ZhengmaCodeGenerator : ICodeGenerator
     private string Get2Code(char c) => Dict[c].ShortCode;
 
     private string Get1Code(char c) => Dict[c].ShortCode[0].ToString();
+
+    private static Dictionary<char, ZhengmaEntry> Load(string txt)
+    {
+        var dictionary = new Dictionary<char, ZhengmaEntry>();
+
+        foreach (var line in txt.Split(["\r", "\n"], StringSplitOptions.RemoveEmptyEntries))
+        {
+            var arr = line.Split('\t');
+            if (arr[0].Length == 0) continue;
+
+            var word = arr[0][0];
+            var shortCode = arr[1].Trim();
+            var codes = new List<string>();
+            for (var i = 1; i < arr.Length; i++)
+            {
+                var code = arr[i].Trim();
+                if (code != "") codes.Add(code);
+            }
+
+            dictionary[word] = new ZhengmaEntry(shortCode, codes);
+        }
+
+        return dictionary;
+    }
 
     private readonly record struct ZhengmaEntry(string ShortCode, List<string> Codes);
 }

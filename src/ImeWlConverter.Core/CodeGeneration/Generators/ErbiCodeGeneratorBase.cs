@@ -1,6 +1,7 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.Helpers;
 
 namespace ImeWlConverter.Core.CodeGeneration.Generators;
@@ -13,10 +14,20 @@ namespace ImeWlConverter.Core.CodeGeneration.Generators;
 /// 三字词：取第一字的前二位编码和后两个字的第一码
 /// 四字词：取每个字的第一码
 /// 多字词：取前三字和最后一字的第一码（前三末一）
+/// 码表经 Lazy(ExecutionAndPublication) 惰性构建，构建后只读，无静态可变状态。
 /// </summary>
 public abstract class ErbiCodeGeneratorBase : ICodeGenerator
 {
-    private Dictionary<char, IList<string>>? erbiDic;
+    private readonly IPinyinTable _pinyinTable;
+    private readonly Lazy<Dictionary<char, IList<string>>> _erbiDic;
+
+    protected ErbiCodeGeneratorBase(IPinyinTable pinyinTable, IResourceProvider resources)
+    {
+        _pinyinTable = pinyinTable;
+        _erbiDic = new Lazy<Dictionary<char, IList<string>>>(
+            () => Load(resources.GetResourceContent("Erbi.txt"), DicColumnIndex),
+            LazyThreadSafetyMode.ExecutionAndPublication);
+    }
 
     public abstract CodeType SupportedType { get; }
 
@@ -27,36 +38,7 @@ public abstract class ErbiCodeGeneratorBase : ICodeGenerator
     /// </summary>
     protected abstract int DicColumnIndex { get; }
 
-    protected Dictionary<char, IList<string>> ErbiDic
-    {
-        get
-        {
-            if (erbiDic == null)
-            {
-                var txt = DictionaryHelper.GetResourceContent("Erbi.txt");
-                erbiDic = new Dictionary<char, IList<string>>();
-
-                foreach (var line in txt.Split(
-                    new[] { "\r\n", "\r", "\n" },
-                    StringSplitOptions.RemoveEmptyEntries))
-                {
-                    var arr = line.Split('\t');
-                    if (arr[0].Length == 0) continue;
-
-                    var word = arr[0][0];
-                    var code = DicColumnIndex < arr.Length ? arr[DicColumnIndex] : "";
-                    if (string.IsNullOrEmpty(code))
-                        code = arr.Length > 1 ? arr[1] : "";
-                    if (string.IsNullOrEmpty(code)) continue;
-
-                    var codes = code.Split(' ');
-                    erbiDic[word] = new List<string>(codes);
-                }
-            }
-
-            return erbiDic;
-        }
-    }
+    protected Dictionary<char, IList<string>> ErbiDic => _erbiDic.Value;
 
     public WordCode GenerateCode(string word)
     {
@@ -65,7 +47,7 @@ public abstract class ErbiCodeGeneratorBase : ICodeGenerator
 
         try
         {
-            var pinyins = PinyinHelper.GetDefaultPinyin(word);
+            var pinyins = _pinyinTable.GetDefaultPinyin(word);
             var codes = GetErbiCode(word, pinyins);
             if (codes == null || codes.Count == 0)
                 return new WordCode { Segments = [] };
@@ -131,5 +113,29 @@ public abstract class ErbiCodeGeneratorBase : ICodeGenerator
             result.Add(py[0].ToString() + code[0]);
 
         return result;
+    }
+
+    internal static Dictionary<char, IList<string>> Load(string txt, int dicColumnIndex)
+    {
+        var erbiDic = new Dictionary<char, IList<string>>();
+
+        foreach (var line in txt.Split(
+            new[] { "\r\n", "\r", "\n" },
+            StringSplitOptions.RemoveEmptyEntries))
+        {
+            var arr = line.Split('\t');
+            if (arr[0].Length == 0) continue;
+
+            var word = arr[0][0];
+            var code = dicColumnIndex < arr.Length ? arr[dicColumnIndex] : "";
+            if (string.IsNullOrEmpty(code))
+                code = arr.Length > 1 ? arr[1] : "";
+            if (string.IsNullOrEmpty(code)) continue;
+
+            var codes = code.Split(' ');
+            erbiDic[word] = new List<string>(codes);
+        }
+
+        return erbiDic;
     }
 }

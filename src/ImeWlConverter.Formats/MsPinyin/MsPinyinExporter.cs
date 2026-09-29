@@ -6,12 +6,19 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
-using ImeWlConverter.Core.Helpers;
+using ImeWlConverter.CodeData;
 
 /// <summary>Microsoft Pinyin dictionary exporter (XML format with tone-marked pinyin).</summary>
 [FormatPlugin("mspy", "微软拼音", 135, FileExtension = ".dctx")]
 public sealed partial class MsPinyinExporter : IFormatExporter
 {
+    private readonly IPinyinTable pinyinTable;
+
+    /// <summary>带参构造由 Source Generator 生成工厂 lambda 注册（见 FormatRegistrationGenerator）。</summary>
+    public MsPinyinExporter(IPinyinTable pinyinTable)
+    {
+        this.pinyinTable = pinyinTable;
+    }
 
     public Task<ExportResult> ExportAsync(
         IReadOnlyList<WordEntry> entries, Stream output,
@@ -87,7 +94,7 @@ public sealed partial class MsPinyinExporter : IFormatExporter
         });
     }
 
-    private static string GetTonePinyin(WordEntry entry)
+    private string GetTonePinyin(WordEntry entry)
     {
         if (entry.Code is null || entry.Code.Segments.Count == 0)
             return "";
@@ -102,7 +109,7 @@ public sealed partial class MsPinyinExporter : IFormatExporter
             if (i < word.Length)
             {
                 // Add tone number based on character
-                var tonePy = PinyinHelper.AddToneToPinyin(word[i], py);
+                var tonePy = pinyinTable.AddTone(word[i], py);
                 result.Add(tonePy);
             }
             else
