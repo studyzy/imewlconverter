@@ -101,9 +101,10 @@ $Cases = @(
     @{ Id = 'A6B'; Import = '百度分类词库bdict';             File = '百度官网.bdict';                Export = '搜狗拼音txt';  Validate = @{ Type = 'Text'; MinLines = 5 } }
     @{ Id = 'A7';  Import = '灵格斯ld2';                     File = 'i.ld2';                         Export = '微软拼音';     Validate = @{ Type = 'Binary'; MinSize = 64 } }
     @{ Id = 'A8';  Import = 'Rime中州韵';                    File = 'luna_pinyin_export.txt';        Export = 'Mac简体拼音';  Validate = @{ Type = 'Text'; Keyword = '阿扁' } }
-    # sougoubak.bin 与当前搜狗备份解析器不兼容（解析报"文件不完整或格式不兼容"），移入 C 组待补真实样本
-    @{ Id = 'A9';  Import = '搜狗拼音备份词库bin';           NeedsFile = '搜狗备份.bin';             Export = '百度拼音';     Validate = @{ Type = 'Text'; MinLines = 1 } }
+    # 搜狗备份.bin 为搜狗输入法"导出词库"生成的真实备份（旧 sougoubak.bin 与解析器不兼容已弃用）
+    @{ Id = 'A9';  Import = '搜狗拼音备份词库bin';           File = '搜狗备份.bin';                  Export = '百度拼音';     Validate = @{ Type = 'Text'; MinLines = 10 } }
     @{ Id = 'A10'; Import = '无拼音纯汉字';                  File = '纯汉字.txt';                    Export = '极点五笔';     Validate = @{ Type = 'Text'; Keyword = '阿扁' } }
+    @{ Id = 'A6C'; Import = '极点五笔';                      File = '极点五笔_freeime_user.txt';     Export = '搜狗拼音txt';  Validate = @{ Type = 'Text'; MinLines = 20 } }
 
     # ---- B 组：合成文本样本 ----
     @{ Id = 'B1';  Import = '搜狗拼音txt';      Synthetic = 'sgpy';       Export = $BExportRotation[0];  Validate = @{ Type = 'Text'; Keyword = '深蓝词库转换' } }
@@ -123,15 +124,16 @@ $Cases = @(
     @{ Id = 'B15'; Import = 'FIT输入法';        Synthetic = 'fit';        Export = $BExportRotation[2];  Validate = @{ Type = 'Text'; Keyword = '深蓝词库转换' } }
 
     # ---- C 组：待补样本占位（样本放入 src/ImeWlConverterCoreTest/Test/ 后自动执行） ----
+    # 已补样本并启用：C2(记者必备.bcd) / C4(百度拼音备份.bin) / C6(rime userdb) / C8(自学习) / C9(微软五笔)
     @{ Id = 'C1';  Import = '紫光拼音词库uwl';                 NeedsFile = '紫光拼音.uwl';        Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
-    @{ Id = 'C2';  Import = '百度手机bcd';                     NeedsFile = '百度手机.bcd';        Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    @{ Id = 'C2';  Import = '百度手机bcd';                     File = '记者必备.bcd';             Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 500 } }
     @{ Id = 'C3';  Import = '百度手机或Mac版百度拼音';         NeedsFile = '百度手机.bdsj';       Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
-    @{ Id = 'C4';  Import = '百度拼音备份词库bin';             NeedsFile = '百度拼音备份.bin';    Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    @{ Id = 'C4';  Import = '百度拼音备份词库bin';             File = '百度拼音备份.bin';         Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C5';  Import = '极点五笔.mb文件';                 NeedsFile = '极点五笔.mb';         Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
-    @{ Id = 'C6';  Import = 'Rime UserDb 用户词典';            NeedsFile = 'rime_userdb.txt';     Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    @{ Id = 'C6';  Import = 'Rime UserDb 用户词典';            File = 'rime_luna_pinyin_export.txt'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 10 } }
     @{ Id = 'C7';  Import = 'Gboard user_dict_3_3';            NeedsFile = 'gboard_user_dict.dict'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
-    @{ Id = 'C8';  Import = 'Win10微软拼音（自学习词汇）';     NeedsFile = 'win10自学习.dat';     Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
-    @{ Id = 'C9';  Import = 'Win10微软五笔（用户自定义短语）'; NeedsFile = 'win10微软五笔.dat';   Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    @{ Id = 'C8';  Import = 'Win10微软拼音（自学习词汇）';     File = 'Win10拼音自学习_ChsPinyinUDL.dat'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    @{ Id = 'C9';  Import = 'Win10微软五笔（用户自定义短语）'; File = '微软五笔UserDefinedPhrase.dat';   Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C10'; Import = '微软拼音';                        NeedsFile = '微软拼音.dctx';       Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
 )
 

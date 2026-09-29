@@ -1,0 +1,18 @@
+# Rime user dictionary export
+#@/db_name	luna_pinyin
+#@/db_type	userdb
+#@/rime_version	1.13.1
+#@/tick	14
+#@/user_id	unknown
+不支持	bu zhi chi	1
+錯	cuo	1
+覺得	jue de	1
+看看	kan kan	1
+了	le	1
+理解	li jie	1
+你	ni	1
+你好	ni hao	1
+是不是	shi bu shi	1
+他	ta	1
+我	wo	1
+曾毅	zeng yi	3

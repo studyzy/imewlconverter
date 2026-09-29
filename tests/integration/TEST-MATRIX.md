@@ -126,8 +126,9 @@ test-cases/
 | A6B | 百度分类词库bdict | 百度官网.bdict（官网下载） | 搜狗拼音txt | 文本 ≥5 行 |
 | A7 | 灵格斯ld2 | i.ld2 | 微软拼音(.dctx) | 二进制 ≥64 字节 |
 | A8 | Rime中州韵 | luna_pinyin_export.txt | Mac简体拼音 | 含"阿扁" |
-| A9 | 搜狗拼音备份词库bin | （待补）搜狗备份.bin | 百度拼音 | 文本 ≥1 行 |
+| A9 | 搜狗拼音备份词库bin | 搜狗备份.bin（搜狗"导出词库"备份） | 百度拼音 | 文本 ≥10 行 |
 | A10 | 无拼音纯汉字 | 纯汉字.txt | 极点五笔 | 含"阿扁"（五笔码生成） |
+| A6C | 极点五笔 | 极点五笔_freeime_user.txt（用户词文本） | 搜狗拼音txt | 文本 ≥20 行 |
 
 弹配置框的格式（ld2 编码、Rime）由脚本自动点"确定"。
 
@@ -158,23 +159,22 @@ test-cases/
 | B14 | 必应输入法 | UTF-16LE，`词 py1 py2` |
 | B15 | FIT输入法 | UTF-8 无BOM，`py'py,词` |
 
-## C 组：待补样本占位（10 条，SKIP 机制）
+## C 组：待补样本占位（SKIP 机制）
 
-样本放入 `src/ImeWlConverterCoreTest/Test/` 后自动执行（导出均为搜狗拼音txt）。
+部分样本已补齐并启用（C2/C4/C6/C8/C9），其余待样本放入 `src/ImeWlConverterCoreTest/Test/` 后自动执行（导出均为搜狗拼音txt）。
 
-| ID | 导入格式 | 待准备文件名 |
-|----|---------|-------------|
-| A9 | 搜狗拼音备份词库bin | 搜狗备份.bin |
-| C1 | 紫光拼音词库uwl | 紫光拼音.uwl |
-| C2 | 百度手机bcd | 百度手机.bcd |
-| C3 | 百度手机或Mac版百度拼音 | 百度手机.bdsj |
-| C4 | 百度拼音备份词库bin | 百度拼音备份.bin |
-| C5 | 极点五笔.mb文件 | 极点五笔.mb |
-| C6 | Rime UserDb 用户词典 | rime_userdb.txt |
-| C7 | Gboard user_dict_3_3 | gboard_user_dict.dict |
-| C8 | Win10微软拼音（自学习词汇） | win10自学习.dat |
-| C9 | Win10微软五笔（用户自定义短语） | win10微软五笔.dat |
-| C10 | 微软拼音 | 微软拼音.dctx |
+| ID | 导入格式 | 样本文件 | 状态 |
+|----|---------|---------|------|
+| C1 | 紫光拼音词库uwl | 紫光拼音.uwl | ⏳ 待补 |
+| C2 | 百度手机bcd | 记者必备.bcd（1398 条） | ✅ 已启用 |
+| C3 | 百度手机或Mac版百度拼音 | 百度手机.bdsj | ⏳ 待补 |
+| C4 | 百度拼音备份词库bin | 百度拼音备份.bin（1 条） | ✅ 已启用 |
+| C5 | 极点五笔.mb文件 | 极点五笔.mb | ⏳ 待补（注意：极点用户词文本用 A6C 的 jd 格式覆盖） |
+| C6 | Rime UserDb 用户词典 | rime_luna_pinyin_export.txt（17 条） | ✅ 已启用 |
+| C7 | Gboard user_dict_3_3 | gboard_user_dict.dict | ⏳ 待补 |
+| C8 | Win10微软拼音（自学习词汇） | Win10拼音自学习_ChsPinyinUDL.dat（2 条） | ✅ 已启用 |
+| C9 | Win10微软五笔（用户自定义短语） | 微软五笔UserDefinedPhrase.dat（2 条） | ✅ 已启用 |
+| C10 | 微软拼音 | 微软拼音.dctx | ⏳ 待补 |
 
 > 注意：Test/ 目录下现存的 `sougoubak.bin` 与当前解析器不兼容，请提供由搜狗输入法"导出词库"生成的完整备份文件并命名为 `搜狗备份.bin`。
 
