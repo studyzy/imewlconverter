@@ -127,10 +127,7 @@ public sealed class ConversionPipeline : IConversionPipeline
         // Phase 6: Remove entries with empty code (when code generation was requested)
         if (_codeGenerationService is not null && request.Options.CodeGeneration.TargetCodeType != CodeType.NoCode)
         {
-            entries = entries.Where(e =>
-                e.Code is not null &&
-                e.Code.Segments.Count > 0 &&
-                e.Code.Segments.Any(s => s.Count > 0 && s.Any(c => !string.IsNullOrEmpty(c)))).ToList();
+            entries = entries.Where(CodePredicates.HasValidCode).ToList();
         }
 
         var exportedCount = entries.Count;
@@ -226,7 +223,7 @@ public sealed class ConversionPipeline : IConversionPipeline
                 fileEntries = ApplyCodeGeneration(fileEntries, request.Options.CodeGeneration, progress);
 
                 if (_codeGenerationService is not null && request.Options.CodeGeneration.TargetCodeType != CodeType.NoCode)
-                    fileEntries = fileEntries.Where(e => e.Code is not null && e.Code.Segments.Count > 0).ToList();
+                    fileEntries = fileEntries.Where(CodePredicates.HasValidCode).ToList();
 
                 var outputFile = Path.Combine(
                     request.OutputDirectory ?? ".",

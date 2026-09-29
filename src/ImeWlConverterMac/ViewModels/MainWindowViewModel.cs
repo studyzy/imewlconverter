@@ -280,12 +280,12 @@ public class MainWindowViewModel : ViewModelBase
             { ".scel", "scel" },
             { ".qcel", "qcel" },
             { ".qpyd", "qpyd" },
-            { ".bcd", "baiduBcd" },
-            { ".bdict", "baiduBdict" },
-            { ".ld2", "lingoesLd2" },
-            { ".uwl", "ziguangUwl" },
-            { ".bin", "sougouBin" },
-            { ".plist", "macPlist" },
+            { ".bcd", "bcd" },
+            { ".bdict", "bdict" },
+            { ".ld2", "ld2" },
+            { ".uwl", "uwl" },
+            { ".bin", "sgpybin" },
+            { ".plist", "plist" },
         };
 
         if (extToId.TryGetValue(ext, out var formatId))

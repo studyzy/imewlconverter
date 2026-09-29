@@ -119,3 +119,6 @@ App_Data/*.ldf
 +.env*
 +.vscode/
 .serena/
+# 临时输出文件
+/output.txt
+/output2.txt

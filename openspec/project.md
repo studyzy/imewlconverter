@@ -1,4 +1,4 @@
-~~# 项目上下文
+# 项目上下文
 
 ## 目的
 
@@ -14,12 +14,13 @@
 ## 技术栈
 
 ### 核心技术
-- **.NET 8.0** - 主要开发框架
+- **.NET 10.0** - 主要开发框架
 - **C#** - 主要编程语言
-- **多目标框架支持** - net8.0 为主，兼容旧版 .NET Framework 4.6
 
 ### 项目结构
-- **ImeWlConverterCore** - 核心库，包含所有转换逻辑
+- **ImeWlConverter.Abstractions** - 接口层（零依赖）
+- **ImeWlConverter.Core** - 核心库，包含转换管道、编码生成、过滤逻辑
+- **ImeWlConverter.Formats** - 格式实现层（50+ 种格式）
 - **ImeWlConverterCmd** - 命令行工具
 - **IME WL Converter Win** - Windows GUI 应用（WinForm）
 - **ImeWlConverterMac** - macOS GUI 应用

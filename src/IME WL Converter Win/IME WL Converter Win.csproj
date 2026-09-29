@@ -69,7 +69,7 @@
         <AssemblyTitle>深蓝词库转换</AssemblyTitle>
         <Product>深蓝词库转换</Product>
         <Company>深蓝 http://studyzy.cnblogs.com</Company>
-        <Copyright>Copyright © 2010-2025</Copyright>
+        <Copyright>Copyright © 2010-2026</Copyright>
         <Description>随手写的一个词库转换小工具，支持主流的电脑和手机输入法，希望大家喜欢。
 有问题请联系我：studyzy@163.com
 GitHub: https://github.com/studyzy/imewlconverter</Description>
@@ -149,18 +149,6 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
         <ProjectReference Include="..\ImeWlConverter.Core\ImeWlConverter.Core.csproj"/>
         <ProjectReference Include="..\ImeWlConverter.Formats\ImeWlConverter.Formats.csproj"/>
         <ProjectReference Include="..\ImeWlConverterCmd\ImeWlConverterCmd.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Remove="Forms\CreatePinyinWLForm.cs"/>
-        <Compile Remove="Forms\CreatePinyinWLForm.Designer.cs"/>
-        <Compile Remove="Forms\SelfDefiningConfigFormExport.cs"/>
-        <Compile Remove="Forms\SelfDefiningConfigFormImport.cs"/>
-        <Compile Remove="Language\MsVbComponent.cs"/>
-        <Compile Remove="Resource1.Designer.cs"/>
-        <EmbeddedResource Remove="Forms\CreatePinyinWLForm.resx"/>
-        <EmbeddedResource Remove="Forms\SelfDefiningConfigFormExport.resx"/>
-        <EmbeddedResource Remove="Forms\SelfDefiningConfigFormImport.resx"/>
-        <EmbeddedResource Remove="Resource1.resx"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="UTF.Unknown" Version="2.5.1"/>

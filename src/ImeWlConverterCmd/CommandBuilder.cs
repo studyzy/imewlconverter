@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
+using System.IO;
 using System.Linq;
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
@@ -196,6 +197,13 @@ public static class CommandBuilder
                 context.ExitCode = 1;
                 return;
             }
+            var missingFile = inputFiles.FirstOrDefault(f => !File.Exists(f));
+            if (missingFile is not null)
+            {
+                PrintError($"输入文件不存在: {missingFile}");
+                context.ExitCode = 1;
+                return;
+            }
 
             try
             {
@@ -214,7 +222,8 @@ public static class CommandBuilder
             }
             catch (Exception ex)
             {
-                PrintError(ex.ToString());
+                // 默认只输出错误消息；设置 IMEWL_DEBUG=1 时输出完整堆栈便于诊断
+                PrintError(Environment.GetEnvironmentVariable("IMEWL_DEBUG") == "1" ? ex.ToString() : ex.Message);
                 context.ExitCode = 1;
             }
         });
@@ -308,6 +317,15 @@ public static class CommandBuilder
         if (!result.IsSuccess)
             throw new InvalidOperationException(result.Error);
 
+        // 逐文件错误（如单个文件解析失败）此前被静默忽略并报 exit 0，属于 Bug；
+        // 有任何错误明细即视为失败（Phase 4 将细分为"部分失败"退出码）。
+        if (!string.IsNullOrEmpty(result.Value.ErrorMessages))
+        {
+            PrintError(result.Value.ErrorMessages.TrimEnd());
+            Environment.ExitCode = 1;
+            return;
+        }
+
         Console.WriteLine($"转换完成: 导入 {result.Value.ImportedCount} 条, " +
                          $"过滤 {result.Value.FilteredCount} 条, " +
                          $"导出 {result.Value.ExportedCount} 条");
@@ -348,14 +366,12 @@ public static class CommandBuilder
             if (part.StartsWith("len:"))
             {
                 var range = part[4..].Split('-');
-                config.WordLengthFrom = int.Parse(range[0]);
-                config.WordLengthTo = range.Length > 1 ? int.Parse(range[1]) : 9999;
+                (config.WordLengthFrom, config.WordLengthTo) = ParseRange(range, part, 9999);
             }
             else if (part.StartsWith("rank:"))
             {
                 var range = part[5..].Split('-');
-                config.WordRankFrom = int.Parse(range[0]);
-                config.WordRankTo = range.Length > 1 ? int.Parse(range[1]) : 999999;
+                (config.WordRankFrom, config.WordRankTo) = ParseRange(range, part, 999999);
             }
             else if (part == "rm:eng") config.IgnoreEnglish = true;
             else if (part == "rm:num") config.IgnoreNumber = true;
@@ -364,6 +380,17 @@ public static class CommandBuilder
         }
 
         return config;
+    }
+
+    /// <summary>解析 "min" 或 "min-max" 形式的数字区间，非法输入抛出带上下文的参数错误而非裸崩。</summary>
+    private static (int Min, int Max) ParseRange(string[] range, string originalPart, int defaultMax)
+    {
+        if (!int.TryParse(range[0], out var min))
+            throw new ArgumentException($"无效的过滤参数: \"{originalPart}\"（应为 min 或 min-max 形式的数字区间）");
+        var max = defaultMax;
+        if (range.Length > 1 && !int.TryParse(range[1], out max))
+            throw new ArgumentException($"无效的过滤参数: \"{originalPart}\"（应为 min 或 min-max 形式的数字区间）");
+        return (min, max);
     }
 
     private static CodeType InferCodeTypeFromOutputFormat(string outputFormat, string? customFormat)

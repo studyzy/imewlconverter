@@ -31,8 +31,8 @@
 
 ```bash
 make build              # 构建所有项目
-make test               # 运行单元测试 (81个)
-make integration-test   # 运行集成测试 (28个，需先 make build-cmd)
+make test               # 运行单元测试 (271 个，实际以 dotnet test 输出为准)
+make integration-test   # 运行集成测试 (29 个用例，需先 make build-cmd)
 make lint               # 检查代码格式
 make format             # 自动格式化代码
 make run-cmd            # 运行 CLI 工具
@@ -45,7 +45,7 @@ make run-mac            # 运行 macOS GUI
 src/
 ├── ImeWlConverter.Abstractions/     # 接口层（零依赖）
 ├── ImeWlConverter.Core/             # 业务服务层（转换管道、编码生成、过滤、简繁转换）
-├── ImeWlConverter.Formats/          # 格式实现层（86个文件，50+种格式）
+├── ImeWlConverter.Formats/          # 格式实现层（107个文件，50+种格式）
 ├── ImeWlConverter.SourceGenerators/ # Source Generator（编译时格式注册）
 ├── ImeWlConverterCmd/               # CLI 入口
 ├── ImeWlConverterMac/               # macOS GUI (Avalonia 11.2.3)
@@ -175,28 +175,32 @@ mkdir src/ImeWlConverter.Formats/MyFormat/
 ```
 
 ```csharp
-// 2. 创建 Importer
+// 2. 创建 Importer（注意：必须是 partial 类，且不要手写 Metadata 属性——由 Source Generator 生成）
 [FormatPlugin("myf", "我的格式", 500)]
-public sealed class MyFormatImporter : TextFormatImporter
+public sealed partial class MyFormatImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);
-    public override FormatMetadata Metadata { get; } = new("myf", "我的格式", 500, true, false);
+    protected override bool IsContentLine(string line) =>
+        !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"); // 可选：跳过注释/空行
     protected override IEnumerable<WordEntry> ParseLine(string line) { /* 解析逻辑 */ }
 }
 ```
 
 ```csharp
-// 3. 创建 Exporter
+// 3. 创建 Exporter（同样不手写 Metadata）
 [FormatPlugin("myf", "我的格式", 500)]
-public sealed class MyFormatExporter : TextFormatExporter
+public sealed partial class MyFormatExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);
-    public override FormatMetadata Metadata { get; } = new("myf", "我的格式", 500, false, true);
-    protected override string? FormatEntry(WordEntry entry) { /* 导出逻辑 */ }
+    protected override string? FormatEntry(WordEntry entry) { /* 导出逻辑，返回 null 跳过该词条 */ }
 }
 ```
 
-Source Generator 会自动将带 `[FormatPlugin]` 的类注册到 DI 容器，无需手动注册。
+Source Generator 会自动完成两件事：
+- 将带 `[FormatPlugin]` 的类注册到 DI 容器（无需手动注册）
+- 为每个类生成 `Metadata` 属性（从 `[FormatPlugin]` 参数与基类链自动推断 `IsBinary` 等，**手写 Metadata 会与生成代码冲突**）
+
+完整真实示例见 `src/ImeWlConverter.Formats/Rime/RimeImporter.cs`。
 
 ### 修改过滤逻辑
 
