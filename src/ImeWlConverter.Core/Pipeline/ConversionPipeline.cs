@@ -1,13 +1,6 @@
-using System.Text;
 using ImeWlConverter.Abstractions.Contracts;
-using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
-using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
-using ImeWlConverter.Core.CodeGeneration;
-using ImeWlConverter.Core.CodeGeneration.Generators;
-using ImeWlConverter.Core.Filters;
-using ImeWlConverter.Core.Helpers;
 
 namespace ImeWlConverter.Core.Pipeline;
 
@@ -15,27 +8,26 @@ namespace ImeWlConverter.Core.Pipeline;
 /// Orchestrates the complete conversion pipeline:
 /// Import → Filter → ChineseConvert → WordRank → CodeGen → RemoveEmpty → Export.
 /// Shared across CLI, WinForms GUI, and Mac GUI.
+/// 词条中间阶段的处理逻辑在 <see cref="EntryTransformationService"/> 中（合并/逐文件两条路径共用），
+/// 过滤器装配在 <see cref="FilterPipelineFactory"/> 中（模块注册制）。
 /// </summary>
 public sealed class ConversionPipeline : IConversionPipeline
 {
     private readonly IEnumerable<IFormatImporter> _importers;
     private readonly IEnumerable<IFormatExporter> _exporters;
-    private readonly IChineseConverter? _chineseConverter;
-    private readonly IWordRankGenerator? _wordRankGenerator;
-    private readonly CodeGenerationService? _codeGenerationService;
+    private readonly FilterPipelineFactory _filterPipelineFactory;
+    private readonly EntryTransformationService _transformationService;
 
     public ConversionPipeline(
         IEnumerable<IFormatImporter> importers,
         IEnumerable<IFormatExporter> exporters,
-        IChineseConverter? chineseConverter = null,
-        IWordRankGenerator? wordRankGenerator = null,
-        CodeGenerationService? codeGenerationService = null)
+        FilterPipelineFactory filterPipelineFactory,
+        EntryTransformationService transformationService)
     {
         _importers = importers;
         _exporters = exporters;
-        _chineseConverter = chineseConverter;
-        _wordRankGenerator = wordRankGenerator;
-        _codeGenerationService = codeGenerationService;
+        _filterPipelineFactory = filterPipelineFactory;
+        _transformationService = transformationService;
     }
 
     /// <inheritdoc/>
@@ -53,19 +45,11 @@ public sealed class ConversionPipeline : IConversionPipeline
         if (exporter is null)
             return Result<ConversionResult>.Failure($"Unknown output format: {request.OutputFormatId}");
 
-        // Build filter pipeline from request config
-        var filterPipeline = BuildFilterPipeline(request.FilterConfig);
+        var filterPipeline = _filterPipelineFactory.Create(request.FilterConfig);
 
-        if (request.MergeToOneFile)
-        {
-            return await ExecuteMergedAsync(
-                request, importer, exporter, filterPipeline, progress, ct);
-        }
-        else
-        {
-            return await ExecutePerFileAsync(
-                request, importer, exporter, filterPipeline, progress, ct);
-        }
+        return request.MergeToOneFile
+            ? await ExecuteMergedAsync(request, importer, exporter, filterPipeline, progress, ct)
+            : await ExecutePerFileAsync(request, importer, exporter, filterPipeline, progress, ct);
     }
 
     private async Task<Result<ConversionResult>> ExecuteMergedAsync(
@@ -76,7 +60,7 @@ public sealed class ConversionPipeline : IConversionPipeline
         IProgress<ProgressInfo>? progress,
         CancellationToken ct)
     {
-        var errors = new StringBuilder();
+        var errors = new List<ConversionError>();
         var files = request.InputPaths;
         var totalFiles = files.Count;
 
@@ -97,38 +81,15 @@ public sealed class ConversionPipeline : IConversionPipeline
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                errors.AppendLine($"导入 {files[i]} 失败: {ex.Message}");
+                errors.Add(RecordError(files[i], ex));
             }
         }
 
         var importedCount = allEntries.Count;
 
-        // Phase 2: Filter
-        ct.ThrowIfCancellationRequested();
-        progress?.Report(new ProgressInfo(0, importedCount, "正在过滤..."));
-        IReadOnlyList<WordEntry> entries = filterPipeline is not null
-            ? filterPipeline.Apply(allEntries)
-            : allEntries;
-
-        // Phase 3: Chinese conversion
-        entries = ApplyChineseConversion(entries, request.Options.ChineseConversion);
-
-        // Phase 4: Word rank generation
-        if (_wordRankGenerator is not null)
-        {
-            ct.ThrowIfCancellationRequested();
-            progress?.Report(new ProgressInfo(0, entries.Count, "正在生成词频..."));
-            entries = await _wordRankGenerator.GenerateRanksAsync(entries, ct);
-        }
-
-        // Phase 5: Code generation
-        entries = ApplyCodeGeneration(entries, request.Options.CodeGeneration, progress);
-
-        // Phase 6: Remove entries with empty code (when code generation was requested)
-        if (_codeGenerationService is not null && request.Options.CodeGeneration.TargetCodeType != CodeType.NoCode)
-        {
-            entries = entries.Where(CodePredicates.HasValidCode).ToList();
-        }
+        // Phase 2-6: Filter → ChineseConvert → WordRank → CodeGen → RemoveEmpty
+        var entries = await _transformationService.ApplyAsync(
+            allEntries, request.Options, filterPipeline, progress, ct);
 
         var exportedCount = entries.Count;
         var filteredCount = importedCount - exportedCount;
@@ -171,17 +132,8 @@ public sealed class ConversionPipeline : IConversionPipeline
             filteredCount = importedCount - exportedCount;
         }
 
-        var errorStr = errors.Length > 0 ? errors.ToString() : null;
-
-        return Result<ConversionResult>.Success(new ConversionResult
-        {
-            ImportedCount = importedCount,
-            ExportedCount = exportedCount,
-            FilteredCount = filteredCount,
-            ExportContent = exportContent,
-            ExportData = exportData,
-            ErrorMessages = errorStr
-        });
+        return Result<ConversionResult>.Success(BuildResult(
+            importedCount, exportedCount, filteredCount, errors, content: exportContent, data: exportData));
     }
 
     private async Task<Result<ConversionResult>> ExecutePerFileAsync(
@@ -192,7 +144,7 @@ public sealed class ConversionPipeline : IConversionPipeline
         IProgress<ProgressInfo>? progress,
         CancellationToken ct)
     {
-        var errors = new StringBuilder();
+        var errors = new List<ConversionError>();
         var files = request.InputPaths;
         var totalFiles = files.Count;
         var totalConverted = 0;
@@ -211,19 +163,9 @@ public sealed class ConversionPipeline : IConversionPipeline
                 var importResult = await importer.ImportAsync(stream, request.Options.Import, ct);
                 totalImported += importResult.Entries.Count;
 
-                IReadOnlyList<WordEntry> fileEntries = filterPipeline is not null
-                    ? filterPipeline.Apply(importResult.Entries.ToList())
-                    : importResult.Entries.ToList();
-
-                fileEntries = ApplyChineseConversion(fileEntries, request.Options.ChineseConversion);
-
-                if (_wordRankGenerator is not null)
-                    fileEntries = await _wordRankGenerator.GenerateRanksAsync(fileEntries, ct);
-
-                fileEntries = ApplyCodeGeneration(fileEntries, request.Options.CodeGeneration, progress);
-
-                if (_codeGenerationService is not null && request.Options.CodeGeneration.TargetCodeType != CodeType.NoCode)
-                    fileEntries = fileEntries.Where(CodePredicates.HasValidCode).ToList();
+                // Phase 2-6: Filter → ChineseConvert → WordRank → CodeGen → RemoveEmpty
+                var fileEntries = await _transformationService.ApplyAsync(
+                    importResult.Entries, request.Options, filterPipeline, progress, ct);
 
                 var outputFile = Path.Combine(
                     request.OutputDirectory ?? ".",
@@ -237,135 +179,35 @@ public sealed class ConversionPipeline : IConversionPipeline
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                errors.AppendLine($"处理 {file} 失败: {ex.Message}");
+                errors.Add(RecordError(file, ex));
             }
         }
 
-        var errorStr = errors.Length > 0 ? errors.ToString() : null;
-
-        return Result<ConversionResult>.Success(new ConversionResult
-        {
-            ImportedCount = totalImported,
-            ExportedCount = totalConverted,
-            FilteredCount = totalImported - totalConverted,
-            ErrorMessages = errorStr
-        });
+        return Result<ConversionResult>.Success(BuildResult(
+            totalImported, totalConverted, totalImported - totalConverted, errors));
     }
 
-    private IReadOnlyList<WordEntry> ApplyChineseConversion(
-        IReadOnlyList<WordEntry> entries, ChineseConversionMode mode)
+    private static ConversionError RecordError(string filePath, Exception ex) =>
+        new(filePath, ex.Message, ex.GetType().Name);
+
+    private static ConversionResult BuildResult(
+        int importedCount, int exportedCount, int filteredCount,
+        IReadOnlyList<ConversionError> errors,
+        string? content = null, byte[]? data = null)
     {
-        if (_chineseConverter is null || mode == ChineseConversionMode.None)
-            return entries;
-
-        var result = new List<WordEntry>(entries.Count);
-        foreach (var entry in entries)
+        return new ConversionResult
         {
-            var converted = mode switch
-            {
-                ChineseConversionMode.SimplifiedToTraditional =>
-                    entry with { Word = _chineseConverter.ToTraditional(entry.Word) },
-                ChineseConversionMode.TraditionalToSimplified =>
-                    entry with { Word = _chineseConverter.ToSimplified(entry.Word) },
-                _ => entry
-            };
-            result.Add(converted);
-        }
-
-        return result;
-    }
-
-    private IReadOnlyList<WordEntry> ApplyCodeGeneration(
-        IReadOnlyList<WordEntry> entries, CodeGenerationOptions options,
-        IProgress<ProgressInfo>? progress)
-    {
-        if (options.TargetCodeType == CodeType.NoCode)
-            return entries;
-
-        // UserDefine 类型需要动态构建 SelfDefiningCodeGenerator
-        if (options.TargetCodeType == CodeType.UserDefine && !string.IsNullOrEmpty(options.CodeFilePath))
-        {
-            progress?.Report(new ProgressInfo(0, entries.Count, "正在生成自定义编码..."));
-            var generator = BuildSelfDefiningCodeGenerator(options);
-
-            // 进度按 ~1% 节流上报，避免 GUI 端逐条封送 UI 消息
-            var reportInterval = Math.Max(1, entries.Count / 100);
-
-            var result = new List<WordEntry>(entries.Count);
-            for (var i = 0; i < entries.Count; i++)
-            {
-                var code = generator.GenerateCode(entries[i].Word);
-                result.Add(entries[i] with { Code = code, CodeType = CodeType.UserDefine });
-                if (progress is not null && (i % reportInterval == 0 || i == entries.Count - 1))
-                    progress.Report(new ProgressInfo(i + 1, entries.Count, "正在生成自定义编码..."));
-            }
-            return result;
-        }
-
-        if (_codeGenerationService is null)
-            return entries;
-
-        progress?.Report(new ProgressInfo(0, entries.Count, "正在生成编码..."));
-        var generated = _codeGenerationService.GenerateCodes(entries, options.TargetCodeType, progress);
-
-        return CodeGenerationPostProcessor.Apply(generated, options);
-    }
-
-    private static SelfDefiningCodeGenerator BuildSelfDefiningCodeGenerator(CodeGenerationOptions options)
-    {
-        var dict = UserCodingHelper.GetCodingDict(options.CodeFilePath!, Encoding.UTF8);
-        var formatStr = options.MultiCodeFormat?.Replace(',', '\n') ?? "";
-        return new SelfDefiningCodeGenerator
-        {
-            MappingDictionary = dict,
-            MutiWordCodeFormat = formatStr,
-            Is1Char1Code = false
+            ImportedCount = importedCount,
+            ExportedCount = exportedCount,
+            FilteredCount = filteredCount,
+            ExportContent = content,
+            ExportData = data,
+            // ErrorMessages 由 Errors 派生（保持既有消费方兼容），Phase 4 之后各端改用 Errors
+            ErrorMessages = errors.Count == 0
+                ? null
+                : string.Join(Environment.NewLine, errors.Select(e =>
+                    $"处理 {e.FilePath} 失败: {e.Message}")),
+            Errors = errors
         };
-    }
-
-    /// <summary>
-    /// Build a FilterPipeline from FilterConfig.
-    /// </summary>
-    private static FilterPipeline? BuildFilterPipeline(FilterConfig? config)
-    {
-        if (config is null || config.NoFilter) return null;
-
-        var filters = new List<IWordFilter>();
-        var transforms = new List<IWordTransform>();
-        var batchFilters = new List<IBatchFilter>();
-
-        // Single-entry filters
-        if (config.IgnoreEnglish) filters.Add(new EnglishFilter());
-        if (config.IgnoreFirstCJK) filters.Add(new FirstCJKFilter());
-        if (config.WordLengthFrom > 1 || config.WordLengthTo < 9999)
-            filters.Add(new LengthFilter { MinLength = config.WordLengthFrom, MaxLength = config.WordLengthTo });
-        if (config.WordRankFrom > 1 || config.WordRankTo < 999999)
-            filters.Add(new RankFilter { MinRank = config.WordRankFrom, MaxRank = config.WordRankTo });
-        if (config.IgnoreSpace) filters.Add(new SpaceFilter());
-        if (config.IgnorePunctuation)
-        {
-            filters.Add(new ChinesePunctuationFilter());
-            filters.Add(new EnglishPunctuationFilter());
-        }
-        if (config.IgnoreNumber) filters.Add(new NumberFilter());
-        if (config.IgnoreNoAlphabetCode) filters.Add(new NoAlphabetCodeFilter());
-
-        // Transforms
-        if (config.ReplaceEnglish) transforms.Add(new EnglishRemoveTransform());
-        if (config.ReplacePunctuation)
-        {
-            transforms.Add(new EnglishPunctuationRemoveTransform());
-            transforms.Add(new ChinesePunctuationRemoveTransform());
-        }
-        if (config.ReplaceSpace) transforms.Add(new SpaceRemoveTransform());
-        if (config.ReplaceNumber) transforms.Add(new NumberRemoveTransform());
-
-        // Batch filters
-        if (config.WordRankPercentage < 100)
-            batchFilters.Add(new RankPercentageFilter { Percentage = config.WordRankPercentage });
-
-        return filters.Count == 0 && transforms.Count == 0 && batchFilters.Count == 0
-            ? null
-            : new FilterPipeline(filters, transforms, batchFilters);
     }
 }

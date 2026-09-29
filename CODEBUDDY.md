@@ -121,16 +121,20 @@ src/
 
 | 文件 | 职责 |
 |------|------|
-| `ConversionPipeline.cs` | 完整 7 步转换管道（Import→Filter→ChineseConvert→WordRank→CodeGen→RemoveEmpty→Export） |
+| `ConversionPipeline.cs` | 薄编排层：导入 → 委托 EntryTransformationService → 导出；合并/逐文件两种模式 |
+| `EntryTransformationService.cs` | 词条五阶段处理（Filter→ChineseConvert→WordRank→CodeGen→RemoveEmpty），两条导出路径共用 |
+| `FilterPipelineFactory.cs` + `FilterModules/` | 过滤器装配（模块注册制，开闭原则） |
 | `FilterPipeline.cs` | 过滤执行器（单条过滤 → 变换 → 批量过滤） |
+| `CodePredicates.cs` | 空编码判定谓词（两条路径共用） |
+| `SelfDefiningCodeSource.cs` | 自定义码表加载（ISelfDefiningCodeSource 实现） |
 
 `ConversionPipeline` 支持的能力：
 - **合并导出** / **逐文件导出**（`MergeToOneFile` 选项）
 - **文件输出** / **Stream 输出**（GUI 先预览再保存）
-- **从 FilterConfig 自动构建 FilterPipeline**
+- **从 FilterConfig 经 FilterPipelineFactory 模块化构建 FilterPipeline**
 - **IProgress 细粒度进度报告**
 - **CancellationToken 取消支持**
-- **逐文件错误捕获和累积**
+- **逐文件错误捕获与结构化累积**（`ConversionResult.Errors`）
 
 ### Layer 3: 格式实现 (`src/ImeWlConverter.Formats/`)
 
@@ -224,15 +228,17 @@ CLI 通过 `--filter` 参数启用过滤：`-f "len:2-10|rm:eng|rm:num"`
 
 ### 修改转换管道行为
 
-转换管道位于 `src/ImeWlConverter.Core/Pipeline/ConversionPipeline.cs`。7 步流程：
+- **编排与导出**：`src/ImeWlConverter.Core/Pipeline/ConversionPipeline.cs`（薄层）
+- **词条阶段处理**：`EntryTransformationService.cs`，7 步流程：
 
-1. **Import** — 逐文件导入，累积所有 WordEntry
-2. **Filter** — 从 FilterConfig 构建 FilterPipeline 并应用
-3. **ChineseConvert** — 简繁转换
-4. **WordRank** — 词频生成
-5. **CodeGen** — 编码生成（拼音/五笔等）
-6. **RemoveEmpty** — 移除无编码词条
-7. **Export** — 导出到文件或 Stream
+1. **Import** — 逐文件导入，累积所有 WordEntry（ConversionPipeline）
+2. **Filter → ChineseConvert → WordRank → CodeGen → RemoveEmpty** — EntryTransformationService.ApplyAsync（合并模式调一次，逐文件模式每文件一次）
+3. **Export** — 导出到文件或 Stream（ConversionPipeline）
+
+### 修改过滤逻辑（注册制）
+
+- 过滤器实现位于 `src/ImeWlConverter.Core/Filters/`，装配位于 `Pipeline/FilterPipelineFactory.cs` + `Pipeline/FilterModules/`
+- **新增过滤器**：实现 `IFilterModule`（或往现有模块加一行）→ 加入 `DefaultFilterModules.Create()` 清单即可，无需修改管道
 
 ---
 

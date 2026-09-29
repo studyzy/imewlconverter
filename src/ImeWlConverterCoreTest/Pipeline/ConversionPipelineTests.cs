@@ -277,10 +277,14 @@ public class ConversionPipelineTests : IDisposable
         ICodeGenerator? codeGenerator = null)
     {
         var generators = codeGenerator is null ? [] : new[] { codeGenerator };
+        var filterFactory = new FilterPipelineFactory(DefaultFilterModules.Create());
+        var transformation = new EntryTransformationService(
+            codeGenerationService: new CodeGenerationService(generators));
         return new ConversionPipeline(
             new IFormatImporter[] { importer ?? new FakeImporter() },
             new IFormatExporter[] { exporter ?? new FakeExporter() },
-            codeGenerationService: new CodeGenerationService(generators));
+            filterFactory,
+            transformation);
     }
 
     /// <summary>removecase 词条工厂：good 有码 + 三种"空编码"形态，Rank 依次 1-4。</summary>

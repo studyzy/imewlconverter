@@ -67,4 +67,7 @@ public sealed record ConversionResult
 
     /// <summary>Accumulated error messages from individual file processing.</summary>
     public string? ErrorMessages { get; init; }
+
+    /// <summary>Structured per-file errors. Empty when all files succeeded.</summary>
+    public IReadOnlyList<ConversionError> Errors { get; init; } = [];
 }

@@ -4,6 +4,7 @@ using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Core.CodeGeneration.Generators;
 using ImeWlConverter.Core.Language;
 using ImeWlConverter.Core.Pipeline;
+using ImeWlConverter.Core.Pipeline.FilterModules;
 using ImeWlConverter.Core.WordRank;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +27,17 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ConversionPipeline>();
         services.AddSingleton<IConversionPipeline>(sp => sp.GetRequiredService<ConversionPipeline>());
         services.AddSingleton<CodeGenerationService>();
+
+        // 自定义码表数据源（UserDefine 编码类型）
+        services.AddSingleton<ISelfDefiningCodeSource, SelfDefiningCodeSource>();
+
+        // 过滤器模块注册制：新增过滤器 = 新增 IFilterModule 实现 + 加入 DefaultFilterModules
+        foreach (var module in DefaultFilterModules.Create())
+            services.AddSingleton<IFilterModule>(module);
+        services.AddSingleton<FilterPipelineFactory>();
+
+        // 词条五阶段处理服务（合并/逐文件共用）
+        services.AddSingleton<EntryTransformationService>();
 
         // Chinese converter
         services.AddSingleton<IChineseConverter, ChineseConverter>();

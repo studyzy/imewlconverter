@@ -23,7 +23,7 @@ public class PipelineBinaryExportTest
         try
         {
             var expected = new byte[] { 0x53, 0x47, 0x50, 0x55, 0xA0, 0x80, 0xFF };
-            var pipeline = new ConversionPipeline(
+            var pipeline = TestPipelines.Create(
                 [new TestImporter()],
                 [new TestBinaryExporter(expected)]);
             using var output = new MemoryStream();
@@ -52,7 +52,7 @@ public class PipelineBinaryExportTest
         var inputPath = Path.GetTempFileName();
         try
         {
-            var pipeline = new ConversionPipeline(
+            var pipeline = TestPipelines.Create(
                 [new TestImporter()],
                 [new TestBinaryExporter([0x00], entryCount: 0)]);
             using var output = new MemoryStream();
