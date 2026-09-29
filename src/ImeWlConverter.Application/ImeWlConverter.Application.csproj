@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <RootNamespace>ImeWlConverter.Application</RootNamespace>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <!--
+      Application：三端共享的"无 UI 应用层"。
+      CLI / WinForms / macOS GUI 都只是它的薄壳：
+      - Mapping/   参数 → 领域对象的解析（Try 模式，带错误码）
+      - Requests/  ConversionRequest 组装规则（单一事实来源，消灭三端重复）
+      - Legacy/    旧版 CLI 参数迁移（Win 内嵌 CLI 模式共用）
+      - Bootstrap/ DI 容器组装（三端共用）
+      - FormatDetection/Preview/ 格式识别与预览（GUI 内联逻辑的下沉去处）
+      - Cli/       CLI 前端（System.CommandLine）；ImeWlConverterCmd 与 Win 内嵌 CLI 共用
+    -->
+
+    <ItemGroup>
+        <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.Core\ImeWlConverter.Core.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.Formats\ImeWlConverter.Formats.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7"/>
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
+    </ItemGroup>
+
+</Project>

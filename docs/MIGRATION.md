@@ -131,6 +131,37 @@ imewlconverter -i qpyd -o self -O zy.txt -F "213, nyyn" -c code.txt a.qpyd
 
 ## 🔍 关键变化说明
 
+### 0. 退出码与 JSON 输出契约（新增）
+
+自本次重构起，CLI 提供稳定的退出码契约（变更会记录在本文件）：
+
+| 退出码 | 含义 |
+|--------|------|
+| 0 | 成功 |
+| 1 | 用法/参数错误（缺必填项、未知格式 ID、filter/格式 spec 语法错） |
+| 2 | 输入错误（文件不存在/不可读、转换失败）——**此前所有错误一律为 1** |
+| 3 | 部分失败（≥1 文件成功、≥1 文件失败，明细见错误输出）——**此前为 1** |
+| 4 | 未捕获内部错误（默认不输出堆栈，`IMEWL_DEBUG=1` 时输出）——**此前为 1** |
+
+**脚本兼容提示**：旧脚本通常只判断 `退出码 != 0`，不受影响；若依赖"非 0 即 1"的精确值，请改为 `!= 0` 判断。
+
+新增 `--json` 输出（机器可读，供 AI 代理/脚本消费）：
+
+```jsonc
+// 成功（stdout）：
+{ "schema": 1, "ok": true,
+  "result": { "imported": 1200, "exported": 1180, "filtered": 20,
+              "outputs": [{ "path": "out.txt", "entries": 1180 }],
+              "errors": [] } }
+// 失败：
+{ "schema": 1, "ok": false,
+  "error": { "code": "unknown-format", "target": "--input-format", "message": "未知的输入格式: xxx" } }
+```
+
+`error.code` 枚举：`missing-option` / `unknown-format` / `invalid-filter` / `invalid-spec` / `input-not-found` / `conversion-failed` / `internal-error`。
+`--list-formats --json` 输出 `{ importFormats[], exportFormats[] }`（含 id/name/isBinary/extension）。
+`--json` 模式下进度不写 stderr（除非同时加 `--verbose`）。
+
 ### 1. 位置参数顺序
 
 **旧格式**：输入文件和输出文件混在选项中

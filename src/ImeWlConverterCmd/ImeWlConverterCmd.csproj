@@ -34,14 +34,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
-        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7"/>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\ImeWlConverter.Core\ImeWlConverter.Core.csproj"/>
-        <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
-        <ProjectReference Include="..\ImeWlConverter.Formats\ImeWlConverter.Formats.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.Application\ImeWlConverter.Application.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Program.cs">

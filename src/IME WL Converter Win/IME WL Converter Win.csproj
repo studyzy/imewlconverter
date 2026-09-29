@@ -146,26 +146,11 @@ GitHub: https://github.com/studyzy/imewlconverter</Description>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
+        <ProjectReference Include="..\ImeWlConverter.Application\ImeWlConverter.Application.csproj"/>
         <ProjectReference Include="..\ImeWlConverter.Core\ImeWlConverter.Core.csproj"/>
         <ProjectReference Include="..\ImeWlConverter.Formats\ImeWlConverter.Formats.csproj"/>
-        <ProjectReference Include="..\ImeWlConverterCmd\ImeWlConverterCmd.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="UTF.Unknown" Version="2.5.1"/>
     </ItemGroup>
-
-    <!--
-      发布目录清理：GUI 通过 ProjectReference 引用 CLI 项目以复用 CommandBuilder 实现 CLI 模式，
-      但 CLI exe 自身的 apphost / runtimeconfig.json / deps.json 对 GUI 无用（文件名不匹配「深蓝词库转换.exe」，
-      还会误导用户，参见 issue #412），从发布目录中剔除。
-    -->
-    <Target Name="RemoveCliArtifacts" AfterTargets="ComputeFilesToPublish">
-        <ItemGroup>
-            <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)"
-                Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.runtimeconfig.json'
-                    or '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.deps.json'
-                    or '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ImeWlConverterCmd.exe'
-                    or '%(ResolvedFileToPublish.Extension)' == '.pdb'"/>
-        </ItemGroup>
-    </Target>
 </Project>

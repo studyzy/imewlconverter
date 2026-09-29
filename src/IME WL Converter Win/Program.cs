@@ -16,13 +16,12 @@
  */
 
 using System;
-using System.CommandLine;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using ImeWlConverter.Core;
-using ImeWlConverter.Formats;
+using ImeWlConverter.Application.Bootstrap;
+using ImeWlConverter.Application.Cli;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Studyzy.IMEWLConverter;
@@ -49,13 +48,11 @@ internal static class Program
                 Console.SetOut(new StreamWriter(Console.OpenStandardOutput(), encoding) { AutoFlush = true });
                 Console.SetError(new StreamWriter(Console.OpenStandardError(), encoding) { AutoFlush = true });
 
-                if (CommandBuilder.IsLegacyArgFormat(args))
+                if (args.Length > 0)
                 {
-                    return CommandBuilder.PrintLegacyArgHelp();
+                    // CLI 逻辑统一在 Application 层（与独立 CLI exe 完全一致）
+                    return CliApp.Run(args);
                 }
-
-                var rootCommand = CommandBuilder.Build();
-                return rootCommand.Invoke(args);
             }
             catch (Exception ex)
             {
@@ -80,8 +77,7 @@ internal static class Program
         Application.SetCompatibleTextRenderingDefault(false);
 
         var services = new ServiceCollection();
-        services.AddAllFormats();
-        services.AddImeWlConverterCore();
+        services.AddImeWlConverter();
         var serviceProvider = services.BuildServiceProvider();
 
         Application.Run(new MainForm(serviceProvider));

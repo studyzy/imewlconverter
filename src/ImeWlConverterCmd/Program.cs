@@ -15,9 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.CommandLine;
 using System.Text;
+using ImeWlConverter.Application.Cli;
 
 namespace Studyzy.IMEWLConverter;
 
@@ -26,15 +25,7 @@ internal class Program
     private static int Main(string[] args)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        // 检测旧格式参数（包含冒号）
-        if (CommandBuilder.IsLegacyArgFormat(args))
-        {
-            return CommandBuilder.PrintLegacyArgHelp();
-        }
-
-        // 使用新的命令行解析系统
-        var rootCommand = CommandBuilder.Build();
-        return rootCommand.Invoke(args);
+        // CLI 全部逻辑位于 ImeWlConverter.Application（三端共享），此处仅是薄入口
+        return CliApp.Run(args);
     }
 }

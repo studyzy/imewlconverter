@@ -84,8 +84,8 @@ assert_exit "未知输入格式退出码 1" 1 \
 assert_exit "缺少输入格式退出码 1" 1 \
     CLI -o self -O "${TMP_DIR}/x.txt" "${TEST_DATA}"
 
-# 4. 输入文件不存在 → exit 1（Phase 1 修复：此前静默 exit 0）
-assert_exit "输入文件不存在退出码 1" 1 \
+# 4. 输入文件不存在 → exit 2（Phase 4 退出码契约：输入错误类）
+assert_exit "输入文件不存在退出码 2" 2 \
     CLI -i scel -o self -O "${TMP_DIR}/x.txt" "${TMP_DIR}/no-such-file.scel"
 # 注：错误消息断言使用 ASCII 锚点 —— Windows 下 CLI 中文输出走 OEM 代码页(GBK)，
 # 与本脚本的 UTF-8 字符串无法直接字节比较；退出码断言已锁定行为本身。
@@ -101,6 +101,36 @@ assert_error_message "非法过滤参数输出可读错误" "len:abc-10" \
 # 6. 错误消息不泄漏完整堆栈（默认模式；IMEWL_DEBUG=1 时才输出堆栈）
 assert_error_not_contains "默认模式错误消息不含堆栈" "   at " \
     CLI -i no-such-format -o self -O "${TMP_DIR}/x.txt" "${TEST_DATA}"
+
+# 7. --json 成功输出（schema=1, ok=true）
+JSON_OUTPUT="$(CLI --json -i scel -o self -O "${TMP_DIR}/ok.json.txt" -F "213 ,nyyy" "${TEST_DATA}" 2>/dev/null)"
+if [[ "${JSON_OUTPUT}" == *'"ok": true'* && "${JSON_OUTPUT}" == *'"schema": 1'* ]]; then
+    echo "  PASS: --json 成功输出包含 schema=1 与 ok=true"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --json 成功输出异常: ${JSON_OUTPUT}"
+    FAIL=$((FAIL + 1))
+fi
+
+# 8. --json 失败输出（error.code 契约）
+JSON_ERROR="$(CLI --json -i no-such-format -o self -O "${TMP_DIR}/x.txt" "${TEST_DATA}" 2>/dev/null)"
+if [[ "${JSON_ERROR}" == *'"ok": false'* && "${JSON_ERROR}" == *'"code": "unknown-format"'* ]]; then
+    echo "  PASS: --json 错误输出包含 error.code=unknown-format"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --json 错误输出异常: ${JSON_ERROR}"
+    FAIL=$((FAIL + 1))
+fi
+
+# 9. --list-formats --json 输出格式清单
+JSON_LIST="$(CLI --list-formats --json 2>/dev/null)"
+if [[ "${JSON_LIST}" == *'"importFormats"'* && "${JSON_LIST}" == *'"exportFormats"'* ]]; then
+    echo "  PASS: --list-formats --json 输出格式清单"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --list-formats --json 输出异常: ${JSON_LIST:0:200}"
+    FAIL=$((FAIL + 1))
+fi
 
 rm -rf "${TMP_DIR}"
 

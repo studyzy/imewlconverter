@@ -8,7 +8,8 @@
 | 添加新的输入法格式支持 | `src/ImeWlConverter.Formats/{Format}/` → 创建 Importer + Exporter |
 | 修改码表/字典数据（拼音、五笔、注音等） | `src/ImeWlConverter.CodeData/`（接口 + `Resources/` 嵌入码表） |
 | 修改转换管道逻辑 | `src/ImeWlConverter.Core/Pipeline/ConversionPipeline.cs` |
-| 修改 CLI 参数/行为 | `src/ImeWlConverterCmd/CommandBuilder.cs` |
+| 修改 CLI 参数/行为 | `src/ImeWlConverter.Application/Cli/`（命令定义+执行链）与 `Mapping/`（参数解析） |
+| 查询 CLI 机器可读契约（退出码/JSON） | `src/ImeWlConverter.Application/Cli/ExitCodes.cs`、`docs/MIGRATION.md` |
 | 修改编码生成（拼音/五笔等） | `src/ImeWlConverter.Core/CodeGeneration/Generators/` |
 | 修改过滤器 | `src/ImeWlConverter.Core/Filters/` |
 | 修改过滤配置 DTO | `src/ImeWlConverter.Abstractions/Options/FilterConfig.cs` |
@@ -48,8 +49,9 @@ src/
 ├── ImeWlConverter.CodeData/         # 码表数据叶子（零依赖，只读线程安全表服务）
 ├── ImeWlConverter.Core/             # 业务服务层（转换管道、编码生成、过滤、简繁转换）
 ├── ImeWlConverter.Formats/          # 格式实现层（107个文件，50+种格式）
+├── ImeWlConverter.Application/      # 三端共享应用层（参数映射、请求工厂、CLI 前端、引导）
 ├── ImeWlConverter.SourceGenerators/ # Source Generator（编译时格式注册）
-├── ImeWlConverterCmd/               # CLI 入口
+├── ImeWlConverterCmd/               # CLI 薄入口（逻辑在 Application/Cli）
 ├── ImeWlConverterMac/               # macOS GUI (Avalonia 11.2.3)
 ├── IME WL Converter Win/            # Windows GUI (WinForms)
 └── ImeWlConverterCoreTest/          # xUnit 单元测试
@@ -94,12 +96,20 @@ src/
 
 ### Layer 1: 前端入口
 
-#### CLI (`src/ImeWlConverterCmd/`)
+#### CLI (`src/ImeWlConverterCmd/` → `src/ImeWlConverter.Application/Cli/`)
 
 | 文件 | 职责 |
 |------|------|
-| `Program.cs` | 入口，旧参数格式检测，调用 CommandBuilder |
-| `CommandBuilder.cs` | System.CommandLine 定义所有 CLI 选项，构建 `ConversionRequest`，调用 `ConversionPipeline` |
+| `ImeWlConverterCmd/Program.cs` | 薄入口：注册编码 Provider，调用 `CliApp.Run` |
+| `Application/Cli/CliApp.cs` | CLI 统一入口（旧参数检测 → 命令调用）；Win 内嵌 CLI 共用 |
+| `Application/Cli/CliOptions.cs` | System.CommandLine 选项定义 |
+| `Application/Cli/CliCommandFactory.cs` | 根命令装配与转换执行链（校验→组装→执行→输出） |
+| `Application/Cli/CliValidator.cs` | 必填项/文件存在性/格式 ID 校验（结构化 CliError） |
+| `Application/Cli/Output/*.cs` | 人类输出 / --json 输出 / 格式清单输出 |
+| `Application/Cli/ExitCodes.cs` | 退出码契约（0 成功 / 1 用法 / 2 输入 / 3 部分失败 / 4 内部） |
+| `Application/Mapping/*.cs` | filter/编码类型/自定义格式 spec 解析（Try 模式，可单测） |
+| `Application/Requests/ConversionRequestFactory.cs` | ConversionRequest 组装单一事实来源 |
+| `Application/Bootstrap/ImeWlConverterBootstrapper.cs` | 三端共用 DI 组装 |
 
 #### macOS GUI (`src/ImeWlConverterMac/`)
 
