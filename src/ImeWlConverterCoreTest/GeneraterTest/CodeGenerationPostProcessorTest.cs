@@ -150,4 +150,32 @@ public class CodeGenerationPostProcessorTest
         Assert.Single(result);
         Assert.Null(result[0].Code);
     }
+
+    [Fact]
+    public void Apply_CjkExtensionA_KeepsPinyinSegments()
+    {
+        // Issue #424: CJK 扩展 A 区生僻字（㐖 U+3416）此前被 IsPunctuationOrSymbol
+        // 误判为标点，词条自带拼音的首音节被清空（xie'du -> ''du）
+        var options = new CodeGenerationOptions();
+        var entry = MakeEntry("\u3416\u6BD2", "xie", "du");
+        var result = CodeGenerationPostProcessor.Apply([entry], options);
+
+        Assert.Single(result);
+        Assert.Equal("xie", result[0].Code!.Segments[0][0]);
+        Assert.Equal("du", result[0].Code!.Segments[1][0]);
+    }
+
+    [Fact]
+    public void Apply_GenuineSymbolAfterExtensionA_StillCleared()
+    {
+        // 扩展 A 生僻字保留的同时，真正的标点仍按规则清除
+        var options = new CodeGenerationOptions();
+        var entry = MakeEntry("\u3416·\u6BD2", "xie", "", "du");
+        var result = CodeGenerationPostProcessor.Apply([entry], options);
+
+        Assert.Single(result);
+        Assert.Equal("xie", result[0].Code!.Segments[0][0]);
+        Assert.Empty(result[0].Code!.Segments[1]);
+        Assert.Equal("du", result[0].Code!.Segments[2][0]);
+    }
 }

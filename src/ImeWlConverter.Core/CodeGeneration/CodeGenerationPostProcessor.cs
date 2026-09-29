@@ -134,9 +134,14 @@ public static class CodeGenerationPostProcessor
 
     private static bool IsCJK(char c) =>
         // CJK Unified Ideographs covers most Chinese characters.
+        // CJK Extension A (U+3400-U+4DBF) also contains rare Chinese characters
+        // (e.g. 㐖 U+3416), which must be treated as CJK, not punctuation/symbol
+        // (issue #424: their pinyin segments were wrongly cleared).
         // U+3007 (〇, ideographic number zero) is used as the Chinese numeral "零"
         // and must be treated as CJK, not punctuation/symbol.
-        (c >= '\u4E00' && c <= '\u9FFF') || c == '\u3007';
+        (c >= '\u3400' && c <= '\u4DBF') ||      // CJK Extension A
+        (c >= '\u4E00' && c <= '\u9FFF') ||      // CJK Unified Ideographs
+        c == '\u3007';
 
     private static string ConvertFullWidthToHalf(string s)
     {
