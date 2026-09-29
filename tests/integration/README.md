@@ -60,16 +60,40 @@ cd tests/integration
 ./run-tests.sh -h
 ```
 
+## GUI 版集成测试（Windows）
+
+除 CLI 黑盒测试外，还有两个驱动 **WinForms 图形界面** 的集成测试脚本（PowerShell + UI Automation + Win32 消息），验证用户实际操作的完整路径（填路径 → 选格式 → 配置框 → 转换 → 保存对话框）。
+
+> 前提：Windows 交互桌面会话；脚本会操作真实鼠标键盘，运行期间请勿操作。不适用于无头 CI。
+
+| 脚本 | 用途 |
+|------|------|
+| `windows-gui-matrix.ps1` | **GUI 转换矩阵**：25 条导入→导出转换路径（见 TEST-MATRIX.md 的 GUI 章节），覆盖 25 种导入格式 |
+| `windows-ime-e2e.ps1` | **实机端到端**：纯汉字 → Win10微软拼音 UDP 词库，替换系统词库后断言输入法候选窗真实出词 |
+
+```powershell
+# GUI 转换矩阵（推荐先跑）
+powershell -ExecutionPolicy Bypass -File tests\integration\windows-gui-matrix.ps1
+powershell -ExecutionPolicy Bypass -File tests\integration\windows-gui-matrix.ps1 -List     # 仅列出用例
+powershell -ExecutionPolicy Bypass -File tests\integration\windows-gui-matrix.ps1 -Only A1  # 只跑单条
+
+# Win10 微软拼音实机验证（会临时替换系统 UDP 词库，结束自动恢复）
+powershell -ExecutionPolicy Bypass -File tests\integration\windows-ime-e2e.ps1
+```
+
+共享的 UI 自动化辅助函数位于 `lib/gui-automation.ps1`。C 组用例的样本文件缺失时会自动 SKIP 并在汇总末尾列出待准备文件清单（放入 `src/ImeWlConverterCoreTest/Test/` 后自动生效）。
+
 ## 目录结构
 
 ```
 tests/integration/
-├── run-tests.sh              # 主测试运行器
+├── run-tests.sh              # 主测试运行器（CLI 黑盒测试）
 ├── lib/                      # 辅助函数库
 │   ├── test-helpers.sh       # 核心测试辅助函数
 │   ├── yaml-parser.sh        # YAML配置解析
 │   ├── color-output.sh       # 彩色终端输出
-│   └── report-generator.sh   # 测试报告生成
+│   ├── report-generator.sh   # 测试报告生成
+│   └── gui-automation.ps1    # ✨ GUI 测试共享 UI 自动化库（Win32 + UIA）
 ├── test-cases/               # 测试用例目录
 │   ├── imports/              # ✨ 新：统一的导入测试矩阵（v2.0，推荐）
 │   ├── sougou-scel/          # 旧：搜狗拼音.scel格式测试（v1.0）
@@ -77,6 +101,8 @@ tests/integration/
 │   ├── qq-qpyd/              # 旧：QQ拼音.qpyd格式测试（v1.0）
 │   ├── qq-qcel/              # 旧：QQ拼音.qcel格式测试（v1.0）
 │   └── ...                   # 其他格式测试
+├── windows-gui-matrix.ps1    # ✨ GUI 转换矩阵测试（Windows，25 条转换路径）
+├── windows-ime-e2e.ps1       # ✨ GUI 实机端到端测试（Win10 微软拼音候选验证）
 ├── test-output/              # 测试临时输出（.gitignore）
 ├── reports/                  # 测试报告目录
 ├── TEST-MATRIX.md            # 测试矩阵设计文档
