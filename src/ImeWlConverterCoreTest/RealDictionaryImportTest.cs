@@ -5,9 +5,11 @@ using ImeWlConverter.Formats.BaiduBcd;
 using ImeWlConverter.Formats.BaiduPinyinBackup;
 using ImeWlConverter.Formats.Jidian;
 using ImeWlConverter.Formats.RimeUserDb;
+using ImeWlConverter.Formats.Gboard;
 using ImeWlConverter.Formats.SougouBin;
 using ImeWlConverter.Formats.Win10MsSelfStudy;
 using ImeWlConverter.Formats.Win10Ms;
+using ImeWlConverter.Formats.ZiGuangUwl;
 using ImeWlConverter.Abstractions.Contracts;
 using Xunit;
 
@@ -33,6 +35,8 @@ public class RealDictionaryImportTest
         "win10mswb" => new Win10MsWubiImporter(),
         "rimedb" => new RimeUserDbImporter(),
         "jd" => new JidianImporter(),
+        "uwl" => new ZiGuangUwlImporter(),
+        "gboard" => new GboardImporter(),
         _ => throw new ArgumentException($"未知格式: {formatId}")
     };
 
@@ -44,6 +48,8 @@ public class RealDictionaryImportTest
     [InlineData("win10mswb", "微软五笔UserDefinedPhrase.dat", 1)] // Win10 微软五笔 UDP，2 条
     [InlineData("rimedb", "rime_luna_pinyin_export.txt", 10)] // Rime 用户词典导出，17 条
     [InlineData("jd", "极点五笔_freeime_user.txt", 20)] // 极点五笔用户词文本，27 条
+    [InlineData("uwl", "华宇紫光economics.uwl", 1000)] // 华宇紫光词库（经济类），7737 条
+    [InlineData("gboard", "GBoard_dictionary.txt", 2)] // Gboard 文本词典导出，2 条
     public void Import_RealDictionary_ProducesEntries(string formatId, string fileName, int minCount)
     {
         var importer = CreateImporter(formatId);

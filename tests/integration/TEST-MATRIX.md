@@ -165,13 +165,14 @@ test-cases/
 
 | ID | 导入格式 | 样本文件 | 状态 |
 |----|---------|---------|------|
-| C1 | 紫光拼音词库uwl | 紫光拼音.uwl | ⏳ 待补 |
+| C1 | 紫光拼音词库uwl | 华宇紫光economics.uwl（7737 条） | ✅ 已启用 |
 | C2 | 百度手机bcd | 记者必备.bcd（1398 条） | ✅ 已启用 |
-| C3 | 百度手机或Mac版百度拼音 | 百度手机.bdsj | ⏳ 待补 |
+| C3 | 百度手机或Mac版百度拼音 | 合成文本样本（`词(pin|yin)` 格式） | ✅ 已启用 |
 | C4 | 百度拼音备份词库bin | 百度拼音备份.bin（1 条） | ✅ 已启用 |
 | C5 | 极点五笔.mb文件 | 极点五笔.mb | ⏳ 待补（注意：极点用户词文本用 A6C 的 jd 格式覆盖） |
 | C6 | Rime UserDb 用户词典 | rime_luna_pinyin_export.txt（17 条） | ✅ 已启用 |
-| C7 | Gboard user_dict_3_3 | gboard_user_dict.dict | ⏳ 待补 |
+| C7 | Gboard（文本词典导出） | GBoard_dictionary.txt（2 条） | ✅ 已启用 |
+| C7B | Gboard user_dict_3_3 | gboard_user_dict.dict | ⏳ 待补 |
 | C8 | Win10微软拼音（自学习词汇） | Win10拼音自学习_ChsPinyinUDL.dat（2 条） | ✅ 已启用 |
 | C9 | Win10微软五笔（用户自定义短语） | 微软五笔UserDefinedPhrase.dat（2 条） | ✅ 已启用 |
 | C10 | 微软拼音 | 微软拼音.dctx | ⏳ 待补 |

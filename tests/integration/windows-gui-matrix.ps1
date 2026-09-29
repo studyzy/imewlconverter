@@ -78,6 +78,7 @@ function New-SampleLines {
         'pyjj'      { return @{ Enc = 'utf16le'; Lines = @('深shen蓝lan词ci库ku转zhuan换huan', '测试', '词ci库ku转zhuan换huan') } }
         'bing'      { return @{ Enc = 'utf16le'; Lines = @("$($w0.W) $($w0.S)", "$($w1.W) $($w1.S)", "$($w2.W) $($w2.S)") } }
         'fit'       { return @{ Enc = 'utf8';    Lines = @("$($w0.P),$($w0.W)", "$($w1.P),$($w1.W)", "$($w2.P),$($w2.W)") } }
+        'bdsj'      { return @{ Enc = 'utf16le'; Lines = @("$($w0.W)($($w0.P))", "$($w1.W)($($w1.P))", "$($w2.W)($($w2.P))") } } # 百度手机/Mac版文本词库
         default     { throw "未知样本类型: $Type" }
     }
 }
@@ -125,13 +126,17 @@ $Cases = @(
 
     # ---- C 组：待补样本占位（样本放入 src/ImeWlConverterCoreTest/Test/ 后自动执行） ----
     # 已补样本并启用：C2(记者必备.bcd) / C4(百度拼音备份.bin) / C6(rime userdb) / C8(自学习) / C9(微软五笔)
-    @{ Id = 'C1';  Import = '紫光拼音词库uwl';                 NeedsFile = '紫光拼音.uwl';        Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    @{ Id = 'C1';  Import = '紫光拼音词库uwl';                 File = '华宇紫光economics.uwl';    Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1000 } }
     @{ Id = 'C2';  Import = '百度手机bcd';                     File = '记者必备.bcd';             Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 500 } }
-    @{ Id = 'C3';  Import = '百度手机或Mac版百度拼音';         NeedsFile = '百度手机.bdsj';       Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    # bdsj 是文本格式（行格式"词(pin|yin)"，UTF-16LE），可直接合成，无需下载
+    @{ Id = 'C3';  Import = '百度手机或Mac版百度拼音';         Synthetic = 'bdsj';                Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; Keyword = '深蓝词库转换' } }
     @{ Id = 'C4';  Import = '百度拼音备份词库bin';             File = '百度拼音备份.bin';         Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C5';  Import = '极点五笔.mb文件';                 NeedsFile = '极点五笔.mb';         Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C6';  Import = 'Rime UserDb 用户词典';            File = 'rime_luna_pinyin_export.txt'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 10 } }
-    @{ Id = 'C7';  Import = 'Gboard user_dict_3_3';            NeedsFile = 'gboard_user_dict.dict'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
+    # GBoard_dictionary.txt 是 Gboard 文本词典导出（shortcut\tword，# 注释头）；
+    # gboardbin 的二进制 user_dict_3_3 (.dict) 样本仍缺，保留占位
+    @{ Id = 'C7';  Import = 'Gboard';                           File = 'GBoard_dictionary.txt';    Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; Keyword = '曾毅' } }
+    @{ Id = 'C7B'; Import = 'Gboard user_dict_3_3';             NeedsFile = 'gboard_user_dict.dict'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C8';  Import = 'Win10微软拼音（自学习词汇）';     File = 'Win10拼音自学习_ChsPinyinUDL.dat'; Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C9';  Import = 'Win10微软五笔（用户自定义短语）'; File = '微软五笔UserDefinedPhrase.dat';   Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }
     @{ Id = 'C10'; Import = '微软拼音';                        NeedsFile = '微软拼音.dctx';       Export = '搜狗拼音txt'; Validate = @{ Type = 'Text'; MinLines = 1 } }

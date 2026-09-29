@@ -73,6 +73,12 @@
         <None Update="Test\极点五笔_freeime_user.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Test\华宇紫光economics.uwl">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Test\GBoard_dictionary.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="Test\百度官网.bdict">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

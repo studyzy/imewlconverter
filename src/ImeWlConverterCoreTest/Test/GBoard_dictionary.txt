@@ -1,0 +1,4 @@
+# Gboard Dictionary version:2
+# Gboard Dictionary format:shortcut	word	language_tag	pos_tag
+zengyi	曾毅	zh-CN	
+slckzh	深蓝词库转换	zh-CN	
