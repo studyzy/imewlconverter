@@ -39,7 +39,7 @@ public class PinyinJiaJiaTest : BaseTest
         var bytes = Encoding.Unicode.GetBytes(text);
         using var ms = new MemoryStream(bytes);
         var result = importer!.ImportAsync(ms).GetAwaiter().GetResult();
-        Assert.Equal(1, result.Entries.Count);
+        Assert.Single(result.Entries);
         Assert.Equal("深蓝居", result.Entries[0].Word);
     }
 

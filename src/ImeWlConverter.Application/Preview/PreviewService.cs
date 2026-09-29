@@ -1,24 +1,22 @@
+using System.Text;
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Results;
 
 namespace ImeWlConverter.Application.Preview;
 
-/// <summary>预览结果：文本内容或二进制摘要（二选一）。</summary>
-public sealed record PreviewResult
-{
-    public string? TextPreview { get; init; }
-    public string? BinarySummary { get; init; }
-}
-
 /// <summary>
-/// GUI 预览服务：Stream 输出的转换结果 → 截断文本预览 / 二进制摘要。
-/// 吸收 WinForms 与 macOS GUI 各自复制的预览截断逻辑（此前两端口径还不一致）。
+/// GUI 预览服务：Stream 输出的转换结果 → 文本预览（超长截断）/ 二进制摘要。
+/// 文案与截断口径与 WinForms GUI 现状逐字节一致（迁移自 MainForm.HandleConversionCompleted），
+/// 供三端复用、消除复制漂移。
 /// </summary>
 public sealed class PreviewService
 {
-    /// <summary>预览最大字符数；超长时取首尾各一半拼接省略标记。</summary>
-    public const int MaxPreviewChars = 200_000;
+    /// <summary>触发"只显示首末 10 万字"的长度阈值。</summary>
+    public const int TruncateThreshold = 200_000;
+
+    /// <summary>截断时保留的首/末长度。</summary>
+    public const int TruncateSegmentLength = 100_000;
 
     public PreviewService(IConversionPipeline pipeline)
     {
@@ -27,59 +25,47 @@ public sealed class PreviewService
 
     private IConversionPipeline Pipeline { get; }
 
-    /// <summary>执行转换并以 Stream 输出，返回预览结果。</summary>
-    public async Task<Result<PreviewResult>> PreviewAsync(
+    /// <summary>执行转换并以 Stream 输出，返回转换结果（供调用方做预览展示）。</summary>
+    public async Task<Result<ConversionResult>> PreviewAsync(
         ConversionRequest request,
         IProgress<ProgressInfo>? progress = null,
         CancellationToken ct = default)
     {
         using var output = new MemoryStream();
-        var result = await Pipeline.ExecuteAsync(request with { OutputStream = output }, progress, ct);
-        if (result.IsFailure)
-            return Result<PreviewResult>.Failure(result.Error);
-
-        var value = result.Value;
-        if (value.ExportData is not null)
-        {
-            return Result<PreviewResult>.Success(new PreviewResult
-            {
-                BinarySummary = BuildBinarySummary(value.ExportData, value.ExportedCount),
-            });
-        }
-
-        return Result<PreviewResult>.Success(new PreviewResult
-        {
-            TextPreview = Truncate(value.ExportContent ?? string.Empty),
-        });
+        return await Pipeline.ExecuteAsync(request with { OutputStream = output }, progress, ct);
     }
 
-    /// <summary>文本截断：超过上限时保留首尾各一半，中间以省略提示衔接。</summary>
-    public static string Truncate(string content)
+    /// <summary>
+    /// 构建文本预览。showLessOnly 为 GUI"结果只显示首、末10万字"选项；
+    /// 与 GUI 现状一致：开启且超长时首末各 10 万字 + 固定提示文案。
+    /// </summary>
+    public static string BuildTextPreview(string content, bool showLessOnly)
     {
-        if (content.Length <= MaxPreviewChars)
-            return content;
-
-        var half = MaxPreviewChars / 2;
-        var omitted = content.Length - MaxPreviewChars;
-        return string.Concat(
-            content.AsSpan(0, half),
-            $"\r\n\r\n……（中间省略 {omitted:N0} 字，请保存后查看完整内容）\r\n\r\n",
-            content.AsSpan(^half));
-    }
-
-    /// <summary>二进制格式摘要：导出条数 + 头 64 字节的十六进制，便于用户确认产物。</summary>
-    public static string BuildBinarySummary(byte[] data, int entryCount)
-    {
-        const int headBytes = 64;
-        var hex = new System.Text.StringBuilder(headBytes * 3);
-        var take = Math.Min(headBytes, data.Length);
-        for (var i = 0; i < take; i++)
+        if (showLessOnly && content.Length > TruncateThreshold)
         {
-            if (i > 0) hex.Append(' ');
-            hex.Append(data[i].ToString("X2"));
+            return "为避免输出时卡死，\u201c高级设置\u201d中选中了\u201c结果只显示首、末10万字\u201d，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
+                   + content.Substring(0, TruncateSegmentLength)
+                   + "\n\n\n...\n\n\n"
+                   + content.Substring(content.Length - TruncateSegmentLength);
         }
 
-        return $"二进制格式已生成 {entryCount} 条词条，共 {data.Length:N0} 字节。\r\n" +
-               $"文件头（前 {take} 字节）:\r\n{hex}";
+        return content;
+    }
+
+    /// <summary>
+    /// 构建二进制格式摘要（词条数/文件大小/默认文件名），与 GUI 现状逐字节一致。
+    /// </summary>
+    public static string BuildBinarySummary(
+        string? formatDisplayName, int entryCount, byte[] data, string? defaultFileName)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine((formatDisplayName ?? "二进制词库") + "已生成。");
+        sb.AppendLine();
+        sb.AppendLine("  词条数    " + entryCount.ToString("N0"));
+        sb.AppendLine("  文件大小  " + data.Length.ToString("N0") + " 字节 (" +
+                      (data.Length / 1024.0 / 1024.0).ToString("F2") + " MB)");
+        if (!string.IsNullOrEmpty(defaultFileName))
+            sb.AppendLine("  文件名    " + defaultFileName);
+        return sb.ToString();
     }
 }

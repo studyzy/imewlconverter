@@ -22,6 +22,9 @@ using System.Text;
 using System.Windows.Forms;
 using ImeWlConverter.Application.Bootstrap;
 using ImeWlConverter.Application.Cli;
+using ImeWlConverter.Application.FormatDetection;
+using ImeWlConverter.Abstractions.Contracts;
+using ImeWlConverter.Core.WordRank;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Studyzy.IMEWLConverter;
@@ -80,7 +83,13 @@ internal static class Program
         services.AddImeWlConverter();
         var serviceProvider = services.BuildServiceProvider();
 
-        Application.Run(new MainForm(serviceProvider));
+        // 组合根：显式解析依赖注入 MainForm（不向 UI 层暴露 IServiceProvider）
+        Application.Run(new MainForm(
+            serviceProvider.GetRequiredService<IConversionPipeline>(),
+            serviceProvider.GetRequiredService<IWordRankGenerator>(),
+            serviceProvider.GetServices<IFormatImporter>(),
+            serviceProvider.GetServices<IFormatExporter>(),
+            new FormatDetectionService(serviceProvider.GetServices<IFormatImporter>())));
         return 0;
     }
 }

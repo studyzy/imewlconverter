@@ -22,6 +22,10 @@ SRC_DIR := src
 CORE_PROJECT := $(SRC_DIR)/ImeWlConverter.Core/ImeWlConverter.Core.csproj
 CMD_PROJECT := $(SRC_DIR)/ImeWlConverterCmd/ImeWlConverterCmd.csproj
 MAC_PROJECT := $(SRC_DIR)/ImeWlConverterMac/ImeWlConverterMac.csproj
+FORMATS_PROJECT := $(SRC_DIR)/ImeWlConverter.Formats/ImeWlConverter.Formats.csproj
+APPLICATION_PROJECT := $(SRC_DIR)/ImeWlConverter.Application/ImeWlConverter.Application.csproj
+CODEDATA_PROJECT := $(SRC_DIR)/ImeWlConverter.CodeData/ImeWlConverter.CodeData.csproj
+ABSTRACTIONS_PROJECT := $(SRC_DIR)/ImeWlConverter.Abstractions/ImeWlConverter.Abstractions.csproj
 WIN_PROJECT := $(SRC_DIR)/IME WL Converter Win/IME WL Converter Win.csproj
 TEST_PROJECT := $(SRC_DIR)/ImeWlConverterCoreTest/ImeWlConverterCoreTest.csproj
 
@@ -441,6 +445,10 @@ format: check-deps
 	@$(DOTNET) format $(CORE_PROJECT) || true
 	@$(DOTNET) format $(CMD_PROJECT) || true
 	@$(DOTNET) format $(MAC_PROJECT) || true
+	@$(DOTNET) format $(FORMATS_PROJECT) || true
+	@$(DOTNET) format $(APPLICATION_PROJECT) || true
+	@$(DOTNET) format $(CODEDATA_PROJECT) || true
+	@$(DOTNET) format $(ABSTRACTIONS_PROJECT) || true
 	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) Code formatting completed$(COLOR_RESET)"
 
 ## lint: Check code formatting
@@ -449,6 +457,10 @@ lint: check-deps
 	@$(DOTNET) format $(CORE_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
 	@$(DOTNET) format $(CMD_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
 	@$(DOTNET) format $(MAC_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
+	@$(DOTNET) format $(FORMATS_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
+	@$(DOTNET) format $(APPLICATION_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
+	@$(DOTNET) format $(CODEDATA_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
+	@$(DOTNET) format $(ABSTRACTIONS_PROJECT) --verify-no-changes || { echo "$(COLOR_RED)$(EMOJI_CROSS) Format check failed$(COLOR_RESET)"; exit 1; }
 	@echo "$(COLOR_GREEN)$(EMOJI_CHECK) Code format is correct$(COLOR_RESET)"
 
 # ============================================================================

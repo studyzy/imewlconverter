@@ -102,9 +102,9 @@ public class BaiduBcdTest
 
         // Pinyin encoding (4 chars * 2 bytes each = 8 bytes)
         bw.Write((byte)16); bw.Write((byte)15); // s=16, en=15 -> shen
-        bw.Write((byte)9);  bw.Write((byte)12); // l=9, an=12 -> lan
-        bw.Write((byte)0);  bw.Write((byte)29); // c=0, i=29 -> ci
-        bw.Write((byte)8);  bw.Write((byte)31); // k=8, u=31 -> ku
+        bw.Write((byte)9); bw.Write((byte)12); // l=9, an=12 -> lan
+        bw.Write((byte)0); bw.Write((byte)29); // c=0, i=29 -> ci
+        bw.Write((byte)8); bw.Write((byte)31); // k=8, u=31 -> ku
 
         // Word in Unicode (4 chars * 2 bytes = 8 bytes)
         var wordBytes = Encoding.Unicode.GetBytes(word);

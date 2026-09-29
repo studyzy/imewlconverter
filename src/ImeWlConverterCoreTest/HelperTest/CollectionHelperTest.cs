@@ -53,6 +53,6 @@ public class CollectionHelperTest
         var array = result.ToArray();
         Assert.Contains("a,b,e", array);
 
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
     }
 }

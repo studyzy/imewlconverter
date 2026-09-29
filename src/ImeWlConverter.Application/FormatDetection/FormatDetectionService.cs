@@ -49,4 +49,63 @@ public sealed class FormatDetectionService
             .FirstOrDefault(i => string.Equals(i.Metadata.FileExtension, ext, StringComparison.OrdinalIgnoreCase))
             ?.Metadata.Id;
     }
+
+    /// <summary>
+    /// 文本内容嗅探：读取前几行按已知文本词库格式的样式匹配（迁移自 WinForms MainForm，逻辑原样）。
+    /// 二进制格式无法嗅探，仅覆盖纯文本格式。
+    /// </summary>
+    public string? DetectByContent(string filePath)
+    {
+        try
+        {
+            if (!File.Exists(filePath)) return null;
+
+            var encoding = Core.Helpers.FileOperationHelper.GetEncodingType(filePath);
+            string? example = null;
+            using (var sr = new StreamReader(filePath, encoding))
+            {
+                for (var i = 0; i < 5; i++)
+                {
+                    example = sr.ReadLine();
+                    if (example == null) break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(example)) return null;
+
+            // 搜狗拼音txt: 'ni'hao 你好
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^('[a-z]+)+\s[\u4E00-\u9FA5]+$"))
+                return "sgpy";
+            // FIT输入法: ni'hao,你好
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^([a-z]+')+[a-z]+\,[\u4E00-\u9FA5]+$"))
+                return "fit";
+            // QQ拼音: ni'hao 你好 123
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^[a-z']+\s[\u4E00-\u9FA5]+\s\d+$"))
+                return "qqpy";
+            // 拼音加加: 你ni好hao
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^([\u4E00-\u9FA5]+[a-z]+)+([\u4E00-\u9FA5]+[a-z]*)*$"))
+                return "pyjj";
+            // 华宇紫光拼音: 你好\tni'hao\t100
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^[\u4E00-\u9FA5]+\t[a-z']+\t\d+$"))
+                return "zgpy";
+            // 谷歌拼音: 你好\t100ni hao
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^[\u4E00-\u9FA5]+\t\d+[a-z\s]+$"))
+                return "ggpy";
+            // 百度手机: 你好 ni|hao 100
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^[\u4E00-\u9FA5]+\s[a-z\|]+\s\d+$"))
+                return "bdsj";
+            // 极点五笔: abcd 你好
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^[a-z]{1,4}\s[\u4E00-\u9FA5]+$"))
+                return "jd";
+            // 新浪拼音: nihao 你好
+            if (System.Text.RegularExpressions.Regex.IsMatch(example, @"^[a-z']+\s[\u4E00-\u9FA5]+$"))
+                return "xlpy";
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

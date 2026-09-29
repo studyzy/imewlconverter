@@ -14,6 +14,7 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.Application.FormatDetection;
 using ImeWlConverter.Core.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +24,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IConversionPipeline _pipeline;
+    private readonly FormatDetectionService _formatDetection;
     private readonly IDictionary<string, IFormatImporter> _importers = new Dictionary<string, IFormatImporter>();
     private readonly IDictionary<string, IFormatExporter> _exporters = new Dictionary<string, IFormatExporter>();
 
@@ -52,6 +54,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         _serviceProvider = serviceProvider;
         _pipeline = serviceProvider.GetRequiredService<IConversionPipeline>();
+        _formatDetection = new FormatDetectionService(serviceProvider.GetServices<IFormatImporter>());
 
         LoadImeList();
 
@@ -270,31 +273,16 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
+    /// <summary>自动识别导入格式：扩展名 → 内容嗅探，返回显示名（识别失败返回 null）。
+    /// 识别逻辑统一在 Application.FormatDetectionService（此前私有映射表曾因复制漂移导致 6 处 ID 失配）。</summary>
     private string? AutoMatchImportType(string filePath)
     {
-        var ext = Path.GetExtension(filePath)?.ToLowerInvariant();
-        if (string.IsNullOrEmpty(ext)) return null;
+        var formatId = _formatDetection.DetectByExtension(filePath)
+                       ?? _formatDetection.DetectByContent(filePath);
+        if (formatId == null) return null;
 
-        var extToId = new Dictionary<string, string>
-        {
-            { ".scel", "scel" },
-            { ".qcel", "qcel" },
-            { ".qpyd", "qpyd" },
-            { ".bcd", "bcd" },
-            { ".bdict", "bdict" },
-            { ".ld2", "ld2" },
-            { ".uwl", "uwl" },
-            { ".bin", "sgpybin" },
-            { ".plist", "plist" },
-        };
-
-        if (extToId.TryGetValue(ext, out var formatId))
-        {
-            var match = _importers.Values.FirstOrDefault(i => i.Metadata.Id == formatId);
-            if (match != null) return match.Metadata.DisplayName;
-        }
-
-        return null;
+        var match = _importers.Values.FirstOrDefault(i => i.Metadata.Id == formatId);
+        return match?.Metadata.DisplayName;
     }
 
     private bool CanConvert()

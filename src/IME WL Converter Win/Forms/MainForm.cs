@@ -29,17 +29,19 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.Application.FormatDetection;
+using ImeWlConverter.Application.Preview;
 using ImeWlConverter.Core.Helpers;
 using ImeWlConverter.Core.WordRank;
 using ImeWlConverter.Formats.SelfDefining;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Studyzy.IMEWLConverter;
 
 public partial class MainForm : Form
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly IConversionPipeline _pipeline;
+    private IWordRankGenerator _wordRankGenerator;
+    private readonly FormatDetectionService _formatDetection;
     private readonly IDictionary<string, IFormatImporter> _importers = new Dictionary<string, IFormatImporter>();
     private readonly IDictionary<string, IFormatExporter> _exporters = new Dictionary<string, IFormatExporter>();
 
@@ -51,7 +53,6 @@ public partial class MainForm : Form
 
     private FilterConfig filterConfig = new();
     private CodeGenerationOptions codeGenOptions = new();
-    private IWordRankGenerator _wordRankGenerator;
 
     private string exportPath = "";
     private string outputDir = "";
@@ -69,13 +70,24 @@ public partial class MainForm : Form
     private bool mergeTo1File => toolStripMenuItemMergeToOneFile.Checked;
     private bool streamExport => toolStripMenuItemStreamExport.Checked;
 
-    public MainForm(IServiceProvider serviceProvider)
+    /// <summary>依赖由组合根显式注入（不再持有 IServiceProvider / Service Locator）。</summary>
+    public MainForm(
+        IConversionPipeline pipeline,
+        IWordRankGenerator wordRankGenerator,
+        IEnumerable<IFormatImporter> importers,
+        IEnumerable<IFormatExporter> exporters,
+        FormatDetectionService formatDetection)
     {
         InitializeComponent();
         LoadTitle();
-        _serviceProvider = serviceProvider;
-        _pipeline = serviceProvider.GetRequiredService<IConversionPipeline>();
-        _wordRankGenerator = serviceProvider.GetRequiredService<IWordRankGenerator>();
+        _pipeline = pipeline;
+        _wordRankGenerator = wordRankGenerator;
+        _formatDetection = formatDetection;
+
+        foreach (var imp in importers.OrderBy(i => i.Metadata.SortOrder))
+            _importers[imp.Metadata.DisplayName] = imp;
+        foreach (var exp in exporters.OrderBy(e => e.Metadata.SortOrder))
+            _exporters[exp.Metadata.DisplayName] = exp;
     }
 
     private void LoadTitle()
@@ -94,25 +106,12 @@ public partial class MainForm : Form
 
     private void LoadImeList()
     {
-        var importers = _serviceProvider.GetServices<IFormatImporter>()
-            .OrderBy(i => i.Metadata.SortOrder).ToList();
-        var exporters = _serviceProvider.GetServices<IFormatExporter>()
-            .OrderBy(e => e.Metadata.SortOrder).ToList();
-
-        _importers.Clear();
-        _exporters.Clear();
-
-        foreach (var imp in importers)
-            _importers[imp.Metadata.DisplayName] = imp;
-        foreach (var exp in exporters)
-            _exporters[exp.Metadata.DisplayName] = exp;
-
         cbxFrom.Items.Clear();
-        foreach (var imp in importers)
+        foreach (var imp in _importers.Values.OrderBy(i => i.Metadata.SortOrder))
             cbxFrom.Items.Add(imp.Metadata.DisplayName);
 
         cbxTo.Items.Clear();
-        foreach (var exp in exporters)
+        foreach (var exp in _exporters.Values.OrderBy(e => e.Metadata.SortOrder))
             cbxTo.Items.Add(exp.Metadata.DisplayName);
     }
 
@@ -294,95 +293,16 @@ public partial class MainForm : Form
         }
     }
 
+    /// <summary>自动识别导入格式：扩展名 → 内容嗅探，返回显示名（识别失败返回 null）。</summary>
     private string? AutoMatchImportType(string filePath)
     {
-        var ext = Path.GetExtension(filePath).ToLower();
-        var extToId = new Dictionary<string, string>
-        {
-            { ".scel", "scel" },
-            { ".qcel", "qcel" },
-            { ".uwl", "uwl" },
-            { ".bin", "sgpybin" },
-            { ".dat", "win10mspy" },
-            { ".bcd", "bcd" },
-            { ".bdict", "bdict" },
-            { ".qpyd", "qpyd" },
-            { ".ld2", "ld2" },
-            { ".zip", "gboard" },
-            { ".mb", "jdmb" },
-        };
-
-        if (extToId.TryGetValue(ext, out var formatId))
-        {
-            var match = _importers.Values.FirstOrDefault(i => i.Metadata.Id == formatId);
-            if (match != null) return match.Metadata.DisplayName;
-        }
-
-        // 对于文本文件，通过内容检测格式
         if (Directory.Exists(filePath)) return null;
-        var contentFormatId = DetectFormatByContent(filePath);
-        if (contentFormatId != null)
-        {
-            var match = _importers.Values.FirstOrDefault(i => i.Metadata.Id == contentFormatId);
-            if (match != null) return match.Metadata.DisplayName;
-        }
+        var formatId = _formatDetection.DetectByExtension(filePath)
+                       ?? _formatDetection.DetectByContent(filePath);
+        if (formatId == null) return null;
 
-        return null;
-    }
-
-    private static string? DetectFormatByContent(string filePath)
-    {
-        try
-        {
-            if (!File.Exists(filePath)) return null;
-
-            var encoding = FileOperationHelper.GetEncodingType(filePath);
-            string? example = null;
-            using (var sr = new StreamReader(filePath, encoding))
-            {
-                for (var i = 0; i < 5; i++)
-                {
-                    example = sr.ReadLine();
-                    if (example == null) break;
-                }
-            }
-
-            if (string.IsNullOrEmpty(example)) return null;
-
-            // 搜狗拼音txt: 'ni'hao 你好
-            if (Regex.IsMatch(example, @"^('[a-z]+)+\s[\u4E00-\u9FA5]+$"))
-                return "sgpy";
-            // FIT输入法: ni'hao,你好
-            if (Regex.IsMatch(example, @"^([a-z]+')+[a-z]+\,[\u4E00-\u9FA5]+$"))
-                return "fit";
-            // QQ拼音: ni'hao 你好 123
-            if (Regex.IsMatch(example, @"^[a-z']+\s[\u4E00-\u9FA5]+\s\d+$"))
-                return "qqpy";
-            // 拼音加加: 你ni好hao
-            if (Regex.IsMatch(example, @"^([\u4E00-\u9FA5]+[a-z]+)+([\u4E00-\u9FA5]+[a-z]*)*$"))
-                return "pyjj";
-            // 华宇紫光拼音: 你好\tni'hao\t100
-            if (Regex.IsMatch(example, @"^[\u4E00-\u9FA5]+\t[a-z']+\t\d+$"))
-                return "zgpy";
-            // 谷歌拼音: 你好\t100ni hao
-            if (Regex.IsMatch(example, @"^[\u4E00-\u9FA5]+\t\d+[a-z\s]+$"))
-                return "ggpy";
-            // 百度手机: 你好 ni|hao 100
-            if (Regex.IsMatch(example, @"^[\u4E00-\u9FA5]+\s[a-z\|]+\s\d+$"))
-                return "bdsj";
-            // 极点五笔: abcd 你好
-            if (Regex.IsMatch(example, @"^[a-z]{1,4}\s[\u4E00-\u9FA5]+$"))
-                return "jd";
-            // 新浪拼音: nihao 你好
-            if (Regex.IsMatch(example, @"^[a-z']+\s[\u4E00-\u9FA5]+$"))
-                return "xlpy";
-
-            return null;
-        }
-        catch
-        {
-            return null;
-        }
+        var match = _importers.Values.FirstOrDefault(i => i.Metadata.Id == formatId);
+        return match?.Metadata.DisplayName;
     }
 
     #endregion
@@ -592,27 +512,15 @@ public partial class MainForm : Form
         }
         else if (_exportContent != null)
         {
-            if (toolStripMenuItemShowLess.Checked && _exportContent.Length > 200000)
-                richTextBox1.Text =
-                    "为避免输出时卡死，\u201c高级设置\u201d中选中了\u201c结果只显示首、末10万字\u201d，本文本框中不显示转换后的全部结果，若要查看转换后的结果再确定是否保存请取消该设置。\n\n"
-                    + _exportContent.Substring(0, 100000)
-                    + "\n\n\n...\n\n\n"
-                    + _exportContent.Substring(_exportContent.Length - 100000);
-            else if (_exportContent.Length > 0) richTextBox1.Text = _exportContent;
+            richTextBox1.Text = PreviewService.BuildTextPreview(
+                _exportContent, toolStripMenuItemShowLess.Checked);
         }
         else if (_exportData is { Length: > 0 })
         {
             // 二进制格式(如 Gboard 词典)没有文本内容可预览, 显示摘要
             var meta = _selectedExporter?.Metadata;
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine((meta?.DisplayName ?? "二进制词库") + "已生成。");
-            sb.AppendLine();
-            sb.AppendLine("  词条数    " + _convertedCount.ToString("N0"));
-            sb.AppendLine("  文件大小  " + _exportData.Length.ToString("N0") + " 字节 (" +
-                          (_exportData.Length / 1024.0 / 1024.0).ToString("F2") + " MB)");
-            if (meta != null && !string.IsNullOrEmpty(meta.DefaultFileName))
-                sb.AppendLine("  文件名    " + meta.DefaultFileName);
-            richTextBox1.Text = sb.ToString();
+            richTextBox1.Text = PreviewService.BuildBinarySummary(
+                meta?.DisplayName, _convertedCount, _exportData, meta?.DefaultFileName);
         }
 
         if (_convertedCount > 0)

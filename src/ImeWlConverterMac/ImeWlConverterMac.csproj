@@ -55,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../ImeWlConverter.Application/ImeWlConverter.Application.csproj" />
     <ProjectReference Include="../ImeWlConverter.Core/ImeWlConverter.Core.csproj" />
     <ProjectReference Include="../ImeWlConverter.Abstractions/ImeWlConverter.Abstractions.csproj" />
     <ProjectReference Include="../ImeWlConverter.Formats/ImeWlConverter.Formats.csproj" />

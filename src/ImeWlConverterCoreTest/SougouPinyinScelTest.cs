@@ -44,7 +44,7 @@ public class SougouPinyinScelTest : BaseTest
 
         Assert.Equal(342179, lib.Count);
         Assert.Equal(CodeType.Pinyin, lib[0].CodeType);
-        Assert.Equal(false, lib[0].IsEnglish);
+        Assert.False(lib[0].IsEnglish);
         Assert.Equal("a'cheng'yi'wen'you'bi'duan", lib[0].Code?.GetPrimaryCode("'"));
         Assert.Equal(0, lib[0].Rank);
         Assert.Equal("阿秤亦闻有笔端", lib[0].Word);
@@ -61,7 +61,7 @@ public class SougouPinyinScelTest : BaseTest
 
         Assert.Equal(3563, lib.Count);
         Assert.Equal(CodeType.Pinyin, lib[0].CodeType);
-        Assert.Equal(false, lib[0].IsEnglish);
+        Assert.False(lib[0].IsEnglish);
         Assert.Equal("ai'jiang'tou", lib[0].Code?.GetPrimaryCode("'"));
         Assert.Equal(0, lib[0].Rank);
         Assert.Equal("哀江头", lib[0].Word);

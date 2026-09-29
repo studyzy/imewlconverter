@@ -33,7 +33,7 @@
 
 ```bash
 make build              # 构建所有项目
-make test               # 运行单元测试 (271 个，实际以 dotnet test 输出为准)
+make test               # 运行单元测试 (318 个，实际以 dotnet test 输出为准)
 make integration-test   # 运行集成测试 (29 个用例，需先 make build-cmd)
 make lint               # 检查代码格式
 make format             # 自动格式化代码
@@ -65,7 +65,7 @@ src/
 │ CommandBuild│   │  MainForm   │   │  ViewModel  │
 └──────┬──────┘   └──────┬──────┘   └──────┬──────┘
        │                 │                  │
-       └────────────┬────┴──────────────────┘
+       └────共享 Application 层────┬─────────┘
                     ▼
         ┌───────────────────────┐
         │  IConversionPipeline  │  (Abstractions 层接口)
@@ -83,7 +83,7 @@ src/
 
 **设计原则**：三端（CLI、WinForms、macOS GUI）共用同一个 `ConversionPipeline` 底层转换引擎，只在用户交互层不同。
 
-- CLI 通过 `CommandBuilder` 解析参数构建 `ConversionRequest`
+- CLI 通过 `Application/Cli` 与 `Application/Requests` 解析参数构建 `ConversionRequest`
 - WinForms 通过 `MainForm` 用户操作构建 `ConversionRequest`
 - macOS GUI 通过 `MainWindowViewModel` 构建 `ConversionRequest`
 - 三端共享 `FilterConfig`（`Abstractions/Options/`）、`ConversionOptions`、`IProgress<ProgressInfo>`
@@ -260,6 +260,8 @@ CLI 通过 `--filter` 参数启用过滤：`-f "len:2-10|rm:eng|rm:num"`
 - **禁止使用运行时反射注册格式**（Source Generator 自动注册）
 - **禁止硬编码路径分隔符**（用 `Path.Combine()`）
 - **禁止在 GUI 项目中重复实现转换逻辑**（统一使用 `IConversionPipeline`）
+- **禁止 GUI 内联格式识别/请求组装/预览截断**（统一用 `ImeWlConverter.Application` 的 FormatDetectionService/ConversionRequestFactory/PreviewService——历史上三端各写一份已导致 macOS 识别 Bug）
+- **禁止 CLI 输出契约随意变更**（退出码 0-4 与 --json schema 见 `Application/Cli/ExitCodes.cs` 与 `docs/MIGRATION.md`；变更必须同步基线测试 `tests/integration/cli-baseline.sh`）
 
 ### DI 注册模式
 
