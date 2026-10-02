@@ -17,5 +17,9 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7"/>
         <PackageReference Include="SharpZipLib" Version="1.4.2"/>
+        <PackageReference Include="ZstdSharp.Port" Version="0.8.8"/>
+    </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="ImeWlConverterCoreTest"/>
     </ItemGroup>
 </Project>

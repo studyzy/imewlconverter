@@ -8,6 +8,20 @@
 
 ## [未发布]
 
+### 新增
+
+- 新增 Fcitx5 / libime 二进制拼音词库格式 `libimebin`（导入/导出），
+  生成的文件可被 Fcitx5 及 `libime_pinyindict` 直接加载
+
+### 修复
+
+- 修复 `libimetxt` 导入器把「汉字 拼音」两列读反、导致词面与拼音错位的问题，
+  并支持词频可省略（两列）的 libime 文本行
+- `libimetxt` 导出改为不带 BOM 的 UTF-8，与 libime `saveText` 输出一致
+  （此前 BOM 会混入首条词条的词面）
+- `libimetxt` 按 libime 的 fcitx 转义规则读写词面：词面含空白、引号或反斜杠时
+  用引号包裹并转义（此前这类词面会被拆成多列或丢失字符）
+
 ## [3.5.0]
 
 ### 修复
