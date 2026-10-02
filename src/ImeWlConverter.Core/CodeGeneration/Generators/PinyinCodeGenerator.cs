@@ -38,10 +38,14 @@ public sealed class PinyinCodeGenerator : ICodeGenerator
             : null;
 
         var segments = new List<IReadOnlyList<string>>(word.Length);
-        for (var i = 0; i < word.Length; i++)
+        // 按 Unicode 码点逐字生成，保证「一个码点一个 segment」与导入格式一致。
+        // BMP 之外的汉字（CJK 扩展 B 及以后）是代理对，若按 UTF-16 码元遍历会为
+        // 同一个字产出两个 segment，使后续字与 segment 下标错位。
+        for (var i = 0; i < word.Length;)
         {
+            var isSurrogatePair = char.IsSurrogatePair(word, i);
             string py;
-            if (pinyinList != null && pinyinList[i] != null)
+            if (!isSurrogatePair && pinyinList != null && pinyinList[i] != null)
             {
                 py = pinyinList[i]!;
             }
@@ -58,6 +62,7 @@ public sealed class PinyinCodeGenerator : ICodeGenerator
             }
 
             segments.Add(new[] { py });
+            i += isSurrogatePair ? 2 : 1;
         }
 
         return new WordCode { Segments = segments };

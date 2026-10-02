@@ -50,66 +50,74 @@ public static class CodeGenerationPostProcessor
         var modified = false;
         var newSegments = new IReadOnlyList<string>[segments.Count];
 
-        for (var i = 0; i < word.Length && i < segments.Count; i++)
+        // 按 Unicode 码点对齐 word 与 segments（一个码点一个 segment）。
+        // 不能直接用 UTF-16 下标配对：BMP 之外的汉字（CJK 扩展 B 及以后）在 UTF-16 中
+        // 是代理对，按下标配对会把代理对的两半各自当成一个「标点/符号」清空编码，
+        // 同时让后续字与 segment 下标整体错位（如 𫚉 的 hong 被清成 ''）。
+        var wordIndex = 0;
+        var segIndex = 0;
+        while (wordIndex < word.Length && segIndex < segments.Count)
         {
-            var c = word[i];
-            var seg = segments[i];
+            // char.IsSurrogatePair 自带越界与低位校验，落单的代理项（畸形输入）
+            // 按单个码元处理，避免 char.ConvertToUtf32 抛异常。
+            var isSurrogatePair = char.IsSurrogatePair(word, wordIndex);
+            var codePoint = isSurrogatePair ? char.ConvertToUtf32(word, wordIndex) : word[wordIndex];
+            var codeUnitCount = isSurrogatePair ? 2 : 1;
+            var seg = segments[segIndex];
+            IReadOnlyList<string>? replacement = null;
 
-            if (char.IsDigit(c))
+            if (IsDigit(codePoint))
             {
                 if (!options.KeepNumberInCode)
                 {
-                    newSegments[i] = Array.Empty<string>();
-                    modified = true;
-                    continue;
+                    replacement = Array.Empty<string>();
                 }
-
-                if (options.TranslateNumbersToChinese)
+                else if (options.TranslateNumbersToChinese)
                 {
-                    var chineseDigit = ChineseDigits[c - '0'];
-                    newSegments[i] = [chineseDigit];
-                    modified = true;
-                    continue;
+                    replacement = [ChineseDigits[codePoint - '0']];
                 }
             }
-
-            if (IsEnglishLetter(c))
+            else if (IsEnglishLetter(codePoint))
             {
                 if (!options.KeepEnglishInCode)
                 {
-                    newSegments[i] = Array.Empty<string>();
-                    modified = true;
-                    continue;
+                    replacement = Array.Empty<string>();
                 }
-
-                if (options.PrefixEnglishWithUnderscore && seg.Count > 0)
+                else if (options.PrefixEnglishWithUnderscore && seg.Count > 0)
                 {
-                    newSegments[i] = seg.Select(s => "_" + s).ToArray();
-                    modified = true;
-                    continue;
+                    replacement = seg.Select(s => "_" + s).ToArray();
                 }
             }
-
-            if (IsPunctuationOrSymbol(c) && !options.KeepPunctuationInCode)
+            else if (IsPunctuationOrSymbol(codePoint) && !options.KeepPunctuationInCode)
             {
-                newSegments[i] = Array.Empty<string>();
-                modified = true;
-                continue;
+                replacement = Array.Empty<string>();
             }
-
-            if (options.ConvertFullWidth && seg.Count > 0)
+            else if (options.ConvertFullWidth && seg.Count > 0)
             {
                 var converted = seg.Select(ConvertFullWidthToHalf).ToList();
                 if (!SequenceEqual(seg, converted))
                 {
-                    newSegments[i] = converted;
-                    modified = true;
-                    continue;
+                    replacement = converted;
                 }
             }
 
-            newSegments[i] = seg;
+            if (replacement is null)
+            {
+                newSegments[segIndex] = seg;
+            }
+            else
+            {
+                newSegments[segIndex] = replacement;
+                modified = true;
+            }
+
+            wordIndex += codeUnitCount;
+            segIndex++;
         }
+
+        // word 比 segments 短时（编码段多于字），其余 segment 原样保留。
+        for (; segIndex < segments.Count; segIndex++)
+            newSegments[segIndex] = segments[segIndex];
 
         if (!modified)
             return entry;
@@ -120,28 +128,40 @@ public static class CodeGenerationPostProcessor
         };
     }
 
-    private static bool IsEnglishLetter(char c) => c is >= 'a' and <= 'z' or >= 'A' and <= 'Z';
+    private static bool IsEnglishLetter(int codePoint) =>
+        codePoint is >= 'a' and <= 'z' or >= 'A' and <= 'Z';
 
-    private static bool IsPunctuationOrSymbol(char c)
+    /// <summary>ASCII/BMP 数字判断（与 <see cref="char.IsDigit(char)"/> 语义一致）。</summary>
+    private static bool IsDigit(int codePoint) =>
+        codePoint <= char.MaxValue && char.IsDigit((char)codePoint);
+
+    private static bool IsPunctuationOrSymbol(int codePoint)
     {
         // 非中文、非英文、非数字、非空格的字符视为标点/符号
-        if (IsCJK(c)) return false;
-        if (IsEnglishLetter(c)) return false;
-        if (char.IsDigit(c)) return false;
-        if (char.IsWhiteSpace(c)) return false;
+        if (IsCJK(codePoint)) return false;
+        if (IsEnglishLetter(codePoint)) return false;
+        if (IsDigit(codePoint)) return false;
+        if (codePoint <= char.MaxValue && char.IsWhiteSpace((char)codePoint)) return false;
         return true;
     }
 
-    private static bool IsCJK(char c) =>
+    private static bool IsCJK(int codePoint) =>
         // CJK Unified Ideographs covers most Chinese characters.
         // CJK Extension A (U+3400-U+4DBF) also contains rare Chinese characters
         // (e.g. 㐖 U+3416), which must be treated as CJK, not punctuation/symbol
         // (issue #424: their pinyin segments were wrongly cleared).
+        // Extensions B and later (U+20000+, e.g. 𫚉 U+2B689, 𩽾 U+29F7E) live outside
+        // the BMP and are encoded as surrogate pairs; they are CJK too and their pinyin
+        // segments must be preserved (previously cleared as "punctuation" because each
+        // surrogate half was judged on its own).
         // U+3007 (〇, ideographic number zero) is used as the Chinese numeral "零"
         // and must be treated as CJK, not punctuation/symbol.
-        (c >= '\u3400' && c <= '\u4DBF') ||      // CJK Extension A
-        (c >= '\u4E00' && c <= '\u9FFF') ||      // CJK Unified Ideographs
-        c == '\u3007';
+        (codePoint >= 0x3400 && codePoint <= 0x4DBF) ||      // CJK Extension A
+        (codePoint >= 0x4E00 && codePoint <= 0x9FFF) ||      // CJK Unified Ideographs
+        (codePoint >= 0xF900 && codePoint <= 0xFAFF) ||      // CJK Compatibility Ideographs
+        (codePoint >= 0x20000 && codePoint <= 0x2FA1F) ||    // CJK Extensions B-F + Supplement
+        (codePoint >= 0x30000 && codePoint <= 0x323AF) ||    // CJK Extensions G-H
+        codePoint == 0x3007;                                 // 〇
 
     private static string ConvertFullWidthToHalf(string s)
     {

@@ -341,4 +341,32 @@ public class PinyinCodeGenerationIntegrationTest
         Assert.Equal("sa", result.Code!.Segments[2][0]);
         Assert.Equal("la", result.Code!.Segments[3][0]);
     }
+
+    /// <summary>
+    /// 非 BMP 汉字（代理对）应只产出一个 segment，与其前后的字对齐。
+    /// 此前按 UTF-16 码元遍历会为同一个字产出两个 segment，使后续字错位。
+    /// </summary>
+    [Fact]
+    public void NonBmpChar_OneSegmentPerCodePoint()
+    {
+        var options = new CodeGenerationOptions();
+        var result = GenerateAndProcess("𫚉娘", options);
+
+        Assert.Equal(2, result.Code!.Segments.Count);
+        Assert.Single(result.Code!.Segments[0]);
+        Assert.Equal("niang", result.Code!.Segments[1][0]);
+    }
+
+    /// <summary>
+    /// 连续多个非 BMP 汉字同样一字一段，不因代理对而错位或丢字。
+    /// </summary>
+    [Fact]
+    public void ConsecutiveNonBmpChars_OneSegmentEach()
+    {
+        var options = new CodeGenerationOptions();
+        var result = GenerateAndProcess("𩽾𩾌鱼", options);
+
+        Assert.Equal(3, result.Code!.Segments.Count);
+        Assert.Equal("yu", result.Code!.Segments[2][0]);
+    }
 }

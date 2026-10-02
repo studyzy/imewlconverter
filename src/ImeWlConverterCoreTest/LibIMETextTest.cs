@@ -21,6 +21,8 @@ using System.Linq;
 using System.Text;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Formats.LibIMEText;
 using Xunit;
 
@@ -207,4 +209,63 @@ public class LibIMETextTest
         // 引号未闭合时整段按未加引号处理。
         Assert.Equal(new[] { "\"abc", "ni" }, LibimeTextEscaping.Tokenize("\"abc ni"));
     }
+    /// <summary>
+    /// 词面含非 BMP 汉字（CJK 扩展 B 及以后，UTF-16 代理对）时，
+    /// 导入的词条自带拼音必须原样保留：扩展区汉字不是标点，且与 segment 的对齐
+    /// 必须按 Unicode 码点而非 UTF-16 码元，否则拼音会被清空、后续字会串位。
+    /// 期望值取自 libime 自身导出的文本（libime_pinyindict -t）。
+    /// </summary>
+    [Fact]
+    public void NonBmpChars_PreserveImportedPinyin()
+    {
+        var imported = Import(_importer, LibimeNonBmpText);
+        Assert.Equal(34, imported.Count);
+
+        // 与 CLI/GUI 相同：默认 CodeGenerationOptions 走一遍后处理
+        var processed = CodeGenerationPostProcessor.Apply(imported, new CodeGenerationOptions());
+        Assert.Equal(34, processed.Count);
+
+        var exported = Export(_exporter, processed.ToArray());
+        Assert.Equal(LibimeNonBmpText + "\n", exported.Replace("\r\n", "\n"));
+    }
+
+    /// <summary>
+    /// libime 导出的含非 BMP 生僻字的文本词库（词面用其自带拼音，词频均为 1）。
+    /// </summary>
+    private const string LibimeNonBmpText = """
+        豹江𫚉娘 bao'jiang'hong'niang 1
+        𬭛娘 bo'niang 1
+        𰻝𰻝面 biang'biang'mian 1
+        𰻝之歌 biang'zhi'ge 1
+        不会飞的蝴蝶与天空之𩾇 bu'hui'fei'de'hu'die'yu'tian'kong'zhi'hu 1
+        喷射𫚉鱼 pen'she'hong'yu 1
+        马云𫘧 ma'yun'lu 1
+        𫓧娘 fu'niang 1
+        𬭊娘 du'niang 1
+        乐𬘭 le'lin 1
+        𫟷娘 li'niang 1
+        𬬻娘 lu'niang 1
+        陆生𩽾𩾌 lu'sheng'an'kang 1
+        𬬭特 lun'te 1
+        𬬭娘 lun'niang 1
+        口𠱞子早鸟 kou'ran'zi'zao'niao 1
+        𫚉人 hong'ren 1
+        祭𠱞子 ji'ran'zi 1
+        金𩾇城 jin'hu'cheng 1
+        青𮣲剑 qing'gang'jian 1
+        𬭳娘 xi'niang 1
+        张虎乐𬘭 zhang'hu'le'lin 1
+        𥐟部花凛 chai'bu'hua'lin 1
+        赤𩾇 chi'hu 1
+        深渊的电击𫚉 shen'yuan'de'dian'ji'hong 1
+        深渊𩽾𩾌 shen'yuan'an'kang 1
+        孙𬘭 sun'lin 1
+        郁辰𫍽 yu'chen'xuan 1
+        吴𬀪 wu'xian 1
+        𩽾𩾌 an'kang 1
+        𩽾𩾌鱼 an'kang'yu 1
+        𩽾𩾌鱼娘 an'kang'yu'niang 1
+        𩽾𩾌鱼舞曲 an'kang'yu'wu'qu 1
+        獓𤝱 ao'ye 1
+        """;
 }
