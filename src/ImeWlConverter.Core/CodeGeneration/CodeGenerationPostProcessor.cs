@@ -54,15 +54,34 @@ public static class CodeGenerationPostProcessor
         // 不能直接用 UTF-16 下标配对：BMP 之外的汉字（CJK 扩展 B 及以后）在 UTF-16 中
         // 是代理对，按下标配对会把代理对的两半各自当成一个「标点/符号」清空编码，
         // 同时让后续字与 segment 下标整体错位（如 𫚉 的 hong 被清成 ''）。
-        var wordIndex = 0;
-        var segIndex = 0;
-        while (wordIndex < word.Length && segIndex < segments.Count)
+        var codePoints = new List<(int Value, int Length)>();
+        for (var i = 0; i < word.Length;)
         {
             // char.IsSurrogatePair 自带越界与低位校验，落单的代理项（畸形输入）
             // 按单个码元处理，避免 char.ConvertToUtf32 抛异常。
-            var isSurrogatePair = char.IsSurrogatePair(word, wordIndex);
-            var codePoint = isSurrogatePair ? char.ConvertToUtf32(word, wordIndex) : word[wordIndex];
-            var codeUnitCount = isSurrogatePair ? 2 : 1;
+            var isSurrogatePair = char.IsSurrogatePair(word, i);
+            codePoints.Add((
+                isSurrogatePair ? char.ConvertToUtf32(word, i) : word[i],
+                isSurrogatePair ? 2 : 1));
+            i += isSurrogatePair ? 2 : 1;
+        }
+
+        // libime 文本会省略标点/符号的拼音（如「芭芭拉·巴布科克」8 个字只有 7 个音节），
+        // 此时标点不占用 segment；生成路径（含拼音生成器）则为每个码点都产出 segment。
+        // 仅当「非标点码点数」正好等于 segment 数时按省略标点对齐，否则退回逐码点 1:1 配对。
+        var skipPunctuation = codePoints.Count != segments.Count
+            && codePoints.Count(cp => !IsPunctuationOrSymbol(cp.Value)) == segments.Count;
+
+        var segIndex = 0;
+        foreach (var (codePoint, _) in codePoints)
+        {
+            if (segIndex >= segments.Count)
+                break;
+
+            // 该码点在 libime 文本中没有对应音节，不占用 segment（也就无编码可清）。
+            if (skipPunctuation && IsPunctuationOrSymbol(codePoint))
+                continue;
+
             var seg = segments[segIndex];
             IReadOnlyList<string>? replacement = null;
 
@@ -111,7 +130,6 @@ public static class CodeGenerationPostProcessor
                 modified = true;
             }
 
-            wordIndex += codeUnitCount;
             segIndex++;
         }
 
@@ -154,11 +172,18 @@ public static class CodeGenerationPostProcessor
         // the BMP and are encoded as surrogate pairs; they are CJK too and their pinyin
         // segments must be preserved (previously cleared as "punctuation" because each
         // surrogate half was judged on its own).
+        // IME 词库还会用私用区（PUA）承载生僻字（如 U+E000 段的「𣲗」类形声字），
+        // 它们在词条里同样带拼音，必须保留而不是当标点清空。
         // U+3007 (〇, ideographic number zero) is used as the Chinese numeral "零"
         // and must be treated as CJK, not punctuation/symbol.
         (codePoint >= 0x3400 && codePoint <= 0x4DBF) ||      // CJK Extension A
         (codePoint >= 0x4E00 && codePoint <= 0x9FFF) ||      // CJK Unified Ideographs
+        (codePoint >= 0x2E80 && codePoint <= 0x2FDF) ||      // CJK Radicals Supplement + Kangxi Radicals
+        (codePoint >= 0x31C0 && codePoint <= 0x31EF) ||      // CJK Strokes
+        (codePoint >= 0x3200 && codePoint <= 0x33FF) ||      // Enclosed CJK Letters/Months + CJK Compatibility
+        (codePoint >= 0xE000 && codePoint <= 0xF8FF) ||      // Private Use Area（IME 生僻字）
         (codePoint >= 0xF900 && codePoint <= 0xFAFF) ||      // CJK Compatibility Ideographs
+        (codePoint >= 0x1F200 && codePoint <= 0x1F2FF) ||    // Enclosed Ideographic Supplement
         (codePoint >= 0x20000 && codePoint <= 0x2FA1F) ||    // CJK Extensions B-F + Supplement
         (codePoint >= 0x30000 && codePoint <= 0x323AF) ||    // CJK Extensions G-H
         codePoint == 0x3007;                                 // 〇

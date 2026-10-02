@@ -268,4 +268,35 @@ public class LibIMETextTest
         𩽾𩾌鱼舞曲 an'kang'yu'wu'qu 1
         獓𤝱 ao'ye 1
         """;
+    /// <summary>
+    /// 词面含「无拼音的分隔符号」（如姓名中的 ·）时，libime 文本只写有音节的拼音，
+    /// 编码段数会少于字数。此时段与字必须跳过该符号对齐，否则后续拼音整体前移。
+    /// </summary>
+    [Fact]
+    public void WordWithPunctuation_OmittedPinyin_AlignsCorrectly()
+    {
+        const string text = "芭芭拉·巴布科克 ba'ba'la'ba'bu'ke'ke 1\n";
+        var processed = CodeGenerationPostProcessor.Apply(
+            Import(_importer, text), new CodeGenerationOptions());
+
+        Assert.Equal("ba'ba'la'ba'bu'ke'ke", processed[0].Code!.GetPrimaryCode("'"));
+        Assert.Equal(text, Export(_exporter, processed.ToArray()).Replace("\r\n", "\n"));
+    }
+
+    /// <summary>
+    /// 私用区（PUA）承载的生僻字在 IME 词库中同样带拼音，导入导出均不得清空。
+    /// </summary>
+    [Theory]
+    [InlineData("\uE000")]
+    [InlineData("\uE123")]
+    [InlineData("\uF8FF")]
+    public void PrivateUseAreaChar_PreservesImportedPinyin(string rare)
+    {
+        var text = $"{rare}汗 po'han 1\n";
+        var processed = CodeGenerationPostProcessor.Apply(
+            Import(_importer, text), new CodeGenerationOptions());
+
+        Assert.Equal("po'han", processed[0].Code!.GetPrimaryCode("'"));
+        Assert.Equal(text, Export(_exporter, processed.ToArray()).Replace("\r\n", "\n"));
+    }
 }
