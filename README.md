@@ -83,7 +83,8 @@ PC 端：
 - [极点郑码](https://github.com/studyzy/imewlconverter/wiki/Jidian)
 - [灵格斯词库 ld2](https://github.com/studyzy/imewlconverter/wiki/Lingoes_Ld2)
 - [拼音加加](https://github.com/studyzy/imewlconverter/wiki/Pinyin_Jiajia)
-- 手心输入法
+- [青简输入法（TSV 词库）](https://qingjian.app/docs/settings/dictionaries)
+- 青简词库（.qj 二进制格式）- 手心输入法
 - [搜狗拼音（文本词库、Bin 格式备份词库和 scel 格式细胞词库）](https://github.com/studyzy/imewlconverter/wiki/Sougou_Pinyin)
 - [搜狗五笔](https://github.com/studyzy/imewlconverter/wiki/Sougou_Wubi)
 - [微软拼音 2010](https://github.com/studyzy/imewlconverter/wiki/Ms_Pinyin)
@@ -151,6 +152,8 @@ imewlconverter -i <输入格式> -o <输出格式> -O <输出文件> <输入文�
 | `bdpy` | 百度拼音文本格式 | .txt | ✅ | ✅ |
 | `bdict` | 百度拼音二进制格式 | .bdict | ✅ | ❌ |
 | `rime` | Rime 输入法 | .yaml | ✅ | ✅ |
+| `qingjiantsv` | 青简 TSV | .tsv | ✅ | ✅ |
+| `qj` | 青简词库（.qj 二进制） | .qj | ✅ | ✅ |
 | `zgpy` | 紫光拼音 | .txt | ✅ | ✅ |
 | `pyjj` | 拼音加加 | .txt | ✅ | ✅ |
 | `libpy` | libpinyin (Linux) | .txt | ✅ | ✅ |

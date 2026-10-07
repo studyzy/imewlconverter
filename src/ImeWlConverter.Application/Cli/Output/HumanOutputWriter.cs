@@ -56,13 +56,34 @@ public static class HumanOutputWriter
                          $"导出 {result.ExportedCount} 条");
     }
 
-    /// <summary>进度输出到 stderr（\r 行内刷新，与历史行为一致）。</summary>
+    /// <summary>
+    /// 进度输出到 stderr（\r 行内刷新，与历史行为一致）。
+    /// stderr 被重定向/管道时无法行内刷新，逐条上报会变成大量重复行：
+    /// 默认静默；仅在调用方显式要求进度（--json --verbose）时改为整行输出。
+    /// </summary>
     public sealed class ConsoleProgress : IProgress<ProgressInfo>
     {
+        private readonly bool _explicitVerbose;
+
+        public ConsoleProgress(bool explicitVerbose = false)
+        {
+            _explicitVerbose = explicitVerbose;
+        }
+
         public void Report(ProgressInfo value)
         {
-            if (!string.IsNullOrEmpty(value.Message))
+            if (string.IsNullOrEmpty(value.Message))
+                return;
+
+            if (Console.IsErrorRedirected)
+            {
+                if (_explicitVerbose)
+                    Console.Error.WriteLine(value.Message);
+            }
+            else
+            {
                 Console.Error.Write($"\r{value.Message,-80}");
+            }
         }
     }
 }

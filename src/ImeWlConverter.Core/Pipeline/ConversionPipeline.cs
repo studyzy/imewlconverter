@@ -1,5 +1,6 @@
 using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.Abstractions.Options;
 using ImeWlConverter.Abstractions.Results;
 
 namespace ImeWlConverter.Core.Pipeline;
@@ -101,10 +102,14 @@ public sealed class ConversionPipeline : IConversionPipeline
         string? exportContent = null;
         byte[]? exportData = null;
 
+        // 源文件名注入（未显式设置时）：供 .qj 等需要以源词库命名的导出格式使用
+        var exportOptions = WithSourceFileName(
+            request.Options.Export, files.Count > 0 ? Path.GetFileName(files[0]) : null);
+
         if (request.OutputStream is not null)
         {
             // GUI mode: write to provided stream and retain the exact output for saving.
-            var exportResult = await exporter.ExportAsync(entries, request.OutputStream, request.Options.Export, ct);
+            var exportResult = await exporter.ExportAsync(entries, request.OutputStream, exportOptions, ct);
             exportedCount = exportResult.EntryCount;
             filteredCount = importedCount - exportedCount;
             if (request.OutputStream.CanSeek && request.OutputStream.CanRead)
@@ -127,7 +132,7 @@ public sealed class ConversionPipeline : IConversionPipeline
         {
             // CLI/file mode: write directly to file
             using var outputStream = File.Create(request.OutputPath);
-            var exportResult = await exporter.ExportAsync(entries, outputStream, request.Options.Export, ct);
+            var exportResult = await exporter.ExportAsync(entries, outputStream, exportOptions, ct);
             exportedCount = exportResult.EntryCount;
             filteredCount = importedCount - exportedCount;
         }
@@ -171,7 +176,8 @@ public sealed class ConversionPipeline : IConversionPipeline
                     request.OutputDirectory ?? ".",
                     Path.GetFileNameWithoutExtension(file) + exporter.Metadata.FileExtension);
                 using var outStream = File.Create(outputFile);
-                var exportResult = await exporter.ExportAsync(fileEntries, outStream, request.Options.Export, ct);
+                var exportResult = await exporter.ExportAsync(
+                    fileEntries, outStream, WithSourceFileName(request.Options.Export, fileName), ct);
 
                 totalConverted += exportResult.EntryCount;
                 progress?.Report(new ProgressInfo(i + 1, totalFiles, $"已导出: {outputFile}"));
@@ -189,6 +195,18 @@ public sealed class ConversionPipeline : IConversionPipeline
 
     private static ConversionError RecordError(string filePath, Exception ex) =>
         new(filePath, ex.Message, ex.GetType().Name);
+
+    /// <summary>
+    /// 未显式设置时把源文件名注入导出选项（record with 表达式复制全部属性，新增字段不会遗漏）。
+    /// 显式设置过则原样返回，避免覆盖用户指定值。
+    /// </summary>
+    private static ExportOptions WithSourceFileName(ExportOptions options, string? sourceFileName)
+    {
+        if (options.SourceFileName is not null || string.IsNullOrEmpty(sourceFileName))
+            return options;
+
+        return options with { SourceFileName = sourceFileName };
+    }
 
     private static ConversionResult BuildResult(
         int importedCount, int exportedCount, int filteredCount,

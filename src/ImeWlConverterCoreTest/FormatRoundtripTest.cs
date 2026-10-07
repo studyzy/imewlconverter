@@ -25,6 +25,7 @@ using ImeWlConverter.Formats.MsPinyin;
 using ImeWlConverter.Formats.NoPinyinWordOnly;
 using ImeWlConverter.Formats.PinyinJiaJia;
 using ImeWlConverter.Formats.QQPinyin;
+using ImeWlConverter.Formats.QingJian;
 using ImeWlConverter.Formats.QQPinyinEng;
 using ImeWlConverter.Formats.QQShouji;
 using ImeWlConverter.Formats.Rime;
@@ -95,6 +96,8 @@ public class FormatRoundtripTest
             (new MsPinyinImporter(), TestCodeData.CreateMsPinyinExporter(), PinyinEntries, true),
             (new PinyinJiaJiaImporter(), new PinyinJiaJiaExporter(), PinyinEntries, true),
             (new QQPinyinImporter(), new QQPinyinExporter(), PinyinEntries, true),
+            (new QingJianImporter(), new QingJianExporter(), PinyinEntries, true),
+            (new QingJianQjImporter(), new QingJianQjExporter(), PinyinEntries, true),
             (new QQPinyinEngImporter(), new QQPinyinEngExporter(), PinyinEntries, true),
             (new QQShoujiImporter(), new QQShoujiExporter(), PinyinEntries, false),
             (new RimeImporter(), new RimeExporter(), PinyinEntries, true),

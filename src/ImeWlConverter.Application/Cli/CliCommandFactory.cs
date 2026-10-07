@@ -90,7 +90,7 @@ public static class CliCommandFactory
         var pipeline = serviceProvider.GetRequiredService<IConversionPipeline>();
         IProgress<ImeWlConverter.Abstractions.Models.ProgressInfo>? progress = null;
         if (!json || verbose)
-            progress = new HumanOutputWriter.ConsoleProgress();
+            progress = new HumanOutputWriter.ConsoleProgress(explicitVerbose: json && verbose);
 
         ImeWlConverter.Abstractions.Results.Result<ImeWlConverter.Abstractions.Contracts.ConversionResult> result;
         try
