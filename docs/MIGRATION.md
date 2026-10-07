@@ -19,7 +19,7 @@
 | `-c:path` | `--code-file <path>` | `-c <path>` |
 | `-f:spec` | `--custom-format <spec>` | `-F <spec>` |
 | `-ft:filter` | `--filter <filter>` | `-f <filter>` |
-| `-r:type` | `--rank-generator <type>` | `-r <type>` |
+| `-r:type` | `--rank-generator <number>` | `-r <number>`（仅数字；baidu/google 已移除） |
 | `-ct:type` | `--code-type <type>` | `-t <type>` |
 | `-os:os` | `--target-os <os>` | （仅长选项） |
 | `-mc:rules` | `--multi-code <rules>` | `-m <rules>` |
@@ -101,19 +101,20 @@ imewlconverter -i qpyd -o self -O zy.txt -F "213, nyyn" -c code.txt a.qpyd
 
 **旧格式：**
 ```bash
--r:baidu
--r:google
 -r:100
 ```
 
 **新格式：**
 ```bash
---rank-generator baidu
+--rank-generator 100
 # 或
--r baidu
--r google
 -r 100
 ```
+
+指定固定词频数字（如 `-r 100`）时，所有词条的词频会被强制覆盖为该数字。
+
+> ⚠️ 旧版的 `-r:baidu` / `-r:google` 在线词频生成器已移除，不再支持；
+> 传入非数字值会报 `invalid-rank` 错误（退出码 1）。
 
 ### Rime 输出配置
 
@@ -158,7 +159,7 @@ imewlconverter -i qpyd -o self -O zy.txt -F "213, nyyn" -c code.txt a.qpyd
   "error": { "code": "unknown-format", "target": "--input-format", "message": "未知的输入格式: xxx" } }
 ```
 
-`error.code` 枚举：`missing-option` / `unknown-format` / `invalid-filter` / `invalid-spec` / `input-not-found` / `conversion-failed` / `internal-error`。
+`error.code` 枚举：`missing-option` / `unknown-format` / `invalid-filter` / `invalid-spec` / `invalid-rank` / `input-not-found` / `conversion-failed` / `internal-error`。
 `--list-formats --json` 输出 `{ importFormats[], exportFormats[] }`（含 id/name/isBinary/extension）。
 `--json` 模式下进度不写 stderr（除非同时加 `--verbose`）。
 

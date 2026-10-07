@@ -38,7 +38,7 @@ public static class HumanOutputWriter
         Console.WriteLine("  -c:<path>    →  --code-file <path>       或  -c <path>");
         Console.WriteLine("  -f:<spec>    →  --custom-format <spec>   或  -F <spec>");
         Console.WriteLine("  -ft:<filter> →  --filter <filter>        或  -f <filter>");
-        Console.WriteLine("  -r:<type>    →  --rank-generator <type>  或  -r <type>");
+        Console.WriteLine("  -r:<type>    →  --rank-generator <number>  或  -r <number>（仅数字）");
         Console.WriteLine("  -ct:<type>   →  --code-type <type>       或  -t <type>");
         Console.WriteLine("  -os:<os>     →  --target-os <os>");
         Console.WriteLine("  -mc:<rules>  →  --multi-code <rules>     或  -m <rules>");

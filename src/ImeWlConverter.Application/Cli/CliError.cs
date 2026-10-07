@@ -9,6 +9,7 @@ public sealed record CliError(string Code, string Message, string? Target = null
     public const string UnknownFormat = "unknown-format";
     public const string InvalidFilter = "invalid-filter";
     public const string InvalidSpec = "invalid-spec";
+    public const string InvalidRank = "invalid-rank";
     public const string InputNotFound = "input-not-found";
     public const string ConversionFailed = "conversion-failed";
     public const string InternalError = "internal-error";

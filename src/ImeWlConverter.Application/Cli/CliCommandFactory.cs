@@ -66,7 +66,24 @@ public static class CliCommandFactory
             DictDescription = parseResult.GetValueForOption(CliOptions.DictDescription),
         };
 
-        using var serviceProvider = ImeWlConverterBootstrapper.CreateServiceProvider();
+        // 2.5 词频选项（-r/--rank-generator）：数字 → 固定词频（覆盖所有词条）
+        int? fixedRank = null;
+        var rankSpec = parseResult.GetValueForOption(CliOptions.RankGenerator);
+        if (rankSpec is not null)
+        {
+            if (!Mapping.RankSpecParser.TryParse(rankSpec, out var rank, out var rankError))
+                return ReportError(new CliError(CliError.InvalidRank, rankError!, "--rank-generator"), json);
+            fixedRank = rank;
+        }
+
+        using var serviceProvider = ImeWlConverterBootstrapper.CreateServiceProvider(fixedRank is null
+            ? null
+            : services => services.AddSingleton<IWordRankGenerator>(
+                new Core.WordRank.DefaultWordRankGenerator
+                {
+                    DefaultRank = fixedRank.Value,
+                    ForceOverride = true
+                }));
         var importers = serviceProvider.GetServices<IFormatImporter>().ToList();
         var exporters = serviceProvider.GetServices<IFormatExporter>().ToList();
 
