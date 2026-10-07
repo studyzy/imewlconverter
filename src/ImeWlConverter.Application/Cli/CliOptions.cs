@@ -56,6 +56,11 @@ public static class CliOptions
         description: "多字词编码规则（逗号分隔）\n" +
                     "  示例: \"code_e2=p11+p12+p21+p22,code_e3=p11+p21+p31+p32,code_a4=p11+p21+p31+n11\"");
 
+    public static readonly Option<string?> RankGenerator = new(
+        aliases: new[] { "--rank-generator", "-r" },
+        description: "词频生成器：指定固定词频数字，强制覆盖所有词条的词频\n" +
+                    "  示例: -r 100（所有词条词频设为 100）");
+
     public static readonly Option<bool> ListFormats = new(
         aliases: new[] { "--list-formats" },
         description: "显示所有支持的输入法格式列表");
@@ -97,6 +102,7 @@ public static class CliOptions
         rootCommand.AddOption(CodeType);
         rootCommand.AddOption(CodeFile);
         rootCommand.AddOption(MultiCode);
+        rootCommand.AddOption(RankGenerator);
         rootCommand.AddOption(ListFormats);
         rootCommand.AddOption(Json);
         rootCommand.AddOption(Verbose);

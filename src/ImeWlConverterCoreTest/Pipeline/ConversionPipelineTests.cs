@@ -262,6 +262,73 @@ public class ConversionPipelineTests : IDisposable
         Assert.Equal("good|1\n", File.ReadAllText(Path.Combine(_tempDir, "case.fake")));
     }
 
+    // ---------------------------------------------------------------- 源文件名注入
+
+    [Fact]
+    public async Task MergedMode_InjectsFirstSourceFileNameIntoExportOptions()
+    {
+        var f1 = CreateInputFile("alpha.txt", "alpha");
+        var f2 = CreateInputFile("beta.txt", "beta");
+        var exporter = new FakeExporter();
+        var pipeline = CreatePipeline(exporter: exporter);
+
+        var result = await pipeline.ExecuteAsync(new ConversionRequest
+        {
+            InputFormatId = FakeImporter.FormatId,
+            OutputFormatId = FakeExporter.FormatId,
+            InputPaths = [f1, f2],
+            OutputPath = Path.Combine(_tempDir, "out.txt"),
+            MergeToOneFile = true,
+        });
+
+        Assert.True(result.IsSuccess);
+        // 合并模式取第一个输入文件的文件名
+        Assert.Equal("alpha.txt", exporter.LastOptions?.SourceFileName);
+    }
+
+    [Fact]
+    public async Task PerFileMode_InjectsEachSourceFileNameIntoExportOptions()
+    {
+        var f1 = CreateInputFile("alpha.txt", "alpha");
+        var exporter = new FakeExporter();
+        var pipeline = CreatePipeline(exporter: exporter);
+
+        var result = await pipeline.ExecuteAsync(new ConversionRequest
+        {
+            InputFormatId = FakeImporter.FormatId,
+            OutputFormatId = FakeExporter.FormatId,
+            InputPaths = [f1],
+            OutputDirectory = _tempDir,
+            MergeToOneFile = false,
+        });
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal("alpha.txt", exporter.LastOptions?.SourceFileName);
+    }
+
+    [Fact]
+    public async Task Export_ExplicitSourceFileNameNotOverridden()
+    {
+        var f1 = CreateInputFile("alpha.txt", "alpha");
+        var exporter = new FakeExporter();
+        var pipeline = CreatePipeline(exporter: exporter);
+
+        var result = await pipeline.ExecuteAsync(new ConversionRequest
+        {
+            InputFormatId = FakeImporter.FormatId,
+            OutputFormatId = FakeExporter.FormatId,
+            InputPaths = [f1],
+            OutputPath = Path.Combine(_tempDir, "out.txt"),
+            Options = new ConversionOptions
+            {
+                Export = new ExportOptions { SourceFileName = "custom.txt" },
+            },
+        });
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal("custom.txt", exporter.LastOptions?.SourceFileName);
+    }
+
     // ---------------------------------------------------------------- 测试替身
 
     private string CreateInputFile(string fileName, string token)
@@ -334,16 +401,19 @@ public class ConversionPipelineTests : IDisposable
                 .ToList();
     }
 
-    /// <summary>假导出器：每条词条写一行 "word|rank\n"。</summary>
+    /// <summary>假导出器：每条词条写一行 "word|rank\n"，并记录最近一次收到的导出选项。</summary>
     internal sealed class FakeExporter : IFormatExporter
     {
         public const string FormatId = "fakeout";
 
         public FormatMetadata Metadata { get; } = new(FormatId, "假导出格式", 1, false, true, FileExtension: ".fake");
 
+        public ExportOptions? LastOptions { get; private set; }
+
         public Task<ExportResult> ExportAsync(
             IReadOnlyList<WordEntry> entries, Stream output, ExportOptions? options = null, CancellationToken ct = default)
         {
+            LastOptions = options;
             using var writer = new StreamWriter(output, Encoding.UTF8, bufferSize: 1024, leaveOpen: true);
             foreach (var e in entries)
                 writer.Write($"{e.Word}|{e.Rank}\n");

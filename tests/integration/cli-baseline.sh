@@ -102,6 +102,20 @@ assert_error_message "非法过滤参数输出可读错误" "len:abc-10" \
 assert_error_not_contains "默认模式错误消息不含堆栈" "   at " \
     CLI -i no-such-format -o self -O "${TMP_DIR}/x.txt" "${TEST_DATA}"
 
+# 6.5 -r 固定词频选项（Issue #425 回归：-r 曾被当作输入文件名导致 exit 2）
+assert_exit "-r 数字固定词频退出码 0" 0 \
+    CLI -i scel -o self -O "${TMP_DIR}/rank.txt" -r 100 "${TEST_DATA}"
+assert_exit "-r 非数字值退出码 1" 1 \
+    CLI -i scel -o self -O "${TMP_DIR}/x.txt" -r baidu "${TEST_DATA}"
+JSON_RANK_ERR="$(CLI --json -i scel -o self -O "${TMP_DIR}/x.txt" -r baidu "${TEST_DATA}" 2>/dev/null)"
+if [[ "${JSON_RANK_ERR}" == *'"code": "invalid-rank"'* ]]; then
+    echo "  PASS: --json -r 非数字值输出 error.code=invalid-rank"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --json -r 错误输出异常: ${JSON_RANK_ERR}"
+    FAIL=$((FAIL + 1))
+fi
+
 # 7. --json 成功输出（schema=1, ok=true）
 JSON_OUTPUT="$(CLI --json -i scel -o self -O "${TMP_DIR}/ok.json.txt" -F "213 ,nyyy" "${TEST_DATA}" 2>/dev/null)"
 if [[ "${JSON_OUTPUT}" == *'"ok": true'* && "${JSON_OUTPUT}" == *'"schema": 1'* ]]; then

@@ -9,12 +9,17 @@ namespace ImeWlConverter.Application.Bootstrap;
 /// </summary>
 public static class ImeWlConverterBootstrapper
 {
-    /// <summary>构建包含全部格式与核心服务的 ServiceProvider。</summary>
-    public static ServiceProvider CreateServiceProvider()
+    /// <summary>
+    /// 构建包含全部格式与核心服务的 ServiceProvider。
+    /// <paramref name="configure"/> 在核心服务注册之后执行，可用于覆盖个别服务
+    /// （如 CLI -r 指定的固定词频生成器，后注册者胜出）。
+    /// </summary>
+    public static ServiceProvider CreateServiceProvider(Action<IServiceCollection>? configure = null)
     {
         var services = new ServiceCollection();
         services.AddAllFormats();
         services.AddImeWlConverterCore();
+        configure?.Invoke(services);
         return services.BuildServiceProvider();
     }
 
