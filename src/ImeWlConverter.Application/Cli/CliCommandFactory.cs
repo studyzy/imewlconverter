@@ -66,24 +66,56 @@ public static class CliCommandFactory
             DictDescription = parseResult.GetValueForOption(CliOptions.DictDescription),
         };
 
-        // 2.5 词频选项（-r/--rank-generator）：数字 → 固定词频（覆盖所有词条）
+        // 2.5 词频选项（-r/--rank-generator）：数字 → 固定词频（覆盖所有词条）；llm → LLM 词频生成
         int? fixedRank = null;
+        var useLlmRank = false;
         var rankSpec = parseResult.GetValueForOption(CliOptions.RankGenerator);
         if (rankSpec is not null)
         {
-            if (!Mapping.RankSpecParser.TryParse(rankSpec, out var rank, out var rankError))
+            if (!Mapping.RankSpecParser.TryParse(rankSpec, out var rankMode, out var rank, out var rankError))
                 return ReportError(new CliError(CliError.InvalidRank, rankError!, "--rank-generator"), json);
-            fixedRank = rank;
+            if (rankMode == Mapping.RankGeneratorMode.Llm)
+                useLlmRank = true;
+            else
+                fixedRank = rank;
         }
 
-        using var serviceProvider = ImeWlConverterBootstrapper.CreateServiceProvider(fixedRank is null
+        var llmKey = parseResult.GetValueForOption(CliOptions.LlmKey)
+                     ?? Environment.GetEnvironmentVariable("IMEWL_LLM_KEY");
+        if (useLlmRank && string.IsNullOrWhiteSpace(llmKey))
+        {
+            // LlmWordRankGenerator 在 ApiKey 为空时会静默跳过词频生成，这里显式拦截避免用户无感知拿到默认词频
+            return ReportError(new CliError(
+                CliError.InvalidRank,
+                "-r llm 需要 LLM API Key：请通过 --llm-key 或环境变量 IMEWL_LLM_KEY 提供",
+                "--rank-generator"), json);
+        }
+
+        using var serviceProvider = ImeWlConverterBootstrapper.CreateServiceProvider(rankSpec is null
             ? null
-            : services => services.AddSingleton<IWordRankGenerator>(
-                new Core.WordRank.DefaultWordRankGenerator
+            : services =>
+            {
+                if (useLlmRank)
                 {
-                    DefaultRank = fixedRank.Value,
-                    ForceOverride = true
-                }));
+                    var config = new Core.WordRank.LlmConfig { ApiKey = llmKey ?? "" };
+                    var endpoint = parseResult.GetValueForOption(CliOptions.LlmEndpoint);
+                    if (!string.IsNullOrWhiteSpace(endpoint))
+                        config.ApiEndpoint = endpoint;
+                    var model = parseResult.GetValueForOption(CliOptions.LlmModel);
+                    if (!string.IsNullOrWhiteSpace(model))
+                        config.Model = model;
+                    services.AddSingleton<IWordRankGenerator>(new Core.WordRank.LlmWordRankGenerator(config));
+                }
+                else
+                {
+                    services.AddSingleton<IWordRankGenerator>(
+                        new Core.WordRank.DefaultWordRankGenerator
+                        {
+                            DefaultRank = fixedRank!.Value,
+                            ForceOverride = true
+                        });
+                }
+            });
         var importers = serviceProvider.GetServices<IFormatImporter>().ToList();
         var exporters = serviceProvider.GetServices<IFormatExporter>().ToList();
 

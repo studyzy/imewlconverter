@@ -19,7 +19,7 @@
 | `-c:path` | `--code-file <path>` | `-c <path>` |
 | `-f:spec` | `--custom-format <spec>` | `-F <spec>` |
 | `-ft:filter` | `--filter <filter>` | `-f <filter>` |
-| `-r:type` | `--rank-generator <number>` | `-r <number>`（仅数字；baidu/google 已移除） |
+| `-r:type` | `--rank-generator <number\|llm>` | `-r <number\|llm>`（数字=固定词频；llm=LLM 生成词频，需 `--llm-key` 或环境变量 `IMEWL_LLM_KEY`；baidu/google 已移除） |
 | `-ct:type` | `--code-type <type>` | `-t <type>` |
 | `-os:os` | `--target-os <os>` | （仅长选项） |
 | `-mc:rules` | `--multi-code <rules>` | `-m <rules>` |
@@ -113,8 +113,21 @@ imewlconverter -i qpyd -o self -O zy.txt -F "213, nyyn" -c code.txt a.qpyd
 
 指定固定词频数字（如 `-r 100`）时，所有词条的词频会被强制覆盖为该数字。
 
+也可以使用 LLM 在线生成词频：
+
+```bash
+--rank-generator llm --llm-key <你的APIKey>
+# 或（推荐通过环境变量提供 Key，避免进入 shell 历史）
+export IMEWL_LLM_KEY=<你的APIKey>
+-r llm --llm-endpoint https://api.example.com/v1 --llm-model gpt-4o-mini
+```
+
+LLM 模式默认端点为 `https://api.openai.com/v1/chat/completions`（`--llm-endpoint` 会自动补全
+`/v1/chat/completions` 后缀），默认模型 `gpt-3.5-turbo`。词频为 0 的词条会分批（每批 50 条）
+调用 LLM 生成词频；API 失败时转换整体失败（退出码 4），不会静默降级为默认词频。
+
 > ⚠️ 旧版的 `-r:baidu` / `-r:google` 在线词频生成器已移除，不再支持；
-> 传入非数字值会报 `invalid-rank` 错误（退出码 1）。
+> 传入非数字且非 `llm` 的值会报 `invalid-rank` 错误（退出码 1）。
 
 ### Rime 输出配置
 

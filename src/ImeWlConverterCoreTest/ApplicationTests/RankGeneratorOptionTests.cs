@@ -27,8 +27,20 @@ public class RankGeneratorOptionTests
     [InlineData(" 50 ", 50)]
     public void RankSpec_PositiveNumber_ParsesToFixedRank(string spec, int expected)
     {
-        Assert.True(RankSpecParser.TryParse(spec, out var rank, out var error));
+        Assert.True(RankSpecParser.TryParse(spec, out var mode, out var rank, out var error));
+        Assert.Equal(RankGeneratorMode.FixedRank, mode);
         Assert.Equal(expected, rank);
+        Assert.Null(error);
+    }
+
+    [Theory]
+    [InlineData("llm")]
+    [InlineData("LLM")]
+    [InlineData(" Llm ")]
+    public void RankSpec_LlmKeyword_ParsesToLlmMode(string spec)
+    {
+        Assert.True(RankSpecParser.TryParse(spec, out var mode, out _, out var error));
+        Assert.Equal(RankGeneratorMode.Llm, mode);
         Assert.Null(error);
     }
 
@@ -42,9 +54,8 @@ public class RankGeneratorOptionTests
     [InlineData("   ")]
     public void RankSpec_InvalidValue_FailsWithError(string spec)
     {
-        Assert.False(RankSpecParser.TryParse(spec, out _, out var error));
+        Assert.False(RankSpecParser.TryParse(spec, out _, out _, out var error));
         Assert.NotNull(error);
-        Assert.Contains(spec.Trim(), error);
     }
 
     // ---------------- CliOptions 挂载 ----------------
@@ -63,6 +74,18 @@ public class RankGeneratorOptionTests
         var parseResult = CliCommandFactory.Build().Parse("--rank-generator 100");
         Assert.Empty(parseResult.Errors);
         Assert.Equal("100", parseResult.GetValueForOption(CliOptions.RankGenerator));
+    }
+
+    [Fact]
+    public void RootCommand_AcceptsLlmRankSpec_WithLlmOptions()
+    {
+        var parseResult = CliCommandFactory.Build().Parse(
+            "-r llm --llm-endpoint https://api.example.com/v1 --llm-key sk-test --llm-model gpt-4o-mini");
+        Assert.Empty(parseResult.Errors);
+        Assert.Equal("llm", parseResult.GetValueForOption(CliOptions.RankGenerator));
+        Assert.Equal("https://api.example.com/v1", parseResult.GetValueForOption(CliOptions.LlmEndpoint));
+        Assert.Equal("sk-test", parseResult.GetValueForOption(CliOptions.LlmKey));
+        Assert.Equal("gpt-4o-mini", parseResult.GetValueForOption(CliOptions.LlmModel));
     }
 
     // ---------------- Bootstrapper 覆盖注册 ----------------

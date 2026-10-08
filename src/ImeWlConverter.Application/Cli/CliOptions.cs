@@ -58,8 +58,22 @@ public static class CliOptions
 
     public static readonly Option<string?> RankGenerator = new(
         aliases: new[] { "--rank-generator", "-r" },
-        description: "词频生成器：指定固定词频数字，强制覆盖所有词条的词频\n" +
-                    "  示例: -r 100（所有词条词频设为 100）");
+        description: "词频生成器：固定词频数字（强制覆盖所有词条）或 llm（LLM 生成词频）\n" +
+                    "  示例: -r 100（所有词条词频设为 100）\n" +
+                    "        -r llm（调用 LLM API 生成词频，需配合 --llm-key 或环境变量 IMEWL_LLM_KEY）");
+
+    public static readonly Option<string?> LlmEndpoint = new(
+        aliases: new[] { "--llm-endpoint" },
+        description: "LLM API 端点（配合 -r llm 使用；默认 https://api.openai.com/v1/chat/completions，" +
+                     "自动补全 /v1/chat/completions 后缀）");
+
+    public static readonly Option<string?> LlmKey = new(
+        aliases: new[] { "--llm-key" },
+        description: "LLM API Key（配合 -r llm 使用；也可通过环境变量 IMEWL_LLM_KEY 提供）");
+
+    public static readonly Option<string?> LlmModel = new(
+        aliases: new[] { "--llm-model" },
+        description: "LLM 模型名称（配合 -r llm 使用，默认 gpt-3.5-turbo）");
 
     public static readonly Option<bool> ListFormats = new(
         aliases: new[] { "--list-formats" },
@@ -103,6 +117,9 @@ public static class CliOptions
         rootCommand.AddOption(CodeFile);
         rootCommand.AddOption(MultiCode);
         rootCommand.AddOption(RankGenerator);
+        rootCommand.AddOption(LlmEndpoint);
+        rootCommand.AddOption(LlmKey);
+        rootCommand.AddOption(LlmModel);
         rootCommand.AddOption(ListFormats);
         rootCommand.AddOption(Json);
         rootCommand.AddOption(Verbose);
