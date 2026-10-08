@@ -226,7 +226,10 @@ public class LibIMETextTest
         Assert.Equal(34, processed.Count);
 
         var exported = Export(_exporter, processed.ToArray());
-        Assert.Equal(LibimeNonBmpText + "\n", exported.Replace("\r\n", "\n"));
+        // 期望值来自源码中的多行原始字符串字面量，Windows 检出（core.autocrlf=true）时字面量内是 \r\n，
+        // Linux CI 检出时是 \n，因此两侧都做行尾归一，保证测试跨平台行为一致。
+        var expected = (LibimeNonBmpText + "\n").Replace("\r\n", "\n");
+        Assert.Equal(expected, exported.Replace("\r\n", "\n"));
     }
 
     /// <summary>
