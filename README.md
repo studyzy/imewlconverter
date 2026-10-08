@@ -12,11 +12,11 @@
 [![Release](https://badgen.net/github/release/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter/releases)
 ![Downloads](https://badgen.net/github/assets-dl/studyzy/imewlconverter)
 
-一款输入法词库转换软件，支持以下超过 20 种的输入法工具和词库
+一款输入法词库转换软件，支持以下 50 余种输入法工具和词库格式
 
 </div>
 
-本程序支持批量转换（一次拖拽多个词库文件，或者按住 Ctrl 选择多个文件），支持命令行模式（在命令行下使用-h命令查看帮助），支持 Windows、Linux、MacOS。
+本程序支持批量转换（一次拖拽多个词库文件，或者按住 Ctrl 选择多个文件），支持命令行模式（在命令行下使用 -h 命令查看帮助），支持 Windows、Linux、macOS。
 
 ## 快速安装（命令行工具）
 
@@ -84,7 +84,8 @@ PC 端：
 - [灵格斯词库 ld2](https://github.com/studyzy/imewlconverter/wiki/Lingoes_Ld2)
 - [拼音加加](https://github.com/studyzy/imewlconverter/wiki/Pinyin_Jiajia)
 - [青简输入法（TSV 词库）](https://qingjian.app/docs/settings/dictionaries)
-- 青简词库（.qj 二进制格式）- 手心输入法
+- 青简词库（.qj 二进制格式）
+- 手心输入法
 - [搜狗拼音（文本词库、Bin 格式备份词库和 scel 格式细胞词库）](https://github.com/studyzy/imewlconverter/wiki/Sougou_Pinyin)
 - [搜狗五笔](https://github.com/studyzy/imewlconverter/wiki/Sougou_Wubi)
 - [微软拼音 2010](https://github.com/studyzy/imewlconverter/wiki/Ms_Pinyin)
@@ -169,36 +170,43 @@ imewlconverter -i <输入格式> -o <输出格式> -O <输出文件> <输入文�
 ### 常用示例
 
 **搜狗 scel 细胞词库转搜狗拼音 txt 格式**：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o sgpy -O output.txt input.scel
 ```
 
 **搜狗 scel 细胞词库转谷歌拼音格式**：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o ggpy -O output.txt input.scel
 ```
 
 **搜狗 scel 细胞词库转 Rime 格式**：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o rime -O output.yaml input.scel
 ```
 
 **多文件转换**：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o ggpy -O output.txt file1.scel file2.scel file3.scel
 ```
 
 **批量转换到目录**（输出目录以 `/` 结尾）：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o ggpy -O ./output/ *.scel
 ```
 
 **使用过滤器**：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o ggpy -O output.txt -f "len:1-100|rm:eng|rm:num" input.scel
 ```
 
 **自定义 scel 词库元数据**（导出为 scel 格式时，可自定义词库编号、名称、类别和描述）：
+
 ```bash
 dotnet ImeWlConverterCmd.dll -i scel -o scel \
   --dict-id 888888 \
@@ -211,6 +219,7 @@ dotnet ImeWlConverterCmd.dll -i scel -o scel \
 > 说明：这些选项仅影响内嵌元数据的格式（目前为搜狗 .scel）。未指定的字段使用默认值（名称：深蓝词库转换，类别：自定义，编号：随机生成）。
 
 **查看帮助和格式列表**：
+
 ```bash
 dotnet ImeWlConverterCmd.dll --help
 dotnet ImeWlConverterCmd.dll --list-formats
