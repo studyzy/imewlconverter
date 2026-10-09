@@ -4,6 +4,9 @@
         <RootNamespace>ImeWlConverter.Formats</RootNamespace>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <!-- LibimeZstdWriter 通过 ZstdSharp.Unsafe 直接驱动 libzstd 流式 API，
+             以复刻 libime 的压缩缓冲/flush 循环。 -->
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\ImeWlConverter.Abstractions\ImeWlConverter.Abstractions.csproj"/>
@@ -17,6 +20,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7"/>
         <PackageReference Include="SharpZipLib" Version="1.4.2"/>
+        <!-- 版本必须精确锁定：libimebin 的产物要求与上游 libzstd 逐字节一致，
+             升级此包属于行为变更，需重跑 LibIMEPinyinTest 并用真实词库对比上游文件。 -->
         <PackageReference Include="ZstdSharp.Port" Version="0.8.8"/>
     </ItemGroup>
     <ItemGroup>

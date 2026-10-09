@@ -3,7 +3,6 @@ namespace ImeWlConverter.Formats.LibIMEPinyin;
 using System.Buffers.Binary;
 using System.IO;
 using ZstdSharp;
-using ZstdSharp.Unsafe;
 
 /// <summary>
 /// Fcitx5 / libime 二进制拼音词库的文件容器。
@@ -14,6 +13,10 @@ using ZstdSharp.Unsafe;
 /// version 0x1: 直接是 DATrie&lt;float&gt; 序列化数据
 /// version 0x2: DATrie&lt;float&gt; 序列化数据经 zstd 压缩（带校验和）
 /// </code>
+///
+/// version 0x2 的压缩并非一次普通的 zstd 压缩调用，而是 libime
+/// <c>writeZSTDCompressed()</c> 那套 Boost.Iostreams 过滤器链路，其帧布局
+/// （包括取决于数据的尾部空帧）由 <see cref="LibimeZstdWriter"/> 逐字节复刻。
 /// </summary>
 internal static class LibimeDictFormat
 {
@@ -55,7 +58,9 @@ internal static class LibimeDictFormat
         }
     }
 
-    /// <summary>写入完整词库文件（magic/version 头 + zstd 压缩后的 DATrie）。</summary>
+    /// <summary>
+    /// 写入完整词库文件（magic/version 头 + 与 libime 字节级一致的压缩数据）。
+    /// </summary>
     public static void Write(CedarFloatTrie trie, Stream output)
     {
         Span<byte> header = stackalloc byte[8];
@@ -63,9 +68,9 @@ internal static class LibimeDictFormat
         BinaryPrimitives.WriteUInt32BigEndian(header[4..], Version);
         output.Write(header);
 
-        // libime 使用 ZSTD_initCStream(level 0) 并开启校验和（ZSTD_c_checksumFlag=1）。
-        using var compressor = new CompressionStream(output, level: 3, bufferSize: 0, leaveOpen: true);
-        compressor.SetParameter(ZSTD_cParameter.ZSTD_c_checksumFlag, 1);
+        // libime 走 ZSTD_initCStream(level 0) + ZSTD_c_checksumFlag=1，
+        // 并用 Boost.Iostreams 的 128B/4096B 双层缓冲与 close 时的 flush 循环。
+        using var compressor = new LibimeZstdWriter(output);
         trie.Save(compressor);
     }
 
