@@ -8,6 +8,16 @@
 
 ## [未发布]
 
+### 修复
+
+- 修复 `libimebin` 导出的 `*.dict` 与 libime `writeZSTDCompressed` 不字节级一致的
+  问题：改为复刻 libime 的压缩链路（Boost.Iostreams `symmetric_filter` +
+  `ZSTDCompressor` 的 128B/4096B 缓冲与关闭时的 flush 循环），使帧布局与
+  `libime_pinyindict` / Fcitx5 一致——大词库尾部多出的 13 字节空 zstd 帧此前会缺失
+  而导致哈希不一致，小词库不受影响
+
+## [3.6.0] - 2026-10-08
+
 ### 新增
 
 - 新增 Fcitx5 / libime 二进制拼音词库格式 `libimebin`（导入/导出），
@@ -131,7 +141,8 @@
 
 - macOS GUI 应用基础能力
 
-[未发布]: https://github.com/studyzy/imewlconverter/compare/v3.4.3...HEAD
+[未发布]: https://github.com/studyzy/imewlconverter/compare/v3.6.0...HEAD
+[3.6.0]: https://github.com/studyzy/imewlconverter/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/studyzy/imewlconverter/compare/v3.4.3...v3.5.0
 [3.4.3]: https://github.com/studyzy/imewlconverter/compare/v3.4.2...v3.4.3
 [3.4.2]: https://github.com/studyzy/imewlconverter/compare/v3.4.1...v3.4.2
