@@ -160,6 +160,7 @@ imewlconverter -i <输入格式> -o <输出格式> -O <输出文件> <输入文�
 | `libpy` | libpinyin (Linux) | .txt | ✅ | ✅ |
 | `libimetxt` | Fcitx5 / libime 文本拼音词库 | .txt | ✅ | ✅ |
 | `libimebin` | Fcitx5 / libime 二进制拼音词库 | .dict | ✅ | ✅ |
+| `sspy` | 水杉输入法全拼词库（设置 → 词库 → 全拼 → 批量导入） | .txt | ✅ | ✅ |
 | `plist` | macOS 系统拼音 | .plist | ✅ | ✅ |
 | `fit` | FIT 输入法 (Mac) | .txt | ✅ | ✅ |
 | `gboardbin` | Gboard user_dict_3_3 | .dict | ✅ | ✅ |
