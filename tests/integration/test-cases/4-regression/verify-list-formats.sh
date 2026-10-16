@@ -24,7 +24,7 @@ EXPECTED_IMPORTS=(
     bcd bdict bdpy bdpybin bdsj bdsje bing cjpt emoji fit gboard ggpy
     ifly jd jdmb jdzm ld2 libimebin libimetxt libpy mspy plist pyim pyjj
     qcel qingjiantsv qj qpyd qqpy qqpye qqsj qqwb rime rimedb scel self sgpy
-    sgpybin sxpy uwl wb86 wb98 wbnewage win10mspy win10mspyss
+    sgpybin sspy sxpy uwl wb86 wb98 wbnewage win10mspy win10mspyss
     win10mswb word xiaoxiao xlpy xywb yahoo zgpy
 )
 
@@ -32,7 +32,7 @@ EXPECTED_IMPORTS=(
 EXPECTED_EXPORTS=(
     bdpy bdsj bdsje bing cjpt cysl dy erbi fit gboard ggpy ifly
     jd jdzm libimebin libimetxt libpy mspy plist pyim pyjj qingjiantsv qj qqpy qqpye qqsj
-    qqwb rime scel self sgpy sxpy wb86 wb98 wbnewage win10mspy
+    qqwb rime scel self sgpy sspy sxpy wb86 wb98 wbnewage win10mspy
     win10mspyss win10mswb word xiaoxiao xlpy xywb yahoo zgpy
 )
 
