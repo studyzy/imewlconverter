@@ -30,7 +30,7 @@ EXPECTED_IMPORTS=(
 
 # 定义所有应该存在的输出格式
 EXPECTED_EXPORTS=(
-    bdpy bdsj bdsje bing cjpt cysl dy erbi fit gboard ggpy ifly
+    bcd bdpy bdsj bdsje bing cjpt cysl dy erbi fit gboard ggpy ifly
     jd jdzm libimebin libimetxt libpy mspy plist pyim pyjj qingjiantsv qj qqpy qqpye qqsj
     qqwb rime scel self sgpy sspy sxpy wb86 wb98 wbnewage win10mspy
     win10mspyss win10mswb word xiaoxiao xlpy xywb yahoo zgpy

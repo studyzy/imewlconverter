@@ -70,10 +70,19 @@ public sealed partial class BaiduBcdImporter : BinaryFormatImporter
             var smIdx = pyBytes[0];
             var ymIdx = pyBytes[1];
 
-            if (smIdx < Shengmu.Length && ymIdx < Yunmu.Length)
+            if (smIdx == 0xFF)
+            {
+                // 0xFF 表示英文字母/数字/标点按 ASCII 原样编码
+                pinyinList.Add(((char)ymIdx).ToString());
+            }
+            else if (smIdx < Shengmu.Length && ymIdx < Yunmu.Length)
+            {
                 pinyinList.Add(Shengmu[smIdx] + Yunmu[ymIdx]);
+            }
             else
+            {
                 pinyinList.Add("");
+            }
         }
 
         var wordBytes = new byte[2 * len];
