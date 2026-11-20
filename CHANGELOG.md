@@ -8,6 +8,8 @@
 
 ## [未发布]
 
+## [3.7.0] - 2026-11-20
+
 ### 新增
 
 - 百度手机 bcd 词库支持导出（此前仅支持导入）：可把文本等词库转为 `bcd`
@@ -25,6 +27,9 @@
   `ZSTDCompressor` 的 128B/4096B 缓冲与关闭时的 flush 循环），使帧布局与
   `libime_pinyindict` / Fcitx5 一致——大词库尾部多出的 13 字节空 zstd 帧此前会缺失
   而导致哈希不一致，小词库不受影响
+- 修复 GUI 导出搜狗细胞词库 `scel` 后文件被保存成带 BOM 的 UTF-8 文本、
+  搜狗输入法提示“不是支持的 SCEL 词库”的问题：`SougouScelExporter` 补充
+  `IsBinary = true`，二进制流不再经文本管道解码 (#433)
 
 ## [3.6.0] - 2026-10-08
 
@@ -151,7 +156,8 @@
 
 - macOS GUI 应用基础能力
 
-[未发布]: https://github.com/studyzy/imewlconverter/compare/v3.6.0...HEAD
+[未发布]: https://github.com/studyzy/imewlconverter/compare/v3.7.0...HEAD
+[3.7.0]: https://github.com/studyzy/imewlconverter/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/studyzy/imewlconverter/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/studyzy/imewlconverter/compare/v3.4.3...v3.5.0
 [3.4.3]: https://github.com/studyzy/imewlconverter/compare/v3.4.2...v3.4.3
