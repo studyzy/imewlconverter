@@ -16,7 +16,10 @@ public sealed class FormatPluginAttribute : Attribute
     /// <summary>Sort order for UI display.</summary>
     public int SortOrder { get; }
 
-    /// <summary>Whether this format uses binary encoding (auto-detected from base class if not set).</summary>
+    /// <summary>
+    /// Whether this format uses binary encoding. Importers are auto-detected from <c>BinaryFormatImporter</c>;
+    /// exporters must set this explicitly, or their output is treated as text and corrupted on save (issue #433).
+    /// </summary>
     public bool IsBinary { get; set; }
 
     /// <summary>Default file extension including the leading dot (e.g., ".txt", ".scel"). Defaults to ".txt".</summary>
