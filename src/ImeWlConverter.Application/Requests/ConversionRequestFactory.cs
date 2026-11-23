@@ -42,12 +42,20 @@ public static class ConversionRequestFactory
         if (targetCodeType == CodeType.NoCode)
             targetCodeType = Mapping.CodeTypeMapper.InferFromOutputFormat(options.OutputFormatId, options.CustomFormat);
 
+        // 输出路径以 / 结尾时按目录处理：每个输入文件单独导出到该目录
+        var outputDirectory = options.OutputPath is { } path &&
+            (path.EndsWith('/') || path.EndsWith(Path.DirectorySeparatorChar))
+            ? path
+            : null;
+
         return Result<ConversionRequest>.Success(new ConversionRequest
         {
             InputFormatId = options.InputFormatId,
             OutputFormatId = options.OutputFormatId,
             InputPaths = options.InputFiles,
-            OutputPath = options.OutputPath,
+            OutputPath = outputDirectory is null ? options.OutputPath : null,
+            MergeToOneFile = outputDirectory is null,
+            OutputDirectory = outputDirectory,
             FilterConfig = filterConfig,
             Options = new ConversionOptions
             {

@@ -55,6 +55,19 @@ public class ConversionRequestFactoryTests
     }
 
     [Fact]
+    public void Create_OutputPathEndingWithSlash_ExportsPerFileToDirectory()
+    {
+        var (importers, exporters) = Resolve();
+        var options = Options() with { OutputPath = "out/" };
+
+        var request = ConversionRequestFactory.Create(options, importers, exporters).Value;
+
+        Assert.False(request.MergeToOneFile);
+        Assert.Equal("out/", request.OutputDirectory);
+        Assert.Null(request.OutputPath);
+    }
+
+    [Fact]
     public void Create_InvalidFilter_ReturnsFailureWithError()
     {
         var (importers, exporters) = Resolve();

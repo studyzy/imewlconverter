@@ -155,6 +155,9 @@ public sealed class ConversionPipeline : IConversionPipeline
         var totalConverted = 0;
         var totalImported = 0;
 
+        if (request.OutputDirectory is not null)
+            Directory.CreateDirectory(request.OutputDirectory);
+
         for (var i = 0; i < totalFiles; i++)
         {
             ct.ThrowIfCancellationRequested();
