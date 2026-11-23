@@ -182,12 +182,19 @@ public sealed partial class SougouBinExporter : IFormatExporter
 
     private static string NormalizePinyin(string value)
     {
-        return value
+        var pinyin = value
             .Trim()
             .ToLowerInvariant()
             .TrimEnd('0', '1', '2', '3', '4', '5')
             .Replace("u:", "v", StringComparison.Ordinal)
             .Replace('ü', 'v');
+        // 搜狗备份的拼音表把 lüe/nüe 写作 lve/nve
+        return pinyin switch
+        {
+            "lue" => "lve",
+            "nue" => "nve",
+            _ => pinyin
+        };
     }
 
     private static void WriteHeader(

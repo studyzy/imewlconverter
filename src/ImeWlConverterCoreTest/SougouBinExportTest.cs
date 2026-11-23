@@ -44,6 +44,24 @@ public class SougouBinExportTest
     }
 
     [Fact]
+    public async Task Export_WritesLueAndNueAsLveAndNve()
+    {
+        var entries = new List<WordEntry>
+        {
+            new() { Word = "\u6218\u7565", Code = WordCode.FromSingle(new[] { "zhan", "lue" }), Rank = 1, CodeType = CodeType.Pinyin },
+            new() { Word = "\u8650\u5f85", Code = WordCode.FromSingle(new[] { "nue", "dai" }), Rank = 1, CodeType = CodeType.Pinyin }
+        };
+
+        var (result, data) = await Export(entries);
+
+        Assert.Equal(2, result.EntryCount);
+        using var stream = new MemoryStream(data);
+        var imported = (await new SougouBinImporter().ImportAsync(stream)).Entries;
+        Assert.Equal(new[] { "zhan", "lve" }, Assert.Single(imported, e => e.Word == "\u6218\u7565").Code!.Segments.Select(s => s[0]));
+        Assert.Equal(new[] { "nve", "dai" }, Assert.Single(imported, e => e.Word == "\u8650\u5f85").Code!.Segments.Select(s => s[0]));
+    }
+
+    [Fact]
     public async Task Export_SkipsEntriesWithoutSupportedPinyin()
     {
         var entries = new List<WordEntry>
