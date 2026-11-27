@@ -228,6 +228,14 @@ dotnet ImeWlConverterCmd.dll -i scel -o scel \
 
 > 说明：这些选项仅影响内嵌元数据的格式（目前为搜狗 .scel 与百度手机 .bcd，bcd 使用编号、名称和描述，类别字段暂不写入）。未指定的字段使用默认值（名称：深蓝词库转换，类别：自定义，编号：自动生成）。
 
+**输出双拼词库**（`--shuangpin`，在编码生成之后把全拼替换为双拼码）：
+
+```bash
+dotnet ImeWlConverterCmd.dll -i scel -o gboard --shuangpin xiaohe -O output.txt input.scel
+```
+
+可用方案：`full`（全拼，默认）、`xiaohe`、`ziranma`、`microsoft`/`ms`、`abc`、`ziguang`、`pyjj`、`xingkong`、`daniu`、`xiaolang`，也可直接传 `Shuangpin.txt` 表头的中文名（如 `小鹤双拼`）。Windows GUI 在选择 Gboard / Win10 微软拼音等目标格式时弹出的「编码方案」下拉框等价于该选项。注意双拼码不可逆：反向转换请用 `-t pinyin` 从汉字重新生成全拼。
+
 **查看帮助和格式列表**：
 
 ```bash

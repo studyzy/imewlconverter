@@ -60,11 +60,17 @@ public static class CliCommandFactory
             CustomFormat = parseResult.GetValueForOption(CliOptions.CustomFormat),
             CodeFile = parseResult.GetValueForOption(CliOptions.CodeFile),
             MultiCode = parseResult.GetValueForOption(CliOptions.MultiCode),
+            Shuangpin = parseResult.GetValueForOption(CliOptions.Shuangpin),
             DictId = parseResult.GetValueForOption(CliOptions.DictId),
             DictName = parseResult.GetValueForOption(CliOptions.DictName),
             DictCategory = parseResult.GetValueForOption(CliOptions.DictCategory),
             DictDescription = parseResult.GetValueForOption(CliOptions.DictDescription),
         };
+
+        // 2.1 双拼方案：把别名规范化为 Shuangpin.txt 表头名，非法值给出结构化错误
+        if (!Mapping.ShuangpinSchemeParser.TryParse(options.Shuangpin, out var shuangpinScheme, out var shuangpinError))
+            return ReportError(new CliError(CliError.InvalidShuangpin, shuangpinError!, "--shuangpin"), json);
+        options = options with { Shuangpin = shuangpinScheme };
 
         // 2.5 词频选项（-r/--rank-generator）：数字 → 固定词频（覆盖所有词条）；llm → LLM 词频生成
         int? fixedRank = null;

@@ -2,8 +2,10 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Core.CodeGeneration.Generators;
+using ImeWlConverter.Core.Filters;
 
 namespace ImeWlConverter.Core.Pipeline;
 
@@ -17,17 +19,20 @@ public sealed class EntryTransformationService
     private readonly IWordRankGenerator? _wordRankGenerator;
     private readonly CodeGenerationService? _codeGenerationService;
     private readonly ISelfDefiningCodeSource? _selfDefiningCodeSource;
+    private readonly IShuangpinTable? _shuangpinTable;
 
     public EntryTransformationService(
         IChineseConverter? chineseConverter = null,
         IWordRankGenerator? wordRankGenerator = null,
         CodeGenerationService? codeGenerationService = null,
-        ISelfDefiningCodeSource? selfDefiningCodeSource = null)
+        ISelfDefiningCodeSource? selfDefiningCodeSource = null,
+        IShuangpinTable? shuangpinTable = null)
     {
         _chineseConverter = chineseConverter;
         _wordRankGenerator = wordRankGenerator;
         _codeGenerationService = codeGenerationService;
         _selfDefiningCodeSource = selfDefiningCodeSource;
+        _shuangpinTable = shuangpinTable;
     }
 
     /// <summary>对一组词条依序应用过滤、简繁转换、词频、编码生成与空编码移除。</summary>
@@ -60,6 +65,10 @@ public sealed class EntryTransformationService
         // Phase 5: Code generation
         entries = await ApplyCodeGeneration(entries, options.CodeGeneration, progress, ct);
 
+        // Phase 5.5: 双拼编码转换。必须在编码生成之后执行——否则导入的编码会被
+        // CodeGenerationService 依据汉字重新生成的全拼覆盖（旧版 ReplaceAfterCode=true 同语义）。
+        entries = ApplyShuangpin(entries, options.ShuangpinScheme);
+
         // Phase 6: Remove entries with empty code (when code generation was requested)
         if (_codeGenerationService is not null && options.CodeGeneration.TargetCodeType != CodeType.NoCode)
         {
@@ -89,6 +98,23 @@ public sealed class EntryTransformationService
             result.Add(converted);
         }
 
+        return result;
+    }
+
+    /// <summary>按方案把全拼音节替换为双拼码；未指定方案时原样返回。</summary>
+    private IReadOnlyList<WordEntry> ApplyShuangpin(
+        IReadOnlyList<WordEntry> entries, string? scheme)
+    {
+        if (string.IsNullOrWhiteSpace(scheme) || scheme == "全拼")
+            return entries;
+
+        var table = _shuangpinTable
+            ?? throw new InvalidOperationException("未注册 IShuangpinTable，无法进行双拼转换");
+        var replacer = new ShuangpinReplacer(table.GetMapping(scheme));
+
+        var result = new List<WordEntry>(entries.Count);
+        foreach (var entry in entries)
+            result.Add(replacer.Transform(entry) ?? entry);
         return result;
     }
 

@@ -71,7 +71,8 @@ public static class ConversionRequestFactory
                     DictionaryName = options.DictName,
                     DictionaryCategory = options.DictCategory,
                     DictionaryDescription = options.DictDescription
-                }
+                },
+                ShuangpinScheme = options.Shuangpin
             }
         });
     }

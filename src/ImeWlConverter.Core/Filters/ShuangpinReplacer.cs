@@ -6,10 +6,10 @@ namespace ImeWlConverter.Core.Filters;
 
 public sealed class ShuangpinReplacer : IWordTransform
 {
-    private readonly Dictionary<string, string> _mapping;
+    private readonly IReadOnlyDictionary<string, string> _mapping;
 
-    // 映射表通过构造函数注入，也可考虑从 Resources/Shuangpin.txt 加载
-    public ShuangpinReplacer(Dictionary<string, string> mapping)
+    // 映射表通过构造函数注入（由 IShuangpinTable 从 Shuangpin.txt 加载）
+    public ShuangpinReplacer(IReadOnlyDictionary<string, string> mapping)
     {
         _mapping = mapping;
     }

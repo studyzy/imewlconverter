@@ -120,6 +120,44 @@ public class MappingParsersTests
         Assert.Null(service.DetectByExtension("unknown.xyz"));
     }
 
+    // ---------------- ShuangpinSchemeParser ----------------
+
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("", null)]
+    [InlineData("full", null)]
+    [InlineData("全拼", null)]
+    [InlineData("xiaohe", "小鹤双拼")]
+    [InlineData("ms", "微软双拼")]
+    [InlineData("microsoft", "微软双拼")]
+    [InlineData("ziranma", "自然码")]
+    [InlineData("abc", "智能ABC")]
+    [InlineData("pyjj", "拼音加加")]
+    [InlineData("小鹤双拼", "小鹤双拼")]
+    [InlineData("微软双拼", "微软双拼")]
+    public void ShuangpinScheme_ResolvesAlias(string? spec, string? expected)
+    {
+        Assert.True(ShuangpinSchemeParser.TryParse(spec, out var scheme, out var error));
+        Assert.Null(error);
+        Assert.Equal(expected, scheme);
+    }
+
+    [Fact]
+    public void ShuangpinScheme_Unknown_FailsWithError()
+    {
+        Assert.False(ShuangpinSchemeParser.TryParse("bogus", out _, out var error));
+        Assert.Contains("bogus", error!);
+    }
+
+    [Fact]
+    public void ShuangpinScheme_AllAliasesResolveToKnownSchemes()
+    {
+        var table = new ImeWlConverter.CodeData.ShuangpinTable(
+            new ImeWlConverter.CodeData.EmbeddedResourceProvider());
+        foreach (var scheme in ShuangpinSchemeParser.Schemes)
+            Assert.True(table.GetMapping(scheme).Count > 0, $"方案 {scheme} 无映射数据");
+    }
+
     // ---------------- FilterConfig 契约 ----------------
 
     [Fact]

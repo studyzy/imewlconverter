@@ -8,6 +8,7 @@ using ImeWlConverter.Abstractions.Contracts;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Abstractions.Options;
+using ImeWlConverter.CodeData;
 using ImeWlConverter.Core.CodeGeneration;
 using ImeWlConverter.Core.WordRank;
 using ImeWlConverter.Core.CodeGeneration.Generators;
@@ -25,12 +26,14 @@ public class EntryTransformationServiceTests
     private static EntryTransformationService CreateService(
         ICodeGenerator? generator = null,
         IChineseConverter? chineseConverter = null,
-        IWordRankGenerator? wordRank = null)
+        IWordRankGenerator? wordRank = null,
+        IShuangpinTable? shuangpinTable = null)
     {
         return new EntryTransformationService(
             chineseConverter: chineseConverter,
             wordRankGenerator: wordRank,
-            codeGenerationService: generator is null ? null : new CodeGenerationService([generator]));
+            codeGenerationService: generator is null ? null : new CodeGenerationService([generator]),
+            shuangpinTable: shuangpinTable);
     }
 
     private static readonly FilterPipeline NoFilters = new();
@@ -135,6 +138,59 @@ public class EntryTransformationServiceTests
             entries, options, NoFilters, progress: null, CancellationToken.None);
 
         Assert.True(result[0].Rank > 0);
+    }
+
+    [Fact]
+    public async Task Apply_WithShuangpin_TransformsAfterCodeGeneration()
+    {
+        // 双拼必须在编码生成之后执行：此处导入的编码被故意写成 UserDefine/ZZZZZZ，
+        // 生成器会按汉字重新生成全拼；若变换放在过滤阶段，导入的假编码会被覆盖或保留。
+        var generator = new FakeGenerator(new Dictionary<string, IReadOnlyList<IReadOnlyList<string>>>
+        {
+            ["你好"] = [["ni"], ["hao"]],
+        });
+        var service = CreateService(
+            generator,
+            shuangpinTable: new ShuangpinTable(new EmbeddedResourceProvider()));
+        var options = new ConversionOptions
+        {
+            ShuangpinScheme = "小鹤双拼",
+            CodeGeneration = new CodeGenerationOptions { TargetCodeType = CodeType.Pinyin },
+        };
+        var entries = new List<WordEntry>
+        {
+            new()
+            {
+                Word = "你好", Rank = 1, CodeType = CodeType.UserDefine,
+                Code = WordCode.FromSingle(new[] { "ZZZZZZ" })
+            },
+        };
+
+        var result = await service.ApplyAsync(
+            entries, options, NoFilters, progress: null, CancellationToken.None);
+
+        Assert.Single(result);
+        Assert.Equal("nihc", result[0].Code!.GetPrimaryCode(""));
+    }
+
+    [Fact]
+    public async Task Apply_WithoutShuangpin_KeepsFullPinyin()
+    {
+        var generator = new FakeGenerator(new Dictionary<string, IReadOnlyList<IReadOnlyList<string>>>
+        {
+            ["你好"] = [["ni"], ["hao"]],
+        });
+        var service = CreateService(generator, shuangpinTable: new ShuangpinTable(new EmbeddedResourceProvider()));
+        var options = new ConversionOptions
+        {
+            CodeGeneration = new CodeGenerationOptions { TargetCodeType = CodeType.Pinyin },
+        };
+        var entries = new List<WordEntry> { new() { Word = "你好", Rank = 1 } };
+
+        var result = await service.ApplyAsync(
+            entries, options, NoFilters, progress: null, CancellationToken.None);
+
+        Assert.Equal("nihao", result[0].Code!.GetPrimaryCode(""));
     }
 
     [Fact]

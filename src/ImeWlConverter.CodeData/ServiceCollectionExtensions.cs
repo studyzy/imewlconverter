@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IPinyinTable, PinyinTable>();
         services.AddSingleton<IZhuyinTable, ZhuyinTable>();
         services.AddSingleton<IChaoyinTable, ChaoyinTable>();
+        services.AddSingleton<IShuangpinTable, ShuangpinTable>();
         return services;
     }
 }

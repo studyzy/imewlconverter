@@ -50,6 +50,7 @@ public partial class MainForm : Form
 
     private ChineseConversionMode _chineseConversionMode = ChineseConversionMode.None;
     private CodeType _selectedCodeType = CodeType.NoCode;
+    private string? _selectedShuangpinScheme;
 
     private FilterConfig filterConfig = new();
     private CodeGenerationOptions codeGenOptions = new();
@@ -170,6 +171,8 @@ public partial class MainForm : Form
 
     private void cbxTo_SelectedIndexChanged(object sender, EventArgs e)
     {
+        // 切换目标格式时先清空，避免沿用上一次选择的双拼方案
+        _selectedShuangpinScheme = null;
         if (_exporters.TryGetValue(cbxTo.Text, out var exp))
         {
             _selectedExporter = exp;
@@ -202,6 +205,8 @@ public partial class MainForm : Form
                             PhraseFormatConfigForm f => f.SelectedCodeType,
                             _ => CodeType.NoCode
                         };
+                        if (form is PinyinConfigForm pinyinForm)
+                            _selectedShuangpinScheme = pinyinForm.SelectedShuangpinScheme;
                     }
                 }
             }
@@ -388,6 +393,7 @@ public partial class MainForm : Form
             Options = new ConversionOptions
             {
                 ChineseConversion = _chineseConversionMode,
+                ShuangpinScheme = _selectedShuangpinScheme,
                 CodeGeneration = new CodeGenerationOptions
                 {
                     TargetCodeType = targetCodeType,

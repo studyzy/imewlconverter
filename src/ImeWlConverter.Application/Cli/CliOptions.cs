@@ -75,6 +75,13 @@ public static class CliOptions
         aliases: new[] { "--llm-model" },
         description: "LLM 模型名称（配合 -r llm 使用，默认 gpt-3.5-turbo）");
 
+    public static readonly Option<string?> Shuangpin = new(
+        aliases: new[] { "--shuangpin" },
+        description: "双拼方案（在编码生成之后把全拼替换为双拼码）\n" +
+                    "  full=不转换（默认）; xiaohe=小鹤双拼; ziranma=自然码; microsoft/ms=微软双拼\n" +
+                    "  abc=智能ABC; ziguang=紫光拼音; pyjj=拼音加加; xingkong=星空键道\n" +
+                    "  daniu=大牛双拼; xiaolang=小浪双拼；也可直接传 Shuangpin.txt 表头中文名");
+
     public static readonly Option<bool> ListFormats = new(
         aliases: new[] { "--list-formats" },
         description: "显示所有支持的输入法格式列表");
@@ -116,6 +123,7 @@ public static class CliOptions
         rootCommand.AddOption(CodeType);
         rootCommand.AddOption(CodeFile);
         rootCommand.AddOption(MultiCode);
+        rootCommand.AddOption(Shuangpin);
         rootCommand.AddOption(RankGenerator);
         rootCommand.AddOption(LlmEndpoint);
         rootCommand.AddOption(LlmKey);

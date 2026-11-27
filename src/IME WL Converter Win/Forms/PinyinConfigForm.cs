@@ -34,6 +34,13 @@ public partial class PinyinConfigForm : Form
     public PinyinType SelectedPinyinType => pinyinType;
     public CodeType SelectedCodeType => codeType;
 
+    /// <summary>
+    /// 双拼方案名（与 Shuangpin.txt 表头逐字一致）。「全拼」「用户自定义短语」不转换。
+    /// 用下拉框文本而非 PinyinType 枚举——枚举顺序与码表列并不对应。
+    /// </summary>
+    public string? SelectedShuangpinScheme =>
+        cbxPinyinType.Text is "全拼" or "用户自定义短语" ? null : cbxPinyinType.Text;
+
     private void BtnOK_Click(object sender, EventArgs e)
     {
         codeType = CodeType.Pinyin;

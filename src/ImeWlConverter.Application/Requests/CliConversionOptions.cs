@@ -14,6 +14,7 @@ public sealed record CliConversionOptions
     public string? CustomFormat { get; init; }
     public string? CodeFile { get; init; }
     public string? MultiCode { get; init; }
+    public string? Shuangpin { get; init; }
     public string? DictId { get; init; }
     public string? DictName { get; init; }
     public string? DictCategory { get; init; }

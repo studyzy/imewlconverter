@@ -146,6 +146,30 @@ else
     FAIL=$((FAIL + 1))
 fi
 
+# 10. --shuangpin 双拼方案（Issue #244/#262 回归：架构重写后双拼接线丢失）
+SP_INPUT="${TMP_DIR}/shuangpin-in.txt"
+printf "%s\n" "你好,ni'hao,1" "中国,zhong'guo,1" > "${SP_INPUT}"
+assert_exit "--shuangpin xiaohe 退出码 0" 0 \
+    CLI -i self -o gboard --shuangpin xiaohe -O "${TMP_DIR}/sp-out.txt" "${SP_INPUT}"
+SP_OUTPUT="$(cat "${TMP_DIR}/sp-out.txt" 2>/dev/null)"
+if [[ "${SP_OUTPUT}" == *$'nihc\t你好'* && "${SP_OUTPUT}" == *$'vsgo\t中国'* ]]; then
+    echo "  PASS: --shuangpin xiaohe 输出小鹤双拼编码"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --shuangpin xiaohe 输出异常: ${SP_OUTPUT}"
+    FAIL=$((FAIL + 1))
+fi
+assert_exit "--shuangpin 非法方案退出码 1" 1 \
+    CLI -i self -o gboard --shuangpin bogus -O "${TMP_DIR}/x.txt" "${SP_INPUT}"
+JSON_SP_ERR="$(CLI --json -i self -o gboard --shuangpin bogus -O "${TMP_DIR}/x.txt" "${SP_INPUT}" 2>/dev/null)"
+if [[ "${JSON_SP_ERR}" == *'"code": "invalid-shuangpin"'* ]]; then
+    echo "  PASS: --json --shuangpin 非法方案输出 error.code=invalid-shuangpin"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --json --shuangpin 错误输出异常: ${JSON_SP_ERR}"
+    FAIL=$((FAIL + 1))
+fi
+
 rm -rf "${TMP_DIR}"
 
 echo ""
