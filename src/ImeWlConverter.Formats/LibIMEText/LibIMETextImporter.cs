@@ -4,9 +4,10 @@ using System.Text;
 using ImeWlConverter.Abstractions;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.Formats.LibIMEPinyin;
 using ImeWlConverter.Formats.Shared;
 
-/// <summary>LibIME Text dictionary importer. Format: word pinyin [rank] (与 libime loadText 一致)</summary>
+/// <summary>LibIME Text dictionary importer. Format: word pinyin [weight] (与 libime loadText 一致)</summary>
 [FormatPlugin("libimetxt", "LibIME 拼音词库（文本格式）", 500)]
 public sealed partial class LibIMETextImporter : TextFormatImporter
 {
@@ -25,7 +26,14 @@ public sealed partial class LibIMETextImporter : TextFormatImporter
         if (pinyinParts.Length == 0)
             yield break;
 
-        var rank = parts.Count >= 3 && int.TryParse(parts[2], out var r) ? r : 0;
+        int rank = 0;
+        if (parts.Count >= 3)
+        {
+            // libime 权重是浮点且可为负；无效权重按 loadTextImpl 的规定整行跳过。
+            if (!LibimeWeight.TryParse(parts[2], out var weight))
+                yield break;
+            rank = LibimeWeight.ToRank(weight);
+        }
 
         yield return new WordEntry
         {

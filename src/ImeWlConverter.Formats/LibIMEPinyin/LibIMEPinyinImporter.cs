@@ -61,8 +61,8 @@ public sealed partial class LibIMEPinyinImporter : IFormatImporter
             entries.Add(new WordEntry
             {
                 Word = word,
-                // libime 存储的是 float 词频/代价，与文本格式一致直接作为 Rank 保留。
-                Rank = float.IsFinite(value) ? (int)Math.Clamp(value, int.MinValue, int.MaxValue) : 0,
+                // libime 存储的是对数尺度的 float 权重，逆映射回本工具的正整数词频。
+                Rank = LibimeWeight.ToRank(value),
                 CodeType = CodeType.Pinyin,
                 Code = WordCode.FromSingle(syllables),
             });

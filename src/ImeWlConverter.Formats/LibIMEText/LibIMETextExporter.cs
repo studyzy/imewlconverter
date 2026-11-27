@@ -3,9 +3,10 @@ namespace ImeWlConverter.Formats.LibIMEText;
 using System.Text;
 using ImeWlConverter.Abstractions;
 using ImeWlConverter.Abstractions.Models;
+using ImeWlConverter.Formats.LibIMEPinyin;
 using ImeWlConverter.Formats.Shared;
 
-/// <summary>LibIME Text dictionary exporter. Format: word pinyin rank (with lue→lve, nue→nve)</summary>
+/// <summary>LibIME Text dictionary exporter. Format: word pinyin weight (with lue→lve, nue→nve)</summary>
 [FormatPlugin("libimetxt", "LibIME 拼音词库（文本格式）", 500)]
 public sealed partial class LibIMETextExporter : TextFormatExporter
 {
@@ -21,6 +22,6 @@ public sealed partial class LibIMETextExporter : TextFormatExporter
         // LibIME uses lve/nve instead of lue/nue
         pinyin = pinyin.Replace("lue", "lve").Replace("nue", "nve");
         // 与 libime saveText 一致：词面走 fcitx escapeForValue（含空白/引号/反斜杠时加引号转义）。
-        return $"{LibimeTextEscaping.EscapeValue(entry.Word)} {pinyin} {entry.Rank}";
+        return $"{LibimeTextEscaping.EscapeValue(entry.Word)} {pinyin} {LibimeWeight.Format(LibimeWeight.FromRank(entry.Rank))}";
     }
 }

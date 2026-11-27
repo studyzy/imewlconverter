@@ -11,7 +11,8 @@ using ImeWlConverter.Abstractions.Results;
 /// Fcitx5 / libime 二进制拼音词库导出器（可被 <c>libime_pinyindict</c> / Fcitx5 直接加载的 <c>*.dict</c>）。
 ///
 /// 词条需要拼音编码（<see cref="CodeType.Pinyin"/>）。每个音节按 libime 规范编码为 2 字节，
-/// 词条值为 <see cref="WordEntry.Rank"/>，与文本格式 <c>libimetxt</c> 保持一致。
+/// 词条值由 <see cref="LibimeWeight.FromRank"/> 把 <see cref="WordEntry.Rank"/> 映射为对数尺度权重，
+/// 与文本格式 <c>libimetxt</c> 保持一致。
 /// </summary>
 [FormatPlugin("libimebin", "LibIME 拼音词库（二进制）", 501, IsBinary = true, FileExtension = ".dict",
     DefaultFileName = "sc")]
@@ -37,7 +38,7 @@ public sealed partial class LibIMEPinyinExporter : IFormatExporter
                 continue;
             }
 
-            trie.Set(key, entry.Rank);
+            trie.Set(key, LibimeWeight.FromRank(entry.Rank));
             entryCount++;
         }
 

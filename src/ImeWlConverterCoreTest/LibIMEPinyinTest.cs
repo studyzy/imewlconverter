@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using ImeWlConverter.Abstractions.Enums;
 using ImeWlConverter.Abstractions.Models;
 using ImeWlConverter.Formats.LibIMEPinyin;
@@ -98,6 +99,24 @@ public class LibIMEPinyinTest
         Assert.Equal("lv'se", imported["绿色"].Code!.GetPrimaryCode("'"));
     }
 
+    /// <summary>
+    /// Rime 等正整数词频可达数十万（issue #436）。libime 权重是对数尺度的得分，
+    /// 直接把词频写进去会碾压解码器的语言模型得分、造成词序抢占。
+    /// </summary>
+    [Fact]
+    public async Task Export_MapsLargeRankToSingleDigitWeight()
+    {
+        using var ms = new MemoryStream();
+        await _exporter.ExportAsync(new[] { Entry("学生", 350000, "xue", "sheng") }, ms);
+
+        ms.Position = 0;
+        var trie = LibimeDictFormat.Read(ms);
+        var (_, weight) = Assert.Single(trie.Enumerate());
+
+        Assert.True(float.IsFinite(weight), $"权重不是有限值: {weight}");
+        Assert.InRange(weight, 0f, 9f);
+    }
+
     /// <summary>缺少拼音的词条应被计入错误而不写出损坏数据。</summary>
     [Fact]
     public void Export_AllEntriesWithoutPinyin_Throws()
@@ -121,7 +140,7 @@ public class LibIMEPinyinTest
         key.AddRange(Encoding.UTF8.GetBytes("你好"));
 
         var trie = new CedarFloatTrie();
-        trie.Set(key.ToArray(), 7f);
+        trie.Set(key.ToArray(), LibimeWeight.FromRank(7));
 
         using var ms = new MemoryStream();
         Span<byte> header = stackalloc byte[8];

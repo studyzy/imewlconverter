@@ -16,6 +16,7 @@
  */
 
 using System.IO;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ using Xunit;
 namespace Studyzy.IMEWLConverter.Test;
 
 /// <summary>
-/// LibIME 文本词库格式测试。文本行格式与 libime <c>loadText</c> 一致：<c>汉字 拼音 [词频]</c>。
+/// LibIME 文本词库格式测试。文本行格式与 libime <c>loadText</c> 一致：<c>汉字 拼音 [权重]</c>。
 /// </summary>
 public class LibIMETextTest
 {
@@ -60,22 +61,24 @@ public class LibIMETextTest
         return importer.ImportAsync(ms).GetAwaiter().GetResult().Entries;
     }
 
-    /// <summary>导出应按 libime 文本顺序输出「汉字 拼音 词频」，且 lue/nue 写成 lve/nve。</summary>
+    /// <summary>导出应按 libime 文本顺序输出「汉字 拼音 权重」，且 lue/nue 写成 lve/nve。</summary>
     [Fact]
     public void Export_WritesWordPinyinRank()
     {
+        // 词频 5 → log10(5)-1 ≈ -0.30103；词频 1 → -1（低频词权重为负）。
         var text = Export(_exporter, Entry("你好", 5, "ni", "hao"));
-        Assert.Equal("你好 ni'hao 5\n", text.Replace("\r\n", "\n"));
+        Assert.Equal("你好 ni'hao -0.30103\n", text.Replace("\r\n", "\n"));
 
         var lue = Export(_exporter, Entry("绿色", 1, "lue", "se"));
-        Assert.StartsWith("绿色 lve'se 1", lue);
+        Assert.StartsWith("绿色 lve'se -1", lue);
     }
 
     /// <summary>词面在拼音之前（历史 bug：导入器把两个字段读反了）。</summary>
     [Fact]
     public void Import_ReadsWordThenPinyin()
     {
-        var entries = Import(_importer, "你好 ni'hao 5\n");
+        // -0.30103 是词频 5 对应的权重；导入时逆映射回 5。
+        var entries = Import(_importer, "你好 ni'hao -0.30103\n");
         var entry = Assert.Single(entries);
 
         Assert.Equal("你好", entry.Word);
@@ -114,11 +117,37 @@ public class LibIMETextTest
         Assert.Equal(3, imported["小企鹅"].Rank);
     }
 
+    /// <summary>
+    /// Rime 等正整数词频可达数十万（issue #436）。libime 权重是对数尺度的得分，
+    /// 直接把词频写成文本权重会碾压解码器的语言模型得分、造成词序抢占。
+    /// </summary>
+    [Fact]
+    public void Export_MapsLargeRankToSmallWeight()
+    {
+        var line = Export(_exporter, Entry("学生", 350000, "xue", "sheng")).Trim();
+        var weight = float.Parse(line.Split(' ')[2], CultureInfo.InvariantCulture);
+
+        Assert.InRange(weight, 0f, 9f);
+    }
+
+    /// <summary>libime 权重是浮点且可为负，导入时应还原成可用的正整数词频。</summary>
+    [Theory]
+    [InlineData("0", 10)]
+    [InlineData("1", 100)]
+    [InlineData("-1", 1)]
+    [InlineData("1.25", 178)]
+    public void Import_MapsLibimeWeightToRank(string weight, int expectedRank)
+    {
+        var entry = Assert.Single(Import(_importer, $"你好 ni'hao {weight}\n"));
+        Assert.Equal(expectedRank, entry.Rank);
+    }
+
     /// <summary>字段不足的行应被忽略而不是产出错误词条。</summary>
     [Theory]
     [InlineData("")]
     [InlineData("你好")]
     [InlineData("   ")]
+    [InlineData("你好 ni'hao abc")]
     [InlineData("a b ni'hao 5")]
     [InlineData("你好 ni'hao 5 extra")]
     public void Import_MalformedLine_IsSkipped(string line)
@@ -131,17 +160,17 @@ public class LibIMETextTest
     public void Export_EscapesWordWithWhitespace()
     {
         var text = Export(_exporter, Entry("a b", 5, "ni", "hao"));
-        Assert.Equal("\"a b\" ni'hao 5\n", text.Replace("\r\n", "\n"));
+        Assert.Equal("\"a b\" ni'hao -0.30103\n", text.Replace("\r\n", "\n"));
 
         var tab = Export(_exporter, Entry("a\tb", 1, "ni"));
-        Assert.Equal("\"a\\tb\" ni 1\n", tab.Replace("\r\n", "\n"));
+        Assert.Equal("\"a\\tb\" ni -1\n", tab.Replace("\r\n", "\n"));
     }
 
     /// <summary>导入时应能还原被引号包裹（含转义）的词面。</summary>
     [Fact]
     public void Import_ReadsQuotedWord()
     {
-        var entry = Assert.Single(Import(_importer, "\"a b\" ni'hao 5\n"));
+        var entry = Assert.Single(Import(_importer, "\"a b\" ni'hao -0.30103\n"));
 
         Assert.Equal("a b", entry.Word);
         Assert.Equal("ni'hao", entry.Code!.GetPrimaryCode("'"));
@@ -233,7 +262,7 @@ public class LibIMETextTest
     }
 
     /// <summary>
-    /// libime 导出的含非 BMP 生僻字的文本词库（词面用其自带拼音，词频均为 1）。
+    /// libime 导出的含非 BMP 生僻字的文本词库（词面用其自带拼音，权重均为 1）。
     /// </summary>
     private const string LibimeNonBmpText = """
         豹江𫚉娘 bao'jiang'hong'niang 1
