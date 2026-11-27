@@ -12,7 +12,7 @@ using ImeWlConverter.Formats.Shared;
 /// 第二列是同一编码下的候选排位（1 起），不是词频；与 Win10 微软拼音自定义短语
 /// 导出器（MsChxUdpExporterBase）保持一致，按编码自动编号。
 /// </summary>
-[FormatPlugin("dy", "用户自定义短语", 110)]
+[FormatPlugin("dy", "搜狗用户自定义短语", 110)]
 public sealed partial class UserDefinePhraseExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => new UTF8Encoding(false);
