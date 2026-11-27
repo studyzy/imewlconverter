@@ -12,7 +12,7 @@
 [![Release](https://badgen.net/github/release/studyzy/imewlconverter)](https://github.com/studyzy/imewlconverter/releases)
 ![Downloads](https://badgen.net/github/assets-dl/studyzy/imewlconverter)
 
-一款输入法词库转换软件，支持以下 50 余种输入法工具和词库格式
+一款输入法词库转换软件，支持 58 种词库格式（56 种可导入、49 种可导出）
 
 </div>
 
@@ -64,6 +64,8 @@ DOTNET_CONFIG=Release make build-cmd  # Release 模式构建
 
 ## 支持列表
 
+> 以下按输入法工具归类列出主要支持对象。完整的格式代码、显示名与导入/导出能力以下方「格式代码速查表」为准，也可运行 `--list-formats` 查看当前版本实际注册的格式。
+
 PC 端：
 
 - Chinese-pyim(Linux)
@@ -71,8 +73,8 @@ PC 端：
 - libpinyin(Linux)
 - [MacOS 自带简体拼音](https://github.com/studyzy/imewlconverter/wiki/MacPlist)
 - [QQ 拼音（文本词库和 qpyd 格式分类词库）](https://github.com/studyzy/imewlconverter/wiki/QQ_Pinyin_Win)
-- [QQ 五笔](https://github.com/studyzy/imewlconverter/wiki/QQ_Wubi)
 - QQ 输入法自定义短语（自定义短语 .ini，编码=排序位置,词语）
+- [QQ 五笔](https://github.com/studyzy/imewlconverter/wiki/QQ_Wubi)
 - [Rime 输入法(Linux 中州韻、Windows 小狼毫、Mac OS 鼠鬚管)](https://github.com/studyzy/imewlconverter/wiki/Rime)
 - [Win10 微软拼音](https://github.com/studyzy/imewlconverter/wiki/Win10Ms_Pinyin)
 - [Win10 微软五笔](https://github.com/studyzy/imewlconverter/wiki/Win10Ms_Wubi)
@@ -88,7 +90,8 @@ PC 端：
 - 青简词库（.qj 二进制格式）
 - 手心输入法
 - [搜狗拼音（文本词库、Bin 格式备份词库和 scel 格式细胞词库）](https://github.com/studyzy/imewlconverter/wiki/Sougou_Pinyin)
-- [搜狗五笔](https://github.com/studyzy/imewlconverter/wiki/Sougou_Wubi)
+- 搜狗用户自定义短语（仅导出）
+- [搜狗五笔](https://github.com/studyzy/imewlconverter/wiki/Sougou_Wubi)（「五笔编码 词语」文本词库，对应 `wb86` / `wb98` / `wbnewage`）
 - [微软拼音 2010](https://github.com/studyzy/imewlconverter/wiki/Ms_Pinyin)
 - [小小输入法（拼音、五笔、郑码、二笔）](https://github.com/studyzy/imewlconverter/wiki/Xiaoxiao)
 - [小鸭五笔](https://github.com/studyzy/imewlconverter/wiki/Xiaoya_Wubi)
@@ -96,22 +99,37 @@ PC 端：
 - [雅虎奇摩输入法（注音）](https://github.com/studyzy/imewlconverter/wiki/Yahoo)
 - [紫光拼音（文本词库和 uwl 格式分类词库）](https://github.com/studyzy/imewlconverter/wiki/Ziguang_Pinyin)
 - 自定义格式
+- Win10 微软拼音（自学习词汇）
+- QQ 拼音英文
+- 百度拼音备份词库 bin
+- 二笔输入法（仅导出）
+- 超音速录
+- Emoji（仅导入）
+- Fcitx5 / libime 拼音词库（文本与二进制）
+- 水杉输入法（全拼）
+- 极点五笔 .mb 文件（仅导入）
+- Rime UserDb 用户词典（仅导入）
+- 无拼音纯汉字
 
 手机端：
 
 - QQ 手机拼音
 - 百度手机拼音（文本词库和 bcd 格式，支持导入导出）
+- 百度手机英文
 - 谷歌拼音输入法
 - [Gboard user_dict_3_3](https://github.com/studyzy/imewlconverter/wiki/GBoard_Binary)
+- Gboard 文本词库
+- 讯飞输入法
 
-该软件支持 6 种以上的输入法编码方法：
+该软件支持以下输入法编码方法（`CodeType`）：
 
-- 仓颉
-- 二笔（超强二笔，青松二笔等）
+- 仓颉（五代）
+- 二笔（超强二笔、青松二笔、现代二笔、隐形二笔）
 - 拼音（全拼、双拼）
-- 五笔（五笔 86、五笔 98、新世纪五笔）
+- 五笔（86、98、新世纪）
 - 郑码
 - 注音
+- 超音（超音速录）
 - 自定义
 
 ## 命令行使用
@@ -142,34 +160,70 @@ imewlconverter -i <输入格式> -o <输出格式> -O <输出文件> <输入文�
 
 ### 格式代码速查表
 
+下表列出当前代码注册的全部 58 个格式代码（56 个可导入、49 个可导出），按格式代码排序：
+
 | 格式代码 | 说明 | 文件扩展名 | 支持导入 | 支持导出 |
 |---------|------|-----------|:-------:|:-------:|
-| `scel` | 搜狗拼音细胞词库 | .scel | ✅ | ✅ |
-| `sgpy` | 搜狗拼音文本格式 | .txt | ✅ | ✅ |
-| `sgpybin` | 搜狗拼音备份词库 | .bin | ✅ | ✅ |
-| `qqpy` | QQ 拼音文本格式 | .txt | ✅ | ✅ |
-| `qqdy` | QQ 输入法自定义短语 | .ini | ✅ | ✅ |
-| `qpyd` | QQ 拼音分类词库 | .qpyd | ✅ | ❌ |
-| `qcel` | QQ 拼音细胞词库 | .qcel | ✅ | ❌ |
-| `ggpy` | 谷歌拼音 | .txt | ✅ | ✅ |
-| `bdpy` | 百度拼音文本格式 | .txt | ✅ | ✅ |
-| `bdict` | 百度拼音二进制格式 | .bdict | ✅ | ❌ |
 | `bcd` | 百度手机 bcd 词库 | .bcd | ✅ | ✅ |
-| `rime` | Rime 输入法 | .yaml | ✅ | ✅ |
+| `bdict` | 百度分类词库 bdict | .bdict | ✅ | ❌ |
+| `bdpy` | 百度拼音文本格式 | .txt | ✅ | ✅ |
+| `bdpybin` | 百度拼音备份词库 bin | .bin | ✅ | ❌ |
+| `bdsj` | 百度手机 / Mac 版百度拼音 | .txt | ✅ | ✅ |
+| `bdsje` | 百度手机英文 | .txt | ✅ | ✅ |
+| `bing` | 必应输入法 | .txt | ✅ | ✅ |
+| `cjpt` | 仓颉平台 | .txt | ✅ | ✅ |
+| `cysl` | 超音速录 | .txt | ✅ | ✅ |
+| `dy` | 搜狗用户自定义短语 | .txt | ❌ | ✅ |
+| `emoji` | Emoji | .txt | ✅ | ❌ |
+| `erbi` | 二笔输入法 | .txt | ❌ | ✅ |
+| `fit` | FIT 输入法 (Mac) | .txt | ✅ | ✅ |
+| `gboard` | Gboard 文本词库 | .txt | ✅ | ✅ |
+| `gboardbin` | Gboard user_dict_3_3 | .dict | ✅ | ✅ |
+| `ggpy` | 谷歌拼音 | .txt | ✅ | ✅ |
+| `ifly` | 讯飞输入法 | .txt | ✅ | ✅ |
+| `jd` | 极点五笔 | .txt | ✅ | ✅ |
+| `jdmb` | 极点五笔 .mb 文件 | .mb | ✅ | ❌ |
+| `jdzm` | 极点郑码 | .txt | ✅ | ✅ |
+| `ld2` | 灵格斯词库 ld2 | .ld2 | ✅ | ❌ |
+| `libimebin` | Fcitx5 / libime 二进制拼音词库 | .dict | ✅ | ✅ |
+| `libimetxt` | Fcitx5 / libime 文本拼音词库 | .txt | ✅ | ✅ |
+| `libpy` | libpinyin (Linux) | .txt | ✅ | ✅ |
+| `mspy` | 微软拼音 2010 | .dctx | ✅ | ✅ |
+| `plist` | macOS 系统拼音 | .plist | ✅ | ✅ |
+| `pyim` | Chinese-pyim (Linux) | .txt | ✅ | ✅ |
+| `pyjj` | 拼音加加 | .txt | ✅ | ✅ |
+| `qcel` | QQ 分类词库 qcel | .qcel | ✅ | ❌ |
 | `qingjiantsv` | 青简 TSV | .tsv | ✅ | ✅ |
 | `qj` | 青简词库（.qj 二进制） | .qj | ✅ | ✅ |
-| `zgpy` | 紫光拼音 | .txt | ✅ | ✅ |
-| `pyjj` | 拼音加加 | .txt | ✅ | ✅ |
-| `libpy` | libpinyin (Linux) | .txt | ✅ | ✅ |
-| `libimetxt` | Fcitx5 / libime 文本拼音词库 | .txt | ✅ | ✅ |
-| `libimebin` | Fcitx5 / libime 二进制拼音词库 | .dict | ✅ | ✅ |
-| `sspy` | 水杉输入法全拼词库（设置 → 词库 → 全拼 → 批量导入） | .txt | ✅ | ✅ |
-| `plist` | macOS 系统拼音 | .plist | ✅ | ✅ |
-| `fit` | FIT 输入法 (Mac) | .txt | ✅ | ✅ |
-| `gboardbin` | Gboard user_dict_3_3 | .dict | ✅ | ✅ |
+| `qpyd` | QQ 分类词库 qpyd | .qpyd | ✅ | ❌ |
+| `qqdy` | QQ 输入法自定义短语（.ini，编码=排序位置,词语） | .ini | ✅ | ✅ |
+| `qqpy` | QQ 拼音文本格式 | .txt | ✅ | ✅ |
+| `qqpye` | QQ 拼音英文 | .txt | ✅ | ✅ |
+| `qqsj` | QQ 手机拼音 | .txt | ✅ | ✅ |
+| `qqwb` | QQ 五笔 | .txt | ✅ | ✅ |
+| `rime` | Rime 输入法 | .yaml | ✅ | ✅ |
+| `rimedb` | Rime UserDb 用户词典 | .txt | ✅ | ❌ |
+| `scel` | 搜狗拼音细胞词库 | .scel | ✅ | ✅ |
 | `self` | 自定义格式 | .txt | ✅ | ✅ |
+| `sgpy` | 搜狗拼音文本格式 | .txt | ✅ | ✅ |
+| `sgpybin` | 搜狗拼音备份词库 | .bin | ✅ | ✅ |
+| `sspy` | 水杉输入法全拼词库（设置 → 词库 → 全拼 → 批量导入） | .txt | ✅ | ✅ |
+| `sxpy` | 手心输入法 | .txt | ✅ | ✅ |
+| `uwl` | 紫光拼音分类词库 uwl | .uwl | ✅ | ❌ |
+| `wb86` | 五笔 86 版 | .txt | ✅ | ✅ |
+| `wb98` | 五笔 98 版 | .txt | ✅ | ✅ |
+| `wbnewage` | 五笔新世纪版 | .txt | ✅ | ✅ |
+| `win10mspy` | Win10 微软拼音（用户自定义短语） | .dat | ✅ | ✅ |
+| `win10mspyss` | Win10 微软拼音（自学习词汇） | .dat | ✅ | ✅ |
+| `win10mswb` | Win10 微软五笔（用户自定义短语） | .dat | ✅ | ✅ |
+| `word` | 无拼音纯汉字 | .txt | ✅ | ✅ |
+| `xiaoxiao` | 小小输入法 | .txt | ✅ | ✅ |
+| `xlpy` | 新浪拼音 | .txt | ✅ | ✅ |
+| `xywb` | 小鸭五笔 | .txt | ✅ | ✅ |
+| `yahoo` | 雅虎奇摩输入法（注音） | .txt | ✅ | ✅ |
+| `zgpy` | 华宇紫光拼音 | .txt | ✅ | ✅ |
 
-> 运行 `--list-formats` 可查看当前版本支持的完整格式列表。
+> 「文件扩展名」为该格式的典型文件名提示；代码中未显式声明扩展名的格式默认注册为 `.txt`，实际输入文件不受此限制。运行 `--list-formats` 可查看所安装版本实际注册的格式。
 
 ### 常用示例
 
@@ -228,7 +282,7 @@ dotnet ImeWlConverterCmd.dll -i scel -o scel \
   -O output.scel input.scel
 ```
 
-> 说明：这些选项仅影响内嵌元数据的格式（目前为搜狗 .scel 与百度手机 .bcd，bcd 使用编号、名称和描述，类别字段暂不写入）。未指定的字段使用默认值（名称：深蓝词库转换，类别：自定义，编号：自动生成）。
+> 说明：这些选项仅影响带内嵌元数据的导出格式（目前为搜狗 `.scel`、百度手机 `.bcd` 与青简 `.qj`）：`.scel` 写入编号、名称、类别和描述；`bcd` 写入编号、名称和描述，类别字段暂不写入；`.qj` 仅使用名称。未指定的字段使用默认值（名称：深蓝词库转换，类别：自定义，编号：自动生成）。
 
 **输出双拼词库**（`--shuangpin`，在编码生成之后把全拼替换为双拼码）：
 
@@ -281,7 +335,7 @@ dotnet run --project src/ImeWlConverterCmd -- \
 
 ### 重要说明
 
-从 v3.0.0 开始，命令行参数格式已更新为 GNU 风格。如果您使用的是旧格式（如 `-i:scel`），请参阅 [MIGRATION.md](docs/MIGRATION.md) 进行迁移。
+从 v3.4.0 开始，命令行参数格式已更新为 GNU 风格。如果您使用的是旧格式（如 `-i:scel`），请参阅 [MIGRATION.md](docs/MIGRATION.md) 进行迁移。
 
 ## 集成测试
 
@@ -290,13 +344,20 @@ dotnet run --project src/ImeWlConverterCmd -- \
 ### 快速运行测试
 
 ```bash
-# 1. 编译CLI工具
-cd src/ImeWlConverterCmd
-dotnet build -c Release
+# 推荐：Makefile 目标会先构建 CLI，再以同一配置运行集成测试
+make integration-test
+```
 
-# 2. 运行集成测试
-cd ../../tests/integration
-./run-tests.sh --all
+也可手动执行，注意构建配置与测试脚本必须一致（`run-tests.sh` 通过 `DOTNET_CONFIG` 选择 `bin/<配置>/net10.0/`，默认 `Debug`）：
+
+```bash
+# Debug（默认）
+dotnet build src/ImeWlConverterCmd
+cd tests/integration && ./run-tests.sh --all
+
+# Release：构建用 -c Release，测试脚本用 DOTNET_CONFIG=Release 选同一产物
+dotnet build src/ImeWlConverterCmd -c Release
+cd tests/integration && DOTNET_CONFIG=Release ./run-tests.sh --all
 ```
 
 ### 测试覆盖范围
@@ -305,7 +366,7 @@ cd ../../tests/integration
 - ✅ 导入测试（多种输入格式 → 统一CSV格式）
 - ✅ 导出测试（统一CSV格式 → 多种输出格式）
 - ✅ 高级功能测试（过滤、编码、大文件性能）
-- ✅ GUI 转换矩阵测试（Windows，驱动 WinForms 界面执行转换与词库合并、文件分割等 41 条路径，需交互桌面会话）
+- ✅ GUI 转换矩阵测试（Windows，驱动 WinForms 界面执行 38 条导入→导出转换路径及词库合并、文件分割等工具用例，共 43 个用例，需交互桌面会话）
 - ✅ 实机端到端测试（Win10 微软拼音候选验证）
 
 详细的测试矩阵与数据来源见 `tests/integration/TEST-MATRIX.md`。

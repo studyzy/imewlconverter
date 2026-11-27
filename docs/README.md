@@ -27,4 +27,13 @@
 ## 项目入口文档
 
 - [README.md](../README.md) — 项目介绍、安装、使用
-- [CODEBUDDY.md](../CODEBUDDY.md) — AI 编程助手项目上下文（架构、命令、约定）
+- [CODEBUDDY.md](../CODEBUDDY.md) — AI 编程助手项目上下文（架构、命令、约定；`CLAUDE.md` 是它的符号链接）
+- [CHANGELOG.md](../CHANGELOG.md) — 版本变更记录
+
+## 其他文档
+
+- [tests/integration/README.md](../tests/integration/README.md) — 集成测试框架与运行方式
+- [tests/integration/TEST-MATRIX.md](../tests/integration/TEST-MATRIX.md) — 集成测试矩阵与数据来源
+- [tests/integration/MIGRATION-GUIDE.md](../tests/integration/MIGRATION-GUIDE.md) — 集成测试用例迁移指南
+- [.github/WORKFLOW_MIGRATION.md](../.github/WORKFLOW_MIGRATION.md) — CI 工作流迁移记录
+- [openspec/project.md](../openspec/project.md) — 项目上下文（目的、技术栈、约定）

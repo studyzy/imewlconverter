@@ -64,7 +64,7 @@
 
 **平台支持**：
 
-- 核心库(ImeWlConverterCore)必须支持：.NET 8.0、.NET Framework 4.6
+- 核心库(ImeWlConverter.Core)目标框架：.NET 10.0（net10.0）
 - CLI工具(ImeWlConverterCmd)支持：Windows、Linux、macOS
 - GUI工具：Windows(WinForms)、macOS(原生)
 - 禁止使用平台特定API，除非有明确的平台抽象层
@@ -78,7 +78,7 @@
 **版本管理规则**：
 
 - 版本号由MinVer从Git tag自动生成，格式：`vX.Y.Z`
-- **禁止手动修改**：`ConstantString.cs`中的`VERSION`字段、`.csproj`中的`<Version>`标签
+- **禁止手动修改**：`.csproj` 中的 `<Version>` 标签（版本号由 MinVer 从 Git tag 自动生成，配置见 src/Directory.Build.props）
 - 遵循语义化版本规范(Semantic Versioning)：
   - MAJOR：不兼容的API变更
   - MINOR：向后兼容的功能新增
@@ -86,7 +86,7 @@
 - 发布新版本：创建并推送Git tag，GitHub Actions自动构建和发布
 - 非Git环境构建：使用环境变量`PACKAGE_VERSION`指定版本号
 
-**理由**：自动化版本管理消除人为错误，简化发布流程，确保版本号一致性。详见[RELEASING.md](../RELEASING.md)。
+**理由**：自动化版本管理消除人为错误，简化发布流程，确保版本号一致性。详见[docs/RELEASING.md](../../docs/RELEASING.md)。
 
 ### VI. 模块化与可扩展性
 
@@ -105,8 +105,8 @@
 ### 语言与框架
 
 - **主语言**：C# 
-- **核心框架**：.NET 8.0（新代码）、.NET Framework 4.6（兼容性）
-- **测试框架**：xUnit或NUnit
+- **核心框架**：.NET 10.0（net10.0）
+- **测试框架**：xUnit 2.9.3
 - **代码覆盖率工具**：Coverlet + ReportGenerator
 
 ### 性能要求
@@ -183,7 +183,7 @@
 日常开发请参考：
 
 - `CODEBUDDY.md` - 项目级指导文档
-- `RELEASING.md` - 版本发布流程
+- `docs/RELEASING.md` - 版本发布流程
 - `.specify/templates/` - 规范和计划模板
 
 **版本**: 1.0.0 | **批准日期**: 2026-01-25 | **最后修正**: 2026-01-25

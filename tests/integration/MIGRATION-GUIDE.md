@@ -1,5 +1,7 @@
 # 测试套件迁移指南
 
+> ⚠️ 本文为历史迁移记录（v1.0 → v2.0 `imports` 方案）。当前测试套件结构为 `1-imports` / `2-exports` / `3-advanced` / `4-regression` 四组，共 29 个用例，详见 [README.md](README.md) 与 [TEST-MATRIX.md](TEST-MATRIX.md)。文中的旧目录名与命令已不再适用。
+
 ## 概述
 
 为了优化测试结构和减少维护成本，我们引入了新的**测试矩阵方法**，将原有的多个按格式分组的测试套件整合为统一的 `imports` 测试套件。
@@ -35,7 +37,7 @@ test-cases/
 ```
 test-cases/
 └── imports/               # 统一的导入测试矩阵
-    ├── test-config.yaml   # 6个测试用例（整合）
+    ├── test-config.yaml   # 9 个测试用例
     ├── README.md
     └── expected/          # 所有预期输出
 ```
@@ -63,7 +65,7 @@ test-cases/
 ### 当前状态
 
 - ✅ 新的 `imports` 测试套件已创建并通过测试
-- ✅ 旧测试套件仍然保留（向后兼容）
+- ✅ 当前仅保留 1-imports / 2-exports / 3-advanced / 4-regression 四个套件
 - ✅ 两套测试可以并行运行
 
 ### 建议
@@ -83,8 +85,8 @@ test-cases/
 ### 运行测试
 
 ```bash
-# 运行新的imports测试套件
-./run-tests.sh -s imports
+# 运行 1-imports 测试套件
+./run-tests.sh -s 1-imports
 
 # 运行所有测试（包括新旧）
 ./run-tests.sh --all
@@ -95,7 +97,7 @@ test-cases/
 
 ### 添加新测试
 
-只需在 `imports/test-config.yaml` 中添加一个测试用例：
+只需在 `1-imports/test-config.yaml` 中添加一个测试用例：
 
 ```yaml
 - name: "TN-新格式到搜狗文本"
@@ -118,8 +120,8 @@ test-cases/
 
 | 指标 | 旧结构（v1.0） | 新结构（v2.0） | 改进 |
 |------|--------------|--------------|------|
-| 配置文件数 | 4个 | 1个 | ↓ 75% |
-| 测试用例数 | 6个 | 6个 | 持平 |
+| 配置文件数 | 4 个 | 4 个 | 持平 |
+| 测试用例数 | 29 个 | 29 个 | 持平 |
 | 测试覆盖率 | ~6种格式 | ~6种格式 | 持平 |
 | 执行时间 | ~1.4秒 | ~1.7秒 | ↑ 21% |
 | 维护成本 | 高 | 低 | ↓ 显著 |
@@ -133,8 +135,7 @@ test-cases/
 - ✅ 旧测试套件仍然可以运行
 - ✅ 旧的运行命令仍然有效：
   ```bash
-  ./run-tests.sh -s sougou-scel
-  ./run-tests.sh -s qq-pinyin-txt
+  ./run-tests.sh -s 2-exports
   ```
 
 ### 标签兼容
@@ -166,7 +167,7 @@ A: **推荐使用新的 `imports` 测试套件**。它更简单、更容易维�
 A: 执行时间略有增加（+0.3秒），但在可接受范围内。维护成本的降低远超这个小开销。
 
 ### Q: 如何只运行新测试？
-A: 使用 `./run-tests.sh -s imports`
+A: 使用 `./run-tests.sh -s 1-imports`
 
 ## 反馈
 

@@ -17,7 +17,7 @@
 #### 改进点:
 
 **触发条件优化**
-- 🔧 从"所有 push"改为"主分支 push + PR"
+- 🔧 push 仍触发所有分支（'**'），新增 markdown/docs 路径忽略；新增 PR 触发（main/master/develop）与 workflow_dispatch
 - 🔧 添加路径忽略规则 (markdown、文档等)
 - ✅ 支持手动触发 (`workflow_dispatch`)
 
@@ -36,15 +36,15 @@
 
 **依赖缓存**
 - ✅ 启用 .NET 依赖缓存
-- ✅ 基于 `packages.lock.json` 的智能缓存
+- ✅ 基于 **/*.csproj 哈希的 NuGet 缓存（actions/cache@v6）
 
 **超时控制**
-- ✅ 每个 job 都设置合理的超时时间
+- ✅ 除 ci-success 汇总 job 外，每个 job 都设置了 timeout-minutes
 - ✅ 防止意外的长时间运行
 
 **构建产物管理**
 - ✅ Artifact 名称包含架构信息,避免冲突
-- ✅ 保留期限设为 7 天 (节省存储)
+- ✅ 构建产物保留 7 天；集成测试报告保留 30 天；Release 中间产物保留 1 天
 
 ### 3. Release Workflow (release.yml)
 
@@ -94,7 +94,7 @@
 1. **并行构建**: matrix 策略并行执行所有平台
 2. **依赖缓存**: 避免重复下载 NuGet 包
 3. **快速失败**: 代码检查前置,提前发现问题
-4. **减少重复**: 测试只在 Ubuntu 上执行一次
+4. **减少重复**: 单元测试只在 Ubuntu 的 build-and-test job 执行一次；集成测试另在 Linux x64 与 macOS arm64 各执行一次
 
 ## Matrix 策略说明
 
@@ -120,7 +120,7 @@ matrix:
   arch: [x64, arm64]
 ```
 - 并行构建两个架构
-- 包含 CLI 和 GUI (.app bundle)
+- 包含 CLI 与 GUI（dotnet publish 输出 gui 目录；.app bundle 仅在 release.yml 中打包）
 
 ## 环境变量优化
 
@@ -168,8 +168,8 @@ env:
    - 新: `windows-x64`, `macos-arm64` 等
 
 2. **触发条件变更**
-   - CI 不再对所有 push 触发
-   - 需要推送到主分支或创建 PR
+   - CI 仍对任意分支 push 触发，但忽略纯文档变更（**.md、docs/**、.gitignore）
+   - PR（main/master/develop）与手动 `workflow_dispatch` 同样可触发
 
 ### 向后兼容
 

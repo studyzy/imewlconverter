@@ -1,5 +1,7 @@
 # 记录一下设计思路
 
+> 本文为 v2.x 历史设计稿，文中的 `CoreMapping` / `WordLibrary` / `Generater` 等类名已过时。当前对应：`WordEntry`（Abstractions/Models）、`IConversionPipeline` / `ConversionPipeline`（Core/Pipeline）、`ICodeGenerator` 与 `Core/CodeGeneration/Generators/`。
+
 ## 层次调用
 
 1. 前端界面或者 Console 通过 CoreMapping 来调用 IME 中的类，完成解析 WordLibrary 类，然后导出成字符串的任务。

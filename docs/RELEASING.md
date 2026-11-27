@@ -23,8 +23,8 @@
 
 1. **确保所有变更已合并到主分支**
    ```bash
-   git checkout main
-   git pull origin main
+   git checkout master
+   git pull origin master
    ```
 
 2. **确认构建和测试通过**
@@ -76,7 +76,7 @@
 - **命令行工具**：
   ```bash
   ./ImeWlConverterCmd --version
-  # 应显示：3.4.0.0
+  # 显示 MinVer 生成的版本号（正式版如 3.4.0，开发版如 3.4.1-dev.1+<commit-sha>）；X.Y.Z.0 是 FileVersion/AssemblyVersion
   ```
 
 - **Windows GUI**：查看"关于"对话框
@@ -123,9 +123,9 @@ git push origin v3.4.0-rc.1
 
 4. **合并回主分支**
    ```bash
-   git checkout main
+   git checkout master
    git merge hotfix/3.4.1
-   git push origin main
+   git push origin master
    ```
 
 ## 本地开发构建
@@ -147,7 +147,7 @@ dotnet build  # 版本号：3.4.1-dev.1（自动递增）
 make version
 
 # 方法 2：直接使用 MSBuild
-cd src/ImeWlConverterCore
+cd src/ImeWlConverter.Core
 dotnet msbuild -getProperty:Version -nologo
 
 # 方法 3：查看 Git 状态
@@ -206,7 +206,7 @@ git describe --tags --long
 2. **验证版本号**：
    ```bash
    ./ImeWlConverterCmd --version
-   # 应显示：3.3.1.0
+   # 显示 MinVer 生成的版本号（正式版如 3.4.0，开发版如 3.4.1-dev.1+<commit-sha>）；X.Y.Z.0 是 FileVersion/AssemblyVersion
    ```
 
 3. **Gentoo ebuild 示例**：
@@ -223,7 +223,7 @@ git describe --tags --long
 
 **解决方法**：
 1. 检查 `.github/workflows/release.yml` 和 `ci.yml`
-2. 确认 `actions/checkout@v4` 使用了 `fetch-depth: 0`
+2. 确认 `actions/checkout@v7` 使用了 `fetch-depth: 0`
 3. 查看 CI 日志中的 MinVer 输出
 
 ### 问题：tag 创建错误

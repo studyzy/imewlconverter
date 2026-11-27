@@ -32,23 +32,23 @@
 # 进入测试目录
 cd tests/integration
 
-# 运行所有测试
+# 运行所有测试（4 个套件，29 个用例）
 ./run-tests.sh --all
 
-# 推荐：运行优化后的imports测试套件（v2.0）
-./run-tests.sh -s imports
-
-# 运行特定测试套件（旧版格式）
-./run-tests.sh -s sougou-scel
+# 运行单个测试套件（套件名必须与 test-cases/ 下的目录名一致）
+./run-tests.sh -s 1-imports
+./run-tests.sh -s 2-exports
+./run-tests.sh -s 3-advanced
+./run-tests.sh -s 4-regression
 
 # 运行带详细输出的测试
-./run-tests.sh -s imports -v
+./run-tests.sh -s 1-imports -v
 
 # 运行特定标签的测试
 ./run-tests.sh -t basic
 
 # 保留测试输出文件用于调试
-./run-tests.sh -s imports --keep-output
+./run-tests.sh -s 1-imports --keep-output
 
 # 生成JUnit XML报告（用于CI）
 ./run-tests.sh --all --xml
@@ -68,7 +68,7 @@ cd tests/integration
 
 | 脚本 | 用途 |
 |------|------|
-| `windows-gui-matrix.ps1` | **GUI 转换矩阵**：25 条导入→导出转换路径（见 TEST-MATRIX.md 的 GUI 章节），覆盖 25 种导入格式 |
+| `windows-gui-matrix.ps1` | **GUI 转换矩阵**：38 条导入→导出转换路径（A 组 12 / B 组 15 / C 组 11，见 TEST-MATRIX.md 的 GUI 章节） |
 | `windows-ime-e2e.ps1` | **实机端到端**：纯汉字 → Win10微软拼音 UDP 词库，替换系统词库后断言输入法候选窗真实出词 |
 
 ```powershell
@@ -81,27 +81,32 @@ powershell -ExecutionPolicy Bypass -File tests\integration\windows-gui-matrix.ps
 powershell -ExecutionPolicy Bypass -File tests\integration\windows-ime-e2e.ps1
 ```
 
-共享的 UI 自动化辅助函数位于 `lib/gui-automation.ps1`。C 组用例的样本文件缺失时会自动 SKIP 并在汇总末尾列出待准备文件清单（放入 `src/ImeWlConverterCoreTest/Test/` 后自动生效）。
+共享的 UI 自动化辅助函数位于 `lib/gui-automation.ps1`。C 组用例的样本文件缺失时会自动 SKIP 并在汇总末尾列出待准备文件清单（放入 `src/ImeWlConverterCoreTest/Test/` 后自动生效）；当前 C1–C10 及 C7B 样本均已补齐。
 
 ## 目录结构
 
 ```
 tests/integration/
 ├── run-tests.sh              # 主测试运行器（CLI 黑盒测试）
+├── cli-baseline.sh           # CLI 退出码 / --json 契约基线测试
 ├── lib/                      # 辅助函数库
 │   ├── test-helpers.sh       # 核心测试辅助函数
 │   ├── yaml-parser.sh        # YAML配置解析
 │   ├── color-output.sh       # 彩色终端输出
 │   ├── report-generator.sh   # 测试报告生成
-│   └── gui-automation.ps1    # ✨ GUI 测试共享 UI 自动化库（Win32 + UIA）
-├── test-cases/               # 测试用例目录
-│   ├── imports/              # ✨ 新：统一的导入测试矩阵（v2.0，推荐）
-│   ├── sougou-scel/          # 旧：搜狗拼音.scel格式测试（v1.0）
-│   ├── qq-pinyin-txt/        # 旧：QQ拼音文本格式测试（v1.0）
-│   ├── qq-qpyd/              # 旧：QQ拼音.qpyd格式测试（v1.0）
-│   ├── qq-qcel/              # 旧：QQ拼音.qcel格式测试（v1.0）
-│   └── ...                   # 其他格式测试
-├── windows-gui-matrix.ps1    # ✨ GUI 转换矩阵测试（Windows，25 条转换路径）
+│   ├── gui-automation.ps1    # ✨ GUI 测试共享 UI 自动化库（Win32 + UIA）
+│   └── take-screenshot.ps1   # GUI 截图辅助
+├── scripts/                  # 预期输出重生成脚本
+│   ├── regenerate-expected-csv.sh
+│   └── regenerate-expected-exports.sh
+├── docs/                     # 文档
+│   └── adding-tests.md       # 添加测试用例指南
+├── test-cases/               # 测试用例目录（4 个套件，共 29 个用例）
+│   ├── 1-imports/            # 导入测试（→ self CSV，9 个用例）
+│   ├── 2-exports/            # 导出测试（CSV → 各格式，13 个用例）
+│   ├── 3-advanced/           # 过滤等高级功能（3 个用例）
+│   └── 4-regression/         # 回归测试（4 个用例）
+├── windows-gui-matrix.ps1    # GUI 转换矩阵测试（Windows，38 条转换路径 + 5 个工具用例）
 ├── windows-ime-e2e.ps1       # ✨ GUI 实机端到端测试（Win10 微软拼音候选验证）
 ├── test-output/              # 测试临时输出（.gitignore）
 ├── reports/                  # 测试报告目录
@@ -109,47 +114,48 @@ tests/integration/
 └── MIGRATION-GUIDE.md        # 迁移指南
 ```
 
-**注意**：推荐使用新的 `imports` 测试套件（v2.0），它采用测试矩阵方法，更简洁高效。详见 [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md)。
+**注意**：`test-cases/` 下当前按 4 个套件组织（`1-imports` / `2-exports` / `3-advanced` / `4-regression`），`run-tests.sh -s` 的套件名必须与目录名完全一致。历史迁移过程见 [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md)。
 
 ## 测试用例配置
 
 每个测试套件在其目录下包含一个 `test-config.yaml` 文件，定义测试用例：
 
 ```yaml
-test_suite:
-  name: "搜狗拼音 .scel 格式转换测试"
-  description: "验证搜狗拼音细胞词库(.scel)格式的转换功能"
+suite_name: "1-imports"
+description: "导入格式 → self CSV（词语,拼音,词频）"
 
 test_cases:
-  - name: "唐诗300首转换为文本"
+  - name: "T01-搜狗细胞词库导入"
     description: "基础转换功能测试"
     enabled: true
-    timeout: 30
+    timeout: 15
+    expect_failure: false
     input:
       file: "../../../../src/ImeWlConverterCoreTest/Test/唐诗300首【官方推荐】.scel"
-      format: "sougou"
+      format: "scel"
+      encoding: "UTF-8"
     output:
-      format: "text"
-    expected:
-      file: "tangshi300-to-text.expected"
-    tags: ["basic", "sougou", "text-output"]
+      format: "self"
+      expected: "expected/t01-scel-to-csv.expected"
+      encoding: "UTF-8"
+    tags: ["basic", "sougou", "csv-output"]
 ```
 
 ### 配置字段说明
 
-- **test_suite**: 测试套件元数据
-  - `name`: 套件名称（中文）
-  - `description`: 套件描述
+- **suite_name**: 套件名称（必须与 test-cases/ 下目录名一致）
+- **description**: 套件描述
 
 - **test_cases**: 测试用例列表
   - `name`: 测试用例名称
   - `description`: 测试用例描述
   - `enabled`: 是否启用（true/false）
   - `timeout`: 超时时间（秒）
+  - `expect_failure`: 是否预期转换失败（true/false）
   - `input.file`: 输入文件路径（支持相对路径）
-  - `input.format`: 输入格式（如 sougou、qq、baidu等）
-  - `output.format`: 输出格式（如 text、sougou、rime等）
-  - `expected.file`: 期望输出文件路径
+  - `input.format`: 输入格式 ID（如 scel、qqpy、qpyd、qcel、bdict、rime；完整列表见 --list-formats）
+  - `output.format`: 输出格式 ID（如 sgpy、qqpy、rime、mspy、self；完整列表见 --list-formats）
+  - `expected`: 期望输出文件路径
   - `tags`: 标签列表，用于过滤测试
 
 ## 添加新测试用例
@@ -178,7 +184,7 @@ test_cases:
 4. **创建配置文件**:
    ```bash
    # 复制模板并修改
-   cp test-cases/sougou-scel/test-config.yaml test-cases/new-format/test-config.yaml
+   cp test-cases/1-imports/test-config.yaml test-cases/new-format/test-config.yaml
    # 编辑 test-config.yaml，更新测试用例信息
    ```
 
@@ -226,9 +232,9 @@ test_cases:
 
 ### GitHub Actions
 
-- 工作流文件: `.github/workflows/integration-tests.yml`
+- 工作流文件: `.github/workflows/ci.yml`（build-linux / build-macos job 内的 make integration-test 步骤）
 - 触发条件: push / pull_request / 手动触发
-- 运行平台: Ubuntu、macOS、Windows
+- 运行平台: Ubuntu (x64)、macOS (arm64)；Windows 不运行集成测试
 - 产物: `reports/test-results.xml`（JUnit XML）
 
 每次推送到主分支或创建Pull Request时，会自动：
@@ -280,10 +286,10 @@ cat reports/test-results.xml
 
 ```bash
 # 查看详细执行日志
-./run-tests.sh -s sougou-scel -v
+./run-tests.sh -s 1-imports -v
 
 # 保留测试输出文件
-./run-tests.sh -s sougou-scel --keep-output
+./run-tests.sh -s 1-imports --keep-output
 # 输出在: test-output/<suite-name>/<test-name>.actual
 
 # 手动运行转换命令
@@ -299,7 +305,8 @@ diff -u expected.txt actual.txt
 ### 预期性能指标
 
 - **单个测试**（文件<1MB）: <10秒
-- **完整测试套件**（10+种格式、30+用例）: <5分钟
+- **完整测试套件**（4 个套件、29 个用例）: <5分钟
+- **单套件执行时间**：以 `./run-tests.sh -s 1-imports` 的实际输出为准
 - **大文件测试**（诗词名句大全.scel ~3MB）: <60秒
 
 ### 性能优化建议
@@ -335,50 +342,16 @@ diff -u expected.txt actual.txt
 
 ## 测试覆盖范围
 
-### ✨ 推荐：imports测试套件（v2.0）
+当前共 4 个测试套件、29 个用例（`./run-tests.sh --all` 全部执行）：
 
-**设计理念**：一个测试用例 = 一条转换路径（输入格式A → 输出格式B）
+| 套件 | 用例数 | 说明 |
+|------|--------|------|
+| 1-imports | 9 | 各输入法格式 → self CSV（词语,拼音,词频） |
+| 2-exports | 13 | CSV → sgpy/qqpy/rime/mspy/ggpy/bdpy/pyjj/zgpy/libpy/fit/plist/scel 等格式 |
+| 3-advanced | 3 | 词频过滤、短词过滤、长词过滤 |
+| 4-regression | 4 | Issue #395：纯汉字 → wb98/wb86/jd/wbnewage |
 
-当前支持的转换路径：
-
-| 测试ID | 输入格式 | → | 输出格式 | 词条数 | 状态 |
-|--------|---------|---|---------|--------|------|
-| T1 | 搜狗.scel | → | 搜狗文本 | 3,563 | ✅ |
-| T2 | QQ拼音.txt | → | 搜狗文本 | 4 | ✅ |
-| T3 | QQ拼音.qpyd | → | 搜狗文本 | 1,657 | ✅ |
-| T4 | QQ拼音.qcel | → | 搜狗文本 | 4,675 | ✅ |
-| T6 | Rime | → | 搜狗文本 | 17 | ✅ |
-| T9 | 纯汉字 | → | 搜狗文本 | 59 | ✅ |
-
-**优势**：
-- 🎯 **测试目的明确**：每个测试清楚表示一条转换路径
-- 📝 **统一配置**：单一配置文件，易于维护
-- ⚡ **高效执行**：~1.7秒完成6个测试
-- 🔧 **易于扩展**：添加新格式只需一个配置条目
-
-详见：[imports/README.md](test-cases/imports/README.md) 和 [TEST-MATRIX.md](TEST-MATRIX.md)
-
-### 旧版：按格式分组的测试套件（v1.0）
-
-保留用于向后兼容：
-
-- [x] 搜狗拼音细胞词库(.scel)格式
-  - 基本转换测试（3563词条）
-  - 大文件性能测试（342179词条）- 跳过
-- [x] QQ拼音（文本、qpyd、qcel格式）
-  - 文本格式（4词条）
-  - 英文词条（2词条）
-  - 分类词库qpyd（1657词条）
-  - 分类词库qcel（4675词条，含英文）
-- [ ] 百度拼音（bdict格式）- 待实施
-- [ ] Rime输入法 - v2.0已支持
-- [ ] 灵格斯词典（ld2格式）- 待实施
-- [ ] 编码测试（GBK、UTF-8等）- 待实施
-
-**总测试用例数**：
-- v2.0 (imports): 6个测试用例
-- v1.0 (legacy): 6个测试用例  
-- 总计：12个（包含重复）
+详见各套件的 README.md（如 [1-imports/README.md](test-cases/1-imports/README.md)）与 [TEST-MATRIX.md](TEST-MATRIX.md)。CLI 退出码 / --json 契约另见 `cli-baseline.sh`。
 
 ## 贡献指南
 
@@ -407,7 +380,7 @@ diff -u expected.txt actual.txt
 
 - [项目主页](../../README.md)
 - [添加测试指南](docs/adding-tests.md)
-- [故障排查指南](docs/troubleshooting.md)
+- [故障排查](#故障排查)（见本文件"故障排查"章节）
 - [ImeWlConverter 文档](https://github.com/studyzy/imewlconverter)
 
 ## 联系方式

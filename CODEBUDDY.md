@@ -21,7 +21,7 @@
 
 ## 项目一句话描述
 
-深蓝词库转换（IME WL Converter）是一个跨平台的输入法词库格式转换工具，支持 50+ 种输入法格式之间的相互转换。
+深蓝词库转换（IME WL Converter）是一个跨平台的输入法词库格式转换工具，支持 58 种词库格式（56 种可导入、49 种可导出）之间的相互转换。
 
 - **语言**: C# / .NET 10.0
 - **测试框架**: xUnit 2.9.3
@@ -33,8 +33,8 @@
 
 ```bash
 make build              # 构建所有项目
-make test               # 运行单元测试 (318 个，实际以 dotnet test 输出为准)
-make integration-test   # 运行集成测试 (29 个用例，需先 make build-cmd)
+make test               # 运行单元测试 (581 个：578 通过、3 跳过，实际以 dotnet test 输出为准)
+make integration-test   # 运行集成测试 (4 个套件共 29 个用例；目标会自动构建 CLI)
 make lint               # 检查代码格式
 make format             # 自动格式化代码
 make run-cmd            # 运行 CLI 工具
@@ -48,7 +48,7 @@ src/
 ├── ImeWlConverter.Abstractions/     # 接口层（零依赖）
 ├── ImeWlConverter.CodeData/         # 码表数据叶子（零依赖，只读线程安全表服务）
 ├── ImeWlConverter.Core/             # 业务服务层（转换管道、编码生成、过滤、简繁转换）
-├── ImeWlConverter.Formats/          # 格式实现层（107个文件，50+种格式）
+├── ImeWlConverter.Formats/          # 格式实现层（105 个格式插件类，58 种格式代码）
 ├── ImeWlConverter.Application/      # 三端共享应用层（参数映射、请求工厂、CLI 前端、引导）
 ├── ImeWlConverter.SourceGenerators/ # Source Generator（编译时格式注册）
 ├── ImeWlConverterCmd/               # CLI 薄入口（逻辑在 Application/Cli）
@@ -132,7 +132,7 @@ src/
 | 文件 | 职责 |
 |------|------|
 | `ConversionPipeline.cs` | 薄编排层：导入 → 委托 EntryTransformationService → 导出；合并/逐文件两种模式 |
-| `EntryTransformationService.cs` | 词条五阶段处理（Filter→ChineseConvert→WordRank→CodeGen→RemoveEmpty），两条导出路径共用 |
+| `EntryTransformationService.cs` | 词条阶段处理（Filter→ChineseConvert→WordRank→CodeGen→Shuangpin（可选）→RemoveEmpty），两条导出路径共用 |
 | `FilterPipelineFactory.cs` + `FilterModules/` | 过滤器装配（模块注册制，开闭原则） |
 | `FilterPipeline.cs` | 过滤执行器（单条过滤 → 变换 → 批量过滤） |
 | `CodePredicates.cs` | 空编码判定谓词（两条路径共用） |
@@ -165,7 +165,7 @@ src/
 | `Helpers/` | 文件操作、编码检测、拼音字典、HTTP |
 | `Language/` | 纯 .NET 简繁转换（基于 OpenCC 映射表） |
 | `WordRank/` | 默认词频生成器 |
-| `Resources/` | 嵌入式码表 + 简繁映射文件 |
+| `Resources/` | 嵌入式码表 + 简繁映射文件（Phase 2 起已迁至 `src/ImeWlConverter.CodeData/Resources/`，Core 下不再有此目录） |
 
 ### Layer 5: 抽象层 (`src/ImeWlConverter.Abstractions/`)
 
@@ -176,7 +176,7 @@ src/
 | `Contracts/` | IFormatImporter, IFormatExporter, IConversionPipeline, ICodeGenerator, IWordFilter, IWordTransform, IBatchFilter |
 | `Models/` | WordEntry (sealed record), WordCode, FormatMetadata, ProgressInfo |
 | `Options/` | ConversionOptions, FilterConfig, CodeGenerationOptions, ImportOptions, ExportOptions |
-| `Results/` | Result\<T\>, ImportResult, ExportResult, ConversionRequest, ConversionResult |
+| `Results/` | Result\<T\>, ImportResult, ExportResult, ConversionError（ConversionRequest / ConversionResult 定义在 `Contracts/IConversionPipeline.cs`） |
 | `Enums/` | CodeType, SortType, PinyinType, ChineseConversionMode |
 
 ---
@@ -228,7 +228,7 @@ public interface IWordTransform { WordEntry? Transform(WordEntry entry); }
 public interface IBatchFilter { IReadOnlyList<WordEntry> Filter(IReadOnlyList<WordEntry> entries); }
 ```
 
-`FilterConfig`（`Abstractions/Options/FilterConfig.cs`）定义了所有过滤选项，`ConversionPipeline` 内部的 `BuildFilterPipeline()` 方法将其转换为 `FilterPipeline` 实例。
+`FilterConfig`（`Abstractions/Options/FilterConfig.cs`）定义了所有过滤选项；由 `Pipeline/FilterPipelineFactory.cs` 的 `Create(FilterConfig?)` 遍历 `DefaultFilterModules.Create()` 注册的 `IFilterModule` 构建 `FilterPipeline`。`ConversionPipeline` 通过构造函数注入 `FilterPipelineFactory`，不再有 `BuildFilterPipeline()` 方法。
 
 CLI 通过 `--filter` 参数启用过滤：`-f "len:2-10|rm:eng|rm:num"`
 
@@ -239,10 +239,10 @@ CLI 通过 `--filter` 参数启用过滤：`-f "len:2-10|rm:eng|rm:num"`
 ### 修改转换管道行为
 
 - **编排与导出**：`src/ImeWlConverter.Core/Pipeline/ConversionPipeline.cs`（薄层）
-- **词条阶段处理**：`EntryTransformationService.cs`，7 步流程：
+- **词条阶段处理**：`EntryTransformationService.cs`，完整流程：
 
 1. **Import** — 逐文件导入，累积所有 WordEntry（ConversionPipeline）
-2. **Filter → ChineseConvert → WordRank → CodeGen → RemoveEmpty** — EntryTransformationService.ApplyAsync（合并模式调一次，逐文件模式每文件一次）
+2. **Filter → ChineseConvert → WordRank → CodeGen → Shuangpin（可选）→ RemoveEmpty** — EntryTransformationService.ApplyAsync（合并模式调一次，逐文件模式每文件一次）
 3. **Export** — 导出到文件或 Stream（ConversionPipeline）
 
 ### 修改过滤逻辑（注册制）
@@ -316,7 +316,7 @@ GitHub Actions (`.github/workflows/ci.yml`)：
 | 三端统一使用 ConversionPipeline | 消除重复转换逻辑，保证行为一致 |
 | FilterConfig 放在 Abstractions 层 | 三端共享过滤配置 DTO，避免各端重复定义 |
 | ConversionPipeline 支持 Stream 输出 | GUI 需要先预览内容再决定是否保存 |
-| CLI 用 FormatRegistrar 显式注册 | 消除反射，支持 AOT/Trimming |
+| 移除 FormatRegistrar，改用 Source Generator 编译期注册（`AddAllFormats()`） | 消除运行时反射，支持 AOT/Trimming |
 | Source Generator 注册新格式 | 添加格式只需加 `[FormatPlugin]` 属性 |
 | 测试并行执行 | Phase 2 建立码表数据层（CodeData），静态可变字典全部改为 DI 只读表，竞态根因消除 |
 | sealed record 实体 | 不可变性保证，不会意外修改中间状态 |

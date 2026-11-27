@@ -9,13 +9,13 @@
 ### 创建 .app 包
 
 ```bash
-# 创建 ARM64 版本的 .app 包（推荐，适用于 M1/M2/M3 Mac）
+# 创建 ARM64 与 x64 两个 .app 包
 make app-mac
 
 # 或者创建 x64 版本的 .app 包（适用于 Intel Mac）
 make app-mac-x64
 
-# 或者创建 ARM64 版本（与 app-mac 相同）
+# 仅创建 ARM64 版本
 make app-mac-arm64
 ```
 
@@ -23,13 +23,13 @@ make app-mac-arm64
 
 ```bash
 # 方法 1: 双击运行
-# 在 Finder 中双击 "IME WL Converter.app"
+# 在 Finder 中双击 "深蓝词库转换-arm64.app"
 
 # 方法 2: 命令行运行
-open "IME WL Converter.app"
+open "深蓝词库转换-arm64.app"
 
 # 方法 3: 安装到应用程序文件夹
-cp -r "IME WL Converter.app" /Applications/
+cp -r "深蓝词库转换-arm64.app" /Applications/
 ```
 
 ## 📁 文件结构
@@ -37,7 +37,7 @@ cp -r "IME WL Converter.app" /Applications/
 创建的 .app 包具有标准的 macOS 应用结构：
 
 ```
-IME WL Converter.app/
+深蓝词库转换-arm64.app/
 ├── Contents/
 │   ├── Info.plist          # 应用信息配置
 │   ├── PkgInfo            # 包类型信息
@@ -67,7 +67,7 @@ IME WL Converter.app/
 
 | 命令 | 描述 |
 |------|------|
-| `make app-mac` | 创建 ARM64 版本的 .app 包（推荐） |
+| `make app-mac` | 创建 ARM64 与 x64 两个 .app 包 |
 | `make app-mac-arm64` | 创建 ARM64 版本的 .app 包 |
 | `make app-mac-x64` | 创建 x64 版本的 .app 包 |
 | `make publish-mac` | 仅发布，不创建 .app 包 |
@@ -94,16 +94,16 @@ IME WL Converter.app/
 make app-mac
 
 # 运行应用
-open "IME WL Converter.app"
+open "深蓝词库转换-arm64.app"
 ```
 
 ### 分发给其他用户
 ```bash
 # 创建压缩包
-zip -r "IME-WL-Converter-macOS.zip" "IME WL Converter.app"
+zip -r "IME-WL-Converter-macOS.zip" "深蓝词库转换-arm64.app"
 
 # 或者创建 DMG 文件（需要额外工具）
-# hdiutil create -volname "IME WL Converter" -srcfolder "IME WL Converter.app" -ov -format UDZO "IME-WL-Converter.dmg"
+# hdiutil create -volname "IME WL Converter" -srcfolder "深蓝词库转换-arm64.app" -ov -format UDZO "IME-WL-Converter.dmg"
 ```
 
 ## 🔧 自定义
@@ -120,17 +120,14 @@ zip -r "IME-WL-Converter-macOS.zip" "IME WL Converter.app"
 - 等等...
 
 ### 修改应用包名称
-修改 `Makefile` 中的应用名称：
-```makefile
-./scripts/create-app-bundle.sh ./publish/mac-arm64 "您的应用名称"
-```
+应用名称由 `Makefile:42` 的 `APP_NAME := 深蓝词库转换` 决定，`-arm64` / `-x64` 后缀由 Makefile 自动附加；实际调用为 `./scripts/create-app-bundle.sh ./publish/mac-arm64 "深蓝词库转换-arm64"`
 
 ## 🐛 故障排除
 
 ### 应用无法启动
 1. 检查可执行文件权限：
    ```bash
-   chmod +x "IME WL Converter.app/Contents/MacOS/ImeWlConverterMac"
+   chmod +x "深蓝词库转换-arm64.app/Contents/MacOS/ImeWlConverterMac"
    ```
 
 2. 查看系统日志：

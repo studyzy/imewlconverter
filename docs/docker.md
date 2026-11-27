@@ -17,6 +17,5 @@
 ```sh
 docker run --rm -it -v /dict:/dict imewlconverter \
   -i scel -o rime -O /dict/java常用.rime \
-  --target-os linux --code-type pinyin \
   /dict/java常用.scel
 ```

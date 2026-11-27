@@ -18,10 +18,10 @@
 | T3 | QQ拼音.qpyd | 成语.qpyd | 搜狗文本 | QQ分类→搜狗 | 1,657 |
 | T4 | QQ拼音.qcel | 星际战甲.qcel | 搜狗文本 | QQ英文→搜狗 | 4,675 |
 | T5 | 百度.bdict | travel.bdict | 搜狗文本 | 百度→搜狗 | ~200 |
-| T6 | Rime | luna_pinyin_export.txt | 搜狗文本 | Rime→搜狗 | 14 |
+| T6 | Rime | luna_pinyin_export.txt | self CSV | Rime→self CSV | 17 |
 | T7 | 灵格斯.ld2 | i.ld2 | 搜狗文本 | 灵格斯→搜狗 | 大量 |
 | T8 | 自定义 | array30.txt | 搜狗文本 | 行列30→搜狗 | 大量 |
-| T9 | 纯汉字 | 纯汉字.txt | 搜狗文本 | 无拼音→搜狗 | 13 |
+| T9 | 纯汉字 | 纯汉字.txt | self CSV | 无拼音→self CSV | 59 |
 
 ### 二进制格式输出测试
 
@@ -39,64 +39,25 @@
 | T14 | 英文词条 | QQPinyin_English.txt | 搜狗文本 | 包含英文 |
 | T15 | 大文件性能 | 诗词名句大全.scel | 搜狗文本 | 13MB, 342K词条 |
 
-## 测试套件组织
+## 测试套件组织（当前结构）
 
-### 方案A：按输入格式分组（当前方案）
 ```
 test-cases/
-├── sougou-scel/        # 搜狗.scel测试
-├── qq-pinyin-txt/      # QQ拼音文本测试
-├── qq-qpyd/            # QQ分类词库测试
-├── qq-qcel/            # QQ英文词库测试
-├── baidu-bdict/        # 百度测试
-├── rime/               # Rime测试
-├── lingoes-ld2/        # 灵格斯测试
-├── self-defining/      # 自定义格式测试
-└── special-cases/      # 特殊场景测试
+├── 1-imports/      # 9 个用例：各格式 → self CSV
+├── 2-exports/      # 13 个用例：CSV → 各导出格式
+├── 3-advanced/     # 3 个用例：过滤
+└── 4-regression/   # 4 个用例：五笔编码回归
 ```
 
-### 方案B：单一综合测试套件（推荐）
-```
-test-cases/
-└── conversion-matrix/   # 所有转换路径测试
-    ├── test-config.yaml # 包含所有测试用例
-    ├── README.md
-    └── expected/        # 所有预期输出
-        ├── t1-scel-to-sgpy.expected
-        ├── t2-qqpy-to-sgpy.expected
-        ├── t3-qpyd-to-sgpy.expected
-        └── ...
-```
-
-### 方案C：混合方案（建议）
-```
-test-cases/
-├── imports/             # 输入格式测试（文本输出）
-│   ├── test-config.yaml # 包含T1-T9
-│   └── expected/
-└── exports/             # 输出格式测试（二进制输出）
-    ├── test-config.yaml # 包含T10-T11
-    └── expected/
-```
+每个套件一个 `test-config.yaml`，`suite_name` 与目录名一致；`./run-tests.sh --all` 运行全部 29 个用例，`-s <套件名>` 运行单个套件。
 
 ## 优化后的优势
 
-1. **测试数量减少**：从30+个测试用例优化到15个核心测试
+1. 测试数量：当前 4 个套件共 29 个用例（1-imports 9 / 2-exports 13 / 3-advanced 3 / 4-regression 4）
 2. **维护成本降低**：单一配置文件，统一管理
 3. **覆盖率不变**：仍然覆盖所有主要格式
 4. **执行速度更快**：减少重复的设置开销
 5. **更清晰的测试目的**：每个测试明确一条转换路径
-
-## 实施建议
-
-1. 保留现有的测试套件作为参考
-2. 创建新的 `conversion-matrix` 测试套件
-3. 逐步迁移，确保测试通过
-4. 最终删除旧的测试套件
-
-## 下一步
-
-选择方案B或C，创建统一的测试配置文件。
 
 ---
 
@@ -111,7 +72,7 @@ test-cases/
 - **校验**：文本产物检查关键词/行数（自动识别 UTF-8/UTF-16/GBK 编码）；二进制产物检查大小
 - **SKIP 机制**：C 组缺样本文件的用例自动跳过并列出待准备清单
 
-## A 组：真实词库（10 条）
+## A 组：真实词库（12 条）
 
 源文件均来自 `src/ImeWlConverterCoreTest/Test/`。
 
@@ -134,7 +95,7 @@ test-cases/
 
 实测发现（调试记录）：
 - **bdict 解析器 Bug（已修复）**：`BaiduBdictImporter` 原先只读头部 0x60 处的词条区结束偏移，而旧版头部该字段为 0，导致 travel.bdict 及百度官网下载的词库全部导入 0 条。修复后改用 0x44 处的词条区长度推算（0x350 + len），经 travel.bdict（302 条）/ movie.bdict（65476 条）/ 百度官网.bdict（9 条）三文件验证一致
-- `sougoubak.bin` 与当前搜狗备份解析器不兼容（报"文件不完整或格式不兼容"），A9 移入 C 组待补真实样本
+- 搜狗备份.bin 已补齐并由 A9 用例使用（旧 sougoubak.bin 与当前解析器不兼容，已弃用）
 - "自定义"格式作为导出目标时，配置框默认值下导出 0 条词条（疑似默认配置问题），故未纳入错位导出目标
 
 ## B 组：合成文本样本（15 条）
@@ -161,7 +122,7 @@ test-cases/
 
 ## C 组：二进制格式样本（缺样本自动 SKIP）
 
-全部样本已补齐并启用（C1-C10），样本位于 `src/ImeWlConverterCoreTest/Test/`（导出均为搜狗拼音txt）。
+全部样本已补齐并启用（C1–C10 及 C7B，共 11 条），样本位于 `src/ImeWlConverterCoreTest/Test/`（导出均为搜狗拼音txt）。
 
 | ID | 导入格式 | 样本文件 | 状态 |
 |----|---------|---------|------|
@@ -179,6 +140,6 @@ test-cases/
 
 > 样本生成方式（2026-09-29）：C7B/C10 由 CLI `-i sgpy -o gboardbin/mspy` 从 GBK 编码搜狗txt 样本导出（**源文件必须 GBK**——sgpy 导入器硬编码 GBK，UTF-8 源会导致词面乱码、字数与拼音段数不齐而导出失败）；C5 按导入器规格手工构造二进制。三者均经 CLI 回读验证无损。
 
-> 注意：Test/ 目录下现存的 `sougoubak.bin` 与当前解析器不兼容，请提供由搜狗输入法"导出词库"生成的完整备份文件并命名为 `搜狗备份.bin`。
+> 注意：搜狗备份.bin 已补齐（A9 使用）；旧 sougoubak.bin 与当前解析器不兼容，勿再使用。
 
 另见 `windows-ime-e2e.ps1`：无拼音纯汉字 → Win10微软拼音 UDP 的实机候选验证（T 矩阵之外的独立端到端测试）。

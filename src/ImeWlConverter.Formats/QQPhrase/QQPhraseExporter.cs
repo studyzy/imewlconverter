@@ -12,7 +12,7 @@ using ImeWlConverter.Formats.Shared;
 /// 如 <c>slckzh=1,深蓝词库转换</c>。排序位置为同一编码下的候选序号（1 起），
 /// 与 dy / win10mspy 导出器保持一致，按编码自动编号。
 /// </summary>
-[FormatPlugin("qqdy", "QQ输入法自定义短语", 111, FileExtension = ".ini")]
+[FormatPlugin("qqdy", "QQ输入法自定义短语", 51, FileExtension = ".ini")]
 public sealed partial class QQPhraseExporter : TextFormatExporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

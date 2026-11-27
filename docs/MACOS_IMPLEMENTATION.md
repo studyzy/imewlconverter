@@ -27,7 +27,7 @@
    - 自动格式识别
 
 4. **转换引擎集成**
-   - 完整集成ImeWlConverterCore库
+   - 完整集成 ImeWlConverter.Application / ImeWlConverter.Core / ImeWlConverter.Abstractions / ImeWlConverter.Formats 共享层
    - 支持所有原有的词库格式
    - 异步转换处理
    - 实时进度显示
@@ -63,7 +63,7 @@ src/ImeWlConverterMac/
 - **UI框架**: Avalonia UI 11.2.3
 - **目标框架**: .NET 10.0
 - **架构模式**: MVVM (Model-View-ViewModel)
-- **核心库**: ImeWlConverterCore (原项目核心逻辑)
+- **核心库**: ImeWlConverter.Core（及 Application / Abstractions / Formats 共享层）
 - **平台支持**: macOS (Intel + Apple Silicon)
 
 ## 使用方法
@@ -141,23 +141,19 @@ dotnet run
 | 基础转换功能 | ✅ | ✅ | 完全支持 |
 | 文件拖拽 | ✅ | ✅ | 完全支持 |
 | 批量处理 | ✅ | ✅ | 完全支持 |
-| 过滤配置 | ✅ | 🔄 | 框架已实现，待完善UI |
-| 简繁转换 | ✅ | 🔄 | 框架已实现，待完善UI |
-| 词频生成 | ✅ | 🔄 | 框架已实现，待完善UI |
-| 帮助系统 | ✅ | 🔄 | 框架已实现，待完善内容 |
+| 过滤配置 | ✅ | ✅ | ✅ 已实现 |
+| 简繁转换 | ✅ | ✅ | ✅ 已实现 |
+| 词频生成 | ✅ | ✅ | ✅ 已实现 |
+| 帮助系统 | ✅ | ✅ | ✅ 已实现 |
 
-## 待完善功能
+## 功能现状与后续优化
 
-### 🔄 需要进一步实现的对话框
-1. **过滤配置对话框** - 词条过滤的详细设置界面
-2. **词频生成对话框** - 词频生成算法的配置界面
-3. **简繁转换对话框** - 简繁体转换引擎选择界面
-4. **关于对话框** - 应用程序信息显示
-5. **帮助对话框** - 使用说明和帮助内容
-6. **捐赠对话框** - 支持作者的相关信息
+### ✅ 已实现的对话框
+
+见 `src/ImeWlConverterMac/Views/`：FilterConfigWindow、WordRankGenerateWindow、ChineseConverterSelectWindow、AboutWindow、HelpWindow、DonateWindow。
 
 ### 🎯 优化项目
-1. **图标资源** - 添加应用程序图标和菜单图标
+1. **图标资源** - 已提供 `AppIcon.icns`，可继续完善菜单图标
 2. **错误处理** - 完善异常处理和用户提示
 3. **本地化** - 支持多语言界面
 4. **性能优化** - 大文件处理的性能优化

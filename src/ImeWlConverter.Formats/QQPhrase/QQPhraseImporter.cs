@@ -12,7 +12,7 @@ using ImeWlConverter.Formats.Shared;
 /// 如 <c>slckzh=1,深蓝词库转换</c>。词语本身可含逗号与 QQ 的 $(...) 日期/时间宏。
 /// 以 <c>编码=$[...]</c> 形式出现的整行是 QQ 内置符号集定义，不是普通短语，导入时跳过。
 /// </summary>
-[FormatPlugin("qqdy", "QQ输入法自定义短语", 111, FileExtension = ".ini")]
+[FormatPlugin("qqdy", "QQ输入法自定义短语", 51, FileExtension = ".ini")]
 public sealed partial class QQPhraseImporter : TextFormatImporter
 {
     protected override Encoding FileEncoding => Encoding.Unicode;

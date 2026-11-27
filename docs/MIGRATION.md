@@ -4,7 +4,7 @@
 
 ## 📋 概述
 
-从 3.0.0 版本开始，IME WL Converter 采用标准的 GNU 风格命令行参数格式，替代了之前的冒号分隔格式。
+从 3.4.0 版本开始，IME WL Converter 采用标准的 GNU 风格命令行参数格式，替代了之前的冒号分隔格式。
 
 **这是一个 BREAKING CHANGE**，需要更新现有脚本和命令。
 
@@ -21,18 +21,20 @@
 | `-ft:filter` | `--filter <filter>` | `-f <filter>` |
 | `-r:type` | `--rank-generator <number\|llm>` | `-r <number\|llm>`（数字=固定词频；llm=LLM 生成词频，需 `--llm-key` 或环境变量 `IMEWL_LLM_KEY`；baidu/google 已移除） |
 | `-ct:type` | `--code-type <type>` | `-t <type>` |
-| `-os:os` | `--target-os <os>` | （仅长选项） |
+| `-os:os` | （已移除，无对应新选项） | （无） |
 | `-mc:rules` | `--multi-code <rules>` | `-m <rules>` |
-| `-ld2:enc` | `--ld2-encoding <enc>` | （仅长选项） |
+| `-ld2:enc` | （已移除，无对应新选项） | （无） |
 | `-h` | `--help` | `-h` |
-| `-v` | `--version` | `-v` |
+| `-v` | `--version` | （无短选项） |
 | （新增） | `--shuangpin <scheme>` | （仅长选项） |
 
-> `--shuangpin` 为 3.x 新增能力，用于恢复架构重写期间丢失的双拼编码转换（旧版通过各导出器上的 `PinyinType` 属性选择方案）。取值见 `README.md`；转换在编码生成之后执行，未指定时不做任何变换。它只作用于拼音编码，与非拼音编码类型冲突时返回 `invalid-shuangpin`（退出码 1）。
+> `--shuangpin` 为 3.x 新增能力，用于恢复架构重写期间丢失的双拼编码转换（旧版通过各导出器上的 `PinyinType` 属性选择方案）。取值见 `README.md`；转换在编码生成之后执行，未指定时不做任何变换。它只作用于拼音编码，与非拼音编码类型冲突时返回 `invalid-spec`（退出码 1）；`invalid-shuangpin` 仅用于未知双拼方案名。
 >
-> 行为变更：`dy`（用户自定义短语）导出第二列现在是**同编码下的候选排位**（按编码自动编号 1,2,3…），不再直接沿用词条词频；这与 `win10mspy`/`win10mswb` 导出器保持一致。`dy` 与 `word` 导出也不再写入 UTF-8 BOM。
+> 行为变更：`dy`（搜狗用户自定义短语）导出第二列现在是**同编码下的候选排位**（按编码自动编号 1,2,3…），不再直接沿用词条词频；这与 `win10mspy`/`win10mswb` 导出器保持一致。`dy` 与 `word` 导出也不再写入 UTF-8 BOM。
 
 ## 📝 迁移示例
+
+> 下例中的 `imewlconverter` 表示安装后的 CLI 命令；源码构建出的实际程序名为 `ImeWlConverterCmd`（`ImeWlConverterCmd.dll` / `ImeWlConverterCmd.exe`）。
 
 ### 基本转换
 
@@ -99,7 +101,7 @@ dotnet ImeWlConverterCmd.dll -i:qpyd ./a.qpyd -o:self ./zy.txt "-f:213, nyyn" -c
 
 **新格式：**
 ```bash
-imewlconverter -i qpyd -o self -O zy.txt -F "213, nyyn" -c code.txt a.qpyd
+imewlconverter -i qpyd -o self -O zy.txt -F "213 ,nyyy" -c code.txt a.qpyd
 ```
 
 ### 使用词频生成器
@@ -143,10 +145,12 @@ LLM 模式默认端点为 `https://api.openai.com/v1/chat/completions`（`--llm-
 
 **新格式：**
 ```bash
---code-type pinyin --target-os macos
+--code-type pinyin
 # 或
--t pinyin --target-os macos
+-t pinyin
 ```
+
+旧 `-os:` 目标系统开关已移除，当前版本无对应选项。
 
 ## 🔍 关键变化说明
 
@@ -178,7 +182,7 @@ LLM 模式默认端点为 `https://api.openai.com/v1/chat/completions`（`--llm-
 ```
 
 `error.code` 枚举：`missing-option` / `unknown-format` / `invalid-filter` / `invalid-spec` / `invalid-rank` / `invalid-shuangpin` / `input-not-found` / `conversion-failed` / `internal-error`。
-`--list-formats --json` 输出 `{ importFormats[], exportFormats[] }`（含 id/name/isBinary/extension）。
+`--list-formats --json` 输出 `{ schema: 1, ok: true, importFormats[], exportFormats[] }`（含 id/name/isBinary/extension）。
 `--json` 模式下进度不写 stderr（除非同时加 `--verbose`）。
 
 ### 1. 位置参数顺序
@@ -211,7 +215,7 @@ LLM 模式默认端点为 `https://api.openai.com/v1/chat/completions`（`--llm-
 
 ```bash
 # 旧: -f:213, nyyn
-# 新: -F "213, nyyn"
+# 新: -F "213 ,nyyy"
 ```
 
 ### 4. 帮助信息

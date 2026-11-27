@@ -125,7 +125,7 @@ help:
 	@echo "  $(COLOR_GREEN)make test-verbose$(COLOR_RESET)         - Run tests with detailed output"
 	@echo "  $(COLOR_GREEN)make test-coverage$(COLOR_RESET)        - Run tests with coverage report"
 	@echo "  $(COLOR_GREEN)make integration-test$(COLOR_RESET)     - Run integration tests"
-	@echo "  $(COLOR_GREEN)make integration-test-debug$(COLOR_RESET) - Run integration tests with debug output"
+	@echo "  $(COLOR_GREEN)make regenerate-exports-expected$(COLOR_RESET) - Regenerate 2-exports expected files"
 	@echo ""
 	@echo "$(COLOR_BOLD)Run Commands:$(COLOR_RESET)"
 	@echo "  $(COLOR_GREEN)make run-cmd$(COLOR_RESET)              - Run command-line version"
