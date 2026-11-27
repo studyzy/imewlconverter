@@ -76,6 +76,21 @@ public class GboardBinaryTest
         Assert.Equal(new[] { "你好", "词库转换" }, words);
     }
 
+    /// <summary>Gboard 把 üe 存成 ve, 导入时应还原成 ue。</summary>
+    [Fact]
+    public void Import_RestoresUeSpelling()
+    {
+        using var ms = new MemoryStream();
+        _exporter.ExportAsync(new[] { Entry("学生", "xue", "sheng"), Entry("略过", "lue", "guo") }, ms)
+            .GetAwaiter().GetResult();
+
+        ms.Position = 0;
+        var result = _importer.ImportAsync(ms).GetAwaiter().GetResult();
+        var codes = result.Entries.Select(e => e.Code!.GetPrimaryCode(" ")).OrderBy(c => c, System.StringComparer.Ordinal).ToArray();
+
+        Assert.Equal(new[] { "lue guo", "xue sheng" }, codes);
+    }
+
     /// <summary>生成的文件必须满足 Gboard 的硬性格式约束。</summary>
     [Fact]
     public void Export_ProducesValidHeader()

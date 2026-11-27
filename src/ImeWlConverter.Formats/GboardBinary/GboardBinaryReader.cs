@@ -158,7 +158,11 @@ internal static class GboardBinaryReader
             }
             try
             {
-                result.Add(GboardPuaCodec.Decode(path.AsSpan(i, 3)));
+                var syllable = GboardPuaCodec.Decode(path.AsSpan(i, 3));
+                // Gboard 把 üe 存成 ve, 还原成标准拼音 ue (jve→jue, lve→lue)
+                if (syllable.EndsWith("ve", StringComparison.Ordinal))
+                    syllable = syllable[..^2] + "ue";
+                result.Add(syllable);
             }
             catch (ArgumentException)
             {
