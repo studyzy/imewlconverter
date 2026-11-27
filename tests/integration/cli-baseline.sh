@@ -170,6 +170,34 @@ else
     FAIL=$((FAIL + 1))
 fi
 
+# --shuangpin full 必须保持全拼（不指定时行为不变）
+assert_exit "--shuangpin full 退出码 0" 0 \
+    CLI -i self -o gboard --shuangpin full -O "${TMP_DIR}/sp-full.txt" "${SP_INPUT}"
+SP_FULL="$(cat "${TMP_DIR}/sp-full.txt" 2>/dev/null)"
+if [[ "${SP_FULL}" == *$'nihao\t你好'* ]]; then
+    echo "  PASS: --shuangpin full 保持全拼"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --shuangpin full 输出异常: ${SP_FULL}"
+    FAIL=$((FAIL + 1))
+fi
+
+# 直接传 Shuangpin.txt 表头中文名
+assert_exit "--shuangpin 中文表头名退出码 0" 0 \
+    CLI -i self -o gboard --shuangpin 微软双拼 -O "${TMP_DIR}/sp-cn.txt" "${SP_INPUT}"
+SP_CN="$(cat "${TMP_DIR}/sp-cn.txt" 2>/dev/null)"
+if [[ "${SP_CN}" == *$'nihk\t你好'* ]]; then
+    echo "  PASS: --shuangpin 中文表头名输出微软双拼编码"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL: --shuangpin 中文表头名输出异常: ${SP_CN}"
+    FAIL=$((FAIL + 1))
+fi
+
+# 非拼音编码类型 + 双拼：必须报错而不是静默忽略
+assert_exit "--shuangpin 与非拼音编码类型冲突退出码 1" 1 \
+    CLI -i self -o self -F "213',nyyy" -t wubi --shuangpin xiaohe -O "${TMP_DIR}/x.txt" "${SP_INPUT}"
+
 rm -rf "${TMP_DIR}"
 
 echo ""

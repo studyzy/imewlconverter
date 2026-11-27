@@ -234,7 +234,11 @@ dotnet ImeWlConverterCmd.dll -i scel -o scel \
 dotnet ImeWlConverterCmd.dll -i scel -o gboard --shuangpin xiaohe -O output.txt input.scel
 ```
 
-可用方案：`full`（全拼，默认）、`xiaohe`、`ziranma`、`microsoft`/`ms`、`abc`、`ziguang`、`pyjj`、`xingkong`、`daniu`、`xiaolang`，也可直接传 `Shuangpin.txt` 表头的中文名（如 `小鹤双拼`）。Windows GUI 在选择 Gboard / Win10 微软拼音等目标格式时弹出的「编码方案」下拉框等价于该选项。注意双拼码不可逆：反向转换请用 `-t pinyin` 从汉字重新生成全拼。
+可用方案：`full`（全拼，默认）、`xiaohe`、`ziranma`、`microsoft`/`ms`、`abc`、`ziguang`、`pyjj`、`xingkong`、`daniu`、`xiaolang`，也可直接传 `Shuangpin.txt` 表头的中文名（如 `小鹤双拼`）。Windows GUI 在选择 Gboard / Win10 微软拼音等目标格式时弹出的「编码方案」下拉框、macOS GUI 主窗口的「双拼方案」下拉框等价于该选项。
+
+`--shuangpin` 只作用于拼音编码；若 `-t/--code-type` 或目标格式推断出五笔/郑码等非拼音编码，命令会直接报错而不是静默忽略。
+
+注意双拼码不可逆（多个全拼可能映射到同一双拼码），本工具不做无损反解。若需要全拼词库，请从**不带编码**的源重新转换，例如 `-i word`（无拼音纯汉字）配合 `-t pinyin`，或 `-i gboard`（该格式导入的编码被视为用户自定义，管道会按汉字重新生成全拼）。若源格式把编码标为拼音（如 `self`），已有编码会被保留，`-t pinyin` 不会强制覆盖。
 
 **查看帮助和格式列表**：
 

@@ -28,6 +28,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -91,15 +92,38 @@
                           HorizontalAlignment="Stretch"/>
             </Grid>
 
+            <!-- 双拼方案选择（仅对拼音编码生效） -->
+            <Grid Grid.Row="2" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Text="双拼方案："
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,0"/>
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding ShuangpinSchemes}"
+                          SelectedItem="{Binding SelectedShuangpinScheme}"
+                          Height="32"/>
+                <TextBlock Grid.Column="2"
+                           Text="仅对拼音编码生效；「全拼」为不转换"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           Margin="10,0,0,0"
+                           Opacity="0.65"/>
+            </Grid>
+
             <!-- 进度条 -->
-            <ProgressBar Grid.Row="2" 
-                         Value="{Binding Progress}" 
+            <ProgressBar Grid.Row="3"
+                         Value="{Binding Progress}"
                          Maximum="100"
                          IsVisible="{Binding IsConverting}"
                          Margin="0,0,0,10"/>
 
             <!-- 结果显示区域 -->
-            <ScrollViewer Grid.Row="3">
+            <ScrollViewer Grid.Row="4">
                 <TextBox Text="{Binding ResultText}" 
                          IsReadOnly="True"
                          AcceptsReturn="True"

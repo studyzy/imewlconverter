@@ -95,6 +95,38 @@ public class SmallFixesTests
         Assert.Equal("自定义词语", result.Entries[1].Word);
     }
 
+    [Fact]
+    public async Task RimeImporter_SkipsYamlFrontMatterWithCjkValuesAndIndentedComments()
+    {
+        const string content = "# Rime dictionary\n---\nname: 朙月拼音\n" +
+                               "description: 这是一个测试词库\n" +
+                               "  # 缩进的中文注释\nversion\nsort\n...\n" +
+                               "中国\tzhong guo\t100\n自定义词语\n";
+        var importer = new RimeImporter();
+        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+
+        var result = await importer.ImportAsync(stream);
+
+        Assert.Equal(2, result.Entries.Count);
+        Assert.Equal("中国", result.Entries[0].Word);
+        Assert.Equal("自定义词语", result.Entries[1].Word);
+        Assert.DoesNotContain(result.Entries, e => e.Word.Contains("name:") || e.Word.Contains('#'));
+    }
+
+    [Fact]
+    public async Task RimeImporter_AcceptsNonBmpCjkWordOnlyLine()
+    {
+        // U+20000 是代理对汉字，单列词条必须按码点判断而不能按 UTF-16 char 判断
+        const string content = "𠀀𠀁\n中国\tzhong guo\t1\n";
+        var importer = new RimeImporter();
+        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+
+        var result = await importer.ImportAsync(stream);
+
+        Assert.Equal(2, result.Entries.Count);
+        Assert.Equal("𠀀𠀁", result.Entries[0].Word);
+    }
+
     private static WordEntry Entry(string word, string code, int rank) => new()
     {
         Word = word,

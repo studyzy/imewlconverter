@@ -42,6 +42,18 @@ public static class ConversionRequestFactory
         if (targetCodeType == CodeType.NoCode)
             targetCodeType = Mapping.CodeTypeMapper.InferFromOutputFormat(options.OutputFormatId, options.CustomFormat);
 
+        // --shuangpin 只作用于拼音编码。若最终编码类型是五笔/郑码等，
+        // 静默跳过会让用户以为转换成功却拿到全拼/原编码，这里显式报错。
+        // NoCode 不算冲突：源词库可能自带拼音编码，仍可对其做双拼变换。
+        if (!string.IsNullOrEmpty(options.Shuangpin)
+            && targetCodeType != CodeType.Pinyin
+            && targetCodeType != CodeType.NoCode)
+        {
+            return Result<ConversionRequest>.Failure(
+                $"--shuangpin 仅适用于拼音编码，但当前编码类型为 {targetCodeType}" +
+                "（由 -t/--code-type 或输出格式推断）。请改用 -t pinyin 或去掉 --shuangpin。");
+        }
+
         // 输出路径以 / 结尾时按目录处理：每个输入文件单独导出到该目录
         var outputDirectory = options.OutputPath is { } path &&
             (path.EndsWith('/') || path.EndsWith(Path.DirectorySeparatorChar))

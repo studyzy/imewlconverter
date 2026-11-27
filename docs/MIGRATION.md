@@ -28,7 +28,9 @@
 | `-v` | `--version` | `-v` |
 | （新增） | `--shuangpin <scheme>` | （仅长选项） |
 
-> `--shuangpin` 为 3.x 新增能力，用于恢复架构重写期间丢失的双拼编码转换（旧版通过各导出器上的 `PinyinType` 属性选择方案）。取值见 `README.md`；转换在编码生成之后执行，未指定时不做任何变换。
+> `--shuangpin` 为 3.x 新增能力，用于恢复架构重写期间丢失的双拼编码转换（旧版通过各导出器上的 `PinyinType` 属性选择方案）。取值见 `README.md`；转换在编码生成之后执行，未指定时不做任何变换。它只作用于拼音编码，与非拼音编码类型冲突时返回 `invalid-shuangpin`（退出码 1）。
+>
+> 行为变更：`dy`（用户自定义短语）导出第二列现在是**同编码下的候选排位**（按编码自动编号 1,2,3…），不再直接沿用词条词频；这与 `win10mspy`/`win10mswb` 导出器保持一致。`dy` 与 `word` 导出也不再写入 UTF-8 BOM。
 
 ## 📝 迁移示例
 
@@ -175,7 +177,7 @@ LLM 模式默认端点为 `https://api.openai.com/v1/chat/completions`（`--llm-
   "error": { "code": "unknown-format", "target": "--input-format", "message": "未知的输入格式: xxx" } }
 ```
 
-`error.code` 枚举：`missing-option` / `unknown-format` / `invalid-filter` / `invalid-spec` / `invalid-rank` / `input-not-found` / `conversion-failed` / `internal-error`。
+`error.code` 枚举：`missing-option` / `unknown-format` / `invalid-filter` / `invalid-spec` / `invalid-rank` / `invalid-shuangpin` / `input-not-found` / `conversion-failed` / `internal-error`。
 `--list-formats --json` 输出 `{ importFormats[], exportFormats[] }`（含 id/name/isBinary/extension）。
 `--json` 模式下进度不写 stderr（除非同时加 `--verbose`）。
 

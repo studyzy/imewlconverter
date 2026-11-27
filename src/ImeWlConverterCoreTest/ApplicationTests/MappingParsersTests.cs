@@ -149,6 +149,30 @@ public class MappingParsersTests
         Assert.Contains("bogus", error!);
     }
 
+    [Theory]
+    [InlineData("小鹤双拼", "小鹤双拼")]
+    [InlineData("自然码", "自然码")]
+    [InlineData("微软双拼", "微软双拼")]
+    [InlineData("智能ABC", "智能ABC")]
+    [InlineData("紫光拼音", "紫光拼音")]
+    [InlineData("星空键道", "星空键道")]
+    [InlineData("大牛双拼", "大牛双拼")]
+    [InlineData("小浪双拼", "小浪双拼")]
+    public void ShuangpinScheme_ChineseHeaderNamesAreAccepted(string spec, string expected)
+    {
+        Assert.True(ShuangpinSchemeParser.TryParse(spec, out var scheme, out _));
+        Assert.Equal(expected, scheme);
+    }
+
+    [Fact]
+    public void ShuangpinScheme_WhitelistMatchesTableHeader()
+    {
+        // Shuangpin.txt 若新增方案，CLI 白名单必须同步，否则会被拒绝
+        var table = new ImeWlConverter.CodeData.ShuangpinTable(
+            new ImeWlConverter.CodeData.EmbeddedResourceProvider());
+        Assert.Equal(table.Schemes, ShuangpinSchemeParser.Schemes);
+    }
+
     [Fact]
     public void ShuangpinScheme_AllAliasesResolveToKnownSchemes()
     {

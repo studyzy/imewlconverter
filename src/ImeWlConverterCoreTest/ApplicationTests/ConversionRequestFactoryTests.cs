@@ -123,6 +123,43 @@ public class ConversionRequestFactoryTests
     }
 
     [Fact]
+    public void Create_ShuangpinWithPinyin_SucceedsAndSetsScheme()
+    {
+        var (importers, exporters) = Resolve();
+        var options = Options(codeType: "pinyin") with { Shuangpin = "小鹤双拼" };
+        var result = ConversionRequestFactory.Create(options, importers, exporters);
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal("小鹤双拼", result.Value.Options.ShuangpinScheme);
+    }
+
+    [Theory]
+    [InlineData("wubi", "self")]
+    [InlineData("wubi98", "self")]
+    [InlineData("cangjie", "self")]
+    [InlineData(null, "wb86")]
+    public void Create_ShuangpinWithNonPinyinCodeType_Fails(string? codeType, string output)
+    {
+        var (importers, exporters) = Resolve();
+        var options = Options(output: output, codeType: codeType) with { Shuangpin = "小鹤双拼" };
+        var result = ConversionRequestFactory.Create(options, importers, exporters);
+
+        Assert.True(result.IsFailure);
+        Assert.Contains("--shuangpin", result.Error);
+    }
+
+    [Fact]
+    public void Create_ShuangpinWithoutCodeType_InfersPinyinAndSucceeds()
+    {
+        var (importers, exporters) = Resolve();
+        var options = Options() with { Shuangpin = "小鹤双拼" };
+        var result = ConversionRequestFactory.Create(options, importers, exporters);
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal("小鹤双拼", result.Value.Options.ShuangpinScheme);
+    }
+
+    [Fact]
     public void Create_SelfFormat_AppliesSpecToImportersAndExporters()
     {
         var (importers, exporters) = Resolve();

@@ -37,11 +37,15 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
     {
         var results = new List<WordEntry>();
 
-        // 需要回退 2 字节做格式判别，先整体缓冲（与 BaiduBcdImporter 一致）
+        // 需要回退 2 字节做格式判别，先整体缓冲（与 BaiduBcdImporter 一致）。
+        // 用 TryGetBuffer 复用内部数组，避免 ToArray() 再复制一份大文件。
         using var ms = new MemoryStream();
         input.CopyTo(ms);
-        var bytes = ms.ToArray();
-        var dataEnd = ResolveDataEnd(bytes);
+        if (!ms.TryGetBuffer(out var segment))
+            throw new InvalidDataException("百度 bdict 数据无法缓冲，解析失败");
+        var bytes = segment.Array!;
+        var length = ms.Length;
+        var dataEnd = ResolveDataEnd(bytes, length);
 
         using var reader = new BinaryReader(ms, Encoding.Unicode, leaveOpen: true);
         ms.Position = DataStart;
@@ -63,31 +67,47 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
     /// <summary>
     /// 词条区结束位置取三个声明分区（常规/英文/混合）的最大末端，兼容旧版只用 0x44 长度的头。
     /// 0x60 是「混合区起始」而非整个词条区结束，不能再拿它当边界。
+    /// 声明的末端超过文件长度说明文件被截断，必须显式报错而不是静默返回部分词条。
     /// </summary>
-    private static long ResolveDataEnd(byte[] bytes)
+    private static long ResolveDataEnd(byte[] bytes, long length)
     {
         long dataEnd = DataStart;
+        var declared = false;
         (int OffsetPos, int SizePos)[] sections = [(0x40, 0x44), (0x50, 0x54), (0x60, 0x64)];
         foreach (var (offsetPos, sizePos) in sections)
         {
-            if (sizePos + 4 > bytes.Length)
+            if (offsetPos + 4 > length || sizePos + 4 > length)
                 continue;
             var offset = BitConverter.ToUInt32(bytes, offsetPos);
             var size = BitConverter.ToUInt32(bytes, sizePos);
-            if (offset >= DataStart && size > 0)
-                dataEnd = Math.Max(dataEnd, (long)offset + size);
+            if (offset < DataStart || size == 0)
+                continue;
+
+            var end = (long)offset + size;
+            if (end > length)
+                throw new InvalidDataException(
+                    $"百度 bdict 文件被截断：声明的词条区末端 {end} 超过文件长度 {length}");
+            dataEnd = Math.Max(dataEnd, end);
+            declared = true;
         }
 
         // 旧版头部：0x44 为常规区长度，词条区 = 0x350 + 该长度
-        if (bytes.Length >= 0x48)
+        if (length >= 0x48)
         {
             var regularSize = BitConverter.ToUInt32(bytes, 0x44);
-            if (regularSize > 0 && regularSize < bytes.Length)
-                dataEnd = Math.Max(dataEnd, DataStart + (long)regularSize);
+            if (regularSize > 0 && regularSize < length)
+            {
+                var end = DataStart + (long)regularSize;
+                if (end > length)
+                    throw new InvalidDataException(
+                        $"百度 bdict 文件被截断：常规词条区末端 {end} 超过文件长度 {length}");
+                dataEnd = Math.Max(dataEnd, end);
+                declared = true;
+            }
         }
 
-        dataEnd = Math.Min(dataEnd, bytes.Length);
-        return dataEnd <= DataStart ? bytes.Length : dataEnd;
+        // 没有任何有效分区信息时扫描到文件末尾（配合 +4 边界守卫）
+        return !declared || dataEnd <= DataStart ? length : dataEnd;
     }
 
     private static WordEntry? ReadOneWord(BinaryReader reader, Stream stream, long dataEnd)
@@ -100,7 +120,7 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
         if (pyLen == 0)
         {
             if (stream.Position + 4 > dataEnd)
-                return null;
+                return null; // 尾部不足一条记录的填充，正常结束
             var codeLen = reader.ReadUInt16();
             var wordLen = reader.ReadUInt16();
             if (codeLen == 0 || wordLen == 0)
@@ -109,11 +129,12 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
         }
 
         if (pyLen > MaxSyllables)
-            return null;
+            throw new InvalidDataException(
+                $"百度 bdict 词条音节数异常: {pyLen}（文件可能损坏或加密）");
 
         // 窥视 2 字节判别格式（不移动游标）
         if (stream.Position + 2 > dataEnd)
-            return null;
+            throw new InvalidDataException("百度 bdict 词条在格式判别处被截断");
         var peek = stream.Position;
         var b0 = reader.ReadByte();
         var b1 = reader.ReadByte();
@@ -124,7 +145,7 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
         {
             stream.Position += 2; // 跳过 0000 标记
             if (stream.Position + 2 > dataEnd)
-                return null;
+                throw new InvalidDataException("百度 bdict 混合词条缺少词长字段");
             var wordLen = reader.ReadUInt16();
             return ReadMixed(reader, stream, dataEnd, pyLen, wordLen);
         }
@@ -133,17 +154,17 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
         if (b0 >= Shengmu.Length && b0 != 0xFF)
         {
             if (stream.Position + pyLen > dataEnd)
-                return null;
+                throw new InvalidDataException("百度 bdict 英文词条被截断");
             var ascii = reader.ReadBytes(pyLen);
             if (ascii.Length < pyLen)
-                return null;
+                throw new InvalidDataException("百度 bdict 英文词条被截断");
             var englishWord = Encoding.ASCII.GetString(ascii);
             return Make(englishWord, [englishWord]);
         }
 
         // 格式一（常规）：[pyLen][freq][(声母,韵母)×pyLen][word UTF-16]
         if (stream.Position + (long)pyLen * 4 > dataEnd)
-            return null;
+            throw new InvalidDataException("百度 bdict 常规词条被截断");
 
         var codes = new string[pyLen];
         for (var i = 0; i < pyLen; i++)
@@ -160,24 +181,24 @@ public sealed partial class BaiduBdictImporter : BinaryFormatImporter
 
         var wordBytes = reader.ReadBytes(2 * pyLen);
         if (wordBytes.Length < 2 * pyLen)
-            return null;
+            throw new InvalidDataException("百度 bdict 常规词条词面被截断");
         var word = Encoding.Unicode.GetString(wordBytes);
 
         // 整条都是符号时也要给一个非空编码，否则会被 RemoveEmpty 过滤掉
         return Make(word, codes.Any(c => c.Length > 0) ? codes : [word]);
     }
 
-    private static WordEntry? ReadMixed(
+    private static WordEntry ReadMixed(
         BinaryReader reader, Stream stream, long dataEnd, int codeLen, int wordLen)
     {
         var total = 2L * (codeLen + wordLen);
         if (stream.Position + total > dataEnd)
-            return null;
+            throw new InvalidDataException("百度 bdict 混合词条被截断");
 
         var codeBytes = reader.ReadBytes(2 * codeLen);
         var wordBytes = reader.ReadBytes(2 * wordLen);
         if (codeBytes.Length < 2 * codeLen || wordBytes.Length < 2 * wordLen)
-            return null;
+            throw new InvalidDataException("百度 bdict 混合词条被截断");
 
         var word = Encoding.Unicode.GetString(wordBytes);
         var codes = Encoding.Unicode.GetString(codeBytes)

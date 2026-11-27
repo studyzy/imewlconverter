@@ -9,7 +9,7 @@ namespace ImeWlConverter.Application.Cli.Output;
 /// 契约（schema=1）：
 ///   成功: { "schema":1, "ok":true,  "result": { imported, exported, filtered, outputs[], errors[] } }
 ///   失败: { "schema":1, "ok":false, "error": { code, target?, message } }
-/// error.code ∈ missing-option|unknown-format|invalid-filter|invalid-spec|input-not-found|conversion-failed|internal-error
+/// error.code ∈ missing-option|unknown-format|invalid-filter|invalid-spec|invalid-rank|invalid-shuangpin|input-not-found|conversion-failed|internal-error
 /// </summary>
 public static class JsonOutputWriter
 {

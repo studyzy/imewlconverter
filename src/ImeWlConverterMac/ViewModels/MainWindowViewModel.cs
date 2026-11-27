@@ -146,6 +146,23 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<string> ImportTypes { get; } = new();
     public ObservableCollection<string> ExportTypes { get; } = new();
 
+    /// <summary>双拼方案（与 Shuangpin.txt 表头一致）；「全拼」表示不转换。</summary>
+    public ObservableCollection<string> ShuangpinSchemes { get; } = new()
+    {
+        "全拼", "小鹤双拼", "自然码", "微软双拼", "智能ABC", "紫光拼音",
+        "拼音加加", "星空键道", "大牛双拼", "小浪双拼"
+    };
+
+    private string _selectedShuangpinScheme = "全拼";
+    public string SelectedShuangpinScheme
+    {
+        get => _selectedShuangpinScheme;
+        set => SetField(ref _selectedShuangpinScheme, value);
+    }
+
+    private string? ShuangpinScheme =>
+        SelectedShuangpinScheme is "全拼" or "" ? null : SelectedShuangpinScheme;
+
     private string? _selectedImportType;
     public string? SelectedImportType
     {
@@ -321,6 +338,7 @@ public class MainWindowViewModel : ViewModelBase
                 Options = new ConversionOptions
                 {
                     ChineseConversion = _chineseConversion,
+                    ShuangpinScheme = ShuangpinScheme,
                     CodeGeneration = new CodeGenerationOptions
                     {
                         TargetCodeType = targetCodeType,
