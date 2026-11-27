@@ -72,6 +72,7 @@ PC 端：
 - [MacOS 自带简体拼音](https://github.com/studyzy/imewlconverter/wiki/MacPlist)
 - [QQ 拼音（文本词库和 qpyd 格式分类词库）](https://github.com/studyzy/imewlconverter/wiki/QQ_Pinyin_Win)
 - [QQ 五笔](https://github.com/studyzy/imewlconverter/wiki/QQ_Wubi)
+- QQ 输入法自定义短语（自定义短语 .ini，编码=排序位置,词语）
 - [Rime 输入法(Linux 中州韻、Windows 小狼毫、Mac OS 鼠鬚管)](https://github.com/studyzy/imewlconverter/wiki/Rime)
 - [Win10 微软拼音](https://github.com/studyzy/imewlconverter/wiki/Win10Ms_Pinyin)
 - [Win10 微软五笔](https://github.com/studyzy/imewlconverter/wiki/Win10Ms_Wubi)
@@ -147,6 +148,7 @@ imewlconverter -i <输入格式> -o <输出格式> -O <输出文件> <输入文�
 | `sgpy` | 搜狗拼音文本格式 | .txt | ✅ | ✅ |
 | `sgpybin` | 搜狗拼音备份词库 | .bin | ✅ | ✅ |
 | `qqpy` | QQ 拼音文本格式 | .txt | ✅ | ✅ |
+| `qqdy` | QQ 输入法自定义短语 | .ini | ✅ | ✅ |
 | `qpyd` | QQ 拼音分类词库 | .qpyd | ✅ | ❌ |
 | `qcel` | QQ 拼音细胞词库 | .qcel | ✅ | ❌ |
 | `ggpy` | 谷歌拼音 | .txt | ✅ | ✅ |

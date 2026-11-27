@@ -149,6 +149,11 @@ public sealed class EntryTransformationService
         if (_codeGenerationService is null)
             return entries;
 
+        // 无对应生成器（如 UserDefinePhrase 用户自定义短语）：编码是导入时逐字面保留的，
+        // 不能按「一字一 segment」的后处理规则改写，否则整词编码会被标点/字母规则清空。
+        if (!_codeGenerationService.IsSupported(options.TargetCodeType))
+            return entries;
+
         progress?.Report(new ProgressInfo(0, entries.Count, "正在生成编码..."));
         var generated = _codeGenerationService.GenerateCodes(entries, options.TargetCodeType, progress);
 

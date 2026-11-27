@@ -93,6 +93,12 @@ public class MappingParsersTests
         Assert.Equal(CodeType.Wubi86, CodeTypeMapper.InferFromOutputFormat("wb86", null));
     }
 
+    [Fact]
+    public void InferFromOutputFormat_QqPhrase_PreservesUserDefinePhrase()
+    {
+        Assert.Equal(CodeType.UserDefinePhrase, CodeTypeMapper.InferFromOutputFormat("qqdy", null));
+    }
+
     // ---------------- LegacyArgSupport ----------------
 
     [Theory]
@@ -117,6 +123,7 @@ public class MappingParsersTests
         Assert.Equal("scel", service.DetectByExtension("唐诗.scel"));
         Assert.Equal("bdict", service.DetectByExtension("movie.bdict"));
         Assert.Equal("sgpybin", service.DetectByExtension("备份.bin"));
+        Assert.Equal("qqdy", service.DetectByExtension("自定义短语.ini"));
         Assert.Null(service.DetectByExtension("unknown.xyz"));
     }
 

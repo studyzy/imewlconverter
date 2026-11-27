@@ -21,6 +21,9 @@ public static class CodeTypeInference
             "jd" or "qqwb" or "xywb" => CodeType.Wubi86,
             "jdzm" => CodeType.Zhengma,
             "cjpt" => CodeType.Cangjie5,
+            // QQ 输入法自定义短语的编码列是字面编码（QQ 拼音/QQ 五笔共用同一格式），
+            // 原样保留，避免把五笔短语强制重生成拼音
+            "qqdy" => CodeType.UserDefinePhrase,
             "word" => CodeType.NoCode,
             _ => CodeType.Pinyin
         };
